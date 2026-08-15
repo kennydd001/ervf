@@ -2,8 +2,8 @@
 
 Additive breakthrough experiments for the current Nemotron 3.5 Lightning / ERVF
 runtime. The pack is based on commit
-`96811c4e381bf788f9133f5d1fc025e6885cf78f` and is intentionally isolated from
-all closed research namespaces.
+`96811c4e381bf788f9133f5d1fc025e6885cf78f` and is isolated from all closed
+research namespaces.
 
 ## What changed after the latest Kimi work
 
@@ -19,15 +19,26 @@ It then tests two derived, high-upside hypotheses:
 2. capture K causal token-graph replays into one exact parent graph, so one host
    launch advances several autoregressive tokens without speculation.
 
-Read [`PRO_HYPOTHESES.md`](PRO_HYPOTHESES.md) for the reasoning and gates.
+Read [`PRO_HYPOTHESES.md`](PRO_HYPOTHESES.md) for the reasoning and frozen gates.
 
-## Safe branch
+## Safe branch and verified source payload
 
-The files are committed on branch:
+The pack is committed on branch:
 
 ```text
 pro-research
 ```
+
+The runnable source is stored as three text-safe Base85 payload parts because
+the GitHub connector cannot directly upload the generated archive. `bootstrap.py`
+reconstructs the LZMA archive, verifies SHA-256
+
+```text
+f39a14ae6ca34d6bb1f953a28cdf944ac081be90addd41115e3109a289cffbb0
+```
+
+then verifies every extracted source file against
+`SOURCE_MANIFEST_SHA256.json`. No code executes before those checks pass.
 
 No existing runtime/report file is modified. Results go only to:
 
@@ -46,6 +57,9 @@ git switch pro-research
 .\pro_research\INSTALL_AND_RUN.ps1 -Mode install
 ```
 
+`install` expands the verified payload, compiles every Python file and runs the
+CPU reduction-tree equivalence selftest.
+
 ## Recommended sequence
 
 Technical smoke:
@@ -61,7 +75,7 @@ pro_research/results/PRO_FINAL_REPORT.md
 pro_research/results/PRO_VERIFICATION.json
 ```
 
-Full run:
+Full dependency-aware run:
 
 ```powershell
 .\pro_research\INSTALL_AND_RUN.ps1 -Mode full
@@ -82,7 +96,7 @@ Rebuild only the verifier/report:
 .\pro_research\INSTALL_AND_RUN.ps1 -Mode report
 ```
 
-## Files
+## Expanded files
 
 | file | purpose |
 |---|---|
@@ -105,6 +119,6 @@ Rebuild only the verifier/report:
 - The product-level breakthrough remains an independently verified integrated
   causal run of at least 50 tok/s, not merely another fast component.
 
-The pack was syntax-checked and its CPU reduction-tree equivalence selftest was
-run before commit. GPU performance and graph support must be established by the
+The payload was syntax-checked and its CPU reduction-tree selftest passed before
+commit. GPU performance and nested graph support must be established by the
 manual target-hardware runs.

@@ -126,13 +126,20 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
   CuPy-runtimebindings gebruiken voor `AddChildGraphNode` — een aparte,
   grotere CUDA-taak, niet gedaan in deze sessie. Rapport:
   `pro_research/results/PRO_G2_EPOCH_GRAPH.json`.
-- [ ] **MTP heropenen voor het echte doelmodel.** Nano had 0 draft-gewichten
-      (S4, terecht gesloten). 3.5 Lightning heeft wél
-      `num_nextn_predict_layers: 1`, 270 MTP-tensors, BF16 (dus 3,5× groter per
-      expert dan de NVFP4-routed experts — meet eerst kosten per MTP-forward
-      vóór er gebouwd wordt, en alleen bouwen als
-      `acceptatiegraad × besparing > MTP-kosten`). Zie
-      `HANDOVER_TO_KIMI_2026-08-15.md`.
+- [WEERLEGD 2026-08-16] **MTP speculatief decoderen (S10 stap 2).** Was al
+      heropend voor Lightning en deels gemeten (`S10A_MTP_ACCEPTANCE_REPORT_2026-08-15.md`:
+      acceptatiegraad `A=2,114`, poort G-S10-1 gehaald) vóórdat deze sessie
+      begon — maar de prereg identificeerde zelf de beslissende onbekende
+      term: de unie van experts over een 5-token-verificatiesweep. Gemeten
+      (`pro_research/diag_mtp_route_union.py`, teacher-forced replay via de
+      al bestaande `capture_routes`-API, geen bouw nodig): **19,88 van de 128
+      experts per laag, 3,313× t.o.v. 6 voor één token.** Met dat getal in de
+      eigen rekensom van het rapport: speculatief **57,51 ms/token vs.
+      niet-speculatief 54,28 ms/token — 6,0% trager, niet sneller.** S10 stap
+      2 sluit. Niet opnieuw proberen zonder een architecturaal ander idee
+      (bv. minder routed experts per token, of experts met meer
+      gedeeldheid tussen naburige tokens forceren — allebei kwaliteitsingrepen
+      op het model, geen runtime-truc). Zie `RESEARCH_NOTEBOOK.md` 2026-08-16.
 - [ ] **Closed `treesweep200`-lijn herhalen op het juiste model** —
       `LS_MODEL_DIR=nemotron_3_5_lightning_v35` zetten en A1/D1/E1-E6/NERVF
       opnieuw ijken, of het ankerpad expliciet hernoemen zodat de naam niet

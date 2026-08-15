@@ -96,7 +96,8 @@ token bij ctx 0.
 
 | idee | waarom dood |
 |---|---|
-| **Speculative decoding / MTP** | Langs drie onafhankelijke paden dicht: X1-ratio 1,0017, Z1-lineariteit R²=0,99986, K0/S13 route-unie boven pariteit. |
+| **Speculative decoding / MTP (Nano)** | Langs drie onafhankelijke paden dicht op de oude (Nano-)lijn: X1-ratio 1,0017, Z1-lineariteit R²=0,99986, K0/S13 route-unie boven pariteit. |
+| **Speculative decoding / MTP (Lightning, S10)** | Heropend op het juiste model (echte draft-weights aanwezig) — acceptatiegraad haalde zijn poort (`A=2,114`), maar de route-unie over 5 tokens (`pro_research/diag_mtp_route_union.py`, 2026-08-16) is 19,88/128 experts per laag, 3,313× t.o.v. 6 voor één token. Ingevuld in het rapport z'n eigen rekensom: 57,51 ms/token speculatief vs. 54,28 ms/token niet-speculatief — **6,0% trager**. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16. |
 | **Gatherloze downflow** (E2 = NERVF-4) | −5,7 tot −7,4 ms per token. Strided host-reads halen 6,7 GB/s over PCIe tegen 85,9 vanaf device. |
 | **GEMV die zelf van host leest** (M2) | 7,27 GB/s — marginaal. Daarom kopieert 2.1's staging-kernel bulk naar device (M1: 24,93 GB/s). |
 | **Device-side routing via host-read** | Zelfde muur (V1). |

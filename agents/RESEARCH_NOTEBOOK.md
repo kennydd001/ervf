@@ -11,6 +11,75 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — MTP-route-unie gemeten: S10 stap 2 (speculatief decoderen) sluit, met cijfers
+
+**Vraag.** `S10A_MTP_ACCEPTANCE_REPORT_2026-08-15.md` (bestond al — S10-A mat
+de acceptatiegraad `A=2,114` over 360 stappen, poort G-S10-1 ≥1,5 **gehaald**)
+identificeerde zelf de **enige nog onbekende term** die beslist of stap 2
+(de speculatieve lus daadwerkelijk bouwen) de moeite waard is: hoeveel
+**unieke** experts raakt een verificatie-sweep van `D+1=5` tokens per
+MoE-laag, tegenover 6 voor één token? De prereg gaf alleen een theoretische
+bovengrens (≤3,66× via N7-A's paarsgewijze overlap 2,011/6) en schreef
+expliciet: "meet die unie eerst... het kost geen bouw."
+
+**Methode.** Puur read-only analyse, geen nieuwe kernel, geen runtime-
+wijziging. `LightningRuntime.step(token_id, capture_routes=...)` **bestaat
+al** (regel 803-823) en registreert per MoE-laag de top-6 expert-ids per
+stap. De exacte greedy-gegenereerde tokenreeksen van de drie S10-A-
+gate-prompts staan al op schijf in `s10a_mtp_acceptance.json`
+(`gate_prompts[*].sequence`). Teacher-forced replay van die reeksen door de
+backbone (capaciteit 72, `device_cache=False` — nodig omdat `_moe_dev`
+`(None, None)` teruggeeft en `capture_routes` dus niet vult; routing zelf is
+onafhankelijk van cache-modus) geeft de exacte routes die de échte generatie
+gebruikte. Sliding window van 5 opeenvolgende posities, unie van de
+verzamelde expert-ids per laag, gemiddeld over alle vensters/lagen/prompts.
+Script: `pro_research/diag_mtp_route_union.py`.
+
+**Uitkomst.** Gemiddelde unie over 5 tokens: **19,88 van de 128 experts per
+laag** (mediaan 20, p95 26, max 30 = het theoretische maximum 5×6). Dat is
+**3,313×** t.o.v. de 6 van één token — ruim boven de eigen voorgestelde
+grens van de prereg (>12 = "verdubbeling" ⇒ stap 2 negatief), en zelfs iets
+onder de theoretische bovengrens (3,66×) maar in dezelfde orde. Stabiel over
+de drie domeinen (expository 19,25 · narrative 19,48 · code 20,87 — code
+route't net iets breder, consistent met code's hogere acceptatiegraad
+elders).
+
+**De rekensom van het rapport, met dit echte getal in plaats van de
+schatting.** MoE-verificatiesweep = 39,523 ms × 3,313 = 130,95 ms; volledige
+backbone-sweep (attentie 18,634 + Mamba 8,309 + lm_head 2,106 amortiserend +
+MoE 130,95) ≈ **160,0 ms**. Eén speculatieve ronde = MTP-keten (19,10 ms) +
+verificatiesweep (160,0 ms) = 179,1 ms, voor gemiddeld `A+1 = 3,114` tokens
+⇒ **57,51 ms/token**. Niet-speculatief (gemeten S8 @262K): **54,28 ms/token**.
+
+**Speculatief decoderen zou dus ~6,0% TRAGER zijn, niet sneller — met de
+gemeten unie, niet de aanname.**
+
+**Wat dit sluit.** S10 stap 2 (de speculatieve lus bouwen) sluit hiermee
+netjes, zonder dat er één regel productiekernel voor geschreven hoefde te
+worden — precies zoals de S10-A-prereg voorschreef. De oorzaak is
+architectureel, niet toevallig: bij 128 routed experts en top-6-sparsity per
+token routeren opeenvolgende tokens naar grotendeels verschillende
+expert-sets, dus een gezamenlijke verificatie-sweep beweegt bijna evenveel
+MoE-bytes als losse tokens genereren — terwijl de MTP-drafting daar nog eens
+19,10 ms bovenop legt. Dit was, volgens `S10_MTP_SPECULATIVE_PREREGISTRATION_2026-08-15.md`,
+"de enige overgebleven hefboom" die bytes-per-token verlaagt in plaats van
+tijd-per-byte. Met deze meting is die hefboom nu ook dicht — de eerdere
+tabel "Wat weerlegd is" in `STATE_OF_THE_WORK.md` (die nog de oude
+Nano-sluiting citeerde) is hiermee opnieuw en definitief bevestigd, nu voor
+het juiste model en met een directe meting i.p.v. een architectuurvergelijking.
+
+**Wat dit niet doet.** Verandert niets aan S10-A's eigen bevindingen (de
+wiring, de acceptatiegraad, de kostenmeting van de MTP-keten) — die blijven
+correct en gedocumenteerd. Sluit alleen stap 2 op basis van de nu bekende
+route-unie.
+
+**Artefacten.** `pro_research/diag_mtp_route_union.py` ·
+`pro_research/diag_mtp_route_union.json` (read-only, geen PRO-poort, leest
+alleen bestaande `reports/lightningstream_nemotron/s10a_mtp_acceptance.json`
+en roept alleen bestaande runtime-API's aan).
+
+---
+
 ## 2026-08-16 — Diagnose device-cache hitrate onder V4 — down_proj is nooit gecached in `_moe_dev`
 
 **Vraag.** Waar gaat de resterende 24,3 ms/token na V4 nog naartoe — PCIe-

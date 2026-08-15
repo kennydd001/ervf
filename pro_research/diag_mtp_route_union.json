@@ -1,0 +1,91 @@
+{
+  "kind": "diag_mtp_route_union",
+  "created_utc": "2026-08-15T22:34:16.665628+00:00",
+  "note": "read-only diagnostic answering the decisive open term in S10A_MTP_ACCEPTANCE_REPORT_2026-08-15.md; not a gated PRO experiment",
+  "source_report": "reports/lightningstream_nemotron/S10A_MTP_ACCEPTANCE_REPORT_2026-08-15.md",
+  "source_sequences": "reports\\lightningstream_nemotron\\s10a_mtp_acceptance.json",
+  "environment": {
+    "created_utc": "2026-08-15T22:34:16.676190+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "2fce85651761ff4666a54e3497e6580d48ac49e3",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/diag_mtp_route_union.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6382 MiB, 75, 51.87 W, 2602 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
+    }
+  },
+  "window": 5,
+  "top_k": 6,
+  "n_experts": 128,
+  "moe_layer_count": 23,
+  "per_prompt": [
+    {
+      "label": "expository",
+      "sequence_len": 146,
+      "steps_captured": 145,
+      "moe_layers_captured": 23,
+      "windows_per_layer": 141,
+      "union_size_stats": {
+        "count": 3243,
+        "mean": 19.24976873265495,
+        "p50": 19.0,
+        "p95": 26.0,
+        "p99": 29.0,
+        "max": 30.0
+      }
+    },
+    {
+      "label": "narrative",
+      "sequence_len": 147,
+      "steps_captured": 146,
+      "moe_layers_captured": 23,
+      "windows_per_layer": 142,
+      "union_size_stats": {
+        "count": 3266,
+        "mean": 19.483159828536436,
+        "p50": 19.0,
+        "p95": 26.0,
+        "p99": 28.0,
+        "max": 30.0
+      }
+    },
+    {
+      "label": "code",
+      "sequence_len": 152,
+      "steps_captured": 151,
+      "moe_layers_captured": 23,
+      "windows_per_layer": 147,
+      "union_size_stats": {
+        "count": 3381,
+        "mean": 20.866607512570244,
+        "p50": 21.0,
+        "p95": 27.0,
+        "p99": 29.0,
+        "max": 30.0
+      }
+    }
+  ],
+  "overall_union_size_stats": {
+    "count": 9890,
+    "mean": 19.879575328614763,
+    "p50": 20.0,
+    "p95": 26.0,
+    "p99": 29.0,
+    "max": 30.0
+  },
+  "baseline_single_token_experts": 6,
+  "reports_proposed_gate_experts": 12,
+  "mean_union_ge_gate_threshold": true,
+  "amplification_vs_single_token": 3.313262554769127
+}

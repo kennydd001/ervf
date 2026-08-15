@@ -1,0 +1,252 @@
+{
+  "kind": "pro_v3_g0s_graph_safe",
+  "status": "pass",
+  "mode": "smoke",
+  "started_utc": "2026-08-15T21:47:19.685699+00:00",
+  "preregistration": "pro_research/PRO_V3_PREREGISTRATION.md",
+  "repair_under_test": "prompt-only stream synchronization before reusing pinned H2D staging word",
+  "config": {
+    "tokens_per_prompt": 16,
+    "capacity": 72,
+    "prompt_count": 3,
+    "prompt_sync_excluded_from_decode_timing": true
+  },
+  "environment": {
+    "created_utc": "2026-08-15T21:47:25.759298+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "fdf20eba6c58953b062595ab9a5cf788a227649a",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log",
+      "?? pro_research/v3_smoke_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 48, 10.42 W, 4605 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615",
+      "src\\moe_lab\\lightningstream_nemotron\\gpu_kernels.py": "59dc136d9fb3e07935b85990cc52f7023c340783d3b656c21b1f5fd129ecbfaa",
+      "pro_research\\graph_safe_v3.py": "c4e64b6c55c9d4a40a9db1fa5198831672591a312e6e38dadf27a3f53456a837",
+      "pro_research\\PRO_V3_PREREGISTRATION.md": "d0959f509fa08bdd99923fdee457911797db52842f293db04e350134a0fc48a0"
+    }
+  },
+  "argmax_probe": {
+    "expected_low_index": 123,
+    "kernel": 123,
+    "cupy": 123,
+    "passed": true
+  },
+  "graph_dot_probe": {
+    "available": true,
+    "length": 162640,
+    "contains_argmax_part": true,
+    "contains_argmax_final": true,
+    "contains_embed_gather": true,
+    "contains_pos_inc": true
+  },
+  "arms": {
+    "EGR": {
+      "timing_ms": {
+        "count": 45,
+        "mean": 31.767657777777778,
+        "p50": 31.4994,
+        "p95": 34.52652,
+        "p99": 35.617700000000006,
+        "max": 36.3701
+      }
+    },
+    "GRAPH_SAFE": {
+      "timing_ms": {
+        "count": 45,
+        "mean": 28.740433333333335,
+        "p50": 28.6063,
+        "p95": 31.626759999999997,
+        "p99": 31.960992,
+        "max": 32.1417
+      },
+      "extra_vram_bytes": 4194304
+    }
+  },
+  "per_prompt": {
+    "The capital of France is": {
+      "kind": "anchor",
+      "eager_ids": [
+        6993,
+        1046,
+        1256,
+        1010,
+        1784,
+        8961,
+        1307,
+        10787,
+        1395,
+        10874,
+        1046,
+        1256,
+        1010,
+        1784,
+        8961,
+        1307
+      ],
+      "graph_safe_ids": [
+        6993,
+        1046,
+        1256,
+        1010,
+        1784,
+        8961,
+        1307,
+        10787,
+        1395,
+        10874,
+        1046,
+        1256,
+        1010,
+        1784,
+        8961,
+        1307
+      ],
+      "identical": true,
+      "first_divergence": null,
+      "last_prompt_token": 1395,
+      "graph_repeats_last_prompt_token": false,
+      "eager_repeats_last_prompt_token": false
+    },
+    "The history of computing began when": {
+      "kind": "anchor",
+      "eager_ids": [
+        16059,
+        6990,
+        36359,
+        1408,
+        2034,
+        17296,
+        1046,
+        1531,
+        2158,
+        36359,
+        4968,
+        1486,
+        1278,
+        1715,
+        1413,
+        1374
+      ],
+      "graph_safe_ids": [
+        16059,
+        6990,
+        36359,
+        1408,
+        2034,
+        17296,
+        1046,
+        1531,
+        2158,
+        36359,
+        4968,
+        1486,
+        1278,
+        1715,
+        1413,
+        1374
+      ],
+      "identical": true,
+      "first_divergence": null,
+      "last_prompt_token": 2200,
+      "graph_repeats_last_prompt_token": false,
+      "eager_repeats_last_prompt_token": false
+    },
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": {
+      "kind": "code",
+      "eager_ids": [
+        13,
+        1975,
+        29896,
+        1010,
+        3149,
+        36598,
+        6561,
+        75178,
+        21777,
+        39318,
+        18086,
+        63369,
+        3640,
+        1293,
+        13118,
+        1293
+      ],
+      "graph_safe_ids": [
+        13,
+        1975,
+        29896,
+        1010,
+        3149,
+        36598,
+        6561,
+        75178,
+        21777,
+        39318,
+        18086,
+        63369,
+        3640,
+        1293,
+        13118,
+        1293
+      ],
+      "identical": true,
+      "first_divergence": null,
+      "last_prompt_token": 1626,
+      "graph_repeats_last_prompt_token": false,
+      "eager_repeats_last_prompt_token": false
+    }
+  },
+  "determinism": {
+    "The capital of France is": {
+      "identical": true,
+      "first_divergence": null
+    },
+    "The history of computing began when": {
+      "identical": true,
+      "first_divergence": null
+    },
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": {
+      "identical": true,
+      "first_divergence": null
+    }
+  },
+  "external_anchor_informative": {
+    "The capital of France is": {
+      "compared": 16,
+      "identical_prefix": false,
+      "first_divergence": 1
+    },
+    "The history of computing began when": {
+      "compared": 16,
+      "identical_prefix": false,
+      "first_divergence": 1
+    }
+  },
+  "gates": {
+    "argmax_direct_tie": true,
+    "graph_safe_equals_eager": true,
+    "graph_safe_deterministic": true,
+    "repeated_last_prompt_pathology_absent": true,
+    "extra_vram_lt_64MiB": true,
+    "full_speed_gain_ge_2_5ms": true,
+    "full_samples_ge_500": null
+  },
+  "summary": {
+    "eager_p50_ms": 31.4994,
+    "graph_safe_p50_ms": 28.6063,
+    "gain_ms": 2.8931000000000004,
+    "eager_tok_s": 31.74663644386877,
+    "graph_safe_tok_s": 34.95733457315347
+  },
+  "completed_utc": "2026-08-15T21:48:05.358554+00:00"
+}

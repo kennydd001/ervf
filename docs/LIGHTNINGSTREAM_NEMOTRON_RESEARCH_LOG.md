@@ -1176,3 +1176,9 @@ Volgende: NERVF-4 gatherless-ERVF down, die samenvalt met Kimi's E2.
 Details: `reports/treesweep200/E6_INTEGRATED_REPORT_2026-08-15.md`,
 `reports/treesweep200/E2_GATHERLESS_DOWNFLOW_REPORT_2026-08-15.md`,
 `reports/treesweep200/A1_ADOPTION_REPORT_2026-08-15.md`.
+
+## 2026-08-15 — E1 fase 2.1 (device-resident routing) afgerond; fase 2.2 (graph-replay) gebouwd, ongemeten
+
+- **E1-2.1 PASS (alle 5 poorten, verifier 14/14):** routerkop + device-LRU + bulk-staging (24,93 GB/s, DMA-pariteit) halen elke device→host-sync uit de MoE-laag. p50 41,540 → 36,998 ms/token (−4,542 ms), pariteit vs bevroren A1-ids, capaciteit 56 ≡ 72, controle-arm faalde zoals vereist. Opt-in via `rt.device_cache=True`; nog niet geadopteerd als default. Bugfix onderweg: `enable_cache` reset nu ook `_dev_cache`. Rapport: `reports/treesweep200/E1F21_DEVICE_ROUTING_REPORT_2026-08-15.md`.
+- **E1-2.2 GEBOUWD, ONGEMETEN:** preregistratie bevroren (`E1F22_GRAPH_CAPTURE_PREREGISTRATION_2026-08-15.md`), graph-API gesmoketest, dp-kernels + `setup_graph`/`step_graph`/`ring_harvest` geschreven (syntax OK). Runner/verifier/rapport ontbreken nog — pickup-stappen in `agents/TODO.md`.
+- Protected-manifest: nieuwe baseline `PROTECTED_80B_MANIFEST_AFTER_USER_COMMIT_2026-08-15.json` (oude was pre-git; .gitignore-vlag was de eerste commit van de eigenaar, geen schending).

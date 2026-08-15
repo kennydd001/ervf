@@ -70,12 +70,30 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
     (−4,542 ms)**, pariteit behouden, verifier 14/14. Bugfix:
     `enable_cache` reset nu ook `_dev_cache`. Rapport:
     `E1F21_DEVICE_ROUTING_REPORT_2026-08-15.md`.
-  - [ ] **Fase 2.2 — CUDA-graph-capture van de volledige token.** Budget dat
-    over is: ~4,4 ms launch-overhead (van de 8,925 uit fase 1). MoE-pad is
-    sync-vrij; nog capture-compatibel maken: embedding-gather uit mapped
-    host-tabel, argmax over logits, pos op device (kv_write_fp8,
-    attentie-splits/combine met vaste grid). **Preregistratie mét poorten
-    vóór de eerste meting.**
+  - [GEBOUWD, ONGEMETEN 2026-08-15] **Fase 2.2 — CUDA-graph-replay van de
+    volledige token.** Preregistratie BEVROZEN:
+    `E1F22_GRAPH_CAPTURE_PREREGISTRATION_2026-08-15.md` (poorten PAR/CTL/DET/
+    S1 ≥ 2,5 ms/VRAM < 64 MiB, kill-criteria K1–K3). Code staat klaar maar is
+    **niet gedraaid**: dp-kernels in `gpu_kernels.py` (embed_gather_bf16,
+    kv_append_fp8_dp, attn_decode_warp_fp8_gqa4_dp met vaste grid + neutrale
+    partials, argmax_part/final, pos_inc) en `runtime.py` (graph_mode,
+    `setup_graph()`, `_step_body_graph()`, `step_graph()`, `ring_harvest()`).
+    Graph-API wél gesmoketest. **Volgende stappen, in volgorde:**
+    1. Runner schrijven `scripts/treesweep200/e1f22_graph_capture_ab.py`
+       (4 armen EGR/GRAPH/CTL/DET exact zoals de prereg; basis van
+       `e1f21_device_routing_ab.py`; GPU-check eerst).
+    2. Draaien. Bij capture-fout op de multi-stream fork → K1-fallback
+       (single-stream) als eerlijk benoemde tweede arm.
+    3. Verifier `e1f22_independent_verify.py`: herberekent poorten uit het
+       JSON + eigen kernelchecks (argmax vs cp.argmax incl. gefabriceerde
+       ties; gqa4_dp bitexact vs gqa4 voor t ∈ {1, 64, 511, 512, 513, 4096};
+       embed_gather vs de cupy-omzetting). Importeert de runner NOOIT.
+    4. Rapport + registry-entry + notebook + protected-manifest verify tegen
+       de **nieuwe** baseline
+       (`PROTECTED_80B_MANIFEST_AFTER_USER_COMMIT_2026-08-15.json`).
+    5. Bij S1-PASS: overwegen graph als default te adopteren (aparte fase,
+       eigen prereg).
+  - Resterend budget na 2.1: ~4,4 ms launch-overhead (van 8,925 uit fase 1).
 - [ ] **Langecontext-profiel van de geadopteerde stack** — E6 mat 3 × 512 tokens
       bij `contexts_max=4096`. De stack is nooit end-to-end gemeten op 128K/262K
       ná adoptie. NERVF-3 deed dat vóór D1. Nu óók mét device_cache meten.
@@ -87,6 +105,9 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Doorlopend
 
-- [ ] Na elke fase: `protected_manifest.py verify` (**0 modified / 0 removed**),
+- [ ] Na elke fase: `protected_manifest.py verify` (**0 modified / 0 removed**)
+      tegen `PROTECTED_80B_MANIFEST_AFTER_USER_COMMIT_2026-08-15.json`
+      (nieuwe baseline, gebouwd ná de eerste git-commit van de eigenaar —
+      de oude baseline is pre-git en markeert .gitignore vals),
       registry-entry bijwerken, rapport schrijven, hier afvinken, en één blok
       toevoegen aan `RESEARCH_NOTEBOOK.md`.

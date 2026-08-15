@@ -351,6 +351,9 @@ class LightningRuntime:
         # live routing state; rebuild them with the host cache or a capacity
         # change would run new semantics over stale slots.
         self._dev_cache = {}
+        # E1 fase 2.2: a captured graph binds the OLD cache buffers and device
+        # tables by pointer; changing the cache invalidates it.
+        self._graph = None
         for layer in self.moe_layers:
             entry = {
                 "codes": cp.zeros(capacity_per_layer * UP_CODE, dtype=cp.uint8),
@@ -382,6 +385,11 @@ class LightningRuntime:
             for v in d.values():
                 v.fill(0)
         self.pos = 0
+        # E1 fase 2.2: the graph reads pos from a device buffer; reset it too.
+        # The sync guards ordering against launches on the graph stream.
+        if hasattr(self, "_pos_dev"):
+            self._pos_dev.fill(0)
+            self.cp.cuda.Device(0).synchronize()
 
     # ------------------------------------------------------------ sub-blocks
     def _mamba(self, i, out):
@@ -426,8 +434,22 @@ class LightningRuntime:
         k.mv_bf16(self.kv_, d["k_proj"], self.normed, self.kv_dim, self.hidden)
         k.mv_bf16(self.vv, d["v_proj"], self.normed, self.kv_dim, self.hidden)
 
-        t = self.pos + 1
         scale = 1.0 / float(np.sqrt(self.head_dim))
+        if self.fp8_kv and self.graph_mode:
+            # E1 fase 2.2: pos/t live on device; grids are fixed so the whole
+            # call is capturable. Bit-comparable with the eager v4 path.
+            k.kv_write_fp8_dp(self.kc[i], self.kv_, self._pos_dev, self.n_kv,
+                              self.head_dim, self.max_ctx)
+            k.kv_write_fp8_dp(self.vc[i], self.vv, self._pos_dev, self.n_kv,
+                              self.head_dim, self.max_ctx)
+            k.attention_fp8_gqa4_dp(self.ctx, self.qv, self.kc[i], self.vc[i],
+                                    self._pos_dev, self.n_heads, self.head_dim,
+                                    self.groups, self.max_ctx, scale,
+                                    self.part_acc, self.part_ml)
+            k.mv_bf16(out, d["o_proj"], self.ctx, self.hidden,
+                      self.n_heads * self.head_dim)
+            return
+        t = self.pos + 1
         if self.fp8_kv:
             k.kv_write_fp8(self.kc[i], self.kv_, self.pos, self.n_kv,
                            self.head_dim, self.max_ctx)
@@ -809,6 +831,120 @@ class LightningRuntime:
             k.mv_bf16(self.logits, self.lm_head, self.normed, self.vocab, self.hidden)
         self.pos += 1
         return int(cp.argmax(self.logits))
+
+    # ----------------------------------------------------- E1 fase 2.2 ------
+    # Graph-replay of the whole token. STATUS: built per the frozen
+    # preregistration (E1F22_GRAPH_CAPTURE_PREREGISTRATION_2026-08-15.md) but
+    # NOT YET RUN -- the A/B, gates and verifier are still open. Treat every
+    # method below as unmeasured until the E1F22 report says otherwise.
+
+    def setup_graph(self):
+        """Allocate device token/pos state, pin the embedding table, capture
+        one token body into a CUDA graph. Call AFTER enable_cache(); calling
+        enable_cache() afterwards invalidates the graph (it binds the cache
+        buffers by pointer)."""
+        cp = self.cp
+        if not getattr(self, "device_cache", False):
+            raise RuntimeError("setup_graph requires device_cache=True "
+                               "(E1 fase 2.1 sync-free MoE path)")
+        if not self.cache:
+            raise RuntimeError("enable_cache() must run before setup_graph()")
+        if getattr(self, "_graph", None) is not None:
+            return
+        free0 = cp.cuda.Device(0).mem_info[0]
+        self._tok_dev = cp.zeros(1, dtype=cp.int32)
+        self._pos_dev = cp.zeros(1, dtype=cp.int32)
+        self._am_max = cp.zeros(256, dtype=cp.float32)
+        self._am_idx = cp.zeros(256, dtype=cp.int32)
+        if self.embed_on_host:
+            # The gather kernel dereferences the table, so it must be pinned
+            # + mapped; +0.656 GiB pinned host RAM, reported by the runner.
+            nbytes = self.embed_host.nbytes
+            pm = cp.cuda.alloc_pinned_memory(nbytes)
+            np.frombuffer(pm, dtype=np.uint8, count=nbytes)[:] = \
+                self.embed_host.view(np.uint8)
+            self._embed_pinned = pm
+            self._embed_tbl_ptr = int(pm.ptr)
+        else:
+            self._embed_pinned = None
+            self._embed_tbl_ptr = int(self.embed.data.ptr)
+        self._stage_mem = cp.cuda.alloc_pinned_memory(4)
+        self._stage_np = np.frombuffer(self._stage_mem, dtype=np.int32)
+        self._ring_size = 8192
+        self._ring_mem = cp.cuda.alloc_pinned_memory(4 * self._ring_size)
+        self._ring_np = np.frombuffer(self._ring_mem, dtype=np.int32)
+        self._ring_i = 0
+        self.graph_mode = True
+        s = cp.cuda.Stream(non_blocking=True)
+        self._graph_stream = s
+        with s:
+            self._step_body_graph()  # warmup: compiles every kernel, mutates
+        s.synchronize()            # state; reset() below restores it
+        s.begin_capture()
+        with s:
+            self._step_body_graph()
+        self._graph = s.end_capture()
+        s.synchronize()
+        self.reset()
+        free1 = cp.cuda.Device(0).mem_info[0]
+        self.graph_extra_vram_bytes = int(free0 - free1)
+
+    def _step_body_graph(self):
+        """One decode token with zero host reads -- the captured body. Every
+        scalar a kernel needs lives on device: token id, position, routes."""
+        k = self.k
+        k.embed_gather(self.h, self._embed_tbl_ptr, self._tok_dev, self.hidden)
+        for i, ch in enumerate(self.pattern):
+            d = self.layer[i]
+            k.norm(self.normed, self.h, d["norm"], self.hidden, self.eps)
+            if ch == "M":
+                self._mamba(i, self.acc)
+            elif ch == "*":
+                self._attention(i, self.acc)
+            else:
+                self._moe(i, self.acc)
+            k.add_(self.h, self.acc, self.hidden)
+        k.norm(self.normed, self.h, self.norm_f, self.hidden, self.eps)
+        if self.lm_head_kind == "nvfp4":
+            self.fused.gemv_into(self.logits, self.lm_head_codes,
+                                 self.lm_head_scales, self.normed,
+                                 self.lm_head_g, self.vocab, self.hidden)
+        else:
+            k.mv_bf16(self.logits, self.lm_head, self.normed, self.vocab,
+                      self.hidden)
+        k.argmax_logits(self._tok_dev, self.logits, self.vocab,
+                        self._am_max, self._am_idx)
+        k.pos_increment(self._pos_dev)
+
+    def step_graph(self, token_id=None):
+        """Replay the captured token. ``token_id`` stages a prompt token first
+        (stream-ordered 4-byte H2D, no sync); None means decode: embed the id
+        that argmax left in tok_dev. The id this launch produces lands in the
+        pinned ring; read it with ring_harvest."""
+        g = getattr(self, "_graph", None)
+        if g is None:
+            raise RuntimeError("no graph: call setup_graph() first, and do "
+                               "not call enable_cache() after it")
+        s = self._graph_stream
+        rt = self.cp.cuda.runtime
+        if token_id is not None:
+            self._stage_np[0] = token_id
+            rt.memcpyAsync(self._tok_dev.data.ptr, self._stage_mem.ptr, 4,
+                           rt.memcpyHostToDevice, s.ptr)
+        g.launch(s)
+        rt.memcpyAsync(self._ring_mem.ptr + 4 * self._ring_i,
+                       self._tok_dev.data.ptr, 4,
+                       rt.memcpyDeviceToHost, s.ptr)
+        self._ring_i = (self._ring_i + 1) % self._ring_size
+
+    def ring_harvest(self, start: int, count: int):
+        """Synchronise the graph stream and read `count` ids from the ring
+        starting at ring index `start`. Ring slot j holds the id produced by
+        launch j, i.e. the token that launch j+1 embeds: after P prompt
+        launches the first generated id is at ring index P-1."""
+        self._graph_stream.synchronize()
+        return [int(self._ring_np[(start + j) % self._ring_size])
+                for j in range(count)]
 
 
 

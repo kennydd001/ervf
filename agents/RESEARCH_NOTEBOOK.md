@@ -11,6 +11,36 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-15 — E1 fase 2.2 — graph-replay GEBOUWD maar ongemeten (sessie gestopt op quota)
+
+**Vraag.** Kan de hele token — embedding t/m argmax — als één CUDA-graph
+replays worden nu het MoE-pad sync-vrij is?
+
+**Status.** Preregistratie bevroren (`E1F22_GRAPH_CAPTURE_PREREGISTRATION`),
+graph-API gesmoketest (capture → launch → correct over 5 replays), alle
+kernels en runtime-methoden geschreven en op syntax gecontroleerd — maar de
+A/B is **niet gedraaid**. Niets hieronder is een meting.
+
+**Ontwerpkeuzes die de volgende agent niet opnieuw hoeft te bedenken.**
+- `attn_decode_warp_fp8_gqa4_dp`: vaste grid (2,256); elke block schrijft áltijd
+  zijn 4 partials — dode splits schrijven neutraal (m=-inf, l=0) — dus nooit
+  stale data, en `attn_decode_combine` (vaste 1024 slots) slaat l≤0 al over.
+  Zelfde optelvolgorde als eager → bitexact te verwachten, te bewijzen door
+  de verifier.
+- Embedding: tabel wordt bij `setup_graph()` naar pinned+mapped gekopieerd
+  (+0,656 GiB host-RAM); `embed_gather_bf16` leest hem in-graph via tok_dev.
+- Token-flow: argmax schrijft tok_dev aan het einde van replay N; embed_gather
+  leest het aan het begin van replay N+1. Prompt-tokens staged de host met een
+  stream-geordende 4-byte H2D (geen sync). Ids oogsten via pinned ringbuffer
+  (`ring_harvest`); gegenereerde ids staan vanaf ring-index P-1.
+- Kill-criteria staan in de prereg: K1 = event-fork weigert → single-stream
+  fallback als aparte arm.
+
+**Artefacten.** Prereg + code in `gpu_kernels.py`/`runtime.py` (zoek
+"E1 fase 2.2"). Nog te schrijven: runner, verifier, rapport.
+
+---
+
 ## 2026-08-15 — E1 fase 2.1 — device-resident routing werkt: −4,54 ms/token eager, alle poorten groen
 
 **Vraag.** Kan de MoE-laag zonder één device→host-sync draaien (routerkop,

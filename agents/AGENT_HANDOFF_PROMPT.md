@@ -10,6 +10,28 @@ laptop-GPU**, door de experts vanaf host te streamen. Werkdirectory:
 `C:\Users\de_do\Documents\ChatGPT\New project`. Python:
 `./.venv-nemotron/Scripts/python.exe`.
 
+**⚠️ Modelpad — kritiek, lees dit voordat je iets meet.** Er staan twee
+modellen in `models/`: `nemotron_3_5_lightning` (géén suffix) is bij
+nameting **NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4**, verkeerd gedownload en
+misleidend hernoemd — de hele closed `treesweep200`-lijn (A1/D1/E1-E6/NERVF,
+het bevroren `V36_DETERMINISTIC_ANCHOR.json`) draait daar nog steeds
+standaard op. Het échte opdrachtdoel staat in `models/nemotron_3_5_lightning_v35`
+— zet `LS_MODEL_DIR=nemotron_3_5_lightning_v35` (of gebruik `pro_research`,
+dat dit al als default heeft). Volledige bewijsketen:
+`agents/RESEARCH_NOTEBOOK.md`, blok 2026-08-16 "PRO V3 anchor-onderzoek".
+
+**Nieuw sinds 2026-08-16: de `pro_research/`-addon.** Een geïsoleerde,
+additieve experimentenpak (eigen branch `pro-research`, schrijft alleen naar
+`pro_research/results/`, raakt nooit bestaande runtime-bestanden aan — ziet
+`pro_research/README.md`). Huidige beste geverifieerde resultaat: **41,13
+tok/s** (V4, full mode, 765 samples, alle poorten groen) — beter dan wat
+hieronder over de oude (Nano-)lijn staat. Lees `agents/STATE_OF_THE_WORK.md`
+z'n Lightning-tabel en `agents/RESEARCH_NOTEBOOK.md`'s 2026-08-16-blokken
+vóór je verder graaft — daar staat ook waarom MTP-speculatief-decoderen
+inmiddels gesloten is (57,51 vs 54,28 ms/token, gemeten) en wat de volgende
+geprereg­istreerde stap is (`pro_research/PRO_V5_PREREGISTRATION.md`,
+down_proj-kernels batchen — nog niet gebouwd).
+
 ## Lees eerst, in deze volgorde
 
 1. `agents/STATE_OF_THE_WORK.md` — waar we staan, wat bewezen is, wat weerlegd

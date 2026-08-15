@@ -83,16 +83,32 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open
 
-- [ ] **Device-cache down_proj in `_moe_dev` (hoogste prioriteit).**
-      Diagnose 2026-08-16 (`pro_research/diag_hitrate_v4.py`): 85,6% up_proj
-      device-cache hitrate, maar `_moe_dev`'s down-projectie leest bij élke
-      expert-aanroep — hit of miss — rechtstreeks van de host-gemapte bank via
-      `down_masked_into_indirect`. `cache_mode="full"` heeft al een
-      `c["slot_down"]` device-slot (zie `_moe_cached_fast`, regel 659-660),
-      maar dat pad is nooit naar `_moe_dev` overgezet. Als down_proj-hits
-      evenveel schelen als up_proj-hits is dit een tweede, onafhankelijke
-      hefboom van vergelijkbare orde als V4. Zie `RESEARCH_NOTEBOOK.md`
-      2026-08-16 voor de volledige onderbouwing.
+- [ ] **Down_proj-pijplijn optimaliseren in `_moe_dev` (hoogste prioriteit,
+      BIJGEWERKT 2026-08-16 — eerste versie van dit item was deels fout, zie
+      hieronder).** ~~Device-cache down_proj net als up_proj~~ — **onhaalbaar**:
+      `DOWN_PANEL_BYTES` is 2,68 MB/expert (niet ~1 kB zoals eerst aangenomen),
+      vol cachen bij cap 72×23 lagen kost ~4,4 GiB, GPU had tijdens V4 al 0 MiB
+      vrij. Componentmeting (`diag_component_timing_v4.py`,
+      `diag_down_subkernels_v4.py`) geeft een preciezer beeld: de hele
+      down_proj-pijplijn (`panel_scan`+`gather_down_sparse_ind`+
+      `down_masked_ind`+`reduce_partials`) kost **11,39 ms/token (29,9%)**,
+      groter dan up_proj's eigen GEMV (5,00 ms/token). Twee onafhankelijke
+      deelhefbomen, geen van beide alleen dominant:
+      1. `gather_down_sparse_ind` (PCIe host-gemapte masked read, 4,74 ms/token,
+         41,6% van de pijplijn) — mogelijk dezelfde klasse trage
+         strided-host-toegang als E2/NERVF-4 al vond.
+      2. `panel_scan`+`reduce_partials` samen (4,74 ms/token) — kleine
+         device-only kernels, kosten wijzen op **launch-overhead** (552
+         kernellaunches/token alleen al voor down_proj: 4 subkernels × 138
+         expert-aanroepen). Fusie/batchen over de 6 experts per laag is een
+         onafhankelijke hefboom.
+      Voorzichtige bovengrens: zelfs een volledige eliminatie van de hele
+      pijplijn zou V4 van ~24,3 naar ruw ~13-15 ms/token brengen (~65-75 tok/s,
+      niet 100) — substantieel maar niet op zichzelf genoeg. Twee echte
+      CUDA-engineeringtaken, niet gebouwd deze sessie (kritiek pad van een 30B
+      productiemodel, verdient eigen preregistratie + bitexact-verificatie
+      i.p.v. haast). Zie `RESEARCH_NOTEBOOK.md` 2026-08-16 voor de volledige
+      onderbouwing en alle vier diagnostische scripts/JSONs.
 - [ ] **Per-laag capaciteitstuning.** Zelfde diagnose: missrate is sterk
       niet-uniform over lagen (laag 1/3/6/51 missen 25-42%, de rest 6-14%).
       Bevestig eerst stabiliteit over meerdere prompts vóór er iets aan de

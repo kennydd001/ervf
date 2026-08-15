@@ -1,0 +1,90 @@
+{
+  "kind": "diag_down_subkernels_v4",
+  "created_utc": "2026-08-15T22:25:44.546187+00:00",
+  "note": "read-only diagnostic, not a gated PRO experiment; eager device_cache path",
+  "environment": {
+    "created_utc": "2026-08-15T22:25:44.547777+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "22f33709226c2b95c97ef5957225a3d7b9136116",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/diag_component_timing_v4.json",
+      "?? pro_research/diag_component_timing_v4.py",
+      "?? pro_research/diag_down_subkernels_v4.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6382 MiB, 68, 49.47 W, 2617 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\fused_nvfp4.py": "2669431dba6f524844b096de129d9211bc9ae547fe0b87ce8bdcc144365cdcda"
+    }
+  },
+  "prompt": "The history of computing began when",
+  "generated_tokens": 96,
+  "token_ms": {
+    "count": 96,
+    "mean": 38.05203854166667,
+    "p50": 36.282849999999996,
+    "p95": 40.198899999999995,
+    "p99": 98.94001999999998,
+    "max": 110.4126
+  },
+  "subkernels": {
+    "panel_scan_k": {
+      "calls": 13248,
+      "ms_per_call": {
+        "count": 13248,
+        "mean": 0.01983153865943159,
+        "p50": 0.020128000527620316,
+        "p95": 0.022975999861955643,
+        "p99": 0.02934783995151528,
+        "max": 0.1634880006313324
+      },
+      "ms_per_token_total": 2.7367523350015595
+    },
+    "gather_ind_k": {
+      "calls": 13248,
+      "ms_per_call": {
+        "count": 13248,
+        "mean": 0.034346606285354304,
+        "p50": 0.033695999532938004,
+        "p95": 0.05628800019621849,
+        "p99": 0.0688358426094056,
+        "max": 1.9839359521865845
+      },
+      "ms_per_token_total": 4.739831667378894
+    },
+    "down_masked_ind_k": {
+      "calls": 13248,
+      "ms_per_call": {
+        "count": 13248,
+        "mean": 0.013866775370632346,
+        "p50": 0.013088000006973743,
+        "p95": 0.021407999098300934,
+        "p99": 0.03884992152452473,
+        "max": 0.10598400235176086
+      },
+      "ms_per_token_total": 1.9136150011472637
+    },
+    "reduce_partials_k": {
+      "calls": 13248,
+      "ms_per_call": {
+        "count": 13248,
+        "mean": 0.014487816439126056,
+        "p50": 0.006783999968320131,
+        "p95": 0.05116799846291542,
+        "p99": 0.07582975976169226,
+        "max": 0.38633599877357483
+      },
+      "ms_per_token_total": 1.9993186685993958
+    }
+  },
+  "down_pipeline_ms_per_token_total": 11.389517672127113,
+  "down_pipeline_fraction_of_token": 0.29931425775404086
+}

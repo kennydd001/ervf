@@ -66,6 +66,98 @@ goed onderbouwde vervolgexperimenten, allebei niet in deze sessie gebouwd:
 `pro_research/diag_hitrate_v4.json` (niet gecommit als PRO-resultaat, puur
 diagnostisch).
 
+**Correctie achteraf, zelfde dag.** De hierboven voorgestelde hefboom
+("device-cache down_proj net als up_proj") bleek op een verkeerde
+byte-aanname te steunen. `DOWN_PANEL_BYTES` (= `HALF_CODE + HALF_SCALE` =
+2.494.464 + 311.808 B) is **2,68 MB per expert**, niet ~1 kB — bevestigd via
+`CODE_BYTES`/`SCALE_BYTES` in `runtime.py` en `load_routed_bank`'s
+`n * DOWN_PANEL_BYTES`-slicing. Vol cachen bij cap 72 × 23 lagen zou ~4,4 GiB
+VRAM kosten; de GPU stond tijdens de V4-run al op **0 MiB vrij**. Dat maakt
+"gewoon net als up_proj cachen" onhaalbaar zonder de up_proj-capaciteit fors
+te verlagen (een echte trade-off, geen gratis winst) — vandaar de vervolgmeting
+hieronder in plaats van dit alsnog te bouwen. Zie ook: up_proj's eigen missen
+bewegen dus ook ~2,68 MB per miss (niet ~1 kB) — bij 20,24 missen/token is dat
+**~54,2 MB/token**, wat bij het M1-tempo (24,93 GB/s) ~2,17 ms/token kost; dat
+zit *niet* in de eerder gemeten "up_gemv"-component hieronder, want die meet
+alleen de GEMV, niet de `cache_fetch`-staging.
+
+---
+
+## 2026-08-16 — Componentmeting V4-decodepad — down_proj-pijplijn is de grootste losse kostenpost
+
+**Vraag.** Waar gaat de 24,3–34 ms/token precies naartoe? Nodig om de
+down_proj-hefboom hierboven te vervangen door iets dat op echte metingen
+rust, niet op statische bytegrootte-aannames (die al twee keer fout bleken).
+
+**Methode.** Twee read-only diagnostieken, beide eager (`device_cache=True`,
+géén graph — zodat elke aanroep echte Python is en met `cp.cuda.Event`-paren
+precies te timen valt):
+
+1. `diag_component_timing_v4.py` — omwikkelt `fused.gemv_ervf_indirect`
+   (up_proj ERVF-GEMV) en `fused.down_masked_into_indirect` (de hele
+   down_proj-pijplijn) als geheel, 128 tokens.
+2. `diag_down_subkernels_v4.py` — splitst die down_proj-pijplijn verder open
+   in zijn vier subkernels (`panel_scan`, `gather_down_sparse_ind`,
+   `down_masked_ind`, `reduce_partials`), 96 tokens.
+
+**Uitkomst (1).** Token p50 33,46 ms (deze eager config, iets hoger dan G0S's
+EGR door instrumentatie-overhead). Per token, 138 expert-aanroepen (23 lagen
+× top_k 6):
+
+| component | ms/token | aandeel van token |
+|---|---:|---:|
+| up_gemv (ERVF, device-cache) | 5,003 | 14,6% |
+| down_masked (hele pijplijn) | 9,573 | 27,9% |
+
+down_masked is dus al zonder verdere opsplitsing de grootste single measured
+component — groter dan up_gemv, en dat zonder up_proj's eigen
+`cache_fetch`-staging (~2,17 ms/token, apart, hierboven geschat) mee te tellen.
+
+**Uitkomst (2) — opsplitsing van die 9,57–11,39 ms (iets hoger token-p50
+door extra instrumentatie: 36,28 ms):**
+
+| subkernel | ms/token | aandeel van down-pijplijn |
+|---|---:|---:|
+| `gather_down_sparse_ind` (PCIe host-gemapte masked read) | 4,740 | 41,6% |
+| `panel_scan` (mask/nonzero-scan, device-only) | 2,737 | 24,0% |
+| `reduce_partials` (device-only) | 1,999 | 17,6% |
+| `down_masked_ind` (de eigenlijke GEMV-compute) | 1,914 | 16,8% |
+| **totaal down-pijplijn** | **11,390** | **29,9% van token** |
+
+**Interpretatie.** Twee onafhankelijke aanwijzingen, geen enkele
+overweldigend dominant:
+- `gather_down_sparse_ind` is de grootste losse subkernel en bevestigt de
+  PCIe-hypothese (host-gemapte, gemaskeerde/verstrooide lezing — dezelfde
+  klasse toegang die E2/NERVF-4 al traag bleek, ~6,7-7,27 GB/s i.p.v.
+  bulk-tempo 24,93-85,9 GB/s) — maar is met 41,6% niet de hele lading.
+- `panel_scan` + `reduce_partials` samen (41,6% van de pijplijn, 4,74 ms/token)
+  zijn beide kleine, device-only kernels zonder PCIe-component — hun kosten
+  wijzen eerder op **launch-overhead**: 4 subkernels × 138 expert-aanroepen =
+  **552 kernellaunches per token** alleen al voor down_proj. Fusie van deze
+  vier kernels (of batchen over de 6 experts per laag in plaats van 6×4
+  losse launches) is een onafhankelijke, mogelijk net zo grote hefboom als de
+  PCIe-kant.
+
+**Bovengrens, voorzichtig.** Zelfs als de hele down-pijplijn naar nul zou
+gaan (onrealistisch), zou dat token-tijd van ~24,3 ms (V4, met selectieve
+ERVF en graph) hooguit naar iets in de orde van ~13-15 ms brengen — ruw
+richting 65-75 tok/s, niet 100. Dit is dus een substantiële maar geen
+op-zichzelf-voldoende hefboom voor het einddoel.
+
+**Waarom niet meteen gebouwd.** Twee echte CUDA-engineeringtaken (PCIe-
+toegangspatroon herstructureren; vier kernels fuseren/batchen), allebei op
+het kritieke pad van een 30B-productiemodel. Gezien de projectcultuur
+("exactness before speed", nooit een poort verruimen, controle-armen
+verplicht) verdienen die een eigen preregistratie en zorgvuldige
+bitexact-verificatie, niet een haastige poging binnen dezelfde sessie waarin
+al twee keer een snelle bytegrootte-aanname fout bleek.
+
+**Artefacten.** `pro_research/diag_component_timing_v4.py` ·
+`pro_research/diag_component_timing_v4.json` ·
+`pro_research/diag_down_subkernels_v4.py` ·
+`pro_research/diag_down_subkernels_v4.json` (alle vier read-only, geen
+PRO-poort).
+
 ---
 
 ## 2026-08-16 — PRO G2 — K-token epoch-graph: technisch gesloten, geen bug

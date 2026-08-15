@@ -1,0 +1,52 @@
+{
+  "kind": "diag_down_ablation_timing",
+  "created_utc": "2026-08-15T22:44:35.132551+00:00",
+  "note": "read-only, timing-only diagnostic; STUB arm produces WRONG tokens by design (down_masked_into_indirect replaced with out.fill(0)) and must never be read as a correctness result",
+  "environment": {
+    "created_utc": "2026-08-15T22:44:35.133551+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "f74d84b2a0b38eb1d3b3b9e6461cfb63b2faf253",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/diag_down_ablation_timing.py",
+      "?? pro_research/diag_down_ingraph_timing.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6386 MiB, 71, 57.67 W, 2130 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
+    }
+  },
+  "rounds_per_arm": 200,
+  "real_token_ms": {
+    "count": 200,
+    "mean": 23.096045999999998,
+    "p50": 22.5302,
+    "p95": 26.12398,
+    "p99": 27.460026999999997,
+    "max": 28.4767
+  },
+  "stub_no_down_proj_token_ms": {
+    "count": 200,
+    "mean": 16.197415999999997,
+    "p50": 16.0244,
+    "p95": 17.88388,
+    "p99": 18.666582999999996,
+    "max": 19.4713
+  },
+  "upper_bound_down_proj_ingraph_ms_per_token": 6.505800000000001,
+  "upper_bound_fraction_of_real_token": 0.28875908780215004,
+  "v4_reference_full_result_ms_per_token": 24.3152,
+  "eager_reference_for_comparison": {
+    "note": "diag_component_timing_v4.json / diag_down_subkernels_v4.json, same GPU/model, eager (no graph)",
+    "down_pipeline_ms_per_token_eager": 9.573,
+    "down_pipeline_ms_per_token_eager_subkernel_split": 11.39
+  }
+}

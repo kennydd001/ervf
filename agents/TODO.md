@@ -116,6 +116,14 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       BATCHED/BASE_B/CTL-armen, bitexact-poort, controle-arm die moet falen.
       Nog niet gebouwd — vereist nieuwe CUDA-kernels (batched varianten), dus
       een aparte, zorgvuldige sessie i.p.v. haast.
+      **Bijgewerkte, realistischer bovengrens (2026-08-16,
+      `diag_down_ablation_timing.py`):** in-graph kost de hele down_proj-
+      pijplijn hooguit 6,51 ms/token (28,9%, gemeten via ablatie — REAL
+      22,53 vs STUB met no-op down_proj 16,02 ms/token), niet de 9,57-11,39
+      ms/token die de eager meting gaf (die twee uitvoeringsmodi door elkaar
+      haalde). V5 dekt alleen de launch-overhead-fractie daarvan: ruw geschat
+      ~2,7 ms/token haalbaar, richting **~46-50 tok/s**, niet de eerder
+      genoemde 65-75.
 - [ ] **Per-laag capaciteitstuning.** Zelfde diagnose: missrate is sterk
       niet-uniform over lagen (laag 1/3/6/51 missen 25-42%, de rest 6-14%).
       Bevestig eerst stabiliteit over meerdere prompts vóór er iets aan de

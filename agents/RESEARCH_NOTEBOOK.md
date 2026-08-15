@@ -227,6 +227,46 @@ al twee keer een snelle bytegrootte-aanname fout bleek.
 `pro_research/diag_down_subkernels_v4.json` (alle vier read-only, geen
 PRO-poort).
 
+**Correctie achteraf — de eager meting overschat het absolute in-graph
+budget (proportie klopte wel).** De 9,57-11,39 ms/token hierboven is eager
+gemeten (`device_cache=True`, géén graph). V4 draait dit dezelfde pijplijn
+**binnen** een gevangen CUDA-graph, die specifiek gebouwd is om
+host-launch-overhead weg te nemen. Een poging om dat rechtstreeks te meten
+met `cp.cuda.Event`-paren gevangen ín de graph liep vast op een echte
+technische grens: `cp.cuda.get_elapsed_time` op events die binnen graph-
+capture zijn opgenomen geeft op deze stack `cudaErrorInvalidValue`
+(`pro_research/diag_down_ingraph_timing.py` — zelfde klasse bevinding als
+G2's `cudaGraphLaunch`-restrictie, geen bug in het script).
+
+In plaats daarvan: **ablatiemeting** — V4's exacte graph twee keer bouwen,
+één keer ongewijzigd (REAL), één keer met `down_masked_into_indirect`
+vervangen door een no-op (`out.fill(0)`, STUB — levert bewust **foute
+tokens**, nooit als correctheidsresultaat te lezen, timing-only) vóór
+`setup_graph()` vangt. Verschil = harde bovengrens op wat down_proj
+maximaal in-graph kost. Uitkomst (200 replays per arm,
+`pro_research/diag_down_ablation_timing.py`):
+
+| arm | p50 ms/token |
+|---|---:|
+| REAL (ongewijzigd, zoals V4) | 22,5302 |
+| STUB (down_proj = no-op) | 16,0244 |
+| **verschil (bovengrens down_proj in-graph)** | **6,5058 (28,9% van het token)** |
+
+De **proportie** komt opvallend overeen met de eager-meting (~28-30%), maar
+het **absolute** bedrag is veel kleiner (6,51 ms in-graph tegenover
+9,57-11,39 ms eager) — graph-replay amortiseert dus al een groot deel van
+de launch-overhead die de eager meting toeschreef aan `panel_scan`/
+`reduce_partials`. **Gevolg voor de V5-preregistratie hieronder:** de eerder
+genoemde bovengrens ("~65-75 tok/s als de hele pijplijn zou verdwijnen") was
+te optimistisch — de eager-pijplijnkosten direct op de V4-basislijn
+plakken was appels-met-peren. De juiste bovengrens is: volledige eliminatie
+van down_proj zou V4 van ~22,5 naar 16,0 ms/token brengen (**~62,4 tok/s**,
+optimistisch/onhaalbaar aangezien STUB fout is). V5 dekt bovendien alleen de
+launch-overhead-helft, niet de PCIe-kant — geschat (dezelfde verhouding als
+de eager subkernel-split, 41,6% van de pijplijn) op hooguit **~2,7 ms/token**
+haalbaar, oftewel richting **~46-50 tok/s** in het beste geval. Bijgewerkt
+in `PRO_V5_PREREGISTRATION.md`'s claim-boundary sectie.
+
 **Aanvullend, zelfde blok — batchen is architecturaal veilig, geverifieerd
 uit de code (nog niet gebouwd).** `_moe_dev`'s `for s in range(top_k):`-lus
 roept `down_masked_into_indirect` zes keer sequentieel aan met **hetzelfde**

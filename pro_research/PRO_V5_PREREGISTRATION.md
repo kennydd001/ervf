@@ -109,11 +109,21 @@ a partial win pass.
 ## Claim boundary
 
 Even a full pass here does not, by itself, establish a path to 100 tok/s.
-Rough arithmetic in `RESEARCH_NOTEBOOK.md` (2026-08-16) puts the ceiling of
-eliminating the entire down_proj pipeline at roughly 65-75 tok/s from V4's
-24.3 ms/token baseline — this experiment can only close part of that gap
-(the launch-overhead half, ~4.74 ms/token of the 11.39 ms/token pipeline),
-since it explicitly does not touch the PCIe-bound `gather_down_sparse_ind`
-term. Do not restate a BATCHED pass as a tok/s claim beyond a fresh
-integrated causal A/B, per the project's standing rule against upgrading
-component measurements to token-level claims.
+**Updated 2026-08-16, corrects this document's own first estimate:** the
+65-75 tok/s ceiling below was computed by applying the down_proj pipeline's
+*eager* cost (9.57-11.39 ms/token) directly to V4's *graph-replayed*
+baseline — mixing two different execution modes. `diag_down_ablation_timing.py`
+measured the real in-graph upper bound directly (stub `down_masked_into_indirect`
+to a no-op before `setup_graph()` captures, timing-only, never a correctness
+claim): REAL 22.5302 ms/token vs STUB 16.0244 ms/token, a **6.5058 ms/token
+(28.9%) upper bound** on down_proj's total in-graph cost — much smaller in
+absolute terms than the eager number, even though the *proportion* of token
+time matches closely (graph capture already amortizes most of what eager
+mode attributes to launch overhead). Since this experiment only targets the
+launch-overhead half of the pipeline (not the PCIe-bound gather), a more
+realistic ceiling is roughly **2.7 ms/token** (the eager sub-kernel split's
+41.6% applied to the 6.51 ms in-graph bound), i.e. V4's ~22.5 ms/token
+toward perhaps **~46-50 tok/s** in the best case — not 65-75. Do not restate
+a BATCHED pass as a tok/s claim beyond a fresh integrated causal A/B, per
+the project's standing rule against upgrading component measurements to
+token-level claims.

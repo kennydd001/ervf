@@ -1,0 +1,69 @@
+{
+  "kind": "diag_v6_component_breakdown",
+  "created_utc": "2026-08-15T23:08:41.797362+00:00",
+  "note": "read-only, timing-only; STUB arms produce wrong tokens by design, never a correctness claim; moe and lmhead_plus_shared_expert bounds OVERLAP (both include shared-expert cost) and must not be summed as disjoint",
+  "arms_token_ms": {
+    "real": {
+      "count": 150,
+      "mean": 21.257681333333338,
+      "p50": 20.85905,
+      "p95": 24.690709999999985,
+      "p99": 26.610667999999993,
+      "max": 27.3452
+    },
+    "attn": {
+      "count": 150,
+      "mean": 17.882241333333333,
+      "p50": 17.7603,
+      "p95": 19.3677,
+      "p99": 19.6446,
+      "max": 20.0759
+    },
+    "mamba": {
+      "count": 150,
+      "mean": 21.565052666666666,
+      "p50": 21.287750000000003,
+      "p95": 22.47197,
+      "p99": 23.455352999999995,
+      "max": 24.6461
+    },
+    "moe": {
+      "count": 150,
+      "mean": 8.990528666666668,
+      "p50": 8.792100000000001,
+      "p95": 10.2964,
+      "p99": 10.400908,
+      "max": 10.7183
+    },
+    "lmhead_plus_shared_expert": {
+      "count": 150,
+      "mean": 18.860156,
+      "p50": 18.756700000000002,
+      "p95": 19.828695,
+      "p99": 20.194702999999997,
+      "max": 20.5158
+    }
+  },
+  "upper_bounds": {
+    "attn": {
+      "upper_bound_ms_per_token": 3.098749999999999,
+      "fraction_of_real_token": 0.14855662170616588
+    },
+    "mamba": {
+      "upper_bound_ms_per_token": -0.42870000000000275,
+      "fraction_of_real_token": -0.020552230326884625
+    },
+    "moe": {
+      "upper_bound_ms_per_token": 12.066949999999999,
+      "fraction_of_real_token": 0.5784995002169322
+    },
+    "lmhead_plus_shared_expert": {
+      "upper_bound_ms_per_token": 2.1023499999999977,
+      "fraction_of_real_token": 0.10078838681531507
+    }
+  },
+  "cross_reference": {
+    "down_proj_in_graph_upper_bound_ms_from_diag_down_ablation_timing": 6.5058,
+    "moe_bound_minus_down_proj_bound_approx_shared_plus_up_proj_ms": 5.561149999999999
+  }
+}

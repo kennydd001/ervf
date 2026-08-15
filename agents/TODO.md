@@ -124,6 +124,24 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       (overbodige dubbele `mirror`-buffer, ~61,6 MB) — precies waarom de
       VRAM-poort bestaat. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "PRO V5
       + V6".
+- [ ] **MoE is 57,8% van V6's token (12,07 ms van ~20,9-22,6 ms), niet
+      alleen down_proj (6,51 ms daarvan).** Componentafbraak
+      (`pro_research/diag_v6_component_breakdown.py --drive`, 2026-08-16):
+      attentie 14,9% (3,10 ms), Mamba ~0% (ruis in deze apart-proces-meting),
+      MoE 57,8%, lm_head+shared-expert samen 10,1% (2,10 ms, één methode
+      `fused.gemv_into` bedient beide — niet los te meten zonder
+      surgischer patchen). Onverklaarde rest binnen MoE (~5,56 ms na aftrek
+      van down_proj): shared-expert-GEMV's, up-proj ERVF-GEMV, de batched
+      panel_scan/reduce_partials-kernels zelf, `accumulate_indirect`,
+      routing/cache-kernels — nog niet los gemeten.
+      **`accumulate_indirect` batchen is GEEN veilige mechanische kopie van
+      het V5-patroon** — het is een sequentiële accumulatie in dezelfde
+      `out`-buffer (`dst[i]=fmaf(src[i],w,dst[i])`, 6× na elkaar), dus
+      simpelweg batchen over slots geeft een race-conditie. Een veilige
+      variant heeft, net als `reduce_partials_batched`, een aparte
+      "schrijf-per-slot-dan-vaste-volgorde-optellen"-kernel nodig die de
+      `s=0..5`-volgorde expliciet bewaart (D1-les: optelvolgorde is niet
+      vrijblijvend bij FP). Nog niet gebouwd.
 - [ ] **`gather_down_sparse_ind` batchen/herstructureren — de resterende,
       moeilijkere down_proj-hefboom.** V5/V6 (hierboven, DONE) dekten
       bewust alleen `panel_scan`+`reduce_partials` (vaste grid-grootte, veilig

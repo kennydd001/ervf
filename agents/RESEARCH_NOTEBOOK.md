@@ -11,6 +11,62 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Componentafbraak van V6: MoE is 57,8% van het token, niet alleen down_proj
+
+**Vraag.** Down_proj (V5) was de eerste hefboom, maar waar gaat de rest van
+V6's ~20,9-22,6 ms/token naartoe? Nodig om de volgende stap gericht te
+kiezen i.p.v. te blijven graven op down_proj alleen.
+
+**Methode.** Zelfde ablatietechniek als `diag_down_ablation_timing.py`
+(wall-clock, want `cp.cuda.get_elapsed_time` op graph-gevangen events faalt
+op deze stack). Vier hele subblokken om de beurt vervangen door een no-op
+vóór `setup_graph()` vangt, elk in een **apart proces** gedraaid
+(`diag_v6_component_breakdown.py --drive`) — het bouwen van vijf volledige
+30B-runtimes ná elkaar in één proces liep vast op pinned-host-geheugen dat
+niet volledig vrijkwam tussen builds, ook niet met expliciete
+`free_all_blocks()`+`gc.collect()`.
+
+| stub | wat wordt overgeslagen | bovengrens | aandeel |
+|---|---|---:|---:|
+| `_attention` → no-op | 6 attentielagen (Q/K/V/O, KV-write, attention-kernel) | 3,0987 ms | 14,9% |
+| `_mamba` → no-op | 23 Mamba-lagen (in_proj, conv, ssm_step, gated_norm, out_proj) | **−0,4287 ms** | ~0% (ruis, apart-proces-vergelijking heeft meer variantie dan de eerdere in-proces down_proj-ablatie) |
+| `_moe` → no-op | **alle** 23 MoE-lagen: shared expert + routed (up+down) | **12,0669 ms** | **57,8%** |
+| `fused.gemv_into` → no-op | lm_head (1×/token) **plus** shared-expert up+down (46×/token) — zelfde methode, dus samen gemeten, niet apart | 2,1023 ms | 10,1% |
+
+**MoE is dus verreweg de grootste post — meer dan de helft van het hele
+token.** Kruisverwijzing met de eerdere down_proj-ablatie (6,5058 ms
+in-graph): MoE-bovengrens (12,0669) − down_proj (6,5058) = **~5,56 ms**
+overige MoE-kosten (shared-expert-GEMV's, up-proj ERVF-GEMV, de batched
+panel_scan/reduce_partials-kernels zelf, `accumulate_indirect`,
+routing/cache-kernels) — nog niet apart uitgesplitst.
+
+**Let op — de `moe`- en `lmhead_plus_shared_expert`-bovengrenzen
+OVERLAPPEN** (beide bevatten de shared-expert-kosten); niet optellen alsof
+ze disjunct zijn.
+
+**Wat dit opent voor de volgende stap.** `accumulate_indirect` (de
+gewogen-optel-kernel die de zes expert-bijdragen in `out` optelt) leek eerst
+een voor de hand liggende volgende batch-kandidaat naast `panel_scan`/
+`reduce_partials` — maar is dat **niet zomaar**: anders dan die twee is dit
+een **sequentiële** accumulatie in dezelfde `out`-buffer
+(`dst[i] = fmaf(src[i], w, dst[i])`, zes keer na elkaar). Simpelweg batchen
+over slots zou een race-conditie geven (alle zes blocks lezen/schrijven
+dezelfde `dst[i]` tegelijk) en zou atomics of een aparte
+"schrijf-per-slot-dan-in-vaste-volgorde-optellen"-kernel vereisen — precies
+de klasse fout die D1 al een keer blootlegde (optelvolgorde is niet
+vrijblijvend bij FP-optelling). Een veilige batched variant zou, net als
+`reduce_partials_batched`, een **apart, nieuw ontwerp** nodig hebben dat de
+volgorde `s=0..5` expliciet bewaart — geen mechanische kopie van het
+patroon dat voor `panel_scan`/`reduce_partials` wél veilig was. Niet
+gebouwd deze sessie; opgenomen in `TODO.md` met deze precieze
+kanttekening zodat niemand de D1-fout herhaalt.
+
+**Artefacten.** `pro_research/diag_v6_component_breakdown.py` ·
+`pro_research/diag_v6_component_breakdown.json` ·
+`pro_research/diag_v6_component_breakdown_arm_*.json` (vijf, één per arm).
+
+---
+
 ## 2026-08-16 — PRO V5 + V6 — batched down_proj gebouwd, geverifieerd en geïntegreerd: 44,19 tok/s, nieuw record
 
 **Aanleiding.** De ablatiemeting hierboven (`diag_down_ablation_timing.py`)

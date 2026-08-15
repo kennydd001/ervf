@@ -158,6 +158,26 @@ al twee keer een snelle bytegrootte-aanname fout bleek.
 `pro_research/diag_down_subkernels_v4.json` (alle vier read-only, geen
 PRO-poort).
 
+**Aanvullend, zelfde blok — batchen is architecturaal veilig, geverifieerd
+uit de code (nog niet gebouwd).** `_moe_dev`'s `for s in range(top_k):`-lus
+roept `down_masked_into_indirect` zes keer sequentieel aan met **hetzelfde**
+scratch-object `self.mstate` (`alloc_masked_state`, één-expert-grootte,
+éénmalig aangemaakt in `runtime.py:311`), en schrijft elk resultaat naar een
+eigen slice `self.contrib[s*hidden:(s+1)*hidden]` (`self.contrib` is al
+`top_k*hidden` vooraf gealloceerd, regel 314). Er is dus **geen
+cross-slot-afhankelijkheid** — de zes expert-aanroepen zijn embarrassingly
+parallel, alleen toevallig sequentieel geïmplementeerd met hergebruikt
+scratch-geheugen. Batchen (6-voudig scratch + kernels die intern over de
+slot-dimensie gridden i.p.v. zes losse launches van 4 kernels) zou de
+berekende waarden niet veranderen — alleen de launch-granulariteit. Dat maakt
+de correctheidskant van deze hefboom aantoonbaar behapbaar; de
+implementatie-kant (kernels herschrijven om over 6 slots te gridden, met
+correcte per-slot scratch-indexering) is nog steeds echt engineeringwerk,
+maar niet blind engineeringwerk. Extra aanwijzing: `panel_scan_k` lanceert
+met grid `(1,)`, block `(256,)` — één block, 138× per token — een
+klassiek launch-overhead-bound patroon (nauwelijks parallellisme benut per
+launch).
+
 ---
 
 ## 2026-08-16 — PRO G2 — K-token epoch-graph: technisch gesloten, geen bug

@@ -1,0 +1,57 @@
+project: ERVF_PRO_RESEARCH
+base_commit: 96811c4e381bf788f9133f5d1fc025e6885cf78f
+namespace: pro_research
+status: ready_to_run
+hardware_target:
+  gpu: RTX_PRO_2000_Blackwell_Laptop_8GiB
+  model: Nemotron_3_5_Lightning_30B_A3B_NVFP4
+  batch: 1
+immutable_rules:
+  - write_results_only_under_pro_research
+  - archive_previous_results
+  - gpu_free_preflight
+  - no_component_speedup_multiplication
+  - exactness_before_speed
+  - no_gate_widening_after_results
+  - no_process_killing
+experiments:
+  PRO_G0_E1F22_GRAPH:
+    priority: 0
+    status: ready_to_run
+    runner: pro_research/graph_e1f22.py
+    source_preregistration: reports/treesweep200/E1F22_GRAPH_CAPTURE_PREREGISTRATION_2026-08-15.md
+    gates:
+      - graph_equals_eager_3x256
+      - anchor_first64_match
+      - bad_pick_control_diverges
+      - repeated_graph_deterministic
+      - p50_gain_ms_ge_2_5
+      - graph_extra_vram_lt_64MiB
+  PRO_G1_GENERALIZED_ERVF:
+    priority: 1
+    status: ready_to_run
+    runner: pro_research/ervf_dense.py
+    depends_on: []
+    micro_gates:
+      - all_real_shapes_bit_exact
+      - geometric_mean_speedup_ge_1_25
+      - no_shape_regression_gt_5pct
+    integration_gates:
+      - all_rollouts_identical
+      - gain_ge_1_5ms_or_5pct
+      - base_drift_lte_1ms
+  PRO_G2_EPOCH_GRAPH:
+    priority: 2
+    status: ready_to_run
+    runner: pro_research/epoch_graph.py
+    recommended_dependency:
+      - PRO_G0_E1F22_GRAPH_correctness_pass
+    gates_any_k:
+      - parent_graph_ids_exact
+      - speedup_ge_1_10
+      - extra_vram_lt_64MiB
+outputs:
+  directory: pro_research/results
+  history: pro_research/results/history
+  verification: pro_research/results/PRO_VERIFICATION.json
+  report: pro_research/results/PRO_FINAL_REPORT.md

@@ -109,21 +109,34 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       productiemodel, verdient eigen preregistratie + bitexact-verificatie
       i.p.v. haast). Zie `RESEARCH_NOTEBOOK.md` 2026-08-16 voor de volledige
       onderbouwing en alle vier diagnostische scripts/JSONs.
-      **Preregistratie klaar om uit te voeren:** `pro_research/PRO_V5_PREREGISTRATION.md`
-      — dekt alleen de launch-overhead-helft (batchen van de 4 down_proj-
-      subkernels over de 6 expert-slots per laag, architecturaal veilig
-      bevestigd, geen kernelrekenkunde gewijzigd), niet de PCIe-kant. BASE_A/
-      BATCHED/BASE_B/CTL-armen, bitexact-poort, controle-arm die moet falen.
-      Nog niet gebouwd — vereist nieuwe CUDA-kernels (batched varianten), dus
-      een aparte, zorgvuldige sessie i.p.v. haast.
-      **Bijgewerkte, realistischer bovengrens (2026-08-16,
-      `diag_down_ablation_timing.py`):** in-graph kost de hele down_proj-
-      pijplijn hooguit 6,51 ms/token (28,9%, gemeten via ablatie — REAL
-      22,53 vs STUB met no-op down_proj 16,02 ms/token), niet de 9,57-11,39
-      ms/token die de eager meting gaf (die twee uitvoeringsmodi door elkaar
-      haalde). V5 dekt alleen de launch-overhead-fractie daarvan: ruw geschat
-      ~2,7 ms/token haalbaar, richting **~46-50 tok/s**, niet de eerder
-      genoemde 65-75.
+      **[DONE 2026-08-16] Gebouwd, geverifieerd, geïntegreerd — V5 + V6.**
+      `PRO_V5_PREREGISTRATION.md` uitgevoerd in drie stappen: (1) geïsoleerde
+      kernel-unittest van `panel_scan_batched`/`reduce_partials_batched`,
+      bitexact bij 6 sparsity-niveaus; (2) causale A/B/A/CTL in eager modus
+      (`v5_batched_downproj_ab.py`) — bitexact, controle-arm wijkt af,
+      **−2,2126 ms/token (−7,07%)**, alle poorten groen; (3) **V6**: alle drie
+      mechanismen (device routing + graph-safe + selectieve ERVF + batched
+      down_proj) tegelijk in één graph gevangen (`graph_v6_full_stack.py`,
+      niet apart gepreregistreerd — volgt rechtstreeks uit V4/V5's eigen
+      poorten). **Nieuw record: 22,6306 ms/token, 44,19 tok/s, +27,4% t.o.v.
+      zelfde-sessie EGR**, alle poorten groen (bitexact, deterministisch,
+      controle-arm, VRAM). Onderweg een echte VRAM-bug gevonden en gefixt
+      (overbodige dubbele `mirror`-buffer, ~61,6 MB) — precies waarom de
+      VRAM-poort bestaat. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "PRO V5
+      + V6".
+- [ ] **`gather_down_sparse_ind` batchen/herstructureren — de resterende,
+      moeilijkere down_proj-hefboom.** V5/V6 (hierboven, DONE) dekten
+      bewust alleen `panel_scan`+`reduce_partials` (vaste grid-grootte, veilig
+      te batchen). `gather_down_sparse_ind` heeft óók een vaste grid-formule
+      (`blocks = ((inter+npanel)*32+255)//256`, zag ik pas ná V5's ontwerp —
+      dus mogelijk óók batchbaar zonder de data-afhankelijke complexiteit die
+      eerder werd aangenomen), maar leest van host-gemapt geheugen (PCIe) i.p.v.
+      device — batchen verandert daar de PCIe-toegangsefficiëntie niet
+      vanzelf. Volgens de ablatiemeting (`diag_down_ablation_timing.py`) is
+      het totale down_proj-budget in-graph 6,51 ms/token; V5 haalde daar al
+      een deel van weg (component niet apart in-graph gemeten, alleen eager:
+      2,21 ms/token). Wat er nog inzit is dus beperkt — niet verwacht dat dit
+      alleen naar 100 tok/s brengt. Nog niet gebouwd.
 - [ ] **Per-laag capaciteitstuning.** Zelfde diagnose: missrate is sterk
       niet-uniform over lagen (laag 1/3/6/51 missen 25-42%, de rest 6-14%).
       Bevestig eerst stabiliteit over meerdere prompts vóór er iets aan de

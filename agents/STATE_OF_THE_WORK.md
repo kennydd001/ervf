@@ -52,23 +52,32 @@ geadopteerd — opt-in via `rt.device_cache = True`.
 | device-cache eager (EGR), ctx ≤4096, smoke n=45 | 31,75–31,85 | PRO V3-G0S/G1B smoke, 2026-08-16 |
 | + graph-safe residency (V3-G0S), smoke | 34,96 | 28,6063 ms, gain 2,8931 ms (+10,1%) |
 | + selectieve ERVF, geen graph (V3-G1B), smoke | 35,51 | 28,158 ms, gain 3,3841 ms (+10,73%) |
-| + **beide fysiek geïntegreerd (V4), full 256×3, 765 samples** | **41,13** | **24,3152 ms, gain 6,8634 ms (+22,0%) vs zelfde-sessie EGR (31,1786 ms)** |
+| + beide fysiek geïntegreerd (V4), full 256×3, 765 samples | 41,13 | 24,3152 ms, gain 6,8634 ms (+22,0%) vs zelfde-sessie EGR (31,1786 ms) |
+| + batched down_proj (V5), eager only, full 256×3 | (component) | 29,0799 ms, gain 2,2126 ms (+7,07%) vs eager BASE_A/B-midden |
+| + **alle drie geïntegreerd (V6), full 256×3, 765 samples** | **44,19** | **22,6306 ms, gain 8,5289 ms (+27,4%) vs zelfde-sessie EGR (31,1595 ms)** |
 
-V4 (2026-08-16) is het huidige record en het enige fysiek geïntegreerde,
-onafhankelijk gepoorte resultaat op het juiste model: selectieve ERVF-dispatch
-wordt op `rt.k` geïnstalleerd vóór `rt.setup_graph()`, zodat de CUDA-graph de
-ERVF-kernels voor de vier bevroren vormen meevangt. Alle correctheidspoorten
-groen (bitexact vs EGR over 256 tokens × 3 prompts, deterministisch, controle-
-arm wijkt af zoals vereist, dot-graph bevat beide ERVF-kernelnamen, VRAM +4 MiB).
-Zie `agents/RESEARCH_NOTEBOOK.md`, blok "PRO V4", en
-`pro_research/results/PRO_V4_GRAPH_SELECTIVE.json`.
+V6 (2026-08-16) is het huidige record: device-resident routing + graph-safe
+residency + selectieve ERVF (V4) + batched `panel_scan`/`reduce_partials` in
+`_moe_dev` (V5) — alle vier tegelijk gevangen in één CUDA-graph, omdat
+`_install_selective` (patcht `rt.k.mv_bf16`/`mv_fp8_tensor`, gebruikt in
+attentie/Mamba) en `install_batched_moe_dev` (vervangt `rt._moe_dev` volledig,
+alleen MoE) verschillende aanroeppunten raken en dus vrij te combineren zijn.
+Alle correctheidspoorten groen (bitexact vs EGR over 256×3, deterministisch,
+controle-arm wijkt af, dot-graph bevat alle vier kernelnamen, VRAM +16 MiB).
+Onderweg vond de VRAM-poort een echte bug (een overbodige extra `mirror`-buffer
+per laag, ~61,6 MB) — gevonden, begrepen, gefixt, opnieuw bitexact geverifieerd.
+Zie `agents/RESEARCH_NOTEBOOK.md`, blok "PRO V5 + V6", en
+`pro_research/results/PRO_V6_FULL_STACK.json`.
 
 De GPU-roofline (165/119 tok/s) is hardware-eigenschap, niet modelafhankelijk,
-en blijft dus gelden voor Lightning. De runtime draait nu op **24,9%** van het
-ctx0-roofline (was 17% op de Nano-lijn). Dat is de kern van de zaak: er is nog
-veel hoofdruimte, maar niet oneindig veel. **Doel van deze sessie: 100 tok/s
-(60,6% van roofline) — nog een factor 2,4× te gaan vanaf V4, niet uitgesloten,
-ver van bewezen.**
+en blijft dus gelden voor Lightning. De runtime draait nu op **26,8%** van het
+ctx0-roofline (was 24,9% bij V4, 17% op de oude Nano-lijn). Dat is de kern van
+de zaak: er is nog veel hoofdruimte, maar niet oneindig veel. **Doel van deze
+sessie: 100 tok/s (60,6% van roofline) — nog een factor 2,26× te gaan vanaf V6,
+niet uitgesloten, ver van bewezen. Er is nog geen geïdentificeerd pad naar 100;
+de resterende bekende hefboom (PCIe-gather-herstructurering van
+`gather_down_sparse_ind`, buiten V5's scope gehouden) levert volgens de
+ablatiemeting hooguit een paar ms/token, niet genoeg alleen.**
 
 **Wat vaststaat over de doelen:** 50 en 100 tok/s zijn fysiek *niet*
 uitgesloten, maar 50+ vraagt méér dan graph-residentie alleen (plafond ~41,5

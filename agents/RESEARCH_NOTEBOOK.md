@@ -11,6 +11,104 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — PRO V5 + V6 — batched down_proj gebouwd, geverifieerd en geïntegreerd: 44,19 tok/s, nieuw record
+
+**Aanleiding.** De ablatiemeting hierboven (`diag_down_ablation_timing.py`)
+gaf een realistische, in-graph bovengrens: down_proj kost hooguit 6,51
+ms/token (28,9%) binnen V4's graph, waarvan `panel_scan`+`reduce_partials`
+(vaste, data-onafhankelijke grid-groottes, dus veilig te batchen zonder de
+lastigere PCIe-gather aan te raken) een deel is. In plaats van bij een
+preregistratie te blijven steken is dit nu gebouwd, in drie stappen, elk
+apart geverifieerd vóór de volgende.
+
+**Stap 1 — geïsoleerde kernel-unittest (`verify_down_proj_batch_kernels.py`,
+geen model/runtime nodig).** Twee nieuwe kernels
+(`pro_research/down_proj_batch_kernels.py`): `panel_scan_batched` (grid
+`(top_k,)` i.p.v. `top_k` losse `(1,)`-launches, elk block bewerkt zijn eigen
+slot) en `reduce_partials_batched` (grid `(blocks_x, top_k)`, `blockIdx.y` =
+slot). Beide zijn een mechanische transformatie: identieke per-block/per-
+thread logica, alleen geadresseerd via een extra slot-index — geen
+rekenkunde gewijzigd. Getest op synthetische data bij zes sparsity-niveaus
+(0/30/50/70/95/100%) voor panel_scan en drie willekeurige trials voor
+reduce_partials: **bitexact op alle gevallen.**
+
+**Stap 2 — causale A/B/A/CTL in eager modus (`v5_batched_downproj_ab.py`,
+volgens `PRO_V5_PREREGISTRATION.md`).** `install_batched_moe_dev`
+(`pro_research/moe_dev_batched.py`) vervangt `rt._moe_dev` via
+`types.MethodType` (zelfde niet-invasieve patroon als `_install_selective`)
+— `gather_down_sparse_ind`/`gemv_down_masked_partial_ind` blijven ONGEWIJZIGD
+per-slot (buiten scope, zoals de prereg voorschreef), alleen `panel_scan` en
+`reduce_partials` worden éénmaal per laag aangeroepen i.p.v. zes keer.
+
+*Eerste run had een bug*: een NIEUWE `mirror`-buffer per laag i.p.v.
+hergebruik van `self.mstate["mirror"]` (die toch al bestaat, want gather/
+down_masked blijven sequentieel per slot). Kostte 23 lagen × 2,68 MB ≈ 61,6
+MB — precies waarom de VRAM-poort bestaat: `extra_vram_lt_64MiB` **faalde**
+bij V6 hieronder (zie verderop), gevonden, begrepen, gefixt (hergebruik
+`self.mstate["mirror"]`), opnieuw geverifieerd bitexact vóór verder te gaan.
+
+Full-mode uitkomst (256×3, 765 samples): BASE_A 31,049 → BATCHED 29,0799 ms
+(**−2,2126 ms, −7,07%**), BASE_B 31,5359 ms (drift 0,487 ms). Poorten:
+`batched_equals_base_bitexact` ✅ · `base_drift_le_1ms` ✅ · `ctl_diverges`
+✅ (bad_pick-sabotage wijkt af zoals vereist) · `candidate_gain_ge_1ms_or_3pct`
+✅ · `full_samples_ge_500` ✅.
+
+**Stap 3 — V6: alle drie mechanismen in één graph (`graph_v6_full_stack.py`,
+niet apart gepreregistreerd — volgt rechtstreeks uit V4's en V5's eigen
+poorten, geen nieuwe beleidskeuze).** `_install_selective`
+(patcht `rt.k.mv_bf16`/`mv_fp8_tensor`, gebruikt in `_attention`/`_mamba`)
+en `install_batched_moe_dev` (vervangt `rt._moe_dev` volledig, alleen MoE-
+routering) raken **verschillende aanroeppunten** — beide vóór
+`rt.setup_graph()` installeren vangt dus beide mechanismen in dezelfde
+graph, naast de al aanwezige device-routing en veilige prompt-staging.
+
+*Eerste V6-run*: alle correctheidspoorten slaagden, maar
+`extra_vram_lt_64MiB` **faalde** (de V5-mirror-bug hierboven, opgespoord via
+precies déze poort — het systeem werkte zoals bedoeld). Na de fix: alle
+poorten groen.
+
+**Uitkomst (full, 256×3, 765 samples).**
+
+| arm | p50 | tok/s |
+|---|---:|---:|
+| EGR (zelfde sessie) | 31,1595 ms | 32,09 |
+| **V6 (device routing + graph-safe + selectieve ERVF + batched down_proj)** | **22,6306 ms** | **44,19** |
+
+Winst: **8,5289 ms/token, 27,4%** t.o.v. dezelfde-sessie EGR. Extra VRAM
+16 MiB (< 64 MiB-poort, ruim binnen budget na de fix). Alle poorten:
+`argmax_direct_tie` ✅ · `graph_dot_contains_all_mechanisms` ✅ (dot-graph
+bevat alle vier kernelnamen: beide ERVF-kernels én beide batched-kernels) ·
+`v6_equals_egr` ✅ (bitexact over 256 tokens × 3 prompts) · `v6_deterministic`
+✅ · `bad_pick_control_diverges` ✅ · `extra_vram_lt_64MiB` ✅ ·
+`full_speed_gain_ge_2_5ms` ✅ · `full_samples_ge_500` ✅ (765).
+
+**Dit is het nieuwe record, en verbetert op V4 (41,13 tok/s smoke/full) met
++7,5%.** Vergelijk met de eerdere V4-notitie: V6's winst (8,5289 ms) is
+groter dan V4's eigen winst (6,8634 ms) plús V5's eigen eager-winst
+(2,2126 ms) opgeteld zou suggereren (6,8634+2,2126=9,0760 — dicht bij 8,5289,
+een kleine overlap-tax van ~0,55 ms, niet negatief) — de drie mechanismen
+blijven dus grotendeels optellen, net als V4's eigen bevinding over de
+eerste twee.
+
+**Waar staan we nu t.o.v. het doel.** 44,19 tok/s is **26,8% van het
+ctx0-roofline-plafond** (165 tok/s) — op van 24,9% (V4) en 17% (de oude
+Nano-lijn). Naar 100 tok/s is nog een factor **2,26×** te gaan vanaf hier.
+De resterende, nog niet gebouwde hefboom (PCIe-gather-herstructurering van
+`gather_down_sparse_ind`, apart gehouden van dit V5-batchen per de
+preregistratie) zou volgens de ablatiemeting hooguit nog eens een paar
+ms/token kunnen opleveren — niet genoeg om alleen daarmee 100 te bereiken.
+Er is nog geen geïdentificeerd pad naar 100 tok/s; dat blijft open.
+
+**Artefacten.** `pro_research/down_proj_batch_kernels.py` ·
+`pro_research/verify_down_proj_batch_kernels.py` ·
+`pro_research/verify_down_proj_batch_kernels.json` ·
+`pro_research/moe_dev_batched.py` · `pro_research/v5_batched_downproj_ab.py` ·
+`pro_research/results/PRO_V5_BATCHED_DOWNPROJ_AB.json` ·
+`pro_research/graph_v6_full_stack.py` ·
+`pro_research/results/PRO_V6_FULL_STACK.json`.
+
+---
+
 ## 2026-08-16 — MTP-route-unie gemeten: S10 stap 2 (speculatief decoderen) sluit, met cijfers
 
 **Vraag.** `S10A_MTP_ACCEPTANCE_REPORT_2026-08-15.md` (bestond al — S10-A mat

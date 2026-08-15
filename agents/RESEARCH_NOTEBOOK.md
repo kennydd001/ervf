@@ -11,6 +11,46 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Per-laag cachecapaciteit herverdelen: −14,3% missers, nog niet fysiek gemeten
+
+**Vraag.** De hitrate-diagnose (eerder vandaag) liet sterk niet-uniforme
+missrates per laag zien bij uniforme capaciteit 72 (laag 1/3/6/51: 25-42%,
+de rest 6-15%). Helpt het om capaciteit weg te halen bij lage-miss-lagen en
+te geven aan hoge-miss-lagen, bij **gelijkblijvend totaal budget**?
+
+**Methode.** `pro_research/diag_per_layer_capacity.py` — puur hitrate,
+geen timing-claim. `enable_cache()`'s eigen allocatielogica (runtime.py:
+324-378) letterlijk hergebruikt om specifieke lagen na de normale
+`enable_cache(72)`-aanroep te herallokeren (geen wijziging aan runtime.py;
+`_moe_dev` leest `c["cap"]` toch al per laag dynamisch, dus heterogene
+capaciteit is architecturaal al ondersteund — alleen `enable_cache`'s eigen
+gemaksfunctie is uniform). Test: −20 op de 6 laagste-miss lagen (72→52),
++30 op de 4 hoogste-miss lagen (72→102), totaal ongewijzigd (1656 slots).
+
+**Uitkomst.** Missers: **5.182 → 4.443 (−739, −14,3%)**. Hitrate: 85,61% →
+87,66%. De geboosde lagen verbeteren dramatisch (laag 1: 665→300 missers,
+meer dan gehalveerd), de verlaagde lagen verslechteren mild (laag 13:
+100→164) — LRU-hitrate is sterk niet-lineair bij lage capaciteit, dus
+weghalen bij een al goed bediende laag kost weinig terwijl geven aan een
+slecht bediende laag veel oplevert.
+
+**Voorzichtige tijdschatting (rekenwerk, geen meting).** Bij M1's
+bulk-tempo (24,93 GB/s) en 2,68 MB per up_proj-miss: 739 minder missers over
+256 tokens ≈ 739/256 ≈ 2,89 missers/token minder × 2,68 MB ≈ 7,75 MB/token
+minder ÷ 24,93 GB/s ≈ **~0,31 ms/token** potentieel — reëel maar klein
+vergeleken met de kernel-batchingwinsten van deze sessie (1-9 ms/token).
+
+**Nog niet gedaan.** Geen fysieke causale A/B (alleen hitrate, geen
+tokentiming), niet geïntegreerd in V6, geen verfijning van de −20/+30-keuze
+(die was een eerste ruwe gok, geen optimum). Kleine maar reële hefboom,
+lagere prioriteit dan wat al gebouwd is gezien de bescheiden geschatte
+omvang.
+
+**Artefacten.** `pro_research/diag_per_layer_capacity.py` ·
+`pro_research/diag_per_layer_capacity.json`.
+
+---
+
 ## 2026-08-16 — `gather_down_sparse_ind`/`gemv_down_masked_partial_ind` batchen: NIET gelukt, eerlijk gesloten
 
 **Poging.** Na vier geslaagde batchingen (panel_scan, reduce_partials,

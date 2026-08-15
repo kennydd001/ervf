@@ -164,13 +164,15 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       Zie `RESEARCH_NOTEBOOK.md` 2026-08-16. Wie dit oppakt: begin met
       compute-sanitizer of losse-stream-synchronisatie tussen gather en
       down_masked expliciet forceren.
-- [ ] **Per-laag capaciteitstuning.** Zelfde diagnose: missrate is sterk
-      niet-uniform over lagen (laag 1/3/6/51 missen 25-42%, de rest 6-14%).
-      Bevestig eerst stabiliteit over meerdere prompts vóór er iets aan de
-      capaciteit per laag verandert.
-- [ ] **Push V4-resultaten** — `git add -f pro_research/PRO_V4_PREREGISTRATION.md
-      pro_research/graph_selective_v4.py pro_research/results/PRO_V4_GRAPH_SELECTIVE.json`
-      + de bijgewerkte `agents/`-bestanden, commit, push naar `pro-research`.
+- [DEELS-DONE 2026-08-16] **Per-laag capaciteitstuning.**
+      `pro_research/diag_per_layer_capacity.py`: budget-neutrale
+      herverdeling (−20 op 6 laagste-miss lagen, +30 op 4 hoogste-miss
+      lagen) geeft **−14,3% missers** (5182→4443), hitrate 85,6%→87,7%.
+      Ruwe tijdschatting ~0,31 ms/token — klein t.o.v. de kernel-
+      batchingwinsten, maar reëel en nog niet fysiek gemeten (alleen
+      hitrate). Nog te doen: fysieke causale A/B + V6-integratie, en de
+      −20/+30-keuze was een eerste gok, geen geoptimaliseerde verdeling.
+      Zie `RESEARCH_NOTEBOOK.md` 2026-08-16.
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,
   `cudaErrorStreamCaptureUnsupported` — `cudaGraphLaunch()` op een reeds

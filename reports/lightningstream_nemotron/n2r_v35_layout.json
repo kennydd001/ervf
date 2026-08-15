@@ -1,0 +1,119 @@
+{
+  "kind": "lightningstream_nemotron_n2r_v35_layout",
+  "phase": "N2R_V35_LAYOUT",
+  "completed_utc": "2026-08-14T20:52:30.858981+00:00",
+  "model_dir": "models/nemotron_3_5_lightning_v35",
+  "shards": 52,
+  "tensors": 18487,
+  "dtype_bytes": {
+    "BF16": 3657946240,
+    "F32": 31690332,
+    "F8_E4M3": 2776897536,
+    "U8": 15093055488
+  },
+  "dtype_counts": {
+    "BF16": 485,
+    "F32": 6086,
+    "F8_E4M3": 5981,
+    "U8": 5935
+  },
+  "routed_expert_fields": {
+    "down_proj.weight": {
+      "dtype": "U8",
+      "shape": [
+        2688,
+        928
+      ],
+      "bytes": 2494464
+    },
+    "down_proj.weight_scale": {
+      "dtype": "F8_E4M3",
+      "shape": [
+        2688,
+        116
+      ],
+      "bytes": 311808
+    },
+    "down_proj.weight_scale_2": {
+      "dtype": "F32",
+      "shape": [],
+      "bytes": 4
+    },
+    "up_proj.weight": {
+      "dtype": "U8",
+      "shape": [
+        1856,
+        1344
+      ],
+      "bytes": 2494464
+    },
+    "up_proj.weight_scale": {
+      "dtype": "F8_E4M3",
+      "shape": [
+        1856,
+        168
+      ],
+      "bytes": 311808
+    },
+    "up_proj.weight_scale_2": {
+      "dtype": "F32",
+      "shape": [],
+      "bytes": 4
+    }
+  },
+  "routed_expert_record_bytes": 5612552,
+  "routed_record_size_distribution": {
+    "5612552": 2944
+  },
+  "routed_record_count": 2944,
+  "partition": {
+    "routed": 16523353088,
+    "shared": 258177208,
+    "trunk_other": 2085387040
+  },
+  "mtp": {
+    "tensor_count": 270,
+    "bytes": 2670652160,
+    "expert0_fields": {
+      "down_proj.weight": {
+        "dtype": "BF16",
+        "shape": [
+          2688,
+          1856
+        ],
+        "bytes": 9977856
+      },
+      "up_proj.weight": {
+        "dtype": "BF16",
+        "shape": [
+          1856,
+          2688
+        ],
+        "bytes": 9977856
+      }
+    }
+  },
+  "nano_comparison": {
+    "routed_record_bytes": 5612560,
+    "routed_records": 2944,
+    "code_bytes": 4988928,
+    "scale_bytes": 623616,
+    "quant": "NVFP4 group16 + FP8 block scales + 2x FP32 globals"
+  },
+  "verdicts": {
+    "same_record_bytes_as_nano": false,
+    "weight_dtype": "U8",
+    "scale_dtype": "F8_E4M3",
+    "weight_shape": [
+      1856,
+      1344
+    ],
+    "scale_shape": [
+      1856,
+      168
+    ],
+    "looks_like_nvfp4_group16": true,
+    "looks_like_fp8_per_weight": false,
+    "mtp_present": true
+  }
+}

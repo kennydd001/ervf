@@ -1,0 +1,137 @@
+{
+  "kind": "lightningstream_nemotron_n3_module_reference",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "N3_ONE_MODULE_REFERENCE",
+  "completed_utc": "2026-08-14T11:16:41.096350+00:00",
+  "runner_sha256": "f1bc541608dad350c70d7976f763007b8279e542a64b18bc718b84db00a554d1",
+  "reference_sha256": "89c56bfb7cd9b3a15fe87af94a97408b83b4a0990ef79ba4de0768ee51f43d94",
+  "loader_sha256": "ab6085e162a6c2e366323b7f29b4ee16e509068b6ea9cdc517804915fc47acb1",
+  "device": "cpu",
+  "dtype": "float32 inputs, float64 accumulation in the numpy reference",
+  "seed": 20260814,
+  "seq_len": 8,
+  "layers": {
+    "moe": 1,
+    "mamba": 0,
+    "attention": 5
+  },
+  "input_note": "Synthetic deterministic activations. Routes captured here are synthetic-input routes, never natural routes.",
+  "shims": [
+    {
+      "shim": "torch.nn.functional symbols + torch.cuda stream context",
+      "symbols": [
+        "ScalingType",
+        "SwizzleType",
+        "MXFP8BlockScaleRecipe",
+        "scaled_grouped_mm",
+        "scaled_mm"
+      ],
+      "cuda_stream_context_replaced_with_nullcontext": true,
+      "reason": "torchao (external FP4 reference) is imported by transformers and expects torch >= 2.11; NemotronHBlock wraps its forward in a CUDA stream context that cannot run on CPU-only torch",
+      "consequence": "none for correctness: the stream context is a scheduling construct, not arithmetic, and no torchao kernel is invoked"
+    },
+    {
+      "shim": "mamba_ssm.ops.triton.layernorm_gated.rmsnorm_fn",
+      "reason": "official module raises ImportError without it; mamba_ssm requires CUDA",
+      "consequence": "gated RMSNorm is shared by both sides and is NOT independently validated",
+      "mitigation": "the Mamba scan output is also compared pre-norm, which is independent"
+    }
+  ],
+  "tolerances": {
+    "rms_norm": 1e-06,
+    "router_logits": 1e-06,
+    "router_weights_max_abs": 1e-06,
+    "routed_expert": 1e-05,
+    "shared_expert": 1e-05,
+    "moe_aggregate": 1e-05,
+    "attention": 1e-05,
+    "mamba2": 0.0001,
+    "mamba2_scan_prenorm": 0.0001,
+    "mixed_block": 0.0001
+  },
+  "tie_ambiguous_threshold": 1e-06,
+  "results": {
+    "rms_norm": {
+      "rel_l2": 6.837372171852019e-08,
+      "tolerance": 1e-06
+    },
+    "router": {
+      "logits_rel_l2": 2.5190243062247027e-07,
+      "logits_tolerance": 1e-06,
+      "index_set_match_all_tokens": true,
+      "mismatched_tokens": [],
+      "tie_ambiguous_tokens": [],
+      "weights_max_abs_diff": 1.098632276819167e-07,
+      "weights_tolerance": 1e-06,
+      "min_tie_margin": 0.0011919073182795614,
+      "tie_margins": [
+        0.010090790211215506,
+        0.022081530486232737,
+        0.015768283804128203,
+        0.0011919073182795614,
+        0.0024873053738403428,
+        0.003571114698729616,
+        0.006840649951570299,
+        0.01557359015298232
+      ],
+      "top_k": 6,
+      "routed_scaling_factor": 2.5,
+      "norm_topk_prob": true
+    },
+    "routed_expert": {
+      "rel_l2": 3.0082930788404877e-07,
+      "tolerance": 1e-05,
+      "expert_id": 6
+    },
+    "shared_expert": {
+      "rel_l2": 1.7460042186663552e-07,
+      "tolerance": 1e-05
+    },
+    "moe_aggregate": {
+      "rel_l2": 1.8860055992968046e-07,
+      "tolerance": 1e-05,
+      "experts_touched": 41
+    },
+    "attention": {
+      "rel_l2": 7.666153705261419e-07,
+      "tolerance": 1e-05,
+      "rope_applied": false,
+      "num_heads": 32,
+      "num_kv_heads": 2
+    },
+    "kv_cache": {
+      "bf16_round_trip_exact": true,
+      "declared_kv_cache_quant_algo": "FP8 (hf_quant_config)",
+      "fp8_store_rel_l2_indicative": 0.0024535309057682753,
+      "note": "FP8 KV is a runtime choice not embodied in these weights; the FP8 figure is indicative only and is not a claim about the publisher's runtime."
+    },
+    "mamba2": {
+      "rel_l2": 5.434824277547704e-07,
+      "tolerance": 0.0001,
+      "algorithm_mine": "sequential recurrence",
+      "algorithm_official": "chunked SSD factorisation",
+      "gated_rmsnorm_shared_not_validated": true
+    },
+    "mixed_block": {
+      "rel_l2": 1.095206786389583e-07,
+      "tolerance": 0.0001,
+      "structure": "residual + mixer(RMSNorm(h)), residual_in_fp32=False"
+    }
+  },
+  "gates": {
+    "rms_norm": true,
+    "router_logits": true,
+    "router_index_set": true,
+    "router_weights": true,
+    "routed_expert": true,
+    "shared_expert": true,
+    "moe_aggregate": true,
+    "attention": true,
+    "mamba2": true,
+    "mixed_block": true,
+    "kv_bf16_round_trip": true,
+    "no_gpu_available_so_none_used": true
+  },
+  "gates_all_pass": true,
+  "claim_boundary": "Independent implementations reproduce official module math on synthetic inputs within declared tolerances, CPU float32, one layer of each type. No full-model, quality, latency, throughput or memory claim."
+}

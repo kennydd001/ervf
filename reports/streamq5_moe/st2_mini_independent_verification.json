@@ -1,0 +1,470 @@
+{
+  "kind": "streamq5_moe_st2_mini_independent_cpu_verification",
+  "checks_passed": 41,
+  "checks_total": 41,
+  "all_pass": true,
+  "checks": [
+    {
+      "name": "capability pass",
+      "passed": true,
+      "observed": true,
+      "expected": true
+    },
+    {
+      "name": "Intel selected",
+      "passed": true,
+      "observed": "Intel(R) Arc(TM) Pro 140T GPU (32GB)",
+      "expected": "Intel Arc Pro 140T"
+    },
+    {
+      "name": "primary prereg hash",
+      "passed": true,
+      "observed": "369c17430553845a8e55d486541341123409f61d3ded00506724727fc3fc586c",
+      "expected": "369c17430553845a8e55d486541341123409f61d3ded00506724727fc3fc586c"
+    },
+    {
+      "name": "width8 prereg hash",
+      "passed": true,
+      "observed": "39a67b8272c081e15116ffa683d16dbcf7057678fdae7858b1589f665efd6c33",
+      "expected": "39a67b8272c081e15116ffa683d16dbcf7057678fdae7858b1589f665efd6c33"
+    },
+    {
+      "name": "capability hash primary",
+      "passed": true,
+      "observed": "d63330e00f93daf43bfd4e8f85af46795e60ab5cfe239b46c7672d96c75849b2",
+      "expected": "d63330e00f93daf43bfd4e8f85af46795e60ab5cfe239b46c7672d96c75849b2"
+    },
+    {
+      "name": "primary runner hash",
+      "passed": true,
+      "observed": "399b79e819ec09e77ca5cde8683783b9f1a3c41d0cae5eef45f712585718aac2",
+      "expected": "399b79e819ec09e77ca5cde8683783b9f1a3c41d0cae5eef45f712585718aac2"
+    },
+    {
+      "name": "width8 runner hash",
+      "passed": true,
+      "observed": "6472de274fa68a9f577b1483ef1225607f8425ac8587cb348d0c328cff7126ca",
+      "expected": "6472de274fa68a9f577b1483ef1225607f8425ac8587cb348d0c328cff7126ca"
+    },
+    {
+      "name": "width8 imported runner hash",
+      "passed": true,
+      "observed": "399b79e819ec09e77ca5cde8683783b9f1a3c41d0cae5eef45f712585718aac2",
+      "expected": "399b79e819ec09e77ca5cde8683783b9f1a3c41d0cae5eef45f712585718aac2"
+    },
+    {
+      "name": "P1D hash both",
+      "passed": true,
+      "observed": [
+        "08c1f8f469998e46ef985578b07006f884b737335fbdb7b63ca1efb37afe0e09",
+        "08c1f8f469998e46ef985578b07006f884b737335fbdb7b63ca1efb37afe0e09"
+      ],
+      "expected": "08c1f8f469998e46ef985578b07006f884b737335fbdb7b63ca1efb37afe0e09"
+    },
+    {
+      "name": "width8 binds primary result",
+      "passed": true,
+      "observed": "a6547f30575e9bc147bd3fdc8c81a7f42b74fadbcdae98d0786df580ef06e4a8",
+      "expected": "a6547f30575e9bc147bd3fdc8c81a7f42b74fadbcdae98d0786df580ef06e4a8"
+    },
+    {
+      "name": "selection digest both",
+      "passed": true,
+      "observed": [
+        "74645e48362047cef466b2ad701981c77d566b3f3c22c081b279a4a6f8b6c729",
+        "74645e48362047cef466b2ad701981c77d566b3f3c22c081b279a4a6f8b6c729"
+      ],
+      "expected": "74645e48362047cef466b2ad701981c77d566b3f3c22c081b279a4a6f8b6c729"
+    },
+    {
+      "name": "USM content same",
+      "passed": true,
+      "observed": "50b2e5a7d9ef58cd5712cd8792f2a32fb3157ce9129577f72831caa00e94fb08",
+      "expected": "50b2e5a7d9ef58cd5712cd8792f2a32fb3157ce9129577f72831caa00e94fb08"
+    },
+    {
+      "name": "ring >=512 MiB",
+      "passed": true,
+      "observed": 537219072,
+      "expected": 537219072
+    },
+    {
+      "name": "source layer 0 physical SHA",
+      "passed": true,
+      "observed": "913d0a13b9cf227b5f919aa22ac4e82ee73053db36ae5544f1d87206e1ad6dfa",
+      "expected": "913d0a13b9cf227b5f919aa22ac4e82ee73053db36ae5544f1d87206e1ad6dfa"
+    },
+    {
+      "name": "source layer 1 physical SHA",
+      "passed": true,
+      "observed": "6baa2b788798bd829a10797411ab2666c2455e93ca9cc7231de68e17135e34e3",
+      "expected": "6baa2b788798bd829a10797411ab2666c2455e93ca9cc7231de68e17135e34e3"
+    },
+    {
+      "name": "source layer 2 physical SHA",
+      "passed": true,
+      "observed": "fc06560a847c431ba9ad9ad5429e417517a080365c31149a19efbbed9419fd4b",
+      "expected": "fc06560a847c431ba9ad9ad5429e417517a080365c31149a19efbbed9419fd4b"
+    },
+    {
+      "name": "primary host USM attested",
+      "passed": true,
+      "observed": {
+        "type": 16791,
+        "type_is_host": true,
+        "size": 538230784,
+        "base_pointer_matches": true,
+        "alignment": 4096
+      },
+      "expected": {
+        "host": true,
+        "size": 538230784
+      }
+    },
+    {
+      "name": "primary no requested hidden weight copy",
+      "passed": true,
+      "observed": {
+        "weight_api": "clHostMemAllocINTEL + clSetKernelArgMemPointerINTEL",
+        "weight_cl_mem_buffers_created": 0,
+        "weight_enqueue_write_calls": 0,
+        "weight_enqueue_copy_calls": 0,
+        "weight_enqueue_migrate_calls": 0,
+        "private_weight_copy_requested": false,
+        "host_usm_allocation_attested": true,
+        "boundary": "API-level proof that the benchmark supplies host USM directly; hardware caches remain normal and are not a private full-bank copy."
+      },
+      "expected": "all zero/false and host-USM true"
+    },
+    {
+      "name": "primary 9 Q5 exact probes",
+      "passed": true,
+      "observed": {
+        "rows": 9,
+        "diffs": 0
+      },
+      "expected": {
+        "rows": 9,
+        "diffs": 0
+      }
+    },
+    {
+      "name": "primary no NVIDIA execution",
+      "passed": true,
+      "observed": 0,
+      "expected": 0
+    },
+    {
+      "name": "primary 1000 raw timings",
+      "passed": true,
+      "observed": [
+        1000,
+        1000
+      ],
+      "expected": [
+        1000,
+        1000
+      ]
+    },
+    {
+      "name": "primary event latency stats",
+      "passed": true,
+      "observed": {
+        "mean": 1.398560423,
+        "p05": 1.35302,
+        "p50": 1.368593,
+        "p95": 1.63400485,
+        "p99": 1.8758569600000001,
+        "min": 1.338229,
+        "max": 1.942604
+      },
+      "expected": {
+        "mean": 1.398560423,
+        "p05": 1.35302,
+        "p50": 1.368593,
+        "p95": 1.63400485,
+        "p99": 1.8758569600000001,
+        "min": 1.338229,
+        "max": 1.942604
+      }
+    },
+    {
+      "name": "primary wall latency stats",
+      "passed": true,
+      "observed": {
+        "mean": 1.4163944,
+        "p05": 1.362595,
+        "p50": 1.3793,
+        "p95": 1.67001,
+        "p99": 1.9083260000000002,
+        "min": 1.3515,
+        "max": 2.013
+      },
+      "expected": {
+        "mean": 1.4163944,
+        "p05": 1.362595,
+        "p50": 1.3793,
+        "p95": 1.67001,
+        "p99": 1.9083260000000002,
+        "min": 1.3515,
+        "max": 2.013
+      }
+    },
+    {
+      "name": "primary event bandwidth stats",
+      "passed": true,
+      "observed": {
+        "mean": 11.575829037619085,
+        "p05": 9.866467808638909,
+        "p50": 11.77987613795636,
+        "p95": 11.915460229708357,
+        "p99": 11.950446527981628,
+        "min": 8.299095440964807,
+        "max": 12.047157848170977
+      },
+      "expected": {
+        "mean": 11.575829037619085,
+        "p05": 9.866467808638909,
+        "p50": 11.77987613795636,
+        "p95": 11.915460229708357,
+        "p99": 11.950446527981628,
+        "min": 8.299095440964807,
+        "max": 12.047157848170977
+      }
+    },
+    {
+      "name": "primary wall bandwidth stats",
+      "passed": true,
+      "observed": {
+        "mean": 11.436735094091253,
+        "p05": 9.65374818772466,
+        "p50": 11.688433263249474,
+        "p95": 11.831729900759074,
+        "p99": 11.875332246695056,
+        "min": 8.008870342771981,
+        "max": 11.92886126526082
+      },
+      "expected": {
+        "mean": 11.436735094091253,
+        "p05": 9.65374818772466,
+        "p50": 11.688433263249474,
+        "p95": 11.831729900759074,
+        "p99": 11.875332246695056,
+        "min": 8.008870342771981,
+        "max": 11.92886126526082
+      }
+    },
+    {
+      "name": "primary conservative recomputation",
+      "passed": true,
+      "observed": 9.65374818772466,
+      "expected": 9.65374818772466
+    },
+    {
+      "name": "primary throughput correctly fails",
+      "passed": true,
+      "observed": 9.65374818772466,
+      "expected": "< 21.63"
+    },
+    {
+      "name": "width8 host USM attested",
+      "passed": true,
+      "observed": {
+        "type": 16791,
+        "type_is_host": true,
+        "size": 538230784,
+        "base_pointer_matches": true,
+        "alignment": 4096
+      },
+      "expected": {
+        "host": true,
+        "size": 538230784
+      }
+    },
+    {
+      "name": "width8 no requested hidden weight copy",
+      "passed": true,
+      "observed": {
+        "weight_api": "clHostMemAllocINTEL + clSetKernelArgMemPointerINTEL",
+        "weight_cl_mem_buffers_created": 0,
+        "weight_enqueue_write_calls": 0,
+        "weight_enqueue_copy_calls": 0,
+        "weight_enqueue_migrate_calls": 0,
+        "private_weight_copy_requested": false,
+        "host_usm_allocation_attested": true,
+        "boundary": "API-level proof that the benchmark supplies host USM directly; hardware caches remain normal and are not a private full-bank copy."
+      },
+      "expected": "all zero/false and host-USM true"
+    },
+    {
+      "name": "width8 9 Q5 exact probes",
+      "passed": true,
+      "observed": {
+        "rows": 9,
+        "diffs": 0
+      },
+      "expected": {
+        "rows": 9,
+        "diffs": 0
+      }
+    },
+    {
+      "name": "width8 no NVIDIA execution",
+      "passed": true,
+      "observed": 0,
+      "expected": 0
+    },
+    {
+      "name": "width8 1000 raw timings",
+      "passed": true,
+      "observed": [
+        1000,
+        1000
+      ],
+      "expected": [
+        1000,
+        1000
+      ]
+    },
+    {
+      "name": "width8 event latency stats",
+      "passed": true,
+      "observed": {
+        "mean": 0.7481905209999999,
+        "p05": 0.7259318,
+        "p50": 0.735729,
+        "p95": 0.7820102499999999,
+        "p99": 1.02762171,
+        "min": 0.721666,
+        "max": 1.077604
+      },
+      "expected": {
+        "mean": 0.7481905209999999,
+        "p05": 0.7259318,
+        "p50": 0.735729,
+        "p95": 0.7820102499999999,
+        "p99": 1.02762171,
+        "min": 0.721666,
+        "max": 1.077604
+      }
+    },
+    {
+      "name": "width8 wall latency stats",
+      "passed": true,
+      "observed": {
+        "mean": 0.7659383000000001,
+        "p05": 0.7334,
+        "p50": 0.74815,
+        "p95": 0.8695999999999995,
+        "p99": 1.0648009999999999,
+        "min": 0.7286,
+        "max": 1.1011
+      },
+      "expected": {
+        "mean": 0.7659383000000001,
+        "p05": 0.7334,
+        "p50": 0.74815,
+        "p95": 0.8695999999999995,
+        "p99": 1.0648009999999999,
+        "min": 0.7286,
+        "max": 1.1011
+      }
+    },
+    {
+      "name": "width8 event bandwidth stats",
+      "passed": true,
+      "observed": {
+        "mean": 21.625990522437966,
+        "p05": 20.615914546900598,
+        "p50": 21.91276407481559,
+        "p95": 22.208499497775872,
+        "p99": 22.27871286771615,
+        "min": 14.960835334686953,
+        "max": 22.33977490972278
+      },
+      "expected": {
+        "mean": 21.625990522437966,
+        "p05": 20.615914546900598,
+        "p50": 21.91276407481559,
+        "p95": 22.208499497775872,
+        "p99": 22.27871286771615,
+        "min": 14.960835334686953,
+        "max": 22.33977490972278
+      }
+    },
+    {
+      "name": "width8 wall bandwidth stats",
+      "passed": true,
+      "observed": {
+        "mean": 21.15155822702613,
+        "p05": 18.539508084942838,
+        "p50": 21.548962202776842,
+        "p95": 21.98235069539133,
+        "p99": 22.04556565509054,
+        "min": 14.64159113613659,
+        "max": 22.1271699149053
+      },
+      "expected": {
+        "mean": 21.15155822702613,
+        "p05": 18.539508084942838,
+        "p50": 21.548962202776842,
+        "p95": 21.98235069539133,
+        "p99": 22.04556565509054,
+        "min": 14.64159113613659,
+        "max": 22.1271699149053
+      }
+    },
+    {
+      "name": "width8 conservative recomputation",
+      "passed": true,
+      "observed": 18.539508084942838,
+      "expected": 18.539508084942838
+    },
+    {
+      "name": "width8 throughput correctly fails",
+      "passed": true,
+      "observed": 18.539508084942838,
+      "expected": "< 21.63"
+    },
+    {
+      "name": "primary PDH sampled zero",
+      "passed": true,
+      "observed": {
+        "samples": [
+          {
+            "utc": "2026-08-12T21:19:29.048389+00:00",
+            "monotonic_seconds": 183590.9263213,
+            "page_reads_per_sec": 0.0,
+            "pages_input_per_sec": 0.0
+          }
+        ],
+        "error": null,
+        "all_page_reads_zero": true
+      },
+      "expected": "at least one zero sample"
+    },
+    {
+      "name": "width8 PDH correctly not claimed",
+      "passed": true,
+      "observed": {
+        "samples": [],
+        "error": null,
+        "all_page_reads_zero": false
+      },
+      "expected": "no sample => no page pass"
+    },
+    {
+      "name": "both formal statuses negative",
+      "passed": true,
+      "observed": [
+        "negative_throughput_or_page_gate",
+        "negative_throughput_or_page_gate"
+      ],
+      "expected": "negative_throughput_or_page_gate"
+    }
+  ],
+  "reconstructed_verdict": "exact_host_usm_q5_pass_but_21_63_gbps_p95_side_fails_for_source_tree_and_ergv_width8",
+  "primary_conservative_gbps": 9.65374818772466,
+  "width8_conservative_gbps": 18.539508084942838,
+  "claim_boundary": "CPU-only reconstruction from saved hashes and raw arrays; no GPU work repeated."
+}

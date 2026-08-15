@@ -1,0 +1,99 @@
+{
+  "kind": "lightningstream_nemotron_c1r1_o1_bound_and_entropy",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "C1_R1_AND_O1",
+  "started_utc": "2026-08-15T12:59:20.247729+00:00",
+  "completed_utc": "2026-08-15T13:02:07.464411+00:00",
+  "model_dir": "nemotron_3_5_lightning_v35",
+  "runner_sha256": "12da4550df63e5606e368cf878ebee889aa603dc92ac33e7680a9cafd9b4e05f",
+  "runtime_sha256": "e387beccf64c2a8e0d315efb7313e2d038e8fd30423c304ca961aee2fbb856a2",
+  "config": {
+    "pairs": 240,
+    "core_masks": {
+      "2": 12,
+      "3": 14
+    },
+    "entropy_experts": 24,
+    "group_size": 16,
+    "hidden": 2688,
+    "inter": 1856
+  },
+  "c1_reference": {
+    "bound_over_y0": {
+      "2": 31.09,
+      "3": 9.06
+    },
+    "certified_fraction": 0.0033
+  },
+  "c1r1": {
+    "2": {
+      "core_bits": 2,
+      "pairs": 240,
+      "rows": 445440,
+      "true_zero_fraction": 0.9063644935344828,
+      "certified_fraction": 0.0,
+      "certified_share_of_true_zero": 0.0,
+      "false_certificates": 0,
+      "mean_bound": 17.12881963235329,
+      "mean_abs_y0": 0.7274737955478395,
+      "bound_over_y0": 23.54561736406474
+    },
+    "3": {
+      "core_bits": 3,
+      "pairs": 240,
+      "rows": 445440,
+      "true_zero_fraction": 0.9063644935344828,
+      "certified_fraction": 0.001355962643678161,
+      "certified_share_of_true_zero": 0.001496045634345641,
+      "false_certificates": 0,
+      "mean_bound": 5.727647108965982,
+      "mean_abs_y0": 1.1574835525473015,
+      "bound_over_y0": 4.948361552404795
+    }
+  },
+  "o1": {
+    "experts_sampled": 24,
+    "symbols_codes": 119734272,
+    "symbols_scales": 7483392,
+    "code_entropy_bits": 3.9373442177362215,
+    "code_entropy_given_scale_exponent_bits": 3.909233838948177,
+    "scale_entropy_bits": 4.28197810310202,
+    "scale_exponent_entropy_bits": 1.4594007342550963,
+    "scale_delta_entropy_bits": 4.2501551593060105,
+    "record_bytes_now": 2806272.0,
+    "record_bytes_at_entropy": 2603514.8171986174,
+    "pack_reduction": 0.07225143635448827,
+    "gemv_time_saving_via_y2r1": 0.04941998246646998
+  },
+  "gates": {
+    "G_C1R1_S1_soundness": {
+      "false_by_core": {
+        "2": 0,
+        "3": 0
+      },
+      "passed": true
+    },
+    "G_C1R1_R1_tail_yield": {
+      "required": 0.3,
+      "measured": 0.001355962643678161,
+      "best_core_bits": 3,
+      "passed": false
+    },
+    "G_C1R1_B1_bound_useful": {
+      "required": 0.3,
+      "measured": 0.001496045634345641,
+      "passed": false
+    },
+    "G_O1_1_pass": {
+      "required": 0.12,
+      "measured": 0.07225143635448827,
+      "passed": false
+    },
+    "G_O1_2_strong": {
+      "required": 0.2,
+      "measured": 0.07225143635448827,
+      "passed": false
+    }
+  },
+  "claim_boundary": "C1-R1 is the same numerical oracle as C1 with a strictly sharper SOUND bound: the core carries the sign bit and bit truncation can only raise a magnitude, so every residual term's direction is known without reading the tail and only the adverse half is counted. It still uses the exact dmax table, which a built system would have to derive from the core alone -- which it can, since dmax depends only on the core code -- so unlike C1's exact residual norms this bound needs no stored metadata. O1 is an ENTROPY LOWER BOUND on record size, not a codec: a real ANS coder does not reach entropy and pays decode overhead, so the measured reduction is an UPPER BOUND on what OrbitANS could save. Neither is a time or throughput measurement; the GEMV-time figure applies Y2-R1's measured slope and is arithmetic."
+}

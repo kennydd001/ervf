@@ -1,0 +1,44 @@
+project: RSIV_MOE
+codename: GhostWeights
+created_at: 2026-08-10
+status: proposed_mechanistically_independent
+parent_project:
+  name: CRAFT_MoE
+  status: frozen_closed_no_eureka
+hypothesis:
+  id: RSIV_MOE_V1
+  statement: >-
+    Full expert weights can be virtualized as a cold backing store while
+    prompt/workload-specific images of each expert's linear operators on routed
+    activation subspaces form the resident executable working set.
+  core_bound: "S_layer <= (2*d + 3*m) * top_k * prompt_tokens"
+  distinctive_prediction: >-
+    At fixed prompt length and top-k, exact prompt-compiled expert-image storage
+    is independent of the number of experts; future decode cold misses are
+    governed by routed rank growth rather than parameter count.
+primary_model:
+  id: deepseek-ai/DeepSeek-V2-Lite
+  revision: 604d5664dddd88a0433dbae533b7fe9472482de0
+primary_gates:
+  rank_cap: 32
+  double_gate_fast_fraction_min: 0.92
+  routed_cold_byte_reduction_min: 10.0
+  relative_ce_delta_max: 0.02
+  slow_path_fraction_max: 0.08
+  measured_decode_speedup_min: 2.0
+secondary_tail_gate:
+  slow_path_fraction_max: 0.03
+required_phases:
+  - P0_new_registry_and_preregistration
+  - P1_routed_rank_census
+  - P2_operator_image_oracle
+  - P3_full_depth_causal_simulator
+  - P4_three_tier_residual_path
+  - P5_prompt_compilation_rollouts
+  - P6_packed_runtime
+  - P7_second_model_replication
+terminal_verdicts:
+  - falsified
+  - inconclusive
+  - engineering_positive
+  - eureka_confirmed

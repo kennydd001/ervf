@@ -1,0 +1,45 @@
+project: STREAMQ4_MOE
+created_at: 2026-08-12
+updated_at: 2026-08-12
+status: closed_p0_validation_negative_verified
+claim_status: fixed_rtn_q4_int8_candidate_falsified_on_validation
+parent_evidence:
+  CORETAIL_P0: verified_physical_pass
+  CORETAIL_P1: verified_microkernel_pass
+  CORETAIL_P2: verified_quality_negative
+hypothesis:
+  id: HOST_Q4_ROUTE_CACHE_INT8_TRUNK
+  statement: >-
+    Host-resident Q4 experts plus a route-conditioned GPU expert cache and an
+    INT8 trunk can meet the locked quality gate while retaining a plausible
+    sub-100-ms/token systems path on the measured local PCIe link.
+phases:
+  P0_FULL_DEPTH_QUALITY:
+    status: validation_negative_verified_test_unopened
+    preregistration: reports/streamq4_moe/P0_MODEL_QUALITY_PREREGISTRATION.md
+    input_lock: reports/streamq4_moe/p0_input_lock.json
+    evaluator_lock: reports/streamq4_moe/p0_evaluator_lock.json
+    validation_result: reports/streamq4_moe/p0_validation_model_quality.json
+    validation_verification: reports/streamq4_moe/p0_validation_verification.json
+    independent_checks: 26/26
+  P1_PHYSICAL_BANK_AND_CACHE:
+    status: blocked_by_P0
+  P2_KERNEL_AND_TRANSFER:
+    status: blocked_by_P0
+  P3_INTEGRATED_WALL_CLOCK:
+    status: blocked_by_P0_P1_P2
+claim_boundary:
+  - P0 is a quality screen only.
+  - A cache/roofline projection is not an end-to-end tokens-per-second result.
+  - The prior CORETAIL test split is not a STREAMQ4 decision split.
+outcome:
+  primary_validation_relative_ce: 0.030441057049878418
+  progression_gate_max: 0.03
+  distance_above_gate: 0.0004410570498784184
+  q4_experts_bf16_trunk_relative_ce: 0.02743629775457579
+  bf16_experts_int8_trunk_relative_ce: 0.004405059980742339
+  test_opened: false
+  next_phases_authorized: false
+  independent_checks: 26/26
+artifacts:
+  final_verdict: reports/streamq4_moe/P0_FINAL_VERDICT.md

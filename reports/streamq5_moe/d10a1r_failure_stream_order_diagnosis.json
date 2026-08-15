@@ -1,0 +1,53 @@
+{
+  "kind": "d10a1r_failure_stream_order_cpu_source_diagnosis",
+  "completed_utc": "2026-08-13T07:29:00Z",
+  "status": "single_unified_stream_order_root_cause",
+  "pass": true,
+  "inputs": {
+    "negative_result_sha256": "c92e5dda380c8f9ed0669fc8961056bef58fabbf758946776b426fa7feb888ae",
+    "negative_report_sha256": "a7c5d14906c648bc5fe7d313d9fa05e5c53d8ea58133c89c7633967f38db5543",
+    "base_runner_sha256": "ffde9c13a3d6d19e3e1132369a4eb9a2e98a4e974bbece86ec224e2931f0ecfd",
+    "full_verify_source_sha256": "20ce962d3196095354688f3bc6cdc378c6351d0dc21f054a57ad46dec5f7d616"
+  },
+  "checks": {
+    "negative_result_preserved": true,
+    "three_failed_gates_exact": true,
+    "all_40_actual_header_id_arrays_exact": true,
+    "all_40_canary_word_arrays_exact": true,
+    "all_40_routed_q5_outputs_bitexact": true,
+    "header_reference_created_on_default_stream": true,
+    "header_verify_launched_on_nonblocking_stream_without_dependency": true,
+    "conv_allocation_and_kernel_extent_match": true,
+    "conv_step0_requires_nonzero_writes": true,
+    "conv_fill_and_kernel_streams_unordered": true,
+    "shared_payloads_equal_reference_payload": true,
+    "shared_fill_and_kernels_unordered": true,
+    "no_gpu_execution": true
+  },
+  "header_failure": {
+    "failed_cases": [12, 14, 15, 28],
+    "mismatch_bytes": [151, 156, 73, 111],
+    "raw_route_and_canary_failures": 0,
+    "q5_bit_differences": 0,
+    "root_cause": "full_verify creates the header-reference H2D array and zero mismatch scalar on CuPy's current/default stream, then launches verify_record_bytes on a separately supplied nonblocking component stream with no event/wait edge; the verifier can observe a partially copied reference. The exact staged header/canary arrays and bitexact Q5 outputs rule out physical record misrouting in these four positives."
+  },
+  "gdn_failure": {
+    "recurrent_sample_max_abs": 0.0,
+    "observed_conv_nonzero": 0,
+    "conv_words_allocated": 1179648,
+    "conv_words_addressed_by_kernel": 1179648,
+    "expected_nonzero_words_at_step0": 292608,
+    "root_cause": "conv.fill(0) executes on the current/default stream, while gated_deltanet_step executes on the nonblocking component stream without dependency. Allocation and kernel bounds are identical, and the frozen step-0 formula produces 292,608 nonzero BF16 words, so an all-zero readback is consistent with the unordered zero-fill overwriting/racing the kernel, not with the recurrence formula."
+  },
+  "shared_failure": {
+    "different_bits": 96256,
+    "elements": 98304,
+    "equal_elements": 2048,
+    "max_abs": 0.189453125,
+    "shared_layers_payload_equal_reference": 48,
+    "payload_projections_checked_per_record": 3,
+    "root_cause": "shared_gate/up/down fills use the current/default stream while shared Q5 kernels and the D7 resident reference use the nonblocking component stream without dependency. The 96,256/98,304 mismatch leaves exactly 2,048 equal values, one layer-width, a scheduling-shaped signature. CPU payload hashing showed every shared layer's three code+scale payloads equal the layer-0/expert-0 reference, so broadcasting the resident numerical oracle was valid for this invariant bank."
+  },
+  "repair_boundary": "Only establish one ordered CUDA stream for every component allocation/H2D/asarray/zeros/fill/kernel/readback, or explicit event/wait dependencies. Preserve all routes, kernels, math, gates, thresholds and the D10A1-R negative result. Verify shared payload equality before retaining a broadcast resident oracle.",
+  "claim_boundary": "CPU/source diagnosis only; it does not convert the negative D10A1-R result into a pass and supplies no repaired GPU evidence."
+}

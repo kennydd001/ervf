@@ -1,0 +1,165 @@
+project: RSIV_MOE
+codename: GhostWeights
+created_at: 2026-08-11T07:28:07.2361674Z
+status: closed_falsified_rank_working_set
+updated_at: 2026-08-11T09:12:33.0174258Z
+current_verdict: >-
+  The preregistered rank-32 hard-failure criterion is reproduced on
+  DeepSeek-V2-Lite and Qwen3-30B-A3B. Routed input/intermediate rank does not
+  saturate into the required resident working set; RSIV_MOE_V1 is falsified.
+namespace: reports/rsiv_moe
+parent_project:
+  name: CRAFT_MoE
+  registry: reports/craft_moe/EXPERIMENT_REGISTRY.yaml
+  status: frozen_closed_no_eureka
+hypothesis:
+  id: RSIV_MOE_V1
+  statement: >-
+    Full routed-expert weights can be a cold backing store while per-expert
+    images of their action on workload-specific activation subspaces form the
+    resident executable working set.
+  core_bound: "S_layer <= (2*d + 3*m) * top_k * prompt_tokens"
+inputs:
+  model: deepseek-ai/DeepSeek-V2-Lite
+  model_revision: 604d5664dddd88a0433dbae533b7fe9472482de0
+  dataset: Salesforce/wikitext:wikitext-2-raw-v1
+  dataset_revision: b08601e04326c79dfdd32d625aee71d232d685c3
+  layers: [1, 13, 26]
+  block_size: 128
+  blocks: {train: 8, validation: 4, test: 4}
+  prefix_tokens_per_block: 96
+  future_tokens_per_block: 32
+p1_grid:
+  ranks: [4, 8, 16, 32, 64, 128]
+  primary_rank_max: 32
+  thresholds: [0.001, 0.0025, 0.005, 0.01, 0.02, 0.05, 0.10]
+primary_gates:
+  double_gate_fast_fraction_min: 0.92
+  projected_routed_cold_byte_reduction_min: 10.0
+  required_evaluations: [offline_calibration, causal_prefix_future]
+test_policy: select_one_global_candidate_on_validation_then_open_test_once
+claim_boundaries:
+  - P1 byte accounting is not measured runtime.
+  - P1 exact algebra is not evidence that a rank-capped atlas preserves quality.
+  - A V2 screen failure is not a cross-architecture falsification.
+source_material:
+  agent_prompt:
+    path: info/GHOSTWEIGHTS_RSIV_AGENT_PROMPT_2026-08-10.md
+    sha256: 276a28a917a4bb3a0546734515ce1925a91841803f561e1ca4eee1c12c175480
+  eureka_report:
+    path: info/GHOSTWEIGHTS_RSIV_EUREKA_REPORT_2026-08-10.md
+    sha256: edd1ba5fbdcec5f086b5fb9c350c3341ffef413e06f5c50e7d2138332077cff4
+  proposed_registry:
+    path: info/GHOSTWEIGHTS_RSIV_EXPERIMENT_REGISTRY.yaml
+    sha256: 3de7a4c1c17a0ccd5977ecb4fe98d22b95ac7194e1f52ed6ab000d6c7a8e8efb
+experiments:
+  - id: P0_PREREGISTRATION
+    status: complete
+    completed_at: 2026-08-11T07:28:07.2361674Z
+    artifact: reports/rsiv_moe/RSIV_MOE_PREREGISTRATION.md
+  - id: P1_ROUTED_RANK_CENSUS
+    status: complete
+    dependencies: [P0_PREREGISTRATION]
+    capture: reports/runs/rsiv_moe/routed_subspace_pilot.safetensors
+    capture_sha256: 8c532434d50df8bd65691a72351a21084bdf00d5b68406f27806379ad9a67906
+    selection_lock: reports/rsiv_moe/p1_validation_selection_v2.json
+    selection_lock_sha256: cc8125000e775effbd09e7fb70866d5595b85af7e4642b477a22583c38bc53f5
+    preserved_invalid_selection_lock: reports/rsiv_moe/p1_validation_selection.json
+    control_addendum: reports/rsiv_moe/RSIV_MOE_P1_CONTROL_ADDENDUM_001.md
+    result: reports/rsiv_moe/routed_subspace_rank.json
+    result_sha256: db689f1f8c2658c74f6d69aa3a18c45fdddc285414d4e530e68f2d77c442ce2b
+    report: reports/rsiv_moe/ROUTED_SUBSPACE_RANK.md
+    report_sha256: e3e6e5e36d9d1238417c8ecd5f02a2a4311181c6023c6403de6bead589465d16
+    analysis: reports/rsiv_moe/P1_V2_ANALYSIS.md
+    analysis_sha256: 934a62fab85fb49a4e7df71e44b7e1463a6c249b052b48dbe10dcf848c3ce341
+    verification: reports/rsiv_moe/p1_verification_v2.json
+    verification_sha256: a76765aa656ff338a84ea8c4e1f81bca6104377558519d1fac89bda464712ce3
+    completed_at: 2026-08-11T07:44:46.896501+00:00
+    verdict: screen_negative_v2
+    primary_result: >-
+      Locked rank-4 threshold-0.001 candidate achieved 0% double-fast and 1.0x
+      projected cold-byte reduction on validation and test for both offline and
+      causal-prefix evaluations.
+    diagnostic_upper_grid_result: >-
+      Rank 128 threshold 0.10 achieved only 0.629%/0.749% validation/test
+      offline double-fast and 0% causal-prefix double-fast.
+    next_stage: p2_v2_blocked_pending_separate_higher_e_p1_preregistration
+  - id: P1_HIGHER_E_REPLICATION
+    status: complete
+    dependencies: [P1_ROUTED_RANK_CENSUS, P1B_V2_LONG_PREFIX]
+    selected_model: Qwen/Qwen3-30B-A3B-Base
+    selected_revision: 1b75feb79f60b8dc6c5bc769a898c206a1c6a4f9
+    model_selection: reports/rsiv_moe/HIGHER_E_MODEL_SELECTION.md
+    model_selection_sha256: ee576073f523e3fe249d04a0feeb95594a5d99cdad77a6f941123b48124bf4b0
+    preregistration: reports/rsiv_moe/P1C_QWEN3_30B_A3B_PREREGISTRATION.md
+    preregistration_sha256: ace5b6798d11c9c67a3ca0ea4f3ae72d6a446a3cefee653a8232bbbeeae49b54
+    checkpoint_bytes: 61066575648
+    checkpoint_acquisition: reports/rsiv_moe/qwen_checkpoint_acquisition.json
+    checkpoint_acquisition_sha256: 318980cd6aa634072e97a4c06dfbfd50f7b255cd7f340d00d1f1e6105e6e3daf
+    layers: [0, 23, 47]
+    contexts: {validation: 2, test: 2}
+    prefix_tokens: 1024
+    future_tokens: 128
+    validation_capture: reports/runs/rsiv_moe/p1c_qwen_validation.safetensors
+    validation_capture_sha256: 5e87ba7cd694cb2c297b1b54e8ea48e4eee665a3ad573a557c6a7da9e88a2622
+    validation_capture_report: reports/rsiv_moe/p1c_qwen_validation_capture.json
+    validation_capture_report_sha256: c3f9cf87fbf56b649517c93c392ac65cf1dddb774f8bcd145f574b1c36c615bc
+    selection_lock: reports/rsiv_moe/p1c_qwen_validation_selection.json
+    selection_lock_sha256: 19038b6a718ebb5b6607dd52c4c8ca59b1542b746711c77ff0568e8a72804f3f
+    test_capture: reports/runs/rsiv_moe/p1c_qwen_test.safetensors
+    test_capture_sha256: c36cd1e5c331877329044bc5c2305b79fd03496c3056a7577e85aeb80d5db382
+    test_capture_report: reports/rsiv_moe/p1c_qwen_test_capture.json
+    test_capture_report_sha256: d3fcf20963d2fc1cdd5125910e317d8772308a9eb40d56ebd380e2c7c6615a8d
+    result: reports/rsiv_moe/p1c_qwen_result.json
+    result_sha256: e3224cd759db6e1e008a7b0295b6d9dfb783c5d13ee6ac2d693d7fb62bb00864
+    report: reports/rsiv_moe/P1C_QWEN3_30B_A3B.md
+    report_sha256: 4cd2f3e14fdc9ef85286141ead12b534b95afcddeae6fb907cb80c0ae5f6d006
+    preserved_invalid_verification: reports/rsiv_moe/p1c_verification_attempt_001.json
+    verifier_addendum: reports/rsiv_moe/P1C_VERIFIER_ADDENDUM_001.md
+    verification: reports/rsiv_moe/p1c_verification.json
+    verification_sha256: d981781b577951f6f257abd4afa125c3ffd4852200c193f96e747a5420fd8719
+    completed_at: 2026-08-11T09:12:33.0174258Z
+    verdict: falsified_rank_working_set
+    primary_result: >-
+      At rank 32 threshold 0.10, validation achieved 0% and test 1.742%
+      double-fast with only 1.034x test cold-byte reduction. Rank 128 threshold
+      0.10 achieved only 5.762% double-fast and 1.108x reduction on test.
+    rank_growth_result: >-
+      Input rank equaled observations at every 128/512/1024 checkpoint in all
+      twelve context-layer cases; exact atlas bound utilization was 98.98-100%.
+    next_stage: blocked_terminal_falsification
+  - id: P1B_V2_LONG_PREFIX
+    status: complete
+    dependencies: [P1_ROUTED_RANK_CENSUS]
+    preregistered_at: 2026-08-11T07:54:09.1347211Z
+    preregistration: reports/rsiv_moe/P1B_V2_LONG_PREFIX_PREREGISTRATION.md
+    layers: [1, 13, 26]
+    contexts: {validation: 2, test: 2}
+    prefix_tokens: 1024
+    future_tokens: 128
+    capture: reports/runs/rsiv_moe/p1b_v2_long_prefix.safetensors
+    selection_lock: reports/rsiv_moe/p1b_long_prefix_validation_selection_v2.json
+    preserved_invalid_selection_lock: reports/rsiv_moe/p1b_long_prefix_validation_selection.json
+    control_addendum: reports/rsiv_moe/P1B_CONTROL_ADDENDUM_001.md
+    result: reports/rsiv_moe/p1b_long_prefix.json
+    result_sha256: d721fed2e6992eac71cea76dea277f2de10e6408bdbebad65966ed9b4a31a9eb
+    report: reports/rsiv_moe/P1B_V2_LONG_PREFIX.md
+    report_sha256: 062d2160478448e8e2e4a73ddfd66a018177044fab6ed9432741a4b94432cc34
+    verification: reports/rsiv_moe/p1b_verification.json
+    verification_sha256: c58c8ed324d5725723c782af786673bafcb17b07d96512dd3fedbdf5d02a5512
+    completed_at: 2026-08-11T08:07:02.8828664Z
+    verdict: long_prefix_screen_negative_v2
+    primary_result: >-
+      Locked rank-32 threshold-0.10 candidate achieved 0.434% double-fast and
+      1.007x projected cold-byte reduction on test. Rank 128 threshold 0.10
+      achieved only 1.866% double-fast and 1.033x reduction.
+    test_policy: validation_lock_then_open_test_once
+closure:
+  terminal_verdict: falsified
+  eureka_confirmed: false
+  report: reports/rsiv_moe/RSIV_MOE_FINAL_VERDICT.md
+  report_sha256: c5a77b3c767255d93d02d6bc7ecf19660cd2078e8482b89db5f391df543a840a
+  reason: >-
+    Hard rank-working-set falsification reproduced on V2 and a preregistered
+    higher-E family; P2 through P7 are blocked for RSIV_MOE_V1.
+terminal_verdicts: [falsified, inconclusive, engineering_positive, eureka_confirmed]

@@ -1,0 +1,19 @@
+# PORT80B-T0Q5-S0-R5 — final standalone selected-route validation repair
+
+S0-R5 preserves the S0 validation-only science, 252-expert union, D2-R3 inputs, codec and unchanged `0.08` routed/shared thresholds. It supersedes immutable S0/S0-R1/S0-R2/S0-R3 and S0-R4 implementations and remains closed pending source audit. R2 additionally freezes actual packed-code mutation/digest/decode, post-serialization resource sampling before result hashing, corrupt-commit recovery, atomic failure dispositions, explicit cleanup, and exact D2-result/audit/shard/lock bindings.
+
+R5 changes no scientific route, arithmetic, metric or threshold. It retains the R4 AST import/call audit, runner rejection of non-finite metric scalars and independent nonzero IEEE-754 float32-subnormal witness. Its sole execution-semantic repair is opening files read/write for `fsync` on Windows, because Windows rejects `FlushFileBuffers` on a read-only handle; POSIX retains read-only opening. It uses a fresh output directory and fresh result/failure names. Existing R4 output and failure evidence remain immutable and are used only for a read-only provenance hash; they are never numerical input, deleted, moved or quarantined by R5.
+
+The R4 platform failure is provenance-bound, not reused: orphan raw SHA-256 `fcf49479396682634e4a5b9faa3fd3e76c17ba7cfc389e711931996f5e3efbd8` (1,658,624 bytes) and failure JSON-inprogress SHA-256 `96b8345f967446b8abc76c3b7d180543a566f41608db15c92eaee658da148647` (4,247 bytes). The R5 preflight must exercise its actual platform-dependent writable fsync helper on temporary data, result, commit, and failure files and complete an atomic failure rename; it may not touch R4 evidence.
+
+The standalone runner and independent verifier shall both rerun the exact full-16 source-BF16 and Q5 graphs from official shard bytes and D2-R3 routes. Only routed, shared raw and gate-first `sigmoid(shared_gate_linear) * shared_raw` are scored; no complete/layer reconstruction.
+
+Exactly 759 ordered matrix evidence rows are required: ascending selected routed IDs, then shared ID 512; projection 0 gate, 1 up, 2 down. Each row includes source/hash, codes/scales/decoded hashes, group count, zero-group count from `source.abs().amax(group)==0`, observed q min/max, field31 absence, decoded weight max-abs and rel-L2. Codes/scales are never persisted. Decoded matrices may be cached in RAM only and are released before final cleanup.
+
+Controls use a real checker that parses requested/presented expert, projection, shape and expected codes/scales digests. Wrong expert is isolated to the fixed route occurrence. Projection swap is explicitly graph-wide for that expert. Shared-down code mutation is explicitly graph-wide; selection is independently row-major first source q nonzero with nonzero shared activation at the fixed row, mutation is exactly one q step toward zero, stored digest remains expected-original and must reject. Retain unsafe raw routed or shared raw and gated arrays; verifier reconstructs all.
+
+Runtime is one-thread deterministic CPU, fixed affinity from the locked dependency contract, MKLDNN enabled, highest matmul precision, flush-denormal false, no autocast/inference mode true, CUDA uninitialized. Require start available RAM >=16 GiB, every-stage and final/cleanup available RAM >=2 GiB, Windows peak working set <=12 GiB, raw/result/commit/failure retained bytes <=512 MiB.
+
+Successful output is a create-new raw/result/commit bundle: temp writes, file fsync, rename only if finals absent, directory fsync, marker last. Startup recovers/quarantines any uncommitted finals/temps. Failure is an atomic create-new temp/fsync/rename JSON after cleanup. Result includes exact raw manifest/schema/finiteness and cleanup/resource evidence.
+
+Outcome remains `selected_route_validation_positive` (never pass), or a named negative/blocked/invalid. No preflight or physical execution before implementation audit.

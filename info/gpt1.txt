@@ -1,0 +1,454 @@
+Ik denk dat de echte smoking gun nu gevonden is
+
+Niet GaugePack. Die tak is correct gesloten: de oorspronkelijke pruning-“pass” was een no-op door PyTorch advanced indexing, en de gecorrigeerde 25–50%-pruning vernietigt de kwaliteit. 
+GaugePack-mutatieaudit
+
+De echte smoking gun zit in PORT80B’s datatransport:
+
+De 80B-route faalt niet primair doordat PCIe te traag is, de GPU te zwak is of 64 GB RAM te weinig is. De geselecteerde expertweights worden momenteel eerst in RAM gekopieerd naar pinned stagingwindows en daarna nogmaals over PCIe naar de dGPU gestuurd.
+
+Dat is een seriële dubbele verplaatsing van bijna één gigabyte per token.
+
+De metingen sluiten bijna exact
+
+PORT80B verplaatst per token:
+
+B=973.209.600 bytes
+
+en meet bij nul cachehits:
+
+T
+p50
+	​
+
+=63,034 ms
+T
+p95
+	​
+
+=73,544 ms.
+
+PORT80B fysiek host-bankrapport
+
+De los gemeten host-copybandbreedte is:
+
+48,119 GB/s
+
+en de pinned H2D-link haalt:
+
+26,159 GB/s.
+
+CPU-memorymeting
+
+H2D-roofline
+
+Daaruit:
+
+T
+RAM-copy
+	​
+
+=
+48,119
+0,9732
+	​
+
+=20,225 ms
+T
+PCIe
+	​
+
+=
+26,159
+0,9732
+	​
+
+=37,204 ms
+20,225+37,204=57,429 ms.
+
+De gemeten p50 is 63,034 ms. Er blijft maar:
+
+63,034−57,429=5,605 ms
+
+over voor 480 afzonderlijke recordcopies, synchronisatie en bookkeeping.
+
+Dus:
+
+91,1% van de gemeten mediaan wordt al verklaard door de twee seri
+e
+¨
+le kopie
+e
+¨
+n
+	​
+
+
+Dat is ongewoon overtuigend. De CPU-bandbreedte kwam uit een aparte WSL2-meting, dus de volgende native Windows-decompositie moet de causaliteit nog formeel bevestigen. Maar numeriek past het bijna te goed om toeval te negeren.
+
+Nog belangrijker: PORT80B mat na warm-up een mediaan van nul page reads per seconde, terwijl de mediane token nog steeds 63 ms kostte. Paging veroorzaakt dus vermoedelijk de zware p99-uitbijters, maar kan de slechte mediaan niet verklaren. Meer RAM kan de staart stabiliseren; het verwijdert de structurele RAM-copy niet.
+
+Eerste oplossing: OneCopy80
+
+Huidige route:
+
+file-backed mmap
+        ↓
+CPU memcpy
+        ↓
+8 pinned stagingwindows
+        ↓
+PCIe H2D
+        ↓
+VRAM
+        ↓
+Q5-kernel
+
+Nieuwe route:
+
+geregistreerde / gemapte bronpagina's
+        ↓
+directe batched H2D
+        ↓
+Q5-kernel
+
+CUDA ondersteunt het registreren van bestaande mmap-allocaties met cudaHostRegister, waarna ze asynchroon gekopieerd of rechtstreeks door de GPU gelezen kunnen worden. CUDA 13.2 heeft bovendien een echte batched memcpy-API voor meerdere pointer-to-pointer-copies.
+
+Alleen de eerste CPU-copy verwijderen voorspelt:
+
+37,204+5,605=
+42,81 ms
+	​
+
+
+Dat ligt al onder de vastgelegde actieve-setgate van 45 ms.
+
+Wanneer batched submission bovendien een groot deel van die resterende 5,6 ms verwijdert, naderen we de pure linkvloer van ongeveer 37,2 ms.
+
+De bestaande N4B-R-metingen geven voor dezelfde 80B-expertvorm:
+
+resident expertcompute p95: 8,87 ms;
+conservatieve dense shell: 28,08 ms.
+
+N4B-R exacte synthetische 80B-replicatie
+
+Dan wordt de seriële projectie na OneCopy:
+
+37,20+8,87+28,08=74,15 ms
+
+oftewel:
+
+13,5 tok/s
+	​
+
+
+Dat blijft een synthetische projectie, geen real-modelclaim. Maar het betekent wel dat één redundante memory-copy momenteel precies tussen ons en de 10-tok/s-gate lijkt te staan.
+
+Recent onderzoek naar direct-access offloading komt onafhankelijk tot dezelfde systeemdiagnose: klassieke prefetching naar HBM verspilt bandbreedte en creëert pipelinebubbels; directe host-memory-to-SMEM-toegang haalde in DAK tot 1,8× winst op PCIe-systemen.
+
+De grotere nieuwe wetenschap: SplitTree-MoE
+
+OneCopy80 is de snelle engineeringoplossing. De potentieel nieuwe wetenschappelijke bijdrage is groter:
+
+Splits één expertberekening fysiek over de iGPU en dGPU, maar behoud logisch exact dezelfde quantization groups en floating-point-reductieboom.
+
+Waarom de iGPU ineens relevant is
+
+P11B was geformuleerd als een NPU-proef en kreeg daarom een negatief totaalverdict. Maar in dezelfde meting was het snelste host-side device niet de NPU of CPU, maar de Intel Arc Pro 140T-iGPU:
+
+Acht experts, resident FP16	p50	p95
+Intel Arc Pro 140T iGPU	1,199 ms	1,984 ms
+Intel NPU	1,936 ms	3,270 ms
+CPU	2,229 ms	3,324 ms
+
+P11B heterogene expertmicrobenchmark
+
+Voor die grotere Qwen30-expertvorm komt de iGPU grofweg uit op:
+
+circa 63 GB/s effectief bij p50;
+circa 38 GB/s effectief bij p95.
+
+Dat is een resident FP16-microbenchmark, geen Q5-full-bankbewijs. Maar de vereiste effectieve bandbreedte om de volledige 80B-expertstream in 45 ms te verwerken is maar:
+
+0,045 s
+0,9732 GB
+	​
+
+=
+21,63 GB/s
+	​
+
+.
+
+De gemeten iGPU-orde ligt daar ruim boven.
+
+De iGPU gebruikt systeemgeheugen en kan via Level Zero/SYCL Unified Shared Memory hostallocaties benaderen zonder eerst een volledige kopie naar discrete VRAM te maken. Dat moet op deze specifieke machine nog fysiek worden getest, maar de programmeerinterface bestaat.
+
+Niet hele experts verdelen, maar reductiesubtrees
+
+Voor een lineaire projectie:
+
+y=ReduceTree{w
+i
+	​
+
+x
+i
+	​
+
+}
+
+delen we volledige Q5-groepen of reductiesubtrees op:
+
+S
+iGPU
+	​
+
+∪S
+dGPU
+	​
+
+=S
+S
+iGPU
+	​
+
+∩S
+dGPU
+	​
+
+=∅.
+
+De iGPU berekent de subtrees waarvan de weights in DDR blijven. De dGPU berekent de overige subtrees. Daarna wordt de oorspronkelijke quotient-reductieboom uitgevoerd.
+
+Wanneer ieder subtree exact dezelfde:
+
+Q5-codes;
+BF16-scales;
+multiplicaties;
+castpunten;
+FMA-policy;
+optelvolgorde
+
+behoudt, kan dezelfde ERGV-techniek die binnen één GPU al bitexact werkte worden uitgebreid naar twee apparaten.
+
+Dit is fundamenteel anders dan RSIV of CRAFT:
+
+geen lage-rangaanname;
+geen expertvervanging;
+geen pruning;
+geen andere route;
+geen hidden-statecorrector;
+geen kwaliteitscompromis noodzakelijk.
+
+RSIV is hard gefalsificeerd doordat de activatierang vrijwel tot de volledige observatiebound groeide. CRAFT bewees bovendien dat zijn lokale route-, bit- en atomsparsityfactoren niet veilig met elkaar mochten worden vermenigvuldigd. SplitTree gebruikt geen van die aannames.
+
+De hardware split valt opvallend netjes uit
+
+Met de conservatieve iGPU-p95-bandbreedte:
+
+B
+i
+	​
+
+=38,06 GB/s
+
+en de dGPU-link:
+
+B
+d
+	​
+
+=26,159 GB/s
+
+is de optimale iGPU-fractie:
+
+f
+i
+	​
+
+=
+B
+i
+	​
+
++B
+d
+	​
+
+B
+i
+	​
+
+	​
+
+=0,5927.
+
+Dus ongeveer 59% van iedere reductie naar de iGPU en 41% naar de dGPU.
+
+De ideale gezamenlijke tijd wordt:
+
+T=
+38,06+26,159
+0,9732
+	​
+
+=
+15,16 ms/token
+	​
+
+
+voor de actieve expertweightstroom, vóór synchronisatie- en kerneloverhead.
+
+De bijbehorende iGPU-bankshard:
+
+46,497 GiB×0,5927=
+27,56 GiB
+	​
+
+
+past onder de gerapporteerde 32-GiB-iGPU-memorybudgettering.
+
+Dat is het deel dat ik als de echte nieuwe aanwijzing zie: de optimale bandbreedtesplit past toevallig ook bij de beschikbare iGPU-capaciteit.
+
+We verplaatsen dan activaties in plaats van weights
+
+De volledige geselecteerde weightstroom is:
+
+973.209.600 bytes/token.
+
+Een BF16 hidden vector naar de iGPU en één geaggregeerde BF16 MoE-output terug, over 48 lagen:
+
+2×48×2048×2=393.216 bytes/token.
+
+Dus:
+
+393.216
+973.209.600
+	​
+
+=
+2.475×
+	​
+
+
+minder cross-device bytes.
+
+Als alleen de uitgaande expertaggregate wordt geteld is het bijna 4.950× minder.
+
+Dit is hetzelfde fundamentele voordeel dat near-data MoE-systemen op CXL-hardware nastreven: laat cold experts staan waar hun weights leven en verplaats alleen activaties. Een CXL-NDP-systeem rapporteerde daarmee tot 8,7× decodewinst, maar gebruikte gespecialiseerde CXL/NDP-hardware; wij proberen dezelfde dataflow op een gewone laptop met iGPU+dGPU te realiseren.
+
+Heterogene iGPU/NPU-planning en NPU-MoE bestaan afzonderlijk al, dus een brede “eerste heterogene LLM-runtime”-claim zou fout zijn. De mogelijke nieuwe doorsnede is:
+
+Exact reduction-DAG partitioning van groupwise-gequantiseerde MoE-experts over een consumer-iGPU en discrete GPU, geoptimaliseerd op gemeten geheugenproximiteit.
+
+Dat vereist nog een formele novelty-audit.
+
+De volgorde die ik nu zou afdwingen
+Fase	Vraag	Harde gate
+ST0	Klopt de dubbele-copydecompositie native?	componentensom binnen 5% van 63,034 ms
+ST1	Kan mmap rechtstreeks naar dGPU?	p50 ≤43 ms, p95 ≤45 ms
+ST2	Kan de iGPU Q5 rechtstreeks uit host-USM uitvoeren?	≥21,63 GB/s; stretch ≥32,44 GB/s
+ST3	Kan ERGV één reductie exact over iGPU+dGPU splitsen?	bitexact of vooraf vergrendelde nul extra kwaliteitsregressie
+ST4	Volledige synthetische 48-laags expertplane	p95 ≤25 ms; stretch ≤20 ms
+ST5	Echt Qwen3-Coder-Next	≥10 tok/s, 8 GiB VRAM, ≤58 GiB RAM, geen swap
+ST0 moet als eerste
+
+Nog geen nieuwe modeldownload en geen 96-GB-upgrade.
+
+Test afzonderlijk:
+
+page-resident mmap → pinned memcpy;
+één aaneengesloten pinned H2D-transfer;
+480 individuele H2D-copies;
+één cudaMemcpyBatchAsync met dezelfde 480 sources;
+cudaHostRegister op het gemapte bronbereik;
+directe mapped-host GPU-loads.
+
+NVIDIA documenteert zowel cudaHostRegister voor bestaande mmap-ranges als batched asynchronous copies. Overmatig grote registrations kunnen het OS wel beschadigen, dus dit moet als een veilige ladder van 1, 4, 8, 16, 24, 32, 40 en 46,5 GiB gebeuren.
+
+Exact lossless helper: EntropyPin
+
+De volledige Qwen30-Q5-bank heeft een gemeten code-entropie van:
+
+4,442757 bit/code.
+
+Met de bestaande scales:
+
+4,442757+0,125=4,567757 bpp
+
+tegenover 5,125 opgeslagen bpp.
+
+Dat is een exacte theoretische reductie van:
+
+10,873%.
+
+Q5 entropy-audit
+
+Lineair toegepast op de 80B-expertbank:
+
+46,497 GiB→
+41,44 GiB
+	​
+
+.
+
+Tile-level ANS met on-the-fly GPU-decompressie is inmiddels in primaire literatuur tot vlak bij de Shannonlimiet gedemonstreerd.
+
+Dit kan de full-registration/pinningfasegrens helpen bereiken, maar het is niet de eerste stap: 11% compressie lost de dubbele copy niet zelfstandig op.
+
+De echte langetermijnwetenschap blijft TierFlow
+
+TierFlow-F0 bewees op echte Qwenroutes dat één route-edit per token/layer theoretisch:
+
+kritieke expertbytes 4,1577× reduceert;
+worst-case nieuwe loads 8× reduceert.
+
+Maar daarvoor werd 32,03% van de routeroutputs vervangen; kwaliteit is volledig open. 
+TierFlow-F0
+
+De correcte onderzoeksvraag is daarom niet post-hoc rerouten, maar een klein MoE vanaf training een persistente route-state leren:
+
+R
+t
+	​
+
+=Update(R
+t−1
+	​
+
+,ΔR
+t
+	​
+
+)
+
+met:
+
+∣ΔR
+t
+	​
+
+∣≤r.
+
+StickyMoE laat al zien dat routinglocaliteit tijdens training beter kan worden ingebouwd dan achteraf; Path-Constrained MoE toont dat routepaden over lagen expliciet gestructureerd kunnen worden.
+
+Onze mogelijke verdere bijdrage is een harde edit-state plus een loss op werkelijke critical-pathbytes en p95/CVaR-latency.
+
+Harde eindconclusie
+
+De Eureka is nog niet gemeten. De smoking gun wel.
+
+PORT80B wordt momenteel vooral afgeremd doordat iedere geselecteerde weightbyte twee keer serieel wordt verplaatst.
+	​
+
+
+De snelste route naar de industrieclaim is OneCopy80.
+
+De grootste nieuwe wetenschappelijke kans is SplitTree-MoE:
+
+partitioneer de exacte reductiegraaf over compute engines die dicht bij hun weightshards staan
+	​
+
+
+Daarmee worden de 8GB-dGPU, de 32GB-iGPU-memoryruimte en de 64GB-hostbank één heterogene expertfabric. Dit is de eerste post-GaugePack-hypothese waarvoor capaciteit, gemeten bandbreedte en exacte numerieke semantiek tegelijk in dezelfde richting wijzen.

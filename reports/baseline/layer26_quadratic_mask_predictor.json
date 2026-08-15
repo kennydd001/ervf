@@ -1,0 +1,207 @@
+{
+  "created_at_utc": "2026-08-09T21:04:01.297036+00:00",
+  "git_revision": null,
+  "kind": "dynamic_precision_predictor",
+  "payload": {
+    "all_3bit_test_kl": 0.02032053843140602,
+    "all_4bit_test_kl": 0.0032452777959406376,
+    "dataset_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "experiment": "predict_layer26_mask_interactions_via_quadratic_kl_model",
+    "feature_count": 648,
+    "features": "PCA64 MoE input, PCA32 aggregate 3-bit output, PCA16 per selected 3-bit output, router statistics, expert IDs and router ranks",
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "quadratic_terms": 22,
+    "ridge_tuning": [
+      {
+        "holdout_rate_distortion": [
+          {
+            "actual_fraction": 0.14973958333333334,
+            "actual_kl_mean": 0.007155020721256733,
+            "actual_kl_p95": 0.023280657827854156,
+            "requested_fraction": 0.15
+          },
+          {
+            "actual_fraction": 0.19986979166666666,
+            "actual_kl_mean": 0.00679203262552619,
+            "actual_kl_p95": 0.022400887683033943,
+            "requested_fraction": 0.2
+          },
+          {
+            "actual_fraction": 0.25,
+            "actual_kl_mean": 0.006210573948919773,
+            "actual_kl_p95": 0.020035263150930405,
+            "requested_fraction": 0.25
+          }
+        ],
+        "regularization": 0.001
+      },
+      {
+        "holdout_rate_distortion": [
+          {
+            "actual_fraction": 0.14973958333333334,
+            "actual_kl_mean": 0.007184286136180162,
+            "actual_kl_p95": 0.023280657827854156,
+            "requested_fraction": 0.15
+          },
+          {
+            "actual_fraction": 0.19986979166666666,
+            "actual_kl_mean": 0.006790914107114077,
+            "actual_kl_p95": 0.021897442638874054,
+            "requested_fraction": 0.2
+          },
+          {
+            "actual_fraction": 0.25,
+            "actual_kl_mean": 0.006271383259445429,
+            "actual_kl_p95": 0.021085157990455627,
+            "requested_fraction": 0.25
+          }
+        ],
+        "regularization": 0.01
+      },
+      {
+        "holdout_rate_distortion": [
+          {
+            "actual_fraction": 0.14973958333333334,
+            "actual_kl_mean": 0.007161008194088936,
+            "actual_kl_p95": 0.022400887683033943,
+            "requested_fraction": 0.15
+          },
+          {
+            "actual_fraction": 0.19986979166666666,
+            "actual_kl_mean": 0.006730328314006329,
+            "actual_kl_p95": 0.021897442638874054,
+            "requested_fraction": 0.2
+          },
+          {
+            "actual_fraction": 0.25,
+            "actual_kl_mean": 0.006254477426409721,
+            "actual_kl_p95": 0.021171938627958298,
+            "requested_fraction": 0.25
+          }
+        ],
+        "regularization": 0.1
+      },
+      {
+        "holdout_rate_distortion": [
+          {
+            "actual_fraction": 0.14973958333333334,
+            "actual_kl_mean": 0.007076696492731571,
+            "actual_kl_p95": 0.021897442638874054,
+            "requested_fraction": 0.15
+          },
+          {
+            "actual_fraction": 0.19986979166666666,
+            "actual_kl_mean": 0.006420717108994722,
+            "actual_kl_p95": 0.01992863602936268,
+            "requested_fraction": 0.2
+          },
+          {
+            "actual_fraction": 0.25,
+            "actual_kl_mean": 0.00602512015029788,
+            "actual_kl_p95": 0.019619958475232124,
+            "requested_fraction": 0.25
+          }
+        ],
+        "regularization": 1.0
+      },
+      {
+        "holdout_rate_distortion": [
+          {
+            "actual_fraction": 0.14973958333333334,
+            "actual_kl_mean": 0.006660734303295612,
+            "actual_kl_p95": 0.020486410707235336,
+            "requested_fraction": 0.15
+          },
+          {
+            "actual_fraction": 0.19986979166666666,
+            "actual_kl_mean": 0.005973629653453827,
+            "actual_kl_p95": 0.018771298229694366,
+            "requested_fraction": 0.2
+          },
+          {
+            "actual_fraction": 0.25,
+            "actual_kl_mean": 0.005444023292511702,
+            "actual_kl_p95": 0.017483068630099297,
+            "requested_fraction": 0.25
+          }
+        ],
+        "regularization": 10.0
+      },
+      {
+        "holdout_rate_distortion": [
+          {
+            "actual_fraction": 0.14973958333333334,
+            "actual_kl_mean": 0.006029301322996616,
+            "actual_kl_p95": 0.01909215748310089,
+            "requested_fraction": 0.15
+          },
+          {
+            "actual_fraction": 0.19986979166666666,
+            "actual_kl_mean": 0.0053779361769557,
+            "actual_kl_p95": 0.01701854169368744,
+            "requested_fraction": 0.2
+          },
+          {
+            "actual_fraction": 0.25,
+            "actual_kl_mean": 0.004824255593121052,
+            "actual_kl_p95": 0.013498503714799881,
+            "requested_fraction": 0.25
+          }
+        ],
+        "regularization": 100.0
+      }
+    ],
+    "selected_regularization": 100.0,
+    "status": "complete",
+    "test_exact_oracle_rate_distortion": [
+      {
+        "actual_fraction": 0.14990234375,
+        "actual_kl_mean": 0.004272152669727802,
+        "actual_kl_p95": 0.012073214165866375,
+        "requested_fraction": 0.15
+      },
+      {
+        "actual_fraction": 0.19986979166666666,
+        "actual_kl_mean": 0.0036160009913146496,
+        "actual_kl_p95": 0.010882833041250706,
+        "requested_fraction": 0.2
+      },
+      {
+        "actual_fraction": 0.25,
+        "actual_kl_mean": 0.0031925232615321875,
+        "actual_kl_p95": 0.010190542787313461,
+        "requested_fraction": 0.25
+      }
+    ],
+    "test_per_token_fitted_quadratic_reconstruction": {
+      "relative_rmse_vs_damage_rms": 0.011524503119289875,
+      "rmse": 0.0012677684426307678
+    },
+    "test_predicted_rate_distortion": [
+      {
+        "actual_fraction": 0.14990234375,
+        "actual_kl_mean": 0.009104055352509022,
+        "actual_kl_p95": 0.029727499932050705,
+        "requested_fraction": 0.15
+      },
+      {
+        "actual_fraction": 0.19986979166666666,
+        "actual_kl_mean": 0.007934678345918655,
+        "actual_kl_p95": 0.02790514938533306,
+        "requested_fraction": 0.2
+      },
+      {
+        "actual_fraction": 0.25,
+        "actual_kl_mean": 0.007197825238108635,
+        "actual_kl_p95": 0.0245586596429348,
+        "requested_fraction": 0.25
+      }
+    ],
+    "validation_quadratic_reconstruction": {
+      "relative_rmse_vs_damage_rms": 0.07038892805576324,
+      "rmse": 0.0009447725024074316
+    },
+    "wall_seconds": 1.214045199994871
+  },
+  "schema_version": 1
+}

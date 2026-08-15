@@ -1,0 +1,337 @@
+{
+  "kind": "nervf_nemotron_independent_verification",
+  "completed_utc": "2026-08-15T17:29:27.433023+00:00",
+  "verifier_sha256": "43fe4cde777f804ed4d3224c0b73db7b6342aeca32b180ef531774bd319fcab6",
+  "recomputed": {
+    "arms": {
+      "RAW_SCAN": {
+        "us": 12.4305,
+        "gb_s": 225.75696874622906
+      },
+      "ROW_PATTERN_SCAN": {
+        "us": 17.075499999999998,
+        "gb_s": 164.34493865479786
+      },
+      "DECODE_SCALE": {
+        "us": 20.803,
+        "gb_s": 134.897466711532
+      },
+      "FULL_GEMV": {
+        "us": 38.576,
+        "gb_s": 72.74657818332643
+      }
+    },
+    "gate_1a": 0.32223403152219,
+    "gate_1b": 0.46072687681459973,
+    "best_width": 16,
+    "best_speedup": 1.935671634301771,
+    "nervf3": {
+      "0": {
+        "moe_speedup": 1.1258548840674893,
+        "token_gain": 3.7010000000000005,
+        "token_drift": 0.6071999999999917,
+        "conclusive": true
+      },
+      "131072": {
+        "moe_speedup": 1.0775094191799317,
+        "token_gain": 3.101974999999996,
+        "token_drift": 0.9822500000000005,
+        "conclusive": true
+      },
+      "262100": {
+        "moe_speedup": 1.1442118264427246,
+        "token_gain": 4.504599999999996,
+        "token_drift": 2.730099999999993,
+        "conclusive": true
+      }
+    }
+  },
+  "checks": [
+    {
+      "check": "NERVF-0 lock: runtime.py still hashes to the locked value",
+      "ok": true
+    },
+    {
+      "check": "NERVF-0 lock: gpu_kernels.py still hashes to the locked value",
+      "ok": true
+    },
+    {
+      "check": "fused_nvfp4.py on disk matches what NERVF-3 measured",
+      "ok": true
+    },
+    {
+      "check": "NERVF-3 changed fused_nvfp4.py relative to the NERVF-0 lock (that is where the ERVF kernel was added)",
+      "ok": true
+    },
+    {
+      "check": "ERVF is opt-in: gemv_into still defaults to the production kernel",
+      "ok": true
+    },
+    {
+      "check": "NERVF-0 records the prior Qwen ERVF result as read-only prior art",
+      "ok": true
+    },
+    {
+      "check": "NERVF-1 RAW_SCAN: p50 reproduces from raw rounds",
+      "ok": true
+    },
+    {
+      "check": "NERVF-1 RAW_SCAN: GB/s reproduces",
+      "ok": true
+    },
+    {
+      "check": "NERVF-1 ROW_PATTERN_SCAN: p50 reproduces from raw rounds",
+      "ok": true
+    },
+    {
+      "check": "NERVF-1 ROW_PATTERN_SCAN: GB/s reproduces",
+      "ok": true
+    },
+    {
+      "check": "NERVF-1 DECODE_SCALE: p50 reproduces from raw rounds",
+      "ok": true
+    },
+    {
+      "check": "NERVF-1 DECODE_SCALE: GB/s reproduces",
+      "ok": true
+    },
+    {
+      "check": "NERVF-1 FULL_GEMV: p50 reproduces from raw rounds",
+      "ok": true
+    },
+    {
+      "check": "NERVF-1 FULL_GEMV: GB/s reproduces",
+      "ok": true
+    },
+    {
+      "check": "G-NERVF-1A reproduces (bandwidth efficiency)",
+      "ok": true,
+      "recomputed": 0.32223403152219
+    },
+    {
+      "check": "G-NERVF-1A passes",
+      "ok": true
+    },
+    {
+      "check": "G-NERVF-1B reproduces",
+      "ok": true,
+      "recomputed": 0.46072687681459973
+    },
+    {
+      "check": "G-NERVF-1B passes",
+      "ok": true
+    },
+    {
+      "check": "the audit defeats L2: pool is at least 4x the L2 size",
+      "ok": true,
+      "pool": 266595840,
+      "l2": 33554432
+    },
+    {
+      "check": "RAW_SCAN is the fastest arm and FULL_GEMV the slowest (monotone geometry)",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 baseline equals the audit's FULL_GEMV",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=4: p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=4: speedup reproduces",
+      "ok": true,
+      "recomputed": 1.3355490929234177
+    },
+    {
+      "check": "NERVF-2 w=4: rows_per_block is 256/w",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=4: exactness claim matches its counts",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=4: at least 72 exactness cases",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=8: p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=8: speedup reproduces",
+      "ok": true,
+      "recomputed": 1.6861982297016718
+    },
+    {
+      "check": "NERVF-2 w=8: rows_per_block is 256/w",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=8: exactness claim matches its counts",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=8: at least 72 exactness cases",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=16: p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=16: speedup reproduces",
+      "ok": true,
+      "recomputed": 1.935671634301771
+    },
+    {
+      "check": "NERVF-2 w=16: rows_per_block is 256/w",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=16: exactness claim matches its counts",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=16: at least 72 exactness cases",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=32: p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=32: speedup reproduces",
+      "ok": true,
+      "recomputed": 1.8968382750651522
+    },
+    {
+      "check": "NERVF-2 w=32: rows_per_block is 256/w",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=32: exactness claim matches its counts",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 w=32: at least 72 exactness cases",
+      "ok": true
+    },
+    {
+      "check": "best exact width is the argmax over exact widths",
+      "ok": true
+    },
+    {
+      "check": "primary speed gate (>=1.35x) passes",
+      "ok": true,
+      "speedup": 1.935671634301771
+    },
+    {
+      "check": "strong speed gate (>=1.75x) passes",
+      "ok": true
+    },
+    {
+      "check": "every width is bitwise exact after the butterfly fix",
+      "ok": true
+    },
+    {
+      "check": "the chosen width matches the one Qwen's P7 selected",
+      "ok": true,
+      "nemotron": 16,
+      "qwen": 16
+    },
+    {
+      "check": "NERVF-3 base_a: generation identical between arms",
+      "ok": true
+    },
+    {
+      "check": "NERVF-3 base_a: generation identical to the V35 anchor",
+      "ok": true
+    },
+    {
+      "check": "NERVF-3 ervf: generation identical between arms",
+      "ok": true
+    },
+    {
+      "check": "NERVF-3 ervf: generation identical to the V35 anchor",
+      "ok": true
+    },
+    {
+      "check": "NERVF-3 base_b: generation identical between arms",
+      "ok": true
+    },
+    {
+      "check": "NERVF-3 base_b: generation identical to the V35 anchor",
+      "ok": true
+    },
+    {
+      "check": "NERVF-3 ran exactly one arm with ERVF on",
+      "ok": true
+    },
+    {
+      "check": "NERVF-3 @0: MoE speedup reproduces",
+      "ok": true,
+      "recomputed": 1.1258548840674893
+    },
+    {
+      "check": "NERVF-3 @0: token gain reproduces",
+      "ok": true
+    },
+    {
+      "check": "NERVF-3 @0: token gain exceeds its own drift",
+      "ok": true,
+      "gain": 3.7010000000000005,
+      "drift": 0.6071999999999917
+    },
+    {
+      "check": "NERVF-3 @131072: MoE speedup reproduces",
+      "ok": true,
+      "recomputed": 1.0775094191799317
+    },
+    {
+      "check": "NERVF-3 @131072: token gain reproduces",
+      "ok": true
+    },
+    {
+      "check": "NERVF-3 @131072: token gain exceeds its own drift",
+      "ok": true,
+      "gain": 3.101974999999996,
+      "drift": 0.9822500000000005
+    },
+    {
+      "check": "NERVF-3 @262100: MoE speedup reproduces",
+      "ok": true,
+      "recomputed": 1.1442118264427246
+    },
+    {
+      "check": "NERVF-3 @262100: token gain reproduces",
+      "ok": true
+    },
+    {
+      "check": "NERVF-3 @262100: token gain exceeds its own drift",
+      "ok": true,
+      "gain": 4.504599999999996,
+      "drift": 2.730099999999993
+    },
+    {
+      "check": "NERVF-3 primary gate verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "fused_nvfp4.py hashes to the value NERVF-3 measured",
+      "ok": true
+    },
+    {
+      "check": "NERVF-1 carries a claim boundary",
+      "ok": true
+    },
+    {
+      "check": "NERVF-2 carries a claim boundary",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

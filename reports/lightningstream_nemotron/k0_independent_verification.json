@@ -1,0 +1,446 @@
+{
+  "kind": "lightningstream_nemotron_k0_independent_verification",
+  "completed_utc": "2026-08-15T11:13:20.864663+00:00",
+  "verifier_sha256": "ffebb49a93dca8e1686ec59cabfd7b73449be54be3bddf57b0f12a0d8e5237e0",
+  "verified_file_sha256": "4609457d88be3eff4a76ebe9773de47bd01f15138edcdf6dbfe30a8f75aaf7e8",
+  "recomputed": {
+    "union_mean": {
+      "2": 10.05813608002377,
+      "3": 13.633725568408456,
+      "5": 19.879676440849344,
+      "7": 25.233695652173914,
+      "9": 30.011129602662784,
+      "13": 38.23688155922039
+    },
+    "emitted_curve": [
+      1.786111111111111,
+      2.3777777777777778,
+      2.8083333333333336,
+      3.113888888888889
+    ],
+    "records_per_emitted_B5": 6.384195824001574,
+    "parity_union": 18.683333333333334,
+    "pooled_mean_A": {
+      "full": 2.113888888888889,
+      "4096": 2.0027777777777778,
+      "2048": 1.9277777777777778,
+      "1024": 1.8138888888888889
+    },
+    "chain_marginal_ms": {
+      "head": 10.508449999999996,
+      "experts": 3.5459999999999994,
+      "attn": 1.2619000000000007,
+      "shared": 0.8239249999999991,
+      "ehproj": 0.7333999999999996
+    },
+    "chain_local_drift_ms": {
+      "head": 0.3653000000000013,
+      "experts": 0.3923000000000023,
+      "attn": 0.2653000000000034,
+      "shared": 0.32975000000000065,
+      "ehproj": 0.10020000000000095
+    },
+    "smallest_vocab_passing": null,
+    "lru_corrected_per_token": {
+      "32": {
+        "ar_misses_per_token": 51.81221719457014,
+        "round_B5_misses_per_emitted": 84.73345842689717,
+        "ratio_round_over_ar": 1.6353953375262456
+      },
+      "48": {
+        "ar_misses_per_token": 37.83257918552036,
+        "round_B5_misses_per_emitted": 61.71091082469471,
+        "ratio_round_over_ar": 1.6311579108070244
+      },
+      "56": {
+        "ar_misses_per_token": 32.45022624434389,
+        "round_B5_misses_per_emitted": 52.87766464671322,
+        "ratio_round_over_ar": 1.6295006465765354
+      },
+      "60": {
+        "ar_misses_per_token": 30.228506787330318,
+        "round_B5_misses_per_emitted": 49.24174843889385,
+        "ratio_round_over_ar": 1.6289838193242332
+      },
+      "64": {
+        "ar_misses_per_token": 28.15158371040724,
+        "round_B5_misses_per_emitted": 45.742409794210836,
+        "ratio_round_over_ar": 1.6248609763755677
+      },
+      "72": {
+        "ar_misses_per_token": 24.626696832579185,
+        "round_B5_misses_per_emitted": 39.93970900366053,
+        "ratio_round_over_ar": 1.621805363308953
+      }
+    }
+  },
+  "gates": {
+    "G_K0_1": false,
+    "G_K0_2": false,
+    "G_K2_smallest_n": null
+  },
+  "checks": [
+    {
+      "check": "S10-A histogram used as reference matches the S10-A artifact",
+      "ok": true
+    },
+    {
+      "check": "emitted-token curve reproduces from the histogram",
+      "ok": true,
+      "recomputed": [
+        1.786111111111111,
+        2.3777777777777778,
+        2.8083333333333336,
+        3.113888888888889
+      ]
+    },
+    {
+      "check": "every captured route has exactly top_k=6 ids",
+      "ok": true
+    },
+    {
+      "check": "routes captured for every MoE layer of all three prompts",
+      "ok": true,
+      "series": 69
+    },
+    {
+      "check": "union mean at B=2 reproduces",
+      "ok": true,
+      "recomputed": 10.05813608002377
+    },
+    {
+      "check": "window count at B=2 >= 300",
+      "ok": true,
+      "windows": 10097
+    },
+    {
+      "check": "union mean at B=3 reproduces",
+      "ok": true,
+      "recomputed": 13.633725568408456
+    },
+    {
+      "check": "window count at B=3 >= 300",
+      "ok": true,
+      "windows": 10028
+    },
+    {
+      "check": "union mean at B=5 reproduces",
+      "ok": true,
+      "recomputed": 19.879676440849344
+    },
+    {
+      "check": "window count at B=5 >= 300",
+      "ok": true,
+      "windows": 9890
+    },
+    {
+      "check": "union mean at B=7 reproduces",
+      "ok": true,
+      "recomputed": 25.233695652173914
+    },
+    {
+      "check": "window count at B=7 >= 300",
+      "ok": true,
+      "windows": 9752
+    },
+    {
+      "check": "union mean at B=9 reproduces",
+      "ok": true,
+      "recomputed": 30.011129602662784
+    },
+    {
+      "check": "window count at B=9 >= 300",
+      "ok": true,
+      "windows": 9614
+    },
+    {
+      "check": "union mean at B=13 reproduces",
+      "ok": true,
+      "recomputed": 38.23688155922039
+    },
+    {
+      "check": "window count at B=13 >= 300",
+      "ok": true,
+      "windows": 9338
+    },
+    {
+      "check": "records/emitted at B=5 reproduces",
+      "ok": true,
+      "recomputed": 6.384195824001574
+    },
+    {
+      "check": "Kimi parity union U* = top_k x (A+1) reproduces",
+      "ok": true,
+      "recomputed": 18.683333333333334
+    },
+    {
+      "check": "G-K0-1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "AR replay at capacity 32 reproduces",
+      "ok": true,
+      "recomputed": {
+        "hits": 38095,
+        "misses": 22901,
+        "lookups": 60996,
+        "hit_rate": 0.6245491507639845
+      }
+    },
+    {
+      "check": "round-B5 replay at capacity 32 reproduces",
+      "ok": true,
+      "recomputed": {
+        "hits": 17221,
+        "misses": 22955,
+        "lookups": 40176,
+        "hit_rate": 0.4286389884508164
+      }
+    },
+    {
+      "check": "AR replay at capacity 48 reproduces",
+      "ok": true,
+      "recomputed": {
+        "hits": 44274,
+        "misses": 16722,
+        "lookups": 60996,
+        "hit_rate": 0.7258508754672438
+      }
+    },
+    {
+      "check": "round-B5 replay at capacity 48 reproduces",
+      "ok": true,
+      "recomputed": {
+        "hits": 23458,
+        "misses": 16718,
+        "lookups": 40176,
+        "hit_rate": 0.5838809239346874
+      }
+    },
+    {
+      "check": "AR replay at capacity 56 reproduces",
+      "ok": true,
+      "recomputed": {
+        "hits": 46653,
+        "misses": 14343,
+        "lookups": 60996,
+        "hit_rate": 0.7648534330120008
+      }
+    },
+    {
+      "check": "round-B5 replay at capacity 56 reproduces",
+      "ok": true,
+      "recomputed": {
+        "hits": 25851,
+        "misses": 14325,
+        "lookups": 40176,
+        "hit_rate": 0.6434438470728794
+      }
+    },
+    {
+      "check": "AR replay at capacity 60 reproduces",
+      "ok": true,
+      "recomputed": {
+        "hits": 47635,
+        "misses": 13361,
+        "lookups": 60996,
+        "hit_rate": 0.7809528493671716
+      }
+    },
+    {
+      "check": "round-B5 replay at capacity 60 reproduces",
+      "ok": true,
+      "recomputed": {
+        "hits": 26836,
+        "misses": 13340,
+        "lookups": 40176,
+        "hit_rate": 0.6679609717244126
+      }
+    },
+    {
+      "check": "AR replay at capacity 64 reproduces",
+      "ok": true,
+      "recomputed": {
+        "hits": 48553,
+        "misses": 12443,
+        "lookups": 60996,
+        "hit_rate": 0.7960030165912518
+      }
+    },
+    {
+      "check": "round-B5 replay at capacity 64 reproduces",
+      "ok": true,
+      "recomputed": {
+        "hits": 27784,
+        "misses": 12392,
+        "lookups": 40176,
+        "hit_rate": 0.6915571485463958
+      }
+    },
+    {
+      "check": "AR replay at capacity 72 reproduces",
+      "ok": true,
+      "recomputed": {
+        "hits": 50111,
+        "misses": 10885,
+        "lookups": 60996,
+        "hit_rate": 0.8215456751262378
+      }
+    },
+    {
+      "check": "round-B5 replay at capacity 72 reproduces",
+      "ok": true,
+      "recomputed": {
+        "hits": 29356,
+        "misses": 10820,
+        "lookups": 40176,
+        "hit_rate": 0.7306849860613301
+      }
+    },
+    {
+      "check": "G-K0-2 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "AR misses/token is consistent with the AR hit rate over 23x6 lookups",
+      "ok": true,
+      "recomputed": 24.626696832579185,
+      "from_hit_rate": 24.62669683257919
+    },
+    {
+      "check": "runner per_emitted fields are inflated by exactly n_prompts",
+      "ok": true,
+      "n_prompts": 3
+    },
+    {
+      "check": "vocab arm full: pooled mean A reproduces",
+      "ok": true,
+      "recomputed": 2.113888888888889,
+      "steps": 360
+    },
+    {
+      "check": "vocab arm full: at least 360 measured steps",
+      "ok": true
+    },
+    {
+      "check": "vocab arm 4096: pooled mean A reproduces",
+      "ok": true,
+      "recomputed": 2.0027777777777778,
+      "steps": 360
+    },
+    {
+      "check": "vocab arm 4096: at least 360 measured steps",
+      "ok": true
+    },
+    {
+      "check": "vocab arm 2048: pooled mean A reproduces",
+      "ok": true,
+      "recomputed": 1.9277777777777778,
+      "steps": 360
+    },
+    {
+      "check": "vocab arm 2048: at least 360 measured steps",
+      "ok": true
+    },
+    {
+      "check": "vocab arm 1024: pooled mean A reproduces",
+      "ok": true,
+      "recomputed": 1.8138888888888889,
+      "steps": 360
+    },
+    {
+      "check": "vocab arm 1024: at least 360 measured steps",
+      "ok": true
+    },
+    {
+      "check": "full-vocabulary arm reproduces the S10-A pooled acceptance",
+      "ok": true,
+      "recomputed": 2.113888888888889,
+      "s10a": 2.113888888888889
+    },
+    {
+      "check": "vocab 4096: recall reproduces from its counts",
+      "ok": true
+    },
+    {
+      "check": "vocab 2048: recall reproduces from its counts",
+      "ok": true
+    },
+    {
+      "check": "vocab 1024: recall reproduces from its counts",
+      "ok": true
+    },
+    {
+      "check": "smallest vocabulary passing all three K2 gates agrees",
+      "ok": true,
+      "recomputed": null
+    },
+    {
+      "check": "chain marginal[head] reproduces",
+      "ok": true,
+      "recomputed": 10.508449999999996
+    },
+    {
+      "check": "chain noise-floor flag[head] reproduces",
+      "ok": true
+    },
+    {
+      "check": "chain marginal[experts] reproduces",
+      "ok": true,
+      "recomputed": 3.5459999999999994
+    },
+    {
+      "check": "chain noise-floor flag[experts] reproduces",
+      "ok": true
+    },
+    {
+      "check": "chain marginal[attn] reproduces",
+      "ok": true,
+      "recomputed": 1.2619000000000007
+    },
+    {
+      "check": "chain noise-floor flag[attn] reproduces",
+      "ok": true
+    },
+    {
+      "check": "chain marginal[shared] reproduces",
+      "ok": true,
+      "recomputed": 0.8239249999999991
+    },
+    {
+      "check": "chain noise-floor flag[shared] reproduces",
+      "ok": true
+    },
+    {
+      "check": "chain marginal[ehproj] reproduces",
+      "ok": true,
+      "recomputed": 0.7333999999999996
+    },
+    {
+      "check": "chain noise-floor flag[ehproj] reproduces",
+      "ok": true
+    },
+    {
+      "check": "runtime.py on disk still hashes to the measured value",
+      "ok": true
+    },
+    {
+      "check": "corpus sha256 matches the frozen corpus lock",
+      "ok": true
+    },
+    {
+      "check": "no tokens-per-second figure at top level",
+      "ok": true
+    },
+    {
+      "check": "records-per-emitted is undefined for B>5 (A not measured there)",
+      "ok": true
+    },
+    {
+      "check": "result carries a claim boundary",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

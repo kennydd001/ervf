@@ -1,0 +1,22 @@
+{
+  "kind": "port80b_t0q5s0r4_postcompute_windows_fsync_failure",
+  "date": "2026-08-13",
+  "scientific_compute_completed": true,
+  "selected_union_experts": 252,
+  "matrix_quantize_decode_count": 759,
+  "gpu_initialized": false,
+  "persistent_bank_created": false,
+  "failure_stage": "raw_temp_fsync_after_serialization",
+  "exception_type": "OSError",
+  "exception": "[Errno 9] Bad file descriptor",
+  "root_cause": "Windows rejects os.fsync on the runner's read-only rb descriptor; the failure writer reused the same helper and failed identically.",
+  "committed_result": false,
+  "result_json_written": false,
+  "commit_marker_written": false,
+  "retained_raw_temp_bytes": 1658624,
+  "retained_raw_temp_sha256": "fcf49479396682634e4a5b9faa3fd3e76c17ba7cfc389e711931996f5e3efbd8",
+  "retained_failure_temp_bytes": 4247,
+  "retained_failure_temp_sha256": "96b8345f967446b8abc76c3b7d180543a566f41608db15c92eaee658da148647",
+  "required_repair": "New immutable revision and output path; open files with write capability for fsync on Windows. No arithmetic, data, metric, threshold or claim change.",
+  "claim": "Harness-only post-compute persistence failure; no scientific result."
+}

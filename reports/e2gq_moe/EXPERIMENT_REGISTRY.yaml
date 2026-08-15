@@ -1,0 +1,67 @@
+project: E2GQ_MOE
+codename: EntropyExactGPTQ
+created_at: 2026-08-11
+updated_at: 2026-08-11
+status: p0_closed_coverage_negative
+parents:
+  - project: FLEQ_MOE
+    status: p1_closed_negative
+    inherited_claim: GSQ-specific hypothesis remains falsified
+positive_precondition:
+  source: reports/e2gq_moe/locked_precondition_audit.json
+  source_sha256: 10808243aeb4c05bc2488c2bcf1793d6ea56694596aa3e5a2189c7c6c686faab
+  derivation: independently_recomputed_from_original_safetensors
+  locked_experts: 16
+  locked_matrices: 48
+  gptq_code_entropy_bpp: 1.7828648913739187
+  bf16_group128_scale_bpp: 0.125
+  ideal_exact_total_bpp: 1.9078648913739187
+  representation_eureka_candidate: true
+hypothesis:
+  id: E2GQ_EXACT_ENTROPY_PACK
+  statement: >-
+    Deterministically calibrated 2-bit GPTQ assignments for the complete routed
+    expert bank of Qwen3-30B-A3B can be stored losslessly at no more than 2.0
+    effective bits per routed weight including scales and actual runtime
+    metadata, then decoded directly fast enough for laptop inference.
+  novelty_claim: false
+  status: untested_due_to_preregistered_calibration_coverage_failure
+phases:
+  - id: P0_FULL_BANK_ENTROPY_CENSUS
+    status: closed_coverage_negative
+    preregistration: reports/e2gq_moe/P0_FULL_BANK_PREREGISTRATION.md
+    capture_result: reports/e2gq_moe/p0_capture_result.json
+    capture_result_sha256: b15bbffc4443001ef77e38e9021ba0cbe97b99d5fcc251f5a64836c53fa77448
+    verification: reports/e2gq_moe/p0_capture_verification.json
+    verification_sha256: 03c6b81291023368a88706ce23676fd49fbd01718170318e5f2d159378ef78a5
+    controls: 12/12
+    coverage_result: 48/48_layers_failed_1695/6144_pairs_below_128_196_zero
+  - id: P1_BIT_EXACT_PACK
+    status: not_authorized_by_failed_P0_coverage_gate
+  - id: P2_THREE_LAYER_SEMANTIC_EQUIVALENCE
+    status: blocked_by_P1
+  - id: P3_FULL_MODEL_GPTQ
+    status: blocked_by_P2
+  - id: P4_ENTROPY_FUNDED_RANK8_REPAIR
+    status: conditional_on_P3_near_miss
+  - id: P5_FUSED_RUNTIME
+    status: blocked_by_quality
+  - id: P6_SECOND_FAMILY
+    status: blocked_by_runtime
+final_gates:
+  actual_routed_bpp_including_all_metadata_max: 2.0
+  relative_ce_delta_max: 0.02
+  rollout_tokens_min: 512
+  peak_vram_gib_max: 8.0
+  process_ram_gib_max: 32.0
+  batch1_tokens_per_second_min: 10.0
+  second_family_required: true
+claim_boundary:
+  - Entropy coding and quantization-error repair are prior art.
+  - The 16-expert result is a representation precondition, not a full-bank file.
+  - No full-model quality or runtime claim exists yet.
+terminal_state:
+  verdict: calibration_coverage_negative
+  representation_precondition_16_experts: confirmed
+  full_bank_entropy_hypothesis: untested
+  eureka: false

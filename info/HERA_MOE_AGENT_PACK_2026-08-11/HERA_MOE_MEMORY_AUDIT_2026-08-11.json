@@ -1,0 +1,601 @@
+{
+  "kind": "HERA_MOE_tiered_residency_audit",
+  "source_zip": "/mnt/data/e2gq_moe.zip",
+  "source_zip_sha256": "8e6a2951a6ed4bd11ac3094262e53dbc075f3771c7e33279643e49d2f7bba070",
+  "model": "Qwen/Qwen3-30B-A3B-Base",
+  "architecture": {
+    "layers": 48,
+    "experts_per_layer": 128,
+    "top_k": 8,
+    "layer_expert_pairs": 6144,
+    "parameters_per_expert": 4718592,
+    "routed_parameters": 28991029248,
+    "nonexpert_parameters": 1541093376
+  },
+  "partition": {
+    "threshold_natural_invocations": 128,
+    "hot_experts": 4449,
+    "cold_experts": 1695,
+    "zero_experts": 196,
+    "hot_parameter_fraction": 0.72412109375,
+    "cold_parameter_fraction": 0.27587890625,
+    "total_calibration_invocations": 12582912,
+    "cold_calibration_invocations": 47958,
+    "cold_invocation_fraction": 0.003811359405517578,
+    "expected_cold_expert_calls_per_token": 1.46356201171875,
+    "hot_experts_per_layer_range": [
+      83,
+      116
+    ],
+    "maximum_layer_cold_invocation_fraction": 0.006450653076171875
+  },
+  "memory_projection": {
+    "hot_entropy_rate_bpp_assumption": 1.930709,
+    "hot_entropy_bank_vram_gib": 4.71847650567627,
+    "nonexpert_int4_vram_gib": 0.7176275253295898,
+    "resident_weight_vram_gib": 5.4361040310058595,
+    "headroom_inside_8gib_before_kv_and_buffers": 2.5638959689941405,
+    "cold_bf16_host_gib": 14.8974609375,
+    "cold_w4_host_gib": 3.8407516479492188,
+    "total_weights_hot_entropy_plus_nonexpert_int4_plus_cold_bf16_gib": 20.33356496850586
+  },
+  "traffic_projection_on_locked_wikitext_distribution": {
+    "warning": "Selection-count projection only; not router mass, p95 latency, or cross-domain behavior.",
+    "bf16_mib_per_cold_expert": 9.0,
+    "w4_mib_per_cold_expert": 2.3203125,
+    "expected_bf16_cold_mib_per_token": 13.17205810546875,
+    "expected_bf16_cold_gib_per_second_at_10_tps": 0.12863337993621826,
+    "expected_w4_cold_mib_per_token": 3.395921230316162,
+    "expected_w4_cold_gib_per_second_at_10_tps": 0.03316329326480627
+  },
+  "optional_hot_repair_projection": {
+    "8": {
+      "bpp_over_hot_matrices_before_metadata": 0.057291666666666664,
+      "hot_bank_gib": 0.1400156021118164
+    },
+    "16": {
+      "bpp_over_hot_matrices_before_metadata": 0.11458333333333333,
+      "hot_bank_gib": 0.2800312042236328
+    },
+    "32": {
+      "bpp_over_hot_matrices_before_metadata": 0.22916666666666666,
+      "hot_bank_gib": 0.5600624084472656
+    }
+  },
+  "layer_stats": [
+    {
+      "layer": 0,
+      "hot_experts": 116,
+      "cold_experts": 12,
+      "zero_experts": 0,
+      "cold_invocations": 604,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.0023040771484375,
+      "maximum_expert_count": 11774,
+      "median_expert_count": 1748.5
+    },
+    {
+      "layer": 1,
+      "hot_experts": 115,
+      "cold_experts": 13,
+      "zero_experts": 0,
+      "cold_invocations": 697,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.002658843994140625,
+      "maximum_expert_count": 18179,
+      "median_expert_count": 1680.0
+    },
+    {
+      "layer": 2,
+      "hot_experts": 99,
+      "cold_experts": 29,
+      "zero_experts": 5,
+      "cold_invocations": 936,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.003570556640625,
+      "maximum_expert_count": 10225,
+      "median_expert_count": 1511.5
+    },
+    {
+      "layer": 3,
+      "hot_experts": 110,
+      "cold_experts": 18,
+      "zero_experts": 0,
+      "cold_invocations": 570,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00217437744140625,
+      "maximum_expert_count": 14494,
+      "median_expert_count": 1363.5
+    },
+    {
+      "layer": 4,
+      "hot_experts": 97,
+      "cold_experts": 31,
+      "zero_experts": 5,
+      "cold_invocations": 960,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.003662109375,
+      "maximum_expert_count": 11284,
+      "median_expert_count": 1187.0
+    },
+    {
+      "layer": 5,
+      "hot_experts": 98,
+      "cold_experts": 30,
+      "zero_experts": 3,
+      "cold_invocations": 913,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.003482818603515625,
+      "maximum_expert_count": 11355,
+      "median_expert_count": 1124.5
+    },
+    {
+      "layer": 6,
+      "hot_experts": 92,
+      "cold_experts": 36,
+      "zero_experts": 3,
+      "cold_invocations": 1273,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.004856109619140625,
+      "maximum_expert_count": 16589,
+      "median_expert_count": 746.0
+    },
+    {
+      "layer": 7,
+      "hot_experts": 90,
+      "cold_experts": 38,
+      "zero_experts": 1,
+      "cold_invocations": 931,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.003551483154296875,
+      "maximum_expert_count": 18006,
+      "median_expert_count": 725.0
+    },
+    {
+      "layer": 8,
+      "hot_experts": 102,
+      "cold_experts": 26,
+      "zero_experts": 4,
+      "cold_invocations": 694,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00264739990234375,
+      "maximum_expert_count": 15972,
+      "median_expert_count": 1118.0
+    },
+    {
+      "layer": 9,
+      "hot_experts": 96,
+      "cold_experts": 32,
+      "zero_experts": 1,
+      "cold_invocations": 1050,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00400543212890625,
+      "maximum_expert_count": 14520,
+      "median_expert_count": 661.5
+    },
+    {
+      "layer": 10,
+      "hot_experts": 95,
+      "cold_experts": 33,
+      "zero_experts": 3,
+      "cold_invocations": 1368,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.005218505859375,
+      "maximum_expert_count": 19679,
+      "median_expert_count": 987.5
+    },
+    {
+      "layer": 11,
+      "hot_experts": 96,
+      "cold_experts": 32,
+      "zero_experts": 4,
+      "cold_invocations": 937,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.003574371337890625,
+      "maximum_expert_count": 14106,
+      "median_expert_count": 1063.5
+    },
+    {
+      "layer": 12,
+      "hot_experts": 93,
+      "cold_experts": 35,
+      "zero_experts": 1,
+      "cold_invocations": 1025,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.003910064697265625,
+      "maximum_expert_count": 22413,
+      "median_expert_count": 712.5
+    },
+    {
+      "layer": 13,
+      "hot_experts": 89,
+      "cold_experts": 39,
+      "zero_experts": 7,
+      "cold_invocations": 737,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.002811431884765625,
+      "maximum_expert_count": 21526,
+      "median_expert_count": 987.5
+    },
+    {
+      "layer": 14,
+      "hot_experts": 93,
+      "cold_experts": 35,
+      "zero_experts": 5,
+      "cold_invocations": 970,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00370025634765625,
+      "maximum_expert_count": 21690,
+      "median_expert_count": 635.5
+    },
+    {
+      "layer": 15,
+      "hot_experts": 87,
+      "cold_experts": 41,
+      "zero_experts": 6,
+      "cold_invocations": 1489,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.005680084228515625,
+      "maximum_expert_count": 22626,
+      "median_expert_count": 739.0
+    },
+    {
+      "layer": 16,
+      "hot_experts": 92,
+      "cold_experts": 36,
+      "zero_experts": 2,
+      "cold_invocations": 960,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.003662109375,
+      "maximum_expert_count": 22077,
+      "median_expert_count": 882.0
+    },
+    {
+      "layer": 17,
+      "hot_experts": 92,
+      "cold_experts": 36,
+      "zero_experts": 2,
+      "cold_invocations": 1114,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00424957275390625,
+      "maximum_expert_count": 15731,
+      "median_expert_count": 759.0
+    },
+    {
+      "layer": 18,
+      "hot_experts": 90,
+      "cold_experts": 38,
+      "zero_experts": 5,
+      "cold_invocations": 1014,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00386810302734375,
+      "maximum_expert_count": 17124,
+      "median_expert_count": 696.0
+    },
+    {
+      "layer": 19,
+      "hot_experts": 86,
+      "cold_experts": 42,
+      "zero_experts": 6,
+      "cold_invocations": 1208,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.004608154296875,
+      "maximum_expert_count": 18795,
+      "median_expert_count": 601.0
+    },
+    {
+      "layer": 20,
+      "hot_experts": 96,
+      "cold_experts": 32,
+      "zero_experts": 5,
+      "cold_invocations": 790,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00301361083984375,
+      "maximum_expert_count": 18540,
+      "median_expert_count": 1100.0
+    },
+    {
+      "layer": 21,
+      "hot_experts": 91,
+      "cold_experts": 37,
+      "zero_experts": 4,
+      "cold_invocations": 916,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.0034942626953125,
+      "maximum_expert_count": 15298,
+      "median_expert_count": 672.0
+    },
+    {
+      "layer": 22,
+      "hot_experts": 93,
+      "cold_experts": 35,
+      "zero_experts": 5,
+      "cold_invocations": 1296,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00494384765625,
+      "maximum_expert_count": 21233,
+      "median_expert_count": 1177.0
+    },
+    {
+      "layer": 23,
+      "hot_experts": 94,
+      "cold_experts": 34,
+      "zero_experts": 5,
+      "cold_invocations": 884,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.0033721923828125,
+      "maximum_expert_count": 16760,
+      "median_expert_count": 1412.5
+    },
+    {
+      "layer": 24,
+      "hot_experts": 92,
+      "cold_experts": 36,
+      "zero_experts": 2,
+      "cold_invocations": 988,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.0037689208984375,
+      "maximum_expert_count": 22432,
+      "median_expert_count": 871.0
+    },
+    {
+      "layer": 25,
+      "hot_experts": 89,
+      "cold_experts": 39,
+      "zero_experts": 7,
+      "cold_invocations": 763,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.002910614013671875,
+      "maximum_expert_count": 23480,
+      "median_expert_count": 1265.5
+    },
+    {
+      "layer": 26,
+      "hot_experts": 90,
+      "cold_experts": 38,
+      "zero_experts": 5,
+      "cold_invocations": 1171,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.004467010498046875,
+      "maximum_expert_count": 22555,
+      "median_expert_count": 687.5
+    },
+    {
+      "layer": 27,
+      "hot_experts": 84,
+      "cold_experts": 44,
+      "zero_experts": 6,
+      "cold_invocations": 1327,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.005062103271484375,
+      "maximum_expert_count": 22145,
+      "median_expert_count": 722.5
+    },
+    {
+      "layer": 28,
+      "hot_experts": 92,
+      "cold_experts": 36,
+      "zero_experts": 2,
+      "cold_invocations": 866,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00330352783203125,
+      "maximum_expert_count": 21939,
+      "median_expert_count": 932.5
+    },
+    {
+      "layer": 29,
+      "hot_experts": 89,
+      "cold_experts": 39,
+      "zero_experts": 5,
+      "cold_invocations": 1390,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00530242919921875,
+      "maximum_expert_count": 15450,
+      "median_expert_count": 804.5
+    },
+    {
+      "layer": 30,
+      "hot_experts": 91,
+      "cold_experts": 37,
+      "zero_experts": 4,
+      "cold_invocations": 965,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.003681182861328125,
+      "maximum_expert_count": 16435,
+      "median_expert_count": 774.5
+    },
+    {
+      "layer": 31,
+      "hot_experts": 88,
+      "cold_experts": 40,
+      "zero_experts": 3,
+      "cold_invocations": 1074,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00409698486328125,
+      "maximum_expert_count": 17151,
+      "median_expert_count": 682.0
+    },
+    {
+      "layer": 32,
+      "hot_experts": 97,
+      "cold_experts": 31,
+      "zero_experts": 8,
+      "cold_invocations": 890,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00339508056640625,
+      "maximum_expert_count": 15667,
+      "median_expert_count": 1087.5
+    },
+    {
+      "layer": 33,
+      "hot_experts": 91,
+      "cold_experts": 37,
+      "zero_experts": 3,
+      "cold_invocations": 1166,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00444793701171875,
+      "maximum_expert_count": 17075,
+      "median_expert_count": 775.0
+    },
+    {
+      "layer": 34,
+      "hot_experts": 92,
+      "cold_experts": 36,
+      "zero_experts": 5,
+      "cold_invocations": 1461,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.005573272705078125,
+      "maximum_expert_count": 20683,
+      "median_expert_count": 1284.0
+    },
+    {
+      "layer": 35,
+      "hot_experts": 94,
+      "cold_experts": 34,
+      "zero_experts": 4,
+      "cold_invocations": 1067,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.004070281982421875,
+      "maximum_expert_count": 16709,
+      "median_expert_count": 1488.5
+    },
+    {
+      "layer": 36,
+      "hot_experts": 95,
+      "cold_experts": 33,
+      "zero_experts": 3,
+      "cold_invocations": 1065,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.004062652587890625,
+      "maximum_expert_count": 21260,
+      "median_expert_count": 957.5
+    },
+    {
+      "layer": 37,
+      "hot_experts": 87,
+      "cold_experts": 41,
+      "zero_experts": 7,
+      "cold_invocations": 779,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.002971649169921875,
+      "maximum_expert_count": 22058,
+      "median_expert_count": 1364.0
+    },
+    {
+      "layer": 38,
+      "hot_experts": 89,
+      "cold_experts": 39,
+      "zero_experts": 3,
+      "cold_invocations": 946,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00360870361328125,
+      "maximum_expert_count": 19849,
+      "median_expert_count": 1160.5
+    },
+    {
+      "layer": 39,
+      "hot_experts": 83,
+      "cold_experts": 45,
+      "zero_experts": 4,
+      "cold_invocations": 1328,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00506591796875,
+      "maximum_expert_count": 21638,
+      "median_expert_count": 888.5
+    },
+    {
+      "layer": 40,
+      "hot_experts": 93,
+      "cold_experts": 35,
+      "zero_experts": 8,
+      "cold_invocations": 604,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.0023040771484375,
+      "maximum_expert_count": 18393,
+      "median_expert_count": 947.0
+    },
+    {
+      "layer": 41,
+      "hot_experts": 86,
+      "cold_experts": 42,
+      "zero_experts": 4,
+      "cold_invocations": 913,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.003482818603515625,
+      "maximum_expert_count": 13471,
+      "median_expert_count": 965.0
+    },
+    {
+      "layer": 42,
+      "hot_experts": 84,
+      "cold_experts": 44,
+      "zero_experts": 8,
+      "cold_invocations": 946,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00360870361328125,
+      "maximum_expert_count": 14415,
+      "median_expert_count": 1005.5
+    },
+    {
+      "layer": 43,
+      "hot_experts": 86,
+      "cold_experts": 42,
+      "zero_experts": 7,
+      "cold_invocations": 740,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.0028228759765625,
+      "maximum_expert_count": 13993,
+      "median_expert_count": 747.5
+    },
+    {
+      "layer": 44,
+      "hot_experts": 92,
+      "cold_experts": 36,
+      "zero_experts": 10,
+      "cold_invocations": 484,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.0018463134765625,
+      "maximum_expert_count": 15679,
+      "median_expert_count": 721.5
+    },
+    {
+      "layer": 45,
+      "hot_experts": 89,
+      "cold_experts": 39,
+      "zero_experts": 3,
+      "cold_invocations": 1014,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.00386810302734375,
+      "maximum_expert_count": 14550,
+      "median_expert_count": 493.0
+    },
+    {
+      "layer": 46,
+      "hot_experts": 90,
+      "cold_experts": 38,
+      "zero_experts": 2,
+      "cold_invocations": 984,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.003753662109375,
+      "maximum_expert_count": 15285,
+      "median_expert_count": 680.5
+    },
+    {
+      "layer": 47,
+      "hot_experts": 84,
+      "cold_experts": 44,
+      "zero_experts": 1,
+      "cold_invocations": 1691,
+      "total_invocations": 262144,
+      "cold_invocation_fraction": 0.006450653076171875,
+      "maximum_expert_count": 14541,
+      "median_expert_count": 741.5
+    }
+  ],
+  "claim_boundary": [
+    "The old E2GQ all-expert coverage gate remains correctly closed.",
+    "The hot entropy rate is extrapolated from the locked 16-expert diagnostic and is not a full-bank file measurement.",
+    "Cold invocation frequency is measured on WikiText and may shift by domain.",
+    "Full-model 2-bit GPTQ quality, actual packing, VRAM use and tokens/s are unproven."
+  ]
+}

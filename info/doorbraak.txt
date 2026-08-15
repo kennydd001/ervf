@@ -1,0 +1,251 @@
+Wat we nu werkelijk moeten doen
+
+De grootste bedreiging is nu niet snelheid, maar dat we een sterk resultaat verzwakken door te blijven tunen op dezelfde gegevens.
+
+1. Bevries STREAMQ5-P6B als versie 1.0
+
+De huidige kandidaat wordt immutable:
+
+RTN-Q5-experts met BF16-scales;
+Q8-trunk;
+1.640 fysieke cacheslots;
+twintig statische slots per laag;
+vijftien dynamische slots in lagen 0–7 en veertien in lagen 8–47;
+officiële live top-8;
+officiële routergewichten;
+BF16-KV tot 4K;
+dezelfde Q5- en Q8-bankhashes.
+
+Tag de repository, maak een clean-buildscript en wijzig deze baseline niet meer. Iedere optimalisatie krijgt vanaf nu een nieuwe registry en wordt altijd tegen P6B vergeleken.
+
+2. Bewijs nu de oorspronkelijke 32-GB-RAM-claim
+
+Dit is belangrijker dan 96 GB kopen.
+
+Run exact dezelfde P6B-runtime onder een harde 32-GiB process- of VM-limiet. Niet fysiek één DIMM verwijderen, want dat kan geheugenkanalen en prestaties veranderen. Gebruik een Windows Job Object, VM of equivalent met een echte commitlimiet.
+
+Meet:
+
+peak working set;
+private commit;
+pageable en pinned bytes;
+page faults na initialisatie;
+mean/p95/p99;
+512-tokenrollout;
+4K-context;
+loadtijd.
+
+De banken gebruiken expliciet ongeveer 20,2 GB. De kans is dus groot dat de volledige runtime al binnen 32 GB past. Dat moet worden gemeten, want het P6B-rapport noemt wel alle gepinde banken, maar geen beslissende process-RSS-gate.
+
+Gate:
+
+process commit≤32 GiB
+rollout≥14,5 tok/s
+p95≤85 ms
+
+Wanneer dit slaagt, is het oorspronkelijke doel letterlijk bereikt:
+
+Qwen3-30B-A3B, 8 GB VRAM, maximaal 32 GB RAM, ruim meer dan 10 tok/s.
+
+Als het niet past, verwijderen we dubbele buffers en Pythonobjecten. We kopen geen extra RAM om inefficiënt geheugenbeheer te verbergen.
+
+3. Doe een echte thermische duurproef
+
+De 512-tokenrollout duurt ongeveer een halve minuut. Dat bewijst geen thermische steady state.
+
+Voer minimaal uit:
+
+60 minuten onafgebroken generatie;
+4K-context;
+minstens 10.000 tokens;
+netstroom en maximale performancemodus;
+logging van GPU-clock, temperatuur, wattage, CPU-clock, H2D en p50/p95/p99 per tijdsblok.
+
+Beslissend is niet de eerste minuut, maar het laatste kwartier.
+
+Gate:
+
+laatste 15 minuten minstens 90% van de eerste 5 minuten throughput;
+geen OOM of paging;
+p99 onder 100–110 ms;
+geen langdurige clock collapse.
+
+Pas wanneer hier throttling zichtbaar wordt, is een cooling pad of aangepaste fan/powerconfiguratie rationeel.
+
+4. Los de grootste productbeperking op: domeinkeuze
+
+De huidige Eureka is eerlijk begrensd: de twintig statische experts per laag komen uit een vooraf gekozen domeinprofiel. De dynamische LRU is causaal, maar de statische basis kent vooraf general, code, math, multilingual of instruction.
+
+HERA bewees dat één enorme cross-domain static union niet werkt: 6.081 van 6.144 laag-expertparen werden hot en de geheugenpoort werd met 1,417 GiB gemist. De onafhankelijke verificatie bevestigde dat met 15/15 controles.
+
+We moeten HERA dus niet “heropenen”. We gebruiken de negatieve les.
+
+Nieuwe causale cachearchitectuur
+
+Ik zou een aparte P7-registry maken met drie vaste kandidaten:
+
+Oracle-domain, de huidige P6B-baseline.
+Universal fallback: bijvoorbeeld twaalf globale statische slots plus de bestaande dynamische LRU.
+Automatische profilemix:
+twaalf globale statische slots;
+acht profielspecifieke statische slots;
+veertien/vijftien dynamische slots;
+profiel gekozen vóór decode door een kleine tekstclassifier;
+bij lage zekerheid de twee waarschijnlijkste profielen combineren of universal fallback gebruiken.
+
+Geen route wordt gewijzigd. Alleen de cacheplaatsing verandert. De modeloutput blijft exact dezelfde Q5+Q8-output.
+
+De oude ADHERA-routewarmup van 64 tokens mag niet simpelweg worden hergebruikt: die faalde eerder juist op math en instruction. Een kleine prompttekstclassifier plus causal LRU is waarschijnlijk robuuster dan routes uit de eerste 64 tokens als enige voorspeller.
+
+Test verplicht:
+
+zuivere vijf domeinen;
+mixed code + uitleg;
+math + Python;
+multilingual instruction;
+domain switch halverwege een conversatie;
+volledig OOD-prompts;
+promptlengtes 0, 16, 64, 256 en 1.024.
+
+De automatische variant mag hoogstens 5% trager zijn dan oracle-domain en moet dezelfde modelkwaliteit behouden.
+
+5. Vergelijk nu tegen bestaande runtimes op dezelfde laptop
+
+Zonder same-hardwarebaseline weten we niet hoe groot de praktische doorbraak werkelijk is.
+
+Vergelijk ten minste:
+
+llama.cpp met een vergelijkbare Q5-quant;
+Ollama/llama.cpp partial offload;
+een gangbare GPTQ/AWQ-runtime die dit model ondersteunt;
+zero-cache active-setstreaming;
+jouw STREAMQ5-P6B.
+
+Exact gelijk houden:
+
+modelversie;
+tokenizer;
+prompt;
+contextlengte;
+outputlengte;
+batch 1;
+sampling;
+warm/cold state;
+netstroom;
+thermische toestand.
+
+Rapporteer:
+
+TTFT;
+prefill tok/s;
+decode tok/s;
+p95/p99;
+VRAM;
+RAM;
+energie/token;
+CE of benchmarkkwaliteit.
+
+Er bestaan publieke meldingen van Qwen3-30B-A3B op 8-GB-kaarten rond 11 tok/s met gewone partial offload, maar die gebruiken andere hardware, instellingen en software en zijn geen geldige vergelijking met jouw resultaat. De vergelijking moet lokaal en gecontroleerd gebeuren.
+
+6. Reproduceer op een tweede model, niet meteen een groter model
+
+Voor een wetenschappelijke generalisatieclaim is DeepSeek-V2-Lite de juiste volgende kandidaat:
+
+de weights en tooling bestaan al;
+architectuur verschilt wezenlijk van Qwen;
+top-6 in plaats van top-8;
+shared experts;
+andere routersemantiek;
+veel lagere opslag- en iteratiekosten.
+
+De vraag wordt:
+
+Bestaat ook daar een eerste full-depth quality-safe precisiedrempel, gevolgd door een optimale statisch/dynamische cacheverdeling?
+
+Gebruik exact dezelfde fasering:
+
+Q4/Q5-kwaliteitsselectie op validation;
+test één keer;
+fysieke bank;
+kernel;
+cachewaterfilling;
+volledige end-to-enddecode;
+512-tokenrollout.
+
+Pas na een tweede familie mag de conclusie breder worden dan “dit werkt voor Qwen3-30B-A3B op deze laptop”.
+
+Wat van het oude onderzoek nog gecombineerd mag worden
+Wel combineren
+P4A causal async-overlap: dit was bit-exact en gaf ongeveer 1,40× expertversnelling, van 28,56 naar 20,37 ms gemiddeld. Het huidige P6-pad laat al overlap toe; verdere verbeteringen moeten uitsluitend scheduling veranderen. Zie de 
+P4A-test.
+HERA’s domeinprofielen: niet als union, maar als kleine cachepriors.
+Validation-only cachewaterfilling: ongelijke laagbudgetten mogen worden onderzocht met een nieuw venster.
+CORETAIL/E2GQ-codecs: later uitsluitend als lossless opslag- of laadtijdoptimalisatie van Q5. Niet als andere modelsemantiek.
+Rate-splitting: later voor grotere modellen; de uiteindelijke som moet exact dezelfde Q5-weight reconstrueren.
+Niet combineren
+Geen Q2-CORETAIL-semantiek: +42,943% CE is hard gefalsificeerd.
+Geen CRAFT-rerouting of Mass-Budget in de hoofdclaim.
+Geen atom skipping.
+Geen dynamische Q3/Q4-precisionselector.
+Geen expertvervanging of learned surrogate.
+Geen nieuwe Q4/Q5/Q6-sweep.
+Geen tweede topk op dezelfde logits; alleen de werkelijk onderschepte officiële top-k-call is autoritatief. BF16-ties maakten eerdere herberekeningen aantoonbaar onbetrouwbaar.
+
+Die technieken kunnen later afzonderlijke experimenten zijn, maar ze mogen niet de reeds bewezen, exact uitvoerende P6B-baseline vertroebelen.
+
+Wanneer hardware kopen wél rationeel wordt
+Upgrade naar 96 GB RAM
+
+Alleen wanneer een van deze concrete situaties optreedt:
+
+tweede modelbank plus runtime gebruikt structureel meer dan ongeveer 50 GB;
+twee gelijktijdige modelsessies;
+batch groter dan één;
+een veel groter quantized model met een hostbank die niet meer binnen 64 GB past.
+
+De P16v ondersteunt officieel tot 96 GB, maar dit is capaciteit, geen huidige snelheidswinst.
+
+Nieuwe CPU of laptop
+
+Alleen wanneer profiling toont dat:
+
+CPU-dispatch of preprocessing meer dan ongeveer 15–20 ms/token kost;
+CPU-misscompute aantoonbaar sneller is dan Q5-H2D plus GPU-execution;
+of je meerdere simultane gebruikers wilt bedienen.
+
+Dat bewijs bestaat nu niet. P3B vond juist vrijwel geen dispatch gap.
+
+Grotere SSD
+
+Wel nuttig zodra je:
+
+meerdere fysieke quantbanken bewaart;
+DeepSeek én Qwen tegelijk lokaal houdt;
+V4/Kimi-bronweights downloadt;
+alle reproduceerbare artefacten en benchmarks bewaart.
+
+Maar een grotere SSD verandert de huidige decode niet.
+
+Meer VRAM
+
+Een 16-GB-GPU zou productontwikkeling vereenvoudigen, maar is wetenschappelijk een aparte hardwarebaseline. De 8-GB-resultaten moeten als hoofdclaim behouden blijven.
+
+De concrete volgorde
+Geen geld uitgeven.
+P6B-code, banken en resultaten bevriezen.
+Dezelfde run onder een harde 32-GB-RAM-limiet uitvoeren.
+Een 60-minuten thermische 4K-run uitvoeren.
+Same-hardwarevergelijking tegen gangbare runtimes.
+Automatische domein/profile-cache op nieuwe data testen.
+Op DeepSeek-V2-Lite repliceren.
+Pas daarna optimaliseren voor meer context, meer gebruikers of grotere modellen.
+
+De juiste mindset is nu niet meer:
+
+“Welke truc krijgen we nog in het model?”
+
+maar:
+
+“Hoe veranderen we deze lokale Eureka in een reproduceerbare, algemene en publiceerbare systemsdoorbraak?”
+
+Meer RAM of een andere CPU zou op dit moment vooral de scherpte van het resultaat verminderen. De sterkste volgende prestatie is dezelfde 15,87 tok/s bij 4K aantonen onder een harde 32-GB-limiet, langdurig thermisch stabiel, zonder handmatige domeinkeuze en daarna op een tweede MoE-familie.

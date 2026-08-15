@@ -1,0 +1,60 @@
+{
+  "claim_boundary": "Toolchain and one locked correctness case only; timings are diagnostic and cannot satisfy P1.",
+  "completed_utc": "2026-08-12T06:33:53.526383+00:00",
+  "correctness": {
+    "coretail_within_tolerance": true,
+    "fixed_coretail_within_tolerance": true,
+    "fixed_within_tolerance": true
+  },
+  "diagnostic_timing": {
+    "coretail": {
+      "median_weight_applications_per_second": 44785422432.335014,
+      "p50_ms": 0.03511999920010567,
+      "p95_ms": 0.03654399886727333,
+      "p99_ms": 0.04758368071168658
+    },
+    "fixed_uint2": {
+      "median_weight_applications_per_second": 84598967263.04652,
+      "p50_ms": 0.018592000007629395,
+      "p95_ms": 0.020964799448847767,
+      "p99_ms": 0.05173055842518799
+    }
+  },
+  "environment": {
+    "cupy": "14.1.1",
+    "gpu": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU",
+    "torch": "2.12.1+cu132"
+  },
+  "errors": {
+    "coretail_vs_fixed": {
+      "finite": true,
+      "max_abs": 4.76837158203125e-07,
+      "relative_l2": 1.2062297116699483e-07
+    },
+    "coretail_vs_reference": {
+      "finite": true,
+      "max_abs": 7.152557373046875e-07,
+      "relative_l2": 2.509677301532065e-07
+    },
+    "fixed_vs_reference": {
+      "finite": true,
+      "max_abs": 7.152557373046875e-07,
+      "relative_l2": 2.4979573254313436e-07
+    }
+  },
+  "inputs": {
+    "key": "0:114:gate",
+    "lock_sha256": "b98938622a3e5887b50ffd5b0d468e275f7ac0ab9fefc9772ca3adae0842439a",
+    "vector_key": "layer_00_expert_114_gate"
+  },
+  "kind": "coretail_moe_p1a_kernel_toolchain_correctness_smoke",
+  "physical_runtime_inputs": {
+    "core_bitmap_bytes": 196608,
+    "core_row_offset_bytes": 3076,
+    "core_sign_bytes": 113721,
+    "decoded_tail_flag_bytes": 58466,
+    "decoded_tail_row_offset_bytes": 3076,
+    "scale_bytes": 24576
+  },
+  "status": "smoke_pass"
+}

@@ -1,0 +1,42 @@
+project: DCHERA_MOE
+codename: DomainConditionedBudgetCache
+created_at: 2026-08-11
+updated_at: 2026-08-11
+status: p0a_closed_exploratory_negative_verified
+parent:
+  project: DHERA_MOE
+  status: p0_closed_cache_trace_negative_verified
+hypothesis:
+  id: DCHERA_FIXED_DOMAIN_BASE
+  statement: >-
+    A known-domain-conditioned 4,280-expert basis, selected only from that
+    domain's HERA training routes, plus the fixed 48-primary and 8-victim
+    cache can satisfy the same traffic and memory gates, even when a full
+    projected base transfer is charged at every 1,024-token context.
+  novelty_claim: false
+phases:
+  - id: P0A_OPENED_ROUTE_EXPLORATION
+    status: closed_negative_verified_18_of_18
+    preregistration: reports/dchera_moe/P0A_DOMAIN_CACHE_PREREGISTRATION.md
+    base_lock: reports/dchera_moe/p0a_domain_base_lock.json
+    result: reports/dchera_moe/p0a_domain_cache_result.json
+    report: reports/dchera_moe/P0A_DOMAIN_CACHE_REPORT.md
+    verification: reports/dchera_moe/p0a_domain_cache_verification.json
+    verification_report: reports/dchera_moe/P0A_DOMAIN_CACHE_VERIFICATION.md
+    result_summary: 3_of_5_domains_pass_code_and_instruction_tail_gates_fail
+  - id: P0B_FRESH_BLIND_CONFIRMATION
+    status: permanently_blocked_by_negative_P0A
+  - id: P1_TRANSFER_MICROBENCHMARK
+    status: blocked_by_P0B
+gates:
+  resident_weight_gib_max: 5.75
+  active_host_exact_bf16_gib_max: 24.0
+  mean_total_h2d_mib_per_token_each_domain_max: 64.0
+  p95_total_h2d_mib_per_token_each_domain_max: 144.0
+  p99_total_h2d_mib_per_token_each_domain_max: 288.0
+claim_boundary:
+  - P0A reuses routes whose global-base result has already been inspected.
+  - Domain bases use training data only, but P0A is exploratory, not proof.
+  - The domain label is supplied; no domain classifier is tested.
+  - Quality, real pack bytes, decoding, latency and tokens/s remain untested.
+  - A causal within-context adaptation remains a distinct untested policy.

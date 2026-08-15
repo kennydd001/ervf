@@ -1,0 +1,486 @@
+{
+  "kind": "tierflow_f0_cpu_trace_feasibility",
+  "phase": "test",
+  "completed_utc": "2026-08-12T19:11:09.804406+00:00",
+  "claim_boundary": "Traffic-only optimistic route-edit oracle on frozen real Qwen30 P4D routes; no training, LM quality, expert execution, latency, or system claim.",
+  "inputs": {
+    "preregistration": "reports/streamq5_moe/TIERFLOW_F0_PREREGISTRATION_2026-08-12.md",
+    "preregistration_sha256": "0dd44a57ef4782eb6af4d0d8319d20ab03f8800a00deea8e6377055a306c6337",
+    "route_capture_sha256": "7ebfcf30eceed76e2615e11702ca162eb43bf4236d6099cc307ec5cb4bcd74bb",
+    "route_input_lock_sha256": "852ec3a60d5c51376b12f20f56f4ddee60dbb3baf3cc6b2062890d46ceb8777f",
+    "model_index_sha256": "df0d481ec595c55a0ba58426d517390c6214a566ec4ff1c8fc4bbce9f57b3c24"
+  },
+  "trace": {
+    "model_variant": "q5_experts_int8_trunk",
+    "layers": 48,
+    "domains": [
+      "general",
+      "code",
+      "math",
+      "multilingual",
+      "instruction"
+    ],
+    "tokens_per_domain": 1024,
+    "top_k": 8,
+    "experts": 128,
+    "expert_record_bytes": 3035136
+  },
+  "oracle": {
+    "edit_semantics": "one replacement equals one newly admitted expert",
+    "state_cardinality": 8,
+    "tie_break": "within-partition clairvoyant next-use/frequency/expert-id",
+    "causal": false,
+    "conditional_current_token_overlap_optimal": true
+  },
+  "partition": [
+    768,
+    1024
+  ],
+  "selected_edit_budget": 1,
+  "validation_result_sha256": "cfd703a75e78f92b00d4eda0de9f25687c067ef1d96f6b3a8cbaea7505372e40",
+  "validation_summary": {
+    "metrics": {
+      "aggregate": {
+        "transitions": 61440,
+        "baseline_new_loads": {
+          "count": 61440,
+          "mean": 4.1064453125,
+          "p50": 4.0,
+          "p95": 7.0,
+          "p99": 8.0,
+          "max": 8
+        },
+        "oracle_new_loads": {
+          "count": 61440,
+          "mean": 0.9899576822916667,
+          "p50": 1.0,
+          "p95": 1.0,
+          "p99": 1.0,
+          "max": 1
+        },
+        "baseline_critical_expert_bytes": 765764812800,
+        "oracle_critical_expert_bytes": 184606076928,
+        "critical_expert_bytes_reduction_x": 4.148101869358631,
+        "worst_case_new_load_reduction_x": 8.0,
+        "mean_route_set_overlap": 0.68863525390625,
+        "router_output_substitution_rate": 0.31136474609375,
+        "exact_route_set_match_rate": 0.09342447916666667,
+        "overlap_count": {
+          "count": 61440,
+          "mean": 5.50908203125,
+          "p50": 6.0,
+          "p95": 8.0,
+          "p99": 8.0,
+          "max": 8
+        },
+        "cold_start_expert_bytes_separate": 5827461120,
+        "stream_all_top8_bytes_without_reuse": 1491830046720
+      },
+      "per_domain": {
+        "general": {
+          "transitions": 12288,
+          "baseline_new_loads": {
+            "count": 12288,
+            "mean": 3.5560709635416665,
+            "p50": 3.0,
+            "p95": 7.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "oracle_new_loads": {
+            "count": 12288,
+            "mean": 0.9790852864583334,
+            "p50": 1.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1
+          },
+          "baseline_critical_expert_bytes": 132626337792,
+          "oracle_critical_expert_bytes": 36515721216,
+          "critical_expert_bytes_reduction_x": 3.632033912392985,
+          "worst_case_new_load_reduction_x": 8.0,
+          "mean_route_set_overlap": 0.7505289713541666,
+          "router_output_substitution_rate": 0.24947102864583337,
+          "exact_route_set_match_rate": 0.15543619791666666,
+          "overlap_count": {
+            "count": 12288,
+            "mean": 6.004231770833333,
+            "p50": 6.0,
+            "p95": 8.0,
+            "p99": 8.0,
+            "max": 8
+          }
+        },
+        "code": {
+          "transitions": 12288,
+          "baseline_new_loads": {
+            "count": 12288,
+            "mean": 3.982666015625,
+            "p50": 4.0,
+            "p95": 7.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "oracle_new_loads": {
+            "count": 12288,
+            "mean": 0.9898274739583334,
+            "p50": 1.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1
+          },
+          "baseline_critical_expert_bytes": 148536520704,
+          "oracle_critical_expert_bytes": 36916359168,
+          "critical_expert_bytes_reduction_x": 4.023596152265066,
+          "worst_case_new_load_reduction_x": 8.0,
+          "mean_route_set_overlap": 0.704193115234375,
+          "router_output_substitution_rate": 0.295806884765625,
+          "exact_route_set_match_rate": 0.101806640625,
+          "overlap_count": {
+            "count": 12288,
+            "mean": 5.633544921875,
+            "p50": 6.0,
+            "p95": 8.0,
+            "p99": 8.0,
+            "max": 8
+          }
+        },
+        "math": {
+          "transitions": 12288,
+          "baseline_new_loads": {
+            "count": 12288,
+            "mean": 5.057861328125,
+            "p50": 5.0,
+            "p95": 8.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "oracle_new_loads": {
+            "count": 12288,
+            "mean": 0.9982096354166666,
+            "p50": 1.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1
+          },
+          "baseline_critical_expert_bytes": 188636737536,
+          "oracle_critical_expert_bytes": 37228978176,
+          "critical_expert_bytes_reduction_x": 5.066932985488342,
+          "worst_case_new_load_reduction_x": 8.0,
+          "mean_route_set_overlap": 0.5980021158854166,
+          "router_output_substitution_rate": 0.40199788411458337,
+          "exact_route_set_match_rate": 0.029541015625,
+          "overlap_count": {
+            "count": 12288,
+            "mean": 4.784016927083333,
+            "p50": 5.0,
+            "p95": 7.0,
+            "p99": 8.0,
+            "max": 8
+          }
+        },
+        "multilingual": {
+          "transitions": 12288,
+          "baseline_new_loads": {
+            "count": 12288,
+            "mean": 3.8120930989583335,
+            "p50": 4.0,
+            "p95": 7.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "oracle_new_loads": {
+            "count": 12288,
+            "mean": 0.989013671875,
+            "p50": 1.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1
+          },
+          "baseline_critical_expert_bytes": 142174875648,
+          "oracle_critical_expert_bytes": 36886007808,
+          "critical_expert_bytes_reduction_x": 3.854439233111166,
+          "worst_case_new_load_reduction_x": 8.0,
+          "mean_route_set_overlap": 0.7226053873697916,
+          "router_output_substitution_rate": 0.27739461263020837,
+          "exact_route_set_match_rate": 0.10807291666666667,
+          "overlap_count": {
+            "count": 12288,
+            "mean": 5.780843098958333,
+            "p50": 6.0,
+            "p95": 8.0,
+            "p99": 8.0,
+            "max": 8
+          }
+        },
+        "instruction": {
+          "transitions": 12288,
+          "baseline_new_loads": {
+            "count": 12288,
+            "mean": 4.12353515625,
+            "p50": 4.0,
+            "p95": 7.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "oracle_new_loads": {
+            "count": 12288,
+            "mean": 0.99365234375,
+            "p50": 1.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1
+          },
+          "baseline_critical_expert_bytes": 153790341120,
+          "oracle_critical_expert_bytes": 37059010560,
+          "critical_expert_bytes_reduction_x": 4.14987714987715,
+          "worst_case_new_load_reduction_x": 8.0,
+          "mean_route_set_overlap": 0.6678466796875,
+          "router_output_substitution_rate": 0.3321533203125,
+          "exact_route_set_match_rate": 0.072265625,
+          "overlap_count": {
+            "count": 12288,
+            "mean": 5.3427734375,
+            "p50": 5.0,
+            "p95": 8.0,
+            "p99": 8.0,
+            "max": 8
+          }
+        }
+      }
+    },
+    "gates": {
+      "critical_expert_bytes_reduction_at_least_4x": true,
+      "worst_case_new_load_reduction_at_least_8x": true,
+      "traffic_gates_pass": true,
+      "quality_regression_at_most_1_percent": "UNTESTED_REQUIRES_TRAINING",
+      "measured_p95_at_least_2x": "UNTESTED_NO_RUNTIME_EXECUTION",
+      "no_p99_collapse": "UNTESTED_NO_RUNTIME_EXECUTION",
+      "second_memory_hierarchy": "UNTESTED"
+    }
+  },
+  "test": {
+    "metrics": {
+      "aggregate": {
+        "transitions": 61440,
+        "baseline_new_loads": {
+          "count": 61440,
+          "mean": 4.116878255208333,
+          "p50": 4.0,
+          "p95": 7.0,
+          "p99": 8.0,
+          "max": 8
+        },
+        "oracle_new_loads": {
+          "count": 61440,
+          "mean": 0.990185546875,
+          "p50": 1.0,
+          "p95": 1.0,
+          "p99": 1.0,
+          "max": 1
+        },
+        "baseline_critical_expert_bytes": 767710334976,
+        "oracle_critical_expert_bytes": 184648568832,
+        "critical_expert_bytes_reduction_x": 4.157683646465145,
+        "worst_case_new_load_reduction_x": 8.0,
+        "mean_route_set_overlap": 0.67969970703125,
+        "router_output_substitution_rate": 0.32030029296874996,
+        "exact_route_set_match_rate": 0.089892578125,
+        "overlap_count": {
+          "count": 61440,
+          "mean": 5.43759765625,
+          "p50": 6.0,
+          "p95": 8.0,
+          "p99": 8.0,
+          "max": 8
+        },
+        "cold_start_expert_bytes_separate": 5827461120,
+        "stream_all_top8_bytes_without_reuse": 1491830046720
+      },
+      "per_domain": {
+        "general": {
+          "transitions": 12288,
+          "baseline_new_loads": {
+            "count": 12288,
+            "mean": 3.5792643229166665,
+            "p50": 3.0,
+            "p95": 7.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "oracle_new_loads": {
+            "count": 12288,
+            "mean": 0.9834798177083334,
+            "p50": 1.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1
+          },
+          "baseline_critical_expert_bytes": 133491351552,
+          "oracle_critical_expert_bytes": 36679618560,
+          "critical_expert_bytes_reduction_x": 3.6393876706661152,
+          "worst_case_new_load_reduction_x": 8.0,
+          "mean_route_set_overlap": 0.7456258138020834,
+          "router_output_substitution_rate": 0.25437418619791663,
+          "exact_route_set_match_rate": 0.14469401041666666,
+          "overlap_count": {
+            "count": 12288,
+            "mean": 5.965006510416667,
+            "p50": 6.0,
+            "p95": 8.0,
+            "p99": 8.0,
+            "max": 8
+          }
+        },
+        "code": {
+          "transitions": 12288,
+          "baseline_new_loads": {
+            "count": 12288,
+            "mean": 4.034830729166667,
+            "p50": 4.0,
+            "p95": 7.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "oracle_new_loads": {
+            "count": 12288,
+            "mean": 0.990966796875,
+            "p50": 1.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1
+          },
+          "baseline_critical_expert_bytes": 150482042880,
+          "oracle_critical_expert_bytes": 36958851072,
+          "critical_expert_bytes_reduction_x": 4.071610413073827,
+          "worst_case_new_load_reduction_x": 8.0,
+          "mean_route_set_overlap": 0.6918233235677084,
+          "router_output_substitution_rate": 0.30817667643229163,
+          "exact_route_set_match_rate": 0.094482421875,
+          "overlap_count": {
+            "count": 12288,
+            "mean": 5.534586588541667,
+            "p50": 6.0,
+            "p95": 8.0,
+            "p99": 8.0,
+            "max": 8
+          }
+        },
+        "math": {
+          "transitions": 12288,
+          "baseline_new_loads": {
+            "count": 12288,
+            "mean": 5.069986979166667,
+            "p50": 5.0,
+            "p95": 8.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "oracle_new_loads": {
+            "count": 12288,
+            "mean": 0.9978841145833334,
+            "p50": 1.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1
+          },
+          "baseline_critical_expert_bytes": 189088972800,
+          "oracle_critical_expert_bytes": 37216837632,
+          "critical_expert_bytes_reduction_x": 5.080737236992334,
+          "worst_case_new_load_reduction_x": 8.0,
+          "mean_route_set_overlap": 0.587432861328125,
+          "router_output_substitution_rate": 0.412567138671875,
+          "exact_route_set_match_rate": 0.027669270833333332,
+          "overlap_count": {
+            "count": 12288,
+            "mean": 4.699462890625,
+            "p50": 5.0,
+            "p95": 7.0,
+            "p99": 8.0,
+            "max": 8
+          }
+        },
+        "multilingual": {
+          "transitions": 12288,
+          "baseline_new_loads": {
+            "count": 12288,
+            "mean": 3.6988118489583335,
+            "p50": 4.0,
+            "p95": 7.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "oracle_new_loads": {
+            "count": 12288,
+            "mean": 0.9862467447916666,
+            "p50": 1.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1
+          },
+          "baseline_critical_expert_bytes": 137949966336,
+          "oracle_critical_expert_bytes": 36782813184,
+          "critical_expert_bytes_reduction_x": 3.7503919465302418,
+          "worst_case_new_load_reduction_x": 8.0,
+          "mean_route_set_overlap": 0.7170511881510416,
+          "router_output_substitution_rate": 0.28294881184895837,
+          "exact_route_set_match_rate": 0.11360677083333333,
+          "overlap_count": {
+            "count": 12288,
+            "mean": 5.736409505208333,
+            "p50": 6.0,
+            "p95": 8.0,
+            "p99": 8.0,
+            "max": 8
+          }
+        },
+        "instruction": {
+          "transitions": 12288,
+          "baseline_new_loads": {
+            "count": 12288,
+            "mean": 4.201497395833333,
+            "p50": 4.0,
+            "p95": 8.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "oracle_new_loads": {
+            "count": 12288,
+            "mean": 0.9923502604166666,
+            "p50": 1.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1
+          },
+          "baseline_critical_expert_bytes": 156698001408,
+          "oracle_critical_expert_bytes": 37010448384,
+          "critical_expert_bytes_reduction_x": 4.233885517467607,
+          "worst_case_new_load_reduction_x": 8.0,
+          "mean_route_set_overlap": 0.6565653483072916,
+          "router_output_substitution_rate": 0.34343465169270837,
+          "exact_route_set_match_rate": 0.06901041666666667,
+          "overlap_count": {
+            "count": 12288,
+            "mean": 5.252522786458333,
+            "p50": 5.0,
+            "p95": 8.0,
+            "p99": 8.0,
+            "max": 8
+          }
+        }
+      }
+    },
+    "gates": {
+      "critical_expert_bytes_reduction_at_least_4x": true,
+      "worst_case_new_load_reduction_at_least_8x": true,
+      "traffic_gates_pass": true,
+      "quality_regression_at_most_1_percent": "UNTESTED_REQUIRES_TRAINING",
+      "measured_p95_at_least_2x": "UNTESTED_NO_RUNTIME_EXECUTION",
+      "no_p99_collapse": "UNTESTED_NO_RUNTIME_EXECUTION",
+      "second_memory_hierarchy": "UNTESTED"
+    }
+  },
+  "test_opened": true,
+  "status": "traffic_feasible_quality_and_runtime_untested",
+  "conclusion": "The selected bounded-edit process meets only the two trace traffic targets. Its substitution rate measures the unsupported behavioral change that training must absorb; quality remains wholly untested."
+}

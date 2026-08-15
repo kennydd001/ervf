@@ -1,0 +1,91 @@
+{
+  "kind": "streamq5_moe_n2as_sparse_temporal_q5",
+  "completed_utc": "2026-08-12T17:07:40.818827+00:00",
+  "inputs": {
+    "preregistration_sha256": "ff0586c7d7673b22b4a97eaf9ba266c0553894c089b6ab07328840bbefda7b9a",
+    "route_capture_sha256": "7ebfcf30eceed76e2615e11702ca162eb43bf4236d6099cc307ec5cb4bcd74bb",
+    "domains": [
+      "general",
+      "code",
+      "math",
+      "multilingual",
+      "instruction"
+    ],
+    "validation_starts": [
+      512,
+      576,
+      640,
+      704
+    ],
+    "test_starts": [
+      768,
+      832,
+      896,
+      960
+    ],
+    "seed": 120822,
+    "physical_slots_per_layer": 32
+  },
+  "validation_correctness": {
+    "planes": 240,
+    "elements": 27525120,
+    "different": 0,
+    "bitwise_equal": true,
+    "max_abs": 0.0
+  },
+  "validation": {
+    "reference": {
+      "event_ms": [
+        602.23876953125,
+        589.27001953125,
+        561.1058959960938,
+        559.1807861328125,
+        568.3671264648438,
+        563.9481201171875,
+        565.164306640625,
+        568.5808715820312,
+        566.4310302734375,
+        567.9906005859375,
+        569.913818359375,
+        568.559814453125
+      ],
+      "stats": {
+        "mean": 570.8959299723307,
+        "p50": 568.1788635253906,
+        "p95": 595.10595703125,
+        "min": 559.1807861328125,
+        "max": 602.23876953125
+      }
+    },
+    "candidate": {
+      "event_ms": [
+        645.259765625,
+        630.4973754882812,
+        589.1797485351562,
+        591.966552734375,
+        586.5056762695312,
+        592.5991821289062,
+        593.5006713867188,
+        590.8231811523438,
+        594.7850341796875,
+        595.2965087890625,
+        595.7572631835938,
+        597.401123046875
+      ],
+      "stats": {
+        "mean": 600.2976735432943,
+        "p50": 594.1428527832031,
+        "p95": 637.1404510498047,
+        "min": 586.5056762695312,
+        "max": 645.259765625
+      }
+    },
+    "p50_ratio": 1.0456968587263404,
+    "p95_ratio": 1.070633630065221
+  },
+  "test_opened": false,
+  "test_correctness": null,
+  "test": null,
+  "overall_pass": false,
+  "claim_boundary": "Physical sparse temporal Q5 kernel on actual P4D route patterns; no causal availability, acceptance, quality or end-to-end claim."
+}

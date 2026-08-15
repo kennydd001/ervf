@@ -1,0 +1,1441 @@
+{
+  "candidate": "C1_Q4_two_full_rank_BF16_matrices",
+  "claim_boundary": "Validation only. Test metrics remain unopened; data-limited dense linear C1 screen, not runtime or Qwen proof.",
+  "completed_utc": "2026-08-11T16:50:11.180960+00:00",
+  "elapsed_seconds": 81.26466820000496,
+  "empirical_design_rank_upper_bound": 1024,
+  "final": {
+    "baseline_q4": {
+      "logits": {
+        "cosine": 0.9888929128646851,
+        "mae": 0.5245726108551025,
+        "max_abs_error": 22.5,
+        "nrmse": 0.15919917821884155
+      },
+      "next_token_cross_entropy": 2.0353047847747803,
+      "next_token_cross_entropy_delta": 0.09224045276641846,
+      "relative_cross_entropy_increase": 0.04747164249420166,
+      "teacher_next_token_cross_entropy": 1.9430643320083618,
+      "teacher_to_student_kl_mean": 0.12906813621520996,
+      "teacher_to_student_kl_p95": 0.15612569451332092,
+      "top1_token_agreement": 0.9140625
+    },
+    "ce_damage_recovery": -6.459522157129583,
+    "late_layer_explosion_ratio": 6.046368796698188,
+    "repaired": {
+      "logits": {
+        "cosine": 0.9417327642440796,
+        "mae": 1.2530815601348877,
+        "max_abs_error": 36.890625,
+        "nrmse": 0.33619561791419983
+      },
+      "next_token_cross_entropy": 2.631134033203125,
+      "next_token_cross_entropy_delta": 0.6880697011947632,
+      "relative_cross_entropy_increase": 0.354115754365921,
+      "teacher_next_token_cross_entropy": 1.9430643320083618,
+      "teacher_to_student_kl_mean": 0.6807804703712463,
+      "teacher_to_student_kl_p95": 2.0645713806152344,
+      "top1_token_agreement": 0.71484375
+    },
+    "teacher": {
+      "logits": {
+        "cosine": 0.9999992847442627,
+        "mae": 0.0,
+        "max_abs_error": 0.0,
+        "nrmse": 0.0
+      },
+      "next_token_cross_entropy": 1.9430643320083618,
+      "next_token_cross_entropy_delta": 0.0,
+      "relative_cross_entropy_increase": 0.0,
+      "teacher_next_token_cross_entropy": 1.9430643320083618,
+      "teacher_to_student_kl_mean": 0.0,
+      "teacher_to_student_kl_p95": 0.0,
+      "top1_token_agreement": 1.0
+    }
+  },
+  "full_slate_authorized": false,
+  "gates": {
+    "all_official_decomposition_controls_exact": true,
+    "validation_ce_damage_recovery_ge_0_50": false
+  },
+  "hardware": {
+    "device": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU",
+    "peak_cuda_allocated_bytes": 1426896896,
+    "peak_process_rss_bytes": 3086798848,
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "safetensors": "0.8.0",
+    "torch": "2.12.1+cu132",
+    "transformers": "4.51.3"
+  },
+  "inputs": {
+    "input_artifact_sha256": "686ea080babfc76fd3a1fd1d4700bd785f2afc4d5426843dcc59bcf222bc6778",
+    "input_lock_sha256": "b26f95780d8a57077866bc65121122333bc97ae4731dd731681fea17cc75342f",
+    "preregistration_sha256": "d38d73edd4b28133f2b557f3a98add1a70d2211da1450a34f41f587c9a7d3da0"
+  },
+  "kind": "bitflow_moe_p0_c1_q4_validation",
+  "layers": [
+    {
+      "baseline_hidden": {
+        "cosine": 0.9985765218734741,
+        "mae": 0.004709985107183456,
+        "max_abs_error": 0.068359375,
+        "nrmse": 0.05634749308228493
+      },
+      "contraction": {
+        "finite_count": 0,
+        "maximum": null,
+        "p50": null,
+        "p95": null,
+        "zero_denominators": 1024
+      },
+      "correction_to_provisional_norm": 0.019336316734552383,
+      "elapsed_seconds": 3.333011599999736,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.2053622007369995
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.1351057291030884
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9827188849449158
+        }
+      ],
+      "layer": 1,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_01.safetensors",
+      "repair_sha256": "b1019c99396279b1e017ba27003efa093b2259e98f8bb0fabf996f90efc59a28",
+      "repaired_hidden": {
+        "cosine": 0.9986842274665833,
+        "mae": 0.004552639089524746,
+        "max_abs_error": 0.06640625,
+        "nrmse": 0.055405668914318085
+      },
+      "router_overlap_train_student_teacher": 1.0,
+      "router_overlap_validation_student_teacher": 1.0,
+      "selected_bf16_validation_correction_nrmse": 0.9832854866981506,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9969057440757751,
+        "mae": 0.008799400180578232,
+        "max_abs_error": 0.28125,
+        "nrmse": 0.08559730648994446
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 18.07432746887207,
+        "p50": 1.637239933013916,
+        "p95": 2.875181198120117,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.0352993905544281,
+      "elapsed_seconds": 2.9278913000016473,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.2665873765945435
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.1374258995056152
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.950749933719635
+        }
+      ],
+      "layer": 2,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_02.safetensors",
+      "repair_sha256": "46a53388d09c77a30e61bfae25a663baf79ebc9b9ddfd7eb41ce8e54069d9499",
+      "repaired_hidden": {
+        "cosine": 0.9970527291297913,
+        "mae": 0.00847594067454338,
+        "max_abs_error": 0.21875,
+        "nrmse": 0.08051957190036774
+      },
+      "router_overlap_train_student_teacher": 0.9847005208333334,
+      "router_overlap_validation_student_teacher": 0.978515625,
+      "selected_bf16_validation_correction_nrmse": 0.950993537902832,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9948527812957764,
+        "mae": 0.054282017052173615,
+        "max_abs_error": 56.0,
+        "nrmse": 0.10144302994012833
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 175.96499633789062,
+        "p50": 5.697473049163818,
+        "p95": 22.104951858520508,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.08512506633996964,
+      "elapsed_seconds": 2.7987369000038598,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 2.4313271045684814
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.33681076765060425
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.2797577381134033
+        }
+      ],
+      "layer": 3,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_03.safetensors",
+      "repair_sha256": "12ee0cbb4b67d6798ee70e39acd5a509f24fd393823549315165528999cf5844",
+      "repaired_hidden": {
+        "cosine": 0.8948498368263245,
+        "mae": 0.07059371471405029,
+        "max_abs_error": 24.0,
+        "nrmse": 0.028129443526268005
+      },
+      "router_overlap_train_student_teacher": 0.9796549479166666,
+      "router_overlap_validation_student_teacher": 0.9635416666666666,
+      "selected_bf16_validation_correction_nrmse": 0.28018704056739807,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9943720102310181,
+        "mae": 0.07039240002632141,
+        "max_abs_error": 56.0,
+        "nrmse": 0.10089239478111267
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 73.6781005859375,
+        "p50": 0.7823474407196045,
+        "p95": 2.9159257411956787,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.03363275155425072,
+      "elapsed_seconds": 2.7623552000004565,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 10.661345481872559
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9793658256530762
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.6271459460258484
+        }
+      ],
+      "layer": 4,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_04.safetensors",
+      "repair_sha256": "7b98e9c4dbdf4295ff1483743b758979081826bbb6af82fd3c4c26fa372208bb",
+      "repaired_hidden": {
+        "cosine": 0.954205334186554,
+        "mae": 0.052696652710437775,
+        "max_abs_error": 34.0,
+        "nrmse": 0.02550193853676319
+      },
+      "router_overlap_train_student_teacher": 0.9080403645833334,
+      "router_overlap_validation_student_teacher": 0.8365885416666666,
+      "selected_bf16_validation_correction_nrmse": 0.6328280568122864,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9930447340011597,
+        "mae": 0.07551950216293335,
+        "max_abs_error": 68.0,
+        "nrmse": 0.10550758242607117
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 44.80506896972656,
+        "p50": 1.240342617034912,
+        "p95": 3.3074703216552734,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.07893532514572144,
+      "elapsed_seconds": 2.781846600002609,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 5.753357887268066
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.4295215606689453
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9006186127662659
+        }
+      ],
+      "layer": 5,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_05.safetensors",
+      "repair_sha256": "877e31d79c701b0b65c467ff12fcf81143004ea741a7ddddc7ad354c0159a125",
+      "repaired_hidden": {
+        "cosine": 0.881158709526062,
+        "mae": 0.08115110546350479,
+        "max_abs_error": 447.91259765625,
+        "nrmse": 0.1788640320301056
+      },
+      "router_overlap_train_student_teacher": 0.9410807291666666,
+      "router_overlap_validation_student_teacher": 0.8723958333333334,
+      "selected_bf16_validation_correction_nrmse": 0.9009576439857483,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.992735743522644,
+        "mae": 0.08031015843153,
+        "max_abs_error": 70.0,
+        "nrmse": 0.10410147160291672
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 17.7927303314209,
+        "p50": 2.149717330932617,
+        "p95": 7.133803844451904,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.10035774111747742,
+      "elapsed_seconds": 2.8557046999922022,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 3.8512048721313477
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.706619918346405
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.694378137588501
+        }
+      ],
+      "layer": 6,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_06.safetensors",
+      "repair_sha256": "30e778a987e75c6319e277a78e5849acaeac56780a7a2c6e2acd5cfb5134cc11",
+      "repaired_hidden": {
+        "cosine": 0.7674696445465088,
+        "mae": 0.11610566824674606,
+        "max_abs_error": 339.947265625,
+        "nrmse": 0.13668808341026306
+      },
+      "router_overlap_train_student_teacher": 0.9186197916666666,
+      "router_overlap_validation_student_teacher": 0.7799479166666666,
+      "selected_bf16_validation_correction_nrmse": 0.6935569643974304,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9915382266044617,
+        "mae": 0.08466582000255585,
+        "max_abs_error": 70.0,
+        "nrmse": 0.10391846299171448
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 7.922451496124268,
+        "p50": 0.8471277952194214,
+        "p95": 2.1683082580566406,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.0897100642323494,
+      "elapsed_seconds": 2.84180870000273,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 3.9801785945892334
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.165078043937683
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.7291514873504639
+        }
+      ],
+      "layer": 7,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_07.safetensors",
+      "repair_sha256": "56ac31b8070310730300df75bf36eae1e69c37e5bd93cc21405d8366458a8687",
+      "repaired_hidden": {
+        "cosine": 0.7296041250228882,
+        "mae": 0.18053478002548218,
+        "max_abs_error": 284.08544921875,
+        "nrmse": 0.12428459525108337
+      },
+      "router_overlap_train_student_teacher": 0.8502604166666666,
+      "router_overlap_validation_student_teacher": 0.6920572916666666,
+      "selected_bf16_validation_correction_nrmse": 0.729282796382904,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.990383505821228,
+        "mae": 0.09162919223308563,
+        "max_abs_error": 68.0,
+        "nrmse": 0.1036863923072815
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 2.055344581604004,
+        "p50": 0.8606604337692261,
+        "p95": 1.2969785928726196,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.04259614273905754,
+      "elapsed_seconds": 2.8523647999973036,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 4.243607521057129
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.6753679513931274
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.8630639314651489
+        }
+      ],
+      "layer": 8,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_08.safetensors",
+      "repair_sha256": "8272cca71650744ded2429d02e9b0fad8721527c8524f2a8098c7fec08b69143",
+      "repaired_hidden": {
+        "cosine": 0.7804684042930603,
+        "mae": 0.1999434530735016,
+        "max_abs_error": 269.837890625,
+        "nrmse": 0.1155984103679657
+      },
+      "router_overlap_train_student_teacher": 0.8956705729166666,
+      "router_overlap_validation_student_teacher": 0.703125,
+      "selected_bf16_validation_correction_nrmse": 0.8625521063804626,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9912607669830322,
+        "mae": 0.09627915173768997,
+        "max_abs_error": 68.0,
+        "nrmse": 0.10366059094667435
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 4.350292682647705,
+        "p50": 1.0319952964782715,
+        "p95": 2.172924280166626,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.058758318424224854,
+      "elapsed_seconds": 2.8113236999924993,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.661813735961914
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.0044575929641724
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.7747188210487366
+        }
+      ],
+      "layer": 9,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_09.safetensors",
+      "repair_sha256": "237f5cab83fc86b620f1d6f75188514743f5d3499fa66208ba8eef873d1f388a",
+      "repaired_hidden": {
+        "cosine": 0.7863941192626953,
+        "mae": 0.2281111478805542,
+        "max_abs_error": 216.0478515625,
+        "nrmse": 0.12039005756378174
+      },
+      "router_overlap_train_student_teacher": 0.927734375,
+      "router_overlap_validation_student_teacher": 0.7584635416666666,
+      "selected_bf16_validation_correction_nrmse": 0.7749480605125427,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9903786182403564,
+        "mae": 0.10384219139814377,
+        "max_abs_error": 70.0,
+        "nrmse": 0.103833869099617
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 3.434795379638672,
+        "p50": 1.073471188545227,
+        "p95": 1.89851713180542,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.05391126871109009,
+      "elapsed_seconds": 2.8824609000002965,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.9444022178649902
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9934440851211548
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.8268382549285889
+        }
+      ],
+      "layer": 10,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_10.safetensors",
+      "repair_sha256": "2818220bc96cfd0799c4d1be674d1ae540450c547c22d4b182b1c60c2a949c14",
+      "repaired_hidden": {
+        "cosine": 0.7644485831260681,
+        "mae": 0.3001018166542053,
+        "max_abs_error": 188.775390625,
+        "nrmse": 0.14820045232772827
+      },
+      "router_overlap_train_student_teacher": 0.9207356770833334,
+      "router_overlap_validation_student_teacher": 0.7350260416666666,
+      "selected_bf16_validation_correction_nrmse": 0.8269854187965393,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9920981526374817,
+        "mae": 0.11180222779512405,
+        "max_abs_error": 70.0,
+        "nrmse": 0.1036473736166954
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 2.7013652324676514,
+        "p50": 0.9429030418395996,
+        "p95": 1.5339226722717285,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.0350748747587204,
+      "elapsed_seconds": 2.844160599997849,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 2.5945513248443604
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9375646710395813
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.8480778932571411
+        }
+      ],
+      "layer": 11,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_11.safetensors",
+      "repair_sha256": "46eb7e302c09ad538fdf8f313c863597df8ee3540e91bade2328e91ac6b7941a",
+      "repaired_hidden": {
+        "cosine": 0.8071518540382385,
+        "mae": 0.30598360300064087,
+        "max_abs_error": 161.96728515625,
+        "nrmse": 0.1278347671031952
+      },
+      "router_overlap_train_student_teacher": 0.92333984375,
+      "router_overlap_validation_student_teacher": 0.71875,
+      "selected_bf16_validation_correction_nrmse": 0.8489928841590881,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9907172322273254,
+        "mae": 0.12322279810905457,
+        "max_abs_error": 72.0,
+        "nrmse": 0.10393587499856949
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 1.9116827249526978,
+        "p50": 0.8818925619125366,
+        "p95": 1.2974073886871338,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.013768970035016537,
+      "elapsed_seconds": 2.8296655000012834,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.6782259941101074
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.1775940656661987
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9527365565299988
+        }
+      ],
+      "layer": 12,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_12.safetensors",
+      "repair_sha256": "86523335d280cec3995f87b58016d63764e6d514b23a5884ec31a59c2e75cc6e",
+      "repaired_hidden": {
+        "cosine": 0.8093098998069763,
+        "mae": 0.3352072834968567,
+        "max_abs_error": 171.669921875,
+        "nrmse": 0.13589811325073242
+      },
+      "router_overlap_train_student_teacher": 0.9334309895833334,
+      "router_overlap_validation_student_teacher": 0.744140625,
+      "selected_bf16_validation_correction_nrmse": 0.9533283710479736,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9902515411376953,
+        "mae": 0.13332237303256989,
+        "max_abs_error": 72.0,
+        "nrmse": 0.10394672304391861
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 2.6256415843963623,
+        "p50": 0.9562150835990906,
+        "p95": 1.356873631477356,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.011641227640211582,
+      "elapsed_seconds": 2.794512399996165,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.4908376932144165
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.0743906497955322
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9666708707809448
+        }
+      ],
+      "layer": 13,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_13.safetensors",
+      "repair_sha256": "446a8c55a21f3c1da02cf22189188f6a740c93ac3ff4513c720b439bd26a0466",
+      "repaired_hidden": {
+        "cosine": 0.8228175640106201,
+        "mae": 0.35005247592926025,
+        "max_abs_error": 161.75390625,
+        "nrmse": 0.13280095160007477
+      },
+      "router_overlap_train_student_teacher": 0.9500325520833334,
+      "router_overlap_validation_student_teacher": 0.7298177083333334,
+      "selected_bf16_validation_correction_nrmse": 0.9665269255638123,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9900903105735779,
+        "mae": 0.14508429169654846,
+        "max_abs_error": 72.0,
+        "nrmse": 0.10474371165037155
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 2.9385006427764893,
+        "p50": 1.0075746774673462,
+        "p95": 1.7059544324874878,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.029175618663430214,
+      "elapsed_seconds": 2.865630300002522,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.194328784942627
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9438120126724243
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9212791919708252
+        }
+      ],
+      "layer": 14,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_14.safetensors",
+      "repair_sha256": "82de8aebe0e629a403f612a69f880693890f6b7d7b2da6f7d487c901b9d69af5",
+      "repaired_hidden": {
+        "cosine": 0.8287724256515503,
+        "mae": 0.3729872703552246,
+        "max_abs_error": 152.8837890625,
+        "nrmse": 0.12513504922389984
+      },
+      "router_overlap_train_student_teacher": 0.9578450520833334,
+      "router_overlap_validation_student_teacher": 0.7428385416666666,
+      "selected_bf16_validation_correction_nrmse": 0.9216580986976624,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9896259307861328,
+        "mae": 0.15739354491233826,
+        "max_abs_error": 72.0,
+        "nrmse": 0.10505451261997223
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 2.583575963973999,
+        "p50": 0.9324995279312134,
+        "p95": 1.362324595451355,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.012676925398409367,
+      "elapsed_seconds": 2.836337699991418,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.4036204814910889
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.0056257247924805
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9722696542739868
+        }
+      ],
+      "layer": 15,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_15.safetensors",
+      "repair_sha256": "8cc2d144a2f9e110f74fa76beab50af3412d82fd39725da4677e4b1dd3f71836",
+      "repaired_hidden": {
+        "cosine": 0.8363537788391113,
+        "mae": 0.3984348475933075,
+        "max_abs_error": 143.22265625,
+        "nrmse": 0.12566687166690826
+      },
+      "router_overlap_train_student_teacher": 0.9632161458333334,
+      "router_overlap_validation_student_teacher": 0.7506510416666666,
+      "selected_bf16_validation_correction_nrmse": 0.972428023815155,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9887515306472778,
+        "mae": 0.1772119253873825,
+        "max_abs_error": 72.0,
+        "nrmse": 0.10570766776800156
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 1.877063512802124,
+        "p50": 0.9800169467926025,
+        "p95": 1.3221932649612427,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.013482005335390568,
+      "elapsed_seconds": 2.864530399994692,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.5939502716064453
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9817362427711487
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9743195176124573
+        }
+      ],
+      "layer": 16,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_16.safetensors",
+      "repair_sha256": "c92ddc20773e3622f4bc7bae131edbbf9dc6e1398c0377078239d12b1ce632ac",
+      "repaired_hidden": {
+        "cosine": 0.8410562872886658,
+        "mae": 0.43989792466163635,
+        "max_abs_error": 136.2138671875,
+        "nrmse": 0.1297440528869629
+      },
+      "router_overlap_train_student_teacher": 0.966796875,
+      "router_overlap_validation_student_teacher": 0.7877604166666666,
+      "selected_bf16_validation_correction_nrmse": 0.9743072390556335,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9886643886566162,
+        "mae": 0.1908758282661438,
+        "max_abs_error": 72.0,
+        "nrmse": 0.10611352324485779
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 2.405064821243286,
+        "p50": 0.990334153175354,
+        "p95": 1.29209566116333,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.00682033272460103,
+      "elapsed_seconds": 2.8946271000022534,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 2.0900614261627197
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.003413200378418
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9918058514595032
+        }
+      ],
+      "layer": 17,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_17.safetensors",
+      "repair_sha256": "3110c70d4508d6efd92039287b63b310bfae37358810c8df50584c520533bffc",
+      "repaired_hidden": {
+        "cosine": 0.8516791462898254,
+        "mae": 0.46470749378204346,
+        "max_abs_error": 133.96875,
+        "nrmse": 0.1332588940858841
+      },
+      "router_overlap_train_student_teacher": 0.9664713541666666,
+      "router_overlap_validation_student_teacher": 0.7760416666666666,
+      "selected_bf16_validation_correction_nrmse": 0.9920527935028076,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.988886296749115,
+        "mae": 0.20767292380332947,
+        "max_abs_error": 72.0,
+        "nrmse": 0.10650000721216202
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 2.07658314704895,
+        "p50": 1.0520191192626953,
+        "p95": 1.3974899053573608,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.00768313417211175,
+      "elapsed_seconds": 2.895877400005702,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.8019977807998657
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.0028586387634277
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9944873452186584
+        }
+      ],
+      "layer": 18,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_18.safetensors",
+      "repair_sha256": "cc5e588b30e04bd00b1ff4f4761e88535a2fd870875670460266811dd33ccb5d",
+      "repaired_hidden": {
+        "cosine": 0.8642209768295288,
+        "mae": 0.5033580660820007,
+        "max_abs_error": 126.91845703125,
+        "nrmse": 0.1375827044248581
+      },
+      "router_overlap_train_student_teacher": 0.9736328125,
+      "router_overlap_validation_student_teacher": 0.765625,
+      "selected_bf16_validation_correction_nrmse": 0.9950742721557617,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9881275296211243,
+        "mae": 0.23252682387828827,
+        "max_abs_error": 74.0,
+        "nrmse": 0.1076422706246376
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 2.4975812435150146,
+        "p50": 1.0466712713241577,
+        "p95": 1.4136972427368164,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.006068832706660032,
+      "elapsed_seconds": 2.8658417999977246,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.5603433847427368
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.006231665611267
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9973437190055847
+        }
+      ],
+      "layer": 19,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_19.safetensors",
+      "repair_sha256": "59270f963a16525120ac4c7607eb367eafd87aa526c9d7f9de2b59db564bf611",
+      "repaired_hidden": {
+        "cosine": 0.8706414103507996,
+        "mae": 0.5550944209098816,
+        "max_abs_error": 129.60546875,
+        "nrmse": 0.1472400426864624
+      },
+      "router_overlap_train_student_teacher": 0.9733072916666666,
+      "router_overlap_validation_student_teacher": 0.7838541666666666,
+      "selected_bf16_validation_correction_nrmse": 0.9976467490196228,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9883205890655518,
+        "mae": 0.2569407522678375,
+        "max_abs_error": 74.0,
+        "nrmse": 0.10944648832082748
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 2.4223666191101074,
+        "p50": 1.0276811122894287,
+        "p95": 1.405720829963684,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.005091904662549496,
+      "elapsed_seconds": 2.8788280000007944,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.3567869663238525
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9985982179641724
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.998386025428772
+        }
+      ],
+      "layer": 20,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_20.safetensors",
+      "repair_sha256": "4e791ddac0c60319bb3e8a503f945381b92d540e2efbe4274f25f250dd33ead2",
+      "repaired_hidden": {
+        "cosine": 0.8809362053871155,
+        "mae": 0.6098406910896301,
+        "max_abs_error": 128.669921875,
+        "nrmse": 0.15929271280765533
+      },
+      "router_overlap_train_student_teacher": 0.9716796875,
+      "router_overlap_validation_student_teacher": 0.763671875,
+      "selected_bf16_validation_correction_nrmse": 0.9988375902175903,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9879128336906433,
+        "mae": 0.28417399525642395,
+        "max_abs_error": 74.0,
+        "nrmse": 0.1108861193060875
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 2.3166286945343018,
+        "p50": 1.0949780941009521,
+        "p95": 1.4685841798782349,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.005351143889129162,
+      "elapsed_seconds": 2.839605399989523,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.0750479698181152
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.0166254043579102
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9999118447303772
+        }
+      ],
+      "layer": 21,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_21.safetensors",
+      "repair_sha256": "a4bae48f389c7cab88e522cbf8a7d6fe4663ca9c8d469153f0bffe4f75a3bede",
+      "repaired_hidden": {
+        "cosine": 0.882907509803772,
+        "mae": 0.6812598705291748,
+        "max_abs_error": 144.15234375,
+        "nrmse": 0.17810001969337463
+      },
+      "router_overlap_train_student_teacher": 0.9788411458333334,
+      "router_overlap_validation_student_teacher": 0.73828125,
+      "selected_bf16_validation_correction_nrmse": 1.0001027584075928,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9876140356063843,
+        "mae": 0.31994950771331787,
+        "max_abs_error": 74.0,
+        "nrmse": 0.11266664415597916
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 2.366170644760132,
+        "p50": 1.070451021194458,
+        "p95": 1.4160491228103638,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.004891611635684967,
+      "elapsed_seconds": 2.9708089999912772,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.1421279907226562
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.0073870420455933
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9999473094940186
+        }
+      ],
+      "layer": 22,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_22.safetensors",
+      "repair_sha256": "ad137447b0d4154c4a70ecd16700b3fc3e3c2031d4f0fee6d7ff68b68b6a8574",
+      "repaired_hidden": {
+        "cosine": 0.8876320123672485,
+        "mae": 0.7664545774459839,
+        "max_abs_error": 217.0,
+        "nrmse": 0.20604734122753143
+      },
+      "router_overlap_train_student_teacher": 0.9786783854166666,
+      "router_overlap_validation_student_teacher": 0.7916666666666666,
+      "selected_bf16_validation_correction_nrmse": 0.9997227787971497,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9888126254081726,
+        "mae": 0.35834503173828125,
+        "max_abs_error": 76.0,
+        "nrmse": 0.1144966185092926
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 2.9839842319488525,
+        "p50": 1.089874267578125,
+        "p95": 1.4447401762008667,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.006148625630885363,
+      "elapsed_seconds": 2.7928831999888644,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.0950840711593628
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.005506157875061
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9997939467430115
+        }
+      ],
+      "layer": 23,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_23.safetensors",
+      "repair_sha256": "4d7ccad1b13206b7d15ce05abcaa97e70d9a46617966cadb37e7f1cd26fc8573",
+      "repaired_hidden": {
+        "cosine": 0.9056946635246277,
+        "mae": 0.8789749145507812,
+        "max_abs_error": 469.25,
+        "nrmse": 0.2751638889312744
+      },
+      "router_overlap_train_student_teacher": 0.9816080729166666,
+      "router_overlap_validation_student_teacher": 0.7897135416666666,
+      "selected_bf16_validation_correction_nrmse": 0.9997657537460327,
+      "selected_lambda": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9844803810119629,
+        "mae": 0.41552838683128357,
+        "max_abs_error": 272.0,
+        "nrmse": 0.29598507285118103
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 1.5464059114456177,
+        "p50": 0.15112140774726868,
+        "p95": 0.2789488732814789,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.09021878987550735,
+      "elapsed_seconds": 3.0225044999970123,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 1.029438853263855
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.972480058670044
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9796009659767151
+        }
+      ],
+      "layer": 24,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_24.safetensors",
+      "repair_sha256": "5656cf46f484cb56406b6e31f1e28812d273508e1359fd089b170290c90de114",
+      "repaired_hidden": {
+        "cosine": 0.9207602739334106,
+        "mae": 1.0605809688568115,
+        "max_abs_error": 600.125,
+        "nrmse": 0.5249565243721008
+      },
+      "router_overlap_train_student_teacher": 0.978515625,
+      "router_overlap_validation_student_teacher": 0.7721354166666666,
+      "selected_bf16_validation_correction_nrmse": 0.9723413586616516,
+      "selected_lambda": 0.01
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9853655099868774,
+        "mae": 0.480785608291626,
+        "max_abs_error": 396.0,
+        "nrmse": 0.5083350539207458
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 2.149186849594116,
+        "p50": 0.1638043373823166,
+        "p95": 0.32107385993003845,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.09515313804149628,
+      "elapsed_seconds": 2.859746600006474,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9890193939208984
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9891749620437622
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.993218183517456
+        }
+      ],
+      "layer": 25,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_25.safetensors",
+      "repair_sha256": "eef2632d68bd43bba67fe0d9ab4c78174945d4178c31d40ae1a580b9ea62792d",
+      "repaired_hidden": {
+        "cosine": 0.9398287534713745,
+        "mae": 1.2128150463104248,
+        "max_abs_error": 752.6875,
+        "nrmse": 0.7844803929328918
+      },
+      "router_overlap_train_student_teacher": 0.9951171875,
+      "router_overlap_validation_student_teacher": 0.7701822916666666,
+      "selected_bf16_validation_correction_nrmse": 0.9894348978996277,
+      "selected_lambda": 0.0001
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9891467094421387,
+        "mae": 0.5689464211463928,
+        "max_abs_error": 528.0,
+        "nrmse": 0.35481008887290955
+      },
+      "contraction": {
+        "finite_count": 1024,
+        "maximum": 18.52210807800293,
+        "p50": 0.890337347984314,
+        "p95": 1.357027292251587,
+        "zero_denominators": 0
+      },
+      "correction_to_provisional_norm": 0.015767335891723633,
+      "elapsed_seconds": 2.9133691000024555,
+      "lambda_validation": [
+        {
+          "lambda": 0.0001,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9998412132263184
+        },
+        {
+          "lambda": 0.01,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9998776316642761
+        },
+        {
+          "lambda": 1.0,
+          "status": "complete",
+          "validation_correction_nrmse_fp32_kernel": 0.9999872446060181
+        }
+      ],
+      "layer": 26,
+      "official_decomposition_max_abs": 0.0,
+      "repair_artifact": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_26.safetensors",
+      "repair_sha256": "e79ed50bb21c0c47e4eb130ab84dbe51431cbc894b14c1886718e6ff5d0b0118",
+      "repaired_hidden": {
+        "cosine": 0.9577990770339966,
+        "mae": 1.336072564125061,
+        "max_abs_error": 802.375,
+        "nrmse": 0.5897921919822693
+      },
+      "router_overlap_train_student_teacher": 0.99951171875,
+      "router_overlap_validation_student_teacher": 0.7955729166666666,
+      "selected_bf16_validation_correction_nrmse": 0.9999630451202393,
+      "selected_lambda": 0.0001
+    }
+  ],
+  "logits_artifact": "reports/runs/bitflow_moe/p0_c1_q4_validation_logits.safetensors",
+  "logits_artifact_sha256": "8b3ff02c9a9132e8bfa8a07ddd3a7bc2856dcd0d5149470f4fbe1b301c933c93",
+  "repair_artifacts": {
+    "1": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_01.safetensors",
+      "sha256": "b1019c99396279b1e017ba27003efa093b2259e98f8bb0fabf996f90efc59a28"
+    },
+    "10": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_10.safetensors",
+      "sha256": "2818220bc96cfd0799c4d1be674d1ae540450c547c22d4b182b1c60c2a949c14"
+    },
+    "11": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_11.safetensors",
+      "sha256": "46eb7e302c09ad538fdf8f313c863597df8ee3540e91bade2328e91ac6b7941a"
+    },
+    "12": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_12.safetensors",
+      "sha256": "86523335d280cec3995f87b58016d63764e6d514b23a5884ec31a59c2e75cc6e"
+    },
+    "13": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_13.safetensors",
+      "sha256": "446a8c55a21f3c1da02cf22189188f6a740c93ac3ff4513c720b439bd26a0466"
+    },
+    "14": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_14.safetensors",
+      "sha256": "82de8aebe0e629a403f612a69f880693890f6b7d7b2da6f7d487c901b9d69af5"
+    },
+    "15": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_15.safetensors",
+      "sha256": "8cc2d144a2f9e110f74fa76beab50af3412d82fd39725da4677e4b1dd3f71836"
+    },
+    "16": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_16.safetensors",
+      "sha256": "c92ddc20773e3622f4bc7bae131edbbf9dc6e1398c0377078239d12b1ce632ac"
+    },
+    "17": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_17.safetensors",
+      "sha256": "3110c70d4508d6efd92039287b63b310bfae37358810c8df50584c520533bffc"
+    },
+    "18": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_18.safetensors",
+      "sha256": "cc5e588b30e04bd00b1ff4f4761e88535a2fd870875670460266811dd33ccb5d"
+    },
+    "19": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_19.safetensors",
+      "sha256": "59270f963a16525120ac4c7607eb367eafd87aa526c9d7f9de2b59db564bf611"
+    },
+    "2": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_02.safetensors",
+      "sha256": "46a53388d09c77a30e61bfae25a663baf79ebc9b9ddfd7eb41ce8e54069d9499"
+    },
+    "20": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_20.safetensors",
+      "sha256": "4e791ddac0c60319bb3e8a503f945381b92d540e2efbe4274f25f250dd33ead2"
+    },
+    "21": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_21.safetensors",
+      "sha256": "a4bae48f389c7cab88e522cbf8a7d6fe4663ca9c8d469153f0bffe4f75a3bede"
+    },
+    "22": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_22.safetensors",
+      "sha256": "ad137447b0d4154c4a70ecd16700b3fc3e3c2031d4f0fee6d7ff68b68b6a8574"
+    },
+    "23": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_23.safetensors",
+      "sha256": "4d7ccad1b13206b7d15ce05abcaa97e70d9a46617966cadb37e7f1cd26fc8573"
+    },
+    "24": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_24.safetensors",
+      "sha256": "5656cf46f484cb56406b6e31f1e28812d273508e1359fd089b170290c90de114"
+    },
+    "25": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_25.safetensors",
+      "sha256": "eef2632d68bd43bba67fe0d9ab4c78174945d4178c31d40ae1a580b9ea62792d"
+    },
+    "26": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_26.safetensors",
+      "sha256": "e79ed50bb21c0c47e4eb130ab84dbe51431cbc894b14c1886718e6ff5d0b0118"
+    },
+    "3": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_03.safetensors",
+      "sha256": "12ee0cbb4b67d6798ee70e39acd5a509f24fd393823549315165528999cf5844"
+    },
+    "4": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_04.safetensors",
+      "sha256": "7b98e9c4dbdf4295ff1483743b758979081826bbb6af82fd3c4c26fa372208bb"
+    },
+    "5": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_05.safetensors",
+      "sha256": "877e31d79c701b0b65c467ff12fcf81143004ea741a7ddddc7ad354c0159a125"
+    },
+    "6": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_06.safetensors",
+      "sha256": "30e778a987e75c6319e277a78e5849acaeac56780a7a2c6e2acd5cfb5134cc11"
+    },
+    "7": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_07.safetensors",
+      "sha256": "56ac31b8070310730300df75bf36eae1e69c37e5bd93cc21405d8366458a8687"
+    },
+    "8": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_08.safetensors",
+      "sha256": "8272cca71650744ded2429d02e9b0fad8721527c8524f2a8098c7fec08b69143"
+    },
+    "9": {
+      "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_09.safetensors",
+      "sha256": "237f5cab83fc86b620f1d6f75188514743f5d3499fa66208ba8eef873d1f388a"
+    }
+  },
+  "repair_bf16_bytes": 436207616,
+  "repair_parameter_count": 218103808,
+  "started_utc": "2026-08-11T16:48:50.030716+00:00",
+  "status": "complete",
+  "test_open_authorized": true,
+  "verdict": "validation_progression_fail"
+}

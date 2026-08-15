@@ -1,0 +1,76 @@
+{
+  "kind": "lightningstream_nemotron_s8_v35_breakdown",
+  "phase": "S8_V35_BREAKDOWN",
+  "completed_utc": "2026-08-15T06:28:53.805225+00:00",
+  "model_dir": "nemotron_3_5_lightning_v35",
+  "capacity": 72,
+  "results": {
+    "0": {
+      "per_call_p50_ms": {
+        "rmsnorm_one": 0.0136,
+        "mamba_one_layer": 0.35245,
+        "attention_one_layer": 0.39415,
+        "router_one_layer": 0.23935,
+        "moe_one_layer": 1.9724499999999998,
+        "lm_head": 2.1269
+      },
+      "full": {
+        "n": 12,
+        "p50": 35.45184999999999,
+        "mean": 35.7174,
+        "p95": 37.332945
+      },
+      "scaled": {
+        "mamba_x23": 8.106349999999999,
+        "attention_x6": 2.3649,
+        "moe_x23": 45.36635,
+        "rmsnorm_x53": 0.7208,
+        "lm_head": 2.1269,
+        "sum_parts": 58.6853,
+        "full_token": 35.45184999999999,
+        "unattributed": -23.233450000000005
+      },
+      "cache": {
+        "hits": 5061,
+        "misses": 1515
+      }
+    },
+    "262100": {
+      "per_call_p50_ms": {
+        "rmsnorm_one": 0.0135,
+        "mamba_one_layer": 0.36125,
+        "attention_one_layer": 3.10565,
+        "router_one_layer": 0.30905000000000005,
+        "moe_one_layer": 1.7184,
+        "lm_head": 2.10555
+      },
+      "full": {
+        "n": 12,
+        "p50": 52.36265,
+        "mean": 52.7798,
+        "p95": 54.828525
+      },
+      "scaled": {
+        "mamba_x23": 8.30875,
+        "attention_x6": 18.633899999999997,
+        "moe_x23": 39.523199999999996,
+        "rmsnorm_x53": 0.7155,
+        "lm_head": 2.10555,
+        "sum_parts": 69.28689999999999,
+        "full_token": 52.36265,
+        "unattributed": -16.924249999999986
+      },
+      "cache": {
+        "hits": 16790,
+        "misses": 2986
+      }
+    }
+  },
+  "s7_mechanism_reference": {
+    "heads_32_ms": 5.8463,
+    "heads_2_ms": 0.5483,
+    "ratio": 10.66,
+    "note": "kernel-level amplification measured by Kimi on synthetic KV"
+  },
+  "claim_boundary": "Component attribution on this runtime, GPU and depth. Every figure is measured directly, never by subtraction; the unattributed term is reported and deliberately not named. No tok/s target claim."
+}

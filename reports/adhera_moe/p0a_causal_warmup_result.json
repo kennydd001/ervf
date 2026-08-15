@@ -1,0 +1,209 @@
+{
+  "claim_boundary": "Exploration on opened routes. Positive permits only fresh blind P0B; no pack, quality, latency, classifier, or speed claim.",
+  "completed_utc": "2026-08-11T16:13:07.471220+00:00",
+  "domains": {
+    "code": {
+      "adaptive_base_domain_overlap": {
+        "maximum": 4220,
+        "mean": 4158.34375,
+        "minimum": 3960
+      },
+      "base_switch_mib_each": 4648.181896209717,
+      "base_switches": 64,
+      "events": {
+        "base_invocations": 12499894,
+        "cold_hit_fraction": 0.4080560842226987,
+        "misses": 49142,
+        "primary_hits": 25205,
+        "victim_hits": 8671
+      },
+      "traffic_mib_per_token": {
+        "maximum": 5134.181896209717,
+        "mean": 22.575733684003353,
+        "p50": 0.0,
+        "p95": 45.0,
+        "p99": 405.0
+      },
+      "warmup_observed_experts_selected": {
+        "maximum": 2975,
+        "mean": 2583.40625,
+        "minimum": 2228
+      }
+    },
+    "general": {
+      "adaptive_base_domain_overlap": {
+        "maximum": 4164,
+        "mean": 4027.625,
+        "minimum": 3832
+      },
+      "base_switch_mib_each": 4648.181896209717,
+      "base_switches": 64,
+      "events": {
+        "base_invocations": 12457591,
+        "cold_hit_fraction": 0.45063476991086887,
+        "misses": 68847,
+        "primary_hits": 48105,
+        "victim_hits": 8369
+      },
+      "traffic_mib_per_token": {
+        "maximum": 5647.181896209717,
+        "mean": 27.987873576581478,
+        "p50": 9.0,
+        "p95": 81.0,
+        "p99": 189.0
+      },
+      "warmup_observed_experts_selected": {
+        "maximum": 3667,
+        "mean": 3227.78125,
+        "minimum": 2783
+      }
+    },
+    "instruction": {
+      "adaptive_base_domain_overlap": {
+        "maximum": 4131,
+        "mean": 3991.71875,
+        "minimum": 3805
+      },
+      "base_switch_mib_each": 4648.181896209717,
+      "base_switches": 64,
+      "events": {
+        "base_invocations": 12214314,
+        "cold_hit_fraction": 0.37584034639363206,
+        "misses": 230064,
+        "primary_hits": 110541,
+        "victim_hits": 27993
+      },
+      "traffic_mib_per_token": {
+        "maximum": 5593.181896209717,
+        "mean": 72.2674451097846,
+        "p50": 18.0,
+        "p95": 261.0,
+        "p99": 666.0
+      },
+      "warmup_observed_experts_selected": {
+        "maximum": 3912,
+        "mean": 3282.21875,
+        "minimum": 2703
+      }
+    },
+    "math": {
+      "adaptive_base_domain_overlap": {
+        "maximum": 4065,
+        "mean": 3919.0,
+        "minimum": 3728
+      },
+      "base_switch_mib_each": 4648.181896209717,
+      "base_switches": 64,
+      "events": {
+        "base_invocations": 12236207,
+        "cold_hit_fraction": 0.3207770294630882,
+        "misses": 235490,
+        "primary_hits": 92104,
+        "victim_hits": 19111
+      },
+      "traffic_mib_per_token": {
+        "maximum": 5458.181896209717,
+        "mean": 73.75774051994085,
+        "p50": 45.0,
+        "p95": 198.0,
+        "p99": 369.0
+      },
+      "warmup_observed_experts_selected": {
+        "maximum": 3886,
+        "mean": 3597.3125,
+        "minimum": 3256
+      }
+    },
+    "multilingual": {
+      "adaptive_base_domain_overlap": {
+        "maximum": 4155,
+        "mean": 4054.15625,
+        "minimum": 3865
+      },
+      "base_switch_mib_each": 4648.181896209717,
+      "base_switches": 64,
+      "events": {
+        "base_invocations": 12440143,
+        "cold_hit_fraction": 0.47859829514810637,
+        "misses": 74440,
+        "primary_hits": 56363,
+        "victim_hits": 11966
+      },
+      "traffic_mib_per_token": {
+        "maximum": 5629.181896209717,
+        "mean": 29.524036906659603,
+        "p50": 9.0,
+        "p95": 90.0,
+        "p99": 234.0
+      },
+      "warmup_observed_experts_selected": {
+        "maximum": 3513,
+        "mean": 3030.65625,
+        "minimum": 2643
+      }
+    }
+  },
+  "exploratory_opened_routes": true,
+  "gates": {
+    "all_traffic": false,
+    "independent_verification": "pending",
+    "memory": true,
+    "traffic_by_domain": {
+      "code": {
+        "all_traffic_gates": false,
+        "mean_le_64": true,
+        "p95_le_144": true,
+        "p99_le_288": false
+      },
+      "general": {
+        "all_traffic_gates": true,
+        "mean_le_64": true,
+        "p95_le_144": true,
+        "p99_le_288": true
+      },
+      "instruction": {
+        "all_traffic_gates": false,
+        "mean_le_64": false,
+        "p95_le_144": false,
+        "p99_le_288": false
+      },
+      "math": {
+        "all_traffic_gates": false,
+        "mean_le_64": false,
+        "p95_le_144": false,
+        "p99_le_288": false
+      },
+      "multilingual": {
+        "all_traffic_gates": true,
+        "mean_le_64": true,
+        "p95_le_144": true,
+        "p99_le_288": true
+      }
+    }
+  },
+  "inputs": {
+    "domain_base_lock_sha256": "ede05749300a8b0ce45552ff86578ca4d93161ea803f568327e2e6490e67d154",
+    "preregistration_sha256": "c5585af6940f10f08490badb9bf8110e42f886bb4338c0f38e16af3fa1c00efb",
+    "route_artifact_hashes_valid": true,
+    "route_capture_sha256": "8ba5321d22506651584695c56a6b439ed4219f8a7b588021204b9e0bdca24d92"
+  },
+  "kind": "adhera_moe_p0a_causal_warmup_result",
+  "memory_projection": {
+    "active_cold_bf16_host_gib": 16.3828125,
+    "memory_gate_pass": true,
+    "resident_weight_gib": 5.749055158346891
+  },
+  "p0b_authorized": false,
+  "p1_authorized": false,
+  "policy": {
+    "base_experts": 4280,
+    "base_switch_mib_each": 4648.181896209717,
+    "context_tokens": 1024,
+    "full_base_switches_per_context": 2,
+    "primary_slots": 48,
+    "selection": "warmup count descending, then locked domain training rank",
+    "victim_slots": 8,
+    "warmup_tokens": 64
+  },
+  "verdict": "p0a_exploratory_negative_pending_verification"
+}

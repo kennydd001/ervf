@@ -1,0 +1,337 @@
+{
+  "kind": "lightningstream_nemotron_research_archive_manifest",
+  "created_utc": "2026-08-15T08:37:35.425018+00:00",
+  "archive": "ALL_RESEARCH_LINES_2026-08-15_083735.zip",
+  "purpose": "All research lines in one analysable bundle: this Nemotron line plus the protected Qwen3-30B / Qwen3-Coder-Next / HET-NEXT / earlier-family work.",
+  "protected_files_are_read_only": true,
+  "protected_note": "Protected artifacts are copied, never modified. This archive lives in the Nemotron allowlist, not the repository root, so it cannot be confused with the other agent's research_docs_*.zip bundles.",
+  "include_rules": {
+    "text_extensions": [
+      ".cfg",
+      ".ini",
+      ".md",
+      ".py",
+      ".toml",
+      ".txt",
+      ".yaml",
+      ".yml"
+    ],
+    "json_max_bytes": 524288,
+    "max_file_bytes": 2097152,
+    "skipped_dirs": [
+      ".cache",
+      ".git",
+      ".pytest_cache",
+      ".venv",
+      ".venv-nemotron",
+      ".venv-next-ref",
+      "__pycache__",
+      "data",
+      "models",
+      "third_party"
+    ],
+    "skipped_extensions": [
+      ".bin",
+      ".gguf",
+      ".jinja",
+      ".lock",
+      ".log",
+      ".npy",
+      ".npz",
+      ".pt",
+      ".pth",
+      ".pyc",
+      ".safetensors",
+      ".zip"
+    ]
+  },
+  "file_count": 3310,
+  "uncompressed_bytes": 46569152,
+  "groups": {
+    "streamq5 / port80b / het-next (protected)": {
+      "files": 1960,
+      "bytes": 19359671
+    },
+    "hera (protected)": {
+      "files": 275,
+      "bytes": 12916859
+    },
+    "deepseek-v2-lite baseline (protected)": {
+      "files": 82,
+      "bytes": 3478429
+    },
+    "craft (protected)": {
+      "files": 89,
+      "bytes": 2900745
+    },
+    "lightningstream_nemotron (this line)": {
+      "files": 195,
+      "bytes": 2393594
+    },
+    "qwen_gptq_bank (protected)": {
+      "files": 251,
+      "bytes": 1617071
+    },
+    "rsiv (protected)": {
+      "files": 67,
+      "bytes": 982705
+    },
+    "offload_roofline (protected)": {
+      "files": 36,
+      "bytes": 633781
+    },
+    "coretail (protected)": {
+      "files": 48,
+      "bytes": 539116
+    },
+    "fleq (protected)": {
+      "files": 78,
+      "bytes": 437263
+    },
+    "scripts (source)": {
+      "files": 43,
+      "bytes": 331252
+    },
+    "e2gq (protected)": {
+      "files": 71,
+      "bytes": 241106
+    },
+    "info / analysis notes": {
+      "files": 28,
+      "bytes": 225738
+    },
+    "bitflow (protected)": {
+      "files": 22,
+      "bytes": 164046
+    },
+    "streamq4 (protected)": {
+      "files": 12,
+      "bytes": 96558
+    },
+    "docs": {
+      "files": 4,
+      "bytes": 91838
+    },
+    "src (source)": {
+      "files": 21,
+      "bytes": 84624
+    },
+    "reports (top level)": {
+      "files": 11,
+      "bytes": 54035
+    },
+    "tests (source)": {
+      "files": 12,
+      "bytes": 14659
+    },
+    "other": {
+      "files": 5,
+      "bytes": 6062
+    }
+  },
+  "notable_exclusions_over_64kib": [
+    {
+      "path": "reports/runs/streamq5_moe/port80b_p0/port80b_p0_full_q5_bank.bin",
+      "bytes": 49925652480,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen3-30b-a3b-q5_k_m.gguf",
+      "bytes": 21725580864,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/craft_moe/crcq_full_oracle.json",
+      "bytes": 1103621484,
+      "reason": "json over 524288 bytes"
+    },
+    {
+      "path": "reports/craft_moe/crcq_layer23_downstream.json",
+      "bytes": 1010409344,
+      "reason": "json over 524288 bytes"
+    },
+    {
+      "path": "reports/runs/streamq5_moe/p5a_int8_trunk_bank/lm_head.q8bin",
+      "bytes": 316026880,
+      "reason": "extension not in include set"
+    },
+    {
+      "path": "reports/runs/streamq5_moe/p6a_exact_runtime_bank/embed.q8bin",
+      "bytes": 316026880,
+      "reason": "extension not in include set"
+    },
+    {
+      "path": "reports/runs/streamq5_moe/p6a_exact_runtime_bank/lm_head.q8bin",
+      "bytes": 316026880,
+      "reason": "extension not in include set"
+    },
+    {
+      "path": "reports/runs/rsiv_moe/p1b_v2_long_prefix.safetensors",
+      "bytes": 290729612,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/craft_moe/atomic_full_depth_supports.safetensors",
+      "bytes": 224942720,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/streamq5_moe/port80b_t0r12d2r3_cloned_serialization/t0r12d2_raw.safetensors",
+      "bytes": 171696126,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_00.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_01.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_02.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_03.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_04.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_05.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_06.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_07.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_08.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_09.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_10.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_11.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_12.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_13.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_14.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_15.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_16.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_17.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_18.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_19.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_20.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_21.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_22.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_23.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_24.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_25.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_26.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_27.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_28.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    },
+    {
+      "path": "reports/runs/qwen_gptq_bank/p0_bank/layer_29.safetensors",
+      "bytes": 160433048,
+      "reason": "binary/archive extension"
+    }
+  ],
+  "excluded_count_over_64kib": 1347,
+  "archive_bytes": 13010918,
+  "archive_sha256": "424da1859d2d097308a908e30b984c7209221e19d9c11620081d8418e688829f"
+}

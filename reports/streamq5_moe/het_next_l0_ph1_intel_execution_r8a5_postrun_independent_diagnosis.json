@@ -1,0 +1,134 @@
+{
+  "kind": "ph1_intel_execution_r8a5_postrun_independent_diagnosis",
+  "date": "2026-08-14",
+  "read_only": true,
+  "device_rerun": false,
+  "physical_rerun_authorized": false,
+  "physical_bundle": {
+    "directory_exact_files": true,
+    "result_bytes": 99483,
+    "result_sha256": "9d1ac21f4fdd9657160e877f267369b5e831ff9f7a65e998f27895947c9cad50",
+    "manifest_bytes": 167,
+    "manifest_sha256": "2d13137f143ff183be3ffe89a3b85754cb2f35b52f92885580f49676e5fcfb7b",
+    "commit_bytes": 210,
+    "commit_sha256": "07d9f03e8907a029d8bc31e40da6298de080b6bc0f0914769f8d52517b2dd965",
+    "manifest_exact": true,
+    "commit_exact": true,
+    "kind": "ph1_intel_execution_r7a",
+    "status": "intel_execution_positive",
+    "positive": true
+  },
+  "physical_gates": {
+    "count": 18,
+    "all_true": true,
+    "names": [
+      "allocations",
+      "args",
+      "compile_identity",
+      "controls",
+      "counters",
+      "extensions",
+      "finish_reads",
+      "forbidden_static_and_runtime",
+      "identity",
+      "initialization",
+      "launch",
+      "ledger_order",
+      "ownership",
+      "release",
+      "resource_samples",
+      "resources",
+      "stages",
+      "writes"
+    ]
+  },
+  "independent_cpu_numerical_recomputation": {
+    "count": 20,
+    "all_true": true,
+    "names": [
+      "allocations",
+      "args",
+      "authorization",
+      "compile_package",
+      "controls",
+      "counters",
+      "extensions",
+      "forbidden",
+      "identity",
+      "initialization",
+      "launch_finish_read",
+      "ledger_order",
+      "oracle_outputs",
+      "ownership",
+      "positive_schema",
+      "records_input_lut",
+      "release",
+      "resources",
+      "runner_gates",
+      "writes"
+    ]
+  },
+  "device_evidence": {
+    "name": "Intel(R) Arc(TM) Pro 140T GPU (32GB)",
+    "vendor": "Intel(R) Corporation",
+    "driver": "32.0.101.8517",
+    "pci": "0000:00:02.0",
+    "ledger_rows": 102,
+    "ownership_rows": 95,
+    "host_usm_allocations": 14,
+    "pointer_args": 18,
+    "launches": 4,
+    "finish_calls": 1,
+    "direct_reads": 9,
+    "release_attempts": 21,
+    "cleanup_complete": true,
+    "live_owned_resources": 0,
+    "resource_samples": 12,
+    "telemetry_errors": 0,
+    "forbidden_calls_all_zero": true,
+    "controls": 22,
+    "controls_all_true": true,
+    "peak_retained_wset": 154890240,
+    "final_available_ram": 48636030976
+  },
+  "stage_sha256": {
+    "gate": "e8a00c17f2ea66f4fc933103eeaf2429c9c1b63fd903720eabaa5b7513acc867",
+    "up": "f8dc1dc2c9f19e2012ce806ea121d07135e70d383354ff8faa777377595def08",
+    "silu": "a83041f1517b31f6b2a81b5d98c3f9a128b5bdc5602b57000453a57b036295e8",
+    "activation": "762384a50598dc67aca0963b1e9ed52f5eda71ec9643aeb18a6750ab92fe3d5f",
+    "down": "142607c8defe588a2833ce65a774515aeb9691dd7008e4ff6b32488af9bf10fc"
+  },
+  "first_verifier": {
+    "bytes": 1724,
+    "sha256": "d6b630658c59e1c6913ba099bb8d617fe1b451e14e31ee38b68d351fb9fde917",
+    "checks_true": 27,
+    "checks_total": 29,
+    "only_false_checks": [
+      "terminal_contract",
+      "topology"
+    ],
+    "production_matrix_31_all_true": true,
+    "terminal_state": "invalid",
+    "terminal_valid": false,
+    "pass": false
+  },
+  "topology_root_cause": {
+    "platform": "Windows",
+    "expression": "FAMILY_PARENT.glob(FAMILY_PREFIX + '*')",
+    "case_insensitive_match": true,
+    "required_provenance_omitted_from_allowed_set_at_first_verification": [
+      "HET_NEXT_L0_PH1_INTEL_EXECUTION_R8A5_PREREGISTRATION_2026-08-14.md",
+      "HET_NEXT_L0_PH1_INTEL_EXECUTION_R8A5_INDEPENDENT_SOURCE_AUDIT_2026-08-14.md"
+    ],
+    "mechanism_failure": false,
+    "verifier_topology_bug": true
+  },
+  "bound_existing_diagnosis": {
+    "path": "reports/streamq5_moe/HET_NEXT_L0_PH1_INTEL_EXECUTION_R8A5_VERIFIER_TOPOLOGY_FAILURE_DIAGNOSIS_2026-08-14.md",
+    "bytes": 3916,
+    "sha256": "e3be1fa3d05fe8a6437f0b3fbb047bc99ee83000c7c67dde725bfb9254715f1a"
+  },
+  "verdict": "physical_positive_verifier_invalid_due_only_to_topology_bug",
+  "next_step": "fresh_preregistered_verifier_only_r8v1",
+  "claim": "one real expert/input Intel correctness component only; no performance, full-layer, full-model, heterogeneous, industrial, or breakthrough claim"
+}

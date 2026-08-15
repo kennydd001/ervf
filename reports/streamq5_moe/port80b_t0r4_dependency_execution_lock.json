@@ -1,0 +1,63 @@
+{
+  "kind": "port80b_t0r4_dependency_execution_lock",
+  "locked_date": "2026-08-13",
+  "outputs_opened": false,
+  "independent_method_audit_sha256": "27b8157170c4aa9ee094ed2e00b6632877e207e7fe4b9ed40445465a7d8e9ecf",
+  "transformers_sources": {
+    "cache_utils.py": "0d5fd6901ce2b7108eff40e06d7ce29e9b0f9cc8ed2f40d2fb3a2e4d4f43e630",
+    "conversion_mapping.py": "126a342d8be1942f76207ed30f809b659709c71618ab2b57066bfde19a0a1f83",
+    "integrations/hub_kernels.py": "50e5b5f938cdb2c5a2f7e90ae1ab3933cb2d505ab38c6c4f4d0226320df4b94a",
+    "integrations/moe.py": "aee99c71daa326c93d15660a73e4bf76676596e437bf5a6beb6983b2c11e7215",
+    "activations.py": "5b20c0a3625edc0001a98f09ce3c6b5baa1100e1d7ad8dee649e4d45c8468665",
+    "masking_utils.py": "e8c497af6979274fc6ae78980ad9893e7850bdb750e46d459f09178123992196"
+  },
+  "preimport_environment": {
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "HF_HUB_DISABLE_TELEMETRY": "1",
+    "USE_HUB_KERNELS": "0",
+    "CUDA_VISIBLE_DEVICES": "-1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "runtime": {
+    "torch_num_threads": 1,
+    "torch_num_interop_threads": 1,
+    "deterministic_algorithms": true,
+    "float32_matmul_precision": "highest",
+    "mkldnn_enabled": true,
+    "flush_denormal": false,
+    "inference_mode": true,
+    "autocast": false,
+    "process_affinity": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    "cpu_identity": "Intel64 Family 6 Model 197 Stepping 2, GenuineIntel",
+    "torch_cpu_capability": "AVX2"
+  },
+  "fallback_callables": {
+    "causal_conv1d_fn": "transformers.models.qwen3_next.modeling_qwen3_next.causal_conv1d_fn -> frozen torch fallback",
+    "causal_conv1d_update": "transformers.models.qwen3_next.modeling_qwen3_next.causal_conv1d_update -> frozen torch fallback",
+    "chunk_gated_delta_rule": "transformers.models.qwen3_next.modeling_qwen3_next.torch_chunk_gated_delta_rule",
+    "recurrent_gated_delta_rule": "not used by R4 prefix-ladder prefill; source remains locked",
+    "RMSNormGated": "transformers.models.qwen3_next.modeling_qwen3_next.Qwen3NextRMSNormGated.forward",
+    "experts": "transformers.models.qwen3_next.modeling_qwen3_next.Qwen3NextExperts.forward"
+  },
+  "checkpoint_conversion": {
+    "mapping": "qwen3_next -> qwen2_moe",
+    "expert_order": "ascending 0..511",
+    "gate_up": "MergeModulelist(dim=0), then Concatenate(dim=1), gate then up",
+    "down": "MergeModulelist(dim=0)",
+    "strict_byte_slice_verification_required": true
+  },
+  "q5": {
+    "group_axis": "contiguous row-major last-dimension groups of 128",
+    "zero_group": "stored BF16 scale 1.0 and all signed codes 0",
+    "nonzero_group": "codes selected using FP32 maxabs/15; stored BF16 scale used for dequantization",
+    "wire": "stored field=q+15 in [0,30]; little-order 8 five-bit fields/5 bytes; 31 rejected"
+  },
+  "resource_gates": {
+    "available_ram_start_min_bytes": 17179869184,
+    "available_ram_reserve_min_bytes": 2147483648,
+    "projected_steady_working_set_max_bytes": 11274289152,
+    "peak_process_working_set_max_bytes": 12884901888
+  }
+}

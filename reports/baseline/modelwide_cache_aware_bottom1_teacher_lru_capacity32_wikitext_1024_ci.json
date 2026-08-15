@@ -1,0 +1,3482 @@
+{
+  "created_at_utc": "2026-08-09T21:57:30.590779+00:00",
+  "git_revision": null,
+  "kind": "route_equivalent_cache",
+  "payload": {
+    "blocks_per_split": 8,
+    "cache_caveat": "expert-granularity simulator; no bytes, prefetch, concurrency, or kernel latency modeled",
+    "corpus_preset": "wikitext",
+    "corpus_sources": {
+      "test": "pinned WikiText-2 raw test",
+      "validation": "pinned WikiText-2 raw validation"
+    },
+    "dataset_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "experiment": "modelwide_cache_aware_bottom1_substitution",
+    "final": {
+      "test": {
+        "32": {
+          "bootstrap_95_percent_intervals": {
+            "confidence_level": 0.95,
+            "cross_entropy_delta": [
+              -0.0033096553772455906,
+              0.007953133170060411
+            ],
+            "method": "sequence-block bootstrap with replacement",
+            "relative_cross_entropy_delta": [
+              -0.0013016801060360106,
+              0.0032792299892503048
+            ],
+            "resamples": 10000,
+            "sampling_units": 8,
+            "teacher_to_candidate_kl": [
+              0.0034862013126257807,
+              0.00422576524579199
+            ],
+            "top1_agreement": [
+              0.966796875,
+              0.9814453125
+            ]
+          },
+          "cache_bootstrap_95_percent_intervals": {
+            "confidence_level": 0.95,
+            "expert_load_reduction_fraction": [
+              0.10085244327050069,
+              0.11282426778242682
+            ],
+            "method": "sequence-block bootstrap with replacement",
+            "resamples": 10000,
+            "sampling_units": 8,
+            "substituted_token_fraction": [
+              0.20056997445913463,
+              0.2122521033653846
+            ]
+          },
+          "candidate_cross_entropy": 2.4982277577317604,
+          "cross_entropy_delta": 0.0024276493102544094,
+          "per_block": [
+            {
+              "candidate_cross_entropy": 2.153608427273007,
+              "cross_entropy_delta": -0.004608394592765741,
+              "relative_cross_entropy_delta": -0.0021352787848172715,
+              "teacher_cross_entropy": 2.1582168218657727,
+              "teacher_to_candidate_kl": 0.003837788477540016,
+              "top1_agreement": 0.9765625
+            },
+            {
+              "candidate_cross_entropy": 2.5027148629736713,
+              "cross_entropy_delta": 0.012224332554133799,
+              "relative_cross_entropy_delta": 0.004908403547342354,
+              "teacher_cross_entropy": 2.4904905304195375,
+              "teacher_to_candidate_kl": 0.003929221536964178,
+              "top1_agreement": 0.9765625
+            },
+            {
+              "candidate_cross_entropy": 2.14037437138595,
+              "cross_entropy_delta": 0.007331908218504157,
+              "relative_cross_entropy_delta": 0.0034373006375206868,
+              "teacher_cross_entropy": 2.133042463167446,
+              "teacher_to_candidate_kl": 0.0028230573516339064,
+              "top1_agreement": 0.984375
+            },
+            {
+              "candidate_cross_entropy": 2.275191179410679,
+              "cross_entropy_delta": 0.010782076617864345,
+              "relative_cross_entropy_delta": 0.004761540926754906,
+              "teacher_cross_entropy": 2.264409102792815,
+              "teacher_to_candidate_kl": 0.0035950930323451757,
+              "top1_agreement": 0.9765625
+            },
+            {
+              "candidate_cross_entropy": 2.8528199683962843,
+              "cross_entropy_delta": -0.013010580708661568,
+              "relative_cross_entropy_delta": -0.004539898813181758,
+              "teacher_cross_entropy": 2.865830549104946,
+              "teacher_to_candidate_kl": 0.004061664920300245,
+              "top1_agreement": 0.9609375
+            },
+            {
+              "candidate_cross_entropy": 2.5624024398683565,
+              "cross_entropy_delta": -0.0011625515194388925,
+              "relative_cross_entropy_delta": -0.0004534901683181205,
+              "teacher_cross_entropy": 2.5635649913877954,
+              "teacher_to_candidate_kl": 0.004824169911444187,
+              "top1_agreement": 0.9609375
+            },
+            {
+              "candidate_cross_entropy": 2.6739679772084153,
+              "cross_entropy_delta": -0.0011385219303643446,
+              "relative_cross_entropy_delta": -0.00042559873064151985,
+              "teacher_cross_entropy": 2.6751064991387796,
+              "teacher_to_candidate_kl": 0.004116453230381012,
+              "top1_agreement": 0.9921875
+            },
+            {
+              "candidate_cross_entropy": 2.8247425950418306,
+              "cross_entropy_delta": 0.009003406434547223,
+              "relative_cross_entropy_delta": 0.0031975285463141474,
+              "teacher_cross_entropy": 2.8157391886072833,
+              "teacher_to_candidate_kl": 0.003700217232108116,
+              "top1_agreement": 0.9609375
+            }
+          ],
+          "relative_cross_entropy_delta": 0.0009726938075140163,
+          "teacher_cross_entropy": 2.495800108421506,
+          "teacher_to_candidate_kl": 0.003860958095174283,
+          "top1_agreement": 0.9736328125
+        }
+      },
+      "validation": {
+        "32": {
+          "bootstrap_95_percent_intervals": {
+            "confidence_level": 0.95,
+            "cross_entropy_delta": [
+              -0.00787295919703701,
+              0.007555143101008377
+            ],
+            "method": "sequence-block bootstrap with replacement",
+            "relative_cross_entropy_delta": [
+              -0.0036330053938598427,
+              0.0035719425153003946
+            ],
+            "resamples": 10000,
+            "sampling_units": 8,
+            "teacher_to_candidate_kl": [
+              0.0038305505586322397,
+              0.004812145140022039
+            ],
+            "top1_agreement": [
+              0.9521484375,
+              0.970703125
+            ]
+          },
+          "cache_bootstrap_95_percent_intervals": {
+            "confidence_level": 0.95,
+            "expert_load_reduction_fraction": [
+              0.11064916486754915,
+              0.12862189181077277
+            ],
+            "method": "sequence-block bootstrap with replacement",
+            "resamples": 10000,
+            "sampling_units": 8,
+            "substituted_token_fraction": [
+              0.19396033653846154,
+              0.21003605769230768
+            ]
+          },
+          "candidate_cross_entropy": 2.18173452061931,
+          "cross_entropy_delta": -0.00040285606083889647,
+          "per_block": [
+            {
+              "candidate_cross_entropy": 1.981095802126907,
+              "cross_entropy_delta": -0.013935719888041431,
+              "relative_cross_entropy_delta": -0.006985212882233855,
+              "teacher_cross_entropy": 1.9950315220149484,
+              "teacher_to_candidate_kl": 0.004417646676301956,
+              "top1_agreement": 0.9765625
+            },
+            {
+              "candidate_cross_entropy": 1.8904256745586245,
+              "cross_entropy_delta": 0.00230828232652569,
+              "relative_cross_entropy_delta": 0.0012225311498226706,
+              "teacher_cross_entropy": 1.8881173922320988,
+              "teacher_to_candidate_kl": 0.0031927230302244425,
+              "top1_agreement": 0.96875
+            },
+            {
+              "candidate_cross_entropy": 1.984396866926058,
+              "cross_entropy_delta": 0.02057269239050208,
+              "relative_cross_entropy_delta": 0.010475832132664073,
+              "teacher_cross_entropy": 1.963824174535556,
+              "teacher_to_candidate_kl": 0.003959281370043755,
+              "top1_agreement": 0.9453125
+            },
+            {
+              "candidate_cross_entropy": 2.559862031711368,
+              "cross_entropy_delta": -0.0028785044752708266,
+              "relative_cross_entropy_delta": -0.0011232133860706963,
+              "teacher_cross_entropy": 2.562740536186639,
+              "teacher_to_candidate_kl": 0.004402077291160822,
+              "top1_agreement": 0.9453125
+            },
+            {
+              "candidate_cross_entropy": 2.019378662109375,
+              "cross_entropy_delta": -0.014308418814591661,
+              "relative_cross_entropy_delta": -0.007035703254844352,
+              "teacher_cross_entropy": 2.0336870809239667,
+              "teacher_to_candidate_kl": 0.0056240917183458805,
+              "top1_agreement": 0.96875
+            },
+            {
+              "candidate_cross_entropy": 2.159571850393701,
+              "cross_entropy_delta": 0.011310727577510171,
+              "relative_cross_entropy_delta": 0.005265061801557323,
+              "teacher_cross_entropy": 2.1482611228161907,
+              "teacher_to_candidate_kl": 0.00498687569051981,
+              "top1_agreement": 0.9765625
+            },
+            {
+              "candidate_cross_entropy": 2.592065766101747,
+              "cross_entropy_delta": -0.0024512583815203826,
+              "relative_cross_entropy_delta": -0.0009447840805779963,
+              "teacher_cross_entropy": 2.5945170244832676,
+              "teacher_to_candidate_kl": 0.00419375766068697,
+              "top1_agreement": 0.9453125
+            },
+            {
+              "candidate_cross_entropy": 2.267079270730807,
+              "cross_entropy_delta": -0.0038413701094981434,
+              "relative_cross_entropy_delta": -0.0016915474897778583,
+              "teacher_cross_entropy": 2.270920640840305,
+              "teacher_to_candidate_kl": 0.0036506764590740204,
+              "top1_agreement": 0.96875
+            }
+          ],
+          "relative_cross_entropy_delta": -0.00018461535242652411,
+          "teacher_cross_entropy": 2.182137376680149,
+          "teacher_to_candidate_kl": 0.004303390975110233,
+          "top1_agreement": 0.9619140625
+        }
+      }
+    },
+    "layer_reports": [
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 5090,
+              "expert_load_reduction_fraction": 0.08993384587877706,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 336,
+                  "expert_load_reduction_fraction": 0.09433962264150941,
+                  "strict_expert_loads": 371,
+                  "substituted_token_fraction": 0.28125
+                },
+                {
+                  "adaptive_expert_loads": 294,
+                  "expert_load_reduction_fraction": 0.1327433628318584,
+                  "strict_expert_loads": 339,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 242,
+                  "expert_load_reduction_fraction": 0.12,
+                  "strict_expert_loads": 275,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 316,
+                  "expert_load_reduction_fraction": 0.1270718232044199,
+                  "strict_expert_loads": 362,
+                  "substituted_token_fraction": 0.25
+                },
+                {
+                  "adaptive_expert_loads": 326,
+                  "expert_load_reduction_fraction": 0.11891891891891893,
+                  "strict_expert_loads": 370,
+                  "substituted_token_fraction": 0.2734375
+                },
+                {
+                  "adaptive_expert_loads": 285,
+                  "expert_load_reduction_fraction": 0.10377358490566035,
+                  "strict_expert_loads": 318,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 378,
+                  "expert_load_reduction_fraction": 0.05025125628140703,
+                  "strict_expert_loads": 398,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 351,
+                  "expert_load_reduction_fraction": 0.07631578947368423,
+                  "strict_expert_loads": 380,
+                  "substituted_token_fraction": 0.2578125
+                },
+                {
+                  "adaptive_expert_loads": 328,
+                  "expert_load_reduction_fraction": 0.07344632768361581,
+                  "strict_expert_loads": 354,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 317,
+                  "expert_load_reduction_fraction": 0.050898203592814384,
+                  "strict_expert_loads": 334,
+                  "substituted_token_fraction": 0.15625
+                },
+                {
+                  "adaptive_expert_loads": 333,
+                  "expert_load_reduction_fraction": 0.10242587601078168,
+                  "strict_expert_loads": 371,
+                  "substituted_token_fraction": 0.265625
+                },
+                {
+                  "adaptive_expert_loads": 263,
+                  "expert_load_reduction_fraction": 0.08996539792387548,
+                  "strict_expert_loads": 289,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 385,
+                  "expert_load_reduction_fraction": 0.03990024937655856,
+                  "strict_expert_loads": 401,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 304,
+                  "expert_load_reduction_fraction": 0.11370262390670549,
+                  "strict_expert_loads": 343,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 284,
+                  "expert_load_reduction_fraction": 0.07792207792207795,
+                  "strict_expert_loads": 308,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 348,
+                  "expert_load_reduction_fraction": 0.08421052631578951,
+                  "strict_expert_loads": 380,
+                  "substituted_token_fraction": 0.2421875
+                }
+              ],
+              "strict_expert_loads": 5593,
+              "substituted_token_fraction": 0.22705078125
+            },
+            "hidden": {
+              "cosine": 0.9997811317443848,
+              "mae": 0.0008454176713712513,
+              "max_abs_error": 0.140625,
+              "nrmse": 0.022675374522805214
+            },
+            "router_topk_overlap": 0.962158203125,
+            "router_weight_nrmse": 0.10429008305072784
+          }
+        },
+        "layer": 1
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 4814,
+              "expert_load_reduction_fraction": 0.08635414689694443,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 340,
+                  "expert_load_reduction_fraction": 0.1029023746701847,
+                  "strict_expert_loads": 379,
+                  "substituted_token_fraction": 0.25
+                },
+                {
+                  "adaptive_expert_loads": 277,
+                  "expert_load_reduction_fraction": 0.1035598705501618,
+                  "strict_expert_loads": 309,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 203,
+                  "expert_load_reduction_fraction": 0.12121212121212122,
+                  "strict_expert_loads": 231,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 303,
+                  "expert_load_reduction_fraction": 0.11403508771929827,
+                  "strict_expert_loads": 342,
+                  "substituted_token_fraction": 0.265625
+                },
+                {
+                  "adaptive_expert_loads": 330,
+                  "expert_load_reduction_fraction": 0.04899135446685876,
+                  "strict_expert_loads": 347,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 246,
+                  "expert_load_reduction_fraction": 0.07518796992481203,
+                  "strict_expert_loads": 266,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 332,
+                  "expert_load_reduction_fraction": 0.09782608695652173,
+                  "strict_expert_loads": 368,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 338,
+                  "expert_load_reduction_fraction": 0.053221288515406195,
+                  "strict_expert_loads": 357,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 303,
+                  "expert_load_reduction_fraction": 0.0619195046439629,
+                  "strict_expert_loads": 323,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 305,
+                  "expert_load_reduction_fraction": 0.08955223880597019,
+                  "strict_expert_loads": 335,
+                  "substituted_token_fraction": 0.2890625
+                },
+                {
+                  "adaptive_expert_loads": 323,
+                  "expert_load_reduction_fraction": 0.061046511627906974,
+                  "strict_expert_loads": 344,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 274,
+                  "expert_load_reduction_fraction": 0.10163934426229504,
+                  "strict_expert_loads": 305,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 329,
+                  "expert_load_reduction_fraction": 0.09366391184572997,
+                  "strict_expert_loads": 363,
+                  "substituted_token_fraction": 0.2578125
+                },
+                {
+                  "adaptive_expert_loads": 317,
+                  "expert_load_reduction_fraction": 0.08115942028985512,
+                  "strict_expert_loads": 345,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 287,
+                  "expert_load_reduction_fraction": 0.0859872611464968,
+                  "strict_expert_loads": 314,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 307,
+                  "expert_load_reduction_fraction": 0.09970674486803521,
+                  "strict_expert_loads": 341,
+                  "substituted_token_fraction": 0.2421875
+                }
+              ],
+              "strict_expert_loads": 5269,
+              "substituted_token_fraction": 0.22314453125
+            },
+            "hidden": {
+              "cosine": 0.9995701909065247,
+              "mae": 0.00231725606136024,
+              "max_abs_error": 0.28125,
+              "nrmse": 0.02857641503214836
+            },
+            "router_topk_overlap": 0.95947265625,
+            "router_weight_nrmse": 0.0939517617225647
+          }
+        },
+        "layer": 2
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 4084,
+              "expert_load_reduction_fraction": 0.10399297937691965,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 256,
+                  "expert_load_reduction_fraction": 0.11418685121107264,
+                  "strict_expert_loads": 289,
+                  "substituted_token_fraction": 0.25
+                },
+                {
+                  "adaptive_expert_loads": 196,
+                  "expert_load_reduction_fraction": 0.14410480349344978,
+                  "strict_expert_loads": 229,
+                  "substituted_token_fraction": 0.28125
+                },
+                {
+                  "adaptive_expert_loads": 204,
+                  "expert_load_reduction_fraction": 0.10132158590308371,
+                  "strict_expert_loads": 227,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 252,
+                  "expert_load_reduction_fraction": 0.09999999999999998,
+                  "strict_expert_loads": 280,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 265,
+                  "expert_load_reduction_fraction": 0.1166666666666667,
+                  "strict_expert_loads": 300,
+                  "substituted_token_fraction": 0.296875
+                },
+                {
+                  "adaptive_expert_loads": 187,
+                  "expert_load_reduction_fraction": 0.11792452830188682,
+                  "strict_expert_loads": 212,
+                  "substituted_token_fraction": 0.265625
+                },
+                {
+                  "adaptive_expert_loads": 252,
+                  "expert_load_reduction_fraction": 0.13103448275862073,
+                  "strict_expert_loads": 290,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 275,
+                  "expert_load_reduction_fraction": 0.09836065573770492,
+                  "strict_expert_loads": 305,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 264,
+                  "expert_load_reduction_fraction": 0.07042253521126762,
+                  "strict_expert_loads": 284,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 279,
+                  "expert_load_reduction_fraction": 0.11146496815286622,
+                  "strict_expert_loads": 314,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 288,
+                  "expert_load_reduction_fraction": 0.07692307692307687,
+                  "strict_expert_loads": 312,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 234,
+                  "expert_load_reduction_fraction": 0.07509881422924902,
+                  "strict_expert_loads": 253,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 302,
+                  "expert_load_reduction_fraction": 0.11953352769679304,
+                  "strict_expert_loads": 343,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 283,
+                  "expert_load_reduction_fraction": 0.10158730158730156,
+                  "strict_expert_loads": 315,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 247,
+                  "expert_load_reduction_fraction": 0.10181818181818181,
+                  "strict_expert_loads": 275,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 300,
+                  "expert_load_reduction_fraction": 0.09090909090909094,
+                  "strict_expert_loads": 330,
+                  "substituted_token_fraction": 0.265625
+                }
+              ],
+              "strict_expert_loads": 4558,
+              "substituted_token_fraction": 0.2216796875
+            },
+            "hidden": {
+              "cosine": 0.9993057250976562,
+              "mae": 0.0040679010562598705,
+              "max_abs_error": 8.0,
+              "nrmse": 0.0021883342415094376
+            },
+            "router_topk_overlap": 0.9576009114583334,
+            "router_weight_nrmse": 0.09903159737586975
+          }
+        },
+        "layer": 3
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3624,
+              "expert_load_reduction_fraction": 0.09580838323353291,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 223,
+                  "expert_load_reduction_fraction": 0.11155378486055778,
+                  "strict_expert_loads": 251,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 215,
+                  "expert_load_reduction_fraction": 0.09282700421940926,
+                  "strict_expert_loads": 237,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 184,
+                  "expert_load_reduction_fraction": 0.10679611650485432,
+                  "strict_expert_loads": 206,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 222,
+                  "expert_load_reduction_fraction": 0.15909090909090906,
+                  "strict_expert_loads": 264,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 262,
+                  "expert_load_reduction_fraction": 0.08391608391608396,
+                  "strict_expert_loads": 286,
+                  "substituted_token_fraction": 0.2890625
+                },
+                {
+                  "adaptive_expert_loads": 180,
+                  "expert_load_reduction_fraction": 0.11330049261083741,
+                  "strict_expert_loads": 203,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 265,
+                  "expert_load_reduction_fraction": 0.05693950177935947,
+                  "strict_expert_loads": 281,
+                  "substituted_token_fraction": 0.2578125
+                },
+                {
+                  "adaptive_expert_loads": 237,
+                  "expert_load_reduction_fraction": 0.07058823529411762,
+                  "strict_expert_loads": 255,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 242,
+                  "expert_load_reduction_fraction": 0.0692307692307692,
+                  "strict_expert_loads": 260,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 228,
+                  "expert_load_reduction_fraction": 0.06557377049180324,
+                  "strict_expert_loads": 244,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 240,
+                  "expert_load_reduction_fraction": 0.13043478260869568,
+                  "strict_expert_loads": 276,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 204,
+                  "expert_load_reduction_fraction": 0.06422018348623848,
+                  "strict_expert_loads": 218,
+                  "substituted_token_fraction": 0.15625
+                },
+                {
+                  "adaptive_expert_loads": 263,
+                  "expert_load_reduction_fraction": 0.10238907849829348,
+                  "strict_expert_loads": 293,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 218,
+                  "expert_load_reduction_fraction": 0.11740890688259109,
+                  "strict_expert_loads": 247,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 175,
+                  "expert_load_reduction_fraction": 0.1071428571428571,
+                  "strict_expert_loads": 196,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 266,
+                  "expert_load_reduction_fraction": 0.08591065292096223,
+                  "strict_expert_loads": 291,
+                  "substituted_token_fraction": 0.15625
+                }
+              ],
+              "strict_expert_loads": 4008,
+              "substituted_token_fraction": 0.2001953125
+            },
+            "hidden": {
+              "cosine": 0.9992024898529053,
+              "mae": 0.0057297274470329285,
+              "max_abs_error": 8.0,
+              "nrmse": 0.0025604930706322193
+            },
+            "router_topk_overlap": 0.9590657552083334,
+            "router_weight_nrmse": 0.10748081654310226
+          }
+        },
+        "layer": 4
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3544,
+              "expert_load_reduction_fraction": 0.09798931025706281,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 218,
+                  "expert_load_reduction_fraction": 0.09166666666666667,
+                  "strict_expert_loads": 240,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 177,
+                  "expert_load_reduction_fraction": 0.11940298507462688,
+                  "strict_expert_loads": 201,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 155,
+                  "expert_load_reduction_fraction": 0.13888888888888884,
+                  "strict_expert_loads": 180,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 225,
+                  "expert_load_reduction_fraction": 0.15413533834586468,
+                  "strict_expert_loads": 266,
+                  "substituted_token_fraction": 0.2578125
+                },
+                {
+                  "adaptive_expert_loads": 227,
+                  "expert_load_reduction_fraction": 0.12692307692307692,
+                  "strict_expert_loads": 260,
+                  "substituted_token_fraction": 0.25
+                },
+                {
+                  "adaptive_expert_loads": 183,
+                  "expert_load_reduction_fraction": 0.05670103092783507,
+                  "strict_expert_loads": 194,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 256,
+                  "expert_load_reduction_fraction": 0.11418685121107264,
+                  "strict_expert_loads": 289,
+                  "substituted_token_fraction": 0.2578125
+                },
+                {
+                  "adaptive_expert_loads": 215,
+                  "expert_load_reduction_fraction": 0.10041841004184104,
+                  "strict_expert_loads": 239,
+                  "substituted_token_fraction": 0.2890625
+                },
+                {
+                  "adaptive_expert_loads": 263,
+                  "expert_load_reduction_fraction": 0.05734767025089604,
+                  "strict_expert_loads": 279,
+                  "substituted_token_fraction": 0.296875
+                },
+                {
+                  "adaptive_expert_loads": 222,
+                  "expert_load_reduction_fraction": 0.05531914893617018,
+                  "strict_expert_loads": 235,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 251,
+                  "expert_load_reduction_fraction": 0.07720588235294112,
+                  "strict_expert_loads": 272,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 206,
+                  "expert_load_reduction_fraction": 0.08849557522123896,
+                  "strict_expert_loads": 226,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 266,
+                  "expert_load_reduction_fraction": 0.08275862068965523,
+                  "strict_expert_loads": 290,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 230,
+                  "expert_load_reduction_fraction": 0.11877394636015326,
+                  "strict_expert_loads": 261,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 205,
+                  "expert_load_reduction_fraction": 0.08071748878923768,
+                  "strict_expert_loads": 223,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 245,
+                  "expert_load_reduction_fraction": 0.1058394160583942,
+                  "strict_expert_loads": 274,
+                  "substituted_token_fraction": 0.28125
+                }
+              ],
+              "strict_expert_loads": 3929,
+              "substituted_token_fraction": 0.22314453125
+            },
+            "hidden": {
+              "cosine": 0.9989557266235352,
+              "mae": 0.007668123580515385,
+              "max_abs_error": 8.0,
+              "nrmse": 0.002845154842361808
+            },
+            "router_topk_overlap": 0.952392578125,
+            "router_weight_nrmse": 0.11680974066257477
+          }
+        },
+        "layer": 5
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3110,
+              "expert_load_reduction_fraction": 0.10913778287023779,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 205,
+                  "expert_load_reduction_fraction": 0.07239819004524883,
+                  "strict_expert_loads": 221,
+                  "substituted_token_fraction": 0.109375
+                },
+                {
+                  "adaptive_expert_loads": 182,
+                  "expert_load_reduction_fraction": 0.1291866028708134,
+                  "strict_expert_loads": 209,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 140,
+                  "expert_load_reduction_fraction": 0.10828025477707004,
+                  "strict_expert_loads": 157,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 177,
+                  "expert_load_reduction_fraction": 0.14492753623188404,
+                  "strict_expert_loads": 207,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 194,
+                  "expert_load_reduction_fraction": 0.10599078341013823,
+                  "strict_expert_loads": 217,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 170,
+                  "expert_load_reduction_fraction": 0.09090909090909094,
+                  "strict_expert_loads": 187,
+                  "substituted_token_fraction": 0.1328125
+                },
+                {
+                  "adaptive_expert_loads": 212,
+                  "expert_load_reduction_fraction": 0.07017543859649122,
+                  "strict_expert_loads": 228,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 210,
+                  "expert_load_reduction_fraction": 0.1428571428571429,
+                  "strict_expert_loads": 245,
+                  "substituted_token_fraction": 0.2578125
+                },
+                {
+                  "adaptive_expert_loads": 228,
+                  "expert_load_reduction_fraction": 0.06938775510204087,
+                  "strict_expert_loads": 245,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 184,
+                  "expert_load_reduction_fraction": 0.15981735159817356,
+                  "strict_expert_loads": 219,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 224,
+                  "expert_load_reduction_fraction": 0.11111111111111116,
+                  "strict_expert_loads": 252,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 193,
+                  "expert_load_reduction_fraction": 0.03980099502487566,
+                  "strict_expert_loads": 201,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 224,
+                  "expert_load_reduction_fraction": 0.05485232067510548,
+                  "strict_expert_loads": 237,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 168,
+                  "expert_load_reduction_fraction": 0.1428571428571429,
+                  "strict_expert_loads": 196,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 181,
+                  "expert_load_reduction_fraction": 0.12135922330097082,
+                  "strict_expert_loads": 206,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 218,
+                  "expert_load_reduction_fraction": 0.1742424242424242,
+                  "strict_expert_loads": 264,
+                  "substituted_token_fraction": 0.2421875
+                }
+              ],
+              "strict_expert_loads": 3491,
+              "substituted_token_fraction": 0.19384765625
+            },
+            "hidden": {
+              "cosine": 0.9988351464271545,
+              "mae": 0.009650011546909809,
+              "max_abs_error": 8.0,
+              "nrmse": 0.0031633058097213507
+            },
+            "router_topk_overlap": 0.95703125,
+            "router_weight_nrmse": 0.12602519989013672
+          }
+        },
+        "layer": 6
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2759,
+              "expert_load_reduction_fraction": 0.13047589032461393,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 135,
+                  "expert_load_reduction_fraction": 0.25,
+                  "strict_expert_loads": 180,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 165,
+                  "expert_load_reduction_fraction": 0.1032608695652174,
+                  "strict_expert_loads": 184,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 127,
+                  "expert_load_reduction_fraction": 0.13605442176870752,
+                  "strict_expert_loads": 147,
+                  "substituted_token_fraction": 0.125
+                },
+                {
+                  "adaptive_expert_loads": 151,
+                  "expert_load_reduction_fraction": 0.13714285714285712,
+                  "strict_expert_loads": 175,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 178,
+                  "expert_load_reduction_fraction": 0.13170731707317074,
+                  "strict_expert_loads": 205,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 138,
+                  "expert_load_reduction_fraction": 0.07999999999999996,
+                  "strict_expert_loads": 150,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 192,
+                  "expert_load_reduction_fraction": 0.13122171945701355,
+                  "strict_expert_loads": 221,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 177,
+                  "expert_load_reduction_fraction": 0.14492753623188404,
+                  "strict_expert_loads": 207,
+                  "substituted_token_fraction": 0.2578125
+                },
+                {
+                  "adaptive_expert_loads": 202,
+                  "expert_load_reduction_fraction": 0.11790393013100442,
+                  "strict_expert_loads": 229,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 182,
+                  "expert_load_reduction_fraction": 0.13744075829383884,
+                  "strict_expert_loads": 211,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 228,
+                  "expert_load_reduction_fraction": 0.0916334661354582,
+                  "strict_expert_loads": 251,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 156,
+                  "expert_load_reduction_fraction": 0.12849162011173187,
+                  "strict_expert_loads": 179,
+                  "substituted_token_fraction": 0.1171875
+                },
+                {
+                  "adaptive_expert_loads": 197,
+                  "expert_load_reduction_fraction": 0.17226890756302526,
+                  "strict_expert_loads": 238,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 171,
+                  "expert_load_reduction_fraction": 0.109375,
+                  "strict_expert_loads": 192,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 150,
+                  "expert_load_reduction_fraction": 0.07407407407407407,
+                  "strict_expert_loads": 162,
+                  "substituted_token_fraction": 0.1171875
+                },
+                {
+                  "adaptive_expert_loads": 210,
+                  "expert_load_reduction_fraction": 0.1322314049586777,
+                  "strict_expert_loads": 242,
+                  "substituted_token_fraction": 0.2421875
+                }
+              ],
+              "strict_expert_loads": 3173,
+              "substituted_token_fraction": 0.1943359375
+            },
+            "hidden": {
+              "cosine": 0.9986001253128052,
+              "mae": 0.011441881768405437,
+              "max_abs_error": 8.0,
+              "nrmse": 0.0034658280201256275
+            },
+            "router_topk_overlap": 0.9567057291666666,
+            "router_weight_nrmse": 0.12557870149612427
+          }
+        },
+        "layer": 7
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2273,
+              "expert_load_reduction_fraction": 0.14258770275367783,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 110,
+                  "expert_load_reduction_fraction": 0.15384615384615385,
+                  "strict_expert_loads": 130,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 150,
+                  "expert_load_reduction_fraction": 0.1428571428571429,
+                  "strict_expert_loads": 175,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 114,
+                  "expert_load_reduction_fraction": 0.13636363636363635,
+                  "strict_expert_loads": 132,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 118,
+                  "expert_load_reduction_fraction": 0.18055555555555558,
+                  "strict_expert_loads": 144,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 170,
+                  "expert_load_reduction_fraction": 0.10526315789473684,
+                  "strict_expert_loads": 190,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 97,
+                  "expert_load_reduction_fraction": 0.1637931034482759,
+                  "strict_expert_loads": 116,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 140,
+                  "expert_load_reduction_fraction": 0.15662650602409633,
+                  "strict_expert_loads": 166,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 129,
+                  "expert_load_reduction_fraction": 0.13422818791946312,
+                  "strict_expert_loads": 149,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 173,
+                  "expert_load_reduction_fraction": 0.14778325123152714,
+                  "strict_expert_loads": 203,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 146,
+                  "expert_load_reduction_fraction": 0.08750000000000002,
+                  "strict_expert_loads": 160,
+                  "substituted_token_fraction": 0.140625
+                },
+                {
+                  "adaptive_expert_loads": 163,
+                  "expert_load_reduction_fraction": 0.1465968586387435,
+                  "strict_expert_loads": 191,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 154,
+                  "expert_load_reduction_fraction": 0.09941520467836262,
+                  "strict_expert_loads": 171,
+                  "substituted_token_fraction": 0.1328125
+                },
+                {
+                  "adaptive_expert_loads": 168,
+                  "expert_load_reduction_fraction": 0.1384615384615384,
+                  "strict_expert_loads": 195,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 139,
+                  "expert_load_reduction_fraction": 0.14197530864197527,
+                  "strict_expert_loads": 162,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 154,
+                  "expert_load_reduction_fraction": 0.149171270718232,
+                  "strict_expert_loads": 181,
+                  "substituted_token_fraction": 0.15625
+                },
+                {
+                  "adaptive_expert_loads": 148,
+                  "expert_load_reduction_fraction": 0.20430107526881724,
+                  "strict_expert_loads": 186,
+                  "substituted_token_fraction": 0.21875
+                }
+              ],
+              "strict_expert_loads": 2651,
+              "substituted_token_fraction": 0.1923828125
+            },
+            "hidden": {
+              "cosine": 0.9983769059181213,
+              "mae": 0.014223464764654636,
+              "max_abs_error": 8.0,
+              "nrmse": 0.003946901764720678
+            },
+            "router_topk_overlap": 0.9561360677083334,
+            "router_weight_nrmse": 0.13814233243465424
+          }
+        },
+        "layer": 8
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2459,
+              "expert_load_reduction_fraction": 0.1390056022408963,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 137,
+                  "expert_load_reduction_fraction": 0.11612903225806448,
+                  "strict_expert_loads": 155,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 147,
+                  "expert_load_reduction_fraction": 0.06369426751592355,
+                  "strict_expert_loads": 157,
+                  "substituted_token_fraction": 0.15625
+                },
+                {
+                  "adaptive_expert_loads": 131,
+                  "expert_load_reduction_fraction": 0.18125000000000002,
+                  "strict_expert_loads": 160,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 146,
+                  "expert_load_reduction_fraction": 0.1560693641618497,
+                  "strict_expert_loads": 173,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 173,
+                  "expert_load_reduction_fraction": 0.1393034825870647,
+                  "strict_expert_loads": 201,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 125,
+                  "expert_load_reduction_fraction": 0.18831168831168832,
+                  "strict_expert_loads": 154,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 198,
+                  "expert_load_reduction_fraction": 0.13157894736842102,
+                  "strict_expert_loads": 228,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 176,
+                  "expert_load_reduction_fraction": 0.1578947368421053,
+                  "strict_expert_loads": 209,
+                  "substituted_token_fraction": 0.265625
+                },
+                {
+                  "adaptive_expert_loads": 182,
+                  "expert_load_reduction_fraction": 0.085427135678392,
+                  "strict_expert_loads": 199,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 122,
+                  "expert_load_reduction_fraction": 0.1029411764705882,
+                  "strict_expert_loads": 136,
+                  "substituted_token_fraction": 0.0703125
+                },
+                {
+                  "adaptive_expert_loads": 165,
+                  "expert_load_reduction_fraction": 0.09836065573770492,
+                  "strict_expert_loads": 183,
+                  "substituted_token_fraction": 0.1328125
+                },
+                {
+                  "adaptive_expert_loads": 145,
+                  "expert_load_reduction_fraction": 0.1470588235294118,
+                  "strict_expert_loads": 170,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 186,
+                  "expert_load_reduction_fraction": 0.12676056338028174,
+                  "strict_expert_loads": 213,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 123,
+                  "expert_load_reduction_fraction": 0.2848837209302325,
+                  "strict_expert_loads": 172,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 139,
+                  "expert_load_reduction_fraction": 0.1146496815286624,
+                  "strict_expert_loads": 157,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 164,
+                  "expert_load_reduction_fraction": 0.13227513227513232,
+                  "strict_expert_loads": 189,
+                  "substituted_token_fraction": 0.1875
+                }
+              ],
+              "strict_expert_loads": 2856,
+              "substituted_token_fraction": 0.18701171875
+            },
+            "hidden": {
+              "cosine": 0.99852454662323,
+              "mae": 0.016115061938762665,
+              "max_abs_error": 8.0,
+              "nrmse": 0.004283689893782139
+            },
+            "router_topk_overlap": 0.9554036458333334,
+            "router_weight_nrmse": 0.14181733131408691
+          }
+        },
+        "layer": 9
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2472,
+              "expert_load_reduction_fraction": 0.13232713232713234,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 149,
+                  "expert_load_reduction_fraction": 0.1286549707602339,
+                  "strict_expert_loads": 171,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 168,
+                  "expert_load_reduction_fraction": 0.05084745762711862,
+                  "strict_expert_loads": 177,
+                  "substituted_token_fraction": 0.15625
+                },
+                {
+                  "adaptive_expert_loads": 138,
+                  "expert_load_reduction_fraction": 0.0980392156862745,
+                  "strict_expert_loads": 153,
+                  "substituted_token_fraction": 0.140625
+                },
+                {
+                  "adaptive_expert_loads": 125,
+                  "expert_load_reduction_fraction": 0.2088607594936709,
+                  "strict_expert_loads": 158,
+                  "substituted_token_fraction": 0.265625
+                },
+                {
+                  "adaptive_expert_loads": 142,
+                  "expert_load_reduction_fraction": 0.1597633136094675,
+                  "strict_expert_loads": 169,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 125,
+                  "expert_load_reduction_fraction": 0.18300653594771243,
+                  "strict_expert_loads": 153,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 182,
+                  "expert_load_reduction_fraction": 0.04712041884816753,
+                  "strict_expert_loads": 191,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 155,
+                  "expert_load_reduction_fraction": 0.1292134831460674,
+                  "strict_expert_loads": 178,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 166,
+                  "expert_load_reduction_fraction": 0.12631578947368416,
+                  "strict_expert_loads": 190,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 158,
+                  "expert_load_reduction_fraction": 0.0650887573964497,
+                  "strict_expert_loads": 169,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 171,
+                  "expert_load_reduction_fraction": 0.18571428571428572,
+                  "strict_expert_loads": 210,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 139,
+                  "expert_load_reduction_fraction": 0.1775147928994083,
+                  "strict_expert_loads": 169,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 163,
+                  "expert_load_reduction_fraction": 0.18905472636815923,
+                  "strict_expert_loads": 201,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 147,
+                  "expert_load_reduction_fraction": 0.1502890173410405,
+                  "strict_expert_loads": 173,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 158,
+                  "expert_load_reduction_fraction": 0.0971428571428572,
+                  "strict_expert_loads": 175,
+                  "substituted_token_fraction": 0.125
+                },
+                {
+                  "adaptive_expert_loads": 186,
+                  "expert_load_reduction_fraction": 0.12264150943396224,
+                  "strict_expert_loads": 212,
+                  "substituted_token_fraction": 0.2578125
+                }
+              ],
+              "strict_expert_loads": 2849,
+              "substituted_token_fraction": 0.19775390625
+            },
+            "hidden": {
+              "cosine": 0.9984062910079956,
+              "mae": 0.01882707141339779,
+              "max_abs_error": 8.0,
+              "nrmse": 0.0047690365463495255
+            },
+            "router_topk_overlap": 0.95556640625,
+            "router_weight_nrmse": 0.14324939250946045
+          }
+        },
+        "layer": 10
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2616,
+              "expert_load_reduction_fraction": 0.12361809045226135,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 157,
+                  "expert_load_reduction_fraction": 0.13259668508287292,
+                  "strict_expert_loads": 181,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 153,
+                  "expert_load_reduction_fraction": 0.10526315789473684,
+                  "strict_expert_loads": 171,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 138,
+                  "expert_load_reduction_fraction": 0.13207547169811318,
+                  "strict_expert_loads": 159,
+                  "substituted_token_fraction": 0.1328125
+                },
+                {
+                  "adaptive_expert_loads": 167,
+                  "expert_load_reduction_fraction": 0.12105263157894741,
+                  "strict_expert_loads": 190,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 186,
+                  "expert_load_reduction_fraction": 0.10576923076923073,
+                  "strict_expert_loads": 208,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 137,
+                  "expert_load_reduction_fraction": 0.11612903225806448,
+                  "strict_expert_loads": 155,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 169,
+                  "expert_load_reduction_fraction": 0.12886597938144329,
+                  "strict_expert_loads": 194,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 156,
+                  "expert_load_reduction_fraction": 0.1567567567567567,
+                  "strict_expert_loads": 185,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 188,
+                  "expert_load_reduction_fraction": 0.09615384615384615,
+                  "strict_expert_loads": 208,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 155,
+                  "expert_load_reduction_fraction": 0.12429378531073443,
+                  "strict_expert_loads": 177,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 190,
+                  "expert_load_reduction_fraction": 0.12037037037037035,
+                  "strict_expert_loads": 216,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 162,
+                  "expert_load_reduction_fraction": 0.0949720670391061,
+                  "strict_expert_loads": 179,
+                  "substituted_token_fraction": 0.140625
+                },
+                {
+                  "adaptive_expert_loads": 192,
+                  "expert_load_reduction_fraction": 0.11926605504587151,
+                  "strict_expert_loads": 218,
+                  "substituted_token_fraction": 0.2578125
+                },
+                {
+                  "adaptive_expert_loads": 135,
+                  "expert_load_reduction_fraction": 0.15094339622641506,
+                  "strict_expert_loads": 159,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 161,
+                  "expert_load_reduction_fraction": 0.14814814814814814,
+                  "strict_expert_loads": 189,
+                  "substituted_token_fraction": 0.15625
+                },
+                {
+                  "adaptive_expert_loads": 170,
+                  "expert_load_reduction_fraction": 0.13265306122448983,
+                  "strict_expert_loads": 196,
+                  "substituted_token_fraction": 0.234375
+                }
+              ],
+              "strict_expert_loads": 2985,
+              "substituted_token_fraction": 0.18212890625
+            },
+            "hidden": {
+              "cosine": 0.9986830353736877,
+              "mae": 0.02174234762787819,
+              "max_abs_error": 8.0,
+              "nrmse": 0.005311358720064163
+            },
+            "router_topk_overlap": 0.9569498697916666,
+            "router_weight_nrmse": 0.13690584897994995
+          }
+        },
+        "layer": 11
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2639,
+              "expert_load_reduction_fraction": 0.12904290429042908,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 142,
+                  "expert_load_reduction_fraction": 0.12345679012345678,
+                  "strict_expert_loads": 162,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 154,
+                  "expert_load_reduction_fraction": 0.07228915662650603,
+                  "strict_expert_loads": 166,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 139,
+                  "expert_load_reduction_fraction": 0.14723926380368102,
+                  "strict_expert_loads": 163,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 147,
+                  "expert_load_reduction_fraction": 0.1352941176470588,
+                  "strict_expert_loads": 170,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 179,
+                  "expert_load_reduction_fraction": 0.06770833333333337,
+                  "strict_expert_loads": 192,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 154,
+                  "expert_load_reduction_fraction": 0.149171270718232,
+                  "strict_expert_loads": 181,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 188,
+                  "expert_load_reduction_fraction": 0.12962962962962965,
+                  "strict_expert_loads": 216,
+                  "substituted_token_fraction": 0.34375
+                },
+                {
+                  "adaptive_expert_loads": 150,
+                  "expert_load_reduction_fraction": 0.0625,
+                  "strict_expert_loads": 160,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 183,
+                  "expert_load_reduction_fraction": 0.1527777777777778,
+                  "strict_expert_loads": 216,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 169,
+                  "expert_load_reduction_fraction": 0.12886597938144329,
+                  "strict_expert_loads": 194,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 208,
+                  "expert_load_reduction_fraction": 0.09956709956709953,
+                  "strict_expert_loads": 231,
+                  "substituted_token_fraction": 0.2734375
+                },
+                {
+                  "adaptive_expert_loads": 171,
+                  "expert_load_reduction_fraction": 0.109375,
+                  "strict_expert_loads": 192,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 160,
+                  "expert_load_reduction_fraction": 0.16666666666666663,
+                  "strict_expert_loads": 192,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 163,
+                  "expert_load_reduction_fraction": 0.11413043478260865,
+                  "strict_expert_loads": 184,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 156,
+                  "expert_load_reduction_fraction": 0.23152709359605916,
+                  "strict_expert_loads": 203,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 176,
+                  "expert_load_reduction_fraction": 0.15384615384615385,
+                  "strict_expert_loads": 208,
+                  "substituted_token_fraction": 0.2421875
+                }
+              ],
+              "strict_expert_loads": 3030,
+              "substituted_token_fraction": 0.21484375
+            },
+            "hidden": {
+              "cosine": 0.9984954595565796,
+              "mae": 0.025279689580202103,
+              "max_abs_error": 8.0,
+              "nrmse": 0.005984410643577576
+            },
+            "router_topk_overlap": 0.94921875,
+            "router_weight_nrmse": 0.13227413594722748
+          }
+        },
+        "layer": 12
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2379,
+              "expert_load_reduction_fraction": 0.1159420289855072,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 125,
+                  "expert_load_reduction_fraction": 0.06015037593984962,
+                  "strict_expert_loads": 133,
+                  "substituted_token_fraction": 0.125
+                },
+                {
+                  "adaptive_expert_loads": 150,
+                  "expert_load_reduction_fraction": 0.1124260355029586,
+                  "strict_expert_loads": 169,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 132,
+                  "expert_load_reduction_fraction": 0.15384615384615385,
+                  "strict_expert_loads": 156,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 94,
+                  "expert_load_reduction_fraction": 0.21666666666666667,
+                  "strict_expert_loads": 120,
+                  "substituted_token_fraction": 0.140625
+                },
+                {
+                  "adaptive_expert_loads": 167,
+                  "expert_load_reduction_fraction": 0.1691542288557214,
+                  "strict_expert_loads": 201,
+                  "substituted_token_fraction": 0.25
+                },
+                {
+                  "adaptive_expert_loads": 123,
+                  "expert_load_reduction_fraction": 0.10869565217391308,
+                  "strict_expert_loads": 138,
+                  "substituted_token_fraction": 0.1328125
+                },
+                {
+                  "adaptive_expert_loads": 169,
+                  "expert_load_reduction_fraction": 0.050561797752809,
+                  "strict_expert_loads": 178,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 152,
+                  "expert_load_reduction_fraction": 0.09523809523809523,
+                  "strict_expert_loads": 168,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 156,
+                  "expert_load_reduction_fraction": 0.12849162011173187,
+                  "strict_expert_loads": 179,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 148,
+                  "expert_load_reduction_fraction": 0.12426035502958577,
+                  "strict_expert_loads": 169,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 167,
+                  "expert_load_reduction_fraction": 0.1391752577319587,
+                  "strict_expert_loads": 194,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 154,
+                  "expert_load_reduction_fraction": 0.04938271604938271,
+                  "strict_expert_loads": 162,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 161,
+                  "expert_load_reduction_fraction": 0.1436170212765957,
+                  "strict_expert_loads": 188,
+                  "substituted_token_fraction": 0.3125
+                },
+                {
+                  "adaptive_expert_loads": 146,
+                  "expert_load_reduction_fraction": 0.13095238095238093,
+                  "strict_expert_loads": 168,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 149,
+                  "expert_load_reduction_fraction": 0.15340909090909094,
+                  "strict_expert_loads": 176,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 186,
+                  "expert_load_reduction_fraction": 0.03125,
+                  "strict_expert_loads": 192,
+                  "substituted_token_fraction": 0.1484375
+                }
+              ],
+              "strict_expert_loads": 2691,
+              "substituted_token_fraction": 0.185546875
+            },
+            "hidden": {
+              "cosine": 0.9985231161117554,
+              "mae": 0.027894100174307823,
+              "max_abs_error": 8.0,
+              "nrmse": 0.00646725669503212
+            },
+            "router_topk_overlap": 0.949951171875,
+            "router_weight_nrmse": 0.12333710491657257
+          }
+        },
+        "layer": 13
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2805,
+              "expert_load_reduction_fraction": 0.11847894406033943,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 139,
+                  "expert_load_reduction_fraction": 0.1146496815286624,
+                  "strict_expert_loads": 157,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 156,
+                  "expert_load_reduction_fraction": 0.1333333333333333,
+                  "strict_expert_loads": 180,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 140,
+                  "expert_load_reduction_fraction": 0.10828025477707004,
+                  "strict_expert_loads": 157,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 157,
+                  "expert_load_reduction_fraction": 0.1179775280898876,
+                  "strict_expert_loads": 178,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 171,
+                  "expert_load_reduction_fraction": 0.09523809523809523,
+                  "strict_expert_loads": 189,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 158,
+                  "expert_load_reduction_fraction": 0.10734463276836159,
+                  "strict_expert_loads": 177,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 189,
+                  "expert_load_reduction_fraction": 0.125,
+                  "strict_expert_loads": 216,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 162,
+                  "expert_load_reduction_fraction": 0.12903225806451613,
+                  "strict_expert_loads": 186,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 189,
+                  "expert_load_reduction_fraction": 0.15625,
+                  "strict_expert_loads": 224,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 192,
+                  "expert_load_reduction_fraction": 0.09433962264150941,
+                  "strict_expert_loads": 212,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 207,
+                  "expert_load_reduction_fraction": 0.0717488789237668,
+                  "strict_expert_loads": 223,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 187,
+                  "expert_load_reduction_fraction": 0.16143497757847536,
+                  "strict_expert_loads": 223,
+                  "substituted_token_fraction": 0.2734375
+                },
+                {
+                  "adaptive_expert_loads": 183,
+                  "expert_load_reduction_fraction": 0.1159420289855072,
+                  "strict_expert_loads": 207,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 191,
+                  "expert_load_reduction_fraction": 0.0861244019138756,
+                  "strict_expert_loads": 209,
+                  "substituted_token_fraction": 0.2578125
+                },
+                {
+                  "adaptive_expert_loads": 167,
+                  "expert_load_reduction_fraction": 0.18536585365853664,
+                  "strict_expert_loads": 205,
+                  "substituted_token_fraction": 0.2578125
+                },
+                {
+                  "adaptive_expert_loads": 217,
+                  "expert_load_reduction_fraction": 0.09205020920502094,
+                  "strict_expert_loads": 239,
+                  "substituted_token_fraction": 0.2265625
+                }
+              ],
+              "strict_expert_loads": 3182,
+              "substituted_token_fraction": 0.21533203125
+            },
+            "hidden": {
+              "cosine": 0.998618483543396,
+              "mae": 0.031118985265493393,
+              "max_abs_error": 8.0,
+              "nrmse": 0.007075493689626455
+            },
+            "router_topk_overlap": 0.9488932291666666,
+            "router_weight_nrmse": 0.10861147195100784
+          }
+        },
+        "layer": 14
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2719,
+              "expert_load_reduction_fraction": 0.13572790845518123,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 156,
+                  "expert_load_reduction_fraction": 0.1333333333333333,
+                  "strict_expert_loads": 180,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 169,
+                  "expert_load_reduction_fraction": 0.1377551020408163,
+                  "strict_expert_loads": 196,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 153,
+                  "expert_load_reduction_fraction": 0.08383233532934131,
+                  "strict_expert_loads": 167,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 151,
+                  "expert_load_reduction_fraction": 0.151685393258427,
+                  "strict_expert_loads": 178,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 182,
+                  "expert_load_reduction_fraction": 0.12077294685990336,
+                  "strict_expert_loads": 207,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 142,
+                  "expert_load_reduction_fraction": 0.12345679012345678,
+                  "strict_expert_loads": 162,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 158,
+                  "expert_load_reduction_fraction": 0.17277486910994766,
+                  "strict_expert_loads": 191,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 202,
+                  "expert_load_reduction_fraction": 0.1255411255411255,
+                  "strict_expert_loads": 231,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 165,
+                  "expert_load_reduction_fraction": 0.140625,
+                  "strict_expert_loads": 192,
+                  "substituted_token_fraction": 0.265625
+                },
+                {
+                  "adaptive_expert_loads": 165,
+                  "expert_load_reduction_fraction": 0.14507772020725385,
+                  "strict_expert_loads": 193,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 190,
+                  "expert_load_reduction_fraction": 0.10377358490566035,
+                  "strict_expert_loads": 212,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 175,
+                  "expert_load_reduction_fraction": 0.125,
+                  "strict_expert_loads": 200,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 195,
+                  "expert_load_reduction_fraction": 0.1333333333333333,
+                  "strict_expert_loads": 225,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 166,
+                  "expert_load_reduction_fraction": 0.12631578947368416,
+                  "strict_expert_loads": 190,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 167,
+                  "expert_load_reduction_fraction": 0.15228426395939088,
+                  "strict_expert_loads": 197,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 183,
+                  "expert_load_reduction_fraction": 0.18666666666666665,
+                  "strict_expert_loads": 225,
+                  "substituted_token_fraction": 0.1953125
+                }
+              ],
+              "strict_expert_loads": 3146,
+              "substituted_token_fraction": 0.2109375
+            },
+            "hidden": {
+              "cosine": 0.9986263513565063,
+              "mae": 0.034616392105817795,
+              "max_abs_error": 8.0,
+              "nrmse": 0.007757481653243303
+            },
+            "router_topk_overlap": 0.9466959635416666,
+            "router_weight_nrmse": 0.11396589875221252
+          }
+        },
+        "layer": 15
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2836,
+              "expert_load_reduction_fraction": 0.12279616455304676,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 127,
+                  "expert_load_reduction_fraction": 0.16993464052287577,
+                  "strict_expert_loads": 153,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 151,
+                  "expert_load_reduction_fraction": 0.12209302325581395,
+                  "strict_expert_loads": 172,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 121,
+                  "expert_load_reduction_fraction": 0.17123287671232879,
+                  "strict_expert_loads": 146,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 127,
+                  "expert_load_reduction_fraction": 0.22085889570552142,
+                  "strict_expert_loads": 163,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 164,
+                  "expert_load_reduction_fraction": 0.13684210526315788,
+                  "strict_expert_loads": 190,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 140,
+                  "expert_load_reduction_fraction": 0.16167664670658688,
+                  "strict_expert_loads": 167,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 142,
+                  "expert_load_reduction_fraction": 0.13414634146341464,
+                  "strict_expert_loads": 164,
+                  "substituted_token_fraction": 0.109375
+                },
+                {
+                  "adaptive_expert_loads": 152,
+                  "expert_load_reduction_fraction": 0.12643678160919536,
+                  "strict_expert_loads": 174,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 226,
+                  "expert_load_reduction_fraction": 0.050420168067226934,
+                  "strict_expert_loads": 238,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 204,
+                  "expert_load_reduction_fraction": 0.11688311688311692,
+                  "strict_expert_loads": 231,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 215,
+                  "expert_load_reduction_fraction": 0.10041841004184104,
+                  "strict_expert_loads": 239,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 205,
+                  "expert_load_reduction_fraction": 0.10480349344978168,
+                  "strict_expert_loads": 229,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 232,
+                  "expert_load_reduction_fraction": 0.09019607843137256,
+                  "strict_expert_loads": 255,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 206,
+                  "expert_load_reduction_fraction": 0.05504587155963303,
+                  "strict_expert_loads": 218,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 208,
+                  "expert_load_reduction_fraction": 0.1440329218106996,
+                  "strict_expert_loads": 243,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 216,
+                  "expert_load_reduction_fraction": 0.1394422310756972,
+                  "strict_expert_loads": 251,
+                  "substituted_token_fraction": 0.1953125
+                }
+              ],
+              "strict_expert_loads": 3233,
+              "substituted_token_fraction": 0.20166015625
+            },
+            "hidden": {
+              "cosine": 0.998656690120697,
+              "mae": 0.0394798181951046,
+              "max_abs_error": 8.0,
+              "nrmse": 0.008728415705263615
+            },
+            "router_topk_overlap": 0.9510904947916666,
+            "router_weight_nrmse": 0.09844916313886642
+          }
+        },
+        "layer": 16
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3494,
+              "expert_load_reduction_fraction": 0.1127475876079228,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 184,
+                  "expert_load_reduction_fraction": 0.14018691588785048,
+                  "strict_expert_loads": 214,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 204,
+                  "expert_load_reduction_fraction": 0.10132158590308371,
+                  "strict_expert_loads": 227,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 167,
+                  "expert_load_reduction_fraction": 0.106951871657754,
+                  "strict_expert_loads": 187,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 195,
+                  "expert_load_reduction_fraction": 0.1216216216216216,
+                  "strict_expert_loads": 222,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 220,
+                  "expert_load_reduction_fraction": 0.12350597609561753,
+                  "strict_expert_loads": 251,
+                  "substituted_token_fraction": 0.25
+                },
+                {
+                  "adaptive_expert_loads": 193,
+                  "expert_load_reduction_fraction": 0.12272727272727268,
+                  "strict_expert_loads": 220,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 261,
+                  "expert_load_reduction_fraction": 0.0577617328519856,
+                  "strict_expert_loads": 277,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 200,
+                  "expert_load_reduction_fraction": 0.1071428571428571,
+                  "strict_expert_loads": 224,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 237,
+                  "expert_load_reduction_fraction": 0.10227272727272729,
+                  "strict_expert_loads": 264,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 229,
+                  "expert_load_reduction_fraction": 0.08032128514056225,
+                  "strict_expert_loads": 249,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 262,
+                  "expert_load_reduction_fraction": 0.06761565836298933,
+                  "strict_expert_loads": 281,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 211,
+                  "expert_load_reduction_fraction": 0.12448132780082988,
+                  "strict_expert_loads": 241,
+                  "substituted_token_fraction": 0.2578125
+                },
+                {
+                  "adaptive_expert_loads": 238,
+                  "expert_load_reduction_fraction": 0.12177121771217714,
+                  "strict_expert_loads": 271,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 214,
+                  "expert_load_reduction_fraction": 0.14741035856573703,
+                  "strict_expert_loads": 251,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 227,
+                  "expert_load_reduction_fraction": 0.1433962264150943,
+                  "strict_expert_loads": 265,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 252,
+                  "expert_load_reduction_fraction": 0.1428571428571429,
+                  "strict_expert_loads": 294,
+                  "substituted_token_fraction": 0.2109375
+                }
+              ],
+              "strict_expert_loads": 3938,
+              "substituted_token_fraction": 0.212890625
+            },
+            "hidden": {
+              "cosine": 0.9987165331840515,
+              "mae": 0.04328423738479614,
+              "max_abs_error": 8.0,
+              "nrmse": 0.009471830911934376
+            },
+            "router_topk_overlap": 0.9471028645833334,
+            "router_weight_nrmse": 0.10054086148738861
+          }
+        },
+        "layer": 17
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3016,
+              "expert_load_reduction_fraction": 0.11787072243346008,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 160,
+                  "expert_load_reduction_fraction": 0.11602209944751385,
+                  "strict_expert_loads": 181,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 150,
+                  "expert_load_reduction_fraction": 0.1071428571428571,
+                  "strict_expert_loads": 168,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 154,
+                  "expert_load_reduction_fraction": 0.16756756756756752,
+                  "strict_expert_loads": 185,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 151,
+                  "expert_load_reduction_fraction": 0.151685393258427,
+                  "strict_expert_loads": 178,
+                  "substituted_token_fraction": 0.2578125
+                },
+                {
+                  "adaptive_expert_loads": 209,
+                  "expert_load_reduction_fraction": 0.058558558558558516,
+                  "strict_expert_loads": 222,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 164,
+                  "expert_load_reduction_fraction": 0.08379888268156421,
+                  "strict_expert_loads": 179,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 164,
+                  "expert_load_reduction_fraction": 0.15463917525773196,
+                  "strict_expert_loads": 194,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 156,
+                  "expert_load_reduction_fraction": 0.21212121212121215,
+                  "strict_expert_loads": 198,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 234,
+                  "expert_load_reduction_fraction": 0.11026615969581754,
+                  "strict_expert_loads": 263,
+                  "substituted_token_fraction": 0.2890625
+                },
+                {
+                  "adaptive_expert_loads": 189,
+                  "expert_load_reduction_fraction": 0.12903225806451613,
+                  "strict_expert_loads": 217,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 245,
+                  "expert_load_reduction_fraction": 0.1058394160583942,
+                  "strict_expert_loads": 274,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 186,
+                  "expert_load_reduction_fraction": 0.10576923076923073,
+                  "strict_expert_loads": 208,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 220,
+                  "expert_load_reduction_fraction": 0.12350597609561753,
+                  "strict_expert_loads": 251,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 182,
+                  "expert_load_reduction_fraction": 0.1333333333333333,
+                  "strict_expert_loads": 210,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 198,
+                  "expert_load_reduction_fraction": 0.07906976744186045,
+                  "strict_expert_loads": 215,
+                  "substituted_token_fraction": 0.1328125
+                },
+                {
+                  "adaptive_expert_loads": 254,
+                  "expert_load_reduction_fraction": 0.07971014492753625,
+                  "strict_expert_loads": 276,
+                  "substituted_token_fraction": 0.21875
+                }
+              ],
+              "strict_expert_loads": 3419,
+              "substituted_token_fraction": 0.2177734375
+            },
+            "hidden": {
+              "cosine": 0.9988320469856262,
+              "mae": 0.0479363352060318,
+              "max_abs_error": 8.0,
+              "nrmse": 0.01036775205284357
+            },
+            "router_topk_overlap": 0.9459635416666666,
+            "router_weight_nrmse": 0.10822159051895142
+          }
+        },
+        "layer": 18
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3055,
+              "expert_load_reduction_fraction": 0.11500579374275777,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 167,
+                  "expert_load_reduction_fraction": 0.13471502590673579,
+                  "strict_expert_loads": 193,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 155,
+                  "expert_load_reduction_fraction": 0.13407821229050276,
+                  "strict_expert_loads": 179,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 121,
+                  "expert_load_reduction_fraction": 0.18791946308724827,
+                  "strict_expert_loads": 149,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 135,
+                  "expert_load_reduction_fraction": 0.17177914110429449,
+                  "strict_expert_loads": 163,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 184,
+                  "expert_load_reduction_fraction": 0.11111111111111116,
+                  "strict_expert_loads": 207,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 146,
+                  "expert_load_reduction_fraction": 0.13095238095238093,
+                  "strict_expert_loads": 168,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 183,
+                  "expert_load_reduction_fraction": 0.20434782608695656,
+                  "strict_expert_loads": 230,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 169,
+                  "expert_load_reduction_fraction": 0.1952380952380952,
+                  "strict_expert_loads": 210,
+                  "substituted_token_fraction": 0.296875
+                },
+                {
+                  "adaptive_expert_loads": 250,
+                  "expert_load_reduction_fraction": 0.04214559386973182,
+                  "strict_expert_loads": 261,
+                  "substituted_token_fraction": 0.1328125
+                },
+                {
+                  "adaptive_expert_loads": 200,
+                  "expert_load_reduction_fraction": 0.11111111111111116,
+                  "strict_expert_loads": 225,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 236,
+                  "expert_load_reduction_fraction": 0.05976095617529875,
+                  "strict_expert_loads": 251,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 211,
+                  "expert_load_reduction_fraction": 0.10212765957446812,
+                  "strict_expert_loads": 235,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 228,
+                  "expert_load_reduction_fraction": 0.09523809523809523,
+                  "strict_expert_loads": 252,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 209,
+                  "expert_load_reduction_fraction": 0.0873362445414847,
+                  "strict_expert_loads": 229,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 215,
+                  "expert_load_reduction_fraction": 0.08898305084745761,
+                  "strict_expert_loads": 236,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 246,
+                  "expert_load_reduction_fraction": 0.06818181818181823,
+                  "strict_expert_loads": 264,
+                  "substituted_token_fraction": 0.2265625
+                }
+              ],
+              "strict_expert_loads": 3452,
+              "substituted_token_fraction": 0.203125
+            },
+            "hidden": {
+              "cosine": 0.9988162517547607,
+              "mae": 0.05429745465517044,
+              "max_abs_error": 8.0,
+              "nrmse": 0.01161713432520628
+            },
+            "router_topk_overlap": 0.9481608072916666,
+            "router_weight_nrmse": 0.09794152528047562
+          }
+        },
+        "layer": 19
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3147,
+              "expert_load_reduction_fraction": 0.10672722111836508,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 149,
+                  "expert_load_reduction_fraction": 0.16759776536312854,
+                  "strict_expert_loads": 179,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 168,
+                  "expert_load_reduction_fraction": 0.06145251396648044,
+                  "strict_expert_loads": 179,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 154,
+                  "expert_load_reduction_fraction": 0.11494252873563215,
+                  "strict_expert_loads": 174,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 151,
+                  "expert_load_reduction_fraction": 0.1925133689839572,
+                  "strict_expert_loads": 187,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 195,
+                  "expert_load_reduction_fraction": 0.10550458715596334,
+                  "strict_expert_loads": 218,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 152,
+                  "expert_load_reduction_fraction": 0.1648351648351648,
+                  "strict_expert_loads": 182,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 198,
+                  "expert_load_reduction_fraction": 0.03883495145631066,
+                  "strict_expert_loads": 206,
+                  "substituted_token_fraction": 0.140625
+                },
+                {
+                  "adaptive_expert_loads": 192,
+                  "expert_load_reduction_fraction": 0.11111111111111116,
+                  "strict_expert_loads": 216,
+                  "substituted_token_fraction": 0.25
+                },
+                {
+                  "adaptive_expert_loads": 230,
+                  "expert_load_reduction_fraction": 0.1015625,
+                  "strict_expert_loads": 256,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 222,
+                  "expert_load_reduction_fraction": 0.07499999999999996,
+                  "strict_expert_loads": 240,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 243,
+                  "expert_load_reduction_fraction": 0.06896551724137934,
+                  "strict_expert_loads": 261,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 209,
+                  "expert_load_reduction_fraction": 0.11440677966101698,
+                  "strict_expert_loads": 236,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 217,
+                  "expert_load_reduction_fraction": 0.10330578512396693,
+                  "strict_expert_loads": 242,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 229,
+                  "expert_load_reduction_fraction": 0.0766129032258065,
+                  "strict_expert_loads": 248,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 195,
+                  "expert_load_reduction_fraction": 0.13716814159292035,
+                  "strict_expert_loads": 226,
+                  "substituted_token_fraction": 0.265625
+                },
+                {
+                  "adaptive_expert_loads": 243,
+                  "expert_load_reduction_fraction": 0.10989010989010994,
+                  "strict_expert_loads": 273,
+                  "substituted_token_fraction": 0.234375
+                }
+              ],
+              "strict_expert_loads": 3523,
+              "substituted_token_fraction": 0.201171875
+            },
+            "hidden": {
+              "cosine": 0.9988945722579956,
+              "mae": 0.060269180685281754,
+              "max_abs_error": 8.0,
+              "nrmse": 0.01274834480136633
+            },
+            "router_topk_overlap": 0.9490559895833334,
+            "router_weight_nrmse": 0.11086682230234146
+          }
+        },
+        "layer": 20
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3027,
+              "expert_load_reduction_fraction": 0.12413194444444442,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 171,
+                  "expert_load_reduction_fraction": 0.1534653465346535,
+                  "strict_expert_loads": 202,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 170,
+                  "expert_load_reduction_fraction": 0.07608695652173914,
+                  "strict_expert_loads": 184,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 175,
+                  "expert_load_reduction_fraction": 0.09793814432989689,
+                  "strict_expert_loads": 194,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 158,
+                  "expert_load_reduction_fraction": 0.2139303482587065,
+                  "strict_expert_loads": 201,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 197,
+                  "expert_load_reduction_fraction": 0.1045454545454545,
+                  "strict_expert_loads": 220,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 138,
+                  "expert_load_reduction_fraction": 0.11538461538461542,
+                  "strict_expert_loads": 156,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 182,
+                  "expert_load_reduction_fraction": 0.15740740740740744,
+                  "strict_expert_loads": 216,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 218,
+                  "expert_load_reduction_fraction": 0.09917355371900827,
+                  "strict_expert_loads": 242,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 217,
+                  "expert_load_reduction_fraction": 0.09958506224066388,
+                  "strict_expert_loads": 241,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 193,
+                  "expert_load_reduction_fraction": 0.15720524017467252,
+                  "strict_expert_loads": 229,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 254,
+                  "expert_load_reduction_fraction": 0.0830324909747292,
+                  "strict_expert_loads": 277,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 202,
+                  "expert_load_reduction_fraction": 0.14406779661016944,
+                  "strict_expert_loads": 236,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 193,
+                  "expert_load_reduction_fraction": 0.12272727272727268,
+                  "strict_expert_loads": 220,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 188,
+                  "expert_load_reduction_fraction": 0.11737089201877937,
+                  "strict_expert_loads": 213,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 174,
+                  "expert_load_reduction_fraction": 0.15533980582524276,
+                  "strict_expert_loads": 206,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 197,
+                  "expert_load_reduction_fraction": 0.1004566210045662,
+                  "strict_expert_loads": 219,
+                  "substituted_token_fraction": 0.1796875
+                }
+              ],
+              "strict_expert_loads": 3456,
+              "substituted_token_fraction": 0.1953125
+            },
+            "hidden": {
+              "cosine": 0.9988529682159424,
+              "mae": 0.06783797591924667,
+              "max_abs_error": 8.0,
+              "nrmse": 0.014192572794854641
+            },
+            "router_topk_overlap": 0.9493815104166666,
+            "router_weight_nrmse": 0.1052766740322113
+          }
+        },
+        "layer": 21
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3163,
+              "expert_load_reduction_fraction": 0.10876303183995495,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 169,
+                  "expert_load_reduction_fraction": 0.12435233160621761,
+                  "strict_expert_loads": 193,
+                  "substituted_token_fraction": 0.140625
+                },
+                {
+                  "adaptive_expert_loads": 156,
+                  "expert_load_reduction_fraction": 0.14754098360655743,
+                  "strict_expert_loads": 183,
+                  "substituted_token_fraction": 0.265625
+                },
+                {
+                  "adaptive_expert_loads": 167,
+                  "expert_load_reduction_fraction": 0.15656565656565657,
+                  "strict_expert_loads": 198,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 175,
+                  "expert_load_reduction_fraction": 0.1421568627450981,
+                  "strict_expert_loads": 204,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 212,
+                  "expert_load_reduction_fraction": 0.09787234042553195,
+                  "strict_expert_loads": 235,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 161,
+                  "expert_load_reduction_fraction": 0.12972972972972974,
+                  "strict_expert_loads": 185,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 187,
+                  "expert_load_reduction_fraction": 0.13023255813953494,
+                  "strict_expert_loads": 215,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 200,
+                  "expert_load_reduction_fraction": 0.09502262443438914,
+                  "strict_expert_loads": 221,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 235,
+                  "expert_load_reduction_fraction": 0.10646387832699622,
+                  "strict_expert_loads": 263,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 208,
+                  "expert_load_reduction_fraction": 0.08370044052863435,
+                  "strict_expert_loads": 227,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 242,
+                  "expert_load_reduction_fraction": 0.05836575875486383,
+                  "strict_expert_loads": 257,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 209,
+                  "expert_load_reduction_fraction": 0.0752212389380531,
+                  "strict_expert_loads": 226,
+                  "substituted_token_fraction": 0.15625
+                },
+                {
+                  "adaptive_expert_loads": 225,
+                  "expert_load_reduction_fraction": 0.08536585365853655,
+                  "strict_expert_loads": 246,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 213,
+                  "expert_load_reduction_fraction": 0.06986899563318782,
+                  "strict_expert_loads": 229,
+                  "substituted_token_fraction": 0.28125
+                },
+                {
+                  "adaptive_expert_loads": 198,
+                  "expert_load_reduction_fraction": 0.12389380530973448,
+                  "strict_expert_loads": 226,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 206,
+                  "expert_load_reduction_fraction": 0.1452282157676349,
+                  "strict_expert_loads": 241,
+                  "substituted_token_fraction": 0.2265625
+                }
+              ],
+              "strict_expert_loads": 3549,
+              "substituted_token_fraction": 0.20556640625
+            },
+            "hidden": {
+              "cosine": 0.9988886117935181,
+              "mae": 0.07621727138757706,
+              "max_abs_error": 8.0,
+              "nrmse": 0.015692193061113358
+            },
+            "router_topk_overlap": 0.94677734375,
+            "router_weight_nrmse": 0.1064772680401802
+          }
+        },
+        "layer": 22
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3294,
+              "expert_load_reduction_fraction": 0.1230031948881789,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 206,
+                  "expert_load_reduction_fraction": 0.11587982832618027,
+                  "strict_expert_loads": 233,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 187,
+                  "expert_load_reduction_fraction": 0.08780487804878045,
+                  "strict_expert_loads": 205,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 169,
+                  "expert_load_reduction_fraction": 0.1507537688442211,
+                  "strict_expert_loads": 199,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 174,
+                  "expert_load_reduction_fraction": 0.13432835820895528,
+                  "strict_expert_loads": 201,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 195,
+                  "expert_load_reduction_fraction": 0.1333333333333333,
+                  "strict_expert_loads": 225,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 157,
+                  "expert_load_reduction_fraction": 0.08187134502923976,
+                  "strict_expert_loads": 171,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 216,
+                  "expert_load_reduction_fraction": 0.11836734693877549,
+                  "strict_expert_loads": 245,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 202,
+                  "expert_load_reduction_fraction": 0.12173913043478257,
+                  "strict_expert_loads": 230,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 222,
+                  "expert_load_reduction_fraction": 0.1328125,
+                  "strict_expert_loads": 256,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 209,
+                  "expert_load_reduction_fraction": 0.18039215686274512,
+                  "strict_expert_loads": 255,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 247,
+                  "expert_load_reduction_fraction": 0.10830324909747291,
+                  "strict_expert_loads": 277,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 200,
+                  "expert_load_reduction_fraction": 0.1071428571428571,
+                  "strict_expert_loads": 224,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 251,
+                  "expert_load_reduction_fraction": 0.07037037037037042,
+                  "strict_expert_loads": 270,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 205,
+                  "expert_load_reduction_fraction": 0.1598360655737705,
+                  "strict_expert_loads": 244,
+                  "substituted_token_fraction": 0.2734375
+                },
+                {
+                  "adaptive_expert_loads": 201,
+                  "expert_load_reduction_fraction": 0.16249999999999998,
+                  "strict_expert_loads": 240,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 253,
+                  "expert_load_reduction_fraction": 0.09964412811387902,
+                  "strict_expert_loads": 281,
+                  "substituted_token_fraction": 0.2265625
+                }
+              ],
+              "strict_expert_loads": 3756,
+              "substituted_token_fraction": 0.2060546875
+            },
+            "hidden": {
+              "cosine": 0.9990497827529907,
+              "mae": 0.0856953114271164,
+              "max_abs_error": 8.0,
+              "nrmse": 0.01726248860359192
+            },
+            "router_topk_overlap": 0.9495442708333334,
+            "router_weight_nrmse": 0.10579615831375122
+          }
+        },
+        "layer": 23
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2739,
+              "expert_load_reduction_fraction": 0.12492012779552719,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 148,
+                  "expert_load_reduction_fraction": 0.21693121693121697,
+                  "strict_expert_loads": 189,
+                  "substituted_token_fraction": 0.25
+                },
+                {
+                  "adaptive_expert_loads": 162,
+                  "expert_load_reduction_fraction": 0.07954545454545459,
+                  "strict_expert_loads": 176,
+                  "substituted_token_fraction": 0.15625
+                },
+                {
+                  "adaptive_expert_loads": 124,
+                  "expert_load_reduction_fraction": 0.19480519480519476,
+                  "strict_expert_loads": 154,
+                  "substituted_token_fraction": 0.15625
+                },
+                {
+                  "adaptive_expert_loads": 140,
+                  "expert_load_reduction_fraction": 0.10828025477707004,
+                  "strict_expert_loads": 157,
+                  "substituted_token_fraction": 0.15625
+                },
+                {
+                  "adaptive_expert_loads": 196,
+                  "expert_load_reduction_fraction": 0.06666666666666665,
+                  "strict_expert_loads": 210,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 153,
+                  "expert_load_reduction_fraction": 0.1404494382022472,
+                  "strict_expert_loads": 178,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 144,
+                  "expert_load_reduction_fraction": 0.12727272727272732,
+                  "strict_expert_loads": 165,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 179,
+                  "expert_load_reduction_fraction": 0.10499999999999998,
+                  "strict_expert_loads": 200,
+                  "substituted_token_fraction": 0.2578125
+                },
+                {
+                  "adaptive_expert_loads": 193,
+                  "expert_load_reduction_fraction": 0.12669683257918551,
+                  "strict_expert_loads": 221,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 176,
+                  "expert_load_reduction_fraction": 0.16587677725118488,
+                  "strict_expert_loads": 211,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 203,
+                  "expert_load_reduction_fraction": 0.16803278688524592,
+                  "strict_expert_loads": 244,
+                  "substituted_token_fraction": 0.296875
+                },
+                {
+                  "adaptive_expert_loads": 175,
+                  "expert_load_reduction_fraction": 0.07407407407407407,
+                  "strict_expert_loads": 189,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 195,
+                  "expert_load_reduction_fraction": 0.11764705882352944,
+                  "strict_expert_loads": 221,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 169,
+                  "expert_load_reduction_fraction": 0.1333333333333333,
+                  "strict_expert_loads": 195,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 175,
+                  "expert_load_reduction_fraction": 0.1116751269035533,
+                  "strict_expert_loads": 197,
+                  "substituted_token_fraction": 0.25
+                },
+                {
+                  "adaptive_expert_loads": 207,
+                  "expert_load_reduction_fraction": 0.0717488789237668,
+                  "strict_expert_loads": 223,
+                  "substituted_token_fraction": 0.1640625
+                }
+              ],
+              "strict_expert_loads": 3130,
+              "substituted_token_fraction": 0.21044921875
+            },
+            "hidden": {
+              "cosine": 0.99916672706604,
+              "mae": 0.0968354120850563,
+              "max_abs_error": 12.0,
+              "nrmse": 0.024233810603618622
+            },
+            "router_topk_overlap": 0.9490559895833334,
+            "router_weight_nrmse": 0.10897131264209747
+          }
+        },
+        "layer": 24
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3509,
+              "expert_load_reduction_fraction": 0.08738621586475948,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 197,
+                  "expert_load_reduction_fraction": 0.1045454545454545,
+                  "strict_expert_loads": 220,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 188,
+                  "expert_load_reduction_fraction": 0.07389162561576357,
+                  "strict_expert_loads": 203,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 156,
+                  "expert_load_reduction_fraction": 0.11864406779661019,
+                  "strict_expert_loads": 177,
+                  "substituted_token_fraction": 0.1328125
+                },
+                {
+                  "adaptive_expert_loads": 186,
+                  "expert_load_reduction_fraction": 0.13888888888888884,
+                  "strict_expert_loads": 216,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 193,
+                  "expert_load_reduction_fraction": 0.07211538461538458,
+                  "strict_expert_loads": 208,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 167,
+                  "expert_load_reduction_fraction": 0.061797752808988804,
+                  "strict_expert_loads": 178,
+                  "substituted_token_fraction": 0.125
+                },
+                {
+                  "adaptive_expert_loads": 200,
+                  "expert_load_reduction_fraction": 0.1228070175438597,
+                  "strict_expert_loads": 228,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 222,
+                  "expert_load_reduction_fraction": 0.07499999999999996,
+                  "strict_expert_loads": 240,
+                  "substituted_token_fraction": 0.171875
+                },
+                {
+                  "adaptive_expert_loads": 258,
+                  "expert_load_reduction_fraction": 0.0444444444444444,
+                  "strict_expert_loads": 270,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 240,
+                  "expert_load_reduction_fraction": 0.12408759124087587,
+                  "strict_expert_loads": 274,
+                  "substituted_token_fraction": 0.296875
+                },
+                {
+                  "adaptive_expert_loads": 270,
+                  "expert_load_reduction_fraction": 0.0625,
+                  "strict_expert_loads": 288,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 222,
+                  "expert_load_reduction_fraction": 0.10121457489878538,
+                  "strict_expert_loads": 247,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 281,
+                  "expert_load_reduction_fraction": 0.057046979865771785,
+                  "strict_expert_loads": 298,
+                  "substituted_token_fraction": 0.1484375
+                },
+                {
+                  "adaptive_expert_loads": 227,
+                  "expert_load_reduction_fraction": 0.11673151750972766,
+                  "strict_expert_loads": 257,
+                  "substituted_token_fraction": 0.2421875
+                },
+                {
+                  "adaptive_expert_loads": 219,
+                  "expert_load_reduction_fraction": 0.09876543209876543,
+                  "strict_expert_loads": 243,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 283,
+                  "expert_load_reduction_fraction": 0.05033557046979864,
+                  "strict_expert_loads": 298,
+                  "substituted_token_fraction": 0.171875
+                }
+              ],
+              "strict_expert_loads": 3845,
+              "substituted_token_fraction": 0.185546875
+            },
+            "hidden": {
+              "cosine": 0.999417781829834,
+              "mae": 0.1077272966504097,
+              "max_abs_error": 12.0,
+              "nrmse": 0.03312261030077934
+            },
+            "router_topk_overlap": 0.9505208333333334,
+            "router_weight_nrmse": 0.10553503036499023
+          }
+        },
+        "layer": 25
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3554,
+              "expert_load_reduction_fraction": 0.08754813863928113,
+              "per_block": [
+                {
+                  "adaptive_expert_loads": 228,
+                  "expert_load_reduction_fraction": 0.09523809523809523,
+                  "strict_expert_loads": 252,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 196,
+                  "expert_load_reduction_fraction": 0.07547169811320753,
+                  "strict_expert_loads": 212,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 187,
+                  "expert_load_reduction_fraction": 0.11374407582938384,
+                  "strict_expert_loads": 211,
+                  "substituted_token_fraction": 0.21875
+                },
+                {
+                  "adaptive_expert_loads": 214,
+                  "expert_load_reduction_fraction": 0.09704641350210974,
+                  "strict_expert_loads": 237,
+                  "substituted_token_fraction": 0.203125
+                },
+                {
+                  "adaptive_expert_loads": 220,
+                  "expert_load_reduction_fraction": 0.09465020576131689,
+                  "strict_expert_loads": 243,
+                  "substituted_token_fraction": 0.1796875
+                },
+                {
+                  "adaptive_expert_loads": 159,
+                  "expert_load_reduction_fraction": 0.07558139534883723,
+                  "strict_expert_loads": 172,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 233,
+                  "expert_load_reduction_fraction": 0.14338235294117652,
+                  "strict_expert_loads": 272,
+                  "substituted_token_fraction": 0.1953125
+                },
+                {
+                  "adaptive_expert_loads": 254,
+                  "expert_load_reduction_fraction": 0.099290780141844,
+                  "strict_expert_loads": 282,
+                  "substituted_token_fraction": 0.1875
+                },
+                {
+                  "adaptive_expert_loads": 255,
+                  "expert_load_reduction_fraction": 0.07608695652173914,
+                  "strict_expert_loads": 276,
+                  "substituted_token_fraction": 0.265625
+                },
+                {
+                  "adaptive_expert_loads": 211,
+                  "expert_load_reduction_fraction": 0.040909090909090895,
+                  "strict_expert_loads": 220,
+                  "substituted_token_fraction": 0.1640625
+                },
+                {
+                  "adaptive_expert_loads": 248,
+                  "expert_load_reduction_fraction": 0.08148148148148149,
+                  "strict_expert_loads": 270,
+                  "substituted_token_fraction": 0.2265625
+                },
+                {
+                  "adaptive_expert_loads": 230,
+                  "expert_load_reduction_fraction": 0.0456431535269709,
+                  "strict_expert_loads": 241,
+                  "substituted_token_fraction": 0.1328125
+                },
+                {
+                  "adaptive_expert_loads": 257,
+                  "expert_load_reduction_fraction": 0.12585034013605445,
+                  "strict_expert_loads": 294,
+                  "substituted_token_fraction": 0.234375
+                },
+                {
+                  "adaptive_expert_loads": 208,
+                  "expert_load_reduction_fraction": 0.06306306306306309,
+                  "strict_expert_loads": 222,
+                  "substituted_token_fraction": 0.15625
+                },
+                {
+                  "adaptive_expert_loads": 197,
+                  "expert_load_reduction_fraction": 0.11261261261261257,
+                  "strict_expert_loads": 222,
+                  "substituted_token_fraction": 0.2109375
+                },
+                {
+                  "adaptive_expert_loads": 257,
+                  "expert_load_reduction_fraction": 0.044609665427509326,
+                  "strict_expert_loads": 269,
+                  "substituted_token_fraction": 0.1796875
+                }
+              ],
+              "strict_expert_loads": 3895,
+              "substituted_token_fraction": 0.19921875
+            },
+            "hidden": {
+              "cosine": 0.9996113777160645,
+              "mae": 0.1222088411450386,
+              "max_abs_error": 24.0,
+              "nrmse": 0.027286438271403313
+            },
+            "router_topk_overlap": 0.9542643229166666,
+            "router_weight_nrmse": 0.10983534157276154
+          }
+        },
+        "layer": 26
+      }
+    ],
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "policy": "compare exact within-token LRU misses for original top6 versus top5+rank7; substitute only when the latter has fewer misses",
+    "status": "complete",
+    "strict_cache_baseline": "unmodified teacher top6 routes with an independent LRU cache",
+    "total_cache_statistics": {
+      "32": {
+        "adaptive_expert_loads": 82221,
+        "expert_load_reduction_fraction": 0.11215134925005665,
+        "per_block": [
+          {
+            "adaptive_expert_loads": 4734,
+            "expert_load_reduction_fraction": 0.12479201331114809,
+            "strict_expert_loads": 5409,
+            "substituted_token_fraction": 0.20192307692307693,
+            "substituted_tokens": 672.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 4640,
+            "expert_load_reduction_fraction": 0.10545594756121068,
+            "strict_expert_loads": 5187,
+            "substituted_token_fraction": 0.19921875,
+            "substituted_tokens": 663.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 4035,
+            "expert_load_reduction_fraction": 0.1311369509043928,
+            "strict_expert_loads": 4644,
+            "substituted_token_fraction": 0.18359375,
+            "substituted_tokens": 611.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 4557,
+            "expert_load_reduction_fraction": 0.1459895052473763,
+            "strict_expert_loads": 5336,
+            "substituted_token_fraction": 0.2091346153846154,
+            "substituted_tokens": 696.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 5337,
+            "expert_load_reduction_fraction": 0.10617986936861501,
+            "strict_expert_loads": 5971,
+            "substituted_token_fraction": 0.20973557692307693,
+            "substituted_tokens": 698.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 4180,
+            "expert_load_reduction_fraction": 0.11478187208809831,
+            "strict_expert_loads": 4722,
+            "substituted_token_fraction": 0.19050480769230768,
+            "substituted_tokens": 634.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 5390,
+            "expert_load_reduction_fraction": 0.11158727542442726,
+            "strict_expert_loads": 6067,
+            "substituted_token_fraction": 0.1974158653846154,
+            "substituted_tokens": 657.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 5229,
+            "expert_load_reduction_fraction": 0.11237480903072483,
+            "strict_expert_loads": 5891,
+            "substituted_token_fraction": 0.22325721153846154,
+            "substituted_tokens": 743.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 5789,
+            "expert_load_reduction_fraction": 0.09461995620894592,
+            "strict_expert_loads": 6394,
+            "substituted_token_fraction": 0.2091346153846154,
+            "substituted_tokens": 696.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 5253,
+            "expert_load_reduction_fraction": 0.10663265306122449,
+            "strict_expert_loads": 5880,
+            "substituted_token_fraction": 0.20072115384615385,
+            "substituted_tokens": 668.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 6013,
+            "expert_load_reduction_fraction": 0.09674027339642477,
+            "strict_expert_loads": 6657,
+            "substituted_token_fraction": 0.2052283653846154,
+            "substituted_tokens": 683.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 5077,
+            "expert_load_reduction_fraction": 0.10125685962117192,
+            "strict_expert_loads": 5649,
+            "substituted_token_fraction": 0.19411057692307693,
+            "substituted_tokens": 646.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 5911,
+            "expert_load_reduction_fraction": 0.10763888888888884,
+            "strict_expert_loads": 6624,
+            "substituted_token_fraction": 0.21243990384615385,
+            "substituted_tokens": 707.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 5151,
+            "expert_load_reduction_fraction": 0.11676954732510292,
+            "strict_expert_loads": 5832,
+            "substituted_token_fraction": 0.21844951923076922,
+            "substituted_tokens": 727.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 4987,
+            "expert_load_reduction_fraction": 0.12293352092859655,
+            "strict_expert_loads": 5686,
+            "substituted_token_fraction": 0.19561298076923078,
+            "substituted_tokens": 651.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 5938,
+            "expert_load_reduction_fraction": 0.10814058275758487,
+            "strict_expert_loads": 6658,
+            "substituted_token_fraction": 0.21604567307692307,
+            "substituted_tokens": 719.0,
+            "token_expert_decisions": 3328
+          }
+        ],
+        "strict_expert_loads": 92607,
+        "substituted_token_fraction": 0.20415790264423078
+      }
+    },
+    "wall_seconds": 64.36527930000011
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,277 @@
+{
+  "kind": "lightningstream_nemotron_s11_independent_verification",
+  "completed_utc": "2026-08-15T08:19:33.375700+00:00",
+  "verifier_sha256": "846863f61a4facd6c25c8393009a56b1497595a53662ba4365f1f6fed1c6d08e",
+  "verified_file_sha256": "c0cac3a21bffb59d44b522ae122ac702f9839c330ca591c5e1635f435aecd48d",
+  "recomputed": {
+    "up_half_bytes": 2806272,
+    "down_half_bytes": 2806272,
+    "tok_s": {
+      "A1": {
+        "0": 27.078256160303276,
+        "131072": 21.465745499974776,
+        "262100": 18.226871694670738
+      },
+      "B": {
+        "0": 25.551040118965645,
+        "131072": 20.90274787523568,
+        "262100": 17.34557236919704
+      },
+      "A2": {
+        "0": 26.39124760664373,
+        "131072": 21.590368104981007,
+        "262100": 18.185273383761096
+      }
+    },
+    "relative_gain_at_deep": -0.04835165025775524,
+    "drift_tok_s": 0.04159831090964161,
+    "effect_tok_s": -0.881299325473698,
+    "hit_rate": {
+      "A1": 0.8793158567774936,
+      "B": 0.6901374680306905,
+      "A2": 0.8793158567774936
+    }
+  },
+  "gates": {
+    "G_S11_C1_bit_identical": true,
+    "G_S11_P1_adopt": false,
+    "G_S11_D1_conclusive": true
+  },
+  "checks": [
+    {
+      "check": "down half is exactly the same size as the up half",
+      "ok": true,
+      "up_half": 2806272,
+      "down_half": 2806272
+    },
+    {
+      "check": "A1: cache bytes = slot x capacity x 23 MoE layers",
+      "ok": true,
+      "recomputed": 4647186432,
+      "stored": 4647186432
+    },
+    {
+      "check": "B: cache bytes = slot x capacity x 23 MoE layers",
+      "ok": true,
+      "recomputed": 4647186432,
+      "stored": 4647186432
+    },
+    {
+      "check": "A2: cache bytes = slot x capacity x 23 MoE layers",
+      "ok": true,
+      "recomputed": 4647186432,
+      "stored": 4647186432
+    },
+    {
+      "check": "all arms hold exactly the same number of cache bytes",
+      "ok": true,
+      "bytes": [
+        4647186432
+      ]
+    },
+    {
+      "check": "reference generation is 2 prompts x 64 tokens",
+      "ok": true
+    },
+    {
+      "check": "A1: generated token ids identical to A1",
+      "ok": true,
+      "recomputed_identical": true,
+      "stored_identical": true
+    },
+    {
+      "check": "B: generated token ids identical to A1",
+      "ok": true,
+      "recomputed_identical": true,
+      "stored_identical": true
+    },
+    {
+      "check": "A2: generated token ids identical to A1",
+      "ok": true,
+      "recomputed_identical": true,
+      "stored_identical": true
+    },
+    {
+      "check": "A1@0: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "A1@0: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 36.93,
+      "stored": 36.93
+    },
+    {
+      "check": "A1@0: tok/s reproduces from p50",
+      "ok": true,
+      "recomputed": 27.078256160303276,
+      "stored": 27.078256160303276
+    },
+    {
+      "check": "A1@131072: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "A1@131072: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 46.58585,
+      "stored": 46.58585
+    },
+    {
+      "check": "A1@131072: tok/s reproduces from p50",
+      "ok": true,
+      "recomputed": 21.465745499974776,
+      "stored": 21.465745499974776
+    },
+    {
+      "check": "A1@262100: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "A1@262100: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 54.86405,
+      "stored": 54.86405
+    },
+    {
+      "check": "A1@262100: tok/s reproduces from p50",
+      "ok": true,
+      "recomputed": 18.226871694670738,
+      "stored": 18.226871694670738
+    },
+    {
+      "check": "B@0: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "B@0: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 39.13735,
+      "stored": 39.13735
+    },
+    {
+      "check": "B@0: tok/s reproduces from p50",
+      "ok": true,
+      "recomputed": 25.551040118965645,
+      "stored": 25.551040118965645
+    },
+    {
+      "check": "B@131072: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "B@131072: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 47.8406,
+      "stored": 47.8406
+    },
+    {
+      "check": "B@131072: tok/s reproduces from p50",
+      "ok": true,
+      "recomputed": 20.90274787523568,
+      "stored": 20.90274787523568
+    },
+    {
+      "check": "B@262100: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "B@262100: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 57.6516,
+      "stored": 57.6516
+    },
+    {
+      "check": "B@262100: tok/s reproduces from p50",
+      "ok": true,
+      "recomputed": 17.34557236919704,
+      "stored": 17.34557236919704
+    },
+    {
+      "check": "A2@0: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "A2@0: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 37.89135,
+      "stored": 37.89135
+    },
+    {
+      "check": "A2@0: tok/s reproduces from p50",
+      "ok": true,
+      "recomputed": 26.39124760664373,
+      "stored": 26.39124760664373
+    },
+    {
+      "check": "A2@131072: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "A2@131072: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 46.31695,
+      "stored": 46.31695
+    },
+    {
+      "check": "A2@131072: tok/s reproduces from p50",
+      "ok": true,
+      "recomputed": 21.590368104981007,
+      "stored": 21.590368104981007
+    },
+    {
+      "check": "A2@262100: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "A2@262100: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 54.98955,
+      "stored": 54.98955
+    },
+    {
+      "check": "A2@262100: tok/s reproduces from p50",
+      "ok": true,
+      "recomputed": 18.185273383761096,
+      "stored": 18.185273383761096
+    },
+    {
+      "check": "G-S11-C1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "G-S11-P1 verdict agrees with the runner",
+      "ok": true,
+      "recomputed_gain": -0.04835165025775524
+    },
+    {
+      "check": "G-S11-D1 conclusiveness agrees with the runner",
+      "ok": true,
+      "drift": 0.04159831090964161,
+      "effect": 0.881299325473698
+    },
+    {
+      "check": "adoption margin is still the preregistered 3%",
+      "ok": true
+    },
+    {
+      "check": "runtime.py on disk still hashes to the measured value",
+      "ok": true
+    },
+    {
+      "check": "result carries a claim boundary",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

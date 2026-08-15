@@ -1,0 +1,102 @@
+{
+  "kind": "port80b_t0_official_layer0_cpu_preflight",
+  "status": "blocked_before_download_or_gpu",
+  "pass": false,
+  "inputs": {
+    "revision": "a19358a7659bd1f564300250ee189120c49a562f",
+    "t0r_preregistration_sha256": "fc841fdc711c9b084275d4d386004082bcc6565e955d2c88a21d1e7a068724f0",
+    "t0p_preregistration_sha256": "4a1822c5946e041cd02506f5cc3026ab2a402ffd3432ba9ff36af0838d756f35",
+    "runner_sha256": "c849a2ca5995ead8bf439470018265d9ccbd84654ce94a4d619e3ff03d615237",
+    "index_sha256": "e54c170589a729006db825100b4c69cf1c485ee89d3e8dd30aec9dccbf9cea1b"
+  },
+  "checks": [
+    {
+      "name": "preregistrations_exist",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "index_exact",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "index_maps_complete_layer0_and_embedding_to_shard1",
+      "pass": true,
+      "detail": {
+        "layer0_keys": 1550,
+        "shard1_keys": 1567
+      }
+    },
+    {
+      "name": "official_shard1_full_sha256_locked",
+      "pass": false,
+      "detail": "8e9a5171..."
+    },
+    {
+      "name": "official_shard1_present_size_and_hash",
+      "pass": false,
+      "detail": {
+        "present": false,
+        "expected_bytes": 3999619288,
+        "observed_bytes": null
+      }
+    },
+    {
+      "name": "official_config_and_tokenizer_present",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "reference_sources_exact",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "reference_environment_versions",
+      "pass": true,
+      "detail": {
+        "executed": true,
+        "returncode": 0,
+        "stdout": "{\"transformers\": \"5.15.0\", \"torch\": \"2.12.1+cu132\"}",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "resource_headroom",
+      "pass": true,
+      "detail": {
+        "free_disk_bytes": 307370237952,
+        "available_ram_bytes": 54043586560,
+        "minimum_disk_bytes": 21474836480,
+        "minimum_ram_bytes": 8589934592
+      }
+    },
+    {
+      "name": "layer0_bank_byte_math",
+      "pass": true,
+      "detail": {
+        "bank": 1040117760,
+        "prefix": 1011732480,
+        "cold": 26357760
+      }
+    }
+  ],
+  "checks_passed": 8,
+  "checks_total": 10,
+  "blocked_reasons": [
+    "official_shard1_full_sha256_locked",
+    "official_shard1_present_size_and_hash"
+  ],
+  "physical_actions": {
+    "network": false,
+    "download": false,
+    "cuda_initialized": false,
+    "gpu_allocation": false,
+    "kernel_launch": false,
+    "host_registration": false,
+    "bank_build": false,
+    "registry_edit": false
+  },
+  "claim_boundary": "CPU/read-only provenance, toolchain and resource preflight only; no checkpoint payload acquired, reference executed, bank built or GPU used."
+}

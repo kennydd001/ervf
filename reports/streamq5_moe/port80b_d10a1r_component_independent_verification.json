@@ -1,0 +1,164 @@
+{
+  "kind": "port80b_d10a1r_component_independent_cpu_verification",
+  "completed_utc": "2026-08-13T07:23:09.002387+00:00",
+  "status": "formal_negative_reproduced_three_evaluator_races_endurance_closed",
+  "pass": true,
+  "provenance_checks": {
+    "raw_runner_hash_matches": true,
+    "raw_prereg_hash_matches": true,
+    "raw_compile_hash_matches": true,
+    "compile_pass": true,
+    "compile_runner_hash_matches": true,
+    "compile_prereg_hash_matches": true,
+    "all_21_gates_reproduced_exactly": true,
+    "wall_stats_reproduced": true,
+    "event_stats_reproduced": true,
+    "correctness_40": true,
+    "validation_32": true,
+    "shared_source_payloads_all_equal_reference": true
+  },
+  "inputs": {
+    "raw_sha256": "c92e5dda380c8f9ed0669fc8961056bef58fabbf758946776b426fa7feb888ae",
+    "runner_sha256": "a9bb549b6f7a21dfedaf28a44b8e249b28a8b75747502e2113d31fe02f5c189d",
+    "core_sha256": "ffde9c13a3d6d19e3e1132369a4eb9a2e98a4e974bbece86ec224e2931f0ecfd",
+    "verify_helper_sha256": "20ce962d3196095354688f3bc6cdc378c6351d0dc21f054a57ad46dec5f7d616",
+    "preregistration_sha256": "d606b438595a3aba7f4a1fb11aa93c97bf42a1a63f544138a5477c7c94fc62c7",
+    "compile_sha256": "d1ef4b46f9d75496e20c92b809cd88b13720dc01f11f912949e5d44977b50db9"
+  },
+  "gate_replay": {
+    "count": 21,
+    "true": 18,
+    "false": 3,
+    "false_names": [
+      "all_correctness_headers_zero_mismatch",
+      "gdn_reference_abs_rel_le_2e_5",
+      "shared_q5_bitexact"
+    ],
+    "recomputed": {
+      "canary_exhaustive_injective_roundtrip_boundary": true,
+      "all_correctness_headers_zero_mismatch": false,
+      "all_canaries_raw_exact": true,
+      "all_routed_q5_bitexact": true,
+      "output_digest_uniqueness_ge_95pct": true,
+      "wrong_expert_header_and_numerical_detected": true,
+      "wrong_layer_header_and_numerical_detected": true,
+      "attention_reference_abs_rel_le_2e_5": true,
+      "gdn_reference_abs_rel_le_2e_5": false,
+      "shared_q5_bitexact": false,
+      "dense_and_runtime_touched": true,
+      "validation_32_finite": true,
+      "validation_wall_p95_le_150ms": true,
+      "validation_wall_p99_le_200ms": true,
+      "post_warmup_page_reads_no_sample_gt_2048": true,
+      "validation_memory_loss_le_1gib": true,
+      "ram_after_first_touch_ge_2gib": true,
+      "vram_reserve_ge_512mib": true,
+      "registration_48_ranges": true,
+      "no_cuda_or_runner_error": true,
+      "clean_unregister_48_ranges": true
+    },
+    "raw_match": true
+  },
+  "timing": {
+    "wall_ms": {
+      "count": 32,
+      "mean": 76.80915937453392,
+      "p50": 78.77100001496729,
+      "p95": 87.45165999716846,
+      "p99": 90.15786200820003,
+      "min": 65.75549999251962,
+      "max": 91.2366000120528
+    },
+    "cuda_event_ms": {
+      "count": 32,
+      "mean": 76.76735162734985,
+      "p50": 78.7382583618164,
+      "p95": 87.41673469543457,
+      "p99": 90.11812973022461,
+      "min": 65.73283386230469,
+      "max": 91.1948471069336
+    },
+    "wall_event_mean_gap_ms": 0.0418077471840661
+  },
+  "ram_vram_cleanup": {
+    "available_ram_before": 52953509888,
+    "available_ram_after_registration": 52852588544,
+    "available_ram_after_first_touch": 3951689728,
+    "available_ram_after_cleanup": 3964817408,
+    "registration_available_delta_bytes": 100921344,
+    "first_touch_available_delta_bytes": 48900898816,
+    "validation_endpoint_loss_bytes": 88895488,
+    "validation_max_drawdown_bytes": 102633472,
+    "validation_min_available_bytes": 3862790144,
+    "validation_min_free_vram_bytes": 2844786688,
+    "page_read_samples": 2,
+    "page_reads_per_sec_max": 524.315661109816,
+    "error": null,
+    "unregister_failures": [],
+    "evidence_limit": "Raw JSON omits the 48 registration/unregistration attempt rows; exact counts can only be source+producer-boolean verified, while the empty failure list is retained."
+  },
+  "failure_diagnosis": {
+    "header_gate": {
+      "formal": "false",
+      "bad_cases": [
+        {
+          "case": 12,
+          "mismatches": 151
+        },
+        {
+          "case": 14,
+          "mismatches": 156
+        },
+        {
+          "case": 15,
+          "mismatches": 73
+        },
+        {
+          "case": 28,
+          "mismatches": 111
+        }
+      ],
+      "mismatch_sum": 491,
+      "all_40_raw_header_ids_and_canaries_exact": true,
+      "all_40_full_q5_outputs_bitexact": true,
+      "evaluator_stream_race_present": true,
+      "classification": "invalid evaluator negative; full-byte transport gate remains unadjudicated, not upgraded to pass",
+      "cause": "full_verify creates headers and the zeroed counter on the current/default stream, then launches verification on a separate non-blocking stream without an event dependency."
+    },
+    "gdn_gate": {
+      "formal": "false",
+      "recurrent_sample_max_abs": 0.0,
+      "conv_nonzero": 0,
+      "evaluator_fill_race_present": true,
+      "classification": "invalid evaluator negative; convolution-state mechanism remains unadjudicated",
+      "cause": "conv.fill(0) is issued on the current/default stream immediately before gated_deltanet_step on the non-blocking stream; the memset can overwrite kernel writes."
+    },
+    "shared_gate": {
+      "formal": "false",
+      "different_bits": 96256,
+      "expected_47_layers_x_2048": 96256,
+      "exact_47_layers_pattern": true,
+      "all_48_shared_numerical_payloads_equal_reference": true,
+      "numerical_payload_sha256": "79f02eb616ab264416a81032ceea5926c8d8ee55e18b1a685e0c551c3ae7772f",
+      "evaluator_fill_race_present": true,
+      "classification": "invalid evaluator negative; shared-kernel mechanism remains unadjudicated",
+      "cause": "shared_gate/shared_up/shared_down are zero-filled on the default stream immediately before shared kernels on the non-blocking stream; the exact 47-layer mismatch pattern is consistent with cross-stream overwrite."
+    },
+    "mechanism_failures_proven": []
+  },
+  "additional_protocol_limits": {
+    "validation_32_finite_checks_wall_only": "The gate checks finite wall timings, not CUDA-event finiteness or composed state/output finiteness.",
+    "attention_gate_name_overstates_check": "The source gates only attention_max_abs; no relative error field is retained.",
+    "gdn_reference_is_sampled": "Only 4,096 recurrent cells are compared; conv is reduced to count_nonzero.",
+    "page_telemetry_samples": 2,
+    "systemic_stream_hygiene": "The same default-vs-nonblocking-stream pattern also exists for pointer-table/route uploads, canary-error resets, dense checksum reset, and the recurrent/conv/KV reset before validation. Some passed gates have strong retained raw corroboration, but the composed validation state has no retained correctness digest and is not semantically adjudicated.",
+    "required_repair": "Create allocations/uploads/fills inside `with stream:` or add explicit recorded-event waits before dependent kernels; synchronize before every host adjudication. Retain full state/output finiteness and digests plus 48 register/unregister attempt rows."
+  },
+  "verdict": "The raw 18/21 formal negative is reproduced. All three false gates are contaminated by explicit cross-stream evaluator races. This proves no component mechanism failure, but it also cannot authorize a pass; endurance remains closed until a preregistered race-free evaluator rerun.",
+  "physical_actions": {
+    "gpu_run": false,
+    "host_registration": false,
+    "registry_edit": false,
+    "bank_writes": false
+  }
+}

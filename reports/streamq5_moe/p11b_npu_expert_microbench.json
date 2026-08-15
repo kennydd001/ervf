@@ -1,0 +1,133 @@
+{
+  "kind": "streamq5_moe_p11b_npu_expert_microbench",
+  "completed_utc": "2026-08-12T13:55:44.115527+00:00",
+  "openvino_version": "2026.2.1-21919-ede283a88e3-releases/2026/2",
+  "preregistration_sha256": "5ee7e79d332600e5122fa091acb01a0c8bf513a0fce8a7a69ebd7b0f465a71f8",
+  "script_sha256": "8e49be86152955cb6664b221ee739165a4c3b49099ea4b8b3fcb723ff6b9de1f",
+  "available_devices": [
+    "CPU",
+    "GPU.0",
+    "GPU.1",
+    "NPU"
+  ],
+  "device_names": {
+    "CPU": "Intel(R) Core(TM) Ultra 9 285H",
+    "GPU.0": "Intel(R) Arc(TM) Pro 140T GPU (32GB) (iGPU)",
+    "GPU.1": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU (dGPU)",
+    "NPU": "Intel(R) AI Boost"
+  },
+  "runs": {
+    "1": {
+      "NPU": {
+        "compile_ms": 652.9220000084024,
+        "first_infer_ms": 73.98090002243407,
+        "latency_ms": {
+          "mean": 0.726103,
+          "p50": 0.71875,
+          "p95": 0.9176799999999999,
+          "p99": 1.0349660000000005,
+          "min": 0.4354,
+          "max": 1.1207
+        }
+      },
+      "CPU": {
+        "compile_ms": 29.756000003544614,
+        "first_infer_ms": 0.7754000253044069,
+        "latency_ms": {
+          "mean": 0.092281,
+          "p50": 0.08335000000000001,
+          "p95": 0.136375,
+          "p99": 0.2156560000000003,
+          "min": 0.0789,
+          "max": 0.2707
+        }
+      },
+      "GPU.0": {
+        "compile_ms": 1307.4016999744345,
+        "first_infer_ms": 0.6331000186037272,
+        "latency_ms": {
+          "mean": 0.21619499999999994,
+          "p50": 0.1908,
+          "p95": 0.30887999999999977,
+          "p99": 0.6011300000000017,
+          "min": 0.182,
+          "max": 0.9407
+        }
+      }
+    },
+    "8": {
+      "NPU": {
+        "compile_ms": 1136.9719000067562,
+        "first_infer_ms": 20.186600013403222,
+        "latency_ms": {
+          "mean": 2.14859,
+          "p50": 1.93615,
+          "p95": 3.270235,
+          "p99": 3.3116330000000005,
+          "min": 1.4826,
+          "max": 3.3644
+        }
+      },
+      "CPU": {
+        "compile_ms": 123.19720000959933,
+        "first_infer_ms": 2.4816999793983996,
+        "latency_ms": {
+          "mean": 2.370757,
+          "p50": 2.22935,
+          "p95": 3.324305,
+          "p99": 3.535618000000001,
+          "min": 1.9153,
+          "max": 3.6859
+        }
+      },
+      "GPU.0": {
+        "compile_ms": 124.61639998946339,
+        "first_infer_ms": 1.6395999991800636,
+        "latency_ms": {
+          "mean": 1.3148570000000004,
+          "p50": 1.1991,
+          "p95": 1.983525,
+          "p99": 2.3252540000000006,
+          "min": 1.1088,
+          "max": 2.3702
+        }
+      }
+    }
+  },
+  "errors": {
+    "1:GPU.1": "RuntimeError: Exception from src\\inference\\src\\cpp\\core.cpp:120:\nException from src\\inference\\src\\dev\\plugin.cpp:54:\nCheck 'false' failed at src\\plugins\\intel_gpu\\src\\plugin\\program_builder.cpp:168:\n[GPU] ProgramBuilder build failed!\nCheck 'shape_type == shape_types::dynamic_shape || node->selected_impl != nullptr' failed at src\\plugins\\intel_gpu\\src\\graph\\graph_optimizer\\compile_graph.cpp:59:\n[GPU] Failed to select implementation for\nname:result:Result_14\ntype: reorder\noriginal_type: Result Check '!kernels.empty()' failed at src\\plugins\\intel_gpu\\src\\kernel_selector\\kernel_selector.cpp:70:\n[GPU] Could not find a suitable kernel for result:Result_14 params raw string: F32_BFYX_v1_p0_0_v1_p0_0_v2048_p0_0_v1_p0_0;F16_BFYX_v1_p0_0_v1_p0_0_v2048_p0_0_v1_p0_0\n\n\n\n\n",
+    "8:GPU.1": "RuntimeError: Exception from src\\inference\\src\\cpp\\core.cpp:120:\nException from src\\inference\\src\\dev\\plugin.cpp:54:\nCheck 'false' failed at src\\plugins\\intel_gpu\\src\\plugin\\program_builder.cpp:168:\n[GPU] ProgramBuilder build failed!\nCheck 'shape_type == shape_types::dynamic_shape || node->selected_impl != nullptr' failed at src\\plugins\\intel_gpu\\src\\graph\\graph_optimizer\\compile_graph.cpp:59:\n[GPU] Failed to select implementation for\nname:result:Result_16746\ntype: reorder\noriginal_type: Result Check '!kernels.empty()' failed at src\\plugins\\intel_gpu\\src\\kernel_selector\\kernel_selector.cpp:70:\n[GPU] Could not find a suitable kernel for result:Result_16746 params raw string: F32_BFYX_v1_p0_0_v1_p0_0_v2048_p0_0_v1_p0_0;F16_BFYX_v1_p0_0_v1_p0_0_v2048_p0_0_v1_p0_0\n\n\n\n\n"
+  },
+  "correctness_vs_cpu": {
+    "1": {
+      "max_abs": 0.001953125,
+      "max_rel": 0.24840764701366425,
+      "mean_abs": 0.00021779770031571388,
+      "finite": true
+    },
+    "8": {
+      "max_abs": 0.005859375,
+      "max_rel": 0.5043562650680542,
+      "mean_abs": 0.0008865739800967276,
+      "finite": true
+    }
+  },
+  "gpu_all_cold_reference": {
+    "event_ms_per_copy_mean": 0.12039805894750848,
+    "event_ms_per_copy_p95_proxy": 0.12011604040877248,
+    "cached_q5_layer_p50_ms": 0.15863299866517386,
+    "cached_q5_layer_p95_ms": 0.16337216347455977,
+    "all_cold_mean_ms": 1.1218174702452417,
+    "all_cold_p95_proxy_ms": 1.1243004867447397
+  },
+  "gates": {
+    "npu_compiled": true,
+    "finite": true,
+    "max_abs_le_0_05": true,
+    "max_rel_le_0_02": false,
+    "p50_le_95pct_gpu_floor": false,
+    "p95_le_95pct_gpu_floor": false
+  },
+  "overall_pass": false,
+  "claim_boundary": "Resident FP16 best-case microbenchmark; no packed-Q5 NPU decoder or model-quality claim."
+}

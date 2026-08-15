@@ -1,0 +1,128 @@
+{
+  "created_at_utc": "2026-08-10T02:05:01.248012+00:00",
+  "git_revision": null,
+  "kind": "route_equivalence",
+  "payload": {
+    "artifact": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\data\\traces\\layer26_route_equivalence_full.safetensors",
+    "candidate_route_count": 924,
+    "dataset_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "experiment": "layer26_top12_choose6_route_equivalence",
+    "manual_reference_vs_official_teacher": {
+      "cosine": 1.0,
+      "mae": 0.0003719502128660679,
+      "max_abs_error": 2.0,
+      "nrmse": 0.0004431450506672263
+    },
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "original_subset_numerical_kl": {
+      "maximum": 0.001539573073387146,
+      "mean": 1.5906171029200777e-06
+    },
+    "reference": "manual reconstruction using original top-6 from the same top-12 expert-output batch",
+    "results": {
+      "test": {
+        "best_alternative_kl": {
+          "mean": 0.0004267241165507585,
+          "median": 0.00013778224820271134,
+          "p95": 0.0015929515939205885
+        },
+        "best_jaccard_at_most_0_5_kl": {
+          "mean": 0.0009217215701937675,
+          "median": 0.00033594848355278373,
+          "p95": 0.0030016303062438965
+        },
+        "fully_disjoint_route_kl": {
+          "mean": 0.08593576401472092,
+          "median": 0.028997283428907394,
+          "p95": 0.2653166651725769
+        },
+        "thresholds": {
+          "0.0001": {
+            "mean_alternative_count": 77.640625,
+            "mean_route_equivalence_entropy_bits_including_original": 2.368985176086426,
+            "median_alternative_count": 0.0,
+            "tokens_with_at_least_one_alternative_fraction": 0.4541015625
+          },
+          "0.001": {
+            "mean_alternative_count": 195.69921875,
+            "mean_route_equivalence_entropy_bits_including_original": 5.042872428894043,
+            "median_alternative_count": 32.0,
+            "tokens_with_at_least_one_alternative_fraction": 0.8564453125
+          },
+          "0.003": {
+            "mean_alternative_count": 348.6025390625,
+            "mean_route_equivalence_entropy_bits_including_original": 7.320134162902832,
+            "median_alternative_count": 204.0,
+            "tokens_with_at_least_one_alternative_fraction": 0.9892578125
+          },
+          "0.01": {
+            "mean_alternative_count": 529.34765625,
+            "mean_route_equivalence_entropy_bits_including_original": 8.60038948059082,
+            "median_alternative_count": 461.0,
+            "tokens_with_at_least_one_alternative_fraction": 1.0
+          },
+          "1e-05": {
+            "mean_alternative_count": 27.4853515625,
+            "mean_route_equivalence_entropy_bits_including_original": 1.1240204572677612,
+            "median_alternative_count": 0.0,
+            "tokens_with_at_least_one_alternative_fraction": 0.2314453125
+          }
+        }
+      },
+      "validation": {
+        "best_alternative_kl": {
+          "mean": 0.0003745154244825244,
+          "median": 0.00010674458462744951,
+          "p95": 0.0016076284227892756
+        },
+        "best_jaccard_at_most_0_5_kl": {
+          "mean": 0.0008016347419470549,
+          "median": 0.00025995622854679823,
+          "p95": 0.0033266909886151552
+        },
+        "fully_disjoint_route_kl": {
+          "mean": 0.05209184065461159,
+          "median": 0.023731505498290062,
+          "p95": 0.2002650648355484
+        },
+        "thresholds": {
+          "0.0001": {
+            "mean_alternative_count": 60.3994140625,
+            "mean_route_equivalence_entropy_bits_including_original": 2.3742733001708984,
+            "median_alternative_count": 0.0,
+            "tokens_with_at_least_one_alternative_fraction": 0.490234375
+          },
+          "0.001": {
+            "mean_alternative_count": 183.8662109375,
+            "mean_route_equivalence_entropy_bits_including_original": 5.296554088592529,
+            "median_alternative_count": 46.0,
+            "tokens_with_at_least_one_alternative_fraction": 0.88671875
+          },
+          "0.003": {
+            "mean_alternative_count": 348.166015625,
+            "mean_route_equivalence_entropy_bits_including_original": 7.485718727111816,
+            "median_alternative_count": 225.0,
+            "tokens_with_at_least_one_alternative_fraction": 0.990234375
+          },
+          "0.01": {
+            "mean_alternative_count": 548.564453125,
+            "mean_route_equivalence_entropy_bits_including_original": 8.760229110717773,
+            "median_alternative_count": 461.0,
+            "tokens_with_at_least_one_alternative_fraction": 1.0
+          },
+          "1e-05": {
+            "mean_alternative_count": 13.18359375,
+            "mean_route_equivalence_entropy_bits_including_original": 0.9700024127960205,
+            "median_alternative_count": 0.0,
+            "tokens_with_at_least_one_alternative_fraction": 0.2392578125
+          }
+        }
+      }
+    },
+    "status": "complete",
+    "tokens_per_split": 1024,
+    "wall_seconds": 55.73284169999533,
+    "weights": "original raw softmax router weights; no top-k renormalization and no coefficient refit"
+  },
+  "schema_version": 1
+}

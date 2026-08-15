@@ -1,0 +1,9 @@
+# PH1 Intel execution R8A4 — production topology mutation closure
+
+Date: 2026-08-14. Status: immutable open source package; no physical execution before independent source GO. R8A4 binds R8A3 audit SHA `49131e25d27e2272a19f5890d11221b7d0e06ae90294c148d34e9d58ebff9131`. Runner delegation, recursive exact-tree contract, numerical gates, physical payload, CPU preparation, arithmetic, kernel, thresholds, device and resource contracts are unchanged; only namespace/bindings and verifier test coverage change.
+
+Exact command: `.venv\Scripts\python.exe -I -B <absolute R8A4 runner> --ack PH1_INTEL_EXECUTION_R8A4_AFTER_R8P8_PASS_AND_TOPOLOGY_AUDIT_GO`. One attempt, fresh paths, and all prior R8P8/R7D/runtime/historical gates remain mandatory before physical work.
+
+The independent verifier's TEMP harness redirects every family root/glob and invokes the actual current `topology()` and actual current `failure_terminal()` for the complete frozen matrix: valid correlated baseline; missing/multiple/extra/orphan wrapper states; backend root/attempt extras; in-progress family temp; quarantine collision; missing/multiple backend attempts; wrong kind/status/stage/disposition/hash/correlation/device flag/type; bare nonzero; success without commit; mixed commit and failure; early infrastructure; committed positive; allowed `stages` negative; allowed `counters` negative; and forbidden precheck, protocol, lifecycle and resource negatives. Expected class is frozen per case. Exactly one class is returned; terminal-valid is restricted to positive, allowed stage/counter device negative, and correlated device-opened negative. All injected globals are restored in `finally`.
+
+Claim boundary remains one real expert/input Intel correctness component only; no performance, model, multi-device, or breakthrough claim.

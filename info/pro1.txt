@@ -1,0 +1,611 @@
+Ik heb een gat gevonden in de “alles is getest”-conclusie
+
+De next-wave-campagne zelf is correct gesloten: de 33 geregistreerde ideeën zijn afgewerkt, en de lokale componentwinsten verdunnen tot minder dan de vooraf vereiste 2% in de volledige P13-runtime. 
+Next-wave-eindrapport
+
+Maar over de volledige projectgeschiedenis staat nog één mechanistisch belangrijke branch open. De oude closure-registry heeft die volgens mij te breed als negatief gemarkeerd:
+
+I018 — static_50_percent_per_expert_pruning_with_offline_compaction
+status: verified_negative
+
+In werkelijkheid bewezen de twee experimenten iets subtielers:
+
+P9B slaagde: exact 384 van de 768 SwiGLU-kanalen behouden gaf full-depth validation +1,478% relatieve CE en test −0,478%, met ongeveer 92,6% top-1-overeenkomst. De logische halve-expert bestaat dus. 
+P9B-resultaat
+P9C faalde: nadat diezelfde 384 kanalen dicht achter elkaar waren gezet en opnieuw in nieuwe Q5-groepen van 128 werden gequantiseerd, explodeerde validation naar +48,027% CE en 60,47% top-1. 
+P9C-resultaat
+
+P9C falsificeerde dus:
+
+willekeurige pruning → nieuwe compacte groepen maken → opnieuw quantiseren.
+
+P9C falsificeerde niet:
+
+dezelfde pruning fysiek compact opslaan terwijl de oorspronkelijke quantization-group-ID’s, codes, schalen en reductieposities behouden blijven.
+
+Het P9C-rapport zegt zelf dat een groepsbehoudende codering openblijft. Toch werd de hele pruning/compactionbranch in de slotregistry als negatief samengevouwen. 
+All-ideas-registry
+
+Dat is volgens mij de sterkste nog ongeteste combinatie uit al jullie resultaten.
+
+Nieuwe Eureka-kandidaat: GaugePack-MoE
+
+De kern:
+
+Verwijder de 50% kanalen waarvan P9B al heeft bewezen dat ze gemist kunnen worden, maar verander geen enkele bestaande Q5-code, BF16-schaal of originele quantization-group. Gebruik daarna ERVF-achtige virtualisatie om ook de oorspronkelijke reductiegraaf te behouden.
+
+Dit combineert twee reeds gemeten positieve resultaten:
+
+P9B: een kwaliteit-behoudende halve expertfunctie bestaat.
+ERVF: een logische floating-pointreductiegraaf kan exact op een andere fysieke threadindeling worden uitgevoerd.
+
+Cruciaal: we stapelen hier geen twee approximaties. Het packen en de kernel moeten exact dezelfde geprunde Q5-kandidaat uitvoeren als P9B. Daardoor geldt de CRAFT-waarschuwing over het vermenigvuldigen van losse oraclewinsten hier niet.
+
+1. Waarom P9C werkelijk faalde
+
+Een routed expert is:
+
+E(x)=D[SiLU(Gx)⊙Ux].
+
+De 768 intermediate neuronen kunnen in floating point willekeurig worden gepermuteerd. Voor een permutatiematrix P:
+
+DP
+⊤
+[SiLU(PGx)⊙(PUx)]=E(x).
+
+Maar groupwise quantization breekt een groot deel van die symmetrie. Een schaal hoort niet alleen bij een gewicht, maar bij een vaste groep van 128 kanalen.
+
+P9C nam geselecteerde kanalen uit verschillende oude groepen en stopte ze samen in nieuwe groepen. Daardoor kregen zij andere gezamenlijke schalen. Het model zag dus niet alleen “dezelfde 384 kanalen in een compact formaat”; het zag miljoenen anders gequantiseerde gewichten.
+
+Dat channel ordering de fout van per-groupquantisatie sterk kan beïnvloeden, is inmiddels ook in ander werk aangetoond. PermuQuant groepeert bijvoorbeeld kanalen met vergelijkbare statistieken vóór groupwise quantization; learnable-permutationonderzoek doet iets soortgelijks voor hardwarevriendelijke sparsity.
+
+De interessante eigen doorsnede is hier niet gewone permutation of pruning. Het is:
+
+de oorspronkelijke quantization topology exact als deel van de modelsemantiek bewaren terwijl de fysieke nulkanalen verdwijnen.
+
+Mijn gerichte zoekactie vond die exacte combinatie niet voor frozen low-bit SwiGLU-MoE-experts, maar dat is alleen negatief zoekbewijs.
+
+2. Exacte fysieke representatie
+
+Voor expert e bestaat al een bevroren P9B-masker:
+
+m
+e,j
+	​
+
+∈{0,1},
+j=0
+∑
+767
+	​
+
+m
+e,j
+	​
+
+=384.
+
+De zes oorspronkelijke down-groepen zijn:
+
+g(j)=⌊
+128
+j
+	​
+
+⌋.
+Gate en up
+
+Gate en up hebben 768 outputrows. We bewaren alleen de 384 geselecteerde rows:
+
+G
+e,S
+	​
+
+,U
+e,S
+	​
+
+.
+
+Hun Q5-groepen lopen over de inputdimensie van 2048 en veranderen daardoor niet. Codes en schalen kunnen letterlijk uit de P9B-Q5-representatie worden gekopieerd.
+
+Down
+
+De downmatrix heeft per outputrow zes oorspronkelijke groepen van 128 kanalen.
+
+We bewaren voor iedere oorspronkelijke groep:
+
+de oorspronkelijke BF16-schaal;
+alleen de Q5-codes waarvan m
+e,j
+	​
+
+=1;
+het statische bitmasker of de offsets van die geselecteerde posities.
+
+Geen enkele survivor verhuist naar een andere scale group.
+
+Per expert is het maskeroverhead ongeveer:
+
+768 bits=96 bytes
+
+plus zes kleine offsets. Over de hele bank is dat verwaarloosbaar.
+
+Exacte reductie
+
+P9B berekende logisch:
+
+y
+r
+	​
+
+=R
+768
+	​
+
+(m
+j
+	​
+
+q
+r,j
+	​
+
+s
+r,g(j)
+	​
+
+z
+j
+	​
+
+),
+
+waar R
+768
+	​
+
+ de oorspronkelijke floating-pointreductiegraaf is.
+
+De compacte kernel laadt alleen survivors, maar bouwt dezelfde virtuele leaves:
+
+ℓ
+j
+	​
+
+={
+q
+r,j
+	​
+
+s
+r,g(j)
+	​
+
+z
+j
+	​
+
+,
+0,
+	​
+
+m
+j
+	​
+
+=1
+m
+j
+	​
+
+=0.
+	​
+
+
+Daarna gebruikt ze dezelfde virtuele reductieboom. Dit is exact dezelfde soort transformatie als ERVF:
+
+bits(y
+compact
+	​
+
+)=bits(y
+P9B
+	​
+
+)
+	​
+
+
+mits signed zero, BF16-decode, FMA-semantiek en reductiestappen eveneens worden behouden en geverifieerd.
+
+De eerste implementatie hoeft dus niet opnieuw een modelkwaliteitshypothese te openen. Ze moet eerst een bitexact representatiebewijs leveren.
+
+3. De geheugenrekening
+
+Een gewone Q5-group-128-weight gebruikt effectief:
+
+5+
+128
+16
+	​
+
+=5,125
+
+bit per gewicht.
+
+Gate en up worden exact gehalveerd:
+
+r
+G
+	​
+
+=r
+U
+	​
+
+=0,5.
+
+Voor down worden de codes gehalveerd, maar de zes scales per outputrow blijven:
+
+r
+D
+	​
+
+=
+5+0,125
+0,5×5+0,125
+	​
+
+=0,512195.
+
+Voor de volledige expert:
+
+r
+expert
+	​
+
+=
+3
+0,5+0,5+0,512195
+	​
+
+=
+0,504065
+	​
+
+.
+
+Dus vrijwel exact de helft.
+
+Qwen3-30B-A3B
+17,367 GiB×0,504065=
+8,754 GiB
+	​
+
+.
+
+Dat betekent:
+
+expertbank ongeveer 8,75 GiB;
+expert-H2D ongeveer gehalveerd;
+gate/up/down-MAC’s ongeveer gehalveerd;
+bijna tweemaal zoveel expertrecords per GPU-cachebudget;
+de hele bank kan waarschijnlijk volledig pinned blijven onder de 32GiB-procesgrens.
+
+Dat laatste is groot. De P13-analyse schreef ongeveer 24,1 ms/token toe aan de mapped→pinned→H2D-windowketen. 
+P13-resultaat 
+P13-kostenontleding
+
+Een eerste-ordeprojectie wordt dan:
+
+69,862−24,12−7,61+7,61×0,5041=41,97 ms/token.
+
+Dat is:
+
+23,8 tok/s
+	​
+
+
+op 4K-context onder 32 GiB, vóór nieuwe kerneloptimalisaties.
+
+Dit is een projectie, geen claim. Maar ze is aanzienlijk groter dan de 1–4% end-to-endwinsten van de laatste next-wave-kernels.
+
+4. Het effect op de 80B-port
+
+De gerepareerde N4B-R-proef heeft de officiële Qwen3-Coder-Next-expertvorm exact uitgevoerd, met expert-p95 8,87 ms en een conservatieve full-stackprojectie van 36,95 ms voor de residentiële synthetische vorm. 
+N4B-R-rapport
+
+Qwen3-Coder-Next heeft officieel 80B totale en ongeveer 3B actieve parameters, 512 routed experts, top-10, één shared expert en intermediate width 512.
+
+De volledige geprojecteerde Q5-expertbank:
+
+46,497 GiB.
+
+Na dezelfde 50%-representatie:
+
+46,497×0,504065=
+23,438 GiB
+	​
+
+.
+
+Dat verandert de 80B-port fundamenteel:
+
+23,4 GiB compacte expertbank
++ circa 1,8–2,5 GiB trunk en metadata
++ runtime/KV/staging
+≈ mogelijk onder 32 GiB host working set
+
+De N4B-R-kostenprojectie geeft na halvering ongeveer:
+
+expertcompute: circa 4,5 ms;
+volledig koude H2D: circa 18,8 ms;
+conservatieve dense shell: circa 28,1 ms.
+
+Volledig serieel:
+
+28,1+18,8+4,5≈51,3 ms
+
+oftewel:
+
+19,5 tok/s
+	​
+
+.
+
+Met H2D/compute-overlap:
+
+28,1+max(18,8,4,5)≈46,9 ms
+
+oftewel:
+
+21,3 tok/s
+	​
+
+.
+
+Opnieuw: projecties. De 80B-pruningkwaliteit is nog volledig onbekend.
+
+Maar dit is een veel sterkere portstrategie dan eerst een 46,5-GiB-bank bouwen en daarna proberen hem via cacheheuristieken beheersbaar te maken.
+
+5. Twee implementatievarianten
+P9D-A — exacte arbitrary-mask pack
+
+Gebruik exact de bestaande 384 P9B-kanalen per expert.
+
+Voordelen:
+
+kwaliteit van het logische model bestaat al;
+codes en scales hoeven niet opnieuw gekozen te worden;
+maximale kans op bitexactheid;
+bank ongeveer 8,75 GiB.
+
+Nadeel:
+
+iedere originele group heeft mogelijk een ander aantal survivors;
+kernel krijgt zes statische segmentlengtes per expert;
+exact emuleren van de 768-leafreductie kan registerdruk geven.
+
+Dit is de wetenschappelijk zuiverste eerste proef.
+
+P9D-B — vaste 64 van 128 per group
+
+Selecteer binnen iedere oorspronkelijke groep exact 64 kanalen:
+
+6×64=384.
+
+Voordelen:
+
+zes volledig reguliere halfgroups;
+geen variabele strides;
+zeer eenvoudige vectorized Q5-kernel;
+survivors kunnen via een block-diagonale neuronpermutatie vooraan worden gezet;
+bank en compute exact ongeveer gehalveerd.
+
+Nadeel:
+
+dit is een nieuw pruningmasker;
+P9B-kwaliteit garandeert deze constrained selectie niet.
+
+Test daarom eerst alleen validation. Gebruik dezelfde activatie×down-normscore en kies per groep top-64. Test wordt uitsluitend geopend bij de bestaande kwaliteitsgate.
+
+Een tussenvariant laat:
+
+k
+g
+	​
+
+∈{48,56,64,72,80},
+g
+∑
+	​
+
+k
+g
+	​
+
+=384,
+
+en kiest de verdeling uitsluitend op validation. Alle k
+g
+	​
+
+ blijven veelvouden van acht voor de kernel.
+
+6. Nieuwe wetenschappelijke formulering: quantization topology
+
+De grotere bijdrage is mogelijk deze:
+
+Een groupwise-quantized model wordt niet volledig beschreven door zijn numerieke gewichten.
+
+De relevante semantiek is:
+
+Θ=(C,S,G,R)
+	​
+
+
+met:
+
+C: quantized codes;
+S: scales;
+G: welke gewichten samen één schaal delen;
+R: de floating-pointreductiegraaf.
+
+P9C veranderde G en verloor 48% CE.
+
+ERVF veranderde de fysieke uitvoering maar behield R en bleef exact.
+
+GaugePack probeert nu opslag en compute te veranderen terwijl zowel:
+
+G
+
+als:
+
+R
+
+logisch behouden blijven.
+
+Dat kan uitgroeien tot een algemene BitGraph-compiler:
+
+logische codes + scales + group graph + reduction graph
+                         ↓
+hardware-specifieke fysieke layout
+                         ↓
+mechanisch bewijs van dezelfde semantiek
+
+Dat is een sterkere wetenschappelijke these dan “nog een snelle Q5-kernel”.
+
+Binnen-expertneuronsparsity en neuron-MoE’s zijn al actief onderzoek; MoNE rapporteert bijvoorbeeld dat een model native kan worden getraind met slechts ongeveer 50% actieve neuronparameters. De mogelijke nieuwheid zit dus niet in het bestaan van neuronsparsity, maar in de exacte fysieke compaction van een reeds groupwise-gequantiseerd frozen MoE-model zonder group- of reduction-semantiek te veranderen.
+
+7. Harde experimentele volgorde
+P9D-0 — closure corrigeren
+
+Splits het oude I018-item:
+
+I018a naive_dense_requantized_compaction = verified_negative
+I018b group_identity_preserving_compaction = queued
+
+Geen enkele oude claim hoeft te worden aangepast.
+
+P9D-1 — codec/oracle
+
+Bouw de compacte bank voor bijvoorbeeld:
+
+16 experts;
+daarna één volledige laag;
+daarna alle 6.144 expert-laagrecords.
+
+Gates:
+
+nul code- of scalemismatches voor survivors;
+masks en group-ID’s exact;
+volledige CPU-decode reconstrueert de P9B-Q5-matrices;
+bankratio maximaal 0,51;
+immutable hashes.
+P9D-2 — kernel
+
+Vergelijk de downkernel tegen de P9B-zero-maskreference:
+
+BF16 intermediate;
+dezelfde Q5-decode;
+dezelfde signed-zero-semantiek;
+dezelfde virtuele reductieboom;
+minimaal miljoenen outputwaarden;
+nul bitverschillen.
+
+Gates:
+
+T
+expertplane
+	​
+
+≤4,5 ms
+
+en geen register-/local-memoryspill dat de winst vernietigt.
+
+P9D-3 — bredere kwaliteit
+
+Ook al is de kernel exact ten opzichte van P9B, de oorspronkelijke P9B-kwaliteitsset was beperkt. Gebruik daarom de bestaande grote 12.700-labelopzet:
+
+vijf domeinen;
+full depth;
+validation vóór test;
+relatieve CE maximaal 2%;
+top-1 minimaal 90%;
+512-token- en 10.000-tokenrollouts.
+P9D-4 — volledige fysieke runtime
+
+Primaire gates:
+
+Eigenschap	Gate
+Expertbank	≤8,9 GiB
+Procescommit	≤28 GiB
+VRAM	≤8 GiB
+Context	4K
+Sustained decode	≥20 tok/s
+Stretch	≥23 tok/s
+Rollout	≥10.000 tokens
+Swap	nul
+Thermische daling	<10%
+
+Pas daarna 80B.
+
+P9D-5 — 80B
+
+Primaire gate:
+
+80B, 8 GB VRAM,≤32 GiB RAM,≥15 tok/s
+	​
+
+
+Stretch:
+
+≥20 tok/s
+	​
+
+.
+Waarom dit anders is dan de vorige “bijna-Eureka’s”
+
+Bij CRAFT hadden we losse positieve oracles die elkaar modelmatig konden verstoren.
+
+Bij GhostWeights hing alles af van een lage-rangaanname die niet bestond.
+
+Bij BITFLOW moest een corrector voorspellen hoe eerder ontstane fouten downstream zouden evolueren.
+
+Hier is het ontbrekende stuk voornamelijk een representatie- en kernelprobleem:
+
+de halve expert heeft haar kwaliteitsgate al gehaald;
+de volledige Q5-runtime bestaat;
+de exactheidsvirtualisatie bestaat;
+de fout van P9C is mechanistisch verklaard;
+de nog ongeteste bridge verandert geen survivorcode of survivorscale.
+
+Mijn subjectieve inschatting:
+
+Uitkomst	Kans
+Exact compacte bank bouwen	85–95%
+Kernel haalt duidelijke componentwinst	70–85%
+Volledige 30B-runtime haalt ≥20 tok/s onder 32 GiB	55–75%
+80B gebruikt eveneens veilig 50% width	20–40%
+80B haalt na succesvolle pruning ≥15 tok/s	40–60% conditioneel op kwaliteit
+Definitief oordeel
+
+We zijn inderdaad dichtbij, maar niet omdat er nog honderd cache- of fusionvarianten bestaan.
+
+We zijn dichtbij omdat er één nog niet verbonden keten ligt:
+
+\boxed{ \text{P9B kwaliteitsveilige 50% width} + \text{behoud van originele Q5-groepen} + \text{ERVF virtual reduction} }
+
+Die combinatie is nog niet getest, wordt niet gefalsificeerd door P9C en kan in één stap zowel:
+
+bankgrootte;
+RAM;
+H2D;
+cachecapaciteit;
+expertcompute;
+en de 80B-haalbaarheid
+
+ongeveer met een factor twee verbeteren.
+
+Dit is de branch die ik nu zou openen. Niet nog een kleine P13-kerneltweak en ook nog niet de volledige ongesnoeide 80B-port. Eerst GaugePack-MoE op de reeds bewezen 30B-kandidaat.

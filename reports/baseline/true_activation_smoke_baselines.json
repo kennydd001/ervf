@@ -1,0 +1,53 @@
+{
+  "created_at_utc": "2026-08-09T19:06:54.975458+00:00",
+  "git_revision": null,
+  "kind": "trace_baselines",
+  "payload": {
+    "caveat": "Byte counts model compulsory BF16 expert-weight reads only; they are not measured runtime traffic and exclude cache, router, shared expert and attention.",
+    "results": {
+      "exact_topk": {
+        "compression_ratio_vs_topk_bf16": 1.0,
+        "cosine": 1.0000003576278687,
+        "estimated_bf16_expert_bytes_per_token": 103809024,
+        "mae": 0.0,
+        "max_abs_error": 0.0,
+        "nrmse": 0.0
+      },
+      "top1_renormalized": {
+        "compression_ratio_vs_topk_bf16": 6.0,
+        "cosine": 0.8032788038253784,
+        "estimated_bf16_expert_bytes_per_token": 17301504,
+        "mae": 0.1509813666343689,
+        "max_abs_error": 4.9296875,
+        "nrmse": 3.7239925861358643
+      },
+      "top1_unrenormalized": {
+        "compression_ratio_vs_topk_bf16": 6.0,
+        "cosine": 0.8032786846160889,
+        "estimated_bf16_expert_bytes_per_token": 17301504,
+        "mae": 0.021341919898986816,
+        "max_abs_error": 1.1425933837890625,
+        "nrmse": 0.5431441068649292
+      },
+      "zero": {
+        "compression_ratio_vs_topk_bf16": Infinity,
+        "cosine": 0.0,
+        "estimated_bf16_expert_bytes_per_token": 0,
+        "mae": 0.0390816256403923,
+        "max_abs_error": 1.8203125,
+        "nrmse": 1.0
+      }
+    },
+    "trace": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\data\\traces\\true_activation_smoke_layer_1.safetensors",
+    "validation": {
+      "hidden_size": 2048,
+      "max_routed_reconstruction_abs_error": 0.003983020782470703,
+      "router_weight_sum_max": 0.6591796875,
+      "router_weight_sum_mean": 0.4008002281188965,
+      "router_weight_sum_min": 0.265228271484375,
+      "tokens": 64,
+      "top_k": 6
+    }
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+"""Self-bound CPU-only R5 preflight: prompt verification and real TEMP transaction simulation."""
+from __future__ import annotations
+import argparse,hashlib,importlib.util,json,subprocess,sys,tempfile
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[2];S=ROOT/'scripts/streamq5_moe';R=ROOT/'reports/streamq5_moe';RUN=S/'run_port80b_t0q5r5_auditable_quality.py';VER=S/'verify_port80b_t0q5r5_auditable_quality.py';TX=S/'port80b_t0q5r5_transaction.py';PV=S/'verify_port80b_t0q5r5_prompts.py';SELF=Path(__file__);LOCK=R/'port80b_t0q5r5_runner_lock.json';VL=R/'port80b_t0q5r5_verifier_lock.json';PL=R/'port80b_t0q5r5_prompt_lock.json';D=ROOT/'reports/runs/streamq5_moe/port80b_t0q5r5_auditable_quality';SL=R/'port80b_t0q5r5_preflight_source_lock.json'
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def load(p,n):q=importlib.util.spec_from_file_location(n,p);m=importlib.util.module_from_spec(q);sys.modules[n]=m;q.loader.exec_module(m);return m
+def main():
+ l=json.loads(LOCK.read_text());v=json.loads(VL.read_text());sl=json.loads(SL.read_text());actual={'preflight_sha256':sha(SELF),'runner_sha256':sha(RUN),'verifier_sha256':sha(VER),'transaction_sha256':sha(TX),'prompt_verifier_sha256':sha(PV),'runner_lock_sha256':sha(LOCK),'verifier_lock_sha256':sha(VL),'prompt_lock_sha256':sha(PL) if PL.exists() else '__ABSENT_PENDING_IMPLEMENTATION_AUDIT__'};prompt=subprocess.run([sys.executable,str(PV)],capture_output=True,text=True);tx=load(TX,'preflight_tx')
+ with tempfile.TemporaryDirectory(prefix='t0q5r5_tx_') as q:sim=tx.simulate(q)
+ lc=subprocess.run([sys.executable,str(RUN),'--phase','lockcheck'],capture_output=True,text=True);checks={'self_and_all_sources_bound':all(sl.get(k)==x for k,x in actual.items()),'runner_verifier_locks':l['runner_sha256']==actual['runner_sha256'] and l['verifier_sha256']==actual['verifier_sha256'] and l['transaction_sha256']==actual['transaction_sha256'] and l['prompt_verifier_sha256']==actual['prompt_verifier_sha256'] and v['verifier_sha256']==actual['verifier_sha256'],'prompt_semantics':prompt.returncode==0 and json.loads(prompt.stdout)['pass'],'actual_transaction_simulation':all(sim.values()),'exact_runner_lockcheck':lc.returncode==0 and json.loads(lc.stdout)['pass'],'output_absent':not D.exists()};out={'kind':'t0q5r5_no_forward_preflight','pass':all(checks.values()),'expected_blocked':not PL.exists(),'checks':checks,'physical_actions':{'tokenizer_only':True,'model':False,'shard':False,'forward':False,'bank':False,'gpu':False,'temp_simulation_only':True}};print(json.dumps(out,indent=2));return 0 if out['pass'] else 3
+if __name__=='__main__':raise SystemExit(main())

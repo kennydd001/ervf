@@ -1,0 +1,97 @@
+{
+  "kind": "d10_differentiated_q5_design_cpu_verification",
+  "cpu_only": true,
+  "gpu_runtime_imported": false,
+  "overall_pass": true,
+  "checks_passed": 10,
+  "checks_total": 10,
+  "failures": [],
+  "inputs": {
+    "p0_runner_sha256": "0c8f152ec56acf27f4c201373b80dbfd6763563e519c96b7d7538d7b2477400d",
+    "d7_runner_sha256": "26d4daba81d5f132857f9b584dfb12f3634874a2e9ee2290f9221c486ef4059a",
+    "d9_runner_sha256": "688803964298b90a18ec21c4548f6017b679e8c0c3823537b1ed6c05ccd6e477",
+    "p4d_capture_sha256": "7ebfcf30eceed76e2615e11702ca162eb43bf4236d6099cc307ec5cb4bcd74bb",
+    "p4d_layer0_report_sha256": "a3a7bcfa3651f74b38f37ac0ae364cb56329f0f69c3c2e22edce7a7cab992395",
+    "d9_result_sha256": "a7d34f33ceb10a6517147931662a46d466a3c63fd695a5d0e57c74e21ed7077a"
+  },
+  "design": {
+    "new_large_bank_required": false,
+    "existing_p0_bank_mode": "read_only",
+    "patch_location": "D9 active HBM staging plane after byte-integrity verification and before Q5 compute",
+    "patched_words_per_selected_expert_record": 3,
+    "patch_projection": "up",
+    "patch_rows": [
+      0,
+      1,
+      2
+    ],
+    "patch_group": 0,
+    "input_oracle": "x[0]=1 and all other x=0",
+    "identity": "i=layer*512+expert; radix-32 digits d2,d1,d0; scale[j]=BF16(2^-7*(1+d[j]/64))",
+    "expected_canary": "BF16(6*scale[j]) for UP output rows 0,1,2",
+    "maximum_materialized_codebook_bytes": 147456
+  },
+  "claim_boundary": "This verifies design arithmetic and local provenance only. It does not execute GPU code, modify the bank, validate throughput, create a real checkpoint or make P4D representative of Qwen3-Coder-Next.",
+  "checks": [
+    {
+      "name": "p0_payload_is_invariant",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "d7_compute_ignores_headers",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "d9_route_integrity_is_separate_byte_oracle",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "three_bf16_digit_code_exact_and_injective",
+      "pass": true,
+      "detail": {
+        "identities": 24576,
+        "bytes_if_materialized": 147456
+      }
+    },
+    {
+      "name": "single_bf16_scalar_is_insufficient",
+      "pass": true,
+      "detail": "A single normal BF16 in [1,2) has only 128 exact mantissa values; use three radix-32 digits."
+    },
+    {
+      "name": "one_hot_up_canary_is_numerically_injective",
+      "pass": true,
+      "detail": {
+        "distinct_output_triplets": 24576
+      }
+    },
+    {
+      "name": "p4d_capture_is_complete",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "p4d_target_geometry_mismatch_identified",
+      "pass": true,
+      "detail": {
+        "p4d_experts": 128,
+        "p4d_top_k": 8,
+        "d9_experts": 512,
+        "d9_top_k": 10
+      }
+    },
+    {
+      "name": "wrong_expert_numeric_control_is_detectable",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "wrong_layer_numeric_control_is_detectable",
+      "pass": true,
+      "detail": null
+    }
+  ]
+}

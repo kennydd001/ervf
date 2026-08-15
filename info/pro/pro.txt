@@ -1,0 +1,791 @@
+Mijn harde conclusie na alles opnieuw naast elkaar te leggen
+
+De huidige STREAMQ5-uitkomst is een echte lokale systems-Eureka: een volledig fysiek Qwen3-30B-A3B-model draait op 8 GB VRAM, met de volledige Q5-expertbank in host-RAM, bij 15,867 tok/s over een echte 512-tokenrollout. De volledige decoder, KV-cache, router, attention, experts, LM-head en autoregressieve feedback zitten in dezelfde runtime. Dat is niet langer een simulatie of een componentbenchmark. 
+P6B strict end-to-endrapport
+
+Maar je hebt gelijk: dit alleen is nog geen industriebrede wetenschappelijke doorbraak. Het is één model, één laptop, 4K-context en één runtime. Van 15,9 naar bijvoorbeeld 20 tok/s optimaliseren is nuttig, maar geen nieuw paradigma.
+
+De volgende stap moet daarom niet zijn:
+
+“Nog een iets betere cache of Q5-kernel.”
+
+De volgende stap moet bewijzen:
+
+De snelheid van een sparse MoE wordt bepaald door zijn actieve parameters, niet door zijn totale modelgrootte.
+
+En daarna moeten we een modelarchitectuur bouwen die deze eigenschap vanaf de training afdwingt.
+
+1. Wat alle mislukkingen nu definitief uitsluiten
+
+CRAFT heeft overtuigend aangetoond dat post-hoc routevervanging, dynamische bits, atomsparsity en blockcoalescing lokaal sterke signalen kunnen geven, maar niet betrouwbaar stapelen over het volledige model. Geen enkele kandidaat haalde alle zes revolutionaire gates, en de afzonderlijke factoren mochten niet met elkaar worden vermenigvuldigd.
+
+RSIV/GhostWeights heeft vervolgens de lage-ranguitweg afgesloten. Op zowel DeepSeek-V2-Lite als Qwen groeide de activatierang vrijwel tot de observatiebound. Voor Qwen leverde rank 32 slechts 1,742% fast-path op test en rank 128 slechts 5,762%.
+
+Daaruit volgen drie harde ontwerpregels:
+
+We moeten de berekening full-rank houden.
+Correcties moeten vóór of tijdens de oorspronkelijke operatie gebeuren, niet achteraf in de hidden state.
+Een nieuwe methode moet op haar eigen studentstates, full-depth en autoregressief worden beoordeeld.
+
+STREAMQ5 voldoet precies daarom wél: het probeert de expertfunctie niet te raden. Het voert de echte full-rank Q5-experts uit.
+
+2. De onmiddellijke industrie-Eureka: 80B op dezelfde 8GB-GPU
+
+De beste volgende target is niet DeepSeek V4 en ook niet nóg een Qwen30-optimalisatie.
+
+Het is:
+
+Qwen3-Coder-Next 80B-A3B
+	​
+
+
+Het officiële model heeft:
+
+80B totale parameters;
+slechts 3B actieve parameters;
+48 lagen;
+512 routed experts;
+top-10-routing;
+hidden size 2048;
+expert intermediate size 512;
+een hybride Gated DeltaNet/attentionarchitectuur;
+native context tot 262.144 tokens.
+De verrassende berekening
+
+Vergelijk het huidige Qwen30-model met Qwen3-Coder-Next:
+
+Eigenschap	Huidige Qwen3-30B-A3B	Qwen3-Coder-Next 80B-A3B
+Totale parameters	~30,5B	80B
+Experts per laag	128	512
+Actieve experts	8	10
+Expert intermediate	768	512
+Totale routed expertparameters	28,991B	77,309B
+Actieve routed parameters/token	1,812B	1,510B
+Q5-expertbank	gemeten 17,37 GiB	projectie 46,13 GiB
+All-cold Q5-data/token	~1.107 MiB	~922,5 MiB
+
+Het 80B-model heeft dus:
+
+30,5
+80
+	​
+
+≈2,62×
+
+meer totale capaciteit, maar:
+
+1,812
+1,510
+	​
+
+=0,833
+
+oftewel 16,7% minder actieve expertgewichten per token.
+
+Dat is het omslagpunt.
+
+Een 2,6× groter model hoeft op dezelfde runtime niet trager te zijn. De expertberekening per token is zelfs iets kleiner.
+
+Geheugenprojectie
+
+Met dezelfde Q5-semantiek als STREAMQ5:
+
+77,309B×
+8
+5,125
+	​
+
+≈46,13 GiB
+
+voor de volledige expertbank.
+
+De niet-expertparameters zijn ongeveer 2,69B. Bij Q8 inclusief group scales is dat circa:
+
+2,54 GiB
+
+resident op de GPU.
+
+De 4K-BF16-KV-cache van de twaalf echte attentionlagen is grofweg 96 MiB, exclusief de vaste DeltaNetstates. Daarmee blijft ongeveer 4–5 GiB over voor de expertcache, scratch en staging.
+
+Dit past binnen jouw werkelijke configuratie:
+
+Host-RAM:
+  ~46,1 GiB Q5-expertbank
+
+GPU:
+  ~2,5 GiB Q8 trunk
+  ~0,1–0,3 GiB KV/DeltaNet-state bij 4K
+  ~4+ GiB expertcache
+  scratch/staging
+
+De officiële Q5-GGUF van Qwen3-Coder-Next is ongeveer 56,7 GB groot, zodat ook een bestaande compacte bronrepresentatie beschikbaar is.
+
+Ruwe snelheid
+
+Bij de op jouw laptop gemeten H2D-bandbreedte van ongeveer 26,16 GB/s kost een volledig koude token:
+
+26,16 GB/s
+0,967 GB
+	​
+
+≈37 ms.
+
+De actieve expertmassa is 1,510B gewichten. Met de conservatieve Q5-kerneldoorvoer van 36,66 Gweight/s:
+
+36,66B/s
+1,510B
+	​
+
+≈41,2 ms.
+
+Met DMA/compute-overlap wordt de expertkant ongeveer:
+
+max(37, 41)≈41 ms
+
+zelfs bij nul cachehits.
+
+De Q8-trunk is groter dan bij Qwen30. Bij de huidige gemeten effectieve trunkdoorvoer projecteer ik ongeveer 30–35 ms. Met attention, routing en runtimeoverhead kom je voorlopig rond:
+
+80–105 ms/token
+
+of ongeveer:
+
+9,5–12,5 tok/s.
+
+Dat is mijn projectie, geen meting. Maar enige nuttige cachelocaliteit duwt het waarschijnlijk over 10 tok/s.
+
+Qwen3-Next bevat bovendien Multi-Token Prediction en is expliciet ontworpen voor efficiënte lange-contextinferentie.
+
+3. De wetenschappelijke claim: Active-Set Invariance
+
+De hypothese die we nu rechtstreeks kunnen testen is:
+
+Voor een sparse MoE die zijn volledige expertbank in hostgeheugen bewaart, wordt de decode-throughput hoofdzakelijk bepaald door het aantal actieve parameters en hun cachelocaliteit, niet door het totale aantal parameters.
+
+Een eerste-orde-runtimewet is:
+
+T
+token
+	​
+
+≈T
+resident
+	​
+
++
+l
+∑
+	​
+
+max[T
+l
+expert-compute
+	​
+
+,
+B
+H2D
+	​
+
+(1−h
+l
+	​
+
+)k
+l
+	​
+
+S
+l
+	​
+
+	​
+
+]
+
+met:
+
+h
+l
+	​
+
+: cachehitrate;
+k
+l
+	​
+
+: actieve experts;
+S
+l
+	​
+
+: expertrecordgrootte;
+B
+H2D
+	​
+
+: werkelijke host-GPU-bandbreedte.
+
+De totale hoeveelheid experts E
+l
+	​
+
+ staat niet rechtstreeks in de kritieke term. Ze beïnvloedt alleen:
+
+de totale hostbank;
+de cachehitrate;
+eventueel de routeroverhead.
+
+Ook de benodigde GPU-capaciteit is:
+
+M
+GPU
+	​
+
+=M
+trunk
+	​
+
++M
+KV
+	​
+
++CS
+e
+	​
+
++M
+scratch
+	​
+
+
+en niet:
+
+M
+GPU
+	​
+
+∝P
+total
+	​
+
+.
+De echte Eureka-gate
+
+Het experiment moet aantonen:
+
+P
+total,30B
+	​
+
+P
+total,80B
+	​
+
+	​
+
+≈2,62
+
+terwijl:
+
+T
+30B
+	​
+
+T
+80B
+	​
+
+	​
+
+
+niet in dezelfde verhouding verslechtert.
+
+Mijn harde target:
+
+Gate	Doel
+Model	Qwen3-Coder-Next 80B-A3B
+VRAM	≤8 GiB
+Host working set	≤58 GiB, geen swap
+Context	eerst 4K, daarna 32K
+Sustained rollout	≥10 tok/s
+Stretchdoel met MTP	≥20 tok/s
+Kwaliteit	≤2% relatieve CE-schade
+Rollout	≥512 tokens
+Thermiek	≥1 uur, <10% decay
+Reproductie	tweede GPU/laptop
+
+Een positief resultaat zou aantonen:
+
+2,6× meer modelcapaciteit bij ongeveer dezelfde snelle-memory-footprint en vergelijkbare snelheid.
+
+Dat is een veel sterkere industrieclaim dan “Qwen30 ging van 16 naar 20 tok/s”.
+
+Ik heb in de gerichte zoekactie geen openbaar resultaat gevonden met deze precieze combinatie van 80B totale parameters, 8GB discrete VRAM, één consumentlaptop en >10 tok/s. Dat is geen bewijs dat het nergens bestaat, dus een recordclaim vereist nog een systematische benchmark- en prior-artpass.
+
+4. Maar de echte nieuwe wetenschap moet nog verder gaan
+
+Zelfs een succesvolle 80B-port blijft grotendeels slimme systeemengineering rond een bestaand model.
+
+De fundamentele doorbraak wordt:
+
+TierFlow-MoE
+Een model dat tijdens training leert hoe het als virtueel geheugen moet functioneren
+
+De huidige modellen zijn getraind alsof alle experts altijd onmiddellijk beschikbaar zijn. Daarna proberen inference-engines hun willekeurige routes te cachen.
+
+Wij draaien dat om:
+
+De modelarchitectuur wordt vanaf training ontworpen om een kleine, voorspelbare working set te behouden en de geheugenhiërarchie als onderdeel van het model te behandelen.
+
+4.1 Stateful route flow
+
+Een normale router kiest iedere token opnieuw een volledig top-k-set:
+
+R
+l,t
+	​
+
+=TopK(g
+l
+	​
+
+(h
+l,t
+	​
+
+)).
+
+TierFlow bewaart route state:
+
+R
+l,t
+	​
+
+=Update(R
+l,t−1
+	​
+
+,ΔR
+l,t
+	​
+
+)
+
+met een harde editlimiet:
+
+∣ΔR
+l,t
+	​
+
+∣≤r.
+
+Bijvoorbeeld top-8, maar maximaal één expertwijziging per token.
+
+Over N tokens is het maximale aantal nieuwe expertloads per laag dan:
+
+k+r(N−1).
+
+Per token:
+
+N
+k+r(N−1)
+	​
+
+=r+
+N
+k−r
+	​
+
+.
+
+Voor grote N:
+
+loads/token/layer→r
+	​
+
+
+in plaats van k.
+
+Bij:
+
+k=8,r=1
+
+is de asymptotische externe-bandbreedtegrens 8× lager dan volledig onafhankelijke top-8-routing.
+
+Span-routing
+
+Wanneer een route gemiddeld s tokens blijft staan en bij een grens maximaal r experts verandert:
+
+B
+route
+	​
+
+≈L
+s
+r
+	​
+
+S
+e
+	​
+
+.
+
+Bij:
+
+k=8, r=2, s=8
+
+is de route-load ten opzichte van volledige top-8 ongeveer:
+
+2/8
+8
+	​
+
+=32×
+
+kleiner, op voorwaarde dat het actieve routeset resident blijft.
+
+StickyMoE toont dat routinglocaliteit tijdens training beter kan worden ingebouwd dan achteraf en rapporteert tot 60% minder switches op kleine modellen. ReMoE behaalt via routerfijnstelling 26% meer expert reuse en duidelijke systeemwinsten.
+
+TierFlow gaat verder dan een penalty: het maakt route-updates een expliciet begrensde state transition.
+
+4.2 Progressieve full-rank expertpages
+
+Q2 faalde bij ons omdat we een normaal BF16-model achteraf naar Q2 forceerden.
+
+TierFlow traint iedere expert native als:
+
+W
+e
+	​
+
+=W
+e
+(2)
+	​
+
++ΔW
+e
+(3)
+	​
+
++ΔW
+e
+(4)
+	​
+
++ΔW
+e
+(5)
+	​
+
+.
+W
+(2)
+: altijd beschikbare base;
+ΔW
+(3)
+: extra bitpage;
+ΔW
+(4)
+: kwaliteitsupgrade;
+ΔW
+(5)
+: zeldzame hoogste precisie.
+
+Tijdens training worden hogere pages willekeurig verwijderd. Het model leert daardoor:
+
+op twee bits nog zinvol te functioneren;
+met extra pages progressief nauwkeuriger te worden;
+hardere tokens meer bytes te geven;
+makkelijke tokens goedkoop te verwerken.
+
+Dit blijft full-rank. Het veronderstelt geen lage activationrank en wordt dus niet geraakt door RSIV.
+
+Matryoshkaquantisatie en dynamische precision bestaan al, maar doorgaans als quantisatietechniek of servingpolicy. De potentieel nieuwe component is de combinatie met stateful routeflow en een echte tiered-memory-trainingobjective.
+
+4.3 Hardware als modelinput
+
+De controller krijgt naast de hidden state:
+
+cache residency;
+transferqueue;
+beschikbare DMA-slack;
+route-editgeschiedenis;
+routermargin;
+tokenonzekerheid;
+beschikbaar bitbudget.
+
+Hij kiest gezamenlijk:
+
+(ΔR, expertpages, precisie, KV-policy).
+
+TriRoute laat op kleine modellen al zien dat attentionmode, expertselectie en KV-precisie gezamenlijk trainen beter kan zijn dan geïsoleerde controllers.
+
+Onze eigen nieuwe formulering zou echter niet gemiddelde FLOPs optimaliseren, maar de werkelijk gemeten kritieke padtijd:
+
+T
+t
+	​
+
+=
+l
+∑
+	​
+
+[T
+l,t
+core
+	​
+
++max(0,T
+l,t
+DMA
+	​
+
+−T
+l,t
+slack
+	​
+
+)].
+
+De trainingobjective:
+
+L=L
+LM
+	​
+
++λE[T
+t
+	​
+
+]+μCVaR
+0.95
+	​
+
+(T
+t
+	​
+
+)+η
+l,t
+∑
+	​
+
+∣ΔR
+l,t
+	​
+
+∣+ρL
+tier-dropout
+	​
+
+.
+
+Hiermee trainen we expliciet tegen:
+
+gemiddelde latency;
+p95-bursts;
+expertwissels;
+precisie-upgrades;
+ontbrekende geheugenpages.
+
+Dit is geen cacheheuristiek meer. Het model leert een causaal geheugenverkeersprogramma.
+
+5. Waarom TierFlow niet door onze negatieve resultaten wordt gedood
+Negatief resultaat	TierFlow-reactie
+Shared basis faalt	geen universele frozen basis nodig
+RSIV activaties full-rank	alle expertoperators blijven full-rank
+Q2 PTQ faalt	Q2-base wordt native gezamenlijk getraind
+BITFLOW faalt	geen correctie ná de nonlineariteit
+CRCQ faalt downstream	controller traint full-depth op eigen states
+Atomsparsity stapelt fout	geen post-hoc atoms verwijderd
+Cachepredictors missen bursts	routewissels zijn architecturaal begrensd
+Blockcoalescing frozen-model slechts ~20%	experts en routes mogen tijdens training co-adapteren
+
+Dit is dus mechanistisch onafhankelijk van de gefalsificeerde CRAFT/RSIV/BITFLOW-families.
+
+De dichtstbijzijnde literatuur bevat al routerfine-tuning voor reuse, sticky routing en gezamenlijke attention/expert/KV-routing. Ik vond in deze gerichte ronde geen exacte combinatie van:
+
+hard begrensde route-editflow;
+native progressieve full-rank expertpages;
+cache- en DMA-state als routerinput;
+CVaR-critical-pathtraining;
+tier-dropout.
+
+Dat is negatief zoekbewijs, geen formele nieuwheids- of patentconclusie.
+
+6. Mix-and-match die nu wel rationeel is
+A. Exact lossless entropy coding van Q5
+
+De huidige Q5-codes gebruiken vijf vaste bits. Hun werkelijke Shannon-entropie kan lager liggen.
+
+Een eerste scan moet meten:
+
+H(Q5)=−
+q
+∑
+	​
+
+p(q)log
+2
+	​
+
+p(q).
+
+Wanneer bijvoorbeeld:
+
+H(Q5)<4,2 bit
+
+kan de 17,37-GiB-bank exact aanzienlijk kleiner worden en daalt H2D zonder kwaliteitsverlies.
+
+Recente lossless-weightcompressie bereikt bitrates dicht bij de Shannonlimiet en fuseert decompression met GPU-GEMM; andere systemen tonen eveneens directe fused decompression zonder tijdelijke gedequantiseerde weightbuffer.
+
+Dit is bestaande technologie, maar een noodzakelijke sterke baseline voor de 80B-bank.
+
+B. Exact Q5 als INT4-core plus overflowtail
+
+Voor de huidige codes q∈[−15,15]:
+
+q=clip(q,−7,7)+[q−clip(q,−7,7)].
+dense core: native INT4;
+sparse tail: alleen waarden met ∣q∣>7;
+resultaat: exact dezelfde Q5-semantiek.
+
+De eerste test is uitsluitend het codehistogram:
+
+f
+overflow
+	​
+
+=P(∣q∣>7).
+
+Gate:
+
+f<10%: zeer interessant;
+10%−20%: mogelijk;
+>25%: waarschijnlijk onvoldoende.
+
+Geen nieuwe kwaliteitsrun nodig zolang de reconstructie bitexact blijft.
+
+C. MTP/speculatie
+
+De 30B-runtime zit op 63 ms per uitgegeven token. Zelfs wanneer experts gratis worden, blijft het plafond door trunk, attention en sequencing rond enkele tientallen tok/s. Om 30–50 tok/s te bereiken moeten meerdere tokens per targetpass worden uitgegeven.
+
+Qwen3-Next heeft native MTP.
+
+Heterogene speculative systemen rapporteren op andere hardware meerdere keren versnelling, maar die cijfers mogen niet rechtstreeks naar jouw laptop worden overgenomen.
+
+De juiste gate is:
+
+T
+verification
+	​
+
++T
+draft
+	​
+
+E[geaccepteerde tokens per verification]
+	​
+
+
+en niet alleen acceptance rate.
+
+De NPU mag pas worden ingezet na een microbenchmark. Recent onderzoek laat zien dat NPU-decode op sommige mobiele pipelines slechts 1,05–1,2× boven CPU ligt en dat scheduling/fallbackoverhead de winst kan opeten.
+
+7. De twee branches die ik nu zou openen
+Branch P7 — onmiddellijke industrieclaim
+
+Doel: Qwen3-Coder-Next 80B-A3B op dezelfde laptop.
+
+Volgorde:
+
+Gebruik de officiële compacte Q5-bron of converteer zonder de volledige BF16-bank permanent te bewaren.
+Bouw Q5-expertbank en Q8-trunk.
+Run alleen validationkwaliteit.
+Open test uitsluitend bij ≤2%.
+Bouw de fysieke bank en cache.
+Eén strikt fysiek token.
+512-tokenrollout op 4K.
+32K-context.
+Native MTP.
+Eén uur thermische steady-state.
+
+Primaire Eureka:
+
+80B, 8 GB VRAM, ≥10 tok/s
+	​
+
+
+Stretch:
+
+80B, 32K, ≥20 tok/s met MTP
+	​
+
+
+Dit is de hoogste verhouding tussen impact en kans op succes.
+
+Branch R1 — echte nieuwe wetenschap
+
+Train een kleine TierFlow-MoE, eerst niet groter dan wat reproduceerbaar kan worden getraind.
+
+Vergelijk bij identieke trainingscompute:
+
+standaard top-k MoE;
+ReMoE/router-locality;
+StickyMoE;
+onafhankelijke dynamische bits;
+TierFlow-route-only;
+TierFlow-route + progressieve pages.
+
+Vooraf vastgelegde gates:
+
+Gate	Vereiste
+Perplexity/taskkwaliteit	≤1% regressie
+Kritieke expertbytes	≥4× reductie
+Route-switches	≥8× lagere worst-case loads
+Gemeten p95	≥2× sneller
+Tail stability	geen p99-bursts/collapse
+Tier dropout	baseprecisie blijft bruikbaar
+Generalisatie	tweede geheugenhiërarchie
+
+Pas daarna schaal je naar een miljardenmodel.
+
+8. Wat nu níét meer rationeel is
+Nog een hidden-statecorrector proberen.
+Nog een low-rank expertbasis bouwen.
+CRAFT-onderdelen achteraf alsnog combineren.
+Alleen de huidige Qwen30-cache blijven tunen.
+Meteen Kimi K3 downloaden.
+Een NPU-draft bouwen zonder eerst CPU/NPU-doorvoer te meten.
+“Record” claimen zonder vergelijking op dezelfde kwaliteits-, context-, RAM- en energievoorwaarden.
+Definitief verdict
+
+De directe industrie-Eureka is nu:
+
+80B totale capaciteit op 8GB VRAM bij ongeveer dezelfde snelheid als 30B
+	​
+
+
+Dat is technisch verrassend plausibel omdat Qwen3-Coder-Next ondanks 2,6× meer totale parameters minder actieve expertgewichten per token heeft dan het model dat nu al 15,87 tok/s haalt.
+
+De uiteindelijke wetenschappelijke Eureka is:
+
+een model dat zijn geheugenverkeer zelf leert programmeren
+	​
+
+
+TierFlow-MoE maakt routing een persistente flow, experts progressief precisieerbaar en hardwarestate onderdeel van de modelbeslissing. Daarmee verandert de scaling law van:
+
+bytes/token∝k
+
+naar ongeveer:
+
+bytes/token∝route-edits en precision-pages.
+
+Dat is het pad waarmee niet alleen 80B, maar uiteindelijk ook 284B- en mogelijk nog grotere modellen op gewone hardware realistisch kunnen worden.
+
+Dus niet één chaotische nieuwe experimentenboom. Bevries STREAMQ5 als bewezen basis. Start parallel P7-80B voor de industrieclaim en R1-TierFlow voor de echte nieuwe wetenschap.

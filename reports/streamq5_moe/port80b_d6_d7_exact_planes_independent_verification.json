@@ -1,0 +1,198 @@
+{
+  "kind": "port80b_d6_d7_exact_planes_independent_cpu_verification",
+  "completed_utc": "2026-08-12T21:45:16.462216+00:00",
+  "verdict": "d6_negative_and_d7_strong_component_pass_verified_with_exactness_scope_limit",
+  "all_replayable_checks_pass": true,
+  "input_hashes": {
+    "bank_sha256_recomputed": "4a97af22833b239badc065d9c065ca259c791a84218640946d68c4e72e034462",
+    "manifest_sha256": "466250b39c5f28c8b5b2f7432904100adf8c9e8c246c860a233cdf4b9aeb412c",
+    "d6_preregistration_sha256": "2ce39e93e362fb31562b67c1dbb252b78f45d95fcefa02334550637f29e1b6e6",
+    "d6_evaluator_sha256": "c8b9279a1c23aefde4837b1a3b1b5692046e9023467aeb59dcbd2ed2506ad2a0",
+    "d6_result_sha256": "3285d0cece0eb1775d6fe5684ea5f235ac161ab3105dbaedae2f439ff97955c9",
+    "d6_source_report_sha256": "0a7cf02c9f1270653c17b1cbdf2bbb06f768c62bd5fa7ddf5653cf9c82ac170b",
+    "d7_preregistration_sha256": "4229646accbcd62bcb01b13775b7b067d21d26881724973ec760a9b6d62ce721",
+    "d7_evaluator_sha256": "26d4daba81d5f132857f9b584dfb12f3634874a2e9ee2290f9221c486ef4059a",
+    "d7_result_sha256": "0a4cb1082a0bf08c5579926733280f706aca708779b30e7bcb8a31438bc93447",
+    "d7_source_report_sha256": "8fce019bb4d51ff5e04a0c91d1cfa43679caf54e86f884acb4fb6a5225df5e86",
+    "d2_dependency_sha256": "20ce962d3196095354688f3bc6cdc378c6351d0dc21f054a57ad46dec5f7d616",
+    "d5_dependency_sha256": "81c662ec1816ddd4754f08a2a560a494ec18421c8ff1f819043cfaaddca25fcd",
+    "p6_dependency_sha256": "67762ca6d58c01b8eb5aa8fbb60de0aa234321585a9a5376758eb0cf018b59c0",
+    "p7_dependency_sha256": "2248c05b9a8da3b9ab58dab779dabeb5fe1c453c04626230d0c6eeca1f62cba8"
+  },
+  "provenance_checks": {
+    "bank_size": true,
+    "bank_sha_recomputed": true,
+    "manifest_bank_sha": true,
+    "d6_prereg_sha": true,
+    "d6_evaluator_sha": true,
+    "d6_manifest_sha": true,
+    "d7_prereg_sha": true,
+    "d7_evaluator_sha": true,
+    "d7_manifest_sha": true,
+    "d2_dependency_matches_prior_result": true,
+    "d5_dependency_matches_prior_result": true,
+    "p6_dependency_matches_lock": true,
+    "p7_dependency_matches_prior_result": true,
+    "d6_result_does_not_pin_dependency_hashes": true,
+    "d7_result_does_not_pin_dependency_hashes": true
+  },
+  "d6": {
+    "recomputed_validation_stats": {
+      "count": 24,
+      "mean": 76.47738583882649,
+      "p50": 76.42063903808594,
+      "p95": 77.07395935058594,
+      "p99": 77.31987525939941,
+      "min": 76.09305572509766,
+      "max": 77.38777923583984
+    },
+    "checks": {
+      "stored_validation_stats": {
+        "count": true,
+        "mean": true,
+        "p50": true,
+        "p95": true,
+        "p99": true,
+        "min": true,
+        "max": true
+      },
+      "input_sha_cpu_reproduced": true,
+      "output_element_arithmetic": true,
+      "recomputed_gates": true,
+      "primary_false": true,
+      "strong_false": true,
+      "full_bank_false": true,
+      "protocol": {
+        "physical_exact": true,
+        "protocol_exact": true,
+        "fixed_route_token_100000": true,
+        "five_warmups_in_source": true,
+        "24_validation_samples": true,
+        "validation_open_rule": true,
+        "validation_correctly_closed": true,
+        "test_correctly_absent": true,
+        "no_post_validation_tuning": true
+      }
+    },
+    "diagnostic_only": {
+      "validation_p50_over_opening_gate_ms": 11.420639038085938,
+      "validation_p50_ratio_to_gate": 1.175702139047476,
+      "required_p50_reduction_percent": 14.944443257526551,
+      "validation_p95_payload_rate_gb_s_not_a_formal_test_metric": 12.626957382235503
+    },
+    "portable_route_index_sha256_token_100000": "5bdd83d8419a8bd60c73d04ce12eaa7239d2a9b58899cc3616496f1af70978a7",
+    "non_replayable_evidence": {
+      "pointer_table_sha256": "Contains process-specific mapped device aliases and cannot be CPU-reproduced after the run.",
+      "output_digests": "Stored full-output digests are internally equal, but output arrays were not retained for independent rehashing."
+    }
+  },
+  "d7": {
+    "recomputed_validation_stats": {
+      "count": 24,
+      "mean": 49.19837220509847,
+      "p50": 49.06287956237793,
+      "p95": 49.92438316345215,
+      "p99": 50.19876262664795,
+      "min": 48.80636978149414,
+      "max": 50.26540756225586
+    },
+    "recomputed_test_stats": {
+      "count": 120,
+      "mean": 48.80115957260132,
+      "p50": 48.73454475402832,
+      "p95": 49.97729892730713,
+      "p99": 50.14698501586914,
+      "min": 48.065025329589844,
+      "max": 50.88249588012695
+    },
+    "recomputed_effective_remote_payload_gb_s_at_p95": 19.47303317483305,
+    "recomputed_projected_total_p95_ms": 78.05452592730714,
+    "checks": {
+      "stored_validation_stats": {
+        "count": true,
+        "mean": true,
+        "p50": true,
+        "p95": true,
+        "p99": true,
+        "min": true,
+        "max": true
+      },
+      "stored_test_stats": {
+        "count": true,
+        "mean": true,
+        "p50": true,
+        "p95": true,
+        "p99": true,
+        "min": true,
+        "max": true
+      },
+      "stored_effective_rate": true,
+      "stored_projection": true,
+      "input_sha_cpu_reproduced": true,
+      "output_element_arithmetic": true,
+      "recomputed_gates": true,
+      "all_gates_true": true,
+      "primary_true": true,
+      "strong_true": true,
+      "full_bank_false": true,
+      "protocol": {
+        "physical_exact": true,
+        "protocol_exact": true,
+        "tokens_constructed_exactly_in_source": true,
+        "correctness_validation_test_disjoint": true,
+        "144_distinct_timed_route_tokens": true,
+        "warmups_are_first_five_validation_routes": true,
+        "validation_open_rule": true,
+        "validation_open_recomputed": true,
+        "fixed_schedule_no_validation_selection": true,
+        "candidate_serial_stage_then_48_layer_compute": true,
+        "test_tokens_not_persisted_in_result": true
+      }
+    },
+    "gate_margins": {
+      "p95_to_primary_65ms_ms": 15.022701072692868,
+      "p95_to_strong_55ms_ms": 5.022701072692868,
+      "bandwidth_to_15gb_s": 4.4730331748330485,
+      "projected_total_to_primary_100ms_ms": 21.94547407269286,
+      "projected_total_to_strong_90ms_ms": 11.94547407269286,
+      "projected_tokens_per_second_not_end_to_end": 12.81155689717863
+    },
+    "portable_route_index_sha256": {
+      "correctness": "cda4f198230c62c67ee54d0fc84512af3d38c0269b11e7cd10a6a8adf6ffbd3a",
+      "validation": "b44892b5fb4aa1266addadac52d0055a4391512dc8d815b2ae44424865bc6130",
+      "test": "be828df2c339925a766d5b93acfc52abab2efe73bdde33dd9d0fff9f0a59feb1",
+      "all_145_rows": "d0cf1288b185468a97295384cc4b4901dd48598c7aae3fb0cdba634785b46c0b"
+    },
+    "non_replayable_evidence": {
+      "pointer_table_sha256": "Contains process-specific mapped device aliases and cannot be CPU-reproduced after the run.",
+      "output_digests": "Stored full-output digests are internally equal, but output arrays were not retained for independent rehashing.",
+      "token_lists": "Exact split is reconstructible from the hashed current runner but token IDs were not persisted in the result JSON."
+    }
+  },
+  "selected_source_checks": {
+    "d6_token_100000": {
+      "token": 100000,
+      "records": 480,
+      "unique_ten_each_layer": true,
+      "inside_307_prefix": true,
+      "checked_bytes": 973209600,
+      "structural_mismatch_count": 0,
+      "payload_sha256_excluding_headers_and_padding": "fd4be12017629b948c4cb837fec6fb105d7b5f940fea65db8e8dc5cf9765fef8"
+    },
+    "d7_correctness_token_109999": {
+      "token": 109999,
+      "records": 480,
+      "unique_ten_each_layer": true,
+      "inside_307_prefix": true,
+      "checked_bytes": 973209600,
+      "structural_mismatch_count": 0,
+      "payload_sha256_excluding_headers_and_padding": "fd4be12017629b948c4cb837fec6fb105d7b5f940fea65db8e8dc5cf9765fef8"
+    }
+  },
+  "exactness_scope_limit": {
+    "payload_is_invariant": true,
+    "headers_are_ignored_by_q5_compute": true,
+    "effect": "Equal outputs prove the staged/direct arithmetic for the invariant synthetic payload, but cannot by themselves detect a wrong layer/expert record because every record has identical Q5 codes and scales. The portable route tables and selected source structure were independently checked; candidate output equality is not a routing-integrity oracle."
+  },
+  "claim_boundary": "CPU-only audit of stored D6/D7 artifacts. No GPU rerun. D7 remains a strong 60%-bank synthetic transport+compute component pass, not a full-bank, differentiated-weight routing, real-model, physical dense-shell, end-to-end or quality result."
+}

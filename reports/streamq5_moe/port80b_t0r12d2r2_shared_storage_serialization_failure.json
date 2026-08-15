@@ -1,0 +1,22 @@
+{
+  "kind": "port80b_t0r12d2r2_postcompute_shared_storage_serialization_failure",
+  "date": "2026-08-13",
+  "scientific_compute_completed": true,
+  "forward_count": 70,
+  "artifact_written": false,
+  "output_directory_removed_after_verified_empty": true,
+  "failure_stage": "safetensors_save_after_metrics",
+  "exception_type": "RuntimeError",
+  "exception_summary": "Four n=1 top10-ID views share storage with their top11-ID tensors; contiguous() preserves storage when a view is already contiguous.",
+  "affected_pairs": [
+    ["p0_n1_router_top10_ids_recomputed", "p0_n1_router_top11_ids"],
+    ["p1_n1_router_top10_ids_recomputed", "p1_n1_router_top11_ids"],
+    ["p2_n1_router_top10_ids_recomputed", "p2_n1_router_top11_ids"],
+    ["p3_n1_router_top10_ids_recomputed", "p3_n1_router_top11_ids"]
+  ],
+  "required_repair": "clone every retained tensor immediately before serialization",
+  "model_or_metric_change_authorized": false,
+  "gpu_initialized": false,
+  "bank_action": false,
+  "claim": "Harness-only post-compute failure; no scientific result."
+}

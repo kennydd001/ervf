@@ -1,0 +1,208 @@
+{
+  "all_finite": true,
+  "artifact": "reports/runs/fleq_moe/p1/layer_47_expert_032.safetensors",
+  "artifact_sha256": "ff404d5d424593b8b604334efa9a14416f38b1040f3e8800f85e24cd9fb414ec",
+  "calibration_rows": 281,
+  "code_summaries": {
+    "gptq_2bit": {
+      "down": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 363931,
+          "-2": 101033,
+          "0": 664463,
+          "1": 443437
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "gate": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 375729,
+          "-2": 98463,
+          "0": 649504,
+          "1": 449168
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "up": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 377557,
+          "-2": 99922,
+          "0": 645595,
+          "1": 449790
+        },
+        "scales": 12288,
+        "weights": 1572864
+      }
+    },
+    "gsq_2bit": {
+      "down": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 364722,
+          "-2": 105256,
+          "0": 657000,
+          "1": 445886
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "gate": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 375875,
+          "-2": 102803,
+          "0": 643039,
+          "1": 451147
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "up": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 377701,
+          "-2": 104443,
+          "0": 638714,
+          "1": 452006
+        },
+        "scales": 12288,
+        "weights": 1572864
+      }
+    }
+  },
+  "completed_utc": "2026-08-11T11:48:30.371026+00:00",
+  "elapsed_seconds": 44.26307850000012,
+  "expert": 32,
+  "fallback_bit_exact": true,
+  "gsq_losses": [
+    4.991621494293213,
+    4.146663188934326,
+    3.7046561241149902,
+    2.460864543914795,
+    1.6691724061965942,
+    1.7218821048736572,
+    1.1969074010849,
+    0.9942693114280701,
+    0.9964127540588379,
+    0.9466912746429443,
+    1.2404124736785889,
+    1.2202491760253906,
+    1.297234296798706,
+    1.00660240650177,
+    1.291109323501587,
+    0.873885989189148,
+    1.1973322629928589,
+    0.9345155954360962,
+    0.8559054136276245,
+    0.6352697014808655,
+    0.7732157707214355,
+    0.7717277407646179,
+    0.7009826898574829,
+    0.7141224145889282,
+    0.8357075452804565,
+    0.6458191871643066,
+    0.6130850315093994,
+    0.6394432187080383,
+    0.6371991634368896,
+    0.7419966459274292,
+    0.7409808039665222,
+    0.6420575380325317,
+    0.6660547256469727,
+    0.689088761806488,
+    0.7964858412742615,
+    0.8064321279525757,
+    0.702234148979187,
+    0.6711025238037109,
+    0.8477768898010254,
+    0.7276917099952698
+  ],
+  "heldout_gsq_improvement_over_gptq": -1.1406288010195986,
+  "heldout_rows": 243,
+  "kind": "fleq_moe_p1_expert_result",
+  "layer": 47,
+  "metrics": {
+    "gptq_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9991335272789001,
+        "relative_l2": 0.0390138179063797,
+        "relative_row_p50": 0.037501633167266846,
+        "relative_row_p95": 0.06514711678028107,
+        "router_weighted_relative_mse": 0.001475106575526297,
+        "rows": 281
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9955195188522339,
+        "relative_l2": 0.10586734861135483,
+        "relative_row_p50": 0.09801168739795685,
+        "relative_row_p95": 0.1905469298362732,
+        "router_weighted_relative_mse": 0.011270880699157715,
+        "rows": 243
+      }
+    },
+    "gsq_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9921870827674866,
+        "relative_l2": 0.1290702074766159,
+        "relative_row_p50": 0.12856076657772064,
+        "relative_row_p95": 0.14829537272453308,
+        "router_weighted_relative_mse": 0.016560859978199005,
+        "rows": 281
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9883487820625305,
+        "relative_l2": 0.15554897487163544,
+        "relative_row_p50": 0.15239259600639343,
+        "relative_row_p95": 0.21984687447547913,
+        "router_weighted_relative_mse": 0.024126771837472916,
+        "rows": 243
+      }
+    },
+    "rtn_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9315959811210632,
+        "relative_l2": 0.5323558449745178,
+        "relative_row_p50": 0.5317661166191101,
+        "relative_row_p95": 0.5715287923812866,
+        "router_weighted_relative_mse": 0.28357401490211487,
+        "rows": 281
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9308843612670898,
+        "relative_l2": 0.5369783043861389,
+        "relative_row_p50": 0.5340271592140198,
+        "relative_row_p95": 0.5801922678947449,
+        "router_weighted_relative_mse": 0.2905932366847992,
+        "rows": 243
+      }
+    }
+  },
+  "original_weight_sha256": {
+    "down": "d02b1827bff16bf8ab5bcf49eefb15f927eaf0bba1ddbd40c081bd3e833854f0",
+    "gate": "b5b041ebfd2df5a35fdb22ecc916eb662154a5c13b51cef28e802131dac0a638",
+    "up": "d939f296bb75cc58860a25a6753b7077eeb1768de49e29a5f97b2dfa9eedfa2b"
+  },
+  "peak_cuda_allocated_bytes": 320258048,
+  "peak_cuda_reserved_bytes": 354418688,
+  "process_rss_peak_observed_bytes": 2318905344,
+  "repeat_exact": null,
+  "repeat_losses": null,
+  "repeat_required": false,
+  "selection_lock_sha256": "99038787f6aee75f18db40c7dd879bd090ffbe4dc659bc07143b2b8f77e26257"
+}

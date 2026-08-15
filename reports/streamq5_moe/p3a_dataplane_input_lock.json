@@ -1,0 +1,22 @@
+{
+  "kind": "streamq5_moe_p3a_dataplane_input_lock",
+  "locked_utc": "2026-08-12T09:08:30+00:00",
+  "preregistration_sha256": "93bd6dad0ecbf3343368b075480b8faf3d9d21d3d0e167f3a7287a5f941149bf",
+  "route_input_lock_sha256": "0678259429aff3491ed2244b420658a463b03e078e514fd8e39cf7e48afb4baf",
+  "route_capture_sha256": "b15ab0c5a9bc10c8c245e13ad9f5725b91ffd923809fcf9b2786562bcbcc3f88",
+  "p2c_verification_sha256": "895e4d01b77bc8b66fea611078d638f53a9068d4a29f36907aa4925f4bbc7b9a",
+  "p2a_verification_sha256": "e6949e6f1fa5004d538c750c7d49c30ba73141ae1a963c639c9ad99f2c2c8d38",
+  "initial_state_seed": 20260812,
+  "initial_state_distribution": "PCG64 standard_normal float32 per domain/token",
+  "expert_reduction": "unweighted arithmetic mean of official top-8 outputs",
+  "cache": {
+    "total_slots": 1640,
+    "static_slots_per_layer": 20,
+    "dynamic_slots_layers_0_7": 15,
+    "dynamic_slots_layers_8_47": 14
+  },
+  "partitions": {"calibration": [0, 512], "validation": [512, 768], "test": [768, 1024]},
+  "device_bytes": {"cache": 4977623040, "int8_trunk": 1541093376, "kv": 402653184, "minimum_scratch": 402653184},
+  "gates": {"mean_integrated_expert_wall_ms_max": 60.0, "p95_integrated_expert_wall_ms_max": 75.0},
+  "outputs_opened": false
+}

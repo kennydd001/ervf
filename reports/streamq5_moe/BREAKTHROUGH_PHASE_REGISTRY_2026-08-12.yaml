@@ -1,0 +1,110 @@
+project: STREAMQ5_MOE_BREAKTHROUGH_PHASE
+created_at: 2026-08-12
+scope: pro1_plus_BREAKTHROUGH_NEXT_PHASE_PACK_plus_agent_hypotheses
+rule: >-
+  Deze registry corrigeert de historische P9B-interpretatie maar wijzigt geen
+  oude registry. Een componentpass is geen end-to-end of industrieclaim.
+
+status_legend:
+  invalidated_noop: evaluator muteerde de bedoelde kandidaat niet
+  verified_negative: preregistreerde empirische poort gefaald
+  verified_pass_component: exacte lokale componentpoort gehaald
+  verified_pass_oracle: optimistische structuur/verkeerspoort gehaald; kwaliteit of runtime open
+  in_progress: fysieke uitvoering loopt
+
+items:
+  - id: B001
+    program: GAUGEPACK
+    idea: historical_P9B_50pct_quality_premise
+    status: invalidated_noop
+    evidence:
+      - reports/streamq5_moe/gaugepack_p9d1_p9b_mutation_audit.json
+      - reports/streamq5_moe/GAUGEPACK_P9D1_P9B_MUTATION_AUDIT_2026-08-12.md
+    note: advanced boolean indexing changed copies; P9B and P9E measured the unpruned Q5 baseline
+  - id: B002
+    program: GAUGEPACK
+    idea: corrected_frozen_P9B_mask_50pct
+    status: verified_negative
+    evidence:
+      - reports/streamq5_moe/p9br_corrected_structured_wanda_validation.json
+      - reports/streamq5_moe/P9BR_CORRECTED_STRUCTURED_WANDA_REPORT_2026-08-12.md
+    note: validation +47.804pct CE and 60.866pct top1; test sealed
+  - id: B003
+    program: GAUGEPACK
+    idea: corrected_group_balanced_64_of_128_per_group
+    status: verified_negative
+    evidence:
+      - reports/streamq5_moe/p9er_group_balanced_corrected_validation.json
+      - reports/streamq5_moe/P9ER_GROUP_BALANCED_CORRECTED_REPORT_2026-08-12.md
+    note: validation +47.186pct CE and 60.866pct top1; test sealed
+  - id: B004
+    program: GAUGEPACK
+    idea: corrected_25pct_structured_Wanda
+    status: verified_negative
+    evidence:
+      - reports/streamq5_moe/p9f_quarter_pruning_validation.json
+      - reports/streamq5_moe/P9F_QUARTER_PRUNING_REPORT_2026-08-12.md
+    note: validation +22.846pct CE and 74.803pct top1; test sealed
+  - id: B005
+    program: GAUGEPACK
+    idea: physical_group_and_reduction_preserving_codec
+    status: verified_negative
+    evidence:
+      - reports/streamq5_moe/gaugepack_p9d1_result.json
+      - reports/streamq5_moe/GAUGEPACK_P9D1_REPORT_2026-08-12.md
+    note: byte ratio 0.502363 projected, but correctly blocked by invalid/failed quality premise before CUDA kernel
+  - id: B006
+    program: ERGV_COMPILER
+    idea: ExactReductionIR_graph_isomorphism_and_CUDA_codegen
+    status: verified_pass_component
+    evidence:
+      - reports/streamq5_moe/ergv_compiler_cpu_tests.json
+      - reports/streamq5_moe/ergv_c1_generated_gpu_gate.json
+      - reports/streamq5_moe/ERGV_COMPILER_FINAL_REPORT_2026-08-12.md
+    note: 7/7 CPU, 20 schedules, generated w16 Q8/Q5 115496 outputs bitexact
+  - id: B007
+    program: ERGV_COMPILER
+    idea: generated_real_bank_performance_autotuning
+    status: verified_pass_component
+    evidence:
+      - reports/streamq5_moe/ergv_c2_performance_autotuner.json
+      - reports/streamq5_moe/ergv_c2_independent_verification.json
+      - reports/streamq5_moe/ERGV_C2_PERFORMANCE_AUTOTUNER_REPORT_2026-08-12.md
+    note: beats uniform manual P7 on Q8/Q5; parity with manual N1C; no end-to-end or second-GPU claim
+  - id: B008
+    program: TIERFLOW_R1
+    idea: bounded_route_edit_traffic_feasibility
+    status: verified_pass_oracle
+    evidence:
+      - reports/streamq5_moe/tierflow_f0_result.json
+      - reports/streamq5_moe/tierflow_f0_independent_verification.json
+      - reports/streamq5_moe/TIERFLOW_F0_REPORT_2026-08-12.md
+    note: r1 gives 4.158x bytes and 8x worst-load reduction but substitutes 32.03pct; training quality/runtime untested
+  - id: B009
+    program: INDUSTRY_PRIOR_ART
+    idea: GaugePack_ERVG_and_80B_claim_boundaries
+    status: verified_pass_component
+    evidence:
+      - reports/streamq5_moe/INDUSTRY_PRIOR_ART_GAUGEPACK_ERGV_2026-08-12.md
+    note: primary-source positioning complete; no legal novelty conclusion
+  - id: B010
+    program: PORT80B_ACTIVE_SET
+    idea: physical_49925652480_byte_host_bank_gate
+    status: verified_negative
+    evidence:
+      - reports/streamq5_moe/PORT80B_P0_PHYSICAL_HOST_BANK_PREREGISTRATION.md
+      - reports/streamq5_moe/port80b_p0_preflight_dry_run.json
+      - reports/streamq5_moe/port80b_p0_physical_host_bank_result.json
+      - reports/streamq5_moe/port80b_p0_independent_verification.json
+      - reports/streamq5_moe/PORT80B_P0_PHYSICAL_HOST_BANK_REPORT_2026-08-12.md
+    note: >-
+      exact 46.497GiB bank and one-hour stability pass; zero-cache H2D p95
+      73.544ms exceeds 45ms and conservative postwarm page-read gate fails
+
+claim_boundary:
+  industrial_breakthrough_proven: false
+  reasons:
+    - no real Qwen3-Coder-Next checkpoint quality or decode run yet
+    - ERGV has one GPU and no public matched baseline
+    - TierFlow has no trained model or LM-quality result
+    - GaugePack 25pct and 50pct quality gates failed

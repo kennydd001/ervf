@@ -1,0 +1,31 @@
+{
+  "add_rn_f32_count": 34,
+  "fma_rn_f32_count": 256,
+  "ftz_modifier_count": 0,
+  "kind": "ph0x_r8r1_noftz_ptx_parser_correction",
+  "mul_f32_count": 256,
+  "pass": true,
+  "ptx_bytes": 133404,
+  "ptx_sha256": "ec4789735f548123be0df3c2ff20c3e05c7b3741d9ed5f00b7b51eaeaa8ca7ae",
+  "r8_json_sha256": "c5df7a09ea13e4c29caa0d9acf40120131ae6a45033e73126f8563180f005ff2",
+  "shuffles": [
+    {
+      "clamp_segment": 6175,
+      "line": "shfl.sync.down.b32 \t%r3669|%p2, %r3668, 4, 6175, %r8;",
+      "membermask": "%r8",
+      "offset": 4
+    },
+    {
+      "clamp_segment": 6175,
+      "line": "shfl.sync.down.b32 \t%r3672|%p4, %r3671, 2, 6175, %r8;",
+      "membermask": "%r8",
+      "offset": 2
+    },
+    {
+      "clamp_segment": 6175,
+      "line": "shfl.sync.down.b32 \t%r3675|%p6, %r3674, 1, 6175, %r8;",
+      "membermask": "%r8",
+      "offset": 1
+    }
+  ]
+}

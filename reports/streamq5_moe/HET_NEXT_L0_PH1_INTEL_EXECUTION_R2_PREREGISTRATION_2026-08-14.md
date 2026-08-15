@@ -1,0 +1,13 @@
+# PH1 Intel execution R2 — preregistration
+
+Status: closed implementation. No preflight, payload or device call authorized.
+
+R2 supersedes immutable R1 after independent audit SHA-256 `920230cb07479b2f52d380119a61ceb98eb15ad8aaafe6a9bbee9361be890971`. It preserves the compiled source/binary and the 14 host-USM, 18 pointerarg, four launch and 21 release scientific contract. The transitive R0 backend and transaction runner are explicitly hash-bound.
+
+Before any OpenCL load R2 validates the complete compile and CPU package manifests/commits, independent PASS artifacts, generator, source/binary/buildlog, exact three records, natural input and LUT. It executes exactly 22 safe controls: truncation, wrong projection, stale CRC, CRC-recomputed code mutation, scale mutation, CRC-recomputed field31, wrong input for each record, plus wrong LUT digest. Each retains zero OpenCL/context/program/kernel/allocation/launch counters.
+
+Authorization precedes every mutating recovery. A valid existing commit is recognized read-only and preserves its positive/negative exit semantics. Start available RAM must be at least 16 GiB; available RAM after payload and final must be at least 2 GiB. This is a retained-sample gate, not a continuous peak claim: backend entry, before/after every launch, before/after finish, after cleanup and serialization boundaries are retained. Every retained peak-working-set value must not exceed 12 GiB. Success and failure artifacts are capped at 16 MiB; failures retain a fixed schema and disposition.
+
+Every release attempt is recorded before its API call with object identity, then code or exception and resulting ownership. All 21 calls are attempted. The final ledger must match exact allocation/argument/launch/finish/read/release tables, device identity, extension call counts, all-one counters and CPU-Q5 stage hashes. Forbidden APIs are claimed only absent from the hash-bound static AST call surface and absent as runtime ledger rows; no interception claim is made.
+
+The independent verifier imports neither runner, backend, common helper nor generator. It rereads official ranges and package artifacts, independently rebuilds the q+15 codec and exact width-8 integer/FMA oracle, reconstructs all five expected stages, and validates exact ordered ledger and provenance. Static preflight executes all 22 controls, source-to-codec, FP32-FMA, BF16 multiply and width-8 fixtures, exact package commit mutations, production transaction/failure simulations, extension ABI checks, and actual verifier-fixture mutations covering output, identity, controls, counters, ledger, cleanup, provenance, resources and forbidden rows. Claim remains one real expert/input Intel correctness component; no timing, full-layer/model or performance claim.

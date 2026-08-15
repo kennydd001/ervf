@@ -1,0 +1,492 @@
+{
+  "kind": "port80b_d2_registered_scatter_independent_verification",
+  "completed_utc": "2026-08-12T21:24:50.383659+00:00",
+  "cpu_only": true,
+  "gpu_context_opened": false,
+  "independent_verdict": "verified_negative_with_protocol_findings",
+  "all_replayable_checks_pass": true,
+  "protocol_conformance_pass": false,
+  "protocol_findings": {
+    "small_probe_only_edges_not_full_64mib": true,
+    "set_device_map_host_binding_failed": true,
+    "run_global_no_cuda_or_runner_error_not_supported": true,
+    "device_destination_mismatch_claim_not_cpu_replayable_without_saved_hash": true
+  },
+  "input_hashes": {
+    "preregistration_sha256": "b4a97772c5b65b1b36f2715534362d1f4a8c0bf2260e8696ca993fbd79e0c9e4",
+    "evaluator_sha256": "20ce962d3196095354688f3bc6cdc378c6351d0dc21f054a57ad46dec5f7d616",
+    "manifest_sha256": "466250b39c5f28c8b5b2f7432904100adf8c9e8c246c860a233cdf4b9aeb412c",
+    "result_sha256": "cff170636670443eba98c24e635278ebcc7bb581ce108f4b3d8b5f606b706f64",
+    "source_report_sha256": "51669a5e0876a1bc3743b57dadc6ae5e86c3b9e39816e4f88b4bb75bfb2ba82e"
+  },
+  "verifier_sha256": "fccf9af005d38158354c1045dddd71fd4a9877f154fcf1bc18089d11959f6cd0",
+  "full_bank_sha256": "4a97af22833b239badc065d9c065ca259c791a84218640946d68c4e72e034462",
+  "checks": {
+    "replayable_summary": {
+      "provenance": true,
+      "source_contract": true,
+      "protocol": true,
+      "capability_values_internally_valid": true,
+      "small_probe_saved_claims_internally_valid": true,
+      "numeric_recomputation": true,
+      "page_telemetry": true,
+      "source_structural_checks": true,
+      "stored_gate_recomputation": true,
+      "full_bank_failure_arithmetic": true,
+      "result_level": true
+    },
+    "provenance": {
+      "preregistration_sha_matches_result": true,
+      "evaluator_sha_matches_result": true,
+      "manifest_sha_matches_result": true,
+      "manifest_bank_sha_matches_result": true,
+      "manifest_bank_sha_matches_frozen": true,
+      "bank_size_exact": true,
+      "source_report_status_matches": true,
+      "full_bank_sha_recomputed": true
+    },
+    "runner_source_contract": {
+      "prefix_constants": true,
+      "warmups_constant": true,
+      "rounds_constant": true,
+      "expected_bank_sha_constant": true,
+      "read_only_memmap": true,
+      "mapped_and_readonly_flags": true,
+      "finally_unregister_present": true,
+      "full_verify_total_is_token_bytes": true,
+      "full_verify_structural_kernel_covers_all_indices": true,
+      "small_probe_compares_only_edges": true,
+      "preregistered_gate_values_present": true
+    },
+    "protocol": {
+      "prefix_order": true,
+      "warmups": true,
+      "rounds": true,
+      "registration_flags": true,
+      "four_sweep_rows": true,
+      "sweep_row_order": true
+    },
+    "capability_values": {
+      "device_name_nonempty": true,
+      "compute_capability_12_0": true,
+      "discrete": true,
+      "unified_addressing": true,
+      "async_engine_count_1": true,
+      "can_map_host_memory": true,
+      "host_register_supported": true,
+      "host_register_readonly_supported": true,
+      "cannot_use_host_pointer_directly": true,
+      "pageable_memory_does_not_use_host_page_tables": true
+    },
+    "small_probe": {
+      "registered_64_mib": true,
+      "device_pointer_nonzero": true,
+      "edge_bytes_equal": true,
+      "pointer_device_zero": true,
+      "host_pointer_nonzero": true,
+      "device_pointer_matches_attribute": true
+    },
+    "full_bank_failure": {
+      "full_prefix_reached": true,
+      "all_48_ranges_initially_reported_registered": true,
+      "status_failed": true,
+      "oom_recorded": true,
+      "all_48_unregister_calls_reported_oom": true,
+      "no_timing_or_mismatch_claim_for_full_prefix": true
+    },
+    "result_level": {
+      "no_prefix_mechanism_pass": true,
+      "mechanism_pass_false": true,
+      "full_bank_pass_false": true,
+      "status_negative": true
+    }
+  },
+  "capability": {
+    "name": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU",
+    "compute_capability": "12.0",
+    "integrated": 0,
+    "unified_addressing": 1,
+    "async_engine_count": 1,
+    "cudaDevAttrCanMapHostMemory": 1,
+    "cudaDevAttrHostRegisterSupported": 1,
+    "cudaDevAttrHostRegisterReadOnlySupported": 1,
+    "cudaDevAttrCanUseHostPointerForRegisteredMem": 0,
+    "cudaDevAttrPageableMemoryAccessUsesHostPageTables": 0
+  },
+  "set_device_map_host": {
+    "success": false,
+    "stored_error": "AttributeError: module 'cupy_backends.cuda.api.runtime' has no attribute 'setDeviceFlags'",
+    "interpretation": "binding_missing_but_mapped_probe_succeeded"
+  },
+  "small_mapped_host_probe": {
+    "registered_bytes": 67108864,
+    "device_pointer_nonzero": true,
+    "pointer_attributes": {
+      "device": 0,
+      "devicePointer": 8669626368,
+      "hostPointer": 1424805068800,
+      "type": 1
+    },
+    "edge_bytes_equal": true
+  },
+  "small_probe_protocol_finding": {
+    "prereg_required_full_byte_comparison": true,
+    "runner_compared_only_first_and_last_4096_bytes": true,
+    "full_64mib_byte_comparison_proven": false
+  },
+  "prefix_arithmetic": {
+    "307": {
+      "stats": {
+        "count": 120,
+        "mean": 51.912405522664386,
+        "p50": 51.88979148864746,
+        "p95": 52.37285137176514,
+        "p99": 52.54228786468506,
+        "min": 51.438560485839844,
+        "max": 52.59507369995117
+      },
+      "effective_gb_s_at_p95": 18.582329861930518,
+      "p95_excess_ms": 7.372851371765137,
+      "p95_over_gate_factor": 1.163841141594781,
+      "latency_reduction_required_fraction": 0.1407762071121439,
+      "bandwidth_shortfall_gb_s": 3.044670138069481,
+      "bandwidth_shortfall_fraction_of_gate": 0.1407809746182772
+    },
+    "358": {
+      "stats": {
+        "count": 120,
+        "mean": 51.79529072443644,
+        "p50": 51.781856536865234,
+        "p95": 52.04604606628418,
+        "p99": 52.206916389465334,
+        "min": 51.448001861572266,
+        "max": 52.23417663574219
+      },
+      "effective_gb_s_at_p95": 18.69901123248731,
+      "p95_excess_ms": 7.046046066284177,
+      "p95_over_gate_factor": 1.1565788014729816,
+      "latency_reduction_required_fraction": 0.1353810058368422,
+      "bandwidth_shortfall_gb_s": 2.927988767512687,
+      "bandwidth_shortfall_fraction_of_gate": 0.13538580327889616
+    },
+    "410": {
+      "stats": {
+        "count": 120,
+        "mean": 51.77446451187134,
+        "p50": 51.76128005981445,
+        "p95": 52.06400489807129,
+        "p99": 52.232545928955076,
+        "min": 51.43958282470703,
+        "max": 52.31510543823242
+      },
+      "effective_gb_s_at_p95": 18.692561240828645,
+      "p95_excess_ms": 7.064004898071289,
+      "p95_over_gate_factor": 1.1569778866238065,
+      "latency_reduction_required_fraction": 0.1356792454191893,
+      "bandwidth_shortfall_gb_s": 2.9344387591713534,
+      "bandwidth_shortfall_fraction_of_gate": 0.13568404120642497
+    }
+  },
+  "prefix_numerical_checks": {
+    "307": {
+      "sample_count_120": true,
+      "all_samples_finite": true,
+      "stored_stats": {
+        "count": true,
+        "mean": true,
+        "p50": true,
+        "p95": true,
+        "p99": true,
+        "min": true,
+        "max": true
+      },
+      "stored_bandwidth": true,
+      "registered_bytes": true,
+      "registered_gib": true,
+      "fraction": true
+    },
+    "358": {
+      "sample_count_120": true,
+      "all_samples_finite": true,
+      "stored_stats": {
+        "count": true,
+        "mean": true,
+        "p50": true,
+        "p95": true,
+        "p99": true,
+        "min": true,
+        "max": true
+      },
+      "stored_bandwidth": true,
+      "registered_bytes": true,
+      "registered_gib": true,
+      "fraction": true
+    },
+    "410": {
+      "sample_count_120": true,
+      "all_samples_finite": true,
+      "stored_stats": {
+        "count": true,
+        "mean": true,
+        "p50": true,
+        "p95": true,
+        "p99": true,
+        "min": true,
+        "max": true
+      },
+      "stored_bandwidth": true,
+      "registered_bytes": true,
+      "registered_gib": true,
+      "fraction": true
+    }
+  },
+  "prefix_source_structural_verification": {
+    "307": {
+      "selected_records": 480,
+      "selected_unique_per_layer": true,
+      "all_experts_inside_prefix": true,
+      "checked_bytes": 973209600,
+      "structural_mismatch_count": 0,
+      "ordered_source_sha256": "b291960f115a319d4abcfdafd4161efd26c0938cec961d4461cfa998b5cb8bd5"
+    },
+    "358": {
+      "selected_records": 480,
+      "selected_unique_per_layer": true,
+      "all_experts_inside_prefix": true,
+      "checked_bytes": 973209600,
+      "structural_mismatch_count": 0,
+      "ordered_source_sha256": "f2e3b866d91dc31c83b5219bd97fad5d5b5fe3ccb88394d0204cc92fc5825389"
+    },
+    "410": {
+      "selected_records": 480,
+      "selected_unique_per_layer": true,
+      "all_experts_inside_prefix": true,
+      "checked_bytes": 973209600,
+      "structural_mismatch_count": 0,
+      "ordered_source_sha256": "7dc845f075f2f99a0b45372b3a2307b73b653b69e6a9282d1c1e44b5025b1a49"
+    }
+  },
+  "prefix_page_telemetry": {
+    "307": {
+      "available": true,
+      "error": null,
+      "sample_count": 5,
+      "page_reads_stats": {
+        "count": 5,
+        "mean": 1.782482033444691,
+        "p50": 0.9883904644436908,
+        "p95": 4.541848725196352,
+        "p99": 4.8510961245598025,
+        "min": 0.0,
+        "max": 4.928407974400666
+      },
+      "pages_input_stats": {
+        "count": 5,
+        "mean": 13.096386102555604,
+        "p50": 0.9883904644436908,
+        "p95": 32.66974541696891,
+        "p99": 32.89533229312984,
+        "min": 0.0,
+        "max": 32.95172901217007
+      },
+      "stored_max_matches": true,
+      "timestamps_present": true,
+      "monotonic_strictly_increasing": true
+    },
+    "358": {
+      "available": true,
+      "error": null,
+      "sample_count": 6,
+      "page_reads_stats": {
+        "count": 6,
+        "mean": 16.48778882664509,
+        "p50": 1.4837541183635816,
+        "p95": 70.98334456925744,
+        "p99": 89.38633033540606,
+        "min": 0.0,
+        "max": 93.98707677694318
+      },
+      "pages_input_stats": {
+        "count": 6,
+        "mean": 93.97023976877625,
+        "p50": 1.4837541183635816,
+        "p95": 418.1752628491975,
+        "p99": 528.3739009781835,
+        "min": 0.0,
+        "max": 555.9235605104299
+      },
+      "stored_max_matches": true,
+      "timestamps_present": true,
+      "monotonic_strictly_increasing": true
+    },
+    "410": {
+      "available": true,
+      "error": null,
+      "sample_count": 6,
+      "page_reads_stats": {
+        "count": 6,
+        "mean": 1.163988267890429,
+        "p50": 0.0,
+        "p95": 4.745354033478814,
+        "p99": 5.7480654173248364,
+        "min": 0.0,
+        "max": 5.998743263286341
+      },
+      "pages_input_stats": {
+        "count": 6,
+        "mean": 3.626954128031011,
+        "p50": 0.0,
+        "p95": 13.32192194449638,
+        "p99": 15.274769592819059,
+        "min": 0.0,
+        "max": 15.762981504899725
+      },
+      "stored_max_matches": true,
+      "timestamps_present": true,
+      "monotonic_strictly_increasing": true
+    }
+  },
+  "prefix_gate_verification": {
+    "307": {
+      "recomputed": {
+        "registration_48_ranges": true,
+        "full_destination_zero_mismatches": true,
+        "samples_120_finite": true,
+        "p95_le_45ms": false,
+        "effective_gb_s_at_p95_ge_21_627": false,
+        "page_reads_zero_when_available": false,
+        "no_cuda_or_runner_error": true
+      },
+      "stored_match": {
+        "registration_48_ranges": true,
+        "full_destination_zero_mismatches": true,
+        "samples_120_finite": true,
+        "p95_le_45ms": true,
+        "effective_gb_s_at_p95_ge_21_627": true,
+        "page_reads_zero_when_available": true,
+        "no_cuda_or_runner_error": true
+      },
+      "mechanism_pass_recomputed": false,
+      "mechanism_pass_matches": true,
+      "all_gates_pass_recomputed": false,
+      "all_gates_pass_matches": true,
+      "prefix_local_no_error": true,
+      "strict_run_global_no_error": false
+    },
+    "358": {
+      "recomputed": {
+        "registration_48_ranges": true,
+        "full_destination_zero_mismatches": true,
+        "samples_120_finite": true,
+        "p95_le_45ms": false,
+        "effective_gb_s_at_p95_ge_21_627": false,
+        "page_reads_zero_when_available": false,
+        "no_cuda_or_runner_error": true
+      },
+      "stored_match": {
+        "registration_48_ranges": true,
+        "full_destination_zero_mismatches": true,
+        "samples_120_finite": true,
+        "p95_le_45ms": true,
+        "effective_gb_s_at_p95_ge_21_627": true,
+        "page_reads_zero_when_available": true,
+        "no_cuda_or_runner_error": true
+      },
+      "mechanism_pass_recomputed": false,
+      "mechanism_pass_matches": true,
+      "all_gates_pass_recomputed": false,
+      "all_gates_pass_matches": true,
+      "prefix_local_no_error": true,
+      "strict_run_global_no_error": false
+    },
+    "410": {
+      "recomputed": {
+        "registration_48_ranges": true,
+        "full_destination_zero_mismatches": true,
+        "samples_120_finite": true,
+        "p95_le_45ms": false,
+        "effective_gb_s_at_p95_ge_21_627": false,
+        "page_reads_zero_when_available": false,
+        "no_cuda_or_runner_error": true
+      },
+      "stored_match": {
+        "registration_48_ranges": true,
+        "full_destination_zero_mismatches": true,
+        "samples_120_finite": true,
+        "p95_le_45ms": true,
+        "effective_gb_s_at_p95_ge_21_627": true,
+        "page_reads_zero_when_available": true,
+        "no_cuda_or_runner_error": true
+      },
+      "mechanism_pass_recomputed": false,
+      "mechanism_pass_matches": true,
+      "all_gates_pass_recomputed": false,
+      "all_gates_pass_matches": true,
+      "prefix_local_no_error": true,
+      "strict_run_global_no_error": false
+    }
+  },
+  "registration_and_unregister": {
+    "307": {
+      "registered_ranges_reported": 48,
+      "all_48_registered": true,
+      "unregister_failure_count": 0,
+      "all_unregistered_without_reported_failure": true,
+      "status": "timed",
+      "error": null,
+      "available_before": 51012337664,
+      "available_after_registration": 51012337664,
+      "available_after_unregister": 21285089280
+    },
+    "358": {
+      "registered_ranges_reported": 48,
+      "all_48_registered": true,
+      "unregister_failure_count": 0,
+      "all_unregistered_without_reported_failure": true,
+      "status": "timed",
+      "error": null,
+      "available_before": 21285089280,
+      "available_after_registration": 21285089280,
+      "available_after_unregister": 16277524480
+    },
+    "410": {
+      "registered_ranges_reported": 48,
+      "all_48_registered": true,
+      "unregister_failure_count": 0,
+      "all_unregistered_without_reported_failure": true,
+      "status": "timed",
+      "error": null,
+      "available_before": 16277524480,
+      "available_after_registration": 16277524480,
+      "available_after_unregister": 12112465920
+    },
+    "512": {
+      "registered_ranges_reported": 48,
+      "all_48_registered": true,
+      "unregister_failure_count": 48,
+      "all_unregistered_without_reported_failure": false,
+      "status": "registration_or_timing_failed",
+      "error": "CUDARuntimeError: cudaErrorMemoryAllocation: out of memory",
+      "available_before": 12112465920,
+      "available_after_registration": 12112465920,
+      "available_after_unregister": 2162995200
+    }
+  },
+  "destructor_oom_assessment": {
+    "same_process_recorded_cuda_oom": true,
+    "full_prefix_error": "CUDARuntimeError: cudaErrorMemoryAllocation: out of memory",
+    "full_prefix_unregister_failure_count": 48,
+    "process_exit_code_or_stderr_saved": false,
+    "destructor_oom_posthoc_replayable": false,
+    "prefix_local_interpretation": "The 307/358/410 rows completed timing and reported zero unregister failures before the 512-prefix failure; their local no-error claims remain internally consistent.",
+    "strict_global_interpretation": "The same D2 process later recorded cudaErrorMemoryAllocation and 48 unregister failures. Therefore a run-global no_cuda_or_runner_error claim is false/unverified for every prefix, especially if destructor stderr is included.",
+    "verdict_effect": "None: every timed prefix already fails latency and bandwidth, and also page telemetry; the negative D2 verdict is unchanged under either error-scope interpretation."
+  },
+  "threshold_consistency": {
+    "exact_bandwidth_at_45ms_gb_s": 21.62688,
+    "stored_bandwidth_threshold_gb_s": 21.627,
+    "rounding_gap_gb_s": 0.00011999999999900979,
+    "finding": "The bandwidth gate is the latency gate rounded upward: exactly 45.000 ms yields 21.62688 GB/s, which passes <=45 ms but misses >=21.627 GB/s by 0.00012 GB/s."
+  },
+  "mismatch_claim_limitation": "For each timed prefix the saved GPU mismatch scalar is zero and the evaluator source covers every destination byte. The verifier independently confirms all 973,209,600 selected source bytes are structurally correct, but D2 saved no destination hash or buffer; the transient GPU destination cannot be post-hoc replayed CPU-only."
+}

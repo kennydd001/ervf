@@ -1,0 +1,74 @@
+{
+  "kind": "lightningstream_nemotron_s6_breakdown_262k",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "S6_BREAKDOWN_262K",
+  "started_utc": "2026-08-14T20:25:42.178118+00:00",
+  "completed_utc": "2026-08-14T20:26:23.950849+00:00",
+  "preregistration": "reports/lightningstream_nemotron/S6_BREAKDOWN_262K_PREREGISTRATION_2026-08-14.md",
+  "results": {
+    "0": {
+      "breakdown_p50_ms": {
+        "rmsnorm_one": 0.0205,
+        "mamba_one_layer": 0.27625,
+        "attention_one_layer_at_depth": 2.24715,
+        "router_one_layer": 0.3054,
+        "moe_one_layer_hitpath": 0.867,
+        "lm_head": 4.9474,
+        "shared_expert_only": 0.15165
+      },
+      "full": {
+        "n": 30,
+        "p50": 42.40755,
+        "mean": 43.35536666666667,
+        "p95": 48.51882
+      },
+      "scaled": {
+        "mamba_x23": 6.35375,
+        "attention_x6": 13.4829,
+        "moe_hitpath_x23": 19.941,
+        "rmsnorm_x53": 1.0865,
+        "lm_head": 4.9474,
+        "sum_parts": 45.81155,
+        "full_token": 42.40755,
+        "unattributed": -3.4039999999999964
+      },
+      "cache": {
+        "hits": 4356,
+        "misses": 336
+      }
+    },
+    "262100": {
+      "breakdown_p50_ms": {
+        "rmsnorm_one": 0.0154,
+        "mamba_one_layer": 0.33175,
+        "attention_one_layer_at_depth": 6.2745999999999995,
+        "router_one_layer": 0.29355,
+        "moe_one_layer_hitpath": 1.6313499999999999,
+        "lm_head": 5.965999999999999,
+        "shared_expert_only": 0.173
+      },
+      "full": {
+        "n": 30,
+        "p50": 75.70439999999999,
+        "mean": 76.39793333333334,
+        "p95": 80.5326
+      },
+      "scaled": {
+        "mamba_x23": 7.63025,
+        "attention_x6": 37.6476,
+        "moe_hitpath_x23": 37.521049999999995,
+        "rmsnorm_x53": 0.8162,
+        "lm_head": 5.965999999999999,
+        "sum_parts": 89.58109999999999,
+        "full_token": 75.70439999999999,
+        "unattributed": -13.8767
+      },
+      "cache": {
+        "hits": 17254,
+        "misses": 5378
+      }
+    }
+  },
+  "synthetic_kv_note": "ctx 262100 rows use a populated cache and set pos; decode-step cost at depth, not real generation to depth.",
+  "claim_boundary": "Cost attribution per component on this runtime/GPU/depth. No tok/s targets, no quality claims, no projections."
+}

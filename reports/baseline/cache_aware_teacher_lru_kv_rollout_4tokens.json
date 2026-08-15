@@ -1,0 +1,113 @@
+{
+  "created_at_utc": "2026-08-09T22:10:45.081765+00:00",
+  "git_revision": null,
+  "kind": "autoregressive_rollout",
+  "payload": {
+    "all_generated_tokens_agree": true,
+    "attention_cache_length": 19,
+    "capacity_experts_per_layer": 32,
+    "decoding": "greedy independent teacher/student tokens with a persistent DynamicCache KV cache",
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "policy": "compare exact within-token LRU misses for original top6 versus top5+rank7; substitute only when the latter has fewer misses",
+    "prompt": "Explain in one paragraph why mixture-of-experts routing can be redundant.",
+    "prompt_token_ids": [
+      99297,
+      279,
+      634,
+      16764,
+      2643,
+      14848,
+      12,
+      994,
+      12,
+      98282,
+      27332,
+      481,
+      330,
+      33483,
+      13
+    ],
+    "status": "complete",
+    "steps": [
+      {
+        "mean_last_token_router_overlap": 0.9743589743589743,
+        "minimum_last_token_router_overlap": 0.8333333333333334,
+        "pre_decision_teacher_to_student_kl": 0.007951183244585991,
+        "step": 1,
+        "step_cache": {
+          "adaptive_expert_loads": 90,
+          "strict_expert_loads": 86,
+          "substitutions": 5
+        },
+        "student_token": "\n",
+        "student_token_id": 185,
+        "teacher_token": "\n",
+        "teacher_token_id": 185,
+        "token_agreement": true,
+        "wall_seconds": 61.399602999998024
+      },
+      {
+        "mean_last_token_router_overlap": 0.9423076923076923,
+        "minimum_last_token_router_overlap": 0.8333333333333334,
+        "pre_decision_teacher_to_student_kl": 0.008149495348334312,
+        "step": 2,
+        "step_cache": {
+          "adaptive_expert_loads": 26,
+          "strict_expert_loads": 32,
+          "substitutions": 7
+        },
+        "student_token": "\n",
+        "student_token_id": 185,
+        "teacher_token": "\n",
+        "teacher_token_id": 185,
+        "token_agreement": true,
+        "wall_seconds": 61.63058239999373
+      },
+      {
+        "mean_last_token_router_overlap": 0.9294871794871795,
+        "minimum_last_token_router_overlap": 0.8333333333333334,
+        "pre_decision_teacher_to_student_kl": 0.014076615683734417,
+        "step": 3,
+        "step_cache": {
+          "adaptive_expert_loads": 33,
+          "strict_expert_loads": 41,
+          "substitutions": 7
+        },
+        "student_token": "##",
+        "student_token_id": 1679,
+        "teacher_token": "##",
+        "teacher_token_id": 1679,
+        "token_agreement": true,
+        "wall_seconds": 62.39950469999894
+      },
+      {
+        "mean_last_token_router_overlap": 0.9807692307692307,
+        "minimum_last_token_router_overlap": 0.8333333333333334,
+        "pre_decision_teacher_to_student_kl": 0.018723687157034874,
+        "step": 4,
+        "step_cache": {
+          "adaptive_expert_loads": 41,
+          "strict_expert_loads": 37,
+          "substitutions": 4
+        },
+        "student_token": " ",
+        "student_token_id": 207,
+        "teacher_token": " ",
+        "teacher_token_id": 207,
+        "token_agreement": true,
+        "wall_seconds": 61.794109099995694
+      }
+    ],
+    "strict_cache_baseline": "unmodified teacher top6 routes with an independent persistent LRU cache",
+    "student_text": "Explain in one paragraph why mixture-of-experts routing can be redundant.\n\n## ",
+    "teacher_text": "Explain in one paragraph why mixture-of-experts routing can be redundant.\n\n## ",
+    "total_cache_statistics": {
+      "adaptive_expert_loads": 1283,
+      "expert_load_reduction_fraction": 0.044676098287416255,
+      "strict_expert_loads": 1343,
+      "substitutions": 103
+    },
+    "wall_seconds": 309.2802243999977
+  },
+  "schema_version": 1
+}

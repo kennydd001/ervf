@@ -1,0 +1,303 @@
+{
+  "created_at_utc": "2026-08-10T02:34:09.251408+00:00",
+  "git_revision": null,
+  "kind": "autoregressive_policy_rollout",
+  "payload": {
+    "all_generated_tokens_agree": {
+      "cache_prior_j2_lambda0p085": true,
+      "mass_budget_j2_delta0p016": true,
+      "original": true
+    },
+    "attention_cache_length": 19,
+    "capacity_experts_per_layer": 32,
+    "decoding": "greedy independent teacher/policy prefixes with one batched persistent DynamicCache KV cache",
+    "delta_calibration_report": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\reports\\baseline\\confirm8_wikitext_mass_budget_pareto.json",
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "policies": {
+      "cache_prior_j2_lambda0p085": {
+        "method": "cache_prior",
+        "parameter": 0.085,
+        "top_j": 2
+      },
+      "mass_budget_j2_delta0p016": {
+        "method": "mass_budget",
+        "parameter": 0.016,
+        "top_j": 2
+      },
+      "original": {
+        "method": "original",
+        "parameter": 0.0,
+        "top_j": 0
+      }
+    },
+    "prompt": "Explain in one paragraph why mixture-of-experts routing can be redundant.",
+    "prompt_token_ids": [
+      99297,
+      279,
+      634,
+      16764,
+      2643,
+      14848,
+      12,
+      994,
+      12,
+      98282,
+      27332,
+      481,
+      330,
+      33483,
+      13
+    ],
+    "scope_caveat": "short greedy smoke; no sampling, long-horizon task score, packed weights, or wall-clock kernel speedup claim",
+    "status": "complete",
+    "steps": [
+      {
+        "policies": {
+          "cache_prior_j2_lambda0p085": {
+            "mean_last_token_router_overlap": 0.6666666666666666,
+            "minimum_last_token_router_overlap": 0.3333333333333333,
+            "pre_decision_teacher_to_student_kl": 0.003895524889230728,
+            "step_cache": {
+              "adaptive_expert_loads": 42,
+              "moe_tokens": 26,
+              "probability_mass_loss_sum": 0.17585005168803036,
+              "strict_expert_loads": 85,
+              "substitutions": 24
+            },
+            "token": "\n",
+            "token_agreement": true,
+            "token_id": 185
+          },
+          "mass_budget_j2_delta0p016": {
+            "mean_last_token_router_overlap": 0.6602564102564104,
+            "minimum_last_token_router_overlap": 0.3333333333333333,
+            "pre_decision_teacher_to_student_kl": 0.009732959792017937,
+            "step_cache": {
+              "adaptive_expert_loads": 42,
+              "moe_tokens": 26,
+              "probability_mass_loss_sum": 0.15793236735044047,
+              "strict_expert_loads": 85,
+              "substitutions": 23
+            },
+            "token": "\n",
+            "token_agreement": true,
+            "token_id": 185
+          },
+          "original": {
+            "mean_last_token_router_overlap": 1.0,
+            "minimum_last_token_router_overlap": 1.0,
+            "pre_decision_teacher_to_student_kl": 0.0,
+            "step_cache": {
+              "adaptive_expert_loads": 85,
+              "moe_tokens": 26,
+              "probability_mass_loss_sum": 0.0,
+              "strict_expert_loads": 85,
+              "substitutions": 0
+            },
+            "token": "\n",
+            "token_agreement": true,
+            "token_id": 185
+          }
+        },
+        "step": 1,
+        "teacher_token": "\n",
+        "teacher_token_id": 185,
+        "wall_seconds": 62.45278700000199
+      },
+      {
+        "policies": {
+          "cache_prior_j2_lambda0p085": {
+            "mean_last_token_router_overlap": 0.9102564102564104,
+            "minimum_last_token_router_overlap": 0.6666666666666666,
+            "pre_decision_teacher_to_student_kl": 0.006504669785499573,
+            "step_cache": {
+              "adaptive_expert_loads": 25,
+              "moe_tokens": 26,
+              "probability_mass_loss_sum": 0.052194250747561455,
+              "strict_expert_loads": 32,
+              "substitutions": 18
+            },
+            "token": "\n",
+            "token_agreement": true,
+            "token_id": 185
+          },
+          "mass_budget_j2_delta0p016": {
+            "mean_last_token_router_overlap": 0.8525641025641026,
+            "minimum_last_token_router_overlap": 0.5,
+            "pre_decision_teacher_to_student_kl": 0.0119828712195158,
+            "step_cache": {
+              "adaptive_expert_loads": 24,
+              "moe_tokens": 26,
+              "probability_mass_loss_sum": 0.11558283865451813,
+              "strict_expert_loads": 32,
+              "substitutions": 15
+            },
+            "token": "\n",
+            "token_agreement": true,
+            "token_id": 185
+          },
+          "original": {
+            "mean_last_token_router_overlap": 1.0,
+            "minimum_last_token_router_overlap": 1.0,
+            "pre_decision_teacher_to_student_kl": 0.0,
+            "step_cache": {
+              "adaptive_expert_loads": 32,
+              "moe_tokens": 26,
+              "probability_mass_loss_sum": 0.0,
+              "strict_expert_loads": 32,
+              "substitutions": 0
+            },
+            "token": "\n",
+            "token_agreement": true,
+            "token_id": 185
+          }
+        },
+        "step": 2,
+        "teacher_token": "\n",
+        "teacher_token_id": 185,
+        "wall_seconds": 63.00298499999917
+      },
+      {
+        "policies": {
+          "cache_prior_j2_lambda0p085": {
+            "mean_last_token_router_overlap": 0.9230769230769231,
+            "minimum_last_token_router_overlap": 0.8333333333333334,
+            "pre_decision_teacher_to_student_kl": 0.007943116128444672,
+            "step_cache": {
+              "adaptive_expert_loads": 28,
+              "moe_tokens": 26,
+              "probability_mass_loss_sum": 0.06113746203482151,
+              "strict_expert_loads": 42,
+              "substitutions": 16
+            },
+            "token": "##",
+            "token_agreement": true,
+            "token_id": 1679
+          },
+          "mass_budget_j2_delta0p016": {
+            "mean_last_token_router_overlap": 0.9038461538461539,
+            "minimum_last_token_router_overlap": 0.8333333333333334,
+            "pre_decision_teacher_to_student_kl": 0.020235005766153336,
+            "step_cache": {
+              "adaptive_expert_loads": 24,
+              "moe_tokens": 26,
+              "probability_mass_loss_sum": 0.09587351605296135,
+              "strict_expert_loads": 42,
+              "substitutions": 14
+            },
+            "token": "##",
+            "token_agreement": true,
+            "token_id": 1679
+          },
+          "original": {
+            "mean_last_token_router_overlap": 1.0,
+            "minimum_last_token_router_overlap": 1.0,
+            "pre_decision_teacher_to_student_kl": 0.0,
+            "step_cache": {
+              "adaptive_expert_loads": 42,
+              "moe_tokens": 26,
+              "probability_mass_loss_sum": 0.0,
+              "strict_expert_loads": 42,
+              "substitutions": 0
+            },
+            "token": "##",
+            "token_agreement": true,
+            "token_id": 1679
+          }
+        },
+        "step": 3,
+        "teacher_token": "##",
+        "teacher_token_id": 1679,
+        "wall_seconds": 62.67220020000241
+      },
+      {
+        "policies": {
+          "cache_prior_j2_lambda0p085": {
+            "mean_last_token_router_overlap": 0.9230769230769231,
+            "minimum_last_token_router_overlap": 0.5,
+            "pre_decision_teacher_to_student_kl": 0.015844374895095825,
+            "step_cache": {
+              "adaptive_expert_loads": 32,
+              "moe_tokens": 26,
+              "probability_mass_loss_sum": 0.0760547760874033,
+              "strict_expert_loads": 36,
+              "substitutions": 18
+            },
+            "token": " ",
+            "token_agreement": true,
+            "token_id": 207
+          },
+          "mass_budget_j2_delta0p016": {
+            "mean_last_token_router_overlap": 0.9166666666666666,
+            "minimum_last_token_router_overlap": 0.6666666666666666,
+            "pre_decision_teacher_to_student_kl": 0.021996628493070602,
+            "step_cache": {
+              "adaptive_expert_loads": 37,
+              "moe_tokens": 26,
+              "probability_mass_loss_sum": 0.08348464034497738,
+              "strict_expert_loads": 36,
+              "substitutions": 10
+            },
+            "token": " ",
+            "token_agreement": true,
+            "token_id": 207
+          },
+          "original": {
+            "mean_last_token_router_overlap": 1.0,
+            "minimum_last_token_router_overlap": 1.0,
+            "pre_decision_teacher_to_student_kl": 0.0,
+            "step_cache": {
+              "adaptive_expert_loads": 36,
+              "moe_tokens": 26,
+              "probability_mass_loss_sum": 0.0,
+              "strict_expert_loads": 36,
+              "substitutions": 0
+            },
+            "token": " ",
+            "token_agreement": true,
+            "token_id": 207
+          }
+        },
+        "step": 4,
+        "teacher_token": " ",
+        "teacher_token_id": 207,
+        "wall_seconds": 62.965783899999224
+      }
+    ],
+    "strict_cache_baseline": "unmodified teacher top-6 routes with an independent persistent LRU cache per policy",
+    "texts": {
+      "cache_prior_j2_lambda0p085": "Explain in one paragraph why mixture-of-experts routing can be redundant.\n\n## ",
+      "mass_budget_j2_delta0p016": "Explain in one paragraph why mixture-of-experts routing can be redundant.\n\n## ",
+      "original": "Explain in one paragraph why mixture-of-experts routing can be redundant.\n\n## ",
+      "teacher": "Explain in one paragraph why mixture-of-experts routing can be redundant.\n\n## "
+    },
+    "total_cache_statistics": {
+      "cache_prior_j2_lambda0p085": {
+        "adaptive_expert_loads": 1104,
+        "expert_load_reduction_fraction": 0.18161601186063747,
+        "mean_original_probability_mass_loss": 0.00471858012156282,
+        "moe_tokens": 494,
+        "strict_expert_loads": 1349,
+        "substitutions": 353
+      },
+      "mass_budget_j2_delta0p016": {
+        "adaptive_expert_loads": 1091,
+        "expert_load_reduction_fraction": 0.19125277983691624,
+        "mean_original_probability_mass_loss": 0.00518210923621103,
+        "moe_tokens": 494,
+        "strict_expert_loads": 1349,
+        "substitutions": 308
+      },
+      "original": {
+        "adaptive_expert_loads": 1349,
+        "expert_load_reduction_fraction": 0.0,
+        "mean_original_probability_mass_loss": 0.0,
+        "moe_tokens": 494,
+        "strict_expert_loads": 1349,
+        "substitutions": 0
+      }
+    },
+    "wall_seconds": 312.586890999999
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,390 @@
+Ik denk dat we de smoking gun hebben
+
+Niet de volledige 80B-Eureka als eindresultaat, maar wel een mechanistische smoking gun die exact verklaart waarom PORT80B-P0 faalde:
+
+De test liep niet tegen de fundamentele PCIe-bandbreedte aan. Hij betaalde waarschijnlijk bijna exact twee volledige databewegingen per token: eerst mmap → pinned staging, daarna pinned staging → GPU. Daarboven kwamen 480 afzonderlijke recordtransfers en page-faulttails.
+
+Dat is belangrijk, want het betekent dat de 80B-route niet moet worden gesloten. De datapath moet worden vervangen.
+
+De oorspronkelijke hypothese blijft inhoudelijk overeind: sparse-MoE-decodesnelheid kan grotendeels door de actieve set worden bepaald in plaats van de totale parametercount. Dat is precies de volgende schaalwet die het onderzoek wilde testen.
+
+1. De getallen passen bijna té goed
+
+Uit jouw definitieve 
+PORT80B P0-rapport:
+
+expertrecord                    2.027.520 bytes
+records per token               48 lagen × 10 experts = 480
+actieve bytes per token         973.209.600 bytes
+gemeten zero-cache p50          63,034 ms
+gemeten zero-cache p95          73,544 ms
+eerder gemeten pinned H2D       26,158915 GB/s
+
+De zuivere busvloer is:
+
+26,158915 GB/s
+973,2096 MB
+	​
+
+=37,204 ms
+
+Maar de gemeten p50 is 63,034 ms. Het verschil is:
+
+63,034−37,204=25,830 ms
+
+Een extra host-copy van 973 MB in 25,83 ms correspondeert met:
+
+0,02583
+0,973
+	​
+
+=37,68 GB/s
+
+Dat is een volstrekt geloofwaardige DRAM-copybandbreedte.
+
+Dus de p50 ziet er vrijwel exact zo uit:
+
+T
+mmap→pinned
+	​
+
++T
+pinned→GPU
+	​
+
+	​
+
+
+De p95 heeft nog eens:
+
+73,544−37,204=36,340 ms
+
+boven de pure PCIe-vloer. Dat past bij dezelfde bounce-copy plus recorddispatch, synchronisatie en episodische paging.
+
+Dit is geen formeel bewijs zonder aparte timers voor beide stappen, maar de numerieke overeenkomst is uitzonderlijk sterk.
+
+2. PORT80B mist de werkelijke 10-tok/s-bandbreedte maar met ongeveer 2%
+
+De synthetische 80B-vormproef projecteerde voor de dense shell:
+
+T
+shell,p95
+	​
+
+=28,077 ms
+
+Om 10 tokens/s te halen, hebben we 100 ms per token. De expertzijde mag dus kosten:
+
+100−28,077=71,923 ms
+
+Daarvoor is een effectieve remote bandbreedte nodig van:
+
+0,071923 s
+0,9732 GB
+	​
+
+=13,53 GB/s
+
+De gemeten zero-cache-p95 levert:
+
+0,073544
+0,9732
+	​
+
+=13,23 GB/s
+
+Het verschil is:
+
+\boxed{\text{ongeveer 2,25%}}
+
+Dus niet 1,6×, niet 2× en niet een nieuwe compressiedoorbraak. Een paar procent lagere p95 is theoretisch al voldoende om de 10-tok/s-grens te passeren, uitgaande van de reeds gemeten shellprojectie en overlap tussen experttransfer en expertcompute.
+
+Zelfs de bestaande synthetische 4K-cachemeting gaf:
+
+66,148+28,077=94,225 ms
+
+oftewel een projectie van:
+
+10,61 tok/s
+
+Dat is nog geen echte modelmeting en de synthetische routes zijn niet representatief voor Qwen. Maar het toont dat de huidige hardware al aan de goede kant van de orde van grootte zit.
+
+3. De echte oplossing: verwijder de bounce buffer
+
+Er zijn drie exacte datapaths die nu moeten worden getest.
+
+A. Registered batched copy
+
+De volledige bank — of grote stabiele segmenten ervan — wordt met CUDA geregistreerd. Daarna gebeurt per laag één batched call voor de tien actieve expertrecords:
+
+10 verspreide hostrecords
+          ↓
+cudaMemcpyBatchAsync
+          ↓
+10 GPU-cacheslots
+
+CUDA 13.2 heeft hiervoor expliciet cudaMemcpyBatchAsync: één API-call voor een lijst onafhankelijke pointer-to-pointercopies. NVIDIA beschrijft batching precies als middel om CPU- en driveroverhead van afzonderlijke transfers te amortiseren.
+
+Dat verandert:
+
+480 cudaMemcpy-launches per token
+
+in:
+
+48 batched launches per token
+
+Belangrijker: wanneer de bronbank zelf geregistreerd is, verdwijnt:
+
+mmap → pinned staging
+
+volledig.
+
+De data gaat rechtstreeks:
+
+registered bank → GPU
+B. Mapped-host direct ERGV
+
+Nog sterker: kopieer de gewichten helemaal niet naar GPU-global memory.
+
+De bestaande exacte Q5/ERVG-kernel krijgt devicepointers naar mapped, page-locked hostgeheugen en leest de geselecteerde records rechtstreeks over PCIe.
+
+CUDA ondersteunt het mappen van geregistreerd hostgeheugen in de GPU-adresruimte via cudaHostRegisterMapped en cudaHostGetDevicePointer. Voor read-only memory-maps bestaat ook cudaHostRegisterReadOnly, mits het device die eigenschap ondersteunt.
+
+NVIDIA waarschuwt dat zero-copy op een discrete GPU vooral voordelig is wanneer:
+
+data slechts één keer wordt gelezen;
+accesses coalesced zijn.
+
+Dat is vrijwel exact ons expert-GEMV-patroon:
+
+ieder geselecteerd expertgewicht wordt per outputtoken één keer gebruikt;
+iedere Q5-rij ligt aaneengesloten;
+de ERGV-kernel kan coalesced tiles lezen.
+
+De nieuwe kritieke route wordt:
+
+host Q5-record
+      ↓ PCIe-loads door kernel
+shared memory / registers
+      ↓
+exact ERGV-reductie
+
+Geen CPU-bounce-copy. Geen HBM-staging. Geen 480 losse copies.
+
+C. TMA direct host → shared memory
+
+DAK heeft in 2026 precies het grotere principe aangetoond: prefetching via GPU-HBM is fundamenteel inefficiënt, en directe GPU-toegang tot hostgeheugen kan gewichten rechtstreeks naar shared memory halen. De auteurs rapporteren tot 1,8× winst op een PCIe-Blackwellsysteem tegenover offloadbaselines.
+
+Hun kernel gebruikt:
+
+host memory
+    ↓ TMA
+shared memory
+    ↓
+matrix computation
+
+en vermijdt daarmee HBM-staging, extra HBM-verkeer en grove prefetchbubbels.
+
+DAK is geen drop-in-oplossing:
+
+hun publieke code target standaard Hopper/sm_90a;
+onze laptop gebruikt een andere Blackwellvariant;
+de TMA-hostroute moet op jouw concrete device gecompileerd en geprobed worden.
+
+Daarom is de volgorde:
+
+gewone mapped-host global loads;
+pas daarna TMA-direct wanneer de capabilityprobe slaagt.
+4. Nog een verdachte geometrische toevalligheid
+
+Eén PORT80B-expertrecord is:
+
+2,027,520 bytes
+
+Dat is exact:
+
+4096
+2,027,520
+	​
+
+=495
+
+Windowspagina’s van 4 KiB.
+
+Per zero-cache-token raak je dus:
+
+495×480=237,600
+
+afzonderlijke 4-KiB-pagina’s.
+
+Wanneer we ieder expertrecord naar één volledige 2-MiB-page uitlijnen:
+
+record                      2.027.520 bytes
+2-MiB-page                  2.097.152 bytes
+padding                        69.632 bytes
+
+wordt de volledige bank exact:
+
+24,576×2 MiB=48 GiB
+
+Dat is slechts:
+
+48−46,4969=1,5031 GiB
+
+groter.
+
+Windowslarge pages zijn nonpageable, altijd fysiek resident en vereisen SeLockMemoryPrivilege; grootte en alignment moeten een veelvoud van de minimumlarge-pagegrootte zijn, doorgaans minstens 2 MiB.
+
+Daarmee wordt de mappinggranulariteit theoretisch:
+
+237.600 normale pagina’s per token
+
+naar:
+
+480 grote expertpages per token
+
+Dat garandeert geen GPU-snelheidswinst: we weten nog niet hoe de Windows-NVIDIA-IOMMU die pages afhandelt. Maar het is een zeer zuivere ablation voor de p95/p99-tails.
+
+5. Moeten we nu 96 GB RAM kopen?
+
+Nog niet.
+
+96 GB is rationeel wanneer het één van deze twee dingen mogelijk maakt:
+
+de volledige 46,5-GiB-bank registreren/pinnen zonder Windows uit te hongeren;
+een volledige 48-GiB-large-pagebank aanmaken die nooit gepaged kan worden.
+
+Maar meer RAM verwijdert niet automatisch:
+
+de mmap → pinned-copy;
+480 transferdispatches;
+serialisatie tussen recordwaves;
+HBM-staging.
+
+Het correcte beslissingsprotocol:
+
+Eerst op 64 GB
+
+Test in oplopende grootte:
+
+2 GiB
+8 GiB
+16 GiB
+32 GiB
+volledige 46,5-GiB-bank
+
+voor:
+
+cudaHostRegister;
+cudaHostRegisterMapped;
+read-only registration;
+direct GPU access;
+werkelijke pagefaults;
+p50/p95/p99.
+96 GB kopen wanneer
+volledige registratie op 64 GB faalt door memory pressure;
+large-pageallocatie onmogelijk is;
+of de direct-accesspath correct is maar paging de p95 blijft domineren.
+Niet kopen wanneer
+een volledig resident subset met dezelfde datapath ook slechts 10–12 GB/s haalt;
+de kernel zelf remote loads inefficiënt uitstuurt;
+of batchcopy/direct access geen relevante winst geeft.
+
+Dan is RAM niet de bottleneck.
+
+6. Het exact gepreregistreerde experiment
+Fase 0 — capabilityprobe
+
+Vóór CUDA-contextcreatie loggen:
+
+compute capability;
+canMapHostMemory;
+hostRegisterSupported;
+hostRegisterReadOnlySupported;
+canUseHostPointerForRegisteredMem;
+pageableMemoryAccessUsesHostPageTables;
+async engine count;
+TMA compile/run-smoke.
+Fase 1 — de 73,544 ms uit elkaar halen
+
+Exact dezelfde bank en route-digest:
+
+Pad	Wat wordt gemeten
+mmap → gewone RAM	file-map/DRAM
+mmap → pinned windows	bounce-copy
+één 973-MB pinned H2D	pure bus
+480 gewone registered copies	dispatch
+48 batches van 10 copies	batched dispatch
+direct mapped-host Q5	geen copies
+TMA direct	geen HBM-staging
+
+Geen modelkwaliteit. Alleen bytes, bits en tijd.
+
+Fase 2 — direct-host ERGV
+
+Harde gates:
+
+Q5-output bitexact
+p95≤65 ms voor alle 480 records
+B
+effective
+	​
+
+≥15 GB/s
+nul hard page faults na warm-up
+
+Waarom 65 ms?
+
+65+28,077=93,077 ms
+
+dus:
+
+10,74 tok/s
+
+met marge.
+
+Fase 3 — real 80B
+
+Pas na een hardwarepass:
+
+echte Qwen3-Coder-Next-Q5-bank;
+echte hybride Gated-DeltaNet-shell;
+officiële top-10;
+natuurlijke routergewichten;
+zero-cache als primaire baseline;
+4K-context;
+full-depthkwaliteit;
+512-tokenrollout.
+7. Is dit wetenschappelijk nieuw?
+
+De brede technieken zijn niet nieuw:
+
+mapped host memory bestaat al;
+batchcopies bestaan;
+large pages bestaan;
+DAK heeft direct-accessoffloading gepubliceerd;
+TMA-hostfetch is gedemonstreerd.
+
+De mogelijke bijdrage is veel smaller:
+
+Een exacte low-bit MoE-GEMV die een disk-/RAM-backed expertbank rechtstreeks vanuit host memory uitvoert via ERGV, zonder HBM-staging, op een 8-GB discrete laptop-GPU.
+
+En daarna de empirische schaalwet:
+
+80B totaalmaar≥10 tok/s op 8 GB VRAM
+
+Dat zou de echte smoking-gun-demonstratie voor Active-Set Dominance zijn.
+
+Mijn actuele verdict
+Vraag	Antwoord
+Is PORT80B fundamenteel door PCIe gefalsificeerd?	Nee
+Was de oude 45-ms-gate correct gefaald?	Ja
+Verklaart de dubbele datapass de meetwaarden?	Zeer waarschijnlijk
+Hoeveel verbetering ontbreekt voor de echte 10-tok/s-bandbreedte?	Ongeveer 2–3% op p95
+Kan 96 GB helpen?	Ja, vooral voor full pinning/large pages en tails
+Is 96 GB zeker de oplossing?	Nee
+Sterkste volgende proef	Mapped-host direct ERGV
+Backup	Registered cudaMemcpyBatchAsync per laag
+Stretch	DAK/TMA direct host→SMEM
+
+Dit is de eerste keer dat een negatieve 80B-run ons een numeriek sluitende oorzaak geeft én een exacte oplossing waarvan de vereiste winst klein genoeg is.

@@ -1,0 +1,248 @@
+project: STREAMQ5_MOE_FULL_IDEA_CLOSURE
+created_at: 2026-08-12
+updated_at: 2026-08-12
+purpose: >-
+  Exhaustieve inventaris van de hypotheses uit de aangeleverde prompt en
+  bronbestanden. Een idee geldt alleen als gesloten wanneer er een resultaat,
+  falsificatiegrens en controleerbaar bewijsbestand bestaat. Een lokaal
+  onuitvoerbaar idee blijft expliciet geblokkeerd en telt niet als getest.
+
+status_legend:
+  verified_pass: fysiek uitgevoerd, grens gehaald en onafhankelijk gecontroleerd
+  verified_pass_quality: full-depth kwaliteitspoort gehaald, maar fysieke runtimeclaim nog niet getest
+  verified_negative: fysiek uitgevoerd, hypothese gefalsificeerd en gecontroleerd
+  superseded: premisse weerlegd of vervangen door een sterkere fysieke test
+  queued: lokaal uitvoerbaar en nog niet gesloten
+  blocked_artifact: benodigd model of referentiebestand ontbreekt
+  blocked_hardware: benodigd apparaat ontbreekt
+  blocked_measurement: benodigde energie- of systeemmeter ontbreekt
+  blocked_scope: vereist training of een onderzoeksprogramma buiten checkpoint-evaluatie
+
+sources:
+  user_attachment: C:/Users/de_do/.codex/attachments/7481fec7-899f-47ac-80da-45186309d11d/pasted-text.txt
+  kernel_inversie: info/KERNEL_INVERSIE_2026-08-12.md
+  richtingen: info/RICHTINGEN_DOORGEREKEND_2026-08-12.md
+  doorbraak: info/doorbraak.txt
+  pro: info/pro/pro.txt
+  ds4: https://github.com/baker27727/ds4-8gb-cpu
+
+ideas:
+  - id: I001
+    idea: host-resident_exact_Q5_experts_INT8_trunk
+    status: verified_pass
+    evidence: reports/streamq5_moe/P6B_STRICT_END_TO_END_FINAL_REPORT_2026-08-12.md
+  - id: I002
+    idea: static_dynamic_per_layer_cache_budget
+    status: verified_pass
+    evidence: reports/streamq5_moe/P2C_STATIC_DYNAMIC_REBALANCE_PREREGISTRATION.md
+  - id: I003
+    idea: causal_CPU_GPU_transfer_compute_overlap
+    status: verified_negative
+    evidence: reports/streamq5_moe/P4A_CAUSAL_ASYNC_TEST.md
+    note: 1.402x sneller maar vergrendelde gemiddelde grens nipt gemist
+  - id: I004
+    idea: rendezvous_fused_and_packed_overlap_variants
+    status: verified_negative
+    evidence: reports/streamq5_moe/P4D_PACKED_OVERLAP_VALIDATION.md
+  - id: I005
+    idea: full_expert_plane_CUDA_Graph
+    status: verified_negative
+    evidence: reports/streamq5_moe/P3B_DISPATCH_GAP_VALIDATION.md
+  - id: I006
+    idea: fused_Q5_dequant_without_BF16_weight_scratch
+    status: superseded
+    evidence: reports/streamq5_moe/P7_IDEA_AUDIT_2026-08-12.md
+    note: P6B dequantiseerde reeds direct in registers
+  - id: I007
+    idea: exact_reduction_virtual_fusion_subwarp_rows
+    status: verified_pass
+    evidence: reports/streamq5_moe/P7_ERVF_FINAL_REPORT_2026-08-12.md
+  - id: I008
+    idea: raw_scan_row_pattern_and_GEMV_roofline
+    status: verified_pass
+    evidence: reports/streamq5_moe/p7a_kernel_roofline.json
+  - id: I009
+    idea: projection_adaptive_ERVF_width
+    status: verified_negative
+    evidence: reports/streamq5_moe/P8AB_KERNEL_FOLLOWUPS_REPORT_2026-08-12.md
+    note: Q5 isolated pass, Q8 fail; Q5-only P8A2 failed full-decoder validation
+  - id: I010
+    idea: Q5_scale_broadcast_ERVF
+    status: verified_negative
+    evidence: reports/streamq5_moe/p8b_scale_broadcast_ervf.json
+  - id: I011
+    idea: glue_only_piecewise_CUDA_Graph_context_buckets
+    status: superseded
+    evidence: reports/streamq5_moe/P8C_GLUE_GRAPH_CLOSURE_2026-08-12.md
+    note: bottleneckpremisse weerlegd door P13; geen afzonderlijke graph-integratie uitgevoerd
+  - id: I012
+    idea: context_128_512_1024_4096_scaling
+    status: verified_pass
+    evidence: reports/streamq5_moe/p13b_explicit_add_attention.json
+  - id: I013
+    idea: exact_full_bank_Q5_code_entropy_and_overflow_histogram
+    status: verified_pass
+    evidence: reports/streamq5_moe/p8d_q5_code_audit.json
+  - id: I014
+    idea: exact_INT4_core_sparse_overflow_tail
+    status: verified_negative
+    evidence: reports/streamq5_moe/P8D_Q5_CODE_AUDIT.md
+    note: overflow 15.614 percent; conservative exact layout is 1.955x Q5
+  - id: I015
+    idea: lossless_hot_path_codec
+    status: verified_negative
+    evidence: reports/coretail_moe/CORETAIL_MOE_FINAL_VERDICT.md
+    note: bestaand CORETAIL-bewijs wordt opnieuw geverifieerd in de slotcontrole
+  - id: I016
+    idea: mixed_precision_per_layer_or_expert_Q4_Q3_outlier
+    status: verified_pass_quality
+    evidence: reports/streamq5_moe/P9A_MIXED_Q4_Q5_REPORT_2026-08-12.md
+    note: vaste per-laag Q4/Q5-regel passeert; fysieke mixed-bank niet gebouwd
+  - id: I017
+    idea: low_rank_residual_corrector
+    status: verified_negative
+    evidence: reports
+    note: bestaande CRAFT/GSQ/E2GQ/HERA-registers worden in de slotcontrole exact gekoppeld
+  - id: I018
+    idea: static_50_percent_per_expert_pruning_with_offline_compaction
+    status: verified_negative
+    evidence: reports/streamq5_moe/P9B_STRUCTURED_WANDA_REPORT_2026-08-12.md
+    note: pruningkwaliteit passeert, maar de voorgestelde gewone compacte dense-Q5-regroepering faalt P9C hard
+  - id: I019
+    idea: adaptive_recency_frequency_admission_cache
+    status: verified_negative
+    evidence: reports/streamq5_moe/p10_cache_family.json
+  - id: I020
+    idea: expert_pair_and_route_correlation_prefetch
+    status: verified_negative
+    evidence: reports/streamq5_moe/p10_cache_family.json
+  - id: I021
+    idea: domain_conditioned_automatic_cache_profiles
+    status: verified_negative
+    evidence: reports/streamq5_moe/p10b_domain_cache_physical.json
+    note: mean physical H2D wins, locked p95 gate fails
+  - id: I022
+    idea: miss_budget_controller_p95_under_byte_budget
+    status: verified_negative
+    evidence: reports/streamq5_moe/p10_cache_family.json
+  - id: I023
+    idea: cache_waterfilling_and_rate_splitting
+    status: verified_negative
+    evidence: reports/streamq5_moe/p10_cache_family.json
+  - id: I024
+    idea: GPU_router_topk_device_cache_metadata_pinned_command_ring
+    status: verified_negative
+    evidence: reports/streamq5_moe/P10D_GPU_ROUTER_REPORT_2026-08-12.md
+    note: top-k en BF16-gewichten exact, maar hostbarriere p50 4.392x en p95 2.064x trager
+  - id: I025
+    idea: CPU_Q5_compute_on_cache_miss
+    status: verified_negative
+    evidence: reports/streamq5_moe/p11a_cpu_q5_miss_compute.json
+  - id: I026
+    idea: CPU_STREAM_and_NUMA_hugepage_pinning_diagnostic
+    status: verified_pass
+    evidence: reports/streamq5_moe/p11a_cpu_stream.json
+  - id: I027
+    idea: Intel_NPU_projection_or_miss_microbenchmark
+    status: verified_negative
+    evidence: reports/streamq5_moe/p11b_npu_expert_microbench.json
+  - id: I028
+    idea: RAM_NVMe_GPU_three_tier_demand_paging
+    status: verified_negative
+    evidence: reports/streamq5_moe/p11c_nvme_tier.json
+    note: average capacity projection passes; p95 fails
+  - id: I029
+    idea: ds4_subwarp_and_NVMe_prior_art_transferability
+    status: verified_negative
+    evidence: reports/streamq5_moe/p11c_nvme_tier.json
+    note: capacity transfers; tail-latency claim does not
+  - id: I030
+    idea: hard_32_GiB_process_commit_limit
+    status: verified_pass
+    evidence: reports/streamq5_moe/p13c_evt_pm_32g_endurance.json
+  - id: I031
+    idea: context_4096_under_32_GiB_with_pagefault_accounting
+    status: verified_pass
+    evidence: reports/streamq5_moe/P13_EVT_PM_EUREKA_REPORT_2026-08-12.md
+  - id: I032
+    idea: sixty_minute_or_10000_token_thermal_endurance
+    status: verified_pass
+    evidence: reports/streamq5_moe/p13c_evt_pm_32g_endurance.json
+    note: 10000-token branch completed in 702.5 seconds
+  - id: I033
+    idea: Q8_or_Q4_KV_cache_paged_KV_flash_decode_sliding_attention
+    status: superseded
+    evidence: reports/streamq5_moe/p13b_explicit_add_attention.json
+    note: exact EVT-PM solved the measured 4K bottleneck without lossy KV or sliding context
+  - id: I034
+    idea: speculative_decoding_or_MTP_with_route_union_cost
+    status: blocked_artifact
+    evidence: reports/streamq5_moe/P13D_SPECULATIVE_DECODING_CLOSURE_2026-08-12.md
+    missing: passend MTP-head of vooraf vastgelegde drafter plus acceptatie-evaluator
+  - id: I035
+    idea: DeepSeek_V2_Lite_second_model_replication
+    status: verified_pass_quality
+    artifact: models/deepseek-v2-lite
+    evidence: reports/streamq5_moe/P14A_DEEPSEEK_V2_LITE_Q5_REPORT_2026-08-12.md
+    note: 26-laags full-depth Q5-kwaliteit passeert; fysieke DeepSeek-runtime blijft apart werk
+  - id: I036
+    idea: Qwen3_Coder_Next_80B_A3B_active_set_invariance
+    status: blocked_artifact
+    missing: Qwen3-Coder-Next-80B-A3B checkpoint and compatible physical bank
+    planned_phase: P14B_if_artifact_acquired
+  - id: I037
+    idea: same_hardware_llama_cpp_or_equivalent_baseline
+    status: verified_pass
+    evidence: reports/streamq5_moe/P15A_LLAMA_CPP_CPU_BASELINE_REPORT_2026-08-12.md
+    note: CPU-only publieke-runtimeanker voltooid; CUDA-hybride build geblokkeerd door ontbrekende nvcc
+  - id: I038
+    idea: Ollama_GPTQ_zero_cache_baselines
+    status: blocked_artifact
+    missing: locally installed compatible runtime and matching quantized artifact
+  - id: I039
+    idea: multi_GPU_partition_or_replication
+    status: blocked_hardware
+    missing: second_GPU
+  - id: I040
+    idea: more_VRAM_more_RAM_hardware_scaling
+    status: blocked_hardware
+    missing: alternative_same_generation_hardware
+  - id: I041
+    idea: larger_100B_or_235B_model_physical_scaling
+    status: blocked_artifact
+    missing: model_checkpoint_and_physical_bank
+  - id: I042
+    idea: 10x_larger_quality_evaluation_with_paired_block_bootstrap
+    status: verified_pass_quality
+    evidence: reports/streamq5_moe/P16A_10X_QUALITY_REPORT_2026-08-12.md
+  - id: I043
+    idea: same_hardware_energy_TTFT_prefill_decode_tail_comparison
+    status: blocked_measurement
+    evidence: reports/streamq5_moe/P15B_ENERGY_MEASUREMENT_CLOSURE_2026-08-12.md
+    missing: CPU-package- of gekalibreerde wandenergiemeting voor beide paden
+  - id: I044
+    idea: TierFlow_stateful_route_flow_and_progressive_bit_page_training
+    status: blocked_scope
+    missing: training_run_router_checkpoint_and_second_hierarchy
+    note: component-ablaties kunnen lokaal als simulatie worden getest; de trainingsclaim niet
+  - id: I045
+    idea: span_routing_and_hardware_state_conditioning
+    status: blocked_scope
+    missing: trainable_router_and_training_corpus
+  - id: I046
+    idea: local_server_API_and_clean_reproducible_build
+    status: verified_pass
+    evidence: reports/streamq5_moe/P6B_LOCAL_SERVER.md
+  - id: I047
+    idea: broader_prior_art_and_novelty_scan
+    status: verified_pass
+    evidence: reports/streamq5_moe/P17_PRIOR_ART_NOVELTY_REPORT_2026-08-12.md
+  - id: I048
+    idea: own_abstract_new_technique_beyond_ERVF
+    status: verified_pass
+    evidence: reports/streamq5_moe/P13_EVT_PM_EUREKA_REPORT_2026-08-12.md
+
+closure_rule:
+  all_local_testable_closed: true
+  breakthrough_claim_allowed: false
+  reason: alle huidige lokale checkpoint- en hardwaretests zijn gesloten; externe reproductie, ontbrekende artifacts/hardware en training-scope blijven vereist voor een wereldclaim

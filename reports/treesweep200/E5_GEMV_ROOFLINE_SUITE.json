@@ -1,0 +1,198 @@
+{
+  "kind": "treesweep200_e5_gemv_roofline_suite",
+  "registry": "TREESWEEP200",
+  "phase": "E5",
+  "started_utc": "2026-08-15T18:19:07.718330+00:00",
+  "completed_utc": "2026-08-15T18:19:11.282573+00:00",
+  "model_dir": "nemotron_3_5_lightning_v35",
+  "runner_sha256": "df3ef372c507a6b49d6d5bd4f083eaa72931ee3cdfe209220d193e05de4292f0",
+  "fused_sha256": "1041cbd507aaceb165540cf5deebba1b46eb5effc6f6e87062bae716c6636b0f",
+  "config": {
+    "calls": 100,
+    "rounds": 7,
+    "l2_bytes": 33554432,
+    "moe_layers": 23,
+    "top_k": 6,
+    "mechanism": "ERVF (NERVF-2), subwarp width 16"
+  },
+  "shapes": {
+    "routed_up": {
+      "tensor": "backbone.layers.1.mixer.experts.0.up_proj",
+      "rows": 1856,
+      "cols": 2688,
+      "bytes": 2806272,
+      "calls_per_token": 138,
+      "bytes_per_token": 387265536,
+      "base": {
+        "us": 36.992,
+        "gb_s": 75.86159169550174,
+        "raw": [
+          35.954,
+          35.841,
+          36.658,
+          38.556,
+          37.045,
+          36.992,
+          37.232
+        ]
+      },
+      "ervf": {
+        "us": 22.819000000000003,
+        "gb_s": 122.9796222446207,
+        "raw": [
+          22.651999999999997,
+          22.683000000000003,
+          22.683000000000003,
+          22.871,
+          22.901999999999997,
+          22.819000000000003,
+          26.521
+        ]
+      },
+      "speedup": 1.6211052193347646,
+      "bitwise_identical": true
+    },
+    "shared_up": {
+      "tensor": "backbone.layers.1.mixer.shared_experts.up_proj",
+      "rows": 3712,
+      "cols": 2688,
+      "bytes": 5612544,
+      "calls_per_token": 23,
+      "bytes_per_token": 129088512,
+      "base": {
+        "us": 70.247,
+        "gb_s": 79.89727675203211,
+        "raw": [
+          66.929,
+          66.854,
+          70.181,
+          70.247,
+          72.911,
+          74.219,
+          74.932
+        ]
+      },
+      "ervf": {
+        "us": 39.384,
+        "gb_s": 142.50822669104204,
+        "raw": [
+          39.26,
+          39.376,
+          39.384,
+          40.238,
+          39.153,
+          39.449,
+          43.411
+        ]
+      },
+      "speedup": 1.7836431037984968,
+      "bitwise_identical": true
+    },
+    "shared_down": {
+      "tensor": "backbone.layers.1.mixer.shared_experts.down_proj",
+      "rows": 2688,
+      "cols": 3712,
+      "bytes": 5612544,
+      "calls_per_token": 23,
+      "bytes_per_token": 129088512,
+      "base": {
+        "us": 71.999,
+        "gb_s": 77.95308268170393,
+        "raw": [
+          72.017,
+          68.734,
+          68.26899999999999,
+          68.678,
+          71.999,
+          72.078,
+          72.695
+        ]
+      },
+      "ervf": {
+        "us": 43.73,
+        "gb_s": 128.34539217928196,
+        "raw": [
+          43.343999999999994,
+          44.56100000000001,
+          43.323,
+          43.218,
+          43.73,
+          45.967,
+          45.001999999999995
+        ]
+      },
+      "speedup": 1.6464440887262748,
+      "bitwise_identical": true
+    },
+    "lm_head": {
+      "tensor": "lm_head",
+      "rows": 131072,
+      "cols": 2688,
+      "bytes": 198180864,
+      "calls_per_token": 1,
+      "bytes_per_token": 198180864,
+      "base": {
+        "us": 2568.395,
+        "gb_s": 77.16136497696033,
+        "raw": [
+          2403.426,
+          2439.341,
+          2731.5609999999997,
+          2895.0879999999997,
+          2387.647,
+          2568.395,
+          2783.219
+        ]
+      },
+      "ervf": {
+        "us": 1532.845,
+        "gb_s": 129.28956548118043,
+        "raw": [
+          1753.904,
+          1414.414,
+          1354.545,
+          1445.924,
+          1532.845,
+          1688.989,
+          1749.872
+        ]
+      },
+      "speedup": 1.675573851237405,
+      "bitwise_identical": true
+    }
+  },
+  "weighted": {
+    "bytes_per_token": 843623424,
+    "base_gb_s": 77.07878986005325,
+    "ervf_gb_s": 127.94795350382779,
+    "speedup": 1.6599631848934608
+  },
+  "gates": {
+    "weighted_suite_bandwidth_ge_140_gb_s": {
+      "base_gb_s": 77.07878986005325,
+      "ervf_gb_s": 127.94795350382779,
+      "required": 140.0,
+      "passed": false
+    },
+    "no_critical_shape_regression_gt_5pct": {
+      "worst_speedup": 1.6211052193347646,
+      "required_min": 0.95,
+      "per_shape": {
+        "routed_up": 1.6211052193347646,
+        "shared_up": 1.7836431037984968,
+        "shared_down": 1.6464440887262748,
+        "lm_head": 1.675573851237405
+      },
+      "passed": true
+    },
+    "strong_weighted_suite_ge_170": {
+      "ervf_gb_s": 127.94795350382779,
+      "required": 170.0,
+      "passed": false
+    },
+    "exactness_all_shapes": {
+      "passed": true
+    }
+  },
+  "claim_boundary": "Single-kernel microbenchmarks on the real NVFP4 tensors of this checkpoint, every shape gemv_nvfp4_rows is called with in the real runtime, all arms cycling an L2-cold pool. The weighted figure weights each shape by its call count per token and is a KERNEL bandwidth, not a token time and not a throughput result. Exactness is checked per shape against the production kernel."
+}

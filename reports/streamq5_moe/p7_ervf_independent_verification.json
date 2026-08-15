@@ -1,0 +1,127 @@
+{
+  "kind": "streamq5_moe_p7_ervf_independent_verification",
+  "completed_utc": "2026-08-12T13:01:48.646340+00:00",
+  "verifier_sha256": "3395d9fb354d8cc9912c61d672bc3f1bcdcf109c8811446df55f78f00ec1fd05",
+  "gates": {
+    "p7a_prereg_hash": true,
+    "p7a_script_hash": true,
+    "p7a_q8_geometry_diagnosis": true,
+    "p7a_q5_geometry_diagnosis": true,
+    "p7b_prereg_hash": true,
+    "p7b_script_hash": true,
+    "p7b_all_variants_bit_exact": true,
+    "p7b_selected_16": true,
+    "p7b_isolated_pass": true,
+    "p7c_input_prereg_hash": true,
+    "p7c_input_base_hash": true,
+    "p7c_input_p7b_hash": true,
+    "p7c_evaluator_script_hash": true,
+    "p7c_evaluator_input_hash": true,
+    "p7c_validation_status": true,
+    "p7c_test_status": true,
+    "p7c_all_embedded_gates": true,
+    "p7c_validation_semantics_equal": true,
+    "p7c_test_semantics_equal": true,
+    "p7c_rollout_tokens_equal": true,
+    "p7c_rollout_feedback_equal": true,
+    "p7c_rollout_kv_equal": true,
+    "p7c_physical_bytes_equal": true,
+    "p7d_baseline_prereg_hash": true,
+    "p7d_baseline_script_hash": true,
+    "p7d_baseline_source_hash": true,
+    "p7d_baseline_input_hash": true,
+    "p7d_ervf_prereg_hash": true,
+    "p7d_ervf_script_hash": true,
+    "p7d_ervf_source_hash": true,
+    "p7d_ervf_input_hash": true,
+    "p7d_validation_labels": true,
+    "p7d_validation_all_ce_exact": true,
+    "p7d_validation_predictions_exact": true,
+    "p7d_validation_misses_exact": true,
+    "p7d_validation_kv_exact": true,
+    "p7d_validation_finite": true,
+    "p7d_test_labels": true,
+    "p7d_test_all_ce_exact": true,
+    "p7d_test_predictions_exact": true,
+    "p7d_test_misses_exact": true,
+    "p7d_test_kv_exact": true,
+    "p7d_test_finite": true,
+    "p7c_test_mean_ratio_le_0_80": true,
+    "p7c_test_p95_ratio_le_0_80": true,
+    "p7c_rollout_mean_ratio_le_0_80": true,
+    "p7c_rollout_p95_ratio_le_0_80": true,
+    "all_numbers_finite": true
+  },
+  "metrics": {
+    "p7a": {
+      "q8": {
+        "bytes": 1248931840,
+        "adjusted_ms": {
+          "raw": 3.5003039836883545,
+          "pattern": 12.951583683490753,
+          "gemv": 13.701151669025421
+        },
+        "effective_gbps": {
+          "raw": 356.80667902562294,
+          "pattern": 96.43082039395694,
+          "gemv": 91.15524520639352
+        },
+        "pattern_over_raw": 0.27026069314983886,
+        "gemv_over_pattern": 0.9452916073304088,
+        "classification": "row_geometry_reduction_or_launch_dominant"
+      },
+      "q5": {
+        "bytes": 1160773632,
+        "resident_record_bytes": 1165492224,
+        "adjusted_ms": {
+          "raw": 3.212623953819275,
+          "pattern": 12.982896000146866,
+          "gemv": 17.83196845650673
+        },
+        "effective_gbps": {
+          "raw": 361.31637212629056,
+          "pattern": 89.40791268657387,
+          "gemv": 65.0950922682035
+        },
+        "pattern_over_raw": 0.24745048822565727,
+        "gemv_over_pattern": 0.7280685826588886,
+        "classification": "row_geometry_reduction_or_launch_dominant"
+      }
+    },
+    "p7b": {
+      "q8": {
+        "baseline_p50_ms": 15.213119983673096,
+        "ervf_p50_ms": 8.818943977355957,
+        "speedup_p50": 1.7250500766004642
+      },
+      "q5": {
+        "baseline_p50_ms": 18.16654396057129,
+        "ervf_p50_ms": 7.614383935928345,
+        "speedup_p50": 2.385819274866447
+      }
+    },
+    "p7c": {
+      "test_baseline_mean_ms": 49.92737874015747,
+      "test_ervf_mean_ms": 33.20843700787401,
+      "test_baseline_tps": 20.029090756084145,
+      "test_ervf_tps": 30.11282945243377,
+      "rollout_baseline_mean_ms": 63.023771484375004,
+      "rollout_ervf_mean_ms": 47.8130375,
+      "rollout_baseline_tps": 15.867028843996145,
+      "rollout_ervf_tps": 20.914797559138552,
+      "ce": 2.2609590252553384,
+      "teacher_ce": 2.2598737040842614,
+      "relative_ce_increase": 0.00048025744496941244
+    },
+    "ratios": {
+      "validation_mean": 0.672766560412003,
+      "validation_p95": 0.765589270586713,
+      "test_mean": 0.6651347986984119,
+      "test_p95": 0.7473844674518713,
+      "rollout_mean": 0.7586508451315694,
+      "rollout_p95": 0.7964387481686109
+    }
+  },
+  "pass": true,
+  "claim_boundary": "Verified local, bit-exact P6B-to-P7C acceleration on one GPU/model/runtime. No cross-runtime or world-SOTA claim."
+}

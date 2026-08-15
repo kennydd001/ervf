@@ -1,0 +1,38 @@
+{
+  "source_result": "N4B-R exact synthetic 80B shape gate",
+  "model": "Qwen/Qwen3-Coder-Next",
+  "architecture": {
+    "total_parameters": 79674391296,
+    "layers": 48,
+    "routed_experts_per_layer": 512,
+    "active_routed_experts": 10,
+    "shared_experts_per_layer": 1,
+    "hidden_size": 2048,
+    "expert_intermediate_size": 512,
+    "full_attention_layers": 12,
+    "gated_deltanet_layers": 36,
+    "native_context": 262144
+  },
+  "locked_projection": {
+    "custom_q5_bank_gib": 46.497,
+    "host_accounted_plus_reserve_gib": 47.806,
+    "q8_device_shell_gib": 1.801,
+    "4k_state_mib": 170.25,
+    "32k_state_mib": 842.25,
+    "4k_cache_slots": 2420,
+    "32k_cache_slots": 2072,
+    "resident_expert_compute_p95_ms": 8.86889,
+    "all_cold_h2d_ms": 37.202202,
+    "dense_shell_conservative_p95_ms": 28.077227,
+    "ideal_overlap_total_p95_ms": 65.27943,
+    "serial_total_p95_ms": 74.14832,
+    "ideal_overlap_tps": 15.318761208546091,
+    "serial_tps": 13.486482229132097
+  },
+  "hardware_decision": {
+    "current_visible_ram_gib": 63.43,
+    "upgrade_to_96gb_rule": "Upgrade only if a physical 46.5-GiB bank residency/staging test shows hard page faults, pin/register failure, or p95 H2D >45 ms.",
+    "cpu_upgrade": "not justified before profiling the real hybrid shell",
+    "ssd": "Official Q5_K_M GGUF is ~56.7 GB. No larger SSD is required if at least ~100 GB remains free or conversion is streamed shard-by-shard."
+  }
+}

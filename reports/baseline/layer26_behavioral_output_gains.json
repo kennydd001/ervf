@@ -1,0 +1,335 @@
+{
+  "created_at_utc": "2026-08-09T21:10:47.394296+00:00",
+  "git_revision": null,
+  "kind": "co_routed_error_calibration",
+  "payload": {
+    "baselines": {
+      "all_3bit": {
+        "candidate_cross_entropy": 2.52863107516071,
+        "cross_entropy_delta": 0.030291579839751392,
+        "relative_cross_entropy_delta": 0.012124685174486213,
+        "teacher_cross_entropy": 2.4983394953209586,
+        "teacher_to_candidate_kl": 0.020320537500083447,
+        "top1_agreement": 0.94140625
+      },
+      "all_4bit": {
+        "candidate_cross_entropy": 2.5036282276544046,
+        "cross_entropy_delta": 0.005288732333446067,
+        "relative_cross_entropy_delta": 0.002116898981644058,
+        "teacher_cross_entropy": 2.4983394953209586,
+        "teacher_to_candidate_kl": 0.003245277621317655,
+        "top1_agreement": 0.97265625
+      }
+    },
+    "dataset_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "experiment": "layer26_static_behavioral_output_gain_calibration",
+    "fisher_samples_per_validation_state": 8,
+    "methods": {
+      "expert": {
+        "correction_statistics": {
+          "maximum": 0.20408302545547485,
+          "mean": -0.11070547252893448,
+          "minimum": -0.3502420485019684,
+          "standard_deviation": 0.12020809203386307
+        },
+        "holdout_tuning": [
+          {
+            "candidate_cross_entropy": 2.431543305164247,
+            "cross_entropy_delta": 0.003074585922121287,
+            "lambda_fraction": 0.0,
+            "relative_cross_entropy_delta": 0.0012660595122183829,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.007534148171544075,
+            "top1_agreement": 0.9375
+          },
+          {
+            "candidate_cross_entropy": 2.431949645515502,
+            "cross_entropy_delta": 0.0034809262733759283,
+            "lambda_fraction": 1e-06,
+            "relative_cross_entropy_delta": 0.001433383203907297,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.007526136934757233,
+            "top1_agreement": 0.9375
+          },
+          {
+            "candidate_cross_entropy": 2.431861937515379,
+            "cross_entropy_delta": 0.003393218273253229,
+            "lambda_fraction": 1e-05,
+            "relative_cross_entropy_delta": 0.0013972666175878028,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.0075344061478972435,
+            "top1_agreement": 0.9375
+          },
+          {
+            "candidate_cross_entropy": 2.43064147468627,
+            "cross_entropy_delta": 0.00217275544414397,
+            "lambda_fraction": 0.0001,
+            "relative_cross_entropy_delta": 0.0008947018452113484,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.007516022771596909,
+            "top1_agreement": 0.94140625
+          },
+          {
+            "candidate_cross_entropy": 2.43072509765625,
+            "cross_entropy_delta": 0.0022563784141240717,
+            "lambda_fraction": 0.001,
+            "relative_cross_entropy_delta": 0.0009291362891543606,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.00737352529540658,
+            "top1_agreement": 0.9453125
+          },
+          {
+            "candidate_cross_entropy": 2.4312378890871065,
+            "cross_entropy_delta": 0.0027691698449805457,
+            "lambda_fraction": 0.01,
+            "relative_cross_entropy_delta": 0.001140294632184822,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.007188852410763502,
+            "top1_agreement": 0.94140625
+          },
+          {
+            "candidate_cross_entropy": 2.4292794775775097,
+            "cross_entropy_delta": 0.0008107583353837988,
+            "lambda_fraction": 0.1,
+            "relative_cross_entropy_delta": 0.000333855786965549,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.0070546576753258705,
+            "top1_agreement": 0.94140625
+          },
+          {
+            "candidate_cross_entropy": 2.4325395719272884,
+            "cross_entropy_delta": 0.004070852685162496,
+            "lambda_fraction": 1.0,
+            "relative_cross_entropy_delta": 0.0016763043529887112,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.007117095403373241,
+            "top1_agreement": 0.93359375
+          }
+        ],
+        "parameter_count": 64,
+        "selected_lambda_fraction": 0.1,
+        "test": {
+          "candidate_cross_entropy": 2.523106732706385,
+          "cross_entropy_delta": 0.024767237385426633,
+          "relative_cross_entropy_delta": 0.009913479505812646,
+          "teacher_cross_entropy": 2.4983394953209586,
+          "teacher_to_candidate_kl": 0.018393246922641993,
+          "top1_agreement": 0.94921875
+        },
+        "validation": {
+          "candidate_cross_entropy": 2.1894515030027373,
+          "cross_entropy_delta": 0.0074341541200171335,
+          "relative_cross_entropy_delta": 0.0034070096297922274,
+          "teacher_cross_entropy": 2.18201734888272,
+          "teacher_to_candidate_kl": 0.008234907290898263,
+          "top1_agreement": 0.9443359375
+        }
+      },
+      "expert_x_router_rank": {
+        "correction_statistics": {
+          "maximum": 0.14501360058784485,
+          "mean": -0.03749915957450867,
+          "minimum": -0.34172746539115906,
+          "standard_deviation": 0.07319752126932144
+        },
+        "holdout_tuning": [
+          {
+            "candidate_cross_entropy": 2.4465519462044782,
+            "cross_entropy_delta": 0.018083226962352317,
+            "lambda_fraction": 0.0,
+            "relative_cross_entropy_delta": 0.0074463495531438065,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.02034122683107853,
+            "top1_agreement": 0.9296875
+          },
+          {
+            "candidate_cross_entropy": 2.440464049812377,
+            "cross_entropy_delta": 0.011995330570250928,
+            "lambda_fraction": 1e-06,
+            "relative_cross_entropy_delta": 0.004939462664355182,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.014458670280873775,
+            "top1_agreement": 0.93359375
+          },
+          {
+            "candidate_cross_entropy": 2.4414982833261565,
+            "cross_entropy_delta": 0.013029564084030554,
+            "lambda_fraction": 1e-05,
+            "relative_cross_entropy_delta": 0.005365341534272184,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.014220323413610458,
+            "top1_agreement": 0.9375
+          },
+          {
+            "candidate_cross_entropy": 2.4418267678088093,
+            "cross_entropy_delta": 0.013358048566683323,
+            "lambda_fraction": 0.0001,
+            "relative_cross_entropy_delta": 0.005500605571255655,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.013990883715450764,
+            "top1_agreement": 0.94140625
+          },
+          {
+            "candidate_cross_entropy": 2.4405313326617866,
+            "cross_entropy_delta": 0.01206261341966064,
+            "lambda_fraction": 0.001,
+            "relative_cross_entropy_delta": 0.004967168538792267,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.012630409561097622,
+            "top1_agreement": 0.94140625
+          },
+          {
+            "candidate_cross_entropy": 2.437118650421383,
+            "cross_entropy_delta": 0.008649931179256942,
+            "lambda_fraction": 0.01,
+            "relative_cross_entropy_delta": 0.0035618870075281037,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.009265463799238205,
+            "top1_agreement": 0.94140625
+          },
+          {
+            "candidate_cross_entropy": 2.431034118171752,
+            "cross_entropy_delta": 0.0025653989296259283,
+            "lambda_fraction": 0.1,
+            "relative_cross_entropy_delta": 0.0010563854124612877,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.007314770482480526,
+            "top1_agreement": 0.93359375
+          },
+          {
+            "candidate_cross_entropy": 2.435753048874262,
+            "cross_entropy_delta": 0.0072843296321360995,
+            "lambda_fraction": 1.0,
+            "relative_cross_entropy_delta": 0.0029995567060091205,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.007233636453747749,
+            "top1_agreement": 0.9375
+          }
+        ],
+        "parameter_count": 384,
+        "selected_lambda_fraction": 1.0,
+        "test": {
+          "candidate_cross_entropy": 2.525598721241388,
+          "cross_entropy_delta": 0.027259225920429397,
+          "relative_cross_entropy_delta": 0.010910937433236005,
+          "teacher_cross_entropy": 2.4983394953209586,
+          "teacher_to_candidate_kl": 0.019340422237291932,
+          "top1_agreement": 0.94921875
+        },
+        "validation": {
+          "candidate_cross_entropy": 2.1919039027897393,
+          "cross_entropy_delta": 0.009886553907019202,
+          "relative_cross_entropy_delta": 0.004530923602455091,
+          "teacher_cross_entropy": 2.18201734888272,
+          "teacher_to_candidate_kl": 0.00824144040234387,
+          "top1_agreement": 0.9384765625
+        }
+      },
+      "router_rank": {
+        "correction_statistics": {
+          "maximum": -0.13346080482006073,
+          "mean": -0.17898282408714294,
+          "minimum": -0.21390217542648315,
+          "standard_deviation": 0.03727038577198982
+        },
+        "holdout_tuning": [
+          {
+            "candidate_cross_entropy": 2.4299388495017222,
+            "cross_entropy_delta": 0.0014701302595963028,
+            "lambda_fraction": 0.0,
+            "relative_cross_entropy_delta": 0.0006053733564478852,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.006986094638705254,
+            "top1_agreement": 0.9375
+          },
+          {
+            "candidate_cross_entropy": 2.4299388495017222,
+            "cross_entropy_delta": 0.0014701302595963028,
+            "lambda_fraction": 1e-06,
+            "relative_cross_entropy_delta": 0.0006053733564478852,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.006986094638705254,
+            "top1_agreement": 0.9375
+          },
+          {
+            "candidate_cross_entropy": 2.4299388495017222,
+            "cross_entropy_delta": 0.0014701302595963028,
+            "lambda_fraction": 1e-05,
+            "relative_cross_entropy_delta": 0.0006053733564478852,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.006986094638705254,
+            "top1_agreement": 0.9375
+          },
+          {
+            "candidate_cross_entropy": 2.4300246351347194,
+            "cross_entropy_delta": 0.001555915892593518,
+            "lambda_fraction": 0.0001,
+            "relative_cross_entropy_delta": 0.0006406983463551001,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.006985518150031567,
+            "top1_agreement": 0.9375
+          },
+          {
+            "candidate_cross_entropy": 2.4300246351347194,
+            "cross_entropy_delta": 0.001555915892593518,
+            "lambda_fraction": 0.001,
+            "relative_cross_entropy_delta": 0.0006406983463551001,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.006985518150031567,
+            "top1_agreement": 0.9375
+          },
+          {
+            "candidate_cross_entropy": 2.4291119913416583,
+            "cross_entropy_delta": 0.0006432720995324104,
+            "lambda_fraction": 0.01,
+            "relative_cross_entropy_delta": 0.00026488794952778393,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.007003679871559143,
+            "top1_agreement": 0.9375
+          },
+          {
+            "candidate_cross_entropy": 2.4289959284264273,
+            "cross_entropy_delta": 0.0005272091843013804,
+            "lambda_fraction": 0.1,
+            "relative_cross_entropy_delta": 0.00021709531612410941,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.00704707857221365,
+            "top1_agreement": 0.9375
+          },
+          {
+            "candidate_cross_entropy": 2.4346986305056593,
+            "cross_entropy_delta": 0.006229911263533339,
+            "lambda_fraction": 1.0,
+            "relative_cross_entropy_delta": 0.002565366073760902,
+            "teacher_cross_entropy": 2.428468719242126,
+            "teacher_to_candidate_kl": 0.007167782634496689,
+            "top1_agreement": 0.94140625
+          }
+        ],
+        "parameter_count": 6,
+        "selected_lambda_fraction": 0.0001,
+        "test": {
+          "candidate_cross_entropy": 2.521272674320251,
+          "cross_entropy_delta": 0.02293317899929237,
+          "relative_cross_entropy_delta": 0.009179368553490434,
+          "teacher_cross_entropy": 2.4983394953209586,
+          "teacher_to_candidate_kl": 0.013654933776706457,
+          "top1_agreement": 0.9453125
+        },
+        "validation": {
+          "candidate_cross_entropy": 2.189377732164278,
+          "cross_entropy_delta": 0.0073603832815578585,
+          "relative_cross_entropy_delta": 0.0033732010817084787,
+          "teacher_cross_entropy": 2.18201734888272,
+          "teacher_to_candidate_kl": 0.008564956253394485,
+          "top1_agreement": 0.94140625
+        }
+      }
+    },
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "selection_protocol": "fit first 768 validation tokens, select ridge on last 256, refit all 1024 validation tokens, evaluate untouched 1024 test tokens",
+    "status": "complete",
+    "wall_seconds": 4.938844600001175
+  },
+  "schema_version": 1
+}

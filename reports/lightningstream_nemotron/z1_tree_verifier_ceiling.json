@@ -1,0 +1,207 @@
+{
+  "kind": "lightningstream_nemotron_z1_tree_verifier_ceiling",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "Z1_TREE_VERIFIER_CEILING",
+  "started_utc": "2026-08-15T12:10:16.441962+00:00",
+  "completed_utc": "2026-08-15T12:11:28.063450+00:00",
+  "model_dir": "nemotron_3_5_lightning_v35",
+  "runner_sha256": "9078ae3912b1c82ed2830698091f2f4cedb4ddffae20a352e970285e84530ef3",
+  "runtime_sha256": "0a51e0c5923057c10e3ce12adc2fafa3336f7c4acb31c008fd236a5d7e496488",
+  "config": {
+    "capacity": 72,
+    "max_ctx": 8192,
+    "n_values": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "reps": 5,
+    "moe_layers": 23,
+    "top_k": 6,
+    "path": "sequential (X1 measured expert-major at ratio 1.0017)"
+  },
+  "rows": {
+    "1": {
+      "N": 1,
+      "ms_p50": 16.6299,
+      "bracket_p50": 19.900399999999998,
+      "local_drift_ms": 1.4711999999999996,
+      "raw": {
+        "a1": [
+          24.0578,
+          17.8414,
+          16.105,
+          29.3191,
+          20.636
+        ],
+        "run": [
+          16.6299,
+          16.4499,
+          16.0822,
+          18.6435,
+          16.7852
+        ],
+        "a2": [
+          16.8484,
+          16.2897,
+          23.0068,
+          30.2098,
+          19.1648
+        ]
+      },
+      "mean_union_per_layer": 6.0,
+      "ms_per_position": 16.6299
+    },
+    "2": {
+      "N": 2,
+      "ms_p50": 32.5191,
+      "bracket_p50": 36.4093,
+      "local_drift_ms": 6.346200000000003,
+      "raw": {
+        "a1": [
+          33.3962,
+          39.5824,
+          53.2732,
+          42.3776,
+          31.5881
+        ],
+        "run": [
+          31.4373,
+          32.3492,
+          40.1302,
+          32.5191,
+          33.7468
+        ],
+        "a2": [
+          47.3282,
+          33.2362,
+          31.4237,
+          38.8947,
+          32.7837
+        ]
+      },
+      "mean_union_per_layer": 10.130434782608695,
+      "ms_per_position": 16.25955
+    },
+    "4": {
+      "N": 4,
+      "ms_p50": 63.0208,
+      "bracket_p50": 64.06895,
+      "local_drift_ms": 1.5609000000000037,
+      "raw": {
+        "a1": [
+          65.792,
+          63.1201,
+          63.222,
+          70.6808,
+          64.8494
+        ],
+        "run": [
+          81.567,
+          62.6473,
+          66.0705,
+          63.0208,
+          62.4692
+        ],
+        "a2": [
+          67.5321,
+          63.9749,
+          63.2885,
+          62.7702,
+          62.4982
+        ]
+      },
+      "mean_union_per_layer": 17.130434782608695,
+      "ms_per_position": 15.7552
+    },
+    "8": {
+      "N": 8,
+      "ms_p50": 130.8121,
+      "bracket_p50": 136.65370000000001,
+      "local_drift_ms": 2.754400000000004,
+      "raw": {
+        "a1": [
+          144.3861,
+          174.2817,
+          136.9687,
+          138.0309,
+          129.4277
+        ],
+        "run": [
+          130.8121,
+          135.2568,
+          129.0269,
+          125.7897,
+          145.2259
+        ],
+        "a2": [
+          130.8383,
+          135.5003,
+          154.8892,
+          135.2765,
+          128.3843
+        ]
+      },
+      "mean_union_per_layer": 27.26086956521739,
+      "ms_per_position": 16.3515125
+    },
+    "16": {
+      "N": 16,
+      "ms_p50": 263.4927,
+      "bracket_p50": 263.067,
+      "local_drift_ms": 24.32499999999996,
+      "raw": {
+        "a1": [
+          247.3434,
+          275.2295,
+          264.0239,
+          293.7637,
+          296.7111
+        ],
+        "run": [
+          263.4927,
+          263.5247,
+          251.7642,
+          249.9667,
+          277.9274
+        ],
+        "a2": [
+          287.2658,
+          250.669,
+          250.9045,
+          247.3554,
+          273.8663
+        ]
+      },
+      "mean_union_per_layer": 42.65217391304348,
+      "ms_per_position": 16.46829375
+    }
+  },
+  "linear_fit": {
+    "ms_per_position": 16.50530094086022,
+    "intercept_ms": -1.0379458333332574,
+    "r2": 0.9998584914398767
+  },
+  "ceiling_tok_s": 60.586596002283024,
+  "gates": {
+    "G_Z1_L1_linearity": {
+      "r2": 0.9998584914398767,
+      "scaling_at_Nmax": 15.844515000090201,
+      "N_max": 16,
+      "passed": true
+    },
+    "G_Z1_P2C": {
+      "required_tok_s": 250.0,
+      "ceiling_tok_s": 60.586596002283024,
+      "passed": false
+    },
+    "G_Z1_S1_sanity": {
+      "x1_t1_ms": 22.454,
+      "measured_t1_ms": 16.6299,
+      "passed": false
+    }
+  },
+  "claim_boundary": "Measured cost of the ROUTED-EXPERT part of all 23 MoE layers for N verified positions, on real hidden states and real official routes, every expert resident, short context. The ceiling 1/c is an UPPER BOUND on any tree verifier's throughput for this target on this GPU: it already assumes perfect coverage (every one of the N positions committed), zero draft cost, and free Mamba, attention, LM head, router, shared expert and state commit. A real implementation pays all of those on top. It is not a measured throughput and no runtime achieving it exists."
+}

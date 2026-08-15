@@ -1,0 +1,81 @@
+{
+  "kind": "lightningstream_nemotron_n0r_layout_consistency",
+  "status": "derived_hypothesis_not_layout_proof",
+  "inputs": {
+    "config": {
+      "hidden_size": 2688,
+      "moe_intermediate_size": 1856,
+      "moe_shared_expert_intermediate_size": 3712,
+      "moe_layers": 23,
+      "n_routed_experts": 128,
+      "group_size": 16,
+      "mlp_hidden_act": "relu2"
+    },
+    "n1_frozen": {
+      "routed_record_bytes": 5612560,
+      "routed_records": 2944,
+      "routed_bucket_bytes": 16523376640,
+      "shared_bucket_bytes": 258177392,
+      "trunk_other_bytes": 2558227600,
+      "tensor_bytes": 19339781632,
+      "u8_bytes": 15245905920,
+      "f8_e4m3_bytes": 1905738240,
+      "bf16_bytes": 2156424064,
+      "f32_bytes": 31713408
+    }
+  },
+  "per_routed_expert": {
+    "up": {
+      "weights": 4988928,
+      "code_bytes": 2494464,
+      "block_scale_bytes": 311808,
+      "global_scale_bytes": 8,
+      "total": 2806280
+    },
+    "down": {
+      "weights": 4988928,
+      "code_bytes": 2494464,
+      "block_scale_bytes": 311808,
+      "global_scale_bytes": 8,
+      "total": 2806280
+    },
+    "record_bytes": 5612560
+  },
+  "per_shared_expert": {
+    "up": {
+      "weights": 9977856,
+      "code_bytes": 4988928,
+      "block_scale_bytes": 623616,
+      "global_scale_bytes": 8,
+      "total": 5612552
+    },
+    "down": {
+      "weights": 9977856,
+      "code_bytes": 4988928,
+      "block_scale_bytes": 623616,
+      "global_scale_bytes": 8,
+      "total": 5612552
+    },
+    "record_bytes": 11225104
+  },
+  "totals": {
+    "routed_bucket_bytes": 16523376640,
+    "shared_bucket_bytes": 258177392,
+    "routed_u8": 14687404032,
+    "routed_f8": 1835925504,
+    "shared_u8": 229490688,
+    "shared_f8": 28686336,
+    "residual_u8_for_trunk": 329011200,
+    "residual_f8_for_trunk": 41126400
+  },
+  "checks": {
+    "routed_record_bytes_match": true,
+    "routed_record_count_match": true,
+    "routed_bucket_match": true,
+    "shared_bucket_match": true,
+    "routed_plus_shared_u8_within_total": true,
+    "routed_plus_shared_f8_within_total": true
+  },
+  "all_checks_pass": true,
+  "interpretation": "Every frozen N1 byte bucket is reproduced exactly by the ModelOpt NVFP4 convention applied to the pinned config shapes. This makes the layout hypothesis very likely, but N2 must confirm it against real tensor-index entries and dtypes before any decoder relies on it."
+}

@@ -1,0 +1,2743 @@
+{
+  "created_at_utc": "2026-08-10T01:45:31.953017+00:00",
+  "git_revision": null,
+  "kind": "cache_routing_pareto",
+  "payload": {
+    "block_size": 128,
+    "blocks_per_split": 1,
+    "capacity_per_layer": 32,
+    "corpus_preset": "wikitext",
+    "corpus_sources": {
+      "test": "pinned WikiText-2 raw test",
+      "validation": "pinned WikiText-2 raw validation"
+    },
+    "dataset_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "experiment": "modelwide_cache_routing_paper_baseline_pareto",
+    "final": {
+      "test": {
+        "cache_prior_j2_lambda0p1": {
+          "bootstrap_95_percent_intervals": {
+            "confidence_level": 0.95,
+            "cross_entropy_delta": [
+              -0.014743834968626857,
+              -0.014743834968626857
+            ],
+            "method": "sequence-block bootstrap with replacement",
+            "relative_cross_entropy_delta": [
+              -0.006825701267744608,
+              -0.006825701267744608
+            ],
+            "resamples": 10000,
+            "sampling_units": 1,
+            "teacher_to_candidate_kl": [
+              0.008134743198752403,
+              0.008134743198752403
+            ],
+            "top1_agreement": [
+              0.9609375,
+              0.9609375
+            ]
+          },
+          "cache_bootstrap_95_percent_intervals": {
+            "confidence_level": 0.95,
+            "expert_load_reduction_fraction": [
+              0.3825703948403335,
+              0.3825703948403335
+            ],
+            "method": "sequence-block bootstrap with replacement",
+            "resamples": 10000,
+            "sampling_units": 1,
+            "substituted_token_fraction": [
+              0.7719350961538461,
+              0.7719350961538461
+            ]
+          },
+          "cache_miss_fraction": 0.1965645032051282,
+          "candidate_cross_entropy": 2.145303080401083,
+          "cross_entropy_delta": -0.014743834968626857,
+          "expert_load_reduction_fraction": 0.3825703948403335,
+          "per_block": [
+            {
+              "candidate_cross_entropy": 2.145303080401083,
+              "cross_entropy_delta": -0.014743834968626857,
+              "relative_cross_entropy_delta": -0.006825701267744608,
+              "teacher_cross_entropy": 2.1600469153697097,
+              "teacher_to_candidate_kl": 0.008134743198752403,
+              "top1_agreement": 0.9609375
+            }
+          ],
+          "relative_cross_entropy_delta": -0.006825701267744608,
+          "teacher_cross_entropy": 2.1600469153697097,
+          "teacher_to_candidate_kl": 0.008134743198752403,
+          "top1_agreement": 0.9609375
+        },
+        "original": {
+          "bootstrap_95_percent_intervals": {
+            "confidence_level": 0.95,
+            "cross_entropy_delta": [
+              0.0,
+              0.0
+            ],
+            "method": "sequence-block bootstrap with replacement",
+            "relative_cross_entropy_delta": [
+              0.0,
+              0.0
+            ],
+            "resamples": 10000,
+            "sampling_units": 1,
+            "teacher_to_candidate_kl": [
+              0.0,
+              0.0
+            ],
+            "top1_agreement": [
+              1.0,
+              1.0
+            ]
+          },
+          "cache_bootstrap_95_percent_intervals": {
+            "confidence_level": 0.95,
+            "expert_load_reduction_fraction": [
+              0.0,
+              0.0
+            ],
+            "method": "sequence-block bootstrap with replacement",
+            "resamples": 10000,
+            "sampling_units": 1,
+            "substituted_token_fraction": [
+              0.0,
+              0.0
+            ]
+          },
+          "cache_miss_fraction": 0.318359375,
+          "candidate_cross_entropy": 2.1600469153697097,
+          "cross_entropy_delta": 0.0,
+          "expert_load_reduction_fraction": 0.0,
+          "per_block": [
+            {
+              "candidate_cross_entropy": 2.1600469153697097,
+              "cross_entropy_delta": 0.0,
+              "relative_cross_entropy_delta": 0.0,
+              "teacher_cross_entropy": 2.1600469153697097,
+              "teacher_to_candidate_kl": 0.0,
+              "top1_agreement": 1.0
+            }
+          ],
+          "relative_cross_entropy_delta": 0.0,
+          "teacher_cross_entropy": 2.1600469153697097,
+          "teacher_to_candidate_kl": 0.0,
+          "top1_agreement": 1.0
+        }
+      },
+      "validation": {
+        "cache_prior_j2_lambda0p1": {
+          "bootstrap_95_percent_intervals": {
+            "confidence_level": 0.95,
+            "cross_entropy_delta": [
+              -0.021373598594365273,
+              -0.021373598594365273
+            ],
+            "method": "sequence-block bootstrap with replacement",
+            "relative_cross_entropy_delta": [
+              -0.010707469178121414,
+              -0.010707469178121414
+            ],
+            "resamples": 10000,
+            "sampling_units": 1,
+            "teacher_to_candidate_kl": [
+              0.014068808406591415,
+              0.014068808406591415
+            ],
+            "top1_agreement": [
+              0.953125,
+              0.953125
+            ]
+          },
+          "cache_bootstrap_95_percent_intervals": {
+            "confidence_level": 0.95,
+            "expert_load_reduction_fraction": [
+              0.4260693215339233,
+              0.4260693215339233
+            ],
+            "method": "sequence-block bootstrap with replacement",
+            "resamples": 10000,
+            "sampling_units": 1,
+            "substituted_token_fraction": [
+              0.6817908653846154,
+              0.6817908653846154
+            ]
+          },
+          "cache_miss_fraction": 0.1558994391025641,
+          "candidate_cross_entropy": 1.9747655673289861,
+          "cross_entropy_delta": -0.021373598594365273,
+          "expert_load_reduction_fraction": 0.4260693215339233,
+          "per_block": [
+            {
+              "candidate_cross_entropy": 1.9747655673289861,
+              "cross_entropy_delta": -0.021373598594365273,
+              "relative_cross_entropy_delta": -0.010707469178121414,
+              "teacher_cross_entropy": 1.9961391659233514,
+              "teacher_to_candidate_kl": 0.014068808406591415,
+              "top1_agreement": 0.953125
+            }
+          ],
+          "relative_cross_entropy_delta": -0.010707469178121414,
+          "teacher_cross_entropy": 1.9961391659233514,
+          "teacher_to_candidate_kl": 0.014068808406591415,
+          "top1_agreement": 0.953125
+        },
+        "original": {
+          "bootstrap_95_percent_intervals": {
+            "confidence_level": 0.95,
+            "cross_entropy_delta": [
+              0.0,
+              0.0
+            ],
+            "method": "sequence-block bootstrap with replacement",
+            "relative_cross_entropy_delta": [
+              0.0,
+              0.0
+            ],
+            "resamples": 10000,
+            "sampling_units": 1,
+            "teacher_to_candidate_kl": [
+              0.0,
+              0.0
+            ],
+            "top1_agreement": [
+              1.0,
+              1.0
+            ]
+          },
+          "cache_bootstrap_95_percent_intervals": {
+            "confidence_level": 0.95,
+            "expert_load_reduction_fraction": [
+              0.0,
+              0.0
+            ],
+            "method": "sequence-block bootstrap with replacement",
+            "resamples": 10000,
+            "sampling_units": 1,
+            "substituted_token_fraction": [
+              0.0,
+              0.0
+            ]
+          },
+          "cache_miss_fraction": 0.27163461538461536,
+          "candidate_cross_entropy": 1.9961391659233514,
+          "cross_entropy_delta": 0.0,
+          "expert_load_reduction_fraction": 0.0,
+          "per_block": [
+            {
+              "candidate_cross_entropy": 1.9961391659233514,
+              "cross_entropy_delta": 0.0,
+              "relative_cross_entropy_delta": 0.0,
+              "teacher_cross_entropy": 1.9961391659233514,
+              "teacher_to_candidate_kl": 0.0,
+              "top1_agreement": 1.0
+            }
+          ],
+          "relative_cross_entropy_delta": 0.0,
+          "teacher_cross_entropy": 1.9961391659233514,
+          "teacher_to_candidate_kl": 0.0,
+          "top1_agreement": 1.0
+        }
+      }
+    },
+    "implementation": {
+      "cache": "independent empty LRU per sequence block and MoE layer",
+      "cache_caveat": "expert-granularity simulator; no byte transfers, prefetch, concurrency, or kernel latency modeled",
+      "cache_prior_delta": "per-layer mean raw-logit range calibrated only on teacher validation tokens",
+      "execution": "gate IDs are injected into the complete official DeepSeek decoder-layer forward and official moe_infer kernel",
+      "parallel_route_eviction_order": "higher original router weight becomes older and is evicted first",
+      "selection_logits": "reranked logits choose IDs; unmodified router probabilities weight selected expert outputs",
+      "strict_baseline": "official unmodified teacher top-6 routes with an independent LRU cache"
+    },
+    "layer_reports": [
+      {
+        "delta_average_from_validation_teacher": 3.9391045570373535,
+        "layer": 1,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.3079427083333333,
+              "expert_loads": 473,
+              "original_route_overlap": 0.8515625000000006,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.3046875,
+                  "expert_loads": 234,
+                  "original_route_overlap": 0.8541666666666663,
+                  "substituted_token_fraction": 0.765625
+                },
+                {
+                  "cache_miss_fraction": 0.3111979166666667,
+                  "expert_loads": 239,
+                  "original_route_overlap": 0.8489583333333333,
+                  "substituted_token_fraction": 0.796875
+                }
+              ],
+              "substituted_token_fraction": 0.78125
+            },
+            "hidden": {
+              "cosine": 0.9993759393692017,
+              "mae": 0.002383966464549303,
+              "max_abs_error": 0.0703125,
+              "nrmse": 0.03788067027926445
+            },
+            "router_topk_overlap": 0.8515625,
+            "router_weight_nrmse": 0.20815353095531464
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.4654947916666667,
+              "expert_loads": 715,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.4778645833333333,
+                  "expert_loads": 367,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.453125,
+                  "expert_loads": 348,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.4654947916666667,
+          "expert_loads": 715,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.4778645833333333,
+              "expert_loads": 367,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.453125,
+              "expert_loads": 348,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.278894901275635,
+        "layer": 2,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.3040364583333333,
+              "expert_loads": 467,
+              "original_route_overlap": 0.8424479166666671,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.3020833333333333,
+                  "expert_loads": 232,
+                  "original_route_overlap": 0.8476562499999998,
+                  "substituted_token_fraction": 0.78125
+                },
+                {
+                  "cache_miss_fraction": 0.3059895833333333,
+                  "expert_loads": 235,
+                  "original_route_overlap": 0.8372395833333328,
+                  "substituted_token_fraction": 0.78125
+                }
+              ],
+              "substituted_token_fraction": 0.78125
+            },
+            "hidden": {
+              "cosine": 0.9987272024154663,
+              "mae": 0.00499989278614521,
+              "max_abs_error": 0.125,
+              "nrmse": 0.048455704003572464
+            },
+            "router_topk_overlap": 0.8411458333333334,
+            "router_weight_nrmse": 0.18713170289993286
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.4563802083333333,
+              "expert_loads": 701,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.48828125,
+                  "expert_loads": 375,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.4244791666666667,
+                  "expert_loads": 326,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.4563802083333333,
+          "expert_loads": 701,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.48828125,
+              "expert_loads": 375,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.4244791666666667,
+              "expert_loads": 326,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.41238260269165,
+        "layer": 3,
+        "official_gate_control": {
+          "cosine": 1.0000008344650269,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.24544270833333334,
+              "expert_loads": 377,
+              "original_route_overlap": 0.8528645833333338,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.22916666666666666,
+                  "expert_loads": 176,
+                  "original_route_overlap": 0.8632812499999993,
+                  "substituted_token_fraction": 0.765625
+                },
+                {
+                  "cache_miss_fraction": 0.26171875,
+                  "expert_loads": 201,
+                  "original_route_overlap": 0.8424479166666663,
+                  "substituted_token_fraction": 0.8125
+                }
+              ],
+              "substituted_token_fraction": 0.7890625
+            },
+            "hidden": {
+              "cosine": 0.9979311227798462,
+              "mae": 0.008115681819617748,
+              "max_abs_error": 4.0,
+              "nrmse": 0.002430843887850642
+            },
+            "router_topk_overlap": 0.8483072916666666,
+            "router_weight_nrmse": 0.18755003809928894
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.3717447916666667,
+              "expert_loads": 571,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.3736979166666667,
+                  "expert_loads": 287,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.3697916666666667,
+                  "expert_loads": 284,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000008344650269,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.3717447916666667,
+          "expert_loads": 571,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.3736979166666667,
+              "expert_loads": 287,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.3697916666666667,
+              "expert_loads": 284,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.290369033813477,
+        "layer": 4,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.21158854166666666,
+              "expert_loads": 325,
+              "original_route_overlap": 0.8730468750000008,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.1953125,
+                  "expert_loads": 150,
+                  "original_route_overlap": 0.8828124999999993,
+                  "substituted_token_fraction": 0.703125
+                },
+                {
+                  "cache_miss_fraction": 0.22786458333333334,
+                  "expert_loads": 175,
+                  "original_route_overlap": 0.8632812499999994,
+                  "substituted_token_fraction": 0.7109375
+                }
+              ],
+              "substituted_token_fraction": 0.70703125
+            },
+            "hidden": {
+              "cosine": 0.9974486231803894,
+              "mae": 0.011450031772255898,
+              "max_abs_error": 8.0,
+              "nrmse": 0.004092274233698845
+            },
+            "router_topk_overlap": 0.8665364583333334,
+            "router_weight_nrmse": 0.20696325600147247
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.3346354166666667,
+              "expert_loads": 514,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.3294270833333333,
+                  "expert_loads": 253,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.33984375,
+                  "expert_loads": 261,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.3346354166666667,
+          "expert_loads": 514,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.3294270833333333,
+              "expert_loads": 253,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.33984375,
+              "expert_loads": 261,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.478487014770508,
+        "layer": 5,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.2109375,
+              "expert_loads": 324,
+              "original_route_overlap": 0.8580729166666675,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.1953125,
+                  "expert_loads": 150,
+                  "original_route_overlap": 0.8723958333333327,
+                  "substituted_token_fraction": 0.703125
+                },
+                {
+                  "cache_miss_fraction": 0.2265625,
+                  "expert_loads": 174,
+                  "original_route_overlap": 0.8437499999999992,
+                  "substituted_token_fraction": 0.859375
+                }
+              ],
+              "substituted_token_fraction": 0.78125
+            },
+            "hidden": {
+              "cosine": 0.9969027042388916,
+              "mae": 0.014405682682991028,
+              "max_abs_error": 8.0,
+              "nrmse": 0.004423529375344515
+            },
+            "router_topk_overlap": 0.853515625,
+            "router_weight_nrmse": 0.20267990231513977
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.3391927083333333,
+              "expert_loads": 521,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.3138020833333333,
+                  "expert_loads": 241,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.3645833333333333,
+                  "expert_loads": 280,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.3391927083333333,
+          "expert_loads": 521,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.3138020833333333,
+              "expert_loads": 241,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.3645833333333333,
+              "expert_loads": 280,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.348508358001709,
+        "layer": 6,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.20638020833333334,
+              "expert_loads": 317,
+              "original_route_overlap": 0.8580729166666676,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.18619791666666666,
+                  "expert_loads": 143,
+                  "original_route_overlap": 0.8489583333333331,
+                  "substituted_token_fraction": 0.8046875
+                },
+                {
+                  "cache_miss_fraction": 0.2265625,
+                  "expert_loads": 174,
+                  "original_route_overlap": 0.8671874999999993,
+                  "substituted_token_fraction": 0.765625
+                }
+              ],
+              "substituted_token_fraction": 0.78515625
+            },
+            "hidden": {
+              "cosine": 0.9964726567268372,
+              "mae": 0.01810334250330925,
+              "max_abs_error": 8.0,
+              "nrmse": 0.004968222230672836
+            },
+            "router_topk_overlap": 0.85546875,
+            "router_weight_nrmse": 0.23343078792095184
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.3046875,
+              "expert_loads": 468,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.2903645833333333,
+                  "expert_loads": 223,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.3190104166666667,
+                  "expert_loads": 245,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.3046875,
+          "expert_loads": 468,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.2903645833333333,
+              "expert_loads": 223,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.3190104166666667,
+              "expert_loads": 245,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.157659530639648,
+        "layer": 7,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.13932291666666666,
+              "expert_loads": 214,
+              "original_route_overlap": 0.8828125000000008,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.11848958333333333,
+                  "expert_loads": 91,
+                  "original_route_overlap": 0.8945312499999994,
+                  "substituted_token_fraction": 0.640625
+                },
+                {
+                  "cache_miss_fraction": 0.16015625,
+                  "expert_loads": 123,
+                  "original_route_overlap": 0.8710937499999992,
+                  "substituted_token_fraction": 0.6953125
+                }
+              ],
+              "substituted_token_fraction": 0.66796875
+            },
+            "hidden": {
+              "cosine": 0.9959917664527893,
+              "mae": 0.020807333290576935,
+              "max_abs_error": 8.0,
+              "nrmse": 0.005429922137409449
+            },
+            "router_topk_overlap": 0.873046875,
+            "router_weight_nrmse": 0.2110864669084549
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.2649739583333333,
+              "expert_loads": 407,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.23567708333333334,
+                  "expert_loads": 181,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.2942708333333333,
+                  "expert_loads": 226,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.2649739583333333,
+          "expert_loads": 407,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.23567708333333334,
+              "expert_loads": 181,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.2942708333333333,
+              "expert_loads": 226,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.299365997314453,
+        "layer": 8,
+        "official_gate_control": {
+          "cosine": 1.0000005960464478,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.11979166666666667,
+              "expert_loads": 184,
+              "original_route_overlap": 0.8912760416666677,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.08854166666666667,
+                  "expert_loads": 68,
+                  "original_route_overlap": 0.9192708333333329,
+                  "substituted_token_fraction": 0.4921875
+                },
+                {
+                  "cache_miss_fraction": 0.15104166666666666,
+                  "expert_loads": 116,
+                  "original_route_overlap": 0.8632812499999997,
+                  "substituted_token_fraction": 0.71875
+                }
+              ],
+              "substituted_token_fraction": 0.60546875
+            },
+            "hidden": {
+              "cosine": 0.9955490231513977,
+              "mae": 0.02506295219063759,
+              "max_abs_error": 8.0,
+              "nrmse": 0.0062102871015667915
+            },
+            "router_topk_overlap": 0.884765625,
+            "router_weight_nrmse": 0.21676981449127197
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.216796875,
+              "expert_loads": 333,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.17447916666666666,
+                  "expert_loads": 134,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.2591145833333333,
+                  "expert_loads": 199,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000005960464478,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.216796875,
+          "expert_loads": 333,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.17447916666666666,
+              "expert_loads": 134,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.2591145833333333,
+              "expert_loads": 199,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.49882173538208,
+        "layer": 9,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.12955729166666666,
+              "expert_loads": 199,
+              "original_route_overlap": 0.8684895833333338,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.12369791666666667,
+                  "expert_loads": 95,
+                  "original_route_overlap": 0.8815104166666662,
+                  "substituted_token_fraction": 0.6171875
+                },
+                {
+                  "cache_miss_fraction": 0.13541666666666666,
+                  "expert_loads": 104,
+                  "original_route_overlap": 0.8554687499999997,
+                  "substituted_token_fraction": 0.765625
+                }
+              ],
+              "substituted_token_fraction": 0.69140625
+            },
+            "hidden": {
+              "cosine": 0.9959080815315247,
+              "mae": 0.028191693127155304,
+              "max_abs_error": 8.0,
+              "nrmse": 0.006810544990003109
+            },
+            "router_topk_overlap": 0.861328125,
+            "router_weight_nrmse": 0.23572975397109985
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.228515625,
+              "expert_loads": 351,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.19791666666666666,
+                  "expert_loads": 152,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.2591145833333333,
+                  "expert_loads": 199,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.228515625,
+          "expert_loads": 351,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.19791666666666666,
+              "expert_loads": 152,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.2591145833333333,
+              "expert_loads": 199,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.477789402008057,
+        "layer": 10,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.12434895833333333,
+              "expert_loads": 191,
+              "original_route_overlap": 0.8710937500000009,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.11979166666666667,
+                  "expert_loads": 92,
+                  "original_route_overlap": 0.8606770833333327,
+                  "substituted_token_fraction": 0.7578125
+                },
+                {
+                  "cache_miss_fraction": 0.12890625,
+                  "expert_loads": 99,
+                  "original_route_overlap": 0.8815104166666664,
+                  "substituted_token_fraction": 0.671875
+                }
+              ],
+              "substituted_token_fraction": 0.71484375
+            },
+            "hidden": {
+              "cosine": 0.9955551028251648,
+              "mae": 0.033017341047525406,
+              "max_abs_error": 8.0,
+              "nrmse": 0.007733809761703014
+            },
+            "router_topk_overlap": 0.8645833333333334,
+            "router_weight_nrmse": 0.23914887011051178
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.23567708333333334,
+              "expert_loads": 362,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.2265625,
+                  "expert_loads": 174,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.24479166666666666,
+                  "expert_loads": 188,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.23567708333333334,
+          "expert_loads": 362,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.2265625,
+              "expert_loads": 174,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.24479166666666666,
+              "expert_loads": 188,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.230923652648926,
+        "layer": 11,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.14973958333333334,
+              "expert_loads": 230,
+              "original_route_overlap": 0.8736979166666674,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.13671875,
+                  "expert_loads": 105,
+                  "original_route_overlap": 0.8867187499999994,
+                  "substituted_token_fraction": 0.6796875
+                },
+                {
+                  "cache_miss_fraction": 0.16276041666666666,
+                  "expert_loads": 125,
+                  "original_route_overlap": 0.8606770833333331,
+                  "substituted_token_fraction": 0.78125
+                }
+              ],
+              "substituted_token_fraction": 0.73046875
+            },
+            "hidden": {
+              "cosine": 0.9964592456817627,
+              "mae": 0.037694066762924194,
+              "max_abs_error": 8.0,
+              "nrmse": 0.008571994490921497
+            },
+            "router_topk_overlap": 0.8658854166666666,
+            "router_weight_nrmse": 0.2389790564775467
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.2552083333333333,
+              "expert_loads": 392,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.23697916666666666,
+                  "expert_loads": 182,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.2734375,
+                  "expert_loads": 210,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.2552083333333333,
+          "expert_loads": 392,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.23697916666666666,
+              "expert_loads": 182,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.2734375,
+              "expert_loads": 210,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.434002876281738,
+        "layer": 12,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.13541666666666666,
+              "expert_loads": 208,
+              "original_route_overlap": 0.884114583333334,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.11848958333333333,
+                  "expert_loads": 91,
+                  "original_route_overlap": 0.8958333333333327,
+                  "substituted_token_fraction": 0.6328125
+                },
+                {
+                  "cache_miss_fraction": 0.15234375,
+                  "expert_loads": 117,
+                  "original_route_overlap": 0.8723958333333331,
+                  "substituted_token_fraction": 0.71875
+                }
+              ],
+              "substituted_token_fraction": 0.67578125
+            },
+            "hidden": {
+              "cosine": 0.9959957599639893,
+              "mae": 0.04375876113772392,
+              "max_abs_error": 12.0,
+              "nrmse": 0.009918316267430782
+            },
+            "router_topk_overlap": 0.873046875,
+            "router_weight_nrmse": 0.20989049971103668
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.24153645833333334,
+              "expert_loads": 371,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.20963541666666666,
+                  "expert_loads": 161,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.2734375,
+                  "expert_loads": 210,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.24153645833333334,
+          "expert_loads": 371,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.20963541666666666,
+              "expert_loads": 161,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.2734375,
+              "expert_loads": 210,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 4.967872619628906,
+        "layer": 13,
+        "official_gate_control": {
+          "cosine": 1.0000007152557373,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.11653645833333333,
+              "expert_loads": 179,
+              "original_route_overlap": 0.893880208333334,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.09244791666666667,
+                  "expert_loads": 71,
+                  "original_route_overlap": 0.9140624999999997,
+                  "substituted_token_fraction": 0.515625
+                },
+                {
+                  "cache_miss_fraction": 0.140625,
+                  "expert_loads": 108,
+                  "original_route_overlap": 0.8736979166666662,
+                  "substituted_token_fraction": 0.671875
+                }
+              ],
+              "substituted_token_fraction": 0.59375
+            },
+            "hidden": {
+              "cosine": 0.9961294531822205,
+              "mae": 0.04780476540327072,
+              "max_abs_error": 12.0,
+              "nrmse": 0.010716299526393414
+            },
+            "router_topk_overlap": 0.8828125,
+            "router_weight_nrmse": 0.18807761371135712
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.20572916666666666,
+              "expert_loads": 316,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.18359375,
+                  "expert_loads": 141,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.22786458333333334,
+                  "expert_loads": 175,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000007152557373,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.20572916666666666,
+          "expert_loads": 316,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.18359375,
+              "expert_loads": 141,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.22786458333333334,
+              "expert_loads": 175,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.6975555419921875,
+        "layer": 14,
+        "official_gate_control": {
+          "cosine": 1.0000005960464478,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.13932291666666666,
+              "expert_loads": 214,
+              "original_route_overlap": 0.8580729166666676,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.13151041666666666,
+                  "expert_loads": 101,
+                  "original_route_overlap": 0.8802083333333328,
+                  "substituted_token_fraction": 0.671875
+                },
+                {
+                  "cache_miss_fraction": 0.14713541666666666,
+                  "expert_loads": 113,
+                  "original_route_overlap": 0.8359374999999996,
+                  "substituted_token_fraction": 0.8515625
+                }
+              ],
+              "substituted_token_fraction": 0.76171875
+            },
+            "hidden": {
+              "cosine": 0.9963651299476624,
+              "mae": 0.05343880131840706,
+              "max_abs_error": 12.0,
+              "nrmse": 0.011775362305343151
+            },
+            "router_topk_overlap": 0.8522135416666666,
+            "router_weight_nrmse": 0.17690061032772064
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.24544270833333334,
+              "expert_loads": 377,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.20572916666666666,
+                  "expert_loads": 158,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.28515625,
+                  "expert_loads": 219,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000005960464478,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.24544270833333334,
+          "expert_loads": 377,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.20572916666666666,
+              "expert_loads": 158,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.28515625,
+              "expert_loads": 219,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.077470302581787,
+        "layer": 15,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.13346354166666666,
+              "expert_loads": 205,
+              "original_route_overlap": 0.8763020833333341,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.12239583333333333,
+                  "expert_loads": 94,
+                  "original_route_overlap": 0.8945312499999997,
+                  "substituted_token_fraction": 0.6171875
+                },
+                {
+                  "cache_miss_fraction": 0.14453125,
+                  "expert_loads": 111,
+                  "original_route_overlap": 0.8580729166666663,
+                  "substituted_token_fraction": 0.734375
+                }
+              ],
+              "substituted_token_fraction": 0.67578125
+            },
+            "hidden": {
+              "cosine": 0.9964132308959961,
+              "mae": 0.05942026898264885,
+              "max_abs_error": 12.0,
+              "nrmse": 0.012923171743750572
+            },
+            "router_topk_overlap": 0.869140625,
+            "router_weight_nrmse": 0.1752694994211197
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.23958333333333334,
+              "expert_loads": 368,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.234375,
+                  "expert_loads": 180,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.24479166666666666,
+                  "expert_loads": 188,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.23958333333333334,
+          "expert_loads": 368,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.234375,
+              "expert_loads": 180,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.24479166666666666,
+              "expert_loads": 188,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.4430155754089355,
+        "layer": 16,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.14908854166666666,
+              "expert_loads": 229,
+              "original_route_overlap": 0.8645833333333341,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.11979166666666667,
+                  "expert_loads": 92,
+                  "original_route_overlap": 0.8867187499999997,
+                  "substituted_token_fraction": 0.6328125
+                },
+                {
+                  "cache_miss_fraction": 0.17838541666666666,
+                  "expert_loads": 137,
+                  "original_route_overlap": 0.8424479166666664,
+                  "substituted_token_fraction": 0.78125
+                }
+              ],
+              "substituted_token_fraction": 0.70703125
+            },
+            "hidden": {
+              "cosine": 0.9964584708213806,
+              "mae": 0.06738840788602829,
+              "max_abs_error": 12.0,
+              "nrmse": 0.014601740054786205
+            },
+            "router_topk_overlap": 0.8567708333333334,
+            "router_weight_nrmse": 0.1765899956226349
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.2552083333333333,
+              "expert_loads": 392,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.1953125,
+                  "expert_loads": 150,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.3151041666666667,
+                  "expert_loads": 242,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.2552083333333333,
+          "expert_loads": 392,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.1953125,
+              "expert_loads": 150,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.3151041666666667,
+              "expert_loads": 242,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.426952362060547,
+        "layer": 17,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.19856770833333334,
+              "expert_loads": 305,
+              "original_route_overlap": 0.863932291666668,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.17057291666666666,
+                  "expert_loads": 131,
+                  "original_route_overlap": 0.8776041666666665,
+                  "substituted_token_fraction": 0.671875
+                },
+                {
+                  "cache_miss_fraction": 0.2265625,
+                  "expert_loads": 174,
+                  "original_route_overlap": 0.8502604166666663,
+                  "substituted_token_fraction": 0.8671875
+                }
+              ],
+              "substituted_token_fraction": 0.76953125
+            },
+            "hidden": {
+              "cosine": 0.9965263605117798,
+              "mae": 0.0744282677769661,
+              "max_abs_error": 12.0,
+              "nrmse": 0.01598178781569004
+            },
+            "router_topk_overlap": 0.8561197916666666,
+            "router_weight_nrmse": 0.16641883552074432
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.3079427083333333,
+              "expert_loads": 473,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.27734375,
+                  "expert_loads": 213,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.3385416666666667,
+                  "expert_loads": 260,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.3079427083333333,
+          "expert_loads": 473,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.27734375,
+              "expert_loads": 213,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.3385416666666667,
+              "expert_loads": 260,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.022680282592773,
+        "layer": 18,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.15690104166666666,
+              "expert_loads": 241,
+              "original_route_overlap": 0.8515625000000009,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.11979166666666667,
+                  "expert_loads": 92,
+                  "original_route_overlap": 0.8828124999999994,
+                  "substituted_token_fraction": 0.6796875
+                },
+                {
+                  "cache_miss_fraction": 0.19401041666666666,
+                  "expert_loads": 149,
+                  "original_route_overlap": 0.8203124999999998,
+                  "substituted_token_fraction": 0.8046875
+                }
+              ],
+              "substituted_token_fraction": 0.7421875
+            },
+            "hidden": {
+              "cosine": 0.9967678189277649,
+              "mae": 0.08212808519601822,
+              "max_abs_error": 12.0,
+              "nrmse": 0.017398348078131676
+            },
+            "router_topk_overlap": 0.8404947916666666,
+            "router_weight_nrmse": 0.20090332627296448
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.2897135416666667,
+              "expert_loads": 445,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.24348958333333334,
+                  "expert_loads": 187,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.3359375,
+                  "expert_loads": 258,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.2897135416666667,
+          "expert_loads": 445,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.24348958333333334,
+              "expert_loads": 187,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.3359375,
+              "expert_loads": 258,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.523298263549805,
+        "layer": 19,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.166015625,
+              "expert_loads": 255,
+              "original_route_overlap": 0.8587239583333339,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.12109375,
+                  "expert_loads": 93,
+                  "original_route_overlap": 0.8789062499999997,
+                  "substituted_token_fraction": 0.6640625
+                },
+                {
+                  "cache_miss_fraction": 0.2109375,
+                  "expert_loads": 162,
+                  "original_route_overlap": 0.8385416666666664,
+                  "substituted_token_fraction": 0.8046875
+                }
+              ],
+              "substituted_token_fraction": 0.734375
+            },
+            "hidden": {
+              "cosine": 0.9967455863952637,
+              "mae": 0.09251566976308823,
+              "max_abs_error": 12.0,
+              "nrmse": 0.01938573643565178
+            },
+            "router_topk_overlap": 0.853515625,
+            "router_weight_nrmse": 0.16239038109779358
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.29296875,
+              "expert_loads": 450,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.25,
+                  "expert_loads": 192,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.3359375,
+                  "expert_loads": 258,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.29296875,
+          "expert_loads": 450,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.25,
+              "expert_loads": 192,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.3359375,
+              "expert_loads": 258,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.170784950256348,
+        "layer": 20,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.16536458333333334,
+              "expert_loads": 254,
+              "original_route_overlap": 0.8561197916666676,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.12760416666666666,
+                  "expert_loads": 98,
+                  "original_route_overlap": 0.8893229166666664,
+                  "substituted_token_fraction": 0.625
+                },
+                {
+                  "cache_miss_fraction": 0.203125,
+                  "expert_loads": 156,
+                  "original_route_overlap": 0.8229166666666662,
+                  "substituted_token_fraction": 0.8203125
+                }
+              ],
+              "substituted_token_fraction": 0.72265625
+            },
+            "hidden": {
+              "cosine": 0.9968851208686829,
+              "mae": 0.10296032577753067,
+              "max_abs_error": 12.0,
+              "nrmse": 0.02127666026353836
+            },
+            "router_topk_overlap": 0.8483072916666666,
+            "router_weight_nrmse": 0.2041156142950058
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.283203125,
+              "expert_loads": 435,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.24088541666666666,
+                  "expert_loads": 185,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.3255208333333333,
+                  "expert_loads": 250,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.283203125,
+          "expert_loads": 435,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.24088541666666666,
+              "expert_loads": 185,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.3255208333333333,
+              "expert_loads": 250,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.318218231201172,
+        "layer": 21,
+        "official_gate_control": {
+          "cosine": 1.0000004768371582,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.17513020833333334,
+              "expert_loads": 269,
+              "original_route_overlap": 0.8606770833333343,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.1484375,
+                  "expert_loads": 114,
+                  "original_route_overlap": 0.8632812499999997,
+                  "substituted_token_fraction": 0.6796875
+                },
+                {
+                  "cache_miss_fraction": 0.20182291666666666,
+                  "expert_loads": 155,
+                  "original_route_overlap": 0.8580729166666663,
+                  "substituted_token_fraction": 0.7109375
+                }
+              ],
+              "substituted_token_fraction": 0.6953125
+            },
+            "hidden": {
+              "cosine": 0.9967858195304871,
+              "mae": 0.1170528382062912,
+              "max_abs_error": 12.0,
+              "nrmse": 0.023829113692045212
+            },
+            "router_topk_overlap": 0.8522135416666666,
+            "router_weight_nrmse": 0.17717254161834717
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.29296875,
+              "expert_loads": 450,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.2669270833333333,
+                  "expert_loads": 205,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.3190104166666667,
+                  "expert_loads": 245,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000004768371582,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.29296875,
+          "expert_loads": 450,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.2669270833333333,
+              "expert_loads": 205,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.3190104166666667,
+              "expert_loads": 245,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.324808120727539,
+        "layer": 22,
+        "official_gate_control": {
+          "cosine": 1.000000238418579,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.17122395833333334,
+              "expert_loads": 263,
+              "original_route_overlap": 0.841796875,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.14973958333333334,
+                  "expert_loads": 115,
+                  "original_route_overlap": 0.8645833333333326,
+                  "substituted_token_fraction": 0.7734375
+                },
+                {
+                  "cache_miss_fraction": 0.19270833333333334,
+                  "expert_loads": 148,
+                  "original_route_overlap": 0.8190104166666667,
+                  "substituted_token_fraction": 0.8671875
+                }
+              ],
+              "substituted_token_fraction": 0.8203125
+            },
+            "hidden": {
+              "cosine": 0.9968230128288269,
+              "mae": 0.1323440968990326,
+              "max_abs_error": 12.0,
+              "nrmse": 0.026496130973100662
+            },
+            "router_topk_overlap": 0.8359375,
+            "router_weight_nrmse": 0.19286148250102997
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.2975260416666667,
+              "expert_loads": 457,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.25,
+                  "expert_loads": 192,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.3450520833333333,
+                  "expert_loads": 265,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.000000238418579,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.2975260416666667,
+          "expert_loads": 457,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.25,
+              "expert_loads": 192,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.3450520833333333,
+              "expert_loads": 265,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.042132377624512,
+        "layer": 23,
+        "official_gate_control": {
+          "cosine": 1.0000001192092896,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.16861979166666666,
+              "expert_loads": 259,
+              "original_route_overlap": 0.8398437500000007,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.14583333333333334,
+                  "expert_loads": 112,
+                  "original_route_overlap": 0.8515624999999997,
+                  "substituted_token_fraction": 0.78125
+                },
+                {
+                  "cache_miss_fraction": 0.19140625,
+                  "expert_loads": 147,
+                  "original_route_overlap": 0.8281249999999997,
+                  "substituted_token_fraction": 0.7890625
+                }
+              ],
+              "substituted_token_fraction": 0.78515625
+            },
+            "hidden": {
+              "cosine": 0.9972000122070312,
+              "mae": 0.14953869581222534,
+              "max_abs_error": 12.0,
+              "nrmse": 0.029274702072143555
+            },
+            "router_topk_overlap": 0.833984375,
+            "router_weight_nrmse": 0.20228895545005798
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.3177083333333333,
+              "expert_loads": 488,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.3046875,
+                  "expert_loads": 234,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.3307291666666667,
+                  "expert_loads": 254,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000001192092896,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.3177083333333333,
+          "expert_loads": 488,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.3046875,
+              "expert_loads": 234,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.3307291666666667,
+              "expert_loads": 254,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.069612503051758,
+        "layer": 24,
+        "official_gate_control": {
+          "cosine": 1.0000001192092896,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.12825520833333334,
+              "expert_loads": 197,
+              "original_route_overlap": 0.8437500000000007,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.10807291666666667,
+                  "expert_loads": 83,
+                  "original_route_overlap": 0.869791666666667,
+                  "substituted_token_fraction": 0.640625
+                },
+                {
+                  "cache_miss_fraction": 0.1484375,
+                  "expert_loads": 114,
+                  "original_route_overlap": 0.8177083333333327,
+                  "substituted_token_fraction": 0.78125
+                }
+              ],
+              "substituted_token_fraction": 0.7109375
+            },
+            "hidden": {
+              "cosine": 0.9974770545959473,
+              "mae": 0.1715041697025299,
+              "max_abs_error": 8.0,
+              "nrmse": 0.03992519900202751
+            },
+            "router_topk_overlap": 0.8385416666666666,
+            "router_weight_nrmse": 0.20343613624572754
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.2643229166666667,
+              "expert_loads": 406,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.24479166666666666,
+                  "expert_loads": 188,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.2838541666666667,
+                  "expert_loads": 218,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000001192092896,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.2643229166666667,
+          "expert_loads": 406,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.24479166666666666,
+              "expert_loads": 188,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.2838541666666667,
+              "expert_loads": 218,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.324648857116699,
+        "layer": 25,
+        "official_gate_control": {
+          "cosine": 1.0000001192092896,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.19986979166666666,
+              "expert_loads": 307,
+              "original_route_overlap": 0.8567708333333343,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.16015625,
+                  "expert_loads": 123,
+                  "original_route_overlap": 0.8606770833333331,
+                  "substituted_token_fraction": 0.7578125
+                },
+                {
+                  "cache_miss_fraction": 0.23958333333333334,
+                  "expert_loads": 184,
+                  "original_route_overlap": 0.852864583333333,
+                  "substituted_token_fraction": 0.75
+                }
+              ],
+              "substituted_token_fraction": 0.75390625
+            },
+            "hidden": {
+              "cosine": 0.9981552958488464,
+              "mae": 0.19200727343559265,
+              "max_abs_error": 8.0,
+              "nrmse": 0.05414184182882309
+            },
+            "router_topk_overlap": 0.8522135416666666,
+            "router_weight_nrmse": 0.18337221443653107
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.3209635416666667,
+              "expert_loads": 493,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.2864583333333333,
+                  "expert_loads": 220,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.35546875,
+                  "expert_loads": 273,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000001192092896,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.3209635416666667,
+          "expert_loads": 493,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.2864583333333333,
+              "expert_loads": 220,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.35546875,
+              "expert_loads": 273,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      },
+      {
+        "delta_average_from_validation_teacher": 5.385427951812744,
+        "layer": 26,
+        "official_gate_control": {
+          "cosine": 1.0000001192092896,
+          "mae": 0.0,
+          "max_abs_error": 0.0,
+          "nrmse": 0.0
+        },
+        "policies": {
+          "cache_prior_j2_lambda0p1": {
+            "cache": {
+              "cache_miss_fraction": 0.22916666666666666,
+              "expert_loads": 352,
+              "original_route_overlap": 0.875000000000001,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.21744791666666666,
+                  "expert_loads": 167,
+                  "original_route_overlap": 0.8828124999999997,
+                  "substituted_token_fraction": 0.671875
+                },
+                {
+                  "cache_miss_fraction": 0.24088541666666666,
+                  "expert_loads": 185,
+                  "original_route_overlap": 0.8671874999999993,
+                  "substituted_token_fraction": 0.7578125
+                }
+              ],
+              "substituted_token_fraction": 0.71484375
+            },
+            "hidden": {
+              "cosine": 0.9987582564353943,
+              "mae": 0.2140464186668396,
+              "max_abs_error": 17.5,
+              "nrmse": 0.04729020595550537
+            },
+            "router_topk_overlap": 0.869140625,
+            "router_weight_nrmse": 0.17882978916168213
+          },
+          "original": {
+            "cache": {
+              "cache_miss_fraction": 0.341796875,
+              "expert_loads": 525,
+              "original_route_overlap": 1.0,
+              "per_block": [
+                {
+                  "cache_miss_fraction": 0.32421875,
+                  "expert_loads": 249,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                },
+                {
+                  "cache_miss_fraction": 0.359375,
+                  "expert_loads": 276,
+                  "original_route_overlap": 1.0,
+                  "substituted_token_fraction": 0.0
+                }
+              ],
+              "substituted_token_fraction": 0.0
+            },
+            "hidden": {
+              "cosine": 1.0000001192092896,
+              "mae": 0.0,
+              "max_abs_error": 0.0,
+              "nrmse": 0.0
+            },
+            "router_topk_overlap": 1.0,
+            "router_weight_nrmse": 0.0
+          }
+        },
+        "strict_cache": {
+          "cache_miss_fraction": 0.341796875,
+          "expert_loads": 525,
+          "original_route_overlap": 1.0,
+          "per_block": [
+            {
+              "cache_miss_fraction": 0.32421875,
+              "expert_loads": 249,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            },
+            {
+              "cache_miss_fraction": 0.359375,
+              "expert_loads": 276,
+              "original_route_overlap": 1.0,
+              "substituted_token_fraction": 0.0
+            }
+          ],
+          "substituted_token_fraction": 0.0
+        }
+      }
+    ],
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "numerical_validation": {
+      "official_original_control_max_abs_across_layers": 0.0,
+      "per_layer_metrics_in_layer_reports": true
+    },
+    "policies": {
+      "cache_prior_j2_lambda0p1": {
+        "method": "cache_prior",
+        "parameter": 0.1,
+        "top_j": 2
+      },
+      "original": {
+        "method": "original",
+        "parameter": 0.0,
+        "top_j": 0
+      }
+    },
+    "status": "complete",
+    "total_cache_statistics": {
+      "cache_prior_j2_lambda0p1": {
+        "adaptive_expert_loads": 7038,
+        "cache_miss_fraction": 0.17623197115384615,
+        "expert_load_reduction_fraction": 0.4025974025974026,
+        "original_route_overlap": 0.8634064503205136,
+        "per_block": [
+          {
+            "adaptive_expert_loads": 3113,
+            "cache_miss_fraction": 0.1558994391025641,
+            "expert_load_reduction_fraction": 0.4260693215339233,
+            "original_route_overlap": 0.877103365384615,
+            "strict_expert_loads": 5424,
+            "substituted_token_fraction": 0.6817908653846154,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 3925,
+            "cache_miss_fraction": 0.1965645032051282,
+            "expert_load_reduction_fraction": 0.3825703948403335,
+            "original_route_overlap": 0.8497095352564101,
+            "strict_expert_loads": 6357,
+            "substituted_token_fraction": 0.7719350961538461,
+            "token_expert_decisions": 3328
+          }
+        ],
+        "strict_cache_miss_fraction": 0.2949969951923077,
+        "strict_expert_loads": 11781,
+        "substituted_token_fraction": 0.7268629807692307
+      },
+      "original": {
+        "adaptive_expert_loads": 11781,
+        "cache_miss_fraction": 0.2949969951923077,
+        "expert_load_reduction_fraction": 0.0,
+        "original_route_overlap": 1.0,
+        "per_block": [
+          {
+            "adaptive_expert_loads": 5424,
+            "cache_miss_fraction": 0.27163461538461536,
+            "expert_load_reduction_fraction": 0.0,
+            "original_route_overlap": 1.0,
+            "strict_expert_loads": 5424,
+            "substituted_token_fraction": 0.0,
+            "token_expert_decisions": 3328
+          },
+          {
+            "adaptive_expert_loads": 6357,
+            "cache_miss_fraction": 0.318359375,
+            "expert_load_reduction_fraction": 0.0,
+            "original_route_overlap": 1.0,
+            "strict_expert_loads": 6357,
+            "substituted_token_fraction": 0.0,
+            "token_expert_decisions": 3328
+          }
+        ],
+        "strict_cache_miss_fraction": 0.2949969951923077,
+        "strict_expert_loads": 11781,
+        "substituted_token_fraction": 0.0
+      }
+    },
+    "validation_pareto_front": [
+      "cache_prior_j2_lambda0p1",
+      "original"
+    ],
+    "validation_selection": {
+      "chosen": "original",
+      "eligible": [
+        "original"
+      ],
+      "kl_limit": 0.01,
+      "relative_ce_limit": 0.005,
+      "test_not_used_for_selection": true
+    },
+    "wall_seconds": 61.240778799998225
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,139 @@
+registry_id: BITFLOW_MOE_V1
+created_at: '2026-08-11'
+status: proposed_not_run
+claim_status: hypothesis_only
+
+closed_upstream_registries:
+  CRAFT_MOE:
+    status: closed_no_eureka
+    immutable: true
+  RSIV_MOE_V1:
+    status: falsified_rank_working_set
+    immutable: true
+  FLEQ_MOE:
+    status: p1_smoke_negative
+    immutable: true
+  E2GQ_MOE:
+    status: p0_coverage_negative
+    immutable: true
+
+hypothesis:
+  name: BITFLOW-MoE
+  statement: >-
+    Full-rank low-entropy MoE experts can be repaired at the aggregate
+    residual-stream bottleneck by a tiny route-conditioned full-rank equalizer.
+    The repair storage overhead is O(1/E) relative to the expert bank and can
+    fit inside the measured Qwen GPTQ entropy reserve.
+
+math:
+  repair_overhead_bpp: 'J * b_repair * d / (3 * E * m)'
+  repair_compute_ratio: 'J * d / (3 * top_k * m)'
+  qwen_two_matrix_effective_bpp: 0.057291666666666664
+  qwen_one_route_embedding_bpp: 0.0008680555555555555
+  supplied_physical_base_bpp: 1.930709
+  projected_total_routed_bpp: 1.9888687222222223
+
+p0:
+  name: v2_full_rank_error_funnel
+  model:
+    id: deepseek-ai/DeepSeek-V2-Lite
+    revision: 604d5664dddd88a0433dbae533b7fe9472482de0
+  dataset:
+    id: wikitext-2-raw-v1
+    revision: b08601e04326c79dfdd32d625aee71d232d685c3
+  bases:
+    - uniform_q4_all_routed_layers
+    - uniform_q3_all_routed_layers
+  candidates:
+    C0:
+      features: [provisional_post_state]
+      dense_matrices_per_layer: 1
+    C1:
+      features: [provisional_post_state, quantized_moe_output]
+      dense_matrices_per_layer: 2
+    C2:
+      features: [route_film_provisional_state, route_film_quantized_moe_output]
+      dense_matrices_per_layer: 2
+      dependency: C1_validation_progression_gate
+  fitting:
+    method: deterministic_ridge
+    student_state_sequential: true
+    validation_selects_lambda: true
+    test_open_once: true
+  primary_gates_q4:
+    ce_damage_recovery_min: 0.70
+    relative_ce_increase_max: 0.01
+    top1_agreement_min: 0.97
+    no_late_layer_error_explosion: true
+  strong_gates_q3:
+    relative_ce_increase_max: 0.02
+    top1_agreement_min: 0.95
+  hard_stop:
+    c1_q4_ce_damage_recovery_min: 0.50
+    action_if_fail: close_linear_branch_no_posthoc_complexity
+
+p1:
+  name: nonlinear_parity_repair
+  dependency: p0_pass_or_preregistered_near_miss
+  allowed_architectures:
+    - one_full_width_q4_repair_expert_per_layer
+    - two_stored_q4_repair_experts_top1_active
+  training:
+    sequential_layer_fit: true
+    joint_logit_distillation: true
+    student_state_dataset_aggregation: true
+    teacher_not_used_at_inference: true
+
+p2:
+  name: qwen_balanced_low_bit_base
+  dependency: p0_or_p1_pass
+  model:
+    id: Qwen/Qwen3-30B-A3B-Base
+    revision: 1b75feb79f60b8dc6c5bc769a898c206a1c6a4f9
+  calibration_candidates:
+    - router_logit_topN_counterfactual_per_expert
+    - published_expert_balanced_calibration
+    - activation_agnostic_rtn_control
+  no_silent_undercoverage_fallback: true
+
+p3:
+  name: progressive_tail_syndrome
+  dependency: p2_low_bit_base_frozen
+  code_alphabet: [-2, -1, 0, 1]
+  exact_decomposition: 'q = max(q,-1) - 1[q==-2]'
+  inference_sensor: 'output_q2 - output_ternary_core'
+  hard_classifier_forbidden: true
+  actual_total_routed_bpp_max: 2.0
+
+p4:
+  name: physical_runtime
+  dependency: p3_quality_pass
+  constraints:
+    batch: 1
+    vram_gib_max: 8
+    process_ram_gib_max: 32
+    decode_tokens_per_second_min: 10
+    relative_ce_increase_max: 0.02
+    free_rollout_tokens_min: 512
+  required_measurements:
+    - actual_file_bpp
+    - actual_h2d_bytes_per_token
+    - p50_p95_p99_token_latency
+    - entropy_decode_time
+    - grouped_mvm_time
+    - energy
+    - task_accuracy
+
+novelty_boundary:
+  prior_art_components:
+    - low_bit_moe_quantization
+    - entropy_coding
+    - quantization_error_propagation
+    - low_rank_error_compensation
+    - expert_balanced_calibration
+    - residual_experts
+  candidate_intersection: >-
+    Full-rank layer-level error-funnel repair with O(1/E) bpp overhead,
+    route conditioning, student-trajectory fitting, and exact progressive
+    low-bit syndrome input.
+  patentability_claimed: false

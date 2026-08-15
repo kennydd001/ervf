@@ -1,0 +1,42 @@
+{
+  "kind": "port80b_d10a1r_conservative_resource_retry_resource_stop",
+  "completed_utc": "2026-08-13T07:13:21.3567333Z",
+  "status": "component_not_started_conservative_hard_ram_stop",
+  "pass": false,
+  "blocked_resource": "available_system_ram_in_runner_before_registration",
+  "threshold_bytes": 52652163072,
+  "threshold_gib": 49.03614807128906,
+  "outer_precheck_available_bytes": 52800036864,
+  "outer_precheck_available_gib": 49.173866271972656,
+  "outer_precheck_margin_bytes": 147873792,
+  "outer_precheck_margin_mib": 141.0234375,
+  "runner_check_available_bytes": 52026593280,
+  "runner_check_available_gib": 48.45354080200195,
+  "runner_check_deficit_bytes": 625569792,
+  "runner_check_deficit_mib": 596.58984375,
+  "requested_device_bytes": 4521569280,
+  "required_vram_reserve_bytes": 536870912,
+  "registered_prefix_bytes_if_opened": 48563159040,
+  "inputs": {
+    "preregistration_sha256": "d606b438595a3aba7f4a1fb11aa93c97bf42a1a63f544138a5477c7c94fc62c7",
+    "runner_sha256": "a9bb549b6f7a21dfedaf28a44b8e249b28a8b75747502e2113d31fe02f5c189d",
+    "compile_sha256": "d1ef4b46f9d75496e20c92b809cd88b13720dc01f11f912949e5d44977b50db9",
+    "source_audit_sha256": "869e56574082e96ce960662dda3dd7e542cd814fb467bf5051831a6efefac081",
+    "budget_audit_sha256": "8a79cc68afa2e1e43373b9990b8cbadc9cf9b51ac811ddf2a142afea6922789f"
+  },
+  "physical_actions": {
+    "host_registration": false,
+    "large_device_allocation": false,
+    "kernel_launch": false,
+    "bank_scan": false,
+    "endurance": false
+  },
+  "cleanup": {
+    "registered_ranges": 0,
+    "unregister_attempts_required": 0,
+    "unregister_failures": [],
+    "cleanup_pass": true
+  },
+  "exception": "RuntimeError: hard stop: available RAM 52026593280 < D10A1-R conservative start gate 52652163072",
+  "claim_boundary": "Conservative resource-stop evidence only; no component correctness, timing, first-touch, endurance, or model result."
+}

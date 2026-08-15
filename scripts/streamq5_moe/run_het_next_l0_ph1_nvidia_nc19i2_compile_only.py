@@ -1,0 +1,497 @@
+#!/usr/bin/env python3
+"""One-shot NC19I2 NVRTC compile-only runner; import is inert."""
+from __future__ import annotations
+
+import ctypes as C
+import hashlib
+import importlib.util
+import json
+import os
+import shutil
+import subprocess
+import sys
+import uuid
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+REPORTS = ROOT / "reports" / "streamq5_moe"
+SCRIPT = Path(__file__).resolve()
+CONTRACT_PATH = SCRIPT.with_name("het_next_l0_ph1_nvidia_nc19i2_compile_contract.py")
+_SPEC = importlib.util.spec_from_file_location("nc19i2_compile_contract_runtime", CONTRACT_PATH)
+if _SPEC is None or _SPEC.loader is None:
+    raise ImportError(CONTRACT_PATH)
+contract = importlib.util.module_from_spec(_SPEC)
+_SPEC.loader.exec_module(contract)
+SOURCE = ROOT / "scripts/streamq5_moe/het_next_l0_ph1_nvidia_n5_kernels.cu"
+SOURCE_SHA = "9f369ab3621c6d56b2a3597bca59c25be8d15e7ac3a2a150d916d6695623a781"
+SOURCE_BYTES = 6173
+NVRTC = ROOT / ".venv/Lib/site-packages/nvidia/cu13/bin/x86_64/nvrtc64_130_0.dll"
+NVRTC_SHA = "c7af6b5dbd001852d1b4a18effc6fbcfc94787eddadffea629a8333cb25b05fe"
+BUILTINS = ROOT / ".venv/Lib/site-packages/nvidia/cu13/bin/x86_64/nvrtc-builtins64_133.dll"
+BUILTINS_SHA = "82c703802846329d3bab3d8df06f8c956516a0eeec568033092d6c0a69b2733a"
+HEADER = ROOT / ".venv/Lib/site-packages/nvidia/cu13/include/nvrtc.h"
+HEADER_SHA = "316a1375c18c69c5f1857dfc154c47a58a6795ffe462d2fcb50f5272ea472d21"
+PYTHON = ROOT / ".venv/Scripts/python.exe"
+PYTHON_SHA = "0b471133e110cfb53a061cad528ce8e517d7b9ac41a0a396c39ad795a487fc14"
+SOURCE_LOCK = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_source_lock.json"
+PREFLIGHT_LOCK = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_preflight_lock.json"
+VERIFIER_LOCK = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_verifier_lock.json"
+AUTH_LOCK = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_authorization_bootstrap_lock.json"
+PREFLIGHT_RESULT = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_static_preflight_result.json"
+OUT = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_compile_only"
+NEGATIVE = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_compile_only_negative"
+FAILURES = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_compile_only_incidental_failures"
+QUARANTINE = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_compile_only_quarantine"
+VERIFY_OUT = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_independent_verification"
+VERIFY_NEGATIVE = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_independent_verification_negative"
+VERIFY_FAILURES = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_independent_verification_failures"
+VERIFY_QUARANTINE = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_independent_verification_quarantine"
+DURABILITY = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_durability_adjudication"
+PREFLIGHT_FAILURES = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_static_preflight_failures"
+PREFLIGHT_QUARANTINE = REPORTS / "het_next_l0_ph1_nvidia_nc19i2_static_preflight_quarantine"
+INDEPENDENT = ROOT / "scripts/streamq5_moe/verify_het_next_l0_ph1_nvidia_nc19i2_compile_only.py"
+ACK = "ACK_HET_NEXT_L0_PH1_NVIDIA_NC19I2_COMPILE_ONLY_ONCE"
+KIND = "het_next_l0_ph1_nvidia_nc19i2_compile_only"
+LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR = 0x100
+LOAD_LIBRARY_SEARCH_DEFAULT_DIRS = 0x1000
+LOAD_FLAGS = LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_DEFAULT_DIRS
+PREFLIGHT_CHECKS = [
+    "authorization_anchor", "direct_bindings", "fixture_manifest", "manifest_classifier_1106",
+    "static_ast", "kernel_structure", "abi_exact", "fake_success", "fake_failure_matrix",
+    "environment_matrix", "cache_history", "transaction_matrix", "failure_durability",
+    "topology_matrix", "verifier_positive", "verifier_negative", "verifier_mutations",
+    "no_payload_driver_device",
+]
+LIVE_DESCRIPTOR = contract.compile_topology_descriptor("NC19I2","het_next_l0_ph1_nvidia_nc19i2")
+
+
+def file_sha(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def _bindings_exact(lock: dict) -> bool:
+    rows = lock.get("bindings")
+    if not isinstance(rows, list) or not rows:
+        return False
+    seen = set()
+    for row in rows:
+        if set(row) != {"path", "bytes", "sha256"} or row["path"] in seen:
+            return False
+        seen.add(row["path"])
+        path = ROOT / row["path"]
+        if not path.is_file() or path.stat().st_size != row["bytes"] or file_sha(path) != row["sha256"]:
+            return False
+    return True
+
+
+def observe_live_topology() -> tuple[list[dict],dict]:
+    rows=[]
+    for spec in LIVE_DESCRIPTOR["roots"]:
+        path=ROOT/spec["path"]
+        if path.exists():
+            rows.append({"path":spec["path"],"node_type":"directory" if path.is_dir() else "file",
+                         "size":path.stat().st_size if path.is_file() else 0,"sha256_or_null":None,
+                         "children":[],"schema_key_values":None,"parse_status":"not_attempted",
+                         "content_base64_or_null":None})
+    for path in REPORTS.glob("het_next_l0_ph1_nvidia_nc19i2_*.inprogress.*"):
+        rel=path.relative_to(ROOT).as_posix()
+        if rel not in {row["path"] for row in rows}:
+            rows.append({"path":rel,"node_type":"directory" if path.is_dir() else "file",
+                         "size":0,"sha256_or_null":None,"children":[],"schema_key_values":None,
+                         "parse_status":"not_attempted","content_base64_or_null":None})
+    terminal_ids=[spec["id"] for spec in LIVE_DESCRIPTOR["roots"]
+                  if spec["role"] in {"terminal_positive","terminal_negative"}
+                  and spec["path"] in {row["path"] for row in rows}]
+    terminal_id=terminal_ids[0] if len(terminal_ids)==1 else None
+    return rows,contract.classify_topology(LIVE_DESCRIPTOR,rows,"runtime",terminal_id)
+
+
+def _kernel32():
+    k = C.WinDLL("kernel32", use_last_error=True)
+    BOOL, DWORD, HANDLE = C.c_int32, C.c_uint32, C.c_void_p
+    table = {
+        "AddDllDirectory": ([C.c_wchar_p], C.c_void_p),
+        "RemoveDllDirectory": ([C.c_void_p], BOOL),
+        "LoadLibraryExW": ([C.c_wchar_p, HANDLE, DWORD], C.c_void_p),
+        "FreeLibrary": ([C.c_void_p], BOOL),
+        "GetProcAddress": ([C.c_void_p, C.c_char_p], C.c_void_p),
+        "GetModuleHandleW": ([C.c_wchar_p], C.c_void_p),
+        "GetModuleFileNameW": ([C.c_void_p, C.POINTER(C.c_wchar), DWORD], DWORD),
+        "GetCommandLineW": ([], C.c_wchar_p),
+        "LocalFree": ([C.c_void_p], C.c_void_p),
+    }
+    for name, (args, result) in table.items():
+        fn = getattr(k, name); fn.argtypes = args; fn.restype = result
+    return k, table
+
+
+def invocation() -> dict:
+    raw = ""; native = []; parse_error = None
+    try:
+        kernel, _ = _kernel32(); raw = kernel.GetCommandLineW()
+        shell = C.WinDLL("shell32", use_last_error=True)
+        shell.CommandLineToArgvW.argtypes=[C.c_wchar_p,C.POINTER(C.c_int)]
+        shell.CommandLineToArgvW.restype=C.POINTER(C.c_wchar_p)
+        count=C.c_int(); pointer=shell.CommandLineToArgvW(raw,C.byref(count))
+        if not pointer: raise OSError(C.get_last_error(),"CommandLineToArgvW")
+        try: native=[pointer[i] for i in range(count.value)]
+        finally:
+            if kernel.LocalFree(C.cast(pointer,C.c_void_p)): raise OSError(C.get_last_error(),"LocalFree")
+    except Exception as exc:
+        parse_error = f"{type(exc).__name__}:{exc}"
+    orig = list(getattr(sys, "orig_argv", []))
+    argv = list(sys.argv)
+    direct = (__name__ == "__main__" and __spec__ is None and __package__ in (None, "")
+              and Path(__file__).resolve() == SCRIPT and argv == [str(SCRIPT), ACK]
+              and len(orig) == 5 and orig[1:] == ["-I", "-B", str(SCRIPT), ACK]
+              and len(native) == 5 and native[1:] == ["-I", "-B", str(SCRIPT), ACK]
+              and parse_error is None and "-c" not in orig and "-m" not in orig
+              and Path(sys.executable).resolve() == PYTHON.resolve())
+    return {"raw": raw, "native_argv":native, "parse_error":parse_error,
+            "orig_argv": orig, "sys_argv": argv,
+            "sys_executable": str(Path(sys.executable).resolve()),
+            "base_executable":str(Path(getattr(sys,"_base_executable",sys.executable)).resolve()),
+            "prefix":str(Path(sys.prefix).resolve()),"base_prefix":str(Path(sys.base_prefix).resolve()),
+            "name": __name__, "spec_is_none": __spec__ is None,
+            "package": __package__, "file": str(SCRIPT), "direct": direct}
+
+
+def validate_authorization(ack: str) -> tuple[bool, dict]:
+    observed = {"ack": ack, "invocation": invocation()}
+    if ack != ACK or not observed["invocation"]["direct"]:
+        return False, observed
+    try:
+        lock = json.loads(AUTH_LOCK.read_text(encoding="utf-8"))
+        source_lock = json.loads(SOURCE_LOCK.read_text(encoding="utf-8"))
+        preflight_lock = json.loads(PREFLIGHT_LOCK.read_text(encoding="utf-8"))
+        verifier_lock = json.loads(VERIFIER_LOCK.read_text(encoding="utf-8"))
+        preflight = json.loads(PREFLIGHT_RESULT.read_text(encoding="utf-8"))
+        observed.update({"auth_lock": lock, "source_lock_sha256": file_sha(SOURCE_LOCK),
+                         "preflight_lock": preflight_lock, "verifier_lock": verifier_lock,
+                         "preflight_result": preflight,
+                         "preflight_result_sha256": file_sha(PREFLIGHT_RESULT)})
+        checks = (
+            lock.get("kind") == "het_next_l0_ph1_nvidia_nc19i2_authorization_bootstrap_lock"
+            and lock.get("execution_open") is True and lock.get("authorization_token") == ACK
+            and lock.get("source_lock_sha256") == observed["source_lock_sha256"]
+            and preflight_lock.get("preflight_open") is True
+            and verifier_lock.get("verification_open") is True
+            and preflight.get("kind") == "het_next_l0_ph1_nvidia_nc19i2_static_preflight_result"
+            and preflight.get("pass") is True and preflight.get("device_opened") is False
+            and preflight.get("compiler_loaded") is False and preflight.get("payload_bytes_read") == 0
+            and preflight.get("check_names") == PREFLIGHT_CHECKS
+            and preflight.get("passed") == len(PREFLIGHT_CHECKS)
+            and preflight.get("total") == len(PREFLIGHT_CHECKS)
+            and preflight.get("checks") == {name: True for name in PREFLIGHT_CHECKS}
+            and lock.get("preflight_result_sha256") == observed["preflight_result_sha256"]
+            and lock.get("precommit_verifier_sha256") == file_sha(INDEPENDENT)
+            and lock.get("verifier_lock_sha256") == file_sha(VERIFIER_LOCK)
+            and _bindings_exact(lock) and _bindings_exact(source_lock)
+            and _bindings_exact(preflight_lock) and _bindings_exact(verifier_lock)
+            and source_lock.get("revision") == "NC19I2" and source_lock.get("compile_open") is True
+        )
+        return bool(checks), observed
+    except Exception as exc:
+        observed["error"] = f"{type(exc).__name__}:{exc}"
+        return False, observed
+
+
+class WinNvrtcAdapter:
+    """Direct kernel32 ownership plus cdecl wrappers; no Driver/runtime API."""
+    ABI = {
+        "nvrtcVersion": ([C.POINTER(C.c_int), C.POINTER(C.c_int)], C.c_int),
+        "nvrtcCreateProgram": ([C.POINTER(C.c_void_p), C.c_char_p, C.c_char_p, C.c_int,
+                                C.POINTER(C.c_char_p), C.POINTER(C.c_char_p)], C.c_int),
+        "nvrtcCompileProgram": ([C.c_void_p, C.c_int, C.POINTER(C.c_char_p)], C.c_int),
+        "nvrtcGetProgramLogSize": ([C.c_void_p, C.POINTER(C.c_size_t)], C.c_int),
+        "nvrtcGetProgramLog": ([C.c_void_p, C.c_void_p], C.c_int),
+        "nvrtcGetPTXSize": ([C.c_void_p, C.POINTER(C.c_size_t)], C.c_int),
+        "nvrtcGetPTX": ([C.c_void_p, C.c_void_p], C.c_int),
+        "nvrtcGetCUBINSize": ([C.c_void_p, C.POINTER(C.c_size_t)], C.c_int),
+        "nvrtcGetCUBIN": ([C.c_void_p, C.c_void_p], C.c_int),
+        "nvrtcDestroyProgram": ([C.POINTER(C.c_void_p)], C.c_int),
+    }
+
+    def __init__(self):
+        self.kernel, self.kernel_abi = _kernel32()
+        self.cookie = C.c_void_p(); self.module = C.c_void_p(); self.program = C.c_void_p()
+        self.wrappers = {}; self.options = None; self.log_size = C.c_size_t()
+        self.ptx_size = C.c_size_t(); self.cubin_size = C.c_size_t()
+        self.source_buffer = None; self.name_buffer = None
+        self.ownership = []; self.cleanup = []; self.version = None
+        self.module_evidence = None
+
+    def _last_error_call(self, name, *args):
+        C.set_last_error(0); value = getattr(self.kernel, name)(*args); error = C.get_last_error()
+        return value, error
+
+    def load(self):
+        before = {name: int(self.kernel.GetModuleHandleW(name) or 0)
+                  for name in (NVRTC.name, BUILTINS.name)}
+        if any(before.values()):
+            raise RuntimeError("compiler_module_preloaded")
+        value, error = self._last_error_call("AddDllDirectory", str(NVRTC.parent.resolve()))
+        self.cookie = C.c_void_p(value)
+        self.ownership.append({"resource": "dll_directory_cookie", "identity": int(value or 0),
+                               "registered": bool(value), "code": 0 if value else error})
+        if not value:
+            raise OSError(error, "AddDllDirectory")
+        value, error = self._last_error_call("LoadLibraryExW", str(NVRTC.resolve()), None, LOAD_FLAGS)
+        self.module = C.c_void_p(value)
+        self.ownership.append({"resource": "nvrtc_hmodule", "identity": int(value or 0),
+                               "registered": bool(value), "code": 0 if value else error})
+        if not value:
+            raise OSError(error, "LoadLibraryExW")
+        for name, (args, result) in self.ABI.items():
+            address, error = self._last_error_call("GetProcAddress", self.module, name.encode("ascii"))
+            if not address:
+                raise OSError(error, name)
+            self.wrappers[name] = C.CFUNCTYPE(result, *args)(address)
+        after_load = {}
+        for expected in (NVRTC, BUILTINS):
+            handle = self.kernel.GetModuleHandleW(expected.name)
+            buffer = C.create_unicode_buffer(32768)
+            count = self.kernel.GetModuleFileNameW(handle, buffer, len(buffer)) if handle else 0
+            resolved = str(Path(buffer.value).resolve()) if count else ""
+            after_load[expected.name] = {"handle": int(handle or 0), "path": resolved,
+                                         "bytes": expected.stat().st_size,
+                                         "sha256": file_sha(expected)}
+            if expected == NVRTC and (not handle or Path(resolved) != expected.resolve()):
+                raise RuntimeError("module_resolution:" + expected.name)
+            if expected == BUILTINS and handle and Path(resolved) != expected.resolve():
+                raise RuntimeError("module_resolution:" + expected.name)
+        self.module_evidence = {
+            "before": before, "after_load": after_load, "during_compile": None,
+            "module": int(self.module.value or 0), "cookie": int(self.cookie.value or 0),
+            "flags": LOAD_FLAGS,
+        }
+        return self.module_evidence
+
+    def _observe_compile_modules(self):
+        observed = {}
+        for expected in (NVRTC, BUILTINS):
+            handle = self.kernel.GetModuleHandleW(expected.name)
+            buffer = C.create_unicode_buffer(32768)
+            count = self.kernel.GetModuleFileNameW(handle, buffer, len(buffer)) if handle else 0
+            resolved = str(Path(buffer.value).resolve()) if count else ""
+            observed[expected.name] = {"handle": int(handle or 0), "path": resolved,
+                                       "bytes": expected.stat().st_size,
+                                       "sha256": file_sha(expected)}
+            if not handle or Path(resolved) != expected.resolve():
+                raise RuntimeError("compile_module_resolution:" + expected.name)
+        self.module_evidence["during_compile"] = observed
+
+    def call(self, op, *, handle, source, program_name, options):
+        fn = self.wrappers[op]
+        if op == "nvrtcVersion":
+            major, minor = C.c_int(), C.c_int(); code = fn(C.byref(major), C.byref(minor))
+            self.version = [major.value, minor.value]; return {"code": code}
+        if op == "nvrtcCreateProgram":
+            self.source_buffer = C.create_string_buffer(source)
+            self.name_buffer = C.create_string_buffer(program_name)
+            if C.sizeof(self.source_buffer) != len(source) + 1 or self.source_buffer.raw != source + b"\0":
+                raise RuntimeError("source_buffer")
+            if C.sizeof(self.name_buffer) != len(program_name) + 1 or self.name_buffer.raw != program_name + b"\0":
+                raise RuntimeError("name_buffer")
+            code = fn(C.byref(self.program), C.cast(self.source_buffer, C.c_char_p),
+                      C.cast(self.name_buffer, C.c_char_p), 0, None, None)
+            self.ownership.append({"resource": "nvrtc_program", "identity": int(self.program.value or 0),
+                                   "registered": bool(self.program.value), "code": int(code)})
+            return {"code": code, "handle": int(self.program.value or 0)}
+        if op == "nvrtcCompileProgram":
+            encoded = [x.encode("ascii") for x in options]
+            self.options = (C.c_char_p * len(encoded))(*encoded)
+            code = fn(self.program, len(encoded), self.options)
+            self._observe_compile_modules()
+            return {"code": code}
+        if op == "nvrtcGetProgramLogSize":
+            code = fn(self.program, C.byref(self.log_size))
+            if code == 0 and not (1 <= self.log_size.value <= contract.CAPS["log"]):
+                raise ValueError("log_size_cap")
+            return {"code": code, "size": int(self.log_size.value)}
+        if op == "nvrtcGetProgramLog":
+            if not (1 <= self.log_size.value <= contract.CAPS["log"]): raise ValueError("log_size_cap")
+            buf = C.create_string_buffer(self.log_size.value)
+            code = fn(self.program, C.cast(buf, C.c_void_p))
+            raw = bytes(buf.raw)
+            if code == 0 and (not raw.endswith(b"\0") or b"\0" in raw[:-1]): raise ValueError("log_nul")
+            return {"code": code, "log": raw}
+        if op == "nvrtcGetPTXSize":
+            code = fn(self.program, C.byref(self.ptx_size))
+            if code == 0 and not (2 <= self.ptx_size.value <= contract.CAPS["ptx"]): raise ValueError("ptx_size_cap")
+            return {"code": code, "size": int(self.ptx_size.value)}
+        if op == "nvrtcGetPTX":
+            if not (2 <= self.ptx_size.value <= contract.CAPS["ptx"]): raise ValueError("ptx_size_cap")
+            buf = C.create_string_buffer(self.ptx_size.value)
+            code = fn(self.program, C.cast(buf, C.c_void_p))
+            raw = bytes(buf.raw)
+            if code == 0 and (not raw.endswith(b"\0") or b"\0" in raw[:-1]): raise ValueError("ptx_nul")
+            return {"code": code, "ptx": raw}
+        if op == "nvrtcGetCUBINSize":
+            code = fn(self.program, C.byref(self.cubin_size))
+            if code == 0 and not (2 <= self.cubin_size.value <= contract.CAPS["cubin"]): raise ValueError("cubin_size_cap")
+            return {"code": code, "size": int(self.cubin_size.value)}
+        if op == "nvrtcGetCUBIN":
+            if not (2 <= self.cubin_size.value <= contract.CAPS["cubin"]): raise ValueError("cubin_size_cap")
+            buf = (C.c_ubyte * self.cubin_size.value)()
+            code = fn(self.program, C.cast(buf, C.c_void_p))
+            return {"code": code, "cubin": bytes(buf)}
+        if op == "nvrtcDestroyProgram":
+            identity = int(self.program.value or 0)
+            code = fn(C.byref(self.program))
+            self.cleanup.append({"resource": "nvrtc_program", "identity": identity,
+                                 "attempted": True, "code": int(code),
+                                 "owned_before": bool(identity),
+                                 "identity_after": int(self.program.value or 0)})
+            return {"code": code, "handle": int(self.program.value or 0)}
+        raise ValueError(op)
+
+    def close(self):
+        if not any(row.get("resource") == "nvrtc_program" for row in self.cleanup):
+            self.cleanup.append({"resource": "nvrtc_program", "identity": int(self.program.value or 0),
+                                 "attempted": False, "code": "not_attempted",
+                                 "owned_before": bool(self.program.value),
+                                 "identity_after": int(self.program.value or 0)})
+        self.wrappers.clear()
+        self.cleanup.append({"resource": "wrappers", "attempted": True, "code": 0})
+        if self.module.value:
+            identity = int(self.module.value)
+            value, error = self._last_error_call("FreeLibrary", self.module)
+            self.cleanup.append({"resource": "nvrtc_hmodule", "identity": identity,
+                                 "attempted": True, "code": 0 if value else error})
+            self.module = C.c_void_p()
+        else:
+            self.cleanup.append({"resource": "nvrtc_hmodule", "identity": 0,
+                                 "attempted": False, "code": "not_attempted"})
+        if self.cookie.value:
+            identity = int(self.cookie.value)
+            value, error = self._last_error_call("RemoveDllDirectory", self.cookie)
+            self.cleanup.append({"resource": "dll_directory_cookie", "identity": identity,
+                                 "attempted": True, "code": 0 if value else error})
+            self.cookie = C.c_void_p()
+        else:
+            self.cleanup.append({"resource": "dll_directory_cookie", "identity": 0,
+                                 "attempted": False, "code": "not_attempted"})
+        after = {name: int(self.kernel.GetModuleHandleW(name) or 0)
+                 for name in (NVRTC.name, BUILTINS.name)}
+        if self.module_evidence is not None:
+            self.module_evidence["post_release"] = after
+        self.cleanup.append({"resource": "postrelease_module_check", "attempted": True,
+                             "code": 0 if not any(after.values()) else "module_still_loaded",
+                             "modules": after})
+        return after
+
+
+def verify_candidate(directory: Path) -> bool:
+    try:
+        command = [str(PYTHON.resolve()), "-I", "-B", str(INDEPENDENT.resolve()),
+                   "--candidate", str(Path(directory).resolve()), "--mode", "precommit",
+                   "--no-write", "--token", "NC19I2_PRECOMMIT_INDEPENDENT_VERIFY"]
+        completed = subprocess.run(command, cwd=str(ROOT), stdin=subprocess.DEVNULL,
+                                   capture_output=True, check=False, timeout=120,
+                                   creationflags=0x08000000)
+        result = json.loads(completed.stdout)
+        return completed.returncode == 0 and result.get("pass") is True and result.get("total") == 25
+    except Exception:
+        return False
+
+
+class ExecutionFault(RuntimeError):
+    def __init__(self, message: str, evidence: dict):
+        super().__init__(message); self.evidence=evidence
+
+
+def execute(authorization: dict) -> int:
+    state={"stage":"postauthorization","compiler_loaded":False,"payload_bytes_read":0,
+           "compile":None,"cache":None,"cleanup":[],"ownership":[],"toolchain_identity":None}
+    work=None; private=None; captured=None; original_environment=None; replacements=None; restore_rows=[]; history=[]
+    adapter=None; source=b""; modules=None; compile_evidence=None
+    try:
+        source=SOURCE.read_bytes()
+        identities={name:{"path":str(path.resolve()),"bytes":path.stat().st_size,"sha256":file_sha(path)} for name,path in
+                    (("source",SOURCE),("nvrtc",NVRTC),("builtins",BUILTINS),("header",HEADER),("python",PYTHON))}
+        state["toolchain_identity"]=identities
+        expected={"source":SOURCE_SHA,"nvrtc":NVRTC_SHA,"builtins":BUILTINS_SHA,"header":HEADER_SHA,"python":PYTHON_SHA}
+        if identities["source"]["bytes"]!=SOURCE_BYTES or any(identities[k]["sha256"]!=v for k,v in expected.items()): raise RuntimeError("identity")
+        state["stage"]="workspace"; work=REPORTS/f"het_next_l0_ph1_nvidia_nc19i2_compile_work.inprogress.{os.getpid()}.{uuid.uuid4().hex[:16]}"; work.mkdir()
+        private=work/"private_cache"; private.mkdir()
+        for subdir in contract.ENV_SUBDIRS.values(): (private/subdir).mkdir()
+        captured=contract.capture_environment(os.environ); original_environment=dict(captured); replacements=contract.apply_private_environment(os.environ,private)
+        def snap(label):
+            entries=contract.cache_entries(private); history.append({"stage":label,"entries":entries,"tree_digest":contract.cache_tree_digest(entries)})
+        adapter=WinNvrtcAdapter(); snap("pre_load")
+        try:
+            state["stage"]="compiler_load"; modules=adapter.load(); state["compiler_loaded"]=True
+            state["stage"]="compile"; compile_evidence=contract.compile_with_adapter(adapter,source,snap)
+        except Exception as exc:
+            if compile_evidence is None:
+                compile_evidence={"ledger":contract.not_attempted_ledger(),"artifacts":{},"primary":{"state":"failure","value":f"{type(exc).__name__}:{exc}"},"secondary":[]}
+                for op in contract.NVRTC_OPS: snap(op)
+        finally:
+            state["stage"]="cleanup"; adapter.close(); snap("post_release")
+            restore_rows=contract.restore_environment(os.environ,captured); captured=None
+        state.update({"compile":compile_evidence,"cache":{"private_root":str(private.resolve()),"environment_original":original_environment,"environment_applied":replacements,"environment_restore":restore_rows,"history":history,"history_digest":contract.cache_history_digest(history)},"cleanup":adapter.cleanup,"ownership":adapter.ownership})
+        if len(history)!=12: raise RuntimeError("cache_history_count")
+        cache_files=[e for h in history for e in h["entries"] if e["type"]!="dir"]
+        cleanup_ok=all(r["code"] in (0,"not_attempted") and (r["code"]==0 or not r.get("owned_before",False)) for r in adapter.cleanup) and all(r["code"]==0 for r in restore_rows)
+        checks=contract.validate_compile_evidence(compile_evidence)
+        positive=compile_evidence["primary"]=={"state":"none","value":None} and all(checks.values()) and adapter.version==[13,3] and cleanup_ok and not cache_files
+        attempted_compile=compile_evidence["ledger"][2]["attempted"]
+        valid_negative=(not positive and state["compiler_loaded"] and attempted_compile and cleanup_ok and not cache_files)
+        status="compile_positive" if positive else "compile_valid_negative" if valid_negative else "incidental_failure"
+        if status=="incidental_failure": raise RuntimeError("nonterminal_compile_evidence")
+        raw_artifacts=compile_evidence["artifacts"]; compile_record={**compile_evidence,"artifacts":{n:{"bytes":len(v),"sha256":contract.sha256(v)} for n,v in raw_artifacts.items()}}
+        cache={"private_root":str(private.resolve()),"environment_original":original_environment,"environment_applied":replacements,"environment_restore":restore_rows,"history":history,"history_digest":contract.cache_history_digest(history)}
+        result={"kind":KIND if positive else KIND+"_negative","revision":"NC19I2","status":status,"terminal_valid":True,"positive":positive,"authorization":authorization,"invocation":invocation(),"source_identity":identities["source"],"toolchain_identity":identities,"options":list(contract.OPTIONS),"program_name":contract.PROGRAM_NAME.decode("ascii"),"create_operands":{"source_bytes":len(source),"source_buffer_bytes":len(source)+1,"source_terminal_nul":1,"program_name_bytes":len(contract.PROGRAM_NAME),"program_name_buffer_bytes":len(contract.PROGRAM_NAME)+1,"num_headers":0,"headers":None,"include_names":None},"compile":compile_record,"compile_checks":checks,"loader":{"calling_convention":"WinDLL_kernel32_plus_cdecl_CFUNCTYPE","load_flags":LOAD_FLAGS,"modules":modules,"nvrtc_version":adapter.version,"kernel32_abi":{n:{"argtypes":[getattr(t,'__name__',str(t)) for t in a],"restype":getattr(r,'__name__',str(r))} for n,(a,r) in adapter.kernel_abi.items() if n not in {"GetCommandLineW","LocalFree"}},"invocation_abi":{n:{"argtypes":[getattr(t,'__name__',str(t)) for t in a],"restype":getattr(r,'__name__',str(r))} for n,(a,r) in adapter.kernel_abi.items() if n in {"GetCommandLineW","LocalFree"}},"nvrtc_abi":{n:{"argtypes":[getattr(t,'__name__',str(t)) for t in a],"restype":getattr(r,'__name__',str(r))} for n,(a,r) in adapter.ABI.items()},"nvrtc_abi_names":list(adapter.ABI)},"ownership":adapter.ownership,"cleanup":adapter.cleanup,"cache":cache,"exclusions":{"payload_bytes_read":0,"nvcuda_driver_calls":0,"cuda_runtime_calls":0,"device_calls":0}}
+        result["terminal_adjudication"]=contract.adjudicate_terminal(result,cleanup_ok)
+        if result["terminal_adjudication"]["terminal_valid"] is not True: raise RuntimeError("terminal_adjudication")
+        files={"source.cu":source,**{{"log":"build.log","ptx":"ptx.bin","cubin":"cubin.bin"}[n]:v for n,v in raw_artifacts.items()}}
+        kind=KIND if positive else KIND+"_negative"; destination=OUT if positive else NEGATIVE
+        state["stage"]="precommit"; contract.publish_transaction(destination,contract.build_bundle(result,files,kind),kind,verify_candidate)
+        return 0 if positive else 3
+    except Exception as exc:
+        state.update({"error_type":type(exc).__name__,"error":str(exc),"compile":compile_evidence,
+                      "cleanup":adapter.cleanup if adapter else state["cleanup"],"ownership":adapter.ownership if adapter else state["ownership"],
+                      "cache":{"history":history,"history_digest":contract.cache_history_digest(history)} if history else None})
+        raise ExecutionFault(str(exc),state) from exc
+    finally:
+        if captured is not None: contract.restore_environment(os.environ,captured)
+        if adapter is not None and not adapter.cleanup: adapter.close()
+        if work is not None and work.exists(): shutil.rmtree(work)
+
+
+def main() -> int:
+    ack = sys.argv[1] if len(sys.argv) == 2 else ""
+    authorized, evidence = validate_authorization(ack)
+    if not authorized:
+        return 2
+    terminals=(OUT,NEGATIVE,FAILURES,QUARANTINE,VERIFY_OUT,VERIFY_NEGATIVE,VERIFY_FAILURES,VERIFY_QUARANTINE,DURABILITY,PREFLIGHT_FAILURES,PREFLIGHT_QUARANTINE)
+    observed,topology=observe_live_topology(); debris=[ROOT/row["path"] for row in observed if ".inprogress." in row["path"]]
+    if OUT.exists() and topology["classification"]=="compile_positive" and verify_candidate(OUT):
+        adjudication=contract.adjudicate_terminal({"status":"compile_positive"},True)
+        return 0 if adjudication["terminal_valid"] else 3
+    if topology["classification"]=="recoverable_debris" and len(debris)==1:
+        contract.recover_inprogress(REPORTS,debris[0].name.split(".inprogress.")[0],QUARANTINE)
+        return 3
+    if topology["classification"]!="fresh" or any(path.exists() for path in terminals):
+        return 3
+    try:
+        return execute(evidence)
+    except ExecutionFault as exc:
+        contract.write_incidental_failure(FAILURES, {
+            "kind": "het_next_l0_ph1_nvidia_nc19i2_incidental_failure", "revision": "NC19I2",
+            "status": "incidental_failure", "stage": "authorized_compile",
+            "error_type": type(exc).__name__, "error": str(exc), "evidence":exc.evidence,
+            "device_opened": False, "driver_loaded": False,
+            "compiler_loaded": bool(exc.evidence.get("compiler_loaded")), "payload_bytes_read": 0,
+            "dispositions": [], "attempt_consumed": True, "next_invocation_allowed": False,
+        })
+        return 3
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,171 @@
+{
+  "kind": "streamq5_moe_n4a_synthetic_80b_shape_capacity",
+  "completed_utc": "2026-08-12T17:19:32.053074+00:00",
+  "status": "cpu_shape_capacity_pass_physical_performance_pending",
+  "inputs": {
+    "preregistration_sha256": "09c6f3f726aa5609aea785e888f419a63338158f1439fd9e09b1848945f4921d",
+    "script_sha256": "b63aa4a47dd47bd5aaf28cd535dfa55460a66ac5adffd8e4165784d5be2a350a",
+    "p7c_sha256": "24e9deab670ce003374d459afefd11f93d766837af6c436711c6d686b7de3e59",
+    "model_id": "Qwen/Qwen3-Coder-Next",
+    "revision": "a19358a7659bd1f564300250ee189120c49a562f",
+    "official_config_url": "https://huggingface.co/Qwen/Qwen3-Coder-Next/blob/a19358a7659bd1f564300250ee189120c49a562f/config.json",
+    "official_reference_code_url": "https://github.com/huggingface/transformers/blob/main/src/transformers/models/qwen3_next/modular_qwen3_next.py",
+    "weight_payload_downloaded": false,
+    "metadata_only": true
+  },
+  "architecture": {
+    "layers": 48,
+    "linear_attention_layers": 36,
+    "full_attention_layers": 12,
+    "routed_experts_per_layer": 512,
+    "top_k": 10,
+    "hidden_size": 2048,
+    "moe_intermediate_size": 512,
+    "shared_experts_per_layer": 1,
+    "shared_expert_intermediate_size": 512,
+    "vocab_size": 151936,
+    "official_tensor_count": 74391,
+    "official_parameter_count": 79674391296,
+    "official_bf16_checkpoint_bytes": 159348782592
+  },
+  "shape_verification": {
+    "generated_tensor_count": 74391,
+    "missing": [],
+    "unexpected": [],
+    "mismatched": [],
+    "truncated_failure_lists": false,
+    "groups": {
+      "routed_experts": {
+        "tensors": 73728,
+        "parameters": 77309411328,
+        "streamq8_bytes": 78517370880
+      },
+      "dense_core": {
+        "tensors": 517,
+        "parameters": 1591655168,
+        "streamq8_bytes": 1617894400
+      },
+      "shared_experts": {
+        "tensors": 144,
+        "parameters": 150994944,
+        "streamq8_bytes": 153354240
+      },
+      "embedding": {
+        "tensors": 1,
+        "parameters": 311164928,
+        "streamq8_bytes": 316026880
+      },
+      "lm_head": {
+        "tensors": 1,
+        "parameters": 311164928,
+        "streamq8_bytes": 316026880
+      }
+    }
+  },
+  "q5_record_contract": {
+    "group_size": 128,
+    "header_bytes": 64,
+    "alignment_bytes": 4096,
+    "gate": {
+      "weights": 1048576,
+      "code_bytes": 655360,
+      "scale_bytes": 16384,
+      "header_bytes": 64,
+      "payload_with_header_bytes": 671808,
+      "padding_bytes": 4032,
+      "record_bytes": 675840
+    },
+    "up": {
+      "weights": 1048576,
+      "code_bytes": 655360,
+      "scale_bytes": 16384,
+      "header_bytes": 64,
+      "payload_with_header_bytes": 671808,
+      "padding_bytes": 4032,
+      "record_bytes": 675840
+    },
+    "down": {
+      "weights": 1048576,
+      "code_bytes": 655360,
+      "scale_bytes": 16384,
+      "header_bytes": 64,
+      "payload_with_header_bytes": 671808,
+      "padding_bytes": 4032,
+      "record_bytes": 675840
+    },
+    "expert_record_bytes": 2027520
+  },
+  "expert_accounting": {
+    "routed_parameters": 77309411328,
+    "shared_parameters": 150994944,
+    "routed_bank_bytes": 49828331520,
+    "shared_bank_bytes": 97320960,
+    "full_q5_bank_bytes": 49925652480,
+    "routed_active_parameters_per_token": 1509949440,
+    "shared_active_parameters_per_token": 150994944,
+    "total_active_expert_parameters_per_token": 1660944384,
+    "qwen30_routed_active_reference": 1811939328,
+    "active_mass_ratio_vs_qwen30_routed": 0.9166666666666666,
+    "all_cold_routed_record_bytes_per_token": 973209600,
+    "all_cold_h2d_ms_at_local_26_16_decimal_gbps": 37.202201834862386
+  },
+  "host_budget": {
+    "limit_bytes": 62277025792,
+    "full_q5_bank_bytes": 49925652480,
+    "persistent_q8_embedding_bytes": 316026880,
+    "eight_pinned_staging_windows_bytes": 16220160,
+    "accounted_bytes": 50257899520,
+    "explicit_process_reserve_bytes": 1073741824,
+    "accounted_plus_reserve_bytes": 51331641344,
+    "headroom_bytes": 10945384448
+  },
+  "device_budget": {
+    "measured_total_vram_bytes": 8546484224,
+    "measured_cuda_context_reserve_bytes": 1161363456,
+    "q8_dense_core_bytes": 1617894400,
+    "q8_lm_head_bytes": 316026880,
+    "q8_device_shell_bytes": 1933921280,
+    "resident_shared_q5_bank_bytes": 97320960,
+    "scratch_staging_reserve_bytes": 268435456,
+    "contexts": {
+      "4096": {
+        "full_attention_kv_bytes": 100663296,
+        "delta_recurrent_fp32_bytes": 75497472,
+        "delta_conv_bf16_bytes": 2359296,
+        "total_state_bytes": 178520064,
+        "available_routed_cache_bytes": 4906923008,
+        "routed_expert_slots": 2420,
+        "mean_slots_per_layer": 50.416666666666664,
+        "active_sets_of_480_records": 5.041666666666667
+      },
+      "32768": {
+        "full_attention_kv_bytes": 805306368,
+        "delta_recurrent_fp32_bytes": 75497472,
+        "delta_conv_bf16_bytes": 2359296,
+        "total_state_bytes": 883163136,
+        "available_routed_cache_bytes": 4202279936,
+        "routed_expert_slots": 2072,
+        "mean_slots_per_layer": 43.166666666666664,
+        "active_sets_of_480_records": 4.316666666666666
+      }
+    }
+  },
+  "gates": {
+    "official_keyset_exact": true,
+    "official_shapes_exact": true,
+    "official_tensor_count_74391": true,
+    "official_parameter_count_exact": true,
+    "official_metadata_total_size_exact": true,
+    "routed_tensor_count_exact": true,
+    "shared_tensor_count_exact": true,
+    "full_q5_bank_le_50_gib": true,
+    "device_q8_shell_le_2_gib": true,
+    "host_with_1gib_reserve_le_58_gib": true,
+    "4k_cache_at_least_32_per_layer": true,
+    "32k_cache_at_least_32_per_layer": true,
+    "active_expert_mass_lt_qwen30_routed": true
+  },
+  "overall_pass": true,
+  "next_stage_authorized": "separately_preregistered_gpu_shape_benchmark_only",
+  "claim_boundary": "CPU-only exact official tensor-shape and analytical memory-capacity gate. No GPU kernel, routing, quality, checkpoint payload, latency, throughput, prefill, 32K attention-time, or end-to-end 80B claim."
+}

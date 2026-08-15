@@ -1,0 +1,280 @@
+{
+  "kind": "treesweep200_e4_inloop_independent_verification",
+  "completed_utc": "2026-08-15T17:00:53.599283+00:00",
+  "verifier_sha256": "43c6f319001f5a472d2c7f37f9775c228813cd124ea8817cba4874cd318df7ce",
+  "verified_file_sha256": "338a3e4b6a0ffe8c6baab2718998520da5451624b46783b8b5ad6ae7eb46f90d",
+  "recomputed": {
+    "0": {
+      "attn_gain": 0.04374399781227112,
+      "attn_drift": 0.022368013858795166,
+      "token_gain": 0.6276999999999973,
+      "token_drift": 2.2643000000000058,
+      "attn_v4": 2.430384010076523,
+      "attn_v1": 2.474128007888794,
+      "token_v4": 37.51975,
+      "token_v1": 38.14745
+    },
+    "131072": {
+      "attn_gain": 1.7432560324668884,
+      "attn_drift": 0.25755202770233154,
+      "token_gain": 1.2811000000000021,
+      "token_drift": 1.1153000000000048,
+      "attn_v4": 9.0275200009346,
+      "attn_v1": 10.77077603340149,
+      "token_v4": 45.5094,
+      "token_v1": 46.7905
+    },
+    "262100": {
+      "attn_gain": 3.657672345638275,
+      "attn_drift": 0.5443679094314575,
+      "token_gain": 4.750875000000001,
+      "token_drift": 3.0136499999999984,
+      "attn_v4": 14.553663730621338,
+      "attn_v1": 18.211336076259613,
+      "token_v4": 51.164249999999996,
+      "token_v1": 55.915124999999996
+    }
+  },
+  "bitwise_recheck": {
+    "64": true,
+    "1024": true,
+    "4096": true
+  },
+  "anchor_is_stale": true,
+  "gates": {
+    "G_E4_T1_inloop": false,
+    "arm_parity": true
+  },
+  "checks": [
+    {
+      "check": "three arms in v1/v4/v1 order",
+      "ok": true
+    },
+    {
+      "check": "the middle arm used the v4 kernel and the others v1",
+      "ok": true
+    },
+    {
+      "check": "v1_a: generated ids identical to v1_a",
+      "ok": true
+    },
+    {
+      "check": "v4: generated ids identical to v1_a",
+      "ok": true
+    },
+    {
+      "check": "v1_b: generated ids identical to v1_a",
+      "ok": true
+    },
+    {
+      "check": "each arm generated 2 prompts x 64 tokens",
+      "ok": true
+    },
+    {
+      "check": "v1_a@0: attn p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v1_a@0: token p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v1_a@0: at least 32 samples",
+      "ok": true
+    },
+    {
+      "check": "v4@0: attn p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v4@0: token p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v4@0: at least 32 samples",
+      "ok": true
+    },
+    {
+      "check": "v1_b@0: attn p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v1_b@0: token p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v1_b@0: at least 32 samples",
+      "ok": true
+    },
+    {
+      "check": "@0: attention gain reproduces",
+      "ok": true,
+      "recomputed": 0.04374399781227112
+    },
+    {
+      "check": "@0: token gain reproduces",
+      "ok": true
+    },
+    {
+      "check": "@0: attention gain exceeds its own drift",
+      "ok": true,
+      "gain": 0.04374399781227112,
+      "drift": 0.022368013858795166
+    },
+    {
+      "check": "v1_a@131072: attn p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v1_a@131072: token p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v1_a@131072: at least 32 samples",
+      "ok": true
+    },
+    {
+      "check": "v4@131072: attn p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v4@131072: token p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v4@131072: at least 32 samples",
+      "ok": true
+    },
+    {
+      "check": "v1_b@131072: attn p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v1_b@131072: token p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v1_b@131072: at least 32 samples",
+      "ok": true
+    },
+    {
+      "check": "@131072: attention gain reproduces",
+      "ok": true,
+      "recomputed": 1.7432560324668884
+    },
+    {
+      "check": "@131072: token gain reproduces",
+      "ok": true
+    },
+    {
+      "check": "@131072: attention gain exceeds its own drift",
+      "ok": true,
+      "gain": 1.7432560324668884,
+      "drift": 0.25755202770233154
+    },
+    {
+      "check": "v1_a@262100: attn p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v1_a@262100: token p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v1_a@262100: at least 32 samples",
+      "ok": true
+    },
+    {
+      "check": "v4@262100: attn p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v4@262100: token p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v4@262100: at least 32 samples",
+      "ok": true
+    },
+    {
+      "check": "v1_b@262100: attn p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v1_b@262100: token p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "v1_b@262100: at least 32 samples",
+      "ok": true
+    },
+    {
+      "check": "@262100: attention gain reproduces",
+      "ok": true,
+      "recomputed": 3.657672345638275
+    },
+    {
+      "check": "@262100: token gain reproduces",
+      "ok": true
+    },
+    {
+      "check": "@262100: attention gain exceeds its own drift",
+      "ok": true,
+      "gain": 3.657672345638275,
+      "drift": 0.5443679094314575
+    },
+    {
+      "check": "G-E4-T1 threshold verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "G-E4-T1 threshold is still the preregistered 6.0 ms",
+      "ok": true
+    },
+    {
+      "check": "in-loop v1 attention matches E4's isolated 6 x 2.803 ms within 10%",
+      "ok": true,
+      "inloop": 18.211336076259613,
+      "isolated_x6": 16.817999999999998
+    },
+    {
+      "check": "in-loop v4 attention matches E4's isolated 6 x 2.304 ms within 10%",
+      "ok": true,
+      "inloop": 14.553663730621338,
+      "isolated_x6": 13.823999999999998
+    },
+    {
+      "check": "the S5 anchor predates the v35 layout capture, so it cannot match a v35 generation",
+      "ok": true,
+      "s5": "2026-08-14T20:02:42.991613+00:00",
+      "v35": "2026-08-14T20:52:30.858981+00:00"
+    },
+    {
+      "check": "anchor mismatch is reported, not hidden",
+      "ok": true
+    },
+    {
+      "check": "arm-to-arm parity, which is the meaningful one, holds",
+      "ok": true
+    },
+    {
+      "check": "v4 bitwise identical to v1 on random FP8 KV (reconfirmed without the runner)",
+      "ok": true,
+      "per_t": {
+        "64": true,
+        "1024": true,
+        "4096": true
+      }
+    },
+    {
+      "check": "gpu_kernels.py hashes to the measured value",
+      "ok": true
+    },
+    {
+      "check": "result carries a claim boundary",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

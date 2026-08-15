@@ -1,0 +1,131 @@
+{
+  "kind": "lightningstream_nemotron_s10a0_mtp_structure",
+  "completed_utc": "2026-08-15T07:12:13.470815+00:00",
+  "model_dir": "nemotron_3_5_lightning_v35",
+  "config": {
+    "num_nextn_predict_layers": 1,
+    "mtp_layers_block_type": [
+      "attention",
+      "moe"
+    ]
+  },
+  "mtp_tensor_count": 270,
+  "mtp_bytes": 2670652160,
+  "expert_tensor_count": 256,
+  "expert_bytes": 2554331136,
+  "experts_per_layer": {
+    "1": 128
+  },
+  "skeleton": {
+    "mtp.layers.0.eh_proj.weight": {
+      "dtype": "BF16",
+      "shape": [
+        2688,
+        5376
+      ],
+      "bytes": 28901376
+    },
+    "mtp.layers.0.enorm.weight": {
+      "dtype": "BF16",
+      "shape": [
+        2688
+      ],
+      "bytes": 5376
+    },
+    "mtp.layers.0.hnorm.weight": {
+      "dtype": "BF16",
+      "shape": [
+        2688
+      ],
+      "bytes": 5376
+    },
+    "mtp.layers.0.mixer.k_proj.weight": {
+      "dtype": "BF16",
+      "shape": [
+        256,
+        2688
+      ],
+      "bytes": 1376256
+    },
+    "mtp.layers.0.mixer.o_proj.weight": {
+      "dtype": "BF16",
+      "shape": [
+        2688,
+        4096
+      ],
+      "bytes": 22020096
+    },
+    "mtp.layers.0.mixer.q_proj.weight": {
+      "dtype": "BF16",
+      "shape": [
+        4096,
+        2688
+      ],
+      "bytes": 22020096
+    },
+    "mtp.layers.0.mixer.v_proj.weight": {
+      "dtype": "BF16",
+      "shape": [
+        256,
+        2688
+      ],
+      "bytes": 1376256
+    },
+    "mtp.layers.0.norm.weight": {
+      "dtype": "BF16",
+      "shape": [
+        2688
+      ],
+      "bytes": 5376
+    },
+    "mtp.layers.1.final_layernorm.weight": {
+      "dtype": "BF16",
+      "shape": [
+        2688
+      ],
+      "bytes": 5376
+    },
+    "mtp.layers.1.mixer.gate.e_score_correction_bias": {
+      "dtype": "F32",
+      "shape": [
+        128
+      ],
+      "bytes": 512
+    },
+    "mtp.layers.1.mixer.gate.weight": {
+      "dtype": "BF16",
+      "shape": [
+        128,
+        2688
+      ],
+      "bytes": 688128
+    },
+    "mtp.layers.1.mixer.shared_experts.down_proj.weight": {
+      "dtype": "BF16",
+      "shape": [
+        2688,
+        3712
+      ],
+      "bytes": 19955712
+    },
+    "mtp.layers.1.mixer.shared_experts.up_proj.weight": {
+      "dtype": "BF16",
+      "shape": [
+        3712,
+        2688
+      ],
+      "bytes": 19955712
+    },
+    "mtp.layers.1.norm.weight": {
+      "dtype": "BF16",
+      "shape": [
+        2688
+      ],
+      "bytes": 5376
+    }
+  },
+  "reuses_backbone_embedding": true,
+  "has_own_embedding": false,
+  "has_own_lm_head": false,
+  "quant_kind_expert0": "bf16"
+}

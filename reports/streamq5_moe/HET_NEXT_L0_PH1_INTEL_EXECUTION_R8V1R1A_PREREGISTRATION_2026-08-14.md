@@ -1,0 +1,9 @@
+# HET-NEXT-L0 PH1 Intel execution R8V1R1A authorization
+
+Date: 2026-08-14. This is the final verifier-only authorization revision. It binds the closed R8V1-R1 verifier, preregistration, lock and independent source audit SHA-256 `1f2c04cc0a1415bea1b8e02545fe7b2945f9f48badbba563f058c05546fdd520`. It changes no physical, numerical or terminal adjudication semantics.
+
+The only permitted command is exact `.venv\\Scripts\\python.exe -I -B <absolute R8V1R1A verifier> --ack PH1_INTEL_EXECUTION_R8V1R1A_AFTER_CLOSED_SOURCE_AUDIT_GO`, with exact native/original/Python vectors, exact venv/base identities and direct-entry evidence. The open lock and token authorize exactly one CPU/verifier attempt. There is no payload construction, compiler, OpenCL, model or device call and no physical retry.
+
+Before any output, the verifier requires a literal exact 16-entry case-preserving family: eight immutable R8A5 entries, three R8V1 entries, three R8V1-R1 entries including its source audit, and the new R8V1R1A preregistration/lock. The fresh output and every failure, quarantine and temporary path are absent. Windows glob observations are diagnostic only. The current mutation suite rejects missing entries, case changes/collisions, uppercase/lowercase extras, orphan, temp, failure and quarantine entries.
+
+The R8V1-R1 adjudication is retained exactly: prior R8A5 verifier is an exact verifier-protocol-negative; the independently reconstructed R8A5 bundle is positive only if every frozen bundle, authorization, direct-physical, 20 numerical and 31 terminal-matrix check is true. Only an all-true current check map permits one create-new canonical R8V1R1A output with `prior_verifier_outcome=verifier_protocol_negative`, `bundle_adjudication=positive`, `terminal_state=positive`, `terminal_valid=true`, and `pass=true`. Any current failure returns nonzero without writing the canonical output. Claim: one real expert/input Intel correctness component only.

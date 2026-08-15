@@ -1,0 +1,60 @@
+{
+  "kind": "streamq5_moe_p10d_gpu_router",
+  "completed_utc": "2026-08-12T16:08:19.263047+00:00",
+  "inputs": {
+    "preregistration_sha256": "4a22131a423f8f35699391afa9ddb8e38d68a8463d354d77baba25d207432b6f",
+    "data_sha256": "ecb6211102bca5641314bf4dff604395a147ba53a03a918855cb25f8cbec0b26",
+    "model_index_sha256": "df0d481ec595c55a0ba58426d517390c6214a566ec4ff1c8fc4bbce9f57b3c24",
+    "captured_logits_sha256": "2742d1860441b6251a81448c3eb4260573dc8e26c6834b86f2edad736ee65b4a"
+  },
+  "workload": {
+    "vectors": 480,
+    "logits_per_vector": 128,
+    "top_k": 8,
+    "repeats": 20,
+    "timed_samples_per_path": 9600
+  },
+  "correctness": {
+    "exact_id_vectors": 480,
+    "exact_bf16_weight_vectors": 480,
+    "maximum_weight_abs_error": 0.0,
+    "maximum_weight_sum_error": 0.001953125
+  },
+  "timing_ms": {
+    "cpu_route_host": {
+      "mean": 0.04347517708333334,
+      "p50": 0.0296,
+      "p95": 0.0816,
+      "p99": 0.14810100000000004,
+      "max": 0.5997,
+      "samples": 9600
+    },
+    "gpu_route_host": {
+      "mean": 0.1325135,
+      "p50": 0.13,
+      "p95": 0.1684,
+      "p99": 0.2399,
+      "max": 0.5633,
+      "samples": 9600
+    },
+    "gpu_kernel_event": {
+      "mean": 0.05173304666085945,
+      "p50": 0.05164799839258194,
+      "p95": 0.06576000154018402,
+      "p99": 0.09200096018612387,
+      "max": 0.3975679874420166,
+      "samples": 9600
+    },
+    "host_p50_ratio": 4.391891891891892,
+    "host_p95_ratio": 2.063725490196078
+  },
+  "gates": {
+    "ids_exact_all_480": true,
+    "bf16_weights_exact_all_480": true,
+    "weight_sum_error_le_0_02": true,
+    "host_p50_le_90pct": false,
+    "host_p95_le_90pct": false
+  },
+  "overall_pass": false,
+  "claim_boundary": "Real-logit isolated route barrier only; cache decisions, expert copies and end-to-end prediction/timing are not part of this result."
+}

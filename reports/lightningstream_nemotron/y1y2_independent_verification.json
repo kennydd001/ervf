@@ -1,0 +1,193 @@
+{
+  "kind": "lightningstream_nemotron_y1y2_independent_verification",
+  "completed_utc": "2026-08-15T11:57:40.717273+00:00",
+  "verifier_sha256": "12361eb418981fb5393b24340a5e73655fe31ebde65ce770eca4025b0093dd73",
+  "verified": {
+    "y1y2": "27ea697b42931df956318ebd45e21b58da825f8d75ae1f3ff3d74db14ded72ba",
+    "y2r1": "6a8db1df5ad3fbdfcfdeee9773c18157ddb6b89239f1a66465de769965f44d64"
+  },
+  "recomputed": {
+    "y1": {
+      "0": {
+        "base": 38.852000000000004,
+        "drift": 2.1208000000000027,
+        "gain": 4.359350000000006,
+        "relative": 0.11220400494183069,
+        "conclusive": true,
+        "within_s14": true
+      },
+      "262100": {
+        "base": 58.689925,
+        "drift": 0.9188499999999991,
+        "gain": 6.656375000000004,
+        "relative": 0.11341597386604266,
+        "conclusive": true,
+        "within_s14": true
+      }
+    },
+    "y2r1_halving_saving": 0.34172661870503607,
+    "y2r1_monotone": true,
+    "y2r1_linear_fit": {
+      "us_per_byte": 8.127054019685559e-06,
+      "intercept_us": 10.899461206896547,
+      "intercept_share_of_full": 0.3161830241035201
+    }
+  },
+  "gates": {
+    "G_Y1_C1": true,
+    "G_Y1_P1": {
+      "0": true,
+      "262100": true
+    },
+    "G_Y1_S1": {
+      "0": true,
+      "262100": true
+    },
+    "G_Y2R1": false
+  },
+  "checks": [
+    {
+      "check": "Y1 reference generation is 2 prompts x 64 tokens",
+      "ok": true
+    },
+    {
+      "check": "Y1 replayed generation is bit-identical to the reference",
+      "ok": true
+    },
+    {
+      "check": "Y1 ctx 0: bracketed baseline reproduces",
+      "ok": true
+    },
+    {
+      "check": "Y1 ctx 0: gain reproduces",
+      "ok": true,
+      "recomputed": 4.359350000000006
+    },
+    {
+      "check": "Y1 ctx 0: gain exceeds local drift",
+      "ok": true,
+      "gain": 4.359350000000006,
+      "drift": 2.1208000000000027
+    },
+    {
+      "check": "Y1 ctx 0: gain within the S14 host_gap+route bound",
+      "ok": true,
+      "bound": 8.641
+    },
+    {
+      "check": "Y1 ctx 0: all three arms have samples",
+      "ok": true
+    },
+    {
+      "check": "Y1 ctx 262100: bracketed baseline reproduces",
+      "ok": true
+    },
+    {
+      "check": "Y1 ctx 262100: gain reproduces",
+      "ok": true,
+      "recomputed": 6.656375000000004
+    },
+    {
+      "check": "Y1 ctx 262100: gain exceeds local drift",
+      "ok": true,
+      "gain": 6.656375000000004,
+      "drift": 0.9188499999999991
+    },
+    {
+      "check": "Y1 ctx 262100: gain within the S14 host_gap+route bound",
+      "ok": true,
+      "bound": 8.175
+    },
+    {
+      "check": "Y1 ctx 262100: all three arms have samples",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 1.000: p50 reproduces from the raw rounds",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 1.000: GB/s reproduces",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 0.875: p50 reproduces from the raw rounds",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 0.875: GB/s reproduces",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 0.750: p50 reproduces from the raw rounds",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 0.750: GB/s reproduces",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 0.500: p50 reproduces from the raw rounds",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 0.500: GB/s reproduces",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 0.250: p50 reproduces from the raw rounds",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 0.250: GB/s reproduces",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 time is monotone in bytes (the Y2 confound is gone)",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 halving saving reproduces",
+      "ok": true,
+      "recomputed": 0.34172661870503607
+    },
+    {
+      "check": "Y2-R1 gate verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 gate threshold is still the preregistered 40%",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 measured a real checkpoint tensor, not a synthetic one",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 synchronised once per round, not per call",
+      "ok": true
+    },
+    {
+      "check": "runtime.py was not modified for these phases",
+      "ok": true
+    },
+    {
+      "check": "Y1/Y2 carries a claim boundary",
+      "ok": true
+    },
+    {
+      "check": "Y1/Y2 reports no tokens-per-second figure",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 carries a claim boundary",
+      "ok": true
+    },
+    {
+      "check": "Y2-R1 reports no tokens-per-second figure",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

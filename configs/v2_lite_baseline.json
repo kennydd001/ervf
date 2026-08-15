@@ -1,0 +1,26 @@
+{
+  "model_id": "deepseek-ai/DeepSeek-V2-Lite",
+  "variant": "base",
+  "trust_remote_code": true,
+  "initial_context_tokens": 4096,
+  "trace_pilot_tokens": 5000,
+  "trace_scaleup_tokens": 50000,
+  "first_layers": [1, 13, 26],
+  "metrics": [
+    "aggregate_output_nrmse",
+    "cosine_similarity",
+    "teacher_logit_kl",
+    "next_token_agreement",
+    "router_topk_overlap",
+    "bytes_per_token",
+    "p50_latency_ms",
+    "p95_latency_ms"
+  ],
+  "gates": {
+    "pilot_min_compression_ratio": 4.0,
+    "scaleup_min_compression_ratio": 8.0,
+    "max_full_fallback_fraction": 0.01,
+    "minimum_rollout_tokens": 512
+  }
+}
+

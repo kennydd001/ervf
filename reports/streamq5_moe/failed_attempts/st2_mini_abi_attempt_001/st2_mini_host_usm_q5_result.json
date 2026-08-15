@@ -1,0 +1,24 @@
+{
+  "kind": "streamq5_moe_st2_mini_host_usm_q5",
+  "started_utc": "2026-08-12T21:18:55.706967+00:00",
+  "preregistration_sha256": "369c17430553845a8e55d486541341123409f61d3ded00506724727fc3fc586c",
+  "capability_probe_sha256": "d63330e00f93daf43bfd4e8f85af46795e60ab5cfe239b46c7672d96c75849b2",
+  "p1d_manifest_sha256": "08c1f8f469998e46ef985578b07006f884b737335fbdb7b63ca1efb37afe0e09",
+  "runner_sha256": "b37966d2afda18eee8260f604a292d1f96a34eea3c0b89871c9d378097244c96",
+  "kernel_source_sha256": "8ec01ac53ecad116baa369b1e41241281e3da06f3a4d01ebd6608a7210ef4648",
+  "execution_lock": {
+    "ring_records": 531,
+    "allocation_records": 532,
+    "allocation_bytes": 538230784,
+    "batch_records": 16,
+    "warmup_batches": 34,
+    "timed_iterations": 1000,
+    "minimum_p95_side_gbps": 21.63
+  },
+  "nvidia_gpu_kernel_or_transfer_calls": 0,
+  "status": "blocked_or_runtime_failure",
+  "error": "OSError: exception: access violation writing 0x0000000000001000",
+  "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\scripts\\streamq5_moe\\run_st2_mini_host_usm_q5.py\", line 744, in main\n    result = execute()\n             ^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\scripts\\streamq5_moe\\run_st2_mini_host_usm_q5.py\", line 599, in execute\n    allocation = cl.setup()\n                 ^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\scripts\\streamq5_moe\\run_st2_mini_host_usm_q5.py\", line 373, in setup\n    self.usm_ptr = int(self.host_alloc(self.context, self.device, None, ALLOC_BYTES, 4096, C.byref(err)))\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nOSError: exception: access violation writing 0x0000000000001000\n",
+  "completed_utc": "2026-08-12T21:18:58.575163+00:00",
+  "claim_boundary": "Intel-iGPU host-USM Q5 component test only; no dGPU, cross-device SplitTree, real-80B, model-quality or end-to-end claim."
+}

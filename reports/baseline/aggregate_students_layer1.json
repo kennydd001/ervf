@@ -1,0 +1,422 @@
+{
+  "created_at_utc": "2026-08-09T19:15:06.403841+00:00",
+  "git_revision": null,
+  "kind": "compression_baseline",
+  "payload": {
+    "batch_size": 256,
+    "device": "cuda",
+    "early_stopping_patience": 5,
+    "learning_rate": 0.001,
+    "max_epochs": 20,
+    "method": "aggregate_swiglu_student",
+    "optimizer": "AdamW",
+    "results": [
+      {
+        "artifact": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\data\\models\\layer1_aggregate_unconditioned_width256.safetensors",
+        "best_epoch": 4,
+        "best_validation_nrmse": 0.8769592046737671,
+        "bf16_bytes": 3145728,
+        "compression_ratio_vs_bf16_routed_bank": 352.0,
+        "history": [
+          {
+            "epoch": 1,
+            "train_normalized_mse": 0.853933148086071,
+            "validation": {
+              "cosine": 0.37409737706184387,
+              "mae": 0.027817925438284874,
+              "max_abs_error": 1.1376953125,
+              "nrmse": 0.910145103931427
+            }
+          },
+          {
+            "epoch": 2,
+            "train_normalized_mse": 0.6731220921501517,
+            "validation": {
+              "cosine": 0.43896013498306274,
+              "mae": 0.026918524876236916,
+              "max_abs_error": 0.998046875,
+              "nrmse": 0.8867813348770142
+            }
+          },
+          {
+            "epoch": 3,
+            "train_normalized_mse": 0.6142176389694214,
+            "validation": {
+              "cosine": 0.46158722043037415,
+              "mae": 0.026632757857441902,
+              "max_abs_error": 0.98828125,
+              "nrmse": 0.8810520172119141
+            }
+          },
+          {
+            "epoch": 4,
+            "train_normalized_mse": 0.5730014964938164,
+            "validation": {
+              "cosine": 0.4740258455276489,
+              "mae": 0.02644195407629013,
+              "max_abs_error": 0.884765625,
+              "nrmse": 0.8769592046737671
+            }
+          },
+          {
+            "epoch": 5,
+            "train_normalized_mse": 0.5491464417427778,
+            "validation": {
+              "cosine": 0.47992393374443054,
+              "mae": 0.026421692222356796,
+              "max_abs_error": 0.9375,
+              "nrmse": 0.8776968717575073
+            }
+          },
+          {
+            "epoch": 6,
+            "train_normalized_mse": 0.5328740491531789,
+            "validation": {
+              "cosine": 0.48295965790748596,
+              "mae": 0.026416994631290436,
+              "max_abs_error": 0.884765625,
+              "nrmse": 0.8788864016532898
+            }
+          },
+          {
+            "epoch": 7,
+            "train_normalized_mse": 0.5201158383861184,
+            "validation": {
+              "cosine": 0.48512959480285645,
+              "mae": 0.026471372693777084,
+              "max_abs_error": 0.896484375,
+              "nrmse": 0.8810454607009888
+            }
+          },
+          {
+            "epoch": 8,
+            "train_normalized_mse": 0.5123644098639488,
+            "validation": {
+              "cosine": 0.48659589886665344,
+              "mae": 0.026481933891773224,
+              "max_abs_error": 0.9453125,
+              "nrmse": 0.882523238658905
+            }
+          },
+          {
+            "epoch": 9,
+            "train_normalized_mse": 0.5050259176641703,
+            "validation": {
+              "cosine": 0.48720496892929077,
+              "mae": 0.026552094146609306,
+              "max_abs_error": 0.87890625,
+              "nrmse": 0.8853289484977722
+            }
+          }
+        ],
+        "label": "unconditioned_width256",
+        "parameter_count": 1572864,
+        "route_conditioned": false,
+        "test": {
+          "cosine": 0.4626745581626892,
+          "mae": 0.025264592841267586,
+          "max_abs_error": 0.80322265625,
+          "nrmse": 0.8673537373542786
+        },
+        "wall_seconds": 2.025999999998021,
+        "width": 256
+      },
+      {
+        "artifact": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\data\\models\\layer1_aggregate_conditioned_width256.safetensors",
+        "best_epoch": 4,
+        "best_validation_nrmse": 0.8766849637031555,
+        "bf16_bytes": 3211264,
+        "compression_ratio_vs_bf16_routed_bank": 344.81632653061223,
+        "history": [
+          {
+            "epoch": 1,
+            "train_normalized_mse": 0.8522638212889433,
+            "validation": {
+              "cosine": 0.3761114776134491,
+              "mae": 0.027782993391156197,
+              "max_abs_error": 1.046875,
+              "nrmse": 0.9087276458740234
+            }
+          },
+          {
+            "epoch": 2,
+            "train_normalized_mse": 0.673153093084693,
+            "validation": {
+              "cosine": 0.43966004252433777,
+              "mae": 0.02689589187502861,
+              "max_abs_error": 0.962890625,
+              "nrmse": 0.8860679268836975
+            }
+          },
+          {
+            "epoch": 3,
+            "train_normalized_mse": 0.6114705121144652,
+            "validation": {
+              "cosine": 0.4626913070678711,
+              "mae": 0.026596996933221817,
+              "max_abs_error": 0.89453125,
+              "nrmse": 0.8798813223838806
+            }
+          },
+          {
+            "epoch": 4,
+            "train_normalized_mse": 0.5726261902600527,
+            "validation": {
+              "cosine": 0.4742799401283264,
+              "mae": 0.026443487033247948,
+              "max_abs_error": 0.861328125,
+              "nrmse": 0.8766849637031555
+            }
+          },
+          {
+            "epoch": 5,
+            "train_normalized_mse": 0.5489172283560038,
+            "validation": {
+              "cosine": 0.47951561212539673,
+              "mae": 0.02641126699745655,
+              "max_abs_error": 0.873046875,
+              "nrmse": 0.8774582743644714
+            }
+          },
+          {
+            "epoch": 6,
+            "train_normalized_mse": 0.5319546791724861,
+            "validation": {
+              "cosine": 0.48363545536994934,
+              "mae": 0.026402533054351807,
+              "max_abs_error": 0.77734375,
+              "nrmse": 0.8783779740333557
+            }
+          },
+          {
+            "epoch": 7,
+            "train_normalized_mse": 0.5189656596630812,
+            "validation": {
+              "cosine": 0.48469191789627075,
+              "mae": 0.02644668146967888,
+              "max_abs_error": 0.8203125,
+              "nrmse": 0.880714476108551
+            }
+          },
+          {
+            "epoch": 8,
+            "train_normalized_mse": 0.5114070530980825,
+            "validation": {
+              "cosine": 0.4855092167854309,
+              "mae": 0.026490848511457443,
+              "max_abs_error": 0.85546875,
+              "nrmse": 0.8831146955490112
+            }
+          },
+          {
+            "epoch": 9,
+            "train_normalized_mse": 0.5040813004598022,
+            "validation": {
+              "cosine": 0.4863390326499939,
+              "mae": 0.02654777467250824,
+              "max_abs_error": 0.81640625,
+              "nrmse": 0.8856175541877747
+            }
+          }
+        ],
+        "label": "conditioned_width256",
+        "parameter_count": 1605632,
+        "route_conditioned": true,
+        "test": {
+          "cosine": 0.4634956419467926,
+          "mae": 0.025300124660134315,
+          "max_abs_error": 0.701416015625,
+          "nrmse": 0.8677796125411987
+        },
+        "wall_seconds": 1.8257417999993777,
+        "width": 256
+      },
+      {
+        "artifact": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\data\\models\\layer1_aggregate_unconditioned_width1408.safetensors",
+        "best_epoch": 2,
+        "best_validation_nrmse": 0.8663433790206909,
+        "bf16_bytes": 17301504,
+        "compression_ratio_vs_bf16_routed_bank": 64.0,
+        "history": [
+          {
+            "epoch": 1,
+            "train_normalized_mse": 0.7274304106831551,
+            "validation": {
+              "cosine": 0.48540863394737244,
+              "mae": 0.026249583810567856,
+              "max_abs_error": 0.927734375,
+              "nrmse": 0.8730063438415527
+            }
+          },
+          {
+            "epoch": 2,
+            "train_normalized_mse": 0.5107215666212142,
+            "validation": {
+              "cosine": 0.5176224708557129,
+              "mae": 0.02578997239470482,
+              "max_abs_error": 0.927734375,
+              "nrmse": 0.8663433790206909
+            }
+          },
+          {
+            "epoch": 3,
+            "train_normalized_mse": 172.36372530693188,
+            "validation": {
+              "cosine": 0.29325148463249207,
+              "mae": 0.09586694836616516,
+              "max_abs_error": 7.2578125,
+              "nrmse": 8.321930885314941
+            }
+          },
+          {
+            "epoch": 4,
+            "train_normalized_mse": 10817.246086478233,
+            "validation": {
+              "cosine": 0.22054053843021393,
+              "mae": 0.09951892495155334,
+              "max_abs_error": 14.3193359375,
+              "nrmse": 6.9781694412231445
+            }
+          },
+          {
+            "epoch": 5,
+            "train_normalized_mse": 6050.732340946794,
+            "validation": {
+              "cosine": 0.17767447233200073,
+              "mae": 0.13177251815795898,
+              "max_abs_error": 48.1328125,
+              "nrmse": 14.246037483215332
+            }
+          },
+          {
+            "epoch": 6,
+            "train_normalized_mse": 3821.184195622802,
+            "validation": {
+              "cosine": 0.09519357979297638,
+              "mae": 0.2448682188987732,
+              "max_abs_error": 137.0654296875,
+              "nrmse": 47.09389114379883
+            }
+          },
+          {
+            "epoch": 7,
+            "train_normalized_mse": 9892.728751122952,
+            "validation": {
+              "cosine": 0.12545065581798553,
+              "mae": 0.2159777730703354,
+              "max_abs_error": 214.71484375,
+              "nrmse": 84.33789825439453
+            }
+          }
+        ],
+        "label": "unconditioned_width1408",
+        "parameter_count": 8650752,
+        "route_conditioned": false,
+        "test": {
+          "cosine": 0.5012852549552917,
+          "mae": 0.024697288870811462,
+          "max_abs_error": 0.6875,
+          "nrmse": 0.8560888171195984
+        },
+        "wall_seconds": 2.5509595000003173,
+        "width": 1408
+      },
+      {
+        "artifact": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\data\\models\\layer1_aggregate_conditioned_width1408.safetensors",
+        "best_epoch": 2,
+        "best_validation_nrmse": 0.8654927015304565,
+        "bf16_bytes": 17661952,
+        "compression_ratio_vs_bf16_routed_bank": 62.69387755102041,
+        "history": [
+          {
+            "epoch": 1,
+            "train_normalized_mse": 0.7271502017974854,
+            "validation": {
+              "cosine": 0.48605430126190186,
+              "mae": 0.026246747002005577,
+              "max_abs_error": 0.947265625,
+              "nrmse": 0.8726608753204346
+            }
+          },
+          {
+            "epoch": 2,
+            "train_normalized_mse": 0.5119046894833446,
+            "validation": {
+              "cosine": 0.5185207724571228,
+              "mae": 0.025781607255339622,
+              "max_abs_error": 0.95703125,
+              "nrmse": 0.8654927015304565
+            }
+          },
+          {
+            "epoch": 3,
+            "train_normalized_mse": 182.58906984794885,
+            "validation": {
+              "cosine": 0.301899254322052,
+              "mae": 0.0999278649687767,
+              "max_abs_error": 8.6612548828125,
+              "nrmse": 8.857887268066406
+            }
+          },
+          {
+            "epoch": 4,
+            "train_normalized_mse": 12930.817264929414,
+            "validation": {
+              "cosine": 0.21495351195335388,
+              "mae": 0.11118367314338684,
+              "max_abs_error": 14.349365234375,
+              "nrmse": 7.756057262420654
+            }
+          },
+          {
+            "epoch": 5,
+            "train_normalized_mse": 7315.674700662494,
+            "validation": {
+              "cosine": 0.15416675806045532,
+              "mae": 0.1362997591495514,
+              "max_abs_error": 53.5089111328125,
+              "nrmse": 17.690210342407227
+            }
+          },
+          {
+            "epoch": 6,
+            "train_normalized_mse": 6065.615820080042,
+            "validation": {
+              "cosine": 0.1265029013156891,
+              "mae": 0.19662357866764069,
+              "max_abs_error": 91.87744140625,
+              "nrmse": 28.432600021362305
+            }
+          },
+          {
+            "epoch": 7,
+            "train_normalized_mse": 9646.37227332592,
+            "validation": {
+              "cosine": 0.13302527368068695,
+              "mae": 0.19770030677318573,
+              "max_abs_error": 169.0152587890625,
+              "nrmse": 62.517765045166016
+            }
+          }
+        ],
+        "label": "conditioned_width1408",
+        "parameter_count": 8830976,
+        "route_conditioned": true,
+        "test": {
+          "cosine": 0.5028340816497803,
+          "mae": 0.02469819411635399,
+          "max_abs_error": 0.718994140625,
+          "nrmse": 0.8561573028564453
+        },
+        "wall_seconds": 2.7567708999995375,
+        "width": 1408
+      }
+    ],
+    "seed": 20260809,
+    "status": "complete",
+    "test_tokens": 4096,
+    "train_tokens": 16384,
+    "validation_tokens": 4096
+  },
+  "schema_version": 1
+}

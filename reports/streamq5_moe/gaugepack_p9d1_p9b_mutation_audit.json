@@ -1,0 +1,78 @@
+{
+  "checks": {
+    "correct_indexed_fill_mutates_weights_and_forward": true,
+    "p9b_and_p9e_candidate_outputs_identical": true,
+    "p9b_and_p9e_masks_materially_different": true,
+    "p9b_boolean_selections_are_copies": true,
+    "p9b_helper_is_noop_on_actual_checkpoint_expert": true,
+    "p9b_helper_leaves_actual_expert_forward_bitexact": true,
+    "qwen_forward_uses_targeted_expert_parameters": true
+  },
+  "completed_utc": "2026-08-12T18:57:12.507198+00:00",
+  "conclusion": "P9B/P9E boolean-index zero_ calls mutate temporary copies, not expert Parameters. Their reported quality is the unpruned Q5 baseline and cannot authorize GaugePack.",
+  "forward_audit": {
+    "experts_container_declared_modulelist": true,
+    "installed_transformers_source": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv\\Lib\\site-packages\\transformers\\models\\qwen3_moe\\modeling_qwen3_moe.py",
+    "mlp_forward_uses_gate_up_down_modules": true,
+    "routed_forward_selects_same_expert_modules": true
+  },
+  "inputs": {
+    "model_index_sha256": "df0d481ec595c55a0ba58426d517390c6214a566ec4ff1c8fc4bbce9f57b3c24",
+    "p9b_masks_sha256": "a238950c97c52f7b5c12eaae76a1ef21f8c4ad4fabd4724bc13f9ed17801dab1",
+    "p9b_script_sha256": "e5b74009981a4c9d75cc1a56135c8ce80e11481f201d17595f28236a35e68077",
+    "p9b_validation_sha256": "46ca0be57b6494e5b4ac367912835da65fa733ba06be39727842cf8ca1ece9d6",
+    "p9e_masks_sha256": "d801d57d602fd4db8c456fa7b5a2b0282767cd3a953a6ad92df971fab79099a6",
+    "p9e_script_sha256": "091d5a0080b27d116d1619204d238e401476ba7fcefa5aaba3a4189165ec7d48",
+    "p9e_validation_sha256": "40870aa1ca63d679d0361a17f06ff8aade41e230bb92d9557a3aaeb1050fdd3d"
+  },
+  "kind": "gaugepack_p9d1_p9b_mutation_audit",
+  "mask_comparison": {
+    "identical_expert_layer_masks": 0,
+    "index_position_mismatches": 2018499,
+    "total_expert_layer_masks": 6144,
+    "total_index_positions": 2359296
+  },
+  "mutation_audit": {
+    "corrected_expert_forward_changes": true,
+    "corrected_forward_different_bf16_elements": 8181,
+    "corrected_parameter_hashes_changed": true,
+    "corrected_removed_regions_are_zero": true,
+    "expert_forward_bitexact_after_p9b_helper": true,
+    "parameter_hashes_unchanged_after_p9b_helper": true,
+    "removed_nonzero_after_bug": {
+      "down": 786426,
+      "gate": 786426,
+      "up": 786422
+    },
+    "removed_nonzero_after_fix": {
+      "down": 0,
+      "gate": 0,
+      "up": 0
+    },
+    "removed_nonzero_before": {
+      "down": 786426,
+      "gate": 786426,
+      "up": 786422
+    },
+    "removed_nonzero_counts_unchanged_after_p9b_helper": true,
+    "selection_storage_is_distinct_from_parameter": {
+      "down": true,
+      "gate": true,
+      "up": true
+    }
+  },
+  "output_equalities": {
+    "all_48_layer_hidden_errors_exact": true,
+    "candidate_ce_exact": true,
+    "candidate_context_ce_exact": true,
+    "final_hidden_error_exact": true,
+    "relative_cross_entropy_exact": true,
+    "top1_agreement_exact": true
+  },
+  "required_repair": "Replace advanced-index zero_ with masked_fill_ on each full Parameter, then rerun calibration, validation and test before any GaugePack codec or kernel claim.",
+  "runtime": {
+    "device": "cpu",
+    "seconds": 0.13725460000569
+  },
+  "status": "p9b_pruning_noop_proven"
+}

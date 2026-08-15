@@ -1,0 +1,31 @@
+{
+  "kind": "streamq5_moe_p3b_dispatch_input_lock",
+  "locked_utc": "2026-08-12T12:00:00+00:00",
+  "preregistration_sha256": "6b52cb69898ed60d3222377a060de59801d004279697613fe0520608278b49cb",
+  "p1d_verification_sha256": "46a424fd4c0d8c37985b5f44b9d76503c1511f6de04478d938779b33338507ed",
+  "p3a_route_capture_sha256": "b15ab0c5a9bc10c8c245e13ad9f5725b91ffd923809fcf9b2786562bcbcc3f88",
+  "route_cases": {
+    "smoke": {"domain": "general", "token": 0},
+    "validation": {"domain": "general", "token": 512},
+    "test": {"domain": "instruction", "token": 768}
+  },
+  "warmup_iterations": 20,
+  "measured_iterations": {"smoke": 3, "validation": 120, "test": 360},
+  "initial_state_seed": 2026081203,
+  "launches_per_layer": 4,
+  "layers": 48,
+  "experts_per_layer": 8,
+  "device_bytes": {
+    "cache": 4977623040,
+    "int8_trunk_reservation": 1541093376,
+    "kv_reservation": 402653184,
+    "minimum_scratch": 402653184
+  },
+  "gates": {
+    "graph_to_eager_host_p50_max": 0.90,
+    "graph_to_eager_event_p50_min": 0.90,
+    "graph_to_eager_event_p50_max": 1.05,
+    "exact_output_match": true
+  },
+  "outputs_opened": false
+}

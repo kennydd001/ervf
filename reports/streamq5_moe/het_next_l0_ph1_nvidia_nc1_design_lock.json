@@ -1,0 +1,120 @@
+{
+  "kind": "het_next_l0_ph1_nvidia_nc1_design_lock",
+  "revision": "NC1-design-only",
+  "implementation_open": false,
+  "preflight_open": false,
+  "compile_open": false,
+  "authorization_token": "PENDING_INDEPENDENT_DESIGN_AUDIT",
+  "future_exact_ack": "ACK_HET_NEXT_L0_PH1_NVIDIA_NC1_COMPILE_ONLY_ONCE",
+  "claim": "compile_only_design_frozen_no_implementation_no_execution",
+  "source_entrypoints": [
+    "q5_linear",
+    "bf16_lut_activation"
+  ],
+  "future_out_of_scope_launches": [
+    "q5_linear:gate",
+    "q5_linear:up",
+    "bf16_lut_activation",
+    "q5_linear:down"
+  ],
+  "exact_options": [
+    "--std=c++17",
+    "--fmad=true",
+    "--prec-div=true",
+    "--prec-sqrt=true",
+    "--ftz=false",
+    "--gpu-architecture=sm_120",
+    "--device-as-default-execution-space"
+  ],
+  "bindings": {
+    "nc1_prereg": {
+      "path": "reports/streamq5_moe/HET_NEXT_L0_PH1_NVIDIA_NC1_COMPILE_ONLY_PREREGISTRATION_2026-08-14.md",
+      "bytes": 6461,
+      "sha256": "9a823c1c061a91321d6256c79c203f3bbf25c6956b7f51eddf336f13a969bef9"
+    },
+    "nc1_design": {
+      "path": "reports/streamq5_moe/HET_NEXT_L0_PH1_NVIDIA_NC1_STATIC_PREFLIGHT_VERIFIER_AND_LIFECYCLE_DESIGN_2026-08-14.md",
+      "bytes": 8444,
+      "sha256": "c8e781ca3744c53cd99010f12b2775937dc553e13bf4325863110f48847fa25a"
+    },
+    "nc0_prereg": {
+      "path": "reports/streamq5_moe/HET_NEXT_L0_PH1_NVIDIA_NC0_COMPILE_ONLY_PREREGISTRATION_2026-08-14.md",
+      "bytes": 3239,
+      "sha256": "79e85a85704bf319654580a1848a22d12e6c624196641d7f8f26c2b353b6e4dd"
+    },
+    "nc0_design": {
+      "path": "reports/streamq5_moe/HET_NEXT_L0_PH1_NVIDIA_NC0_STATIC_PREFLIGHT_AND_VERIFIER_DESIGN_2026-08-14.md",
+      "bytes": 2998,
+      "sha256": "e1b01912ce97ed557d310407f1244c6d7e1e0c21539bb5a6dc958dc6a9c48f6b"
+    },
+    "nc0_design_lock": {
+      "path": "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc0_design_lock.json",
+      "bytes": 2210,
+      "sha256": "f55ea82a445b699a97915befdc6e458b524ab8c5ec821e608aeb5f0dd4f2313a"
+    },
+    "nc0_design_audit": {
+      "path": "reports/streamq5_moe/HET_NEXT_L0_PH1_NVIDIA_NC0_INDEPENDENT_DESIGN_AUDIT_2026-08-14.md",
+      "bytes": 8903,
+      "sha256": "0c6d3acb9e5f28596ffb04e86a5baf66fb070d5bde99c8d528bea917babaeb07"
+    },
+    "n1_prereg": {
+      "path": "reports/streamq5_moe/HET_NEXT_L0_PH1_NVIDIA_FULL_EXPERT_N1_PREREGISTRATION_2026-08-14.md",
+      "bytes": 12143,
+      "sha256": "953e3dba4158c8dafd78f8a072a8df48f924e12457509c88a3247b62faa1eb05"
+    },
+    "n1_design": {
+      "path": "reports/streamq5_moe/HET_NEXT_L0_PH1_NVIDIA_FULL_EXPERT_N1_CAPABILITY_AND_PREFLIGHT_DESIGN_2026-08-14.md",
+      "bytes": 5280,
+      "sha256": "2f9d129a2f299b15057b8da16191a6087215594863db9593a4643c661a20a90a"
+    },
+    "n1_design_audit": {
+      "path": "reports/streamq5_moe/HET_NEXT_L0_PH1_NVIDIA_FULL_EXPERT_N1_INDEPENDENT_DESIGN_AUDIT_2026-08-14.md",
+      "bytes": 6709,
+      "sha256": "c55a962f0dae732b6f49947c055f97c936d27ae7d3f59e3dbf93a21467b9906f"
+    },
+    "n5_source_audit": {
+      "path": "reports/streamq5_moe/HET_NEXT_L0_PH1_NVIDIA_FULL_EXPERT_N5_IMPLEMENTATION_INDEPENDENT_SOURCE_AUDIT_2026-08-14.md",
+      "bytes": 9200,
+      "sha256": "c6474a55d2fe3a0567917dd7f47e63e147c0099f5ef3bd67cc99ad04c5c47d13"
+    },
+    "kernel_source": {
+      "path": "scripts/streamq5_moe/het_next_l0_ph1_nvidia_n5_kernels.cu",
+      "bytes": 6173,
+      "sha256": "9f369ab3621c6d56b2a3597bca59c25be8d15e7ac3a2a150d916d6695623a781"
+    },
+    "nvrtc_dll": {
+      "path": ".venv/Lib/site-packages/nvidia/cu13/bin/x86_64/nvrtc64_130_0.dll",
+      "bytes": 101385328,
+      "sha256": "c7af6b5dbd001852d1b4a18effc6fbcfc94787eddadffea629a8333cb25b05fe"
+    },
+    "nvrtc_builtins_dll": {
+      "path": ".venv/Lib/site-packages/nvidia/cu13/bin/x86_64/nvrtc-builtins64_133.dll",
+      "bytes": 6684784,
+      "sha256": "82c703802846329d3bab3d8df06f8c956516a0eeec568033092d6c0a69b2733a"
+    },
+    "nvrtc_header": {
+      "path": ".venv/Lib/site-packages/nvidia/cu13/include/nvrtc.h",
+      "bytes": 57749,
+      "sha256": "316a1375c18c69c5f1857dfc154c47a58a6795ffe462d2fcb50f5272ea472d21"
+    }
+  },
+  "expected_absent": [
+    "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc1_compile_core.py",
+    "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc1_compile_runner.py",
+    "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc1_compile_verifier.py",
+    "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc1_static_preflight.py",
+    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc1_compile_only",
+    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc1_compile_only_failures",
+    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc1_compile_only_quarantine",
+    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc1_static_preflight_result.json"
+  ],
+  "absolute_exclusions": {
+    "model_or_cpu_payload": true,
+    "nvcuda_driver": true,
+    "cuda_runtime": true,
+    "device_enumeration_or_context": true,
+    "allocation_copy_launch_sync": true,
+    "preflight_execution": true,
+    "compiler_execution": true
+  }
+}

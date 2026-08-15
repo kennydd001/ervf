@@ -1,0 +1,506 @@
+{
+  "kind": "port80b_t0r1_t0p1_cpu_preflight",
+  "status": "cpu_preflight_pass_payload_actions_still_closed",
+  "pass": true,
+  "checks_passed": 13,
+  "checks_total": 13,
+  "blocked_reasons": [],
+  "inputs": {
+    "revision": "a19358a7659bd1f564300250ee189120c49a562f",
+    "t0r1_sha256": "9993828c2eb8048c282f614fb642f3e9a78a16686da0d2ed96e35bfa00d9c801",
+    "t0p1_sha256": "0469cf58499a472d7ae982c75a93bf2a2dcef7ac247e1b82f133ca39bfcb5043",
+    "prompt_lock_sha256": "f283da7e86adf915431459b08aac967d9c18c3de155699c369f5a55be20e5f34",
+    "environment_lock_sha256": "eb31d4e0c1f6a806434ea8a20b6b00200781a89ed9f91e485aad0e3583c0f455",
+    "preflight_script_sha256": "beca539e8e63dd8fb722d9bdfc916f77e6d14af4c235f990ba0b80007d565b66"
+  },
+  "checks": [
+    {
+      "name": "immutable_preregistrations_exact",
+      "pass": true,
+      "blocker": true,
+      "detail": {
+        "t0r1": "9993828c2eb8048c282f614fb642f3e9a78a16686da0d2ed96e35bfa00d9c801",
+        "t0p1": "0469cf58499a472d7ae982c75a93bf2a2dcef7ac247e1b82f133ca39bfcb5043"
+      }
+    },
+    {
+      "name": "prompt_and_environment_locks_exact",
+      "pass": true,
+      "blocker": true,
+      "detail": {
+        "prompt": "f283da7e86adf915431459b08aac967d9c18c3de155699c369f5a55be20e5f34",
+        "environment": "eb31d4e0c1f6a806434ea8a20b6b00200781a89ed9f91e485aad0e3583c0f455"
+      }
+    },
+    {
+      "name": "official_support_files_exact",
+      "pass": true,
+      "blocker": true,
+      "detail": {
+        "config.json": {
+          "present": true,
+          "expected_bytes": 1178,
+          "expected_sha256": "a7b8098d3b05777f12bb5677a26bf1240a1bb09def1b06b29e6be86cae2e84f8",
+          "bytes": 1178,
+          "sha256": "a7b8098d3b05777f12bb5677a26bf1240a1bb09def1b06b29e6be86cae2e84f8",
+          "pass": true
+        },
+        "generation_config.json": {
+          "present": true,
+          "expected_bytes": 214,
+          "expected_sha256": "37a3c1ef63516ca489c575f0db1c0405ddc0c3dbaca9ed987344c966c37aeef5",
+          "bytes": 214,
+          "sha256": "37a3c1ef63516ca489c575f0db1c0405ddc0c3dbaca9ed987344c966c37aeef5",
+          "pass": true
+        },
+        "model.safetensors.index.json": {
+          "present": true,
+          "expected_bytes": 6759619,
+          "expected_sha256": "e54c170589a729006db825100b4c69cf1c485ee89d3e8dd30aec9dccbf9cea1b",
+          "bytes": 6759619,
+          "sha256": "e54c170589a729006db825100b4c69cf1c485ee89d3e8dd30aec9dccbf9cea1b",
+          "pass": true
+        },
+        "tokenizer.json": {
+          "present": true,
+          "expected_bytes": 7032399,
+          "expected_sha256": "19564a48c4f71a2a1b937cce34c737a1e662b171c5f5d7edf641a15cd896f07d",
+          "bytes": 7032399,
+          "sha256": "19564a48c4f71a2a1b937cce34c737a1e662b171c5f5d7edf641a15cd896f07d",
+          "pass": true
+        },
+        "tokenizer_config.json": {
+          "present": true,
+          "expected_bytes": 11681,
+          "expected_sha256": "fc76878832c668e3f0f8be66e6239a475b9093d2fe5cef97c242369779e6c6e6",
+          "bytes": 11681,
+          "sha256": "fc76878832c668e3f0f8be66e6239a475b9093d2fe5cef97c242369779e6c6e6",
+          "pass": true
+        }
+      }
+    },
+    {
+      "name": "index_layer0_shard_locality_exact",
+      "pass": true,
+      "blocker": true,
+      "detail": {
+        "layer0_keys": 1550,
+        "shard1_keys": 1567,
+        "embedding_shard": "model-00001-of-00040.safetensors"
+      }
+    },
+    {
+      "name": "qwen3_next_reference_sources_exact",
+      "pass": true,
+      "blocker": true,
+      "detail": {
+        "__init__.py": "3ee3ef179c5c11f07150a8ea8996960a21de0de2ae4e635d7ee23ac2f6fe71b2",
+        "configuration_qwen3_next.py": "931f04df4c8631942e12e1e045c3123d7a0a9336792aef902a7a5f899d0f4049",
+        "modeling_qwen3_next.py": "de40823607becdd616436e3b332f14e0c92df5495ac72ef8af027c4488b9afca",
+        "modular_qwen3_next.py": "d3da9b3e3548bdea4de092e79946ebbead6c17326759e291b1c8ab0ac465f4d2"
+      }
+    },
+    {
+      "name": "prompt_lock_internal_hashes_and_shape",
+      "pass": true,
+      "blocker": true,
+      "detail": {
+        "domains": [
+          "general",
+          "python",
+          "mathematics",
+          "multilingual"
+        ],
+        "rows": 4,
+        "tokens_each": [
+          16,
+          16,
+          16,
+          16
+        ]
+      }
+    },
+    {
+      "name": "reference_environment_and_cpu_policy_exact",
+      "pass": true,
+      "blocker": true,
+      "detail": {
+        "returncode": 0,
+        "stdout": "{\"config\": {\"experts\": 512, \"hidden\": 2048, \"layers\": 48, \"model_type\": \"qwen3_next\", \"moe_intermediate\": 512, \"top_k\": 10}, \"cuda_initialized\": false, \"executable\": \"C:\\\\Users\\\\de_do\\\\Documents\\\\ChatGPT\\\\New project\\\\.venv-next-ref\\\\Scripts\\\\python.exe\", \"numpy\": \"2.2.6\", \"numpy_path\": \"C:\\\\Users\\\\de_do\\\\Documents\\\\ChatGPT\\\\New project\\\\.venv\\\\Lib\\\\site-packages\\\\numpy\\\\__init__.py\", \"python\": \"3.12.10\", \"safetensors\": \"0.8.0\", \"safetensors_path\": \"C:\\\\Users\\\\de_do\\\\Documents\\\\ChatGPT\\\\New project\\\\.venv\\\\Lib\\\\site-packages\\\\safetensors\\\\__init__.py\", \"token_rows\": [{\"domain\": \"general\", \"token_ids\": [840, 20772, 1246, 264, 2613, 2083, 646, 10146, 264, 5000, 10916, 3717, 1667, 52723, 78285, 5904], \"token_ids_le_u32_sha256\": \"98992f3910353ebaafd4165f20cc1efe4c4904a9875d232aba9793b795be0199\"}, {\"domain\": \"python\", \"token_ids\": [7985, 264, 13027, 729, 429, 80953, 1378, 10615, 7546, 11469, 1393, 46895, 42328, 11, 1221, 1584], \"token_ids_le_u32_sha256\": \"57e08f91a49ae76cbd490ca4f38d565a2d68f576b07014f8a50a684ce7e209c6\"}, {\"domain\": \"mathematics\", \"token_ids\": [32, 6172, 702, 28724, 3661, 1378, 11, 2326, 11, 323, 4236, 13, 22603, 1181, 86960, 323], \"token_ids_le_u32_sha256\": \"2fffe3365da5b3385b3eda5bd4bcbc8a2cb85b1429fed6dd1c5d90f34ab88d70\"}, {\"domain\": \"multilingual\", \"token_ids\": [18910, 304, 9017, 451, 7294, 8166, 24302, 37295, 316, 22800, 40499, 546, 2270, 27918, 83246, 86674], \"token_ids_le_u32_sha256\": \"89d40da82d9e58df142a68a7b9e96a07bc80090a821584625cce0ebaaa4d89a6\"}], \"tokenizers\": \"0.22.2\", \"torch\": \"2.12.1+cu132\", \"torch_path\": \"C:\\\\Users\\\\de_do\\\\Documents\\\\ChatGPT\\\\New project\\\\.venv\\\\Lib\\\\site-packages\\\\torch\\\\__init__.py\", \"transformers\": \"5.15.0\"}",
+        "stderr": "",
+        "parsed": {
+          "config": {
+            "experts": 512,
+            "hidden": 2048,
+            "layers": 48,
+            "model_type": "qwen3_next",
+            "moe_intermediate": 512,
+            "top_k": 10
+          },
+          "cuda_initialized": false,
+          "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-next-ref\\Scripts\\python.exe",
+          "numpy": "2.2.6",
+          "numpy_path": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv\\Lib\\site-packages\\numpy\\__init__.py",
+          "python": "3.12.10",
+          "safetensors": "0.8.0",
+          "safetensors_path": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv\\Lib\\site-packages\\safetensors\\__init__.py",
+          "token_rows": [
+            {
+              "domain": "general",
+              "token_ids": [
+                840,
+                20772,
+                1246,
+                264,
+                2613,
+                2083,
+                646,
+                10146,
+                264,
+                5000,
+                10916,
+                3717,
+                1667,
+                52723,
+                78285,
+                5904
+              ],
+              "token_ids_le_u32_sha256": "98992f3910353ebaafd4165f20cc1efe4c4904a9875d232aba9793b795be0199"
+            },
+            {
+              "domain": "python",
+              "token_ids": [
+                7985,
+                264,
+                13027,
+                729,
+                429,
+                80953,
+                1378,
+                10615,
+                7546,
+                11469,
+                1393,
+                46895,
+                42328,
+                11,
+                1221,
+                1584
+              ],
+              "token_ids_le_u32_sha256": "57e08f91a49ae76cbd490ca4f38d565a2d68f576b07014f8a50a684ce7e209c6"
+            },
+            {
+              "domain": "mathematics",
+              "token_ids": [
+                32,
+                6172,
+                702,
+                28724,
+                3661,
+                1378,
+                11,
+                2326,
+                11,
+                323,
+                4236,
+                13,
+                22603,
+                1181,
+                86960,
+                323
+              ],
+              "token_ids_le_u32_sha256": "2fffe3365da5b3385b3eda5bd4bcbc8a2cb85b1429fed6dd1c5d90f34ab88d70"
+            },
+            {
+              "domain": "multilingual",
+              "token_ids": [
+                18910,
+                304,
+                9017,
+                451,
+                7294,
+                8166,
+                24302,
+                37295,
+                316,
+                22800,
+                40499,
+                546,
+                2270,
+                27918,
+                83246,
+                86674
+              ],
+              "token_ids_le_u32_sha256": "89d40da82d9e58df142a68a7b9e96a07bc80090a821584625cce0ebaaa4d89a6"
+            }
+          ],
+          "tokenizers": "0.22.2",
+          "torch": "2.12.1+cu132",
+          "torch_path": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv\\Lib\\site-packages\\torch\\__init__.py",
+          "transformers": "5.15.0"
+        }
+      }
+    },
+    {
+      "name": "pinned_tokenizer_reproduces_prompt_lock",
+      "pass": true,
+      "blocker": true,
+      "detail": {
+        "expected": [
+          {
+            "domain": "general",
+            "token_ids": [
+              840,
+              20772,
+              1246,
+              264,
+              2613,
+              2083,
+              646,
+              10146,
+              264,
+              5000,
+              10916,
+              3717,
+              1667,
+              52723,
+              78285,
+              5904
+            ],
+            "token_ids_le_u32_sha256": "98992f3910353ebaafd4165f20cc1efe4c4904a9875d232aba9793b795be0199"
+          },
+          {
+            "domain": "python",
+            "token_ids": [
+              7985,
+              264,
+              13027,
+              729,
+              429,
+              80953,
+              1378,
+              10615,
+              7546,
+              11469,
+              1393,
+              46895,
+              42328,
+              11,
+              1221,
+              1584
+            ],
+            "token_ids_le_u32_sha256": "57e08f91a49ae76cbd490ca4f38d565a2d68f576b07014f8a50a684ce7e209c6"
+          },
+          {
+            "domain": "mathematics",
+            "token_ids": [
+              32,
+              6172,
+              702,
+              28724,
+              3661,
+              1378,
+              11,
+              2326,
+              11,
+              323,
+              4236,
+              13,
+              22603,
+              1181,
+              86960,
+              323
+            ],
+            "token_ids_le_u32_sha256": "2fffe3365da5b3385b3eda5bd4bcbc8a2cb85b1429fed6dd1c5d90f34ab88d70"
+          },
+          {
+            "domain": "multilingual",
+            "token_ids": [
+              18910,
+              304,
+              9017,
+              451,
+              7294,
+              8166,
+              24302,
+              37295,
+              316,
+              22800,
+              40499,
+              546,
+              2270,
+              27918,
+              83246,
+              86674
+            ],
+            "token_ids_le_u32_sha256": "89d40da82d9e58df142a68a7b9e96a07bc80090a821584625cce0ebaaa4d89a6"
+          }
+        ],
+        "observed": [
+          {
+            "domain": "general",
+            "token_ids": [
+              840,
+              20772,
+              1246,
+              264,
+              2613,
+              2083,
+              646,
+              10146,
+              264,
+              5000,
+              10916,
+              3717,
+              1667,
+              52723,
+              78285,
+              5904
+            ],
+            "token_ids_le_u32_sha256": "98992f3910353ebaafd4165f20cc1efe4c4904a9875d232aba9793b795be0199"
+          },
+          {
+            "domain": "python",
+            "token_ids": [
+              7985,
+              264,
+              13027,
+              729,
+              429,
+              80953,
+              1378,
+              10615,
+              7546,
+              11469,
+              1393,
+              46895,
+              42328,
+              11,
+              1221,
+              1584
+            ],
+            "token_ids_le_u32_sha256": "57e08f91a49ae76cbd490ca4f38d565a2d68f576b07014f8a50a684ce7e209c6"
+          },
+          {
+            "domain": "mathematics",
+            "token_ids": [
+              32,
+              6172,
+              702,
+              28724,
+              3661,
+              1378,
+              11,
+              2326,
+              11,
+              323,
+              4236,
+              13,
+              22603,
+              1181,
+              86960,
+              323
+            ],
+            "token_ids_le_u32_sha256": "2fffe3365da5b3385b3eda5bd4bcbc8a2cb85b1429fed6dd1c5d90f34ab88d70"
+          },
+          {
+            "domain": "multilingual",
+            "token_ids": [
+              18910,
+              304,
+              9017,
+              451,
+              7294,
+              8166,
+              24302,
+              37295,
+              316,
+              22800,
+              40499,
+              546,
+              2270,
+              27918,
+              83246,
+              86674
+            ],
+            "token_ids_le_u32_sha256": "89d40da82d9e58df142a68a7b9e96a07bc80090a821584625cce0ebaaa4d89a6"
+          }
+        ]
+      }
+    },
+    {
+      "name": "official_config_architecture_exact",
+      "pass": true,
+      "blocker": true,
+      "detail": {
+        "experts": 512,
+        "hidden": 2048,
+        "layers": 48,
+        "model_type": "qwen3_next",
+        "moe_intermediate": 512,
+        "top_k": 10
+      }
+    },
+    {
+      "name": "prompt_hashes_disjoint_from_prior_locked_inputs",
+      "pass": true,
+      "blocker": true,
+      "detail": {
+        "current": [
+          "2fffe3365da5b3385b3eda5bd4bcbc8a2cb85b1429fed6dd1c5d90f34ab88d70",
+          "57e08f91a49ae76cbd490ca4f38d565a2d68f576b07014f8a50a684ce7e209c6",
+          "89d40da82d9e58df142a68a7b9e96a07bc80090a821584625cce0ebaaa4d89a6",
+          "98992f3910353ebaafd4165f20cc1efe4c4904a9875d232aba9793b795be0199"
+        ],
+        "prior_digest_count": 11
+      }
+    },
+    {
+      "name": "layer0_bank_byte_math_exact",
+      "pass": true,
+      "blocker": true,
+      "detail": {
+        "expert_record_bytes": 2027520,
+        "bank": 1040117760,
+        "prefix_499": 1011732480,
+        "cold_13": 26357760,
+        "selected_top10_bytes": 20275200
+      }
+    },
+    {
+      "name": "pre_download_resource_headroom",
+      "pass": true,
+      "blocker": true,
+      "detail": {
+        "free_disk_bytes": 303078313984,
+        "available_ram_bytes": 54018912256,
+        "minimum_disk_bytes": 21474836480,
+        "minimum_ram_bytes": 8589934592
+      }
+    },
+    {
+      "name": "official_shard1_payload_present_size_hash",
+      "pass": true,
+      "blocker": true,
+      "detail": {
+        "path": "C:\\Users\\de_do\\.cache\\huggingface\\hub\\models--Qwen--Qwen3-Coder-Next\\snapshots\\a19358a7659bd1f564300250ee189120c49a562f\\model-00001-of-00040.safetensors",
+        "present": true,
+        "expected_bytes": 3999619288,
+        "expected_sha256": "8e9a517133bfbdc6806cf8b61793055a260efeb68e6e019fd90e4bbb1b665d0a",
+        "observed_bytes": 3999619288,
+        "observed_sha256": "8e9a517133bfbdc6806cf8b61793055a260efeb68e6e019fd90e4bbb1b665d0a"
+      }
+    }
+  ],
+  "physical_actions": {
+    "network": false,
+    "download": false,
+    "cuda_initialized": false,
+    "gpu_allocation": false,
+    "kernel_launch": false,
+    "host_registration": false,
+    "bank_build": false,
+    "registry_edit": false
+  },
+  "claim_boundary": "CPU/offline immutable-input preflight only. No official shard payload was acquired or read; no model forward, bank build or physical test ran."
+}

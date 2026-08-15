@@ -1,0 +1,325 @@
+{
+  "kind": "tierflow_f0_independent_raw_route_verification",
+  "completed_utc": "2026-08-12T19:14:53.959043+00:00",
+  "independence": "No import from run_tierflow_f0_trace_feasibility.py; raw safetensors reloaded and oracle reimplemented with occurrence lists/bisect.",
+  "inputs": {
+    "capture_sha256": "7ebfcf30eceed76e2615e11702ca162eb43bf4236d6099cc307ec5cb4bcd74bb",
+    "preregistration_sha256": "0dd44a57ef4782eb6af4d0d8319d20ab03f8800a00deea8e6377055a306c6337",
+    "validation_sha256": "cfd703a75e78f92b00d4eda0de9f25687c067ef1d96f6b3a8cbaea7505372e40",
+    "result_sha256": "b546eca23882e287ff93094490f90ca0aa61c5855cc4db5393e38abbe034c785",
+    "raw_route_artifacts_verified": 48
+  },
+  "checks": [
+    {
+      "name": "capture_hash",
+      "pass": true,
+      "detail": "7ebfcf30eceed76e2615e11702ca162eb43bf4236d6099cc307ec5cb4bcd74bb"
+    },
+    {
+      "name": "partition_lock_exact",
+      "pass": true,
+      "detail": {
+        "calibration": [
+          0,
+          512
+        ],
+        "test": [
+          768,
+          1024
+        ],
+        "validation": [
+          512,
+          768
+        ]
+      }
+    },
+    {
+      "name": "validation_test_disjoint_adjacent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "published_partition_match",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "prereg_hash_locked",
+      "pass": true,
+      "detail": "0dd44a57ef4782eb6af4d0d8319d20ab03f8800a00deea8e6377055a306c6337"
+    },
+    {
+      "name": "validation_hash_locked_by_test",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "all_48_route_hashes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "all_route_shapes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "all_route_ids_unique_and_valid",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "validation_r1_raw_metrics",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "validation_r1_gates",
+      "pass": true,
+      "detail": {
+        "critical_expert_bytes_reduction_at_least_4x": true,
+        "worst_case_new_load_reduction_at_least_8x": true,
+        "traffic_gates_pass": true
+      }
+    },
+    {
+      "name": "validation_r2_raw_metrics",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "validation_r2_gates",
+      "pass": true,
+      "detail": {
+        "critical_expert_bytes_reduction_at_least_4x": false,
+        "worst_case_new_load_reduction_at_least_8x": false,
+        "traffic_gates_pass": false
+      }
+    },
+    {
+      "name": "validation_r4_raw_metrics",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "validation_r4_gates",
+      "pass": true,
+      "detail": {
+        "critical_expert_bytes_reduction_at_least_4x": false,
+        "worst_case_new_load_reduction_at_least_8x": false,
+        "traffic_gates_pass": false
+      }
+    },
+    {
+      "name": "validation_selection",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "test_raw_metrics",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "test_gates",
+      "pass": true,
+      "detail": {
+        "critical_expert_bytes_reduction_at_least_4x": true,
+        "worst_case_new_load_reduction_at_least_8x": true,
+        "traffic_gates_pass": true
+      }
+    },
+    {
+      "name": "test_byte_and_rate_arithmetic",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "claim_boundary_quality_unproven",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "checks_passed": 20,
+  "checks_total": 20,
+  "status": "independent_verification_pass",
+  "recomputed": {
+    "validation": {
+      "1": {
+        "aggregate": {
+          "transitions": 61440,
+          "baseline_new_loads": {
+            "count": 61440,
+            "mean": 4.1064453125,
+            "p50": 4.0,
+            "p95": 7.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "oracle_new_loads": {
+            "count": 61440,
+            "mean": 0.9899576822916667,
+            "p50": 1.0,
+            "p95": 1.0,
+            "p99": 1.0,
+            "max": 1
+          },
+          "baseline_critical_expert_bytes": 765764812800,
+          "oracle_critical_expert_bytes": 184606076928,
+          "critical_expert_bytes_reduction_x": 4.148101869358631,
+          "worst_case_new_load_reduction_x": 8.0,
+          "mean_route_set_overlap": 0.68863525390625,
+          "router_output_substitution_rate": 0.31136474609375,
+          "exact_route_set_match_rate": 0.09342447916666667,
+          "overlap_count": {
+            "count": 61440,
+            "mean": 5.50908203125,
+            "p50": 6.0,
+            "p95": 8.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "cold_start_expert_bytes_separate": 5827461120,
+          "stream_all_top8_bytes_without_reuse": 1491830046720
+        },
+        "gates": {
+          "critical_expert_bytes_reduction_at_least_4x": true,
+          "worst_case_new_load_reduction_at_least_8x": true,
+          "traffic_gates_pass": true
+        }
+      },
+      "2": {
+        "aggregate": {
+          "transitions": 61440,
+          "baseline_new_loads": {
+            "count": 61440,
+            "mean": 4.1064453125,
+            "p50": 4.0,
+            "p95": 7.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "oracle_new_loads": {
+            "count": 61440,
+            "mean": 1.8955078125,
+            "p50": 2.0,
+            "p95": 2.0,
+            "p99": 2.0,
+            "max": 2
+          },
+          "baseline_critical_expert_bytes": 765764812800,
+          "oracle_critical_expert_bytes": 353471938560,
+          "critical_expert_bytes_reduction_x": 2.166409067490984,
+          "worst_case_new_load_reduction_x": 4.0,
+          "mean_route_set_overlap": 0.7991353352864583,
+          "router_output_substitution_rate": 0.2008646647135417,
+          "exact_route_set_match_rate": 0.28899739583333334,
+          "overlap_count": {
+            "count": 61440,
+            "mean": 6.393082682291666,
+            "p50": 7.0,
+            "p95": 8.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "cold_start_expert_bytes_separate": 5827461120,
+          "stream_all_top8_bytes_without_reuse": 1491830046720
+        },
+        "gates": {
+          "critical_expert_bytes_reduction_at_least_4x": false,
+          "worst_case_new_load_reduction_at_least_8x": false,
+          "traffic_gates_pass": false
+        }
+      },
+      "4": {
+        "aggregate": {
+          "transitions": 61440,
+          "baseline_new_loads": {
+            "count": 61440,
+            "mean": 4.1064453125,
+            "p50": 4.0,
+            "p95": 7.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "oracle_new_loads": {
+            "count": 61440,
+            "mean": 3.224348958333333,
+            "p50": 4.0,
+            "p95": 4.0,
+            "p99": 4.0,
+            "max": 4
+          },
+          "baseline_critical_expert_bytes": 765764812800,
+          "oracle_critical_expert_bytes": 601272582144,
+          "critical_expert_bytes_reduction_x": 1.2735734765577675,
+          "worst_case_new_load_reduction_x": 2.0,
+          "mean_route_set_overlap": 0.92689208984375,
+          "router_output_substitution_rate": 0.07310791015624996,
+          "exact_route_set_match_rate": 0.6723795572916667,
+          "overlap_count": {
+            "count": 61440,
+            "mean": 7.41513671875,
+            "p50": 8.0,
+            "p95": 8.0,
+            "p99": 8.0,
+            "max": 8
+          },
+          "cold_start_expert_bytes_separate": 5827461120,
+          "stream_all_top8_bytes_without_reuse": 1491830046720
+        },
+        "gates": {
+          "critical_expert_bytes_reduction_at_least_4x": false,
+          "worst_case_new_load_reduction_at_least_8x": false,
+          "traffic_gates_pass": false
+        }
+      }
+    },
+    "selected_edit_budget": 1,
+    "test": {
+      "aggregate": {
+        "transitions": 61440,
+        "baseline_new_loads": {
+          "count": 61440,
+          "mean": 4.116878255208333,
+          "p50": 4.0,
+          "p95": 7.0,
+          "p99": 8.0,
+          "max": 8
+        },
+        "oracle_new_loads": {
+          "count": 61440,
+          "mean": 0.990185546875,
+          "p50": 1.0,
+          "p95": 1.0,
+          "p99": 1.0,
+          "max": 1
+        },
+        "baseline_critical_expert_bytes": 767710334976,
+        "oracle_critical_expert_bytes": 184648568832,
+        "critical_expert_bytes_reduction_x": 4.157683646465145,
+        "worst_case_new_load_reduction_x": 8.0,
+        "mean_route_set_overlap": 0.67969970703125,
+        "router_output_substitution_rate": 0.32030029296874996,
+        "exact_route_set_match_rate": 0.089892578125,
+        "overlap_count": {
+          "count": 61440,
+          "mean": 5.43759765625,
+          "p50": 6.0,
+          "p95": 8.0,
+          "p99": 8.0,
+          "max": 8
+        },
+        "cold_start_expert_bytes_separate": 5827461120,
+        "stream_all_top8_bytes_without_reuse": 1491830046720
+      },
+      "gates": {
+        "critical_expert_bytes_reduction_at_least_4x": true,
+        "worst_case_new_load_reduction_at_least_8x": true,
+        "traffic_gates_pass": true
+      }
+    }
+  },
+  "failures": [],
+  "claim_boundary": "Verifies route-trace arithmetic only; no model training, LM quality, runtime, latency, or hardware-hierarchy result."
+}

@@ -1,0 +1,46 @@
+project: DHERA_MOE
+codename: BudgetedDynamicCache
+created_at: 2026-08-11
+updated_at: 2026-08-11
+status: p0_closed_cache_trace_negative_verified
+parents:
+  - project: HERA_MOE
+    status: p0_closed_static_tier_negative
+    inherited_claim: static multidomain count-union remains falsified
+hypothesis:
+  id: DHERA_FIXED_BUDGET_CACHE
+  statement: >-
+    A fixed 5.75-GiB resident-weight budget containing a training-selected
+    entropy-GPTQ expert basis, INT4 trunk and 0.5-GiB exact BF16 victim cache
+    can keep out-of-sample cold-transfer traffic low enough to justify a real
+    laptop microbenchmark across five domains.
+  novelty_claim: false
+phases:
+  - id: P0_OUT_OF_SAMPLE_CACHE_TRACE
+    status: closed_negative_verified_22_of_22
+    preregistration: reports/dhera_moe/P0_BUDGET_CACHE_PREREGISTRATION.md
+    clarification: reports/dhera_moe/P0_PROTOCOL_CLARIFICATION_001.md
+    result: reports/dhera_moe/p0_cache_result.json
+    report: reports/dhera_moe/P0_CACHE_TRACE.md
+    verification: reports/dhera_moe/p0_cache_verification.json
+    verification_report: reports/dhera_moe/P0_CACHE_VERIFICATION.md
+    result_summary: all_5_domains_fail_traffic_gates_memory_passes_at_5.749055GiB
+  - id: P1_COLD_TRANSFER_MICROBENCHMARK
+    status: permanently_blocked_by_negative_P0
+  - id: P2_FULL_MODEL_QUALITY
+    status: blocked_by_P1
+  - id: P3_PACK_AND_RUNTIME
+    status: blocked_by_P2
+gates:
+  resident_weight_gib_max: 5.75
+  cache_gib: 0.5
+  mean_h2d_mib_per_token_each_domain_max: 64.0
+  p95_h2d_mib_per_token_each_domain_max: 144.0
+  p99_h2d_mib_per_token_each_domain_max: 288.0
+  host_exact_bf16_gib_max: 24.0
+claim_boundary:
+  - P0 is a trace simulation, not a transfer-latency measurement.
+  - The entropy rate and INT4 trunk remain projections.
+  - No model-quality or tokens-per-second claim is authorized by P0.
+  - The negative result applies only to the fixed global-base 48-primary plus
+    8-victim policy; domain-conditioned bases remain a separate hypothesis.

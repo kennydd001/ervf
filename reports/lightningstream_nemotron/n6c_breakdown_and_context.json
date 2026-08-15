@@ -1,0 +1,268 @@
+{
+  "kind": "lightningstream_nemotron_n6c_breakdown_context",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "N6_C_BREAKDOWN_AND_CONTEXT",
+  "started_utc": "2026-08-14T17:40:48.889403+00:00",
+  "completed_utc": "2026-08-14T17:41:35.785910+00:00",
+  "runner_sha256": "c9ad0e8ded003a7f6d8c0be28d5821243f7dcc4a55bbe02500b133ea2c832bc8",
+  "runtime_sha256": "dfe04cfba721f1779b06b37e654f907ef7787a497e605ce9e53290c41e979f82",
+  "device_total_bytes": 8546484224,
+  "device_used_by_runtime_bytes": 6249512960,
+  "device_free_at_end_bytes": 609222656,
+  "max_ctx_allocated": 262144,
+  "architectural_context_limit": 262144,
+  "igpu_used": false,
+  "igpu_note": "Intel Arc Pro 140T belongs to the protected HET-NEXT line; not touched.",
+  "breakdown_p50_ms": {
+    "rmsnorm_one": 0.01555,
+    "mamba_one_layer": 0.3428,
+    "attention_one_layer_at_current_ctx": 0.42295000000000005,
+    "router_one_layer": 0.33935000000000004,
+    "moe_one_layer_full": 2.10575,
+    "lm_head": 5.4327,
+    "shared_expert_only": 0.18275000000000002
+  },
+  "breakdown_full": {
+    "rmsnorm_one": {
+      "n": 50,
+      "mean": 0.019874,
+      "p50": 0.01555,
+      "p95": 0.044955,
+      "p99": 0.06346099999999996,
+      "max": 0.0738,
+      "min": 0.0145
+    },
+    "mamba_one_layer": {
+      "n": 20,
+      "mean": 0.351215,
+      "p50": 0.3428,
+      "p95": 0.38734500000000005,
+      "p99": 0.4366689999999999,
+      "max": 0.449,
+      "min": 0.3356
+    },
+    "attention_one_layer_at_current_ctx": {
+      "n": 20,
+      "mean": 0.4254300000000001,
+      "p50": 0.42295000000000005,
+      "p95": 0.432145,
+      "p99": 0.45866899999999994,
+      "max": 0.4653,
+      "min": 0.4148
+    },
+    "router_one_layer": {
+      "n": 20,
+      "mean": 0.36952,
+      "p50": 0.33935000000000004,
+      "p95": 0.5445750000000001,
+      "p99": 0.6764349999999998,
+      "max": 0.7094,
+      "min": 0.2958
+    },
+    "moe_one_layer_full": {
+      "n": 20,
+      "mean": 2.1143399999999994,
+      "p50": 2.10575,
+      "p95": 2.3182650000000002,
+      "p99": 2.373973,
+      "max": 2.3879,
+      "min": 1.963
+    },
+    "lm_head": {
+      "n": 20,
+      "mean": 5.396305,
+      "p50": 5.4327,
+      "p95": 5.52384,
+      "p99": 5.601968,
+      "max": 5.6215,
+      "min": 5.1408
+    },
+    "shared_expert_only": {
+      "n": 20,
+      "mean": 0.19072499999999998,
+      "p50": 0.18275000000000002,
+      "p95": 0.20436500000000007,
+      "p99": 0.30567299999999986,
+      "max": 0.331,
+      "min": 0.1769
+    }
+  },
+  "scaled_totals": {
+    "mamba_total_23_layers_ms": 7.884399999999999,
+    "attention_total_6_layers_ms": 2.5377,
+    "moe_total_23_layers_ms": 48.43225,
+    "rmsnorm_total_53_ms": 0.8241499999999999,
+    "lm_head_ms": 5.4327,
+    "sum_of_measured_parts_ms": 65.1112,
+    "measured_full_token_ms": 66.16380000000001,
+    "unattributed_ms": 1.0526000000000124
+  },
+  "full_token": {
+    "n": 20,
+    "mean": 67.05406500000001,
+    "p50": 66.16380000000001,
+    "p95": 73.03785500000001,
+    "p99": 74.099651,
+    "max": 74.3651,
+    "min": 63.4972
+  },
+  "context_sweep": {
+    "0": {
+      "context_depth": 0,
+      "synthetic_kv": false,
+      "ms": {
+        "n": 10,
+        "mean": 63.32757999999999,
+        "p50": 62.9516,
+        "p95": 64.75303,
+        "p99": 65.152846,
+        "max": 65.2528,
+        "min": 62.4845
+      },
+      "tok_s_p50": 15.885219756130107,
+      "tok_s_mean": 15.790908163552123,
+      "gpu": {
+        "used_mib": 6054,
+        "free_mib": 1846,
+        "temp_c": 84,
+        "sm_mhz": 2070,
+        "power_w": 54.59
+      }
+    },
+    "4096": {
+      "context_depth": 4096,
+      "synthetic_kv": true,
+      "ms": {
+        "n": 10,
+        "mean": 66.6221,
+        "p50": 65.8201,
+        "p95": 71.08152,
+        "p99": 72.76358400000001,
+        "max": 73.1841,
+        "min": 65.0921
+      },
+      "tok_s_p50": 15.192927388442133,
+      "tok_s_mean": 15.010034207867959,
+      "gpu": {
+        "used_mib": 6058,
+        "free_mib": 1842,
+        "temp_c": 83,
+        "sm_mhz": 2527,
+        "power_w": 47.54
+      }
+    },
+    "16384": {
+      "context_depth": 16384,
+      "synthetic_kv": true,
+      "ms": {
+        "n": 10,
+        "mean": 77.05483,
+        "p50": 76.96485,
+        "p95": 81.39104999999999,
+        "p99": 81.44252999999999,
+        "max": 81.4554,
+        "min": 72.9059
+      },
+      "tok_s_p50": 12.992944181662148,
+      "tok_s_mean": 12.977771802234852,
+      "gpu": {
+        "used_mib": 6074,
+        "free_mib": 1826,
+        "temp_c": 86,
+        "sm_mhz": 2647,
+        "power_w": 62.16
+      }
+    },
+    "32768": {
+      "context_depth": 32768,
+      "synthetic_kv": true,
+      "ms": {
+        "n": 10,
+        "mean": 84.91593,
+        "p50": 82.6931,
+        "p95": 90.89532,
+        "p99": 90.95738399999999,
+        "max": 90.9729,
+        "min": 81.3148
+      },
+      "tok_s_p50": 12.092907388887344,
+      "tok_s_mean": 11.776353388580917,
+      "gpu": {
+        "used_mib": 6106,
+        "free_mib": 1794,
+        "temp_c": 87,
+        "sm_mhz": 2587,
+        "power_w": 62.28
+      }
+    },
+    "65536": {
+      "context_depth": 65536,
+      "synthetic_kv": true,
+      "ms": {
+        "n": 10,
+        "mean": 103.49761000000001,
+        "p50": 100.40115,
+        "p95": 112.514395,
+        "p99": 112.57087899999999,
+        "max": 112.585,
+        "min": 99.4865
+      },
+      "tok_s_p50": 9.960045278365836,
+      "tok_s_mean": 9.662058863001763,
+      "gpu": {
+        "used_mib": 6170,
+        "free_mib": 1730,
+        "temp_c": 83,
+        "sm_mhz": 2520,
+        "power_w": 54.93
+      }
+    },
+    "131072": {
+      "context_depth": 131072,
+      "synthetic_kv": true,
+      "ms": {
+        "n": 10,
+        "mean": 144.67641,
+        "p50": 142.66215,
+        "p95": 156.700395,
+        "p99": 157.30911899999998,
+        "max": 157.4613,
+        "min": 137.704
+      },
+      "tok_s_p50": 7.009567709445007,
+      "tok_s_mean": 6.91197687307834,
+      "gpu": {
+        "used_mib": 6298,
+        "free_mib": 1602,
+        "temp_c": 87,
+        "sm_mhz": 2535,
+        "power_w": 57.91
+      }
+    },
+    "262100": {
+      "context_depth": 262100,
+      "synthetic_kv": true,
+      "ms": {
+        "n": 10,
+        "mean": 225.23181,
+        "p50": 221.9096,
+        "p95": 244.209465,
+        "p99": 249.12573300000003,
+        "max": 250.3548,
+        "min": 214.5027
+      },
+      "tok_s_p50": 4.506339518434533,
+      "tok_s_mean": 4.439870194179055,
+      "gpu": {
+        "used_mib": 6554,
+        "free_mib": 1346,
+        "temp_c": 85,
+        "sm_mhz": 2265,
+        "power_w": 65.91
+      }
+    }
+  },
+  "attribution_note": "Every component figure is measured directly. The unattributed term is reported as a number and NOT given a name -- the project rule after the 'glue' term turned out to be attention.",
+  "synthetic_kv_note": "Context-sweep rows above 0 populate the KV cache synthetically and set pos. They measure decode-step cost at that depth. They are NOT a real generation to that depth and no quality claim attaches.",
+  "claim_boundary": "Measured batch-1 single-stream decode on this specific GPU with a zero-cache streamed expert bank and no expert cache. NOT a quality result, benchmark score, or claim about other hardware or batch sizes. A component measurement is never promoted to tok/s -- the full-token figures here are full-token measurements, not extrapolations."
+}

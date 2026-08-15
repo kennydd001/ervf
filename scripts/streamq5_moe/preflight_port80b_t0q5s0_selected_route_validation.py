@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+"""Static no-execution S0 preflight source; do not run before implementation audit."""
+import ast,hashlib,json
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[2];S=ROOT/'scripts/streamq5_moe';R=ROOT/'reports/streamq5_moe';RUN=S/'run_port80b_t0q5s0_selected_route_validation.py';VER=S/'verify_port80b_t0q5s0_selected_route_validation.py';LOCK=R/'port80b_t0q5s0_runner_lock.json';VL=R/'port80b_t0q5s0_verifier_lock.json';PR=R/'PORT80B_T0Q5S0_SELECTED_ROUTE_VALIDATION_PREREGISTRATION_2026-08-13.md';D=ROOT/'reports/runs/streamq5_moe/port80b_t0q5s0_selected_route_validation'
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def main():
+ l=json.loads(LOCK.read_text());v=json.loads(VL.read_text());rs=RUN.read_text();vs=VER.read_text();checks={'hashes':l['runner_sha256']==sha(RUN) and l['verifier_sha256']==sha(VER) and l['verifier_lock_sha256']==sha(VL) and l['prereg_sha256']==sha(PR) and v['verifier_sha256']==sha(VER),'output_absent':not D.exists(),'runner_ast':ast.parse(rs) is not None,'verifier_ast':ast.parse(vs) is not None,'standalone_verifier':'importlib' not in vs and 'run_port80b' not in vs and 'codec_contract' not in vs,'narrow_scope':all(x in rs for x in ("'routed'","'shared_raw'","'shared_gated'")) and all(x not in rs for x in ('candidate_layer','complete_mlp')),'official_order':all(x in rs for x in ('top_k_pos','torch.where(mask[ei])','gate*ss','gate*qs')),'in_memory_only':'BANK' not in rs and '.sq5m' not in rs,'no_model_forward':'from_pretrained' not in rs and 'DynamicCache' not in rs,'atomic_outputs':all(x in rs for x in ('.inprogress','os.fsync','os.rename'))};o={'kind':'t0q5s0_static_preflight','pass':all(checks.values()),'checks':checks,'physical_actions':False};print(json.dumps(o,indent=2));return 0 if o['pass'] else 2
+if __name__=='__main__':raise SystemExit(main())

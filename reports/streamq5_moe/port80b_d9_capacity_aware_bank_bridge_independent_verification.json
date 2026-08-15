@@ -1,0 +1,492 @@
+{
+  "kind": "port80b_d9_capacity_aware_bank_bridge_independent_cpu_verification",
+  "completed_utc": "2026-08-12T21:59:24.613423+00:00",
+  "verdict": "capacity_bridge_strong_pass_independently_verified",
+  "all_checks_pass": true,
+  "source_raw_sha256": "a7d34f33ceb10a6517147931662a46d466a3c63fd695a5d0e57c74e21ed7077a",
+  "checks": [
+    {
+      "name": "raw_provenance_hashes",
+      "pass": true,
+      "detail": {
+        "preregistration_sha256": "2f52bc2d38cfbbc2a8141a7d0b4fbdfb196042ec676f8eb6f27a8a92b58610e9",
+        "runner_sha256": "688803964298b90a18ec21c4548f6017b679e8c0c3823537b1ed6c05ccd6e477",
+        "compile_evidence_sha256": "7fa3ac6d30a6472d3126a9ef440bfb1938323149b37cf9f0eca94c5adabc1a12",
+        "manifest_sha256": "466250b39c5f28c8b5b2f7432904100adf8c9e8c246c860a233cdf4b9aeb412c",
+        "d7_result_sha256": "0a4cb1082a0bf08c5579926733280f706aca708779b30e7bcb8a31438bc93447",
+        "d8_independent_verification_sha256": "06cff7b04cfdbc317ea03f289c7701e1cc3f626008531532a23951392c3a8fbb"
+      }
+    },
+    {
+      "name": "compile_locked_prereg_and_runner",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "immutable_bank_contract",
+      "pass": true,
+      "detail": {
+        "size": 49925652480,
+        "manifest_sha256": "4a97af22833b239badc065d9c065ca259c791a84218640946d68c4e72e034462"
+      }
+    },
+    {
+      "name": "d8_supports_only_clean_499_observation",
+      "pass": true,
+      "detail": {
+        "first_four_before_values_chain_from_prior_after_unregister": true,
+        "before_512_minus_prior_after_unregister_bytes": 1949696,
+        "available_before_first_gib": 49.92033386230469,
+        "available_after_clean_499_gib": 4.340328216552734,
+        "available_after_512_attempt_gib": 3.1554298400878906,
+        "drop_first_before_to_after_clean_499_gib": 45.58000564575195,
+        "interpretation": "The sweep is cumulative, not five independent cold-start trials. Available RAM fell sharply and was not restored after clean unregisters, consistent with persistent residency/cache/OS effects. Thus 499 is the largest clean point observed in this sequence, not a stable monotone capacity guarantee or endurance result."
+      }
+    },
+    {
+      "name": "frozen_routes_reconstructed",
+      "pass": true,
+      "detail": {
+        "all_hot": {
+          "records": 480,
+          "hot_records": 480,
+          "cold_escape_records": 0,
+          "route_sha256": "29214a8e38c508408f0e9db7ebd24605d7a17083a9824dbfbf48a0d728904297",
+          "pass": true
+        },
+        "mixed_5_hot_5_cold": {
+          "records": 480,
+          "hot_records": 240,
+          "cold_escape_records": 240,
+          "route_sha256": "8fb233ca88df73413bb9bb3607d5a1069cb8bc4323d3176a0775110a32099dba",
+          "pass": true
+        },
+        "all_cold_tail": {
+          "records": 480,
+          "hot_records": 0,
+          "cold_escape_records": 480,
+          "route_sha256": "b53b2c24c1f4bbbd300c09c90baaf48e1182226e7f53c677ca27fbd99238740c",
+          "pass": true
+        }
+      }
+    },
+    {
+      "name": "physical_499_plus_13_arithmetic",
+      "pass": true,
+      "detail": {
+        "registered_experts_per_layer": 499,
+        "cold_escape_experts_per_layer": 13,
+        "registered_ranges": 48,
+        "registered_bytes": 48563159040,
+        "registered_gib": 45.22796630859375,
+        "staging_hbm_bytes": 973209600,
+        "cold_escape_hbm_bytes": 973209600,
+        "available_ram_before_registration": 52887109632,
+        "available_ram_after_registration": 52777537536,
+        "available_ram_after_unregister": 3122561024
+      }
+    },
+    {
+      "name": "ram_safety_gates",
+      "pass": true,
+      "detail": {
+        "registered_experts_per_layer": 499,
+        "cold_escape_experts_per_layer": 13,
+        "registered_ranges": 48,
+        "registered_bytes": 48563159040,
+        "registered_gib": 45.22796630859375,
+        "staging_hbm_bytes": 973209600,
+        "cold_escape_hbm_bytes": 973209600,
+        "available_ram_before_registration": 52887109632,
+        "available_ram_after_registration": 52777537536,
+        "available_ram_after_unregister": 3122561024
+      }
+    },
+    {
+      "name": "positive_differentiated_checks",
+      "pass": true,
+      "detail": {
+        "all_hot": {
+          "full_image_byte_mismatches": 0,
+          "pass": true
+        },
+        "mixed_5_hot_5_cold": {
+          "full_image_byte_mismatches": 0,
+          "pass": true
+        },
+        "all_cold_tail": {
+          "full_image_byte_mismatches": 0,
+          "pass": true
+        }
+      }
+    },
+    {
+      "name": "negative_wrong_route_controls",
+      "pass": true,
+      "detail": {
+        "wrong_expert": {
+          "expected": [
+            0,
+            353
+          ],
+          "substituted": [
+            0,
+            354
+          ],
+          "detected_mismatches": 3,
+          "pass": true
+        },
+        "wrong_layer": {
+          "expected": [
+            0,
+            353
+          ],
+          "substituted": [
+            1,
+            353
+          ],
+          "detected_mismatches": 150,
+          "pass": true
+        }
+      }
+    },
+    {
+      "name": "bitexact_all_cases_and_common_digest",
+      "pass": true,
+      "detail": [
+        "d91c3dd5c4464d11fa0688a29e8b471480a21779ff69f278ea1c946e91cf79f0"
+      ]
+    },
+    {
+      "name": "all_timing_statistics_recomputed",
+      "pass": true,
+      "detail": {
+        "validation": {
+          "all_hot": {
+            "wall_stats": {
+              "count": 24,
+              "mean": 48.34791666265422,
+              "p50": 48.318149987608194,
+              "p95": 48.76512999471743,
+              "p99": 48.940166001266334,
+              "min": 48.044700000900775,
+              "max": 48.9852000027895
+            },
+            "cuda_event_stats": {
+              "count": 24,
+              "mean": 48.30817985534668,
+              "p50": 48.28156661987305,
+              "p95": 48.724308013916016,
+              "p99": 48.90124923706055,
+              "min": 48.00454330444336,
+              "max": 48.94617462158203
+            }
+          },
+          "mixed_5_hot_5_cold": {
+            "wall_stats": {
+              "count": 24,
+              "mean": 62.263441664981656,
+              "p50": 62.19029999920167,
+              "p95": 64.9394600011874,
+              "p99": 65.44233798456844,
+              "min": 59.75449999095872,
+              "max": 65.56639997870661
+            },
+            "cuda_event_stats": {
+              "count": 24,
+              "mean": 62.22230943044027,
+              "p50": 62.1497917175293,
+              "p95": 64.88913459777832,
+              "p99": 65.40868965148925,
+              "min": 59.73168182373047,
+              "max": 65.53766632080078
+            }
+          },
+          "all_cold_tail": {
+            "wall_stats": {
+              "count": 24,
+              "mean": 82.56340416725531,
+              "p50": 81.91599999554455,
+              "p95": 90.09888001019134,
+              "p99": 91.81296701484825,
+              "min": 77.90850001038052,
+              "max": 92.17340001487173
+            },
+            "cuda_event_stats": {
+              "count": 24,
+              "mean": 82.52372360229492,
+              "p50": 81.87449645996094,
+              "p95": 90.05013008117675,
+              "p99": 91.77774909973145,
+              "min": 77.86962890625,
+              "max": 92.14128112792969
+            }
+          }
+        },
+        "test": {
+          "all_hot": {
+            "wall_stats": {
+              "count": 60,
+              "mean": 48.532156667109426,
+              "p50": 48.49565000040457,
+              "p95": 49.1163649916416,
+              "p99": 49.44443900429178,
+              "min": 48.056600004201755,
+              "max": 49.46680000284687
+            },
+            "cuda_event_stats": {
+              "count": 60,
+              "mean": 48.49060910542806,
+              "p50": 48.461280822753906,
+              "p95": 49.06112003326416,
+              "p99": 49.39506645202637,
+              "min": 48.01865768432617,
+              "max": 49.422367095947266
+            }
+          },
+          "mixed_5_hot_5_cold": {
+            "wall_stats": {
+              "count": 60,
+              "mean": 62.87103833262032,
+              "p50": 61.900600005174056,
+              "p95": 68.6695049967966,
+              "p99": 70.5025740052224,
+              "min": 59.43730002036318,
+              "max": 72.8811000008136
+            },
+            "cuda_event_stats": {
+              "count": 60,
+              "mean": 62.82496960957845,
+              "p50": 61.862239837646484,
+              "p95": 68.59845275878907,
+              "p99": 70.43884803771971,
+              "min": 59.40256118774414,
+              "max": 72.79894256591797
+            }
+          },
+          "all_cold_tail": {
+            "wall_stats": {
+              "count": 60,
+              "mean": 81.96081999970677,
+              "p50": 80.95004998904187,
+              "p95": 88.13604997849325,
+              "p99": 89.89651399693685,
+              "min": 76.98380001238547,
+              "max": 90.91450000414625
+            },
+            "cuda_event_stats": {
+              "count": 60,
+              "mean": 81.91420860290528,
+              "p50": 80.91475296020508,
+              "p95": 88.09336624145507,
+              "p99": 89.8537163543701,
+              "min": 76.9477767944336,
+              "max": 90.86962890625
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "frozen_case_orders",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "all_gates_independently_recomputed",
+      "pass": true,
+      "detail": {
+        "mapping_readonly": true,
+        "prefix_exactly_499_and_tail_exactly_13": true,
+        "route_source_provenance_exact": true,
+        "positive_route_integrity_zero_mismatch": true,
+        "wrong_expert_detected": true,
+        "wrong_layer_detected": true,
+        "all_outputs_bitexact_finite_digest_equal": true,
+        "validation_24_each_finite": true,
+        "validation_p50_case_limits": true,
+        "test_60_each_finite": true,
+        "test_all_hot_wall_p95_le_65ms": true,
+        "test_mixed_5_hot_5_cold_wall_p95_le_100ms": true,
+        "test_all_cold_tail_wall_p95_le_135ms": true,
+        "strong_mixed_wall_p95_le_80ms": true,
+        "strong_all_cold_wall_p95_le_110ms": true,
+        "registration_48_ranges": true,
+        "post_registration_available_ram_ge_2gib": true,
+        "no_cuda_or_runner_error": true,
+        "clean_unregister_48_ranges": true
+      }
+    },
+    {
+      "name": "verdict_recomputed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "clean_unregister_final_gate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "full_bank_claim_remains_false",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "recomputed_gates": {
+    "mapping_readonly": true,
+    "prefix_exactly_499_and_tail_exactly_13": true,
+    "route_source_provenance_exact": true,
+    "positive_route_integrity_zero_mismatch": true,
+    "wrong_expert_detected": true,
+    "wrong_layer_detected": true,
+    "all_outputs_bitexact_finite_digest_equal": true,
+    "validation_24_each_finite": true,
+    "validation_p50_case_limits": true,
+    "test_60_each_finite": true,
+    "test_all_hot_wall_p95_le_65ms": true,
+    "test_mixed_5_hot_5_cold_wall_p95_le_100ms": true,
+    "test_all_cold_tail_wall_p95_le_135ms": true,
+    "strong_mixed_wall_p95_le_80ms": true,
+    "strong_all_cold_wall_p95_le_110ms": true,
+    "registration_48_ranges": true,
+    "post_registration_available_ram_ge_2gib": true,
+    "no_cuda_or_runner_error": true,
+    "clean_unregister_48_ranges": true
+  },
+  "recomputed_validation_stats": {
+    "all_hot": {
+      "wall_stats": {
+        "count": 24,
+        "mean": 48.34791666265422,
+        "p50": 48.318149987608194,
+        "p95": 48.76512999471743,
+        "p99": 48.940166001266334,
+        "min": 48.044700000900775,
+        "max": 48.9852000027895
+      },
+      "cuda_event_stats": {
+        "count": 24,
+        "mean": 48.30817985534668,
+        "p50": 48.28156661987305,
+        "p95": 48.724308013916016,
+        "p99": 48.90124923706055,
+        "min": 48.00454330444336,
+        "max": 48.94617462158203
+      }
+    },
+    "mixed_5_hot_5_cold": {
+      "wall_stats": {
+        "count": 24,
+        "mean": 62.263441664981656,
+        "p50": 62.19029999920167,
+        "p95": 64.9394600011874,
+        "p99": 65.44233798456844,
+        "min": 59.75449999095872,
+        "max": 65.56639997870661
+      },
+      "cuda_event_stats": {
+        "count": 24,
+        "mean": 62.22230943044027,
+        "p50": 62.1497917175293,
+        "p95": 64.88913459777832,
+        "p99": 65.40868965148925,
+        "min": 59.73168182373047,
+        "max": 65.53766632080078
+      }
+    },
+    "all_cold_tail": {
+      "wall_stats": {
+        "count": 24,
+        "mean": 82.56340416725531,
+        "p50": 81.91599999554455,
+        "p95": 90.09888001019134,
+        "p99": 91.81296701484825,
+        "min": 77.90850001038052,
+        "max": 92.17340001487173
+      },
+      "cuda_event_stats": {
+        "count": 24,
+        "mean": 82.52372360229492,
+        "p50": 81.87449645996094,
+        "p95": 90.05013008117675,
+        "p99": 91.77774909973145,
+        "min": 77.86962890625,
+        "max": 92.14128112792969
+      }
+    }
+  },
+  "recomputed_test_stats": {
+    "all_hot": {
+      "wall_stats": {
+        "count": 60,
+        "mean": 48.532156667109426,
+        "p50": 48.49565000040457,
+        "p95": 49.1163649916416,
+        "p99": 49.44443900429178,
+        "min": 48.056600004201755,
+        "max": 49.46680000284687
+      },
+      "cuda_event_stats": {
+        "count": 60,
+        "mean": 48.49060910542806,
+        "p50": 48.461280822753906,
+        "p95": 49.06112003326416,
+        "p99": 49.39506645202637,
+        "min": 48.01865768432617,
+        "max": 49.422367095947266
+      }
+    },
+    "mixed_5_hot_5_cold": {
+      "wall_stats": {
+        "count": 60,
+        "mean": 62.87103833262032,
+        "p50": 61.900600005174056,
+        "p95": 68.6695049967966,
+        "p99": 70.5025740052224,
+        "min": 59.43730002036318,
+        "max": 72.8811000008136
+      },
+      "cuda_event_stats": {
+        "count": 60,
+        "mean": 62.82496960957845,
+        "p50": 61.862239837646484,
+        "p95": 68.59845275878907,
+        "p99": 70.43884803771971,
+        "min": 59.40256118774414,
+        "max": 72.79894256591797
+      }
+    },
+    "all_cold_tail": {
+      "wall_stats": {
+        "count": 60,
+        "mean": 81.96081999970677,
+        "p50": 80.95004998904187,
+        "p95": 88.13604997849325,
+        "p99": 89.89651399693685,
+        "min": 76.98380001238547,
+        "max": 90.91450000414625
+      },
+      "cuda_event_stats": {
+        "count": 60,
+        "mean": 81.91420860290528,
+        "p50": 80.91475296020508,
+        "p95": 88.09336624145507,
+        "p99": 89.8537163543701,
+        "min": 76.9477767944336,
+        "max": 90.86962890625
+      }
+    }
+  },
+  "post_unregister_available_ram_bytes": 3122561024,
+  "ram_interpretation": {
+    "before_registration_bytes": 52887109632,
+    "after_registration_bytes": 52777537536,
+    "after_unregister_bytes": 3122561024,
+    "registration_delta_bytes": -109572096,
+    "run_through_cleanup_delta_bytes": -49764548608,
+    "interpretation": "Registration itself left available RAM high, but the timed run first-touched almost the full mapped bank; after clean unregister only 3.123 GB remained available. This is consistent with file-backed pages remaining resident/standby after first touch. Clean CUDA unregister proves API cleanup, not immediate OS working-set reclamation or endurance stability, and this audit does not diagnose a leak."
+  },
+  "capacity_caveat": "The sweep is cumulative, not five independent cold-start trials. Available RAM fell sharply and was not restored after clean unregisters, consistent with persistent residency/cache/OS effects. Thus 499 is the largest clean point observed in this sequence, not a stable monotone capacity guarantee or endurance result.",
+  "claim_boundary": "CPU-only verification of frozen D9 evidence; no GPU rerun, registration, bank sweep, model, quality or endurance claim."
+}

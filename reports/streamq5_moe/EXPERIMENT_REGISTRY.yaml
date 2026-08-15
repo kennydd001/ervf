@@ -1,0 +1,279 @@
+project: STREAMQ5_MOE
+created_at: 2026-08-12
+updated_at: 2026-08-12
+status: p6b_strict_end_to_end_completed_verified_eureka_pass
+claim_status: local_physical_full_model_decode_eureka_with_explicit_boundaries
+parent_evidence:
+  CORETAIL_P2: verified_quality_negative
+  STREAMQ4_P0: verified_validation_negative_test_unopened
+hypothesis:
+  id: HOST_Q5_ROUTE_CACHE_INT8_TRUNK
+  statement: >-
+    Host-resident symmetric Q5 experts plus an INT8 trunk can meet the locked
+    2-percent full-depth quality gate while retaining a plausible sub-100-ms
+    systems path on the measured local PCIe link.
+phases:
+  P0_FULL_DEPTH_QUALITY:
+    status: completed_verified_pass
+    preregistration: reports/streamq5_moe/P0_MODEL_QUALITY_PREREGISTRATION.md
+    input_lock: reports/streamq5_moe/p0_input_lock.json
+    evaluator_lock: reports/streamq5_moe/p0_evaluator_lock.json
+    validation_result: reports/streamq5_moe/p0_validation_model_quality.json
+    test_result: reports/streamq5_moe/p0_test_model_quality.json
+    verification: reports/streamq5_moe/p0_model_quality_verification.json
+    independent_checks: 57/57
+  P1_PHYSICAL_BANK_AND_CACHE:
+    status: p1a_pass_applies_to_original_implementation_p1b_withdrawn_before_build
+    preregistration: reports/streamq5_moe/P1A_CACHE_PREREGISTRATION.md
+    input_lock: reports/streamq5_moe/p1a_route_input_lock.json
+    evaluator_lock: reports/streamq5_moe/p1a_route_evaluator_lock.json
+    route_capture: reports/streamq5_moe/p1a_route_capture_result.json
+    cache_evaluator_lock: reports/streamq5_moe/p1a_cache_evaluator_lock.json
+    cache_validation: reports/streamq5_moe/p1a_cache_validation.json
+    cache_test: reports/streamq5_moe/p1a_cache_test.json
+    cache_verification: reports/streamq5_moe/p1a_cache_verification.json
+    independent_checks: 40/40
+    p1b_preregistration: reports/streamq5_moe/P1B_PHYSICAL_BANK_PREREGISTRATION.md
+    p1b_status: withdrawn_pre_output_due_to_scale_semantics_mismatch
+  P2_KERNEL_AND_TRANSFER: {status: completed_verified_pass_via_P2A_P2C}
+  P3_INTEGRATED_WALL_CLOCK: {status: expert_dataplane_pass_full_model_wallclock_pending}
+  P0C_PHYSICAL_SCALE_QUALITY:
+    status: completed_verified_pass
+    preregistration: reports/streamq5_moe/P0C_PHYSICAL_SEMANTICS_PREREGISTRATION.md
+    input_lock: reports/streamq5_moe/p0c_input_lock.json
+    evaluator_lock: reports/streamq5_moe/p0c_evaluator_lock.json
+    evaluator: scripts/streamq5_moe/run_p0c_model_quality.py
+    validation_result: reports/streamq5_moe/p0c_validation_model_quality.json
+    test_result: reports/streamq5_moe/p0c_test_model_quality.json
+    verification: reports/streamq5_moe/p0c_model_quality_verification.json
+    independent_checks: 60/60
+  P1C_CORRECTED_ROUTE_CACHE:
+    status: completed_verified_pass
+    preregistration: reports/streamq5_moe/P1C_CORRECTED_ROUTE_CACHE_PREREGISTRATION.md
+    input_lock: reports/streamq5_moe/p1c_route_input_lock.json
+    route_evaluator_lock: reports/streamq5_moe/p1c_route_evaluator_lock.json
+    route_capture: reports/streamq5_moe/p1c_route_capture_result.json
+    cache_evaluator_lock: reports/streamq5_moe/p1c_cache_evaluator_lock.json
+    cache_validation: reports/streamq5_moe/p1c_cache_validation.json
+    cache_test: reports/streamq5_moe/p1c_cache_test.json
+    cache_verification: reports/streamq5_moe/p1c_cache_verification.json
+    independent_checks: 41/41
+  P1D_CORRECTED_PHYSICAL_BANK:
+    status: completed_verified_pass
+    preregistration: reports/streamq5_moe/P1D_CORRECTED_PHYSICAL_BANK_PREREGISTRATION.md
+    producer_lock: reports/streamq5_moe/p1d_bank_producer_lock.json
+    bank_result: reports/streamq5_moe/p1d_physical_bank_result.json
+    verifier_lock: reports/streamq5_moe/p1d_bank_verifier_lock.json
+    verification: reports/streamq5_moe/p1d_physical_bank_verification.json
+    independent_checks: 18/18
+  P2A_Q5_KERNEL:
+    status: completed_verified_pass
+    preregistration: reports/streamq5_moe/P2A_Q5_KERNEL_PREREGISTRATION.md
+    input_lock: reports/streamq5_moe/p2a_kernel_input_lock.json
+    smoke_evaluator_lock: reports/streamq5_moe/p2a_kernel_smoke_evaluator_lock.json
+    smoke_result: reports/streamq5_moe/p2a_kernel_smoke.json
+    benchmark_evaluator_lock: reports/streamq5_moe/p2a_kernel_benchmark_evaluator_lock.json
+    benchmark_result: reports/streamq5_moe/p2a_kernel_benchmark.json
+    verification: reports/streamq5_moe/p2a_kernel_verification.json
+    independent_checks: 15/15
+  P2B_PHYSICAL_RESIDENCY_H2D:
+    status: validation_closed_test_unopened
+    preregistration: reports/streamq5_moe/P2B_PHYSICAL_RESIDENCY_H2D_PREREGISTRATION.md
+    route_input_lock: reports/streamq5_moe/p2b_route_input_lock.json
+    route_evaluator_lock: reports/streamq5_moe/p2b_route_evaluator_lock.json
+    route_capture: reports/streamq5_moe/p2b_route_capture_result.json
+    h2d_evaluator_lock: reports/streamq5_moe/p2b_h2d_evaluator_lock.json
+    validation_result: reports/streamq5_moe/p2b_physical_h2d_validation.json
+  P2C_STATIC_DYNAMIC_REBALANCE:
+    status: completed_verified_pass
+    preregistration: reports/streamq5_moe/P2C_STATIC_DYNAMIC_REBALANCE_PREREGISTRATION.md
+    selection: reports/streamq5_moe/p2c_policy_selection.json
+    selected_static_slots: 20
+    selected_dynamic_slots_layers_0_7: 15
+    selected_dynamic_slots_layers_8_47: 14
+    h2d_evaluator_lock: reports/streamq5_moe/p2c_h2d_evaluator_lock.json
+    validation_result: reports/streamq5_moe/p2c_physical_h2d_validation.json
+    test_result: reports/streamq5_moe/p2c_physical_h2d_test.json
+    verification: reports/streamq5_moe/p2c_physical_h2d_verification.json
+    independent_checks: 19/19
+  P3A_INTEGRATED_EXPERT_DATAPLANE:
+    status: completed_verified_pass
+    preregistration: reports/streamq5_moe/P3A_INTEGRATED_EXPERT_DATAPLANE_PREREGISTRATION.md
+    route_input_lock: reports/streamq5_moe/p3a_route_input_lock.json
+    route_evaluator_lock: reports/streamq5_moe/p3a_route_evaluator_lock.json
+    route_capture: reports/streamq5_moe/p3a_route_capture_result.json
+    dataplane_input_lock: reports/streamq5_moe/p3a_dataplane_input_lock.json
+    smoke_evaluator_lock: reports/streamq5_moe/p3a_smoke_evaluator_lock.json
+    smoke_result: reports/streamq5_moe/p3a_dataplane_smoke.json
+    benchmark_evaluator_lock: reports/streamq5_moe/p3a_benchmark_evaluator_lock.json
+    validation_result: reports/streamq5_moe/p3a_integrated_expert_validation.json
+    test_result: reports/streamq5_moe/p3a_integrated_expert_test.json
+    verification: reports/streamq5_moe/p3a_integrated_expert_verification.json
+    independent_checks: 20/20
+  P3B_DISPATCH_GAP:
+    status: validation_closed_test_unopened
+    preregistration: reports/streamq5_moe/P3B_DISPATCH_GAP_PREREGISTRATION.md
+    validation_result: reports/streamq5_moe/p3b_dispatch_gap_validation.json
+  P4A_CAUSAL_ASYNC:
+    status: test_closed_mean_gate_narrow_fail
+    preregistration: reports/streamq5_moe/P4A_CAUSAL_ASYNC_PREREGISTRATION.md
+    validation_result: reports/streamq5_moe/p4a_causal_async_validation.json
+    test_result: reports/streamq5_moe/p4a_causal_async_test.json
+    note: bit_exact_and_all_gates_pass_except_test_mean_20_374_gt_20_0
+  P4B_RENDEZVOUS_ASYNC:
+    status: validation_closed_test_unopened
+    preregistration: reports/streamq5_moe/P4B_RENDEZVOUS_ASYNC_PREREGISTRATION.md
+    validation_result: reports/streamq5_moe/p4b_rendezvous_async_validation.json
+  P4C_FUSED_OVERLAP:
+    status: validation_closed_test_unopened
+    preregistration: reports/streamq5_moe/P4C_FUSED_OVERLAP_PREREGISTRATION.md
+    validation_result: reports/streamq5_moe/p4c_fused_overlap_validation.json
+  P4D_PACKED_METADATA_OVERLAP:
+    status: validation_closed_test_unopened
+    preregistration: reports/streamq5_moe/P4D_PACKED_METADATA_OVERLAP_PREREGISTRATION.md
+    route_capture: reports/streamq5_moe/p4d_route_capture_result.json
+    validation_result: reports/streamq5_moe/p4d_packed_overlap_validation.json
+    post_p3a_verification: reports/streamq5_moe/post_p3a_dataplane_verification.json
+    independent_checks: 24/24
+  P5A_PHYSICAL_INT8_TRUNK:
+    status: completed_verified_pass
+    preregistration: reports/streamq5_moe/P5A_PHYSICAL_TRUNK_PREREGISTRATION.md
+    bank_result: reports/streamq5_moe/p5a_trunk_bank_result.json
+    bank_verification: reports/streamq5_moe/p5a_trunk_bank_verification.json
+    validation_result: reports/streamq5_moe/p5a_trunk_kernel_validation.json
+    test_result: reports/streamq5_moe/p5a_trunk_kernel_test.json
+    kernel_verification: reports/streamq5_moe/p5a_trunk_kernel_verification.json
+    bank_records_recomputed: 15/15
+    independent_kernel_checks: 16/16
+  P6A_EXACT_RUNTIME_BANK_AND_PROVISIONAL_DECODE:
+    status: completed_provisional_pass_superseded_by_strict_timing_replication
+    preregistration: reports/streamq5_moe/P6A_END_TO_END_DECODE_PREREGISTRATION.md
+    bank_result: reports/streamq5_moe/p6a_exact_runtime_bank_result.json
+    bank_verification: reports/streamq5_moe/p6a_exact_runtime_bank_verification.json
+    smoke_result: reports/streamq5_moe/p6a_end_to_end_smoke.json
+    validation_result: reports/streamq5_moe/p6a_end_to_end_validation.json
+    test_result: reports/streamq5_moe/p6a_end_to_end_test.json
+    note: physical_embedding_executed_but_excluded_from_p6a_stopwatch
+  P6B_STRICT_END_TO_END_REPLICATION:
+    status: completed_verified_eureka_pass
+    preregistration: reports/streamq5_moe/P6B_STRICT_END_TO_END_REPLICATION_PREREGISTRATION.md
+    input_lock: reports/streamq5_moe/p6b_strict_end_to_end_input_lock.json
+    evaluator_lock: reports/streamq5_moe/p6b_strict_end_to_end_evaluator_lock.json
+    smoke_result: reports/streamq5_moe/p6b_strict_end_to_end_smoke.json
+    validation_result: reports/streamq5_moe/p6b_strict_end_to_end_validation.json
+    test_and_rollout_result: reports/streamq5_moe/p6b_strict_end_to_end_test.json
+    verification: reports/streamq5_moe/p6b_end_to_end_verification.json
+    independent_checks: 120/120
+preliminary_exact_accounting:
+  expert_weights: 28991029248
+  q5_code_bytes_without_padding: 18119393280
+  bf16_scale_bytes: 452984832
+  host_bank_gib_before_headers_padding: 17.296875
+  host_ram_gib: 63.427
+claim_boundary:
+  - P0C proves full-depth quality for the exact physical BF16-scale decode semantics.
+  - P1D proves the complete physical Q5 bank and immutable-source equivalence.
+  - P2A and P2C prove the physical expert kernel, co-residency, cache traffic, and H2D.
+  - P3A proves the integrated routed-expert data plane only.
+  - P4A proves bit-exact causal same-layer overlap and a 1.402x speedup, but its locked 20-ms mean gate narrowly failed.
+  - P5A proves the physical INT8 q/k/v/o/router/head bank, co-residency, correctness, and projection-plane wall-clock.
+  - P5A's bank code-selection order is not P0C-identical; P6 replaces it with an independently verified exact-semantic bank.
+  - P6B proves local full-depth physical quality and strict end-to-end batch-1 decode, including embedding, attention/KV, live weighted routing, sampling, and 512-token feedback.
+  - The claim does not generalize to other hardware, batch sizes above one, contexts above 4096, other models, or universal quality.
+outcome:
+  p0_validation_primary_relative_ce: 0.006976251694589209
+  p0_test_primary_relative_ce: 0.009986168493090029
+  p0_validation_primary_top1: 0.9346456527709961
+  p0_test_primary_top1: 0.9370078444480896
+  p0_quality_pass: true
+  p0_independent_checks: 57/57
+  p1_authorized: true
+  scale_semantics_sample_different_fraction: 0.13872426350911457
+  physical_bank_records_built_before_correction: 0
+  p0c_validation_primary_relative_ce: 0.01477760586231969
+  p0c_test_primary_relative_ce: -0.004782392055505784
+  p0c_quality_pass: true
+  p0c_independent_checks: 60/60
+  p1c_validation_mean_h2d_ms: 7.950829131737898
+  p1c_validation_p95_h2d_ms: 18.227814901359086
+  p1c_test_mean_h2d_ms: 8.316494936321376
+  p1c_test_p95_h2d_ms: 19.730362342304986
+  p1c_cache_pass: true
+  p1c_independent_checks: 41/41
+  p1d_bank_bytes: 18647875584
+  p1d_bank_gib: 17.3671875
+  p1d_records_verified: 18432
+  p1d_code_and_scale_mismatches: 0
+  p1d_independent_checks: 18/18
+  p2a_q5_p50_gweights_s: 64.76659681864716
+  p2a_q5_summed_p95_gweights_s: 36.657704925696756
+  p2a_full_token_p95_expert_compute_ms: 49.42860802859061
+  p2a_kernel_pass: true
+  p2a_independent_checks: 15/15
+  p2b_validation_mean_wall_h2d_ms: 16.77948546875
+  p2b_validation_p95_wall_h2d_ms: 35.446535
+  p2b_full_bank_pinned: true
+  p2b_device_co_resident: true
+  p2b_free_after_bytes: 462422016
+  p2b_validation_pass: false
+  p2b_test_opened: false
+  p2c_validation_mean_wall_ms: 9.198338125000001
+  p2c_validation_p95_wall_ms: 20.664099999999998
+  p2c_test_mean_wall_ms: 9.564538671875
+  p2c_test_p95_wall_ms: 20.229689999999994
+  p2c_physical_h2d_pass: true
+  p2c_independent_checks: 19/19
+  p3a_validation_mean_ms: 28.013388359375
+  p3a_validation_p95_ms: 40.526054999999985
+  p3a_test_mean_ms: 28.1008428125
+  p3a_test_p95_ms: 39.45584499999999
+  p3a_test_max_ms: 108.1096
+  p3a_test_cache_hit_rate: 0.8159810384114583
+  p3a_integrated_expert_pass: true
+  p3a_independent_checks: 20/20
+  p3b_graph_to_eager_p50_ratio: 1.0075935757005576
+  p3b_test_opened: false
+  p4a_validation_async_mean_ms: 19.772020546875
+  p4a_validation_async_p95_ms: 22.640599999999996
+  p4a_test_async_mean_ms: 20.374188203124998
+  p4a_test_async_p95_ms: 23.185399999999998
+  p4a_test_speedup: 1.40193449195286
+  p4a_locked_mean_gate_pass: false
+  p4b_validation_mean_ms: 26.199453359375003
+  p4c_validation_mean_ms: 24.76627234375
+  p4d_validation_mean_ms: 24.44326125
+  post_p3a_independent_checks: 24/24
+  p5a_trunk_weights: 1229717504
+  p5a_trunk_bank_bytes: 1248931840
+  p5a_trunk_bank_gib: 1.1631584167480469
+  p5a_free_after_bytes: 753926144
+  p5a_validation_mean_ms: 15.235267499999999
+  p5a_validation_p95_ms: 17.531264999999998
+  p5a_test_mean_ms: 15.359946111111109
+  p5a_test_p95_ms: 17.02922
+  p5a_bank_records_recomputed: 15/15
+  p5a_kernel_independent_checks: 16/16
+  measured_component_mean_ms: 35.73413431423611
+  measured_component_p95_upper_bound_ms: 40.21462
+  measured_component_implied_tokens_per_second: 27.98444734119697
+  remaining_mean_budget_to_10_tps_ms: 64.26586568576388
+  p6_bank_records: 242
+  p6_norm_records: 193
+  p6_total_q8_bank_bytes: 1564958720
+  p6_p5a_sample_different_code_fraction: 0.046069403272054214
+  p6b_validation_relative_ce: 0.017828621482243193
+  p6b_validation_mean_ms: 50.11203850393701
+  p6b_validation_p95_ms: 59.35236
+  p6b_test_relative_ce: 0.00048025744496941244
+  p6b_test_mean_ms: 49.92737874015747
+  p6b_test_p95_ms: 58.186524999999996
+  p6b_test_tokens_per_second: 20.029090756084145
+  p6b_rollout_tokens: 512
+  p6b_rollout_mean_ms: 63.023771484375004
+  p6b_rollout_p95_ms: 74.93629
+  p6b_rollout_p99_ms: 80.51925599999998
+  p6b_rollout_max_ms: 94.9179
+  p6b_rollout_tokens_per_second: 15.867028843996145
+  p6b_rollout_sha256: 15d81584c8633ae6f628e0302787eaa9af89a28066b6a86646e0ad05a76583bb
+  p6b_free_after_fixed_bytes: 751828992
+  p6b_independent_checks: 120/120

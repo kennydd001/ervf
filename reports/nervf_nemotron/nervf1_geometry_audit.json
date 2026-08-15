@@ -1,0 +1,95 @@
+{
+  "kind": "nervf_nemotron_geometry_audit",
+  "completed_utc": "2026-08-15T17:21:36.178251+00:00",
+  "tensor": "backbone.layers.1.mixer.experts.0.up_proj",
+  "bytes": 2806272,
+  "rows": 1856,
+  "cols": 2688,
+  "l2_defeat": {
+    "l2_bytes": 33554432,
+    "replicas": 95,
+    "pool_bytes": 266595840,
+    "note": "all arms cycle replicas so none is L2-resident"
+  },
+  "arms": {
+    "RAW_SCAN": {
+      "us_p50": 12.4305,
+      "gb_s": 225.75696874622906,
+      "raw": [
+        12.415,
+        14.508,
+        13.072000000000001,
+        12.3425,
+        12.383,
+        12.347999999999999,
+        12.4305,
+        12.689,
+        13.7875
+      ]
+    },
+    "ROW_PATTERN_SCAN": {
+      "us_p50": 17.075499999999998,
+      "gb_s": 164.34493865479786,
+      "raw": [
+        17.1105,
+        16.472,
+        17.075499999999998,
+        17.211,
+        20.7395,
+        16.533,
+        16.9555,
+        16.773,
+        18.2305
+      ]
+    },
+    "DECODE_SCALE": {
+      "us_p50": 20.803,
+      "gb_s": 134.897466711532,
+      "raw": [
+        20.6265,
+        20.756,
+        20.596999999999998,
+        23.256999999999998,
+        21.831999999999997,
+        20.569000000000003,
+        20.803,
+        21.5165,
+        21.0095
+      ]
+    },
+    "FULL_GEMV": {
+      "us_p50": 38.576,
+      "gb_s": 72.74657818332643,
+      "raw": [
+        37.5,
+        38.576,
+        38.484,
+        38.0385,
+        38.489000000000004,
+        38.984,
+        39.404,
+        38.805,
+        39.2795
+      ]
+    }
+  },
+  "full_over_raw_bandwidth_efficiency": 0.32223403152219,
+  "reduction_sync_share": 0.46072687681459973,
+  "x_restaging_bytes": 19955712,
+  "x_over_weight_ratio": 7.111111111111111,
+  "gates": {
+    "G_NERVF_1A": {
+      "metric": "full_gemv_gb_s / raw_scan_gb_s",
+      "required_max": 0.4,
+      "measured": 0.32223403152219,
+      "passed": true
+    },
+    "G_NERVF_1B": {
+      "required_min_share": 0.25,
+      "measured": 0.46072687681459973,
+      "passed": true
+    }
+  },
+  "geometry_gate_open": true,
+  "claim_boundary": "Single-kernel microbenchmarks on one real NVFP4 up_proj record, all arms on the same bytes, 200 calls per sync. Effective GB/s counts the weight record only. Not a token time and not a throughput result."
+}

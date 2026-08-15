@@ -1,0 +1,55 @@
+{
+  "kind": "lightningstream_nemotron_n3_nibble_order_resolution",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "N3_ONE_MODULE_REFERENCE",
+  "started_utc": "2026-08-14T11:09:39.361450+00:00",
+  "completed_utc": "2026-08-14T11:09:41.292566+00:00",
+  "runner_sha256": "25e1966240d23c27af0f9263243f85bad7427983da4f12adf9a495121052e3d0",
+  "codec_sha256": "e0b70a814a9e7bb383832fadc02f8a5f986efc510385bb2279e7280d3ceb2ac6",
+  "target_tensor": "backbone.layers.1.mixer.experts.0.up_proj.weight",
+  "shard": "model-00001-of-00005.safetensors",
+  "packed_bytes_sampled": 1048576,
+  "elements_compared": 2097152,
+  "working_assumption": "low_first",
+  "orders_produce_different_output": true,
+  "why_self_consistency_cannot_decide": "A nibble swap permutes elements only within a byte, and a byte lies wholly inside one group of 16, so every block's value multiset is invariant. Block-amax, histogram and scale-consistency tests are all blind to nibble order.",
+  "attempts": [
+    {
+      "attempt": 1,
+      "source": "torch.float4_e2m1fn_x2",
+      "available": true,
+      "converted": false,
+      "error": "NotImplementedError: \"copy_kernel\" not implemented for 'Float4_e2m1fn_x2'",
+      "reason": null
+    },
+    {
+      "attempt": 2,
+      "source": "torchao.prototype.mx_formats.kernels",
+      "available": true,
+      "error": null,
+      "shimmed_symbols": [
+        "ScalingType",
+        "SwizzleType",
+        "MXFP8BlockScaleRecipe",
+        "scaled_grouped_mm",
+        "scaled_mm"
+      ],
+      "torchao_version": "0.18.0",
+      "pure_python_only": true,
+      "matches": {
+        "low_first": true,
+        "high_first": false
+      },
+      "elements_compared": 2097152,
+      "code_matches": {
+        "low_first": true,
+        "high_first": false
+      }
+    }
+  ],
+  "resolution": "confirmed",
+  "matched_order": "low_first",
+  "reference_used": "torchao 0.18.0",
+  "gate_pass": true,
+  "claim_boundary": "Establishes only the packing order of NVFP4 codes against an external published implementation. Says nothing about model quality, the correctness of the rest of the runtime, or throughput."
+}

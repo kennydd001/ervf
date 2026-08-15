@@ -1,0 +1,206 @@
+{
+  "created_at_utc": "2026-08-09T21:19:31.323601+00:00",
+  "git_revision": null,
+  "kind": "route_equivalence_downstream",
+  "payload": {
+    "blocks_per_split": 2,
+    "dataset_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "downstream_layers": [
+      {
+        "layer": 24,
+        "policies": {
+          "best_euclidean_alternative_oracle": {
+            "hidden": {
+              "cosine": 0.9999154806137085,
+              "mae": 0.029191795736551285,
+              "max_abs_error": 2.0,
+              "nrmse": 0.007693781983107328
+            },
+            "router_topk_overlap": 0.9915364583333334,
+            "router_weight_nrmse": 0.07670441269874573
+          },
+          "best_euclidean_jaccard_le_0_5_oracle": {
+            "hidden": {
+              "cosine": 0.9997472763061523,
+              "mae": 0.05153779312968254,
+              "max_abs_error": 4.0,
+              "nrmse": 0.013306226581335068
+            },
+            "router_topk_overlap": 0.9860026041666666,
+            "router_weight_nrmse": 0.08702826499938965
+          },
+          "replace_bottom_two_with_rank7_8": {
+            "hidden": {
+              "cosine": 0.9995635747909546,
+              "mae": 0.06844684481620789,
+              "max_abs_error": 4.0,
+              "nrmse": 0.017373090609908104
+            },
+            "router_topk_overlap": 0.9811197916666666,
+            "router_weight_nrmse": 0.09747275710105896
+          }
+        }
+      },
+      {
+        "layer": 25,
+        "policies": {
+          "best_euclidean_alternative_oracle": {
+            "hidden": {
+              "cosine": 0.9999346733093262,
+              "mae": 0.033268243074417114,
+              "max_abs_error": 2.0,
+              "nrmse": 0.01075370330363512
+            },
+            "router_topk_overlap": 0.9921875,
+            "router_weight_nrmse": 0.04640835151076317
+          },
+          "best_euclidean_jaccard_le_0_5_oracle": {
+            "hidden": {
+              "cosine": 0.9998202323913574,
+              "mae": 0.056957561522722244,
+              "max_abs_error": 4.0,
+              "nrmse": 0.017862889915704727
+            },
+            "router_topk_overlap": 0.9869791666666666,
+            "router_weight_nrmse": 0.0751594826579094
+          },
+          "replace_bottom_two_with_rank7_8": {
+            "hidden": {
+              "cosine": 0.9996933937072754,
+              "mae": 0.07491821050643921,
+              "max_abs_error": 7.25,
+              "nrmse": 0.023205310106277466
+            },
+            "router_topk_overlap": 0.9814453125,
+            "router_weight_nrmse": 0.12079691141843796
+          }
+        }
+      },
+      {
+        "layer": 26,
+        "policies": {
+          "best_euclidean_alternative_oracle": {
+            "hidden": {
+              "cosine": 0.9999521970748901,
+              "mae": 0.03810320422053337,
+              "max_abs_error": 4.0,
+              "nrmse": 0.009222281165421009
+            },
+            "router_topk_overlap": 0.9938151041666666,
+            "router_weight_nrmse": 0.083515465259552
+          },
+          "best_euclidean_jaccard_le_0_5_oracle": {
+            "hidden": {
+              "cosine": 0.9998764991760254,
+              "mae": 0.06327710300683975,
+              "max_abs_error": 8.0,
+              "nrmse": 0.014753581956028938
+            },
+            "router_topk_overlap": 0.990234375,
+            "router_weight_nrmse": 0.09295843541622162
+          },
+          "replace_bottom_two_with_rank7_8": {
+            "hidden": {
+              "cosine": 0.9997937679290771,
+              "mae": 0.08252611756324768,
+              "max_abs_error": 12.4375,
+              "nrmse": 0.018994247540831566
+            },
+            "router_topk_overlap": 0.9873046875,
+            "router_weight_nrmse": 0.11499414592981339
+          }
+        }
+      }
+    ],
+    "experiment": "layer23_route_equivalence_through_layers24_to26",
+    "final": {
+      "test": {
+        "best_euclidean_alternative_oracle": {
+          "candidate_cross_entropy": 2.3317515455831694,
+          "cross_entropy_delta": 0.002906138502706934,
+          "relative_cross_entropy_delta": 0.001247888113943205,
+          "teacher_cross_entropy": 2.3288454070804625,
+          "teacher_to_candidate_kl": 0.0009025195613503456,
+          "top1_agreement": 0.9921875
+        },
+        "best_euclidean_jaccard_le_0_5_oracle": {
+          "candidate_cross_entropy": 2.3279995655450296,
+          "cross_entropy_delta": -0.0008458415354328785,
+          "relative_cross_entropy_delta": -0.000363202096996752,
+          "teacher_cross_entropy": 2.3288454070804625,
+          "teacher_to_candidate_kl": 0.001332910731434822,
+          "top1_agreement": 0.98828125
+        },
+        "replace_bottom_two_with_rank7_8": {
+          "candidate_cross_entropy": 2.3314516563115157,
+          "cross_entropy_delta": 0.002606249231053237,
+          "relative_cross_entropy_delta": 0.0011191164613715342,
+          "teacher_cross_entropy": 2.3288454070804625,
+          "teacher_to_candidate_kl": 0.001395686180330813,
+          "top1_agreement": 0.9921875
+        }
+      },
+      "validation": {
+        "best_euclidean_alternative_oracle": {
+          "candidate_cross_entropy": 1.9426548274483268,
+          "cross_entropy_delta": 0.005152664785310179,
+          "relative_cross_entropy_delta": 0.0026594369206938352,
+          "teacher_cross_entropy": 1.9375021626630167,
+          "teacher_to_candidate_kl": 0.0008927043527364731,
+          "top1_agreement": 0.99609375
+        },
+        "best_euclidean_jaccard_le_0_5_oracle": {
+          "candidate_cross_entropy": 1.9404718594288264,
+          "cross_entropy_delta": 0.002969696765809715,
+          "relative_cross_entropy_delta": 0.0015327450069671095,
+          "teacher_cross_entropy": 1.9375021626630167,
+          "teacher_to_candidate_kl": 0.0013972190208733082,
+          "top1_agreement": 0.99609375
+        },
+        "replace_bottom_two_with_rank7_8": {
+          "candidate_cross_entropy": 1.9478353665569637,
+          "cross_entropy_delta": 0.010333203893946985,
+          "relative_cross_entropy_delta": 0.0053332605728524315,
+          "teacher_cross_entropy": 1.9375021626630167,
+          "teacher_to_candidate_kl": 0.0017429485451430082,
+          "top1_agreement": 0.9921875
+        }
+      }
+    },
+    "local_layer23_hidden": {
+      "best_euclidean_alternative_oracle": {
+        "cosine": 0.9999074935913086,
+        "mae": 0.0255022794008255,
+        "max_abs_error": 1.0,
+        "nrmse": 0.005507842171937227
+      },
+      "best_euclidean_jaccard_le_0_5_oracle": {
+        "cosine": 0.9997016787528992,
+        "mae": 0.04627377539873123,
+        "max_abs_error": 2.0,
+        "nrmse": 0.009848566725850105
+      },
+      "replace_bottom_two_with_rank7_8": {
+        "cosine": 0.9994568228721619,
+        "mae": 0.06215286999940872,
+        "max_abs_error": 2.0,
+        "nrmse": 0.01300646923482418
+      }
+    },
+    "manual_layer23_reference_vs_official": {
+      "cosine": 0.9999995231628418,
+      "mae": 0.0011389011051505804,
+      "max_abs_error": 0.5,
+      "nrmse": 0.0005139898858033121
+    },
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "selection": "natural raw top12 router weights; no renormalization; local Euclidean route-output oracle",
+    "selection_statistics": {
+      "best_any_mean_jaccard": 0.7142857909202576,
+      "best_low_overlap_mean_jaccard": 0.5
+    },
+    "status": "complete",
+    "wall_seconds": 64.91038220000337
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,43 @@
+{
+  "kind": "gaugepack_p9d1_codec_oracle_closure",
+  "completed_utc": "2026-08-12T18:58:00+00:00",
+  "status": "blocked_invalid_p9b_premise",
+  "scope": {
+    "layer": 0,
+    "experts": [0, 15],
+    "expert_count": 16
+  },
+  "inputs": {
+    "preregistration_sha256": "f19d249df6d016d87e5adca8d2f595f494582de274d0fde22f6908e9e378c7bf",
+    "codec_sha256": "f29ed8e066bf03894a1d77d5c96fa22505cec8a217395516cf32fe8f4476bddd",
+    "mutation_audit_sha256": "09f041853e5138038729240fa5236e2f309cf0e74fc0ec475fbe0246a0e9f806",
+    "archived_cpu_attempt_result_sha256": "7bc83b2d6a138ae5aae34b250496da98b4494c4f693ed159d34695017618122e"
+  },
+  "available_artifacts": {
+    "p9b_mask": "48 layers x 128 experts x 384 sorted survivor indices",
+    "p1d_bank": "17.3671875 GiB unpruned group-128 Q5 bank with packed codes and raw BF16 scales",
+    "historical_p9b_q5_code_bank": false
+  },
+  "codec_layout_dry_run": {
+    "artifact_bytes_for_16_experts": 24395840,
+    "full_p1d_bytes_for_16_experts": 48562176,
+    "physical_byte_ratio": 0.5023629913124157,
+    "projected_full_bank_gib": 8.724632263183594,
+    "headers_crcs_mask_and_group_identity_valid": true,
+    "scientific_validity": false,
+    "reason": "The attempted oracle reconstructed a supposed P9B model, but the historical P9B pruning helper was proven to be a no-op. Its CPU Q5 code choice also did not match the historical CUDA code choice. The attempt is retained only under failed_attempts."
+  },
+  "blocking_audit": {
+    "status": "p9b_pruning_noop_proven",
+    "p9b_vs_p9e_mask_index_mismatches": 2018499,
+    "p9b_vs_p9e_total_mask_positions": 2359296,
+    "identical_expert_layer_masks": 0,
+    "reported_candidate_metrics_and_all_48_hidden_errors_exactly_equal": true,
+    "actual_checkpoint_parameter_hashes_unchanged_after_p9b_helper": true,
+    "actual_expert_forward_bitexact_after_p9b_helper": true,
+    "corrected_masked_fill_changes_actual_expert_forward": true
+  },
+  "conclusion": "No valid P9D-1 exactness pass can be issued because P9B did not establish a pruned logical model. GaugePack remains a representation hypothesis, not an experimentally authorized branch.",
+  "required_next_step": "Run P9B-R with true in-place masked_fill_ pruning through calibration, validation and test. Only a quality pass may reopen the CUDA GaugePack codec/oracle.",
+  "claim_boundary": "This is a methodological closure and bug finding, not a GaugePack codec pass, quality pass, kernel result, full-bank result, throughput result, 80B result, or novelty claim."
+}

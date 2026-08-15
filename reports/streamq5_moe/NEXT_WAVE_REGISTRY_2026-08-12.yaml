@@ -1,0 +1,250 @@
+project: STREAMQ5_MOE_NEXT_WAVE
+created_at: 2026-08-12
+baseline: reports/streamq5_moe/P13_EVT_PM_EUREKA_REPORT_2026-08-12.md
+rule: >-
+  Deze registry wijzigt de gesloten 48-itemcampagne niet. Iedere nieuwe
+  kandidaat krijgt vóór uitvoering een preregistratie en een afzonderlijke
+  status. Oude P7-kostenprojecties gelden niet automatisch na P13.
+
+status_legend:
+  queued: lokaal toetsbaar, nog niet gesloten
+  in_progress: preregistratie vastgelegd en uitvoering gestart
+  verified_pass: fysieke poort gehaald
+  verified_pass_component: fysieke component- of structuurpoort gehaald; nog geen end-to-end claim
+  verified_baseline: bestaande fysieke run sluit de baseline, maar test nog geen nieuwe versnelling
+  verified_negative: fysieke of empirische poort gefaald
+  superseded: reeds door later/sterker bestaand bewijs afgedekt
+  blocked_artifact: vereist ontbrekend model of drafter
+  blocked_hardware: vereist ontbrekende GPU of meetapparatuur
+  blocked_scope: vereist een afzonderlijk groot implementatie- of trainingsproject
+
+ideas:
+  - id: N001
+    idea: shared_activation_staging_for_ERVF_Q8_and_Q5
+    source: intel1_shared_activation; intel2_P8B
+    status: verified_negative
+    phase: N1A
+    evidence:
+      - reports/streamq5_moe/n1a_shared_activation_ervf.json
+      - reports/streamq5_moe/n1a2_q5_staging_end_to_end.json
+      - reports/streamq5_moe/n1a2r_q5_staging_reverse.json
+    note: Q5 microbenchmark won, but the full-runtime effect reversed with execution order
+  - id: N002
+    idea: vectorized_or_widened_Q5_pack_loads
+    source: zes_hypotheses_section_3
+    status: verified_pass_component
+    phase: N1B
+    evidence: reports/streamq5_moe/n1b_q5_vectorized_loads.json
+    note: aligned32x2 is bit-exact and passed the isolated Q5 plane at p50 ratio 0.8878 and p95 ratio 0.8652
+  - id: N003
+    idea: generalized_exact_reduction_graph_autotuner_width_4_to_64
+    source: intel1_EVRM; intel2_ERGV; zes_hypotheses_H-E
+    status: verified_pass_component
+    phase: N1C
+    evidence: reports/streamq5_moe/n1c_generalized_exact_reduction_autotuner.json
+    note: all widths 4/8/16/32/64 bit-exact; selected mixed graph passed Q8 p50 ratio 0.8444 and Q5 0.9344
+  - id: N004
+    idea: exact_virtual_GQA_attention_and_context_scaling
+    source: intel1_ERVA
+    status: superseded
+    evidence: reports/streamq5_moe/P13_EVT_PM_EUREKA_REPORT_2026-08-12.md
+    note: exact EVT-PM already tested 128/512/1024/4096 and in a 10K-token 4K run
+  - id: N005
+    idea: temporal_ERVF_target_verification_oracle_s2_s4_s8
+    source: intel1_Temporal_ERVF
+    status: verified_pass_component
+    phase: N2A
+    evidence: reports/streamq5_moe/n2a_temporal_ervf_oracle.json
+    note: same-expert S4 physical oracle passed bit-exactly; causal token availability remains outside the claim
+  - id: N006
+    idea: drafter_or_MTP_acceptance_integration
+    source: intel1_Temporal_ERVF
+    status: blocked_artifact
+    evidence: reports/streamq5_moe/P13D_SPECULATIVE_DECODING_CLOSURE_2026-08-12.md
+  - id: N007
+    idea: projection_flow_fusion_and_layer_fused_glue
+    source: intel1_projection_flow; zes_hypotheses_H-A
+    status: verified_pass_component
+    phase: N3A
+    evidence:
+      - reports/streamq5_moe/n3a_moe_output_flow_fusion.json
+      - reports/streamq5_moe/n3a2_attention_projection_flow.json
+      - reports/streamq5_moe/n3a4_o_residual_fusion.json
+    note: concat-QKV passed bit-exactly at p50 ratio 0.8817; MoE-output failed and O-plus-residual was neutral/negative
+  - id: N008
+    idea: exact_certified_LM_head_search_or_topk_fusion
+    source: intel1_exact_LM_head; intel2_P8E
+    status: verified_negative
+    phase: N2B
+    evidence:
+      - reports/streamq5_moe/n2b_certified_lm_head_oracle_validation.json
+      - reports/streamq5_moe/n2d_greedy_lm_head_validation.json
+    note: cluster oracle skipped zero rows; fused greedy write-elision cut output bytes 87.5% but was 1.2079x slower at p50
+  - id: N009
+    idea: VRAM_cache_KV_context_Pareto_curve
+    source: zes_hypotheses_H-B
+    status: verified_pass_component
+    phase: N3B
+    evidence: reports/streamq5_moe/n3b_vram_kv_cache_pareto.json
+    note: BF16 8K fits after a small cache reduction; 32K needs fewer than 20 slots per layer and therefore a cache redesign
+  - id: N010
+    idea: INT8_INT4_KV_quality_and_8K_32K_context_wall
+    source: zes_hypotheses_H-C
+    status: blocked_scope
+    phase: N3C
+    evidence: reports/streamq5_moe/N3C_LOSSY_KV_LONG_CONTEXT_CLOSURE_2026-08-12.md
+    note: capacity arithmetic favors INT8/INT4 at 32K, but valid quality and wall-time need a rebuilt long-context runtime and fresh long-context evaluator
+  - id: N011
+    idea: TTFT_and_prefill_GEMM_baseline
+    source: zes_hypotheses_H-D
+    status: verified_baseline
+    phase: N3D
+    evidence: reports/streamq5_moe/n3d_sequential_prefill_baseline.json
+    note: service-ready 7-token TTFT 459.244 ms; true GEMM prefill remains open
+  - id: N012
+    idea: physical_batch_2_4_8_16_route_union_and_throughput
+    source: zes_hypotheses_H-F
+    status: verified_negative
+    phase: N2C
+    evidence:
+      - reports/streamq5_moe/n2c_batch_route_union_sweep.json
+      - reports/streamq5_moe/N2C_S16_RESOURCE_ABORT_2026-08-12.md
+    note: S2/S4/S8 exact but combined ratios 2.0120/1.7939/2.0386; S16 blocked by register/local-memory spill timeout
+  - id: N013
+    idea: synthetic_Qwen3_Coder_Next_80B_shape_gate
+    source: intel1_active_set_invariance; intel2_industry_claim
+    status: verified_pass_component
+    phase: N4A
+    evidence:
+      - reports/streamq5_moe/n4a_synthetic_80b_shape_capacity.json
+      - reports/streamq5_moe/n4br_synthetic_80b_exact_replication.json
+    note: official 79.674B capacity passes; repaired exact synthetic top10-plus-shared expert plane p95 8.87 ms and conservative projected total p95 36.95 ms
+  - id: N014
+    idea: same_semantics_GemLite_CUTLASS_QUICK_baselines
+    source: intel2_external_baselines
+    status: blocked_scope
+    missing: equivalent Q5_BF16_scale format adapters and separate build campaign
+  - id: N015
+    idea: second_GPU_cross_architecture_exactness
+    source: intel1_EVRM; intel2_cross_GPU
+    status: blocked_hardware
+    missing: second NVIDIA architecture
+  - id: N016
+    idea: Qwen3_Coder_Next_80B_full_physical_replication
+    source: intel1_active_set_invariance
+    status: blocked_artifact
+    missing: quantized full checkpoint bank, real 80B router traces, hybrid DeltaNet runtime and long-context evaluator
+    note: N4A and N4B gates pass, so a separate full physical port is now technically justified but not yet implemented
+  - id: N017
+    idea: projection_adaptive_width_8_16_32
+    source: intel2_P8A
+    status: superseded
+    evidence: reports/streamq5_moe/P8AB_KERNEL_FOLLOWUPS_REPORT_2026-08-12.md
+  - id: N018
+    idea: Q5_scale_broadcast
+    source: intel2_P8C
+    status: superseded
+    evidence: reports/streamq5_moe/P8AB_KERNEL_FOLLOWUPS_REPORT_2026-08-12.md
+  - id: N019
+    idea: hard_32_GiB_and_10K_thermal_run
+    source: intel1_order; zes_hypotheses_order
+    status: superseded
+    evidence: reports/streamq5_moe/P13_EVT_PM_EUREKA_REPORT_2026-08-12.md
+  - id: N020
+    idea: measured_s4_route_union_on_all_P4D_domains_and_layers
+    source: followup_to_N005
+    status: verified_pass_component
+    phase: N2AU
+    evidence: reports/streamq5_moe/n2au_route_union.json
+    note: mean union 18.34 and p95 25 versus 32 separate records
+  - id: N021
+    idea: physical_sparse_temporal_Q5_on_actual_s4_route_unions
+    source: followup_to_N005_and_N020
+    status: verified_negative
+    phase: N2AS
+    evidence: reports/streamq5_moe/n2as_sparse_temporal_q5.json
+    note: bit-exact over 27,525,120 values but validation p50 ratio 1.0457 and test stayed sealed
+  - id: N022
+    idea: aligned32x2_Q5_load_same_runtime_end_to_end_integration
+    source: followup_to_N002
+    status: verified_negative
+    phase: N1BI
+    evidence: reports/streamq5_moe/n1bi_q5_vectorload_end_to_end.json
+    note: exact and p50/p95 improved, but mean ratio 0.9864 missed the preregistered 0.98 gate
+  - id: N023
+    idea: generalized_mixed_reduction_graph_same_runtime_end_to_end
+    source: followup_to_N003
+    status: verified_negative
+    phase: N1C2
+    evidence: reports/streamq5_moe/n1c2_generalized_reduction_end_to_end.json
+    note: exact across predictions, misses, KV, LRU, logits and states; mean ratio 0.9834 missed the 0.98 gate despite p50/p95 gains
+  - id: N024
+    idea: fused_Q5_down_route_weight_reduce_residual
+    source: subchain_of_N007
+    status: verified_negative
+    phase: N3A_MOE_OUTPUT
+    evidence: reports/streamq5_moe/n3a_moe_output_flow_fusion.json
+    note: bit-exact over 98,304 states but validation p50 ratio 1.4121 and test stayed sealed
+  - id: N025
+    idea: exact_concat_QKV_projection_flow
+    source: subchain_of_N007
+    status: verified_pass_component
+    phase: N3A2
+    evidence: reports/streamq5_moe/n3a2_attention_projection_flow.json
+    note: bit-exact concat-QKV passed test at p50 ratio 0.8817 and p95 ratio 0.8896; fused norm/RoPE head-flow arm was slower
+  - id: N026
+    idea: concat_QKV_same_runtime_end_to_end_integration
+    source: followup_to_N025
+    status: verified_negative
+    phase: N3A3
+    evidence: reports/streamq5_moe/n3a3_concat_qkv_end_to_end.json
+    note: exact across six state axes and directionally faster, but mean ratio 0.9895 and p50 0.9840 missed the 0.98 gates
+  - id: N027
+    idea: synthetic_Qwen3_Coder_Next_80B_physical_GPU_shape_gate
+    source: followup_to_N013
+    status: superseded
+    phase: N4B
+    evidence: reports/streamq5_moe/n4b_synthetic_80b_gpu_shape.json
+    note: numeric shape/timing gates passed, but independent audit found non-canonical SwiGLU and missing provenance; superseded by repaired N4B-R
+  - id: N028
+    idea: exact_O_projection_to_residual_fusion
+    source: subchain_of_N007
+    status: verified_negative
+    phase: N3A4
+    evidence: reports/streamq5_moe/n3a4_o_residual_fusion.json
+    note: bit-exact over 98,304 states but validation p50 ratio 0.9994 and p95 1.0047; test stayed sealed
+  - id: N029
+    idea: cp_async_TMA_double_buffer_and_multiple_output_rows_per_lane
+    source: intel2_activation_staging; zes_hypotheses_section_3
+    status: blocked_scope
+    phase: future_bank_and_kernel_project
+    evidence: reports/streamq5_moe/NEXT_WAVE_SCOPE_BOUNDARIES_2026-08-12.md
+    note: requires a tiled Q5 bank format and a separate pipelined kernel family
+  - id: N030
+    idea: exact_reduction_graph_compiler_across_INT4_BF16_RMSNorm_softmax
+    source: intel1_EVRM; intel2_ERGV
+    status: blocked_scope
+    phase: future_compiler_project
+    evidence: reports/streamq5_moe/NEXT_WAVE_SCOPE_BOUNDARIES_2026-08-12.md
+    note: N1C covers physical Q8/Q5 GEMV only; other arithmetic contracts need separate references and evaluators
+  - id: N031
+    idea: true_GEMM_prefill_and_physical_8K_32K_quality_wall
+    source: zes_hypotheses_H-C_H-D
+    status: blocked_scope
+    phase: future_long_context_runtime
+    evidence: reports/streamq5_moe/NEXT_WAVE_SCOPE_BOUNDARIES_2026-08-12.md
+    note: sequential TTFT and capacity are measured, but valid long-context quality needs a rebuilt runtime and fresh evaluator
+  - id: N032
+    idea: full_physical_DeepSeek_V2_Lite_STREAMQ5_runtime
+    source: intel1_second_model_generalization
+    status: blocked_scope
+    phase: future_model_port
+    evidence: reports/streamq5_moe/NEXT_WAVE_SCOPE_BOUNDARIES_2026-08-12.md
+    note: Q5 quality passed in P14A; physical bank, cache, trunk and decoder are not implemented
+  - id: N033
+    idea: repaired_exact_synthetic_Qwen3_Coder_Next_80B_GPU_shape_gate
+    source: repair_of_N027
+    status: verified_pass_component
+    phase: N4BR
+    evidence: reports/streamq5_moe/n4br_synthetic_80b_exact_replication.json
+    note: canonical SwiGLU, evaluator/input provenance and equal width digests; width8 expert p95 8.87 ms and conservative projected total p95 36.95 ms

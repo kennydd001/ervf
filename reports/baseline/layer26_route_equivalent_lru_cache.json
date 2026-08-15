@@ -1,0 +1,981 @@
+{
+  "created_at_utc": "2026-08-09T21:16:29.556013+00:00",
+  "git_revision": null,
+  "kind": "route_equivalent_cache",
+  "payload": {
+    "cache_scope": "one layer; reset at each 128-token block; expert-granularity LRU",
+    "cost": "one load per missing full expert; no byte overlap or prefetch modeled",
+    "dataset_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "experiment": "layer26_route_equivalent_lru_cache_simulation",
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "results": {
+      "test": [
+        {
+          "capacity_experts": 6,
+          "equivalent": {
+            "expert_load_fraction": 0.7923177083333334,
+            "expert_loads": 1217,
+            "rerouted_token_fraction": 0.01171875,
+            "selected_route_jaccard_mean": 0.9951636904761905,
+            "selected_route_kl_mean": 5.282358415570343e-06,
+            "selected_route_kl_p95": 4.848872094953549e-07,
+            "tokens_with_any_load_fraction": 0.98046875
+          },
+          "expert_load_reduction_fraction": 0.0065306122448979265,
+          "kl_threshold": 0.001,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.7975260416666666,
+            "expert_loads": 1225,
+            "tokens_with_any_load_fraction": 0.9921875
+          }
+        },
+        {
+          "capacity_experts": 6,
+          "equivalent": {
+            "expert_load_fraction": 0.71484375,
+            "expert_loads": 1098,
+            "rerouted_token_fraction": 0.40625,
+            "selected_route_jaccard_mean": 0.7883996212121213,
+            "selected_route_kl_mean": 0.0001365312928101048,
+            "selected_route_kl_p95": 0.0008034611237235367,
+            "tokens_with_any_load_fraction": 1.0
+          },
+          "expert_load_reduction_fraction": 0.10367346938775512,
+          "kl_threshold": 0.001,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.7975260416666666,
+            "expert_loads": 1225,
+            "tokens_with_any_load_fraction": 0.9921875
+          }
+        },
+        {
+          "capacity_experts": 6,
+          "equivalent": {
+            "expert_load_fraction": 0.7864583333333334,
+            "expert_loads": 1208,
+            "rerouted_token_fraction": 0.01953125,
+            "selected_route_jaccard_mean": 0.9912574404761905,
+            "selected_route_kl_mean": 2.1603294953820296e-05,
+            "selected_route_kl_p95": 6.71185034661903e-07,
+            "tokens_with_any_load_fraction": 0.97265625
+          },
+          "expert_load_reduction_fraction": 0.013877551020408219,
+          "kl_threshold": 0.003,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.7975260416666666,
+            "expert_loads": 1225,
+            "tokens_with_any_load_fraction": 0.9921875
+          }
+        },
+        {
+          "capacity_experts": 6,
+          "equivalent": {
+            "expert_load_fraction": 0.68359375,
+            "expert_loads": 1050,
+            "rerouted_token_fraction": 0.5234375,
+            "selected_route_jaccard_mean": 0.712692775974026,
+            "selected_route_kl_mean": 0.0005007099825888872,
+            "selected_route_kl_p95": 0.0023534137289971113,
+            "tokens_with_any_load_fraction": 0.9921875
+          },
+          "expert_load_reduction_fraction": 0.1428571428571429,
+          "kl_threshold": 0.003,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.7975260416666666,
+            "expert_loads": 1225,
+            "tokens_with_any_load_fraction": 0.9921875
+          }
+        },
+        {
+          "capacity_experts": 8,
+          "equivalent": {
+            "expert_load_fraction": 0.7174479166666666,
+            "expert_loads": 1102,
+            "rerouted_token_fraction": 0.015625,
+            "selected_route_jaccard_mean": 0.9910714285714286,
+            "selected_route_kl_mean": 1.0692840078263544e-05,
+            "selected_route_kl_p95": 5.40489509148756e-07,
+            "tokens_with_any_load_fraction": 0.96875
+          },
+          "expert_load_reduction_fraction": 0.009883198562443796,
+          "kl_threshold": 0.001,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.724609375,
+            "expert_loads": 1113,
+            "tokens_with_any_load_fraction": 0.984375
+          }
+        },
+        {
+          "capacity_experts": 8,
+          "equivalent": {
+            "expert_load_fraction": 0.6178385416666666,
+            "expert_loads": 949,
+            "rerouted_token_fraction": 0.4765625,
+            "selected_route_jaccard_mean": 0.7748173701298702,
+            "selected_route_kl_mean": 0.00015380996046587825,
+            "selected_route_kl_p95": 0.0008110825438052416,
+            "tokens_with_any_load_fraction": 0.9765625
+          },
+          "expert_load_reduction_fraction": 0.1473495058400719,
+          "kl_threshold": 0.001,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.724609375,
+            "expert_loads": 1113,
+            "tokens_with_any_load_fraction": 0.984375
+          }
+        },
+        {
+          "capacity_experts": 8,
+          "equivalent": {
+            "expert_load_fraction": 0.708984375,
+            "expert_loads": 1089,
+            "rerouted_token_fraction": 0.03515625,
+            "selected_route_jaccard_mean": 0.9813058035714286,
+            "selected_route_kl_mean": 5.126604446559213e-05,
+            "selected_route_kl_p95": 1.5992302451195428e-06,
+            "tokens_with_any_load_fraction": 0.94921875
+          },
+          "expert_load_reduction_fraction": 0.021563342318059342,
+          "kl_threshold": 0.003,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.724609375,
+            "expert_loads": 1113,
+            "tokens_with_any_load_fraction": 0.984375
+          }
+        },
+        {
+          "capacity_experts": 8,
+          "equivalent": {
+            "expert_load_fraction": 0.5787760416666666,
+            "expert_loads": 889,
+            "rerouted_token_fraction": 0.625,
+            "selected_route_jaccard_mean": 0.6890861742424242,
+            "selected_route_kl_mean": 0.0005335032474249601,
+            "selected_route_kl_p95": 0.002294532721862197,
+            "tokens_with_any_load_fraction": 0.97265625
+          },
+          "expert_load_reduction_fraction": 0.20125786163522008,
+          "kl_threshold": 0.003,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.724609375,
+            "expert_loads": 1113,
+            "tokens_with_any_load_fraction": 0.984375
+          }
+        },
+        {
+          "capacity_experts": 12,
+          "equivalent": {
+            "expert_load_fraction": 0.626953125,
+            "expert_loads": 963,
+            "rerouted_token_fraction": 0.0546875,
+            "selected_route_jaccard_mean": 0.9752046130952381,
+            "selected_route_kl_mean": 3.048345388378948e-05,
+            "selected_route_kl_p95": 5.816297925775871e-05,
+            "tokens_with_any_load_fraction": 0.921875
+          },
+          "expert_load_reduction_fraction": 0.02628918099089994,
+          "kl_threshold": 0.001,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.6438802083333334,
+            "expert_loads": 989,
+            "tokens_with_any_load_fraction": 0.97265625
+          }
+        },
+        {
+          "capacity_experts": 12,
+          "equivalent": {
+            "expert_load_fraction": 0.5110677083333334,
+            "expert_loads": 785,
+            "rerouted_token_fraction": 0.5859375,
+            "selected_route_jaccard_mean": 0.7417596726190476,
+            "selected_route_kl_mean": 0.00018102096510119736,
+            "selected_route_kl_p95": 0.0007853866554796696,
+            "tokens_with_any_load_fraction": 0.94140625
+          },
+          "expert_load_reduction_fraction": 0.20626895854398386,
+          "kl_threshold": 0.001,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.6438802083333334,
+            "expert_loads": 989,
+            "tokens_with_any_load_fraction": 0.97265625
+          }
+        },
+        {
+          "capacity_experts": 12,
+          "equivalent": {
+            "expert_load_fraction": 0.6067708333333334,
+            "expert_loads": 932,
+            "rerouted_token_fraction": 0.1015625,
+            "selected_route_jaccard_mean": 0.9533482142857143,
+            "selected_route_kl_mean": 0.00011157780681969598,
+            "selected_route_kl_p95": 0.0010024021612480283,
+            "tokens_with_any_load_fraction": 0.875
+          },
+          "expert_load_reduction_fraction": 0.05763397371081902,
+          "kl_threshold": 0.003,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.6438802083333334,
+            "expert_loads": 989,
+            "tokens_with_any_load_fraction": 0.97265625
+          }
+        },
+        {
+          "capacity_experts": 12,
+          "equivalent": {
+            "expert_load_fraction": 0.4609375,
+            "expert_loads": 708,
+            "rerouted_token_fraction": 0.734375,
+            "selected_route_jaccard_mean": 0.6728980654761905,
+            "selected_route_kl_mean": 0.0006271118763834238,
+            "selected_route_kl_p95": 0.002409721724689007,
+            "tokens_with_any_load_fraction": 0.8828125
+          },
+          "expert_load_reduction_fraction": 0.28412537917087965,
+          "kl_threshold": 0.003,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.6438802083333334,
+            "expert_loads": 989,
+            "tokens_with_any_load_fraction": 0.97265625
+          }
+        },
+        {
+          "capacity_experts": 16,
+          "equivalent": {
+            "expert_load_fraction": 0.5358072916666666,
+            "expert_loads": 823,
+            "rerouted_token_fraction": 0.0859375,
+            "selected_route_jaccard_mean": 0.9611235119047619,
+            "selected_route_kl_mean": 3.209000715287402e-05,
+            "selected_route_kl_p95": 0.0001864772493718192,
+            "tokens_with_any_load_fraction": 0.8359375
+          },
+          "expert_load_reduction_fraction": 0.05293440736478716,
+          "kl_threshold": 0.001,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.5657552083333334,
+            "expert_loads": 869,
+            "tokens_with_any_load_fraction": 0.91796875
+          }
+        },
+        {
+          "capacity_experts": 16,
+          "equivalent": {
+            "expert_load_fraction": 0.4186197916666667,
+            "expert_loads": 643,
+            "rerouted_token_fraction": 0.58203125,
+            "selected_route_jaccard_mean": 0.745314191017316,
+            "selected_route_kl_mean": 0.00019688675820361823,
+            "selected_route_kl_p95": 0.000847184332087636,
+            "tokens_with_any_load_fraction": 0.83984375
+          },
+          "expert_load_reduction_fraction": 0.2600690448791715,
+          "kl_threshold": 0.001,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.5657552083333334,
+            "expert_loads": 869,
+            "tokens_with_any_load_fraction": 0.91796875
+          }
+        },
+        {
+          "capacity_experts": 16,
+          "equivalent": {
+            "expert_load_fraction": 0.515625,
+            "expert_loads": 792,
+            "rerouted_token_fraction": 0.16796875,
+            "selected_route_jaccard_mean": 0.9253534226190476,
+            "selected_route_kl_mean": 0.00017333924188278615,
+            "selected_route_kl_p95": 0.0015665030805394053,
+            "tokens_with_any_load_fraction": 0.76171875
+          },
+          "expert_load_reduction_fraction": 0.08860759493670889,
+          "kl_threshold": 0.003,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.5657552083333334,
+            "expert_loads": 869,
+            "tokens_with_any_load_fraction": 0.91796875
+          }
+        },
+        {
+          "capacity_experts": 16,
+          "equivalent": {
+            "expert_load_fraction": 0.376953125,
+            "expert_loads": 579,
+            "rerouted_token_fraction": 0.76953125,
+            "selected_route_jaccard_mean": 0.6528510551948052,
+            "selected_route_kl_mean": 0.0006790787447243929,
+            "selected_route_kl_p95": 0.0024496549740433693,
+            "tokens_with_any_load_fraction": 0.8203125
+          },
+          "expert_load_reduction_fraction": 0.333716915995397,
+          "kl_threshold": 0.003,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.5657552083333334,
+            "expert_loads": 869,
+            "tokens_with_any_load_fraction": 0.91796875
+          }
+        },
+        {
+          "capacity_experts": 24,
+          "equivalent": {
+            "expert_load_fraction": 0.369140625,
+            "expert_loads": 567,
+            "rerouted_token_fraction": 0.19921875,
+            "selected_route_jaccard_mean": 0.9049293154761905,
+            "selected_route_kl_mean": 5.035994036006741e-05,
+            "selected_route_kl_p95": 0.000481287541333586,
+            "tokens_with_any_load_fraction": 0.67578125
+          },
+          "expert_load_reduction_fraction": 0.12634822804314327,
+          "kl_threshold": 0.001,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.4225260416666667,
+            "expert_loads": 649,
+            "tokens_with_any_load_fraction": 0.8359375
+          }
+        },
+        {
+          "capacity_experts": 24,
+          "equivalent": {
+            "expert_load_fraction": 0.2682291666666667,
+            "expert_loads": 412,
+            "rerouted_token_fraction": 0.609375,
+            "selected_route_jaccard_mean": 0.7214657738095238,
+            "selected_route_kl_mean": 0.00019013813289348036,
+            "selected_route_kl_p95": 0.000772968924138695,
+            "tokens_with_any_load_fraction": 0.703125
+          },
+          "expert_load_reduction_fraction": 0.3651771956856703,
+          "kl_threshold": 0.001,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.4225260416666667,
+            "expert_loads": 649,
+            "tokens_with_any_load_fraction": 0.8359375
+          }
+        },
+        {
+          "capacity_experts": 24,
+          "equivalent": {
+            "expert_load_fraction": 0.3235677083333333,
+            "expert_loads": 497,
+            "rerouted_token_fraction": 0.3515625,
+            "selected_route_jaccard_mean": 0.834080762987013,
+            "selected_route_kl_mean": 0.0003223097010049969,
+            "selected_route_kl_p95": 0.0021431201603263617,
+            "tokens_with_any_load_fraction": 0.5390625
+          },
+          "expert_load_reduction_fraction": 0.23420647149460705,
+          "kl_threshold": 0.003,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.4225260416666667,
+            "expert_loads": 649,
+            "tokens_with_any_load_fraction": 0.8359375
+          }
+        },
+        {
+          "capacity_experts": 24,
+          "equivalent": {
+            "expert_load_fraction": 0.220703125,
+            "expert_loads": 339,
+            "rerouted_token_fraction": 0.81640625,
+            "selected_route_jaccard_mean": 0.6268043154761905,
+            "selected_route_kl_mean": 0.000745597411878407,
+            "selected_route_kl_p95": 0.0024971598759293556,
+            "tokens_with_any_load_fraction": 0.62109375
+          },
+          "expert_load_reduction_fraction": 0.47765793528505396,
+          "kl_threshold": 0.003,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.4225260416666667,
+            "expert_loads": 649,
+            "tokens_with_any_load_fraction": 0.8359375
+          }
+        },
+        {
+          "capacity_experts": 32,
+          "equivalent": {
+            "expert_load_fraction": 0.259765625,
+            "expert_loads": 399,
+            "rerouted_token_fraction": 0.26953125,
+            "selected_route_jaccard_mean": 0.8710379464285715,
+            "selected_route_kl_mean": 6.691239832434803e-05,
+            "selected_route_kl_p95": 0.0005321858334355056,
+            "tokens_with_any_load_fraction": 0.52734375
+          },
+          "expert_load_reduction_fraction": 0.19066937119675453,
+          "kl_threshold": 0.001,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.3209635416666667,
+            "expert_loads": 493,
+            "tokens_with_any_load_fraction": 0.76171875
+          }
+        },
+        {
+          "capacity_experts": 32,
+          "equivalent": {
+            "expert_load_fraction": 0.1875,
+            "expert_loads": 288,
+            "rerouted_token_fraction": 0.62109375,
+            "selected_route_jaccard_mean": 0.7164806547619048,
+            "selected_route_kl_mean": 0.00016345013864338398,
+            "selected_route_kl_p95": 0.0007454039296135306,
+            "tokens_with_any_load_fraction": 0.546875
+          },
+          "expert_load_reduction_fraction": 0.4158215010141988,
+          "kl_threshold": 0.001,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.3209635416666667,
+            "expert_loads": 493,
+            "tokens_with_any_load_fraction": 0.76171875
+          }
+        },
+        {
+          "capacity_experts": 32,
+          "equivalent": {
+            "expert_load_fraction": 0.224609375,
+            "expert_loads": 345,
+            "rerouted_token_fraction": 0.41796875,
+            "selected_route_jaccard_mean": 0.7985119047619048,
+            "selected_route_kl_mean": 0.0003294851921964437,
+            "selected_route_kl_p95": 0.002030258532613516,
+            "tokens_with_any_load_fraction": 0.390625
+          },
+          "expert_load_reduction_fraction": 0.30020283975659234,
+          "kl_threshold": 0.003,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.3209635416666667,
+            "expert_loads": 493,
+            "tokens_with_any_load_fraction": 0.76171875
+          }
+        },
+        {
+          "capacity_experts": 32,
+          "equivalent": {
+            "expert_load_fraction": 0.12955729166666666,
+            "expert_loads": 199,
+            "rerouted_token_fraction": 0.78515625,
+            "selected_route_jaccard_mean": 0.6216534767316018,
+            "selected_route_kl_mean": 0.0006625749520026147,
+            "selected_route_kl_p95": 0.002365107648074627,
+            "tokens_with_any_load_fraction": 0.4296875
+          },
+          "expert_load_reduction_fraction": 0.5963488843813387,
+          "kl_threshold": 0.003,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.3209635416666667,
+            "expert_loads": 493,
+            "tokens_with_any_load_fraction": 0.76171875
+          }
+        }
+      ],
+      "validation": [
+        {
+          "capacity_experts": 6,
+          "equivalent": {
+            "expert_load_fraction": 0.7747395833333334,
+            "expert_loads": 1190,
+            "rerouted_token_fraction": 0.0234375,
+            "selected_route_jaccard_mean": 0.9907924107142857,
+            "selected_route_kl_mean": 1.2012254956061952e-05,
+            "selected_route_kl_p95": 1.7199181456817314e-06,
+            "tokens_with_any_load_fraction": 0.9609375
+          },
+          "expert_load_reduction_fraction": 0.007506255212677226,
+          "kl_threshold": 0.001,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.7805989583333334,
+            "expert_loads": 1199,
+            "tokens_with_any_load_fraction": 0.98046875
+          }
+        },
+        {
+          "capacity_experts": 6,
+          "equivalent": {
+            "expert_load_fraction": 0.7076822916666666,
+            "expert_loads": 1087,
+            "rerouted_token_fraction": 0.359375,
+            "selected_route_jaccard_mean": 0.8077025838744589,
+            "selected_route_kl_mean": 0.00010448296234244481,
+            "selected_route_kl_p95": 0.0007042826618999243,
+            "tokens_with_any_load_fraction": 0.96484375
+          },
+          "expert_load_reduction_fraction": 0.09341117597998327,
+          "kl_threshold": 0.001,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.7805989583333334,
+            "expert_loads": 1199,
+            "tokens_with_any_load_fraction": 0.98046875
+          }
+        },
+        {
+          "capacity_experts": 6,
+          "equivalent": {
+            "expert_load_fraction": 0.7688802083333334,
+            "expert_loads": 1181,
+            "rerouted_token_fraction": 0.03125,
+            "selected_route_jaccard_mean": 0.9868861607142857,
+            "selected_route_kl_mean": 3.7319619877962396e-05,
+            "selected_route_kl_p95": 2.2810747850599e-06,
+            "tokens_with_any_load_fraction": 0.94921875
+          },
+          "expert_load_reduction_fraction": 0.015012510425354453,
+          "kl_threshold": 0.003,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.7805989583333334,
+            "expert_loads": 1199,
+            "tokens_with_any_load_fraction": 0.98046875
+          }
+        },
+        {
+          "capacity_experts": 6,
+          "equivalent": {
+            "expert_load_fraction": 0.69140625,
+            "expert_loads": 1062,
+            "rerouted_token_fraction": 0.52734375,
+            "selected_route_jaccard_mean": 0.7044118641774891,
+            "selected_route_kl_mean": 0.000502526352647692,
+            "selected_route_kl_p95": 0.0023117433302104473,
+            "tokens_with_any_load_fraction": 0.984375
+          },
+          "expert_load_reduction_fraction": 0.11426188490408673,
+          "kl_threshold": 0.003,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.7805989583333334,
+            "expert_loads": 1199,
+            "tokens_with_any_load_fraction": 0.98046875
+          }
+        },
+        {
+          "capacity_experts": 8,
+          "equivalent": {
+            "expert_load_fraction": 0.6875,
+            "expert_loads": 1056,
+            "rerouted_token_fraction": 0.046875,
+            "selected_route_jaccard_mean": 0.9795758928571429,
+            "selected_route_kl_mean": 1.6118352505145594e-05,
+            "selected_route_kl_p95": 4.487677415454527e-06,
+            "tokens_with_any_load_fraction": 0.9296875
+          },
+          "expert_load_reduction_fraction": 0.014005602240896309,
+          "kl_threshold": 0.001,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.697265625,
+            "expert_loads": 1071,
+            "tokens_with_any_load_fraction": 0.96875
+          }
+        },
+        {
+          "capacity_experts": 8,
+          "equivalent": {
+            "expert_load_fraction": 0.6145833333333334,
+            "expert_loads": 944,
+            "rerouted_token_fraction": 0.453125,
+            "selected_route_jaccard_mean": 0.7892316017316018,
+            "selected_route_kl_mean": 0.00011681675823638216,
+            "selected_route_kl_p95": 0.0006685533444397151,
+            "tokens_with_any_load_fraction": 0.9296875
+          },
+          "expert_load_reduction_fraction": 0.11858076563958919,
+          "kl_threshold": 0.001,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.697265625,
+            "expert_loads": 1071,
+            "tokens_with_any_load_fraction": 0.96875
+          }
+        },
+        {
+          "capacity_experts": 8,
+          "equivalent": {
+            "expert_load_fraction": 0.6842447916666666,
+            "expert_loads": 1051,
+            "rerouted_token_fraction": 0.06640625,
+            "selected_route_jaccard_mean": 0.9723214285714286,
+            "selected_route_kl_mean": 4.938353595207445e-05,
+            "selected_route_kl_p95": 0.00019520660862326622,
+            "tokens_with_any_load_fraction": 0.9140625
+          },
+          "expert_load_reduction_fraction": 0.01867413632119519,
+          "kl_threshold": 0.003,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.697265625,
+            "expert_loads": 1071,
+            "tokens_with_any_load_fraction": 0.96875
+          }
+        },
+        {
+          "capacity_experts": 8,
+          "equivalent": {
+            "expert_load_fraction": 0.5690104166666666,
+            "expert_loads": 874,
+            "rerouted_token_fraction": 0.62890625,
+            "selected_route_jaccard_mean": 0.6911323051948052,
+            "selected_route_kl_mean": 0.0004973740433342755,
+            "selected_route_kl_p95": 0.002335408702492714,
+            "tokens_with_any_load_fraction": 0.921875
+          },
+          "expert_load_reduction_fraction": 0.1839402427637722,
+          "kl_threshold": 0.003,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.697265625,
+            "expert_loads": 1071,
+            "tokens_with_any_load_fraction": 0.96875
+          }
+        },
+        {
+          "capacity_experts": 12,
+          "equivalent": {
+            "expert_load_fraction": 0.5540364583333334,
+            "expert_loads": 851,
+            "rerouted_token_fraction": 0.12109375,
+            "selected_route_jaccard_mean": 0.9500558035714286,
+            "selected_route_kl_mean": 2.711361230467446e-05,
+            "selected_route_kl_p95": 0.0001240660494659096,
+            "tokens_with_any_load_fraction": 0.8125
+          },
+          "expert_load_reduction_fraction": 0.06688596491228072,
+          "kl_threshold": 0.001,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.59375,
+            "expert_loads": 912,
+            "tokens_with_any_load_fraction": 0.9375
+          }
+        },
+        {
+          "capacity_experts": 12,
+          "equivalent": {
+            "expert_load_fraction": 0.470703125,
+            "expert_loads": 723,
+            "rerouted_token_fraction": 0.578125,
+            "selected_route_jaccard_mean": 0.7508218344155844,
+            "selected_route_kl_mean": 0.00019072592840529978,
+            "selected_route_kl_p95": 0.0008752610301598907,
+            "tokens_with_any_load_fraction": 0.8515625
+          },
+          "expert_load_reduction_fraction": 0.20723684210526316,
+          "kl_threshold": 0.001,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.59375,
+            "expert_loads": 912,
+            "tokens_with_any_load_fraction": 0.9375
+          }
+        },
+        {
+          "capacity_experts": 12,
+          "equivalent": {
+            "expert_load_fraction": 0.5442708333333334,
+            "expert_loads": 836,
+            "rerouted_token_fraction": 0.15234375,
+            "selected_route_jaccard_mean": 0.9402901785714286,
+            "selected_route_kl_mean": 7.56325971451588e-05,
+            "selected_route_kl_p95": 0.0005674569401890039,
+            "tokens_with_any_load_fraction": 0.7890625
+          },
+          "expert_load_reduction_fraction": 0.08333333333333337,
+          "kl_threshold": 0.003,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.59375,
+            "expert_loads": 912,
+            "tokens_with_any_load_fraction": 0.9375
+          }
+        },
+        {
+          "capacity_experts": 12,
+          "equivalent": {
+            "expert_load_fraction": 0.4283854166666667,
+            "expert_loads": 658,
+            "rerouted_token_fraction": 0.70703125,
+            "selected_route_jaccard_mean": 0.6712645427489178,
+            "selected_route_kl_mean": 0.0006027490017004311,
+            "selected_route_kl_p95": 0.002271183067932725,
+            "tokens_with_any_load_fraction": 0.83984375
+          },
+          "expert_load_reduction_fraction": 0.2785087719298246,
+          "kl_threshold": 0.003,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.59375,
+            "expert_loads": 912,
+            "tokens_with_any_load_fraction": 0.9375
+          }
+        },
+        {
+          "capacity_experts": 16,
+          "equivalent": {
+            "expert_load_fraction": 0.474609375,
+            "expert_loads": 729,
+            "rerouted_token_fraction": 0.14453125,
+            "selected_route_jaccard_mean": 0.9414992559523809,
+            "selected_route_kl_mean": 2.6806195819517598e-05,
+            "selected_route_kl_p95": 0.00012935730046592653,
+            "tokens_with_any_load_fraction": 0.7578125
+          },
+          "expert_load_reduction_fraction": 0.07954545454545459,
+          "kl_threshold": 0.001,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.515625,
+            "expert_loads": 792,
+            "tokens_with_any_load_fraction": 0.8984375
+          }
+        },
+        {
+          "capacity_experts": 16,
+          "equivalent": {
+            "expert_load_fraction": 0.3828125,
+            "expert_loads": 588,
+            "rerouted_token_fraction": 0.640625,
+            "selected_route_jaccard_mean": 0.7129836309523809,
+            "selected_route_kl_mean": 0.00019181158859282732,
+            "selected_route_kl_p95": 0.0008440795936621726,
+            "tokens_with_any_load_fraction": 0.796875
+          },
+          "expert_load_reduction_fraction": 0.25757575757575757,
+          "kl_threshold": 0.001,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.515625,
+            "expert_loads": 792,
+            "tokens_with_any_load_fraction": 0.8984375
+          }
+        },
+        {
+          "capacity_experts": 16,
+          "equivalent": {
+            "expert_load_fraction": 0.4518229166666667,
+            "expert_loads": 694,
+            "rerouted_token_fraction": 0.21484375,
+            "selected_route_jaccard_mean": 0.9039620535714286,
+            "selected_route_kl_mean": 0.00015108330990187824,
+            "selected_route_kl_p95": 0.0013418003218248487,
+            "tokens_with_any_load_fraction": 0.6953125
+          },
+          "expert_load_reduction_fraction": 0.1237373737373737,
+          "kl_threshold": 0.003,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.515625,
+            "expert_loads": 792,
+            "tokens_with_any_load_fraction": 0.8984375
+          }
+        },
+        {
+          "capacity_experts": 16,
+          "equivalent": {
+            "expert_load_fraction": 0.3411458333333333,
+            "expert_loads": 524,
+            "rerouted_token_fraction": 0.76171875,
+            "selected_route_jaccard_mean": 0.6361624053030303,
+            "selected_route_kl_mean": 0.0006541649927385151,
+            "selected_route_kl_p95": 0.002284594811499119,
+            "tokens_with_any_load_fraction": 0.765625
+          },
+          "expert_load_reduction_fraction": 0.33838383838383834,
+          "kl_threshold": 0.003,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.515625,
+            "expert_loads": 792,
+            "tokens_with_any_load_fraction": 0.8984375
+          }
+        },
+        {
+          "capacity_experts": 24,
+          "equivalent": {
+            "expert_load_fraction": 0.337890625,
+            "expert_loads": 519,
+            "rerouted_token_fraction": 0.22265625,
+            "selected_route_jaccard_mean": 0.901264880952381,
+            "selected_route_kl_mean": 5.554274684982374e-05,
+            "selected_route_kl_p95": 0.0005469149327836931,
+            "tokens_with_any_load_fraction": 0.61328125
+          },
+          "expert_load_reduction_fraction": 0.135,
+          "kl_threshold": 0.001,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.390625,
+            "expert_loads": 600,
+            "tokens_with_any_load_fraction": 0.828125
+          }
+        },
+        {
+          "capacity_experts": 24,
+          "equivalent": {
+            "expert_load_fraction": 0.251953125,
+            "expert_loads": 387,
+            "rerouted_token_fraction": 0.57421875,
+            "selected_route_jaccard_mean": 0.7477864583333333,
+            "selected_route_kl_mean": 0.00015824803267605603,
+            "selected_route_kl_p95": 0.0007790204836055636,
+            "tokens_with_any_load_fraction": 0.640625
+          },
+          "expert_load_reduction_fraction": 0.355,
+          "kl_threshold": 0.001,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.390625,
+            "expert_loads": 600,
+            "tokens_with_any_load_fraction": 0.828125
+          }
+        },
+        {
+          "capacity_experts": 24,
+          "equivalent": {
+            "expert_load_fraction": 0.2955729166666667,
+            "expert_loads": 454,
+            "rerouted_token_fraction": 0.34375,
+            "selected_route_jaccard_mean": 0.8310267857142857,
+            "selected_route_kl_mean": 0.0002819326473399997,
+            "selected_route_kl_p95": 0.0018514638068154454,
+            "tokens_with_any_load_fraction": 0.50390625
+          },
+          "expert_load_reduction_fraction": 0.2433333333333333,
+          "kl_threshold": 0.003,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.390625,
+            "expert_loads": 600,
+            "tokens_with_any_load_fraction": 0.828125
+          }
+        },
+        {
+          "capacity_experts": 24,
+          "equivalent": {
+            "expert_load_fraction": 0.1953125,
+            "expert_loads": 300,
+            "rerouted_token_fraction": 0.7578125,
+            "selected_route_jaccard_mean": 0.6424107142857143,
+            "selected_route_kl_mean": 0.0006830243510194123,
+            "selected_route_kl_p95": 0.002343429485335946,
+            "tokens_with_any_load_fraction": 0.5546875
+          },
+          "expert_load_reduction_fraction": 0.5,
+          "kl_threshold": 0.003,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.390625,
+            "expert_loads": 600,
+            "tokens_with_any_load_fraction": 0.828125
+          }
+        },
+        {
+          "capacity_experts": 32,
+          "equivalent": {
+            "expert_load_fraction": 0.22200520833333334,
+            "expert_loads": 341,
+            "rerouted_token_fraction": 0.28125,
+            "selected_route_jaccard_mean": 0.8682291666666667,
+            "selected_route_kl_mean": 5.690216494258493e-05,
+            "selected_route_kl_p95": 0.0003716293431352824,
+            "tokens_with_any_load_fraction": 0.4765625
+          },
+          "expert_load_reduction_fraction": 0.2570806100217865,
+          "kl_threshold": 0.001,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.298828125,
+            "expert_loads": 459,
+            "tokens_with_any_load_fraction": 0.7421875
+          }
+        },
+        {
+          "capacity_experts": 32,
+          "equivalent": {
+            "expert_load_fraction": 0.17252604166666666,
+            "expert_loads": 265,
+            "rerouted_token_fraction": 0.5390625,
+            "selected_route_jaccard_mean": 0.7532552083333334,
+            "selected_route_kl_mean": 0.00013028140529058874,
+            "selected_route_kl_p95": 0.000765667762607336,
+            "tokens_with_any_load_fraction": 0.484375
+          },
+          "expert_load_reduction_fraction": 0.4226579520697168,
+          "kl_threshold": 0.001,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.298828125,
+            "expert_loads": 459,
+            "tokens_with_any_load_fraction": 0.7421875
+          }
+        },
+        {
+          "capacity_experts": 32,
+          "equivalent": {
+            "expert_load_fraction": 0.19791666666666666,
+            "expert_loads": 304,
+            "rerouted_token_fraction": 0.4296875,
+            "selected_route_jaccard_mean": 0.7891199945887446,
+            "selected_route_kl_mean": 0.0002981369325425476,
+            "selected_route_kl_p95": 0.0019467620877549052,
+            "tokens_with_any_load_fraction": 0.35546875
+          },
+          "expert_load_reduction_fraction": 0.33769063180827885,
+          "kl_threshold": 0.003,
+          "policy": "zero_miss_or_original",
+          "strict": {
+            "expert_load_fraction": 0.298828125,
+            "expert_loads": 459,
+            "tokens_with_any_load_fraction": 0.7421875
+          }
+        },
+        {
+          "capacity_experts": 32,
+          "equivalent": {
+            "expert_load_fraction": 0.11588541666666667,
+            "expert_loads": 178,
+            "rerouted_token_fraction": 0.72265625,
+            "selected_route_jaccard_mean": 0.6521949404761905,
+            "selected_route_kl_mean": 0.0005911836051382124,
+            "selected_route_kl_p95": 0.002262338763102889,
+            "tokens_with_any_load_fraction": 0.36328125
+          },
+          "expert_load_reduction_fraction": 0.6122004357298475,
+          "kl_threshold": 0.003,
+          "policy": "minimum_miss_equivalent",
+          "strict": {
+            "expert_load_fraction": 0.298828125,
+            "expert_loads": 459,
+            "tokens_with_any_load_fraction": 0.7421875
+          }
+        }
+      ]
+    },
+    "status": "complete",
+    "wall_seconds": 39.144148100000166
+  },
+  "schema_version": 1
+}

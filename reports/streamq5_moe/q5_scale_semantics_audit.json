@@ -1,0 +1,76 @@
+{
+  "aggregate": {
+    "different_bf16_values": 1090972,
+    "different_fraction": 0.13872426350911457,
+    "weights": 7864320
+  },
+  "cases": [
+    {
+      "codes_max": 15,
+      "codes_min": -15,
+      "different_bf16_values": 231643,
+      "different_fraction": 0.1472746580839157,
+      "expert": 0,
+      "layer": 0,
+      "max_abs": 0.0009765625,
+      "projection": "gate",
+      "relative_l2": 0.0025864774361252785,
+      "weights": 1572864
+    },
+    {
+      "codes_max": 15,
+      "codes_min": -15,
+      "different_bf16_values": 189043,
+      "different_fraction": 0.12019030749797821,
+      "expert": 127,
+      "layer": 0,
+      "max_abs": 0.0009765625,
+      "projection": "down",
+      "relative_l2": 0.0025667946320027113,
+      "weights": 1572864
+    },
+    {
+      "codes_max": 15,
+      "codes_min": -15,
+      "different_bf16_values": 223887,
+      "different_fraction": 0.14234352111816406,
+      "expert": 63,
+      "layer": 24,
+      "max_abs": 0.00048828125,
+      "projection": "up",
+      "relative_l2": 0.0025616977363824844,
+      "weights": 1572864
+    },
+    {
+      "codes_max": 15,
+      "codes_min": -15,
+      "different_bf16_values": 224873,
+      "different_fraction": 0.14297041296958923,
+      "expert": 0,
+      "layer": 47,
+      "max_abs": 0.00390625,
+      "projection": "down",
+      "relative_l2": 0.002581365406513214,
+      "weights": 1572864
+    },
+    {
+      "codes_max": 15,
+      "codes_min": -15,
+      "different_bf16_values": 221526,
+      "different_fraction": 0.14084243774414062,
+      "expert": 127,
+      "layer": 47,
+      "max_abs": 0.0009765625,
+      "projection": "gate",
+      "relative_l2": 0.0025658265221863985,
+      "weights": 1572864
+    }
+  ],
+  "inputs": {
+    "model_index_sha256": "df0d481ec595c55a0ba58426d517390c6214a566ec4ff1c8fc4bbce9f57b3c24",
+    "p0_evaluator_sha256": "4d909764e8b408c3dcd8d8cbfd0f4887b8283e1d54cac4f006947db1eaff990a"
+  },
+  "interpretation": "Compares the implemented FP32-scale-then-BF16 path with the preregistered BF16-stored-scale-then-BF16 path.",
+  "kind": "streamq5_moe_q5_scale_semantics_audit",
+  "status": "scale_semantics_mismatch"
+}

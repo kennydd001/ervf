@@ -1,0 +1,127 @@
+project: CORETAIL_MOE
+created_at: 2026-08-11
+updated_at: 2026-08-12
+status: closed_p2_quality_negative_verified
+claim_status: representation_and_microkernel_pass_deployable_eureka_falsified_by_quality
+source_pack: info/CORETAIL_MOE_AGENT_PACK_2026-08-11
+parents:
+  HERA_MOE: {status: static_tier_negative, immutable: true}
+  E2GQ_MOE: {status: representation_precondition_only}
+  FLEQ_MOE_GSQ: {status: falsified, immutable: true}
+hypothesis:
+  id: UNIVERSAL_TERNARY_CORE_SPARSE_EXACT_TAIL
+  statement: >-
+    Existing GPTQ codes can be represented exactly as a row-random-access
+    ternary core plus a block-random-access sparse q=-2 tail within the locked
+    physical memory gates.
+source_availability:
+  required_full_bank_experts: 6144
+  canonical_gptq_experts_present: 6144
+  missing_experts: 0
+  independent_source_checks: 21/21
+  substitution_with_rtn_forbidden: true
+phases:
+  P0A_LOCKED16_ACTUAL_FORMAT:
+    status: completed_verified
+    preregistration: reports/coretail_moe/P0A_LOCKED16_FORMAT_PREREGISTRATION.md
+    result: reports/coretail_moe/p0a_locked16_format_result.json
+    verification: reports/coretail_moe/p0a_locked16_format_verification.json
+  P0_FULL_BANK_ACTUAL_FORMAT:
+    status: completed_verified_pass
+    preregistration: reports/coretail_moe/P0_FULL_BANK_EXECUTION_PREREGISTRATION.md
+    result: reports/coretail_moe/p0_full_bank_format_result.json
+    verification: reports/coretail_moe/p0_full_bank_format_verification.json
+    independent_checks: 26/26
+  P1_FUSED_EXACT_KERNEL:
+    status: completed_verified_pass
+    preregistration: reports/coretail_moe/P1_FUSED_KERNEL_PREREGISTRATION.md
+    input_lock: reports/coretail_moe/p1_fused_kernel_input_lock.json
+    smoke: reports/coretail_moe/p1a_kernel_smoke_result.json
+    result: reports/coretail_moe/p1_full_benchmark_result.json
+    verification: reports/coretail_moe/p1_full_benchmark_verification.json
+    independent_checks: 13/13
+  P2_MODEL_QUALITY:
+    status: completed_verified_quality_closed
+    preregistration: reports/coretail_moe/P2_MODEL_QUALITY_PREREGISTRATION.md
+    input_lock: reports/coretail_moe/p2_input_lock.json
+    validation_result: reports/coretail_moe/p2_validation_model_quality.json
+    test_result: reports/coretail_moe/p2_test_model_quality.json
+    verification: reports/coretail_moe/p2_model_quality_verification.json
+    independent_checks: 55/55
+  P3_RANK8_REPAIR:
+    status: not_authorized_test_relative_ce_above_10_percent
+  P4_INTEGRATED_WALL_CLOCK:
+    status: not_authorized_by_p2_hard_stop
+outcome:
+  actual_full_bank_experts: 6144
+  actual_codes: 28991029248
+  actual_scale_elements: 226492416
+  actual_matrices: 18432
+  code_and_scale_reconstruction_exact: true
+  independent_checks: 26/26
+  measured_core_bytes: 6317056000
+  measured_tail_bytes: 908083200
+  measured_core_bpp: 1.743175365306713
+  measured_tail_bpp: 0.2505832248263889
+  measured_total_bpp: 1.9937585901331019
+  measured_full_bank_core_gib: 5.883216857910156
+  measured_full_bank_tail_gib: 0.8457183837890625
+  measured_resident_gib: 7.725844383239746
+  official_full_bank_p0_pass: true
+  official_p1_pass: true
+  p1_correct_matrix_cases: 72/72
+  p1_coretail_p50_gweights_per_second: 33.31915433702234
+  p1_coretail_p95_gweights_per_second: 30.73813070337942
+  p1_tail_h2d_p95_ms: 3.3143888115882874
+  p1_tail_runtime_p95_bytes_upper_bound: 74749072
+  p1_projected_expert_plus_tail_p50_ms: 57.624367952346816
+  p1_projected_expert_plus_tail_p95_ms: 62.26199839413168
+  p2_validation_primary_relative_ce: 0.35953357452361023
+  p2_test_primary_relative_ce: 0.4294251212443102
+  p2_test_primary_top1_agreement: 0.6181102395057678
+  p2_test_gptq_experts_bf16_trunk_relative_ce: 0.23762223189440976
+  p2_test_bf16_experts_int4_trunk_relative_ce: 0.11086518528508144
+  p2_test_gptq_experts_int8_trunk_relative_ce: 0.23757867320372336
+  official_p2_pass: false
+  p2_quality_closed: true
+  p2_independent_checks: 55/55
+  rank8_repair_authorized: false
+  integrated_wall_clock_authorized: false
+p0a_format:
+  core:
+    nonzero_bitmap: fixed_per_row_little_bit_order
+    signstream: packed_only_for_nonzeros_little_bit_order
+    scales: raw_bfloat16
+    row_offsets: uint32
+    header_bytes_per_matrix: 64
+  tail:
+    flags: q_minus_2_among_negative_core_entries
+    block_rows: 64
+    codec: zlib_level_9_or_raw_if_smaller
+    block_index_bytes: 32
+    checksum: crc32_each_block_and_record
+  matrix_record_alignment_bytes: 4096
+p0_full_bank_gates:
+  actual_core_gib_max: 5.95
+  actual_tail_gib_max: 0.90
+  bit_exact: true
+  resident_formula: core + int4_trunk + bf16_kv_4k + 0.75_runtime_reserve
+  reported_gpu_gib: 7.9599609375
+claim_boundary:
+  - P0 proves the complete physical representation, byte accounting, and bit-exact recovery on this Qwen bank.
+  - P1 proves the locked exact microkernel throughput and selected pinned-tail transfer, not an integrated full-model runtime.
+  - P2 proves that the exact GPTQ-expert plus INT4-trunk candidate fails the locked quality gate on validation and held-out test.
+  - The registered deployment-level Eureka is falsified; no end-to-end tokens-per-second claim is authorized.
+  - Broad cross-family generality remains unproven until a second MoE family passes.
+artifacts:
+  final_verdict: reports/coretail_moe/P0_FINAL_VERDICT.md
+  full_bank_report: reports/coretail_moe/P0_FULL_BANK_FORMAT_REPORT.md
+  full_bank_verification_report: reports/coretail_moe/P0_FULL_BANK_FORMAT_VERIFICATION.md
+  p1_report: reports/coretail_moe/P1_FULL_BENCHMARK_REPORT.md
+  p1_verification_report: reports/coretail_moe/P1_FULL_BENCHMARK_VERIFICATION.md
+  p1_final_verdict: reports/coretail_moe/P1_FINAL_VERDICT.md
+  p2_validation_report: reports/coretail_moe/P2_VALIDATION_MODEL_QUALITY.md
+  p2_test_report: reports/coretail_moe/P2_TEST_MODEL_QUALITY.md
+  p2_verification_report: reports/coretail_moe/P2_MODEL_QUALITY_VERIFICATION.md
+  p2_final_verdict: reports/coretail_moe/P2_FINAL_VERDICT.md
+  master_verdict: reports/coretail_moe/CORETAIL_MOE_FINAL_VERDICT.md

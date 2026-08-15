@@ -1,0 +1,667 @@
+{
+  "kind": "ergv_compiler_c0_cpu_verification",
+  "completed_utc": "2026-08-12T19:10:01.778505+00:00",
+  "overall_pass": true,
+  "tests_passed": 7,
+  "tests_total": 7,
+  "tests": [
+    {
+      "name": "exact_ir_invariants_and_source_partition",
+      "passed": true,
+      "detail": {
+        "q8_2048": "5482b90fc5789af295262202b2415714f15c41ae2467107e7d571cdbd055b00d",
+        "q8_4096": "64f1b8c4ad9692a463e7f171025260d0653d09957a02008c8e126a007c3a68e6",
+        "q5_2048": "ee14aac6d844675179280c729b818e46d67e7ffe8179236291425ff087cb807d",
+        "q5_768": "90e3e38e966d6a3a2e2958f965f7609ca830fb2fe936e23c04b53ff91552ed95"
+      },
+      "wall_ms": 5.4321000061463565
+    },
+    {
+      "name": "ordered_graph_isomorphism_q8_q5_all_widths",
+      "passed": true,
+      "detail": {
+        "q8_2048": {
+          "4": {
+            "rows_per_block": 64,
+            "virtual_accumulators_per_lane": 64,
+            "stage_node_counts": {
+              "lane_local": 252,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 3
+            }
+          },
+          "8": {
+            "rows_per_block": 32,
+            "virtual_accumulators_per_lane": 32,
+            "stage_node_counts": {
+              "lane_local": 248,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 7
+            }
+          },
+          "16": {
+            "rows_per_block": 16,
+            "virtual_accumulators_per_lane": 16,
+            "stage_node_counts": {
+              "lane_local": 240,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 15
+            }
+          },
+          "32": {
+            "rows_per_block": 8,
+            "virtual_accumulators_per_lane": 8,
+            "stage_node_counts": {
+              "lane_local": 224,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 31
+            }
+          },
+          "64": {
+            "rows_per_block": 4,
+            "virtual_accumulators_per_lane": 4,
+            "stage_node_counts": {
+              "lane_local": 192,
+              "cross_warp_shared": 32,
+              "warp_shuffle": 31
+            }
+          }
+        },
+        "q8_4096": {
+          "4": {
+            "rows_per_block": 64,
+            "virtual_accumulators_per_lane": 64,
+            "stage_node_counts": {
+              "lane_local": 252,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 3
+            }
+          },
+          "8": {
+            "rows_per_block": 32,
+            "virtual_accumulators_per_lane": 32,
+            "stage_node_counts": {
+              "lane_local": 248,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 7
+            }
+          },
+          "16": {
+            "rows_per_block": 16,
+            "virtual_accumulators_per_lane": 16,
+            "stage_node_counts": {
+              "lane_local": 240,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 15
+            }
+          },
+          "32": {
+            "rows_per_block": 8,
+            "virtual_accumulators_per_lane": 8,
+            "stage_node_counts": {
+              "lane_local": 224,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 31
+            }
+          },
+          "64": {
+            "rows_per_block": 4,
+            "virtual_accumulators_per_lane": 4,
+            "stage_node_counts": {
+              "lane_local": 192,
+              "cross_warp_shared": 32,
+              "warp_shuffle": 31
+            }
+          }
+        },
+        "q5_2048": {
+          "4": {
+            "rows_per_block": 64,
+            "virtual_accumulators_per_lane": 64,
+            "stage_node_counts": {
+              "lane_local": 252,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 3
+            }
+          },
+          "8": {
+            "rows_per_block": 32,
+            "virtual_accumulators_per_lane": 32,
+            "stage_node_counts": {
+              "lane_local": 248,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 7
+            }
+          },
+          "16": {
+            "rows_per_block": 16,
+            "virtual_accumulators_per_lane": 16,
+            "stage_node_counts": {
+              "lane_local": 240,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 15
+            }
+          },
+          "32": {
+            "rows_per_block": 8,
+            "virtual_accumulators_per_lane": 8,
+            "stage_node_counts": {
+              "lane_local": 224,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 31
+            }
+          },
+          "64": {
+            "rows_per_block": 4,
+            "virtual_accumulators_per_lane": 4,
+            "stage_node_counts": {
+              "lane_local": 192,
+              "cross_warp_shared": 32,
+              "warp_shuffle": 31
+            }
+          }
+        },
+        "q5_768": {
+          "4": {
+            "rows_per_block": 64,
+            "virtual_accumulators_per_lane": 64,
+            "stage_node_counts": {
+              "lane_local": 252,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 3
+            }
+          },
+          "8": {
+            "rows_per_block": 32,
+            "virtual_accumulators_per_lane": 32,
+            "stage_node_counts": {
+              "lane_local": 248,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 7
+            }
+          },
+          "16": {
+            "rows_per_block": 16,
+            "virtual_accumulators_per_lane": 16,
+            "stage_node_counts": {
+              "lane_local": 240,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 15
+            }
+          },
+          "32": {
+            "rows_per_block": 8,
+            "virtual_accumulators_per_lane": 8,
+            "stage_node_counts": {
+              "lane_local": 224,
+              "cross_warp_shared": 0,
+              "warp_shuffle": 31
+            }
+          },
+          "64": {
+            "rows_per_block": 4,
+            "virtual_accumulators_per_lane": 4,
+            "stage_node_counts": {
+              "lane_local": 192,
+              "cross_warp_shared": 32,
+              "warp_shuffle": 31
+            }
+          }
+        }
+      },
+      "wall_ms": 36.903000000165775
+    },
+    {
+      "name": "cpu_random_and_adversarial_bit_equality",
+      "passed": true,
+      "detail": {
+        "seed": 120842,
+        "input_vectors": 134,
+        "shapes": [
+          "q8_2048",
+          "q8_4096",
+          "q5_2048",
+          "q5_768"
+        ],
+        "widths": [
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "bitwise_comparisons": 2680
+      },
+      "wall_ms": 393.0840000102762
+    },
+    {
+      "name": "negative_semantic_mutations_rejected",
+      "passed": true,
+      "detail": {
+        "ordered_children_swapped": [
+          "accumulator identity mismatch at ref_acc_000",
+          "accumulator identity mismatch at ref_acc_128",
+          "accumulator identity mismatch at ref_acc_064",
+          "accumulator identity mismatch at ref_acc_192",
+          "accumulator identity mismatch at ref_acc_032",
+          "accumulator identity mismatch at ref_acc_160",
+          "accumulator identity mismatch at ref_acc_096",
+          "accumulator identity mismatch at ref_acc_224",
+          "accumulator identity mismatch at ref_acc_016",
+          "accumulator identity mismatch at ref_acc_144",
+          "accumulator identity mismatch at ref_acc_080",
+          "accumulator identity mismatch at ref_acc_208",
+          "accumulator identity mismatch at ref_acc_048",
+          "accumulator identity mismatch at ref_acc_176",
+          "accumulator identity mismatch at ref_acc_112",
+          "accumulator identity mismatch at ref_acc_240",
+          "accumulator identity mismatch at ref_acc_008",
+          "accumulator identity mismatch at ref_acc_136",
+          "accumulator identity mismatch at ref_acc_072",
+          "accumulator identity mismatch at ref_acc_200",
+          "accumulator identity mismatch at ref_acc_040",
+          "accumulator identity mismatch at ref_acc_168",
+          "accumulator identity mismatch at ref_acc_104",
+          "accumulator identity mismatch at ref_acc_232",
+          "accumulator identity mismatch at ref_acc_024",
+          "accumulator identity mismatch at ref_acc_152",
+          "accumulator identity mismatch at ref_acc_088",
+          "accumulator identity mismatch at ref_acc_216",
+          "accumulator identity mismatch at ref_acc_056",
+          "accumulator identity mismatch at ref_acc_184",
+          "accumulator identity mismatch at ref_acc_120",
+          "accumulator identity mismatch at ref_acc_248",
+          "accumulator identity mismatch at ref_acc_004",
+          "accumulator identity mismatch at ref_acc_132",
+          "accumulator identity mismatch at ref_acc_068",
+          "accumulator identity mismatch at ref_acc_196",
+          "accumulator identity mismatch at ref_acc_036",
+          "accumulator identity mismatch at ref_acc_164",
+          "accumulator identity mismatch at ref_acc_100",
+          "accumulator identity mismatch at ref_acc_228",
+          "accumulator identity mismatch at ref_acc_020",
+          "accumulator identity mismatch at ref_acc_148",
+          "accumulator identity mismatch at ref_acc_084",
+          "accumulator identity mismatch at ref_acc_212",
+          "accumulator identity mismatch at ref_acc_052",
+          "accumulator identity mismatch at ref_acc_180",
+          "accumulator identity mismatch at ref_acc_116",
+          "accumulator identity mismatch at ref_acc_244",
+          "accumulator identity mismatch at ref_acc_012",
+          "accumulator identity mismatch at ref_acc_140",
+          "accumulator identity mismatch at ref_acc_076",
+          "accumulator identity mismatch at ref_acc_204",
+          "accumulator identity mismatch at ref_acc_044",
+          "accumulator identity mismatch at ref_acc_172",
+          "accumulator identity mismatch at ref_acc_108",
+          "accumulator identity mismatch at ref_acc_236",
+          "accumulator identity mismatch at ref_acc_028",
+          "accumulator identity mismatch at ref_acc_156",
+          "accumulator identity mismatch at ref_acc_092",
+          "accumulator identity mismatch at ref_acc_220",
+          "accumulator identity mismatch at ref_acc_060",
+          "accumulator identity mismatch at ref_acc_188",
+          "accumulator identity mismatch at ref_acc_124",
+          "accumulator identity mismatch at ref_acc_252",
+          "accumulator identity mismatch at ref_acc_002",
+          "accumulator identity mismatch at ref_acc_130",
+          "accumulator identity mismatch at ref_acc_066",
+          "accumulator identity mismatch at ref_acc_194",
+          "accumulator identity mismatch at ref_acc_034",
+          "accumulator identity mismatch at ref_acc_162",
+          "accumulator identity mismatch at ref_acc_098",
+          "accumulator identity mismatch at ref_acc_226",
+          "accumulator identity mismatch at ref_acc_018",
+          "accumulator identity mismatch at ref_acc_146",
+          "accumulator identity mismatch at ref_acc_082",
+          "accumulator identity mismatch at ref_acc_210",
+          "accumulator identity mismatch at ref_acc_050",
+          "accumulator identity mismatch at ref_acc_178",
+          "accumulator identity mismatch at ref_acc_114",
+          "accumulator identity mismatch at ref_acc_242",
+          "accumulator identity mismatch at ref_acc_010",
+          "accumulator identity mismatch at ref_acc_138",
+          "accumulator identity mismatch at ref_acc_074",
+          "accumulator identity mismatch at ref_acc_202",
+          "accumulator identity mismatch at ref_acc_042",
+          "accumulator identity mismatch at ref_acc_170",
+          "accumulator identity mismatch at ref_acc_106",
+          "accumulator identity mismatch at ref_acc_234",
+          "accumulator identity mismatch at ref_acc_026",
+          "accumulator identity mismatch at ref_acc_154",
+          "accumulator identity mismatch at ref_acc_090",
+          "accumulator identity mismatch at ref_acc_218",
+          "accumulator identity mismatch at ref_acc_058",
+          "accumulator identity mismatch at ref_acc_186",
+          "accumulator identity mismatch at ref_acc_122",
+          "accumulator identity mismatch at ref_acc_250",
+          "accumulator identity mismatch at ref_acc_006",
+          "accumulator identity mismatch at ref_acc_134",
+          "accumulator identity mismatch at ref_acc_070",
+          "accumulator identity mismatch at ref_acc_198",
+          "accumulator identity mismatch at ref_acc_038",
+          "accumulator identity mismatch at ref_acc_166",
+          "accumulator identity mismatch at ref_acc_102",
+          "accumulator identity mismatch at ref_acc_230",
+          "accumulator identity mismatch at ref_acc_022",
+          "accumulator identity mismatch at ref_acc_150",
+          "accumulator identity mismatch at ref_acc_086",
+          "accumulator identity mismatch at ref_acc_214",
+          "accumulator identity mismatch at ref_acc_054",
+          "accumulator identity mismatch at ref_acc_182",
+          "accumulator identity mismatch at ref_acc_118",
+          "accumulator identity mismatch at ref_acc_246",
+          "accumulator identity mismatch at ref_acc_014",
+          "accumulator identity mismatch at ref_acc_142",
+          "accumulator identity mismatch at ref_acc_078",
+          "accumulator identity mismatch at ref_acc_206",
+          "accumulator identity mismatch at ref_acc_046",
+          "accumulator identity mismatch at ref_acc_174",
+          "accumulator identity mismatch at ref_acc_110",
+          "accumulator identity mismatch at ref_acc_238",
+          "accumulator identity mismatch at ref_acc_030",
+          "accumulator identity mismatch at ref_acc_158",
+          "accumulator identity mismatch at ref_acc_094",
+          "accumulator identity mismatch at ref_acc_222",
+          "accumulator identity mismatch at ref_acc_062",
+          "accumulator identity mismatch at ref_acc_190",
+          "accumulator identity mismatch at ref_acc_126",
+          "accumulator identity mismatch at ref_acc_254",
+          "accumulator identity mismatch at ref_acc_001",
+          "accumulator identity mismatch at ref_acc_129",
+          "accumulator identity mismatch at ref_acc_065",
+          "accumulator identity mismatch at ref_acc_193",
+          "accumulator identity mismatch at ref_acc_033",
+          "accumulator identity mismatch at ref_acc_161",
+          "accumulator identity mismatch at ref_acc_097",
+          "accumulator identity mismatch at ref_acc_225",
+          "accumulator identity mismatch at ref_acc_017",
+          "accumulator identity mismatch at ref_acc_145",
+          "accumulator identity mismatch at ref_acc_081",
+          "accumulator identity mismatch at ref_acc_209",
+          "accumulator identity mismatch at ref_acc_049",
+          "accumulator identity mismatch at ref_acc_177",
+          "accumulator identity mismatch at ref_acc_113",
+          "accumulator identity mismatch at ref_acc_241",
+          "accumulator identity mismatch at ref_acc_009",
+          "accumulator identity mismatch at ref_acc_137",
+          "accumulator identity mismatch at ref_acc_073",
+          "accumulator identity mismatch at ref_acc_201",
+          "accumulator identity mismatch at ref_acc_041",
+          "accumulator identity mismatch at ref_acc_169",
+          "accumulator identity mismatch at ref_acc_105",
+          "accumulator identity mismatch at ref_acc_233",
+          "accumulator identity mismatch at ref_acc_025",
+          "accumulator identity mismatch at ref_acc_153",
+          "accumulator identity mismatch at ref_acc_089",
+          "accumulator identity mismatch at ref_acc_217",
+          "accumulator identity mismatch at ref_acc_057",
+          "accumulator identity mismatch at ref_acc_185",
+          "accumulator identity mismatch at ref_acc_121",
+          "accumulator identity mismatch at ref_acc_249",
+          "accumulator identity mismatch at ref_acc_005",
+          "accumulator identity mismatch at ref_acc_133",
+          "accumulator identity mismatch at ref_acc_069",
+          "accumulator identity mismatch at ref_acc_197",
+          "accumulator identity mismatch at ref_acc_037",
+          "accumulator identity mismatch at ref_acc_165",
+          "accumulator identity mismatch at ref_acc_101",
+          "accumulator identity mismatch at ref_acc_229",
+          "accumulator identity mismatch at ref_acc_021",
+          "accumulator identity mismatch at ref_acc_149",
+          "accumulator identity mismatch at ref_acc_085",
+          "accumulator identity mismatch at ref_acc_213",
+          "accumulator identity mismatch at ref_acc_053",
+          "accumulator identity mismatch at ref_acc_181",
+          "accumulator identity mismatch at ref_acc_117",
+          "accumulator identity mismatch at ref_acc_245",
+          "accumulator identity mismatch at ref_acc_013",
+          "accumulator identity mismatch at ref_acc_141",
+          "accumulator identity mismatch at ref_acc_077",
+          "accumulator identity mismatch at ref_acc_205",
+          "accumulator identity mismatch at ref_acc_045",
+          "accumulator identity mismatch at ref_acc_173",
+          "accumulator identity mismatch at ref_acc_109",
+          "accumulator identity mismatch at ref_acc_237",
+          "accumulator identity mismatch at ref_acc_029",
+          "accumulator identity mismatch at ref_acc_157",
+          "accumulator identity mismatch at ref_acc_093",
+          "accumulator identity mismatch at ref_acc_221",
+          "accumulator identity mismatch at ref_acc_061",
+          "accumulator identity mismatch at ref_acc_189",
+          "accumulator identity mismatch at ref_acc_125",
+          "accumulator identity mismatch at ref_acc_253",
+          "accumulator identity mismatch at ref_acc_003",
+          "accumulator identity mismatch at ref_acc_131",
+          "accumulator identity mismatch at ref_acc_067",
+          "accumulator identity mismatch at ref_acc_195",
+          "accumulator identity mismatch at ref_acc_035",
+          "accumulator identity mismatch at ref_acc_163",
+          "accumulator identity mismatch at ref_acc_099",
+          "accumulator identity mismatch at ref_acc_227",
+          "accumulator identity mismatch at ref_acc_019",
+          "accumulator identity mismatch at ref_acc_147",
+          "accumulator identity mismatch at ref_acc_083",
+          "accumulator identity mismatch at ref_acc_211",
+          "accumulator identity mismatch at ref_acc_051",
+          "accumulator identity mismatch at ref_acc_179",
+          "accumulator identity mismatch at ref_acc_115",
+          "accumulator identity mismatch at ref_acc_243",
+          "accumulator identity mismatch at ref_acc_011",
+          "accumulator identity mismatch at ref_acc_139",
+          "accumulator identity mismatch at ref_acc_075",
+          "accumulator identity mismatch at ref_acc_203",
+          "accumulator identity mismatch at ref_acc_043",
+          "accumulator identity mismatch at ref_acc_171",
+          "accumulator identity mismatch at ref_acc_107",
+          "accumulator identity mismatch at ref_acc_235",
+          "accumulator identity mismatch at ref_acc_027",
+          "accumulator identity mismatch at ref_acc_155",
+          "accumulator identity mismatch at ref_acc_091",
+          "accumulator identity mismatch at ref_acc_219",
+          "accumulator identity mismatch at ref_acc_059",
+          "accumulator identity mismatch at ref_acc_187",
+          "accumulator identity mismatch at ref_acc_123",
+          "accumulator identity mismatch at ref_acc_251",
+          "accumulator identity mismatch at ref_acc_007",
+          "accumulator identity mismatch at ref_acc_135",
+          "accumulator identity mismatch at ref_acc_071",
+          "accumulator identity mismatch at ref_acc_199",
+          "accumulator identity mismatch at ref_acc_039",
+          "accumulator identity mismatch at ref_acc_167",
+          "accumulator identity mismatch at ref_acc_103",
+          "accumulator identity mismatch at ref_acc_231",
+          "accumulator identity mismatch at ref_acc_023",
+          "accumulator identity mismatch at ref_acc_151",
+          "accumulator identity mismatch at ref_acc_087",
+          "accumulator identity mismatch at ref_acc_215",
+          "accumulator identity mismatch at ref_acc_055",
+          "accumulator identity mismatch at ref_acc_183",
+          "accumulator identity mismatch at ref_acc_119",
+          "accumulator identity mismatch at ref_acc_247",
+          "accumulator identity mismatch at ref_acc_015",
+          "accumulator identity mismatch at ref_acc_143",
+          "accumulator identity mismatch at ref_acc_079",
+          "accumulator identity mismatch at ref_acc_207",
+          "accumulator identity mismatch at ref_acc_047",
+          "accumulator identity mismatch at ref_acc_175",
+          "accumulator identity mismatch at ref_acc_111",
+          "accumulator identity mismatch at ref_acc_239",
+          "accumulator identity mismatch at ref_acc_031",
+          "accumulator identity mismatch at ref_acc_159",
+          "accumulator identity mismatch at ref_acc_095",
+          "accumulator identity mismatch at ref_acc_223",
+          "accumulator identity mismatch at ref_acc_063",
+          "accumulator identity mismatch at ref_acc_191",
+          "accumulator identity mismatch at ref_acc_127",
+          "accumulator identity mismatch at ref_acc_255"
+        ],
+        "source_order_reversed": [
+          "source load order differs"
+        ],
+        "final_cast_changed": [
+          "final cast differs"
+        ],
+        "fma_policy_changed": [
+          "FMA policy differs"
+        ],
+        "lane_mapping_swapped": [
+          "virtual-to-physical lane mapping differs"
+        ],
+        "cross_warp_node_removed": [
+          "width 64 lacks the exact 32-node stride-32 cross-warp phase"
+        ]
+      },
+      "wall_ms": 13.745699980063364
+    },
+    {
+      "name": "mechanical_manual_p6b_p7_n1c_source_audit",
+      "passed": true,
+      "detail": {
+        "p6b_reference_markers": [
+          "__shared__ float reduction[256];",
+          "for (int stride = 128; stride > 0; stride >>= 1)",
+          "reduction[threadIdx.x] += reduction[threadIdx.x + stride]",
+          "round_bf16(reduction[0])"
+        ],
+        "p7_widths": [
+          8,
+          16,
+          32
+        ],
+        "n1c_widths": [
+          4,
+          8,
+          16,
+          32,
+          64
+        ]
+      },
+      "wall_ms": 0.5105999880470335
+    },
+    {
+      "name": "deterministic_q8_q5_cuda_codegen",
+      "passed": true,
+      "detail": {
+        "source_bytes": 14793,
+        "sha256": "b313eee9070a672a9dcfde2bf73c54ab0d9deb13dfc0a4ef2d0722b40006d532",
+        "families": [
+          "q8",
+          "q5"
+        ],
+        "widths": [
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "q5_shapes": [
+          2048,
+          768
+        ]
+      },
+      "wall_ms": 42.04299999400973
+    },
+    {
+      "name": "frozen_n1c_choices_representable",
+      "passed": true,
+      "detail": [
+        {
+          "family": "q8",
+          "projection": "head",
+          "width": 16,
+          "rows_per_block": 16
+        },
+        {
+          "family": "q8",
+          "projection": "k",
+          "width": 64,
+          "rows_per_block": 4
+        },
+        {
+          "family": "q8",
+          "projection": "o",
+          "width": 16,
+          "rows_per_block": 16
+        },
+        {
+          "family": "q8",
+          "projection": "q",
+          "width": 16,
+          "rows_per_block": 16
+        },
+        {
+          "family": "q8",
+          "projection": "router",
+          "width": 64,
+          "rows_per_block": 4
+        },
+        {
+          "family": "q8",
+          "projection": "v",
+          "width": 64,
+          "rows_per_block": 4
+        },
+        {
+          "family": "q5",
+          "projection": "gate_up",
+          "width": 8,
+          "rows_per_block": 32
+        },
+        {
+          "family": "q5",
+          "projection": "down",
+          "width": 8,
+          "rows_per_block": 32
+        }
+      ],
+      "wall_ms": 19.39860000857152
+    }
+  ],
+  "source_provenance": {
+    "preregistration_sha256": "d52316ad8e2fddd6a42e95b39dab39fb3b429abc93dc06e3821ab64acd985cf3",
+    "compiler_sha256": "6b87e672f392cee34b729726c69a75ab58520440bd5ab20e90bac5be015555c2",
+    "test_runner_sha256": "4fc4c9f12d06a8483083437b81b7a39fe0bcf09a1529bf5e896bde88cfee38ab",
+    "p6b_source_sha256": "67762ca6d58c01b8eb5aa8fbb60de0aa234321585a9a5376758eb0cf018b59c0",
+    "manual_p7_source_sha256": "2248c05b9a8da3b9ab58dab779dabeb5fe1c453c04626230d0c6eeca1f62cba8",
+    "n1c_source_sha256": "fe15d817ee68839986a9b39cbffcb3538ae998ffb35a2c98e6b42a4b68dad5f4"
+  },
+  "protocol": {
+    "seed": 120842,
+    "families": [
+      "q8",
+      "q5"
+    ],
+    "columns": {
+      "q8": [
+        2048,
+        4096
+      ],
+      "q5": [
+        2048,
+        768
+      ]
+    },
+    "widths": [
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "reduction_strides": [
+      128,
+      64,
+      32,
+      16,
+      8,
+      4,
+      2,
+      1
+    ],
+    "gpu_compilation_or_timing": false
+  },
+  "wall_seconds": 0.5611060000082944,
+  "claim_boundary": "Restricted IR/codegen CPU proof only; no generated GPU compilation, real-weight equality, performance, second architecture, public baseline, or novelty claim."
+}

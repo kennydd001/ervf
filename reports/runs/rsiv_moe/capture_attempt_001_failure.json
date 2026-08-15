@@ -1,0 +1,15 @@
+{
+  "attempt": 1,
+  "completed_utc": "2026-08-11T07:33:58.3858558Z",
+  "error_type": "RuntimeError",
+  "failure_stage": "layer_1_additional_official_mlp_fallback_regression",
+  "hypothesis_impact": "none",
+  "measurement_changes": "none",
+  "message": "Inference tensors cannot be saved for backward; the additional official MLP control call was outside torch.inference_mode().",
+  "outputs_written": {
+    "reports/rsiv_moe/routed_subspace_capture.json": false,
+    "reports/runs/rsiv_moe/routed_subspace_pilot.safetensors": false
+  },
+  "resolution": "Wrap only the repeated official MLP control call in torch.inference_mode() and rerun the unchanged preregistration.",
+  "status": "invalid_implementation_attempt_preserved"
+}

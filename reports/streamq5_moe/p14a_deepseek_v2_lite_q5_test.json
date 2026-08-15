@@ -1,0 +1,321 @@
+{
+  "kind": "streamq5_moe_p14a_deepseek_v2_lite_q5_replication",
+  "completed_utc": "2026-08-12T15:52:02.473216+00:00",
+  "split": "test",
+  "status": "quality_pass",
+  "inputs": {
+    "preregistration_sha256": "927aa783dae64e6e70efd422cbb62c749b045342344405a109748989638a3ff5",
+    "input_lock_sha256": "b26f95780d8a57077866bc65121122333bc97ae4731dd731681fea17cc75342f",
+    "input_artifact_sha256": "686ea080babfc76fd3a1fd1d4700bd785f2afc4d5426843dcc59bcf222bc6778",
+    "model_index_sha256": "d2cdb2f325f6682cf3ad1ad2526a9f979d857390b579380c0331d975136e0acf"
+  },
+  "semantics": "per-row symmetric Q5; FP32 code selection; BF16 stored scale; routed experts only",
+  "teacher": {
+    "next_token_cross_entropy": 2.3281917572021484,
+    "teacher_next_token_cross_entropy": 2.3281917572021484,
+    "next_token_cross_entropy_delta": 0.0,
+    "relative_cross_entropy_increase": 0.0,
+    "top1_token_agreement": 1.0,
+    "teacher_to_student_kl_mean": 0.0,
+    "teacher_to_student_kl_p95": 0.0,
+    "logits": {
+      "nrmse": 0.0,
+      "cosine": 0.9999998807907104,
+      "mae": 0.0,
+      "max_abs_error": 0.0
+    }
+  },
+  "q5": {
+    "next_token_cross_entropy": 2.36295747756958,
+    "teacher_next_token_cross_entropy": 2.3281917572021484,
+    "next_token_cross_entropy_delta": 0.03476572036743164,
+    "relative_cross_entropy_increase": 0.014932498335838318,
+    "top1_token_agreement": 0.94921875,
+    "teacher_to_student_kl_mean": 0.015965279191732407,
+    "teacher_to_student_kl_p95": 0.05013871565461159,
+    "logits": {
+      "nrmse": 0.07139518857002258,
+      "cosine": 0.9976258873939514,
+      "mae": 0.2434571385383606,
+      "max_abs_error": 17.625
+    }
+  },
+  "logit_error": {
+    "nrmse": 0.07139518857002258,
+    "cosine": 0.9976258873939514,
+    "mae": 0.2434571385383606,
+    "max_abs_error": 17.625
+  },
+  "median_route_overlap": 0.9674479365348816,
+  "layers": [
+    {
+      "layer": 1,
+      "hidden_error": {
+        "relative_l2": 0.024898460134863853,
+        "max_abs": 0.05078125,
+        "finite": true
+      },
+      "route_overlap": 1.0,
+      "seconds": 2.741506799997296
+    },
+    {
+      "layer": 2,
+      "hidden_error": {
+        "relative_l2": 0.04129696264863014,
+        "max_abs": 0.1328125,
+        "finite": true
+      },
+      "route_overlap": 0.990234375,
+      "seconds": 2.2819852999818977
+    },
+    {
+      "layer": 3,
+      "hidden_error": {
+        "relative_l2": 0.04096514359116554,
+        "max_abs": 16.0,
+        "finite": true
+      },
+      "route_overlap": 0.9876302083333334,
+      "seconds": 2.2350472999969497
+    },
+    {
+      "layer": 4,
+      "hidden_error": {
+        "relative_l2": 0.041005510836839676,
+        "max_abs": 16.0,
+        "finite": true
+      },
+      "route_overlap": 0.9856770833333334,
+      "seconds": 2.245937800005777
+    },
+    {
+      "layer": 5,
+      "hidden_error": {
+        "relative_l2": 0.04206082224845886,
+        "max_abs": 20.0,
+        "finite": true
+      },
+      "route_overlap": 0.9765625,
+      "seconds": 2.191564600012498
+    },
+    {
+      "layer": 6,
+      "hidden_error": {
+        "relative_l2": 0.041619203984737396,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.98046875,
+      "seconds": 2.19868359999964
+    },
+    {
+      "layer": 7,
+      "hidden_error": {
+        "relative_l2": 0.041561733931303024,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.9752604166666666,
+      "seconds": 2.2295188999851234
+    },
+    {
+      "layer": 8,
+      "hidden_error": {
+        "relative_l2": 0.04153166711330414,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.9765625,
+      "seconds": 2.1422553000156768
+    },
+    {
+      "layer": 9,
+      "hidden_error": {
+        "relative_l2": 0.04154838249087334,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.9700520833333334,
+      "seconds": 2.100961499992991
+    },
+    {
+      "layer": 10,
+      "hidden_error": {
+        "relative_l2": 0.0415675975382328,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.9791666666666666,
+      "seconds": 2.138035599986324
+    },
+    {
+      "layer": 11,
+      "hidden_error": {
+        "relative_l2": 0.04146252200007439,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.970703125,
+      "seconds": 2.1122178999939933
+    },
+    {
+      "layer": 12,
+      "hidden_error": {
+        "relative_l2": 0.041485194116830826,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.9720052083333334,
+      "seconds": 2.0849100000050385
+    },
+    {
+      "layer": 13,
+      "hidden_error": {
+        "relative_l2": 0.04153649881482124,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.9615885416666666,
+      "seconds": 2.1169418999925256
+    },
+    {
+      "layer": 14,
+      "hidden_error": {
+        "relative_l2": 0.041689563542604446,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.9674479166666666,
+      "seconds": 2.105100799992215
+    },
+    {
+      "layer": 15,
+      "hidden_error": {
+        "relative_l2": 0.04191705584526062,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.96484375,
+      "seconds": 2.13887959998101
+    },
+    {
+      "layer": 16,
+      "hidden_error": {
+        "relative_l2": 0.04227009788155556,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.9576822916666666,
+      "seconds": 2.1646988000138663
+    },
+    {
+      "layer": 17,
+      "hidden_error": {
+        "relative_l2": 0.042576588690280914,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.9680989583333334,
+      "seconds": 2.2038063000072725
+    },
+    {
+      "layer": 18,
+      "hidden_error": {
+        "relative_l2": 0.042840857058763504,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.9544270833333334,
+      "seconds": 2.283487300010165
+    },
+    {
+      "layer": 19,
+      "hidden_error": {
+        "relative_l2": 0.043589022010564804,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.958984375,
+      "seconds": 2.216790700011188
+    },
+    {
+      "layer": 20,
+      "hidden_error": {
+        "relative_l2": 0.04431341588497162,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.9524739583333334,
+      "seconds": 2.2066921000077855
+    },
+    {
+      "layer": 21,
+      "hidden_error": {
+        "relative_l2": 0.04546787589788437,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.9596354166666666,
+      "seconds": 2.324092599999858
+    },
+    {
+      "layer": 22,
+      "hidden_error": {
+        "relative_l2": 0.046592097729444504,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.947265625,
+      "seconds": 2.1688448000058997
+    },
+    {
+      "layer": 23,
+      "hidden_error": {
+        "relative_l2": 0.0485389344394207,
+        "max_abs": 24.0,
+        "finite": true
+      },
+      "route_overlap": 0.955078125,
+      "seconds": 2.2182646000001114
+    },
+    {
+      "layer": 24,
+      "hidden_error": {
+        "relative_l2": 0.08585350215435028,
+        "max_abs": 48.0,
+        "finite": true
+      },
+      "route_overlap": 0.9622395833333334,
+      "seconds": 2.2633586000010837
+    },
+    {
+      "layer": 25,
+      "hidden_error": {
+        "relative_l2": 0.1051885113120079,
+        "max_abs": 26.0,
+        "finite": true
+      },
+      "route_overlap": 0.9635416666666666,
+      "seconds": 2.20163950001006
+    },
+    {
+      "layer": 26,
+      "hidden_error": {
+        "relative_l2": 0.09388376027345657,
+        "max_abs": 104.0,
+        "finite": true
+      },
+      "route_overlap": 0.9674479166666666,
+      "seconds": 2.2580801000003703
+    }
+  ],
+  "gates": {
+    "finite": true,
+    "all_26_moe_layers": true,
+    "relative_ce_le_2pct": true,
+    "median_route_overlap_ge_95pct": true
+  },
+  "overall_pass": true,
+  "runtime_seconds": 63.07311239998671,
+  "claim_boundary": "Full-depth DeepSeek-V2-Lite Q5 routed-expert quality only; reused historical test split is corroborative; no physical bank, cache, kernel or speed claim."
+}

@@ -1,0 +1,22 @@
+{
+  "kind": "qwen_gptq_bank_p0_batched_equivalence_lock",
+  "locked_utc": "2026-08-11T17:52:06.0914663Z",
+  "opened_quantized_outputs_before_lock": false,
+  "layers": {
+    "0": [0, 127],
+    "13": [0, 99],
+    "26": [0, 103],
+    "43": [0, 95],
+    "47": [0, 127]
+  },
+  "matrix_tests": [
+    "gate_official_separate_vs_batched",
+    "up_official_separate_vs_batched",
+    "down_official_separate_vs_batched",
+    "gate_and_up_concatenated_rows_vs_separate_official"
+  ],
+  "required_experts": 10,
+  "required_independent_matrices": 30,
+  "pass_rule": "integer codes and BF16 scale bits must be exactly equal for every matrix",
+  "failure_action": "forbid accelerated producer and fall back to pinned official per-matrix GPTQ"
+}

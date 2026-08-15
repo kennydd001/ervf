@@ -1,0 +1,208 @@
+{
+  "all_finite": true,
+  "artifact": "reports/runs/fleq_moe/p1/layer_47_expert_015.safetensors",
+  "artifact_sha256": "92a28fd07f5edcef49e8782fa3003cb1a12874f431e485fb280dd9d7a74a387a",
+  "calibration_rows": 273,
+  "code_summaries": {
+    "gptq_2bit": {
+      "down": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 364318,
+          "-2": 98900,
+          "0": 669731,
+          "1": 439915
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "gate": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 375585,
+          "-2": 98522,
+          "0": 651075,
+          "1": 447682
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "up": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 378193,
+          "-2": 98730,
+          "0": 645061,
+          "1": 450880
+        },
+        "scales": 12288,
+        "weights": 1572864
+      }
+    },
+    "gsq_2bit": {
+      "down": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 364914,
+          "-2": 103223,
+          "0": 662220,
+          "1": 442507
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "gate": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 375811,
+          "-2": 102981,
+          "0": 644137,
+          "1": 449935
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "up": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 378212,
+          "-2": 103276,
+          "0": 638297,
+          "1": 453079
+        },
+        "scales": 12288,
+        "weights": 1572864
+      }
+    }
+  },
+  "completed_utc": "2026-08-11T11:49:19.752996+00:00",
+  "elapsed_seconds": 44.568738800000574,
+  "expert": 15,
+  "fallback_bit_exact": true,
+  "gsq_losses": [
+    7.097306251525879,
+    7.605930805206299,
+    6.165494918823242,
+    4.648845195770264,
+    3.8246757984161377,
+    2.8751070499420166,
+    2.6385879516601562,
+    2.872699737548828,
+    2.728524684906006,
+    2.097052574157715,
+    2.475876808166504,
+    2.1581530570983887,
+    2.0741043090820312,
+    2.5879697799682617,
+    3.6748900413513184,
+    2.1042709350585938,
+    2.2408218383789062,
+    1.6155016422271729,
+    1.492032766342163,
+    1.9019696712493896,
+    1.9364519119262695,
+    1.3952537775039673,
+    1.5838298797607422,
+    1.7052850723266602,
+    1.3200833797454834,
+    1.5176265239715576,
+    1.8578040599822998,
+    1.9197665452957153,
+    1.5908658504486084,
+    1.3151137828826904,
+    2.067573070526123,
+    1.7341481447219849,
+    1.4230695962905884,
+    1.8696763515472412,
+    1.842469334602356,
+    1.7694069147109985,
+    1.9532780647277832,
+    1.9070696830749512,
+    1.5359364748001099,
+    1.8127249479293823
+  ],
+  "heldout_gsq_improvement_over_gptq": -1.6373347533184328,
+  "heldout_rows": 299,
+  "kind": "fleq_moe_p1_expert_result",
+  "layer": 47,
+  "metrics": {
+    "gptq_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9981736540794373,
+        "relative_l2": 0.060179453343153,
+        "relative_row_p50": 0.05909225717186928,
+        "relative_row_p95": 0.08329639583826065,
+        "router_weighted_relative_mse": 0.003616453381255269,
+        "rows": 273
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9925673604011536,
+        "relative_l2": 0.13367880880832672,
+        "relative_row_p50": 0.11876741796731949,
+        "relative_row_p95": 0.22406712174415588,
+        "router_weighted_relative_mse": 0.017937548458576202,
+        "rows": 299
+      }
+    },
+    "gsq_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9826000928878784,
+        "relative_l2": 0.1975213885307312,
+        "relative_row_p50": 0.18885399401187897,
+        "relative_row_p95": 0.23612897098064423,
+        "router_weighted_relative_mse": 0.03866264969110489,
+        "rows": 273
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9775304794311523,
+        "relative_l2": 0.21772006154060364,
+        "relative_row_p50": 0.2087625414133072,
+        "relative_row_p95": 0.2828435003757477,
+        "router_weighted_relative_mse": 0.047307319939136505,
+        "rows": 299
+      }
+    },
+    "rtn_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9239349961280823,
+        "relative_l2": 0.5058853030204773,
+        "relative_row_p50": 0.5042293667793274,
+        "relative_row_p95": 0.543724000453949,
+        "router_weighted_relative_mse": 0.25530028343200684,
+        "rows": 273
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9241380095481873,
+        "relative_l2": 0.507815420627594,
+        "relative_row_p50": 0.5053853392601013,
+        "relative_row_p95": 0.55996173620224,
+        "router_weighted_relative_mse": 0.2563978135585785,
+        "rows": 299
+      }
+    }
+  },
+  "original_weight_sha256": {
+    "down": "85336a1bbdc298253ded3920c94d4f8ebedb61486a126239e29722c9826b5806",
+    "gate": "5cb07cecab9eb7e3bf9a8889a96138489db3723b8de2e739b18ee400eac33407",
+    "up": "3b60406225f7cdccb65cb7f404547ad2dd9d21afd73a69789bd5647a1f6ccf8e"
+  },
+  "peak_cuda_allocated_bytes": 320258048,
+  "peak_cuda_reserved_bytes": 354418688,
+  "process_rss_peak_observed_bytes": 2321129472,
+  "repeat_exact": null,
+  "repeat_losses": null,
+  "repeat_required": false,
+  "selection_lock_sha256": "99038787f6aee75f18db40c7dd879bd090ffbe4dc659bc07143b2b8f77e26257"
+}

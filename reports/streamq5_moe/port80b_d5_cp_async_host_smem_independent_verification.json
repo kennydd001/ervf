@@ -1,0 +1,286 @@
+{
+  "kind": "port80b_d5_cp_async_host_smem_independent_verification",
+  "completed_utc": "2026-08-12T21:36:30.653302+00:00",
+  "cpu_only": true,
+  "gpu_context_opened": false,
+  "independent_verdict": "verified_strong_transport_component_pass",
+  "all_replayable_checks_pass": true,
+  "input_hashes": {
+    "preregistration_sha256": "b10b284459daa6b1b1c120f0efe00b569bcbb546bc6dd362d7fb594d41351871",
+    "evaluator_sha256": "81c662ec1816ddd4754f08a2a560a494ec18421c8ff1f819043cfaaddca25fcd",
+    "manifest_sha256": "466250b39c5f28c8b5b2f7432904100adf8c9e8c246c860a233cdf4b9aeb412c",
+    "result_sha256": "3162179bda0b68d7a7b6fd1341bff6b97c934944cd09f74e3ff6215446deeb76",
+    "source_report_sha256": "8eb7d61f10cb0621164ccd2019def6c74c921b709c7131dd84f138792672c75c",
+    "current_d2_dependency_sha256": "20ce962d3196095354688f3bc6cdc378c6351d0dc21f054a57ad46dec5f7d616",
+    "cuda_pipeline_header_sha256": "aacbf316553e1a34a8f13398ec720846f41cebb70fdedb7fdc97aa0093932262"
+  },
+  "verifier_sha256": "8c87aee8c33a3cf70a8f3ea82375e7a42a9e5e5b0f44d295ae4cfd48c1428562",
+  "full_bank_sha256": "4a97af22833b239badc065d9c065ca259c791a84218640946d68c4e72e034462",
+  "replayable_groups": {
+    "provenance": true,
+    "protocol_and_include": true,
+    "validation_stats": true,
+    "splits_selection_orders": true,
+    "test_stats_bandwidth": true,
+    "gates": true,
+    "result_level": true,
+    "source_structure": true
+  },
+  "provenance_checks": {
+    "preregistration_sha": true,
+    "evaluator_sha": true,
+    "manifest_sha": true,
+    "bank_sha_from_manifest": true,
+    "manifest_bank_sha": true,
+    "full_bank_sha_recomputed": true,
+    "bank_size": true,
+    "source_report_status": true,
+    "current_d2_dependency_matches_its_d2_run": true,
+    "cuda_pipeline_header_exists": true
+  },
+  "protocol_checks": {
+    "result_protocol_exact": true,
+    "record_geometry": true,
+    "token_geometry": true,
+    "prereg_geometry_present": true,
+    "source_uses_cuda_pipeline_header": true,
+    "source_has_explicit_bundled_include_path": true,
+    "source_uses_pipeline_memcpy_async_16": true,
+    "source_commits_and_waits": true,
+    "source_writes_uint4_oracle": true,
+    "source_is_not_tma": true,
+    "source_has_no_stdint_dependency": true,
+    "no_fallback_or_emulation_arm": true
+  },
+  "validation_stats": {
+    "256": {
+      "count": 16,
+      "mean": 43.18884205818176,
+      "p50": 43.11124801635742,
+      "p95": 43.926655769348145,
+      "p99": 44.062668800354004,
+      "min": 42.74729537963867,
+      "max": 44.09667205810547
+    },
+    "512": {
+      "count": 16,
+      "mean": 43.29698371887207,
+      "p50": 43.156991958618164,
+      "p95": 43.88257694244385,
+      "p99": 44.0551836013794,
+      "min": 42.85939025878906,
+      "max": 44.09833526611328
+    },
+    "1024": {
+      "count": 16,
+      "mean": 43.149927854537964,
+      "p50": 43.06422424316406,
+      "p95": 43.47603988647461,
+      "p99": 43.57290267944336,
+      "min": 42.858558654785156,
+      "max": 43.59711837768555
+    },
+    "2048": {
+      "count": 16,
+      "mean": 43.21461224555969,
+      "p50": 43.17134475708008,
+      "p95": 43.7765588760376,
+      "p99": 43.997551155090335,
+      "min": 42.94124984741211,
+      "max": 44.052799224853516
+    }
+  },
+  "validation_stat_checks": {
+    "256": {
+      "16_finite_samples": true,
+      "stored_stats": {
+        "count": true,
+        "mean": true,
+        "p50": true,
+        "p95": true,
+        "p99": true,
+        "min": true,
+        "max": true
+      }
+    },
+    "512": {
+      "16_finite_samples": true,
+      "stored_stats": {
+        "count": true,
+        "mean": true,
+        "p50": true,
+        "p95": true,
+        "p99": true,
+        "min": true,
+        "max": true
+      }
+    },
+    "1024": {
+      "16_finite_samples": true,
+      "stored_stats": {
+        "count": true,
+        "mean": true,
+        "p50": true,
+        "p95": true,
+        "p99": true,
+        "min": true,
+        "max": true
+      }
+    },
+    "2048": {
+      "16_finite_samples": true,
+      "stored_stats": {
+        "count": true,
+        "mean": true,
+        "p50": true,
+        "p95": true,
+        "p99": true,
+        "min": true,
+        "max": true
+      }
+    }
+  },
+  "split_selection_order_checks": {
+    "correctness_token_disjoint": true,
+    "validation_tokens_exact": true,
+    "test_tokens_exact": true,
+    "validation_test_disjoint": true,
+    "orders_exact": true,
+    "four_orders_each_four_times": true,
+    "position_counts_match_frozen_algorithm": true,
+    "selected_1024": true,
+    "validation_open": true
+  },
+  "order_counts": {
+    "256/512/1024/2048": 4,
+    "256/2048/1024/512": 4,
+    "1024/512/256/2048": 4,
+    "1024/2048/256/512": 4
+  },
+  "position_counts": {
+    "256": [
+      8,
+      0,
+      8,
+      0
+    ],
+    "512": [
+      0,
+      8,
+      0,
+      8
+    ],
+    "1024": [
+      8,
+      0,
+      8,
+      0
+    ],
+    "2048": [
+      0,
+      8,
+      0,
+      8
+    ]
+  },
+  "order_balance_finding": "The exact four-schedule rotate/reverse algorithm is not position-balanced: 256/1024 occur eight times in positions 0 and 2, while 512/2048 occur eight times in positions 1 and 3.",
+  "selected_blocks": 1024,
+  "validation_open": true,
+  "test_stats": {
+    "count": 120,
+    "mean": 43.219528675079346,
+    "p50": 43.15483093261719,
+    "p95": 43.70845546722412,
+    "p99": 44.228420143127444,
+    "min": 42.807071685791016,
+    "max": 44.78358459472656
+  },
+  "numeric_checks": {
+    "test_120_finite": true,
+    "test_stats": {
+      "count": true,
+      "mean": true,
+      "p50": true,
+      "p95": true,
+      "p99": true,
+      "min": true,
+      "max": true
+    },
+    "effective_bandwidth": true
+  },
+  "effective_gb_s_at_p95": 22.265934350615193,
+  "recomputed_gates": {
+    "full_destination_zero_mismatches": true,
+    "test_120_finite": true,
+    "test_p95_le_65ms": true,
+    "effective_gb_s_at_p95_ge_15": true,
+    "strong_test_p95_le_45ms": true,
+    "strong_effective_gb_s_at_p95_ge_21_627": true,
+    "registration_48_ranges": true,
+    "no_cuda_or_runner_error": true
+  },
+  "gate_checks": {
+    "full_destination_zero_mismatches": true,
+    "test_120_finite": true,
+    "test_p95_le_65ms": true,
+    "effective_gb_s_at_p95_ge_15": true,
+    "strong_test_p95_le_45ms": true,
+    "strong_effective_gb_s_at_p95_ge_21_627": true,
+    "registration_48_ranges": true,
+    "no_cuda_or_runner_error": true
+  },
+  "result_level_checks": {
+    "mechanism_pass": true,
+    "strong_pass": true,
+    "status": true,
+    "full_bank_pass_explicit_false": true,
+    "error_null": true,
+    "unregister_failures_empty": true
+  },
+  "margin_arithmetic": {
+    "test_p95_ms": 43.70845546722412,
+    "p95_margin_below_65_ms": 21.29154453277588,
+    "p95_margin_below_45_ms": 1.2915445327758803,
+    "strong_latency_margin_fraction_of_limit": 0.028700989617241768,
+    "effective_gb_s_at_p95": 22.265934350615193,
+    "bandwidth_margin_over_15": 7.265934350615193,
+    "bandwidth_margin_over_21_627": 0.6389343506151945,
+    "strong_bandwidth_margin_fraction_of_limit": 0.029543364803957806,
+    "max_sample_below_45_ms": true,
+    "max_sample_margin_ms": 0.2164154052734375
+  },
+  "source_structural_verification": {
+    "token": 89999,
+    "selected_records": 480,
+    "unique_ten_per_layer": true,
+    "all_inside_307_prefix": true,
+    "checked_bytes": 973209600,
+    "structural_mismatch_count": 0,
+    "ordered_source_sha256": "b838cf9828222d00a338b09886dd63e6b281bf8a60771fedce6784f7e474a351"
+  },
+  "byte_mismatch_evidence_boundary": {
+    "stored_gpu_mismatch_scalar_zero": true,
+    "destination_hash_saved": false,
+    "destination_buffer_saved": false,
+    "source_all_973209600_bytes_cpu_verified": true,
+    "full_gpu_destination_cpu_replayable": false
+  },
+  "dependency_provenance_boundary": {
+    "d5_result_records_d2_dependency_hash": false,
+    "d5_imports_routes_stats_unregister_and_verify_source_from_d2": true,
+    "current_d2_runner_matches_preserved_d2_evaluator_hash": true,
+    "interpretation": "Current dependency provenance is consistent, but the D5 JSON does not pin the imported D2 module hash. A future source change could make the evaluator dependency ambiguous."
+  },
+  "full_bank_and_claim_boundary": {
+    "registered_prefix_experts_per_layer": 307,
+    "registered_prefix_fraction": 0.599609375,
+    "registered_prefix_bytes": 29877534720,
+    "registered_prefix_gib": 27.82562255859375,
+    "full_bank_pass": false,
+    "full_bank_not_executed": true,
+    "no_q5_math": true,
+    "no_tma_descriptor": true,
+    "no_real_model_or_end_to_end_tps": true,
+    "no_endurance_or_page_telemetry": true
+  }
+}

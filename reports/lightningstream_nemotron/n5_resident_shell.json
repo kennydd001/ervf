@@ -1,0 +1,192 @@
+{
+  "kind": "lightningstream_nemotron_n5_resident_shell",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "N5_PHYSICAL_RESIDENT_SHELL",
+  "started_utc": "2026-08-14T14:44:36.948640+00:00",
+  "completed_utc": "2026-08-14T14:44:42.560071+00:00",
+  "runner_sha256": "da1c1f6294dc3dba7d8d1162eb3b55648cbdb85a7180978c8e389b33a125a6dd",
+  "cupy_version": "14.1.1",
+  "device_total_bytes": 8546484224,
+  "free_without_context": 7385120768,
+  "cuda_context_overhead_bytes": 2097152,
+  "allocations_touched": true,
+  "measurement_source": "cuMemGetInfo driver query, not allocator bookkeeping",
+  "inventory": {
+    "routed_tensor_count": 23552,
+    "routed_bytes": 16523376640,
+    "shell_tensor_count": 595,
+    "shell_bytes": 2816404992,
+    "embeddings_bytes": 704643072,
+    "lm_head_bytes": 704643072,
+    "total_bytes": 19339781632
+  },
+  "constants": {
+    "expert_staging_bytes": 774533280,
+    "mamba_state_bytes": 49364992,
+    "kv_bytes_per_token": 3072,
+    "contexts_tested": [
+      4096,
+      131072
+    ]
+  },
+  "variants": {
+    "A_embed_device_head_device": {
+      "placement": {
+        "embed": "device",
+        "head": "device"
+      },
+      "tensors_uploaded": 595,
+      "uploaded_bytes": 2816404992,
+      "host_resident_shell_bytes": 0,
+      "expert_staging_bytes": 774533280,
+      "mamba_state_bytes": 49364992,
+      "kv_by_context": {
+        "4096": {
+          "kv_bytes": 12582912,
+          "free_after_kv": 3603955712,
+          "free_mib": 3437.0,
+          "fits": true,
+          "free_after_release": 3616538624
+        },
+        "131072": {
+          "kv_bytes": 402653184,
+          "free_after_kv": 3213885440,
+          "free_mib": 3065.0,
+          "fits": true,
+          "free_after_release": 3616538624
+        }
+      },
+      "kv_held_bytes": 402653184,
+      "free_before": 7385120768,
+      "free_after_weights": 4442816512,
+      "free_after_runtime": 3616538624,
+      "free_after_all": 3213885440,
+      "device_used_bytes": 4171235328,
+      "device_used_gib": 3.8848,
+      "peak_total_device_bytes": 5332598784,
+      "peak_total_device_gib": 4.9664,
+      "free_headroom_bytes": 3213885440,
+      "free_headroom_mib": 3065.0,
+      "fits": true,
+      "error": null
+    },
+    "B_embed_host_head_device": {
+      "placement": {
+        "embed": "host",
+        "head": "device"
+      },
+      "tensors_uploaded": 594,
+      "uploaded_bytes": 2111761920,
+      "host_resident_shell_bytes": 704643072,
+      "expert_staging_bytes": 774533280,
+      "mamba_state_bytes": 49364992,
+      "kv_by_context": {
+        "4096": {
+          "kv_bytes": 12582912,
+          "free_after_kv": 4308598784,
+          "free_mib": 4109.0,
+          "fits": true,
+          "free_after_release": 4321181696
+        },
+        "131072": {
+          "kv_bytes": 402653184,
+          "free_after_kv": 3918528512,
+          "free_mib": 3737.0,
+          "fits": true,
+          "free_after_release": 4321181696
+        }
+      },
+      "kv_held_bytes": 402653184,
+      "free_before": 7383023616,
+      "free_after_weights": 5147459584,
+      "free_after_runtime": 4321181696,
+      "free_after_all": 3918528512,
+      "device_used_bytes": 3464495104,
+      "device_used_gib": 3.2266,
+      "peak_total_device_bytes": 4627955712,
+      "peak_total_device_gib": 4.3101,
+      "free_headroom_bytes": 3918528512,
+      "free_headroom_mib": 3737.0,
+      "fits": true,
+      "error": null
+    },
+    "C_embed_host_head_host": {
+      "placement": {
+        "embed": "host",
+        "head": "host"
+      },
+      "tensors_uploaded": 593,
+      "uploaded_bytes": 1407118848,
+      "host_resident_shell_bytes": 1409286144,
+      "expert_staging_bytes": 774533280,
+      "mamba_state_bytes": 49364992,
+      "kv_by_context": {
+        "4096": {
+          "kv_bytes": 12582912,
+          "free_after_kv": 5013241856,
+          "free_mib": 4781.0,
+          "fits": true,
+          "free_after_release": 5025824768
+        },
+        "131072": {
+          "kv_bytes": 402653184,
+          "free_after_kv": 4623171584,
+          "free_mib": 4409.0,
+          "fits": true,
+          "free_after_release": 5025824768
+        }
+      },
+      "kv_held_bytes": 402653184,
+      "free_before": 7383023616,
+      "free_after_weights": 5852102656,
+      "free_after_runtime": 5025824768,
+      "free_after_all": 4623171584,
+      "device_used_bytes": 2759852032,
+      "device_used_gib": 2.5703,
+      "peak_total_device_bytes": 3923312640,
+      "peak_total_device_gib": 3.6539,
+      "free_headroom_bytes": 4623171584,
+      "free_headroom_mib": 4409.0,
+      "fits": true,
+      "error": null
+    }
+  },
+  "best_variant": "C_embed_host_head_host",
+  "process_memory_before": {
+    "working_set_bytes": 356368384,
+    "peak_working_set_bytes": 356368384,
+    "commit_bytes": 1031860224,
+    "peak_commit_bytes": 1031860224,
+    "page_fault_count": 88579
+  },
+  "process_memory_after": {
+    "working_set_bytes": 1610715136,
+    "peak_working_set_bytes": 2298843136,
+    "commit_bytes": 2519891968,
+    "peak_commit_bytes": 6453698560,
+    "page_fault_count": 1642995
+  },
+  "teardown": {
+    "free_after_context": 7383023616,
+    "free_final": 7383023616,
+    "leak_bytes": 0,
+    "clean": true
+  },
+  "non_interference": {
+    "gpu_compute_apps": [],
+    "foreign": []
+  },
+  "gates": {
+    "S1_shell_bytes_reconcile_with_n2": true,
+    "S2_peak_device_under_8gib": true,
+    "S3_process_under_32gib": true,
+    "S4_shell_coexists_with_expert_staging": true,
+    "S5_kv_and_mamba_allocated_at_both_contexts": true,
+    "S6_no_precision_reduction": true,
+    "S7_free_at_least_256mib": true,
+    "S8_teardown_clean": true
+  },
+  "gates_all_pass": true,
+  "claim_boundary": "Which components physically fit simultaneously on this specific GPU with real touched allocations, and how much headroom remains. NOT tokens per second, full-model latency, quality, evidence that a full runtime exists, or that any context length is achievable in practice -- KV allocation is necessary for long context, not sufficient. A component measurement is never promoted to tok/s.",
+  "terminal_state": "n5_resident_shell_fits"
+}

@@ -1,0 +1,382 @@
+Ja — dit is waarschijnlijk de beste volgende lokale kandidaat
+
+Voor ons specifieke doel is Nemotron 3.5 Lightning/Nemotron 3 Nano 30B-A3B zelfs interessanter dan opnieuw een klassieke Qwen-MoE te optimaliseren:
+
+ongeveer 30B totaal, 3,5B actief;
+native hybride Mamba-2 + MoE + slechts zes attentionlagen;
+officiële NVFP4-checkpoint met quantization-aware distillation;
+128 routed experts, top-6 en één shared expert;
+1M-contextarchitectuur;
+het officiële NVFP4-bestand is maar 19,4 GB.
+
+Die 19,4 GB past ruim op je SSD en in je 64 GB RAM. Het past niet volledig in 8 GB VRAM, maar onze host-RAM→GPU-expertstreaming is precies bedoeld om dat probleem op te lossen.
+
+Eerst een belangrijke naamcorrectie
+
+De Nemotron 3.5 Lightning-aankondiging/API-service is nieuw — aangekondigd op 11 augustus 2026. Maar de onderliggende publieke 30B-A3B-architectuur is niet gisteren ontstaan:
+
+Nemotron 3 Nano BF16 verscheen op 15 december 2025;
+de officiële NVFP4-weights verschenen op 28 januari 2026;
+de nieuwe NIM-endpoint heet nu nemotron-3.5-nano-30b-a3b.
+
+Ik vind momenteel geen afzonderlijke Hugging Face-checkpoint met letterlijk de naam Nemotron-3.5-Lightning. De publieke downloadable weights staan nog onder NVIDIA-Nemotron-3-Nano-30B-A3B. De nieuwe API kan dus een nieuwe post-trainingrevision, servingvariant of alias zijn. We moeten de API-versie en de publieke weighthash niet zonder verificatie als identiek behandelen.
+
+Ook de “4× sneller”-claim moet correct worden gelezen. NVIDIA’s officiële claim is tot 4× hogere throughput dan Nemotron 2 Nano, niet automatisch viermaal sneller dan Qwen3-30B op jouw laptop en ook niet viermaal sneller dan ieder concurrerend 30B-model. Het is een vendorbenchmark op een andere serverstack.
+
+Waarom hij architecturaal zo goed past
+
+De officiële, gepinde configuratie geeft:
+
+hidden size: 2.688;
+52 modules/lagen;
+23 MoE-lagen;
+23 Mamba-2-lagen;
+6 volledige GQA-attentionlagen;
+128 routed experts;
+top-6;
+1 shared expert;
+expert width: 1.856;
+shared-expert width: 3.712;
+32 queryheads, maar slechts 2 KV-heads.
+
+De routed experts zijn bovendien eenvoudiger dan Qwen-SwiGLU. Nemotron gebruikt een tweematrix-MLP met ReLU²:
+
+E
+e
+	​
+
+(x)=W
+2,e
+	​
+
+ReLU(W
+1,e
+	​
+
+x)
+2
+
+in plaats van Qwens drie projecties:
+
+W
+down
+	​
+
+[SiLU(W
+gate
+	​
+
+x)⊙W
+up
+	​
+
+x].
+
+Dat betekent minder afzonderlijke weightstreams en een eenvoudiger fused expertkernel.
+
+Vergelijking met onze huidige Qwen3-30B-A3B
+Eigenschap	Qwen3-30B-A3B	Nemotron 3 Nano
+Totaal/actief	30,5B / 3,3B	30B / 3,5B
+MoE-lagen	48	23
+Experts	128	128 + shared
+Routed actief	top-8	top-6
+Sequence mixer	48× volledige attention	23× Mamba + 6× attention
+KV-heads	4 per 48 lagen	2 per 6 lagen
+Officiële low-bit	geen native Q5	NVFP4 + QAD
+Publieke low-bitgrootte	onze eigen bank	19,4 GB totaal
+
+Qwens officiële configuratie heeft 48 attentionlagen, 128 experts en acht actieve experts per token.
+
+De expertberekening is vrijwel perfect voor onze bestaande runtime
+
+Eén routed Nemotron-expert bevat:
+
+2×2688×1856=9.977.856
+
+gewichten.
+
+Per token worden over de 23 MoE-lagen actief:
+
+23×6×9.977.856=
+1,377 miljard routed expertgewichten
+	​
+
+
+De shared experts voegen toe:
+
+23×2×2688×3712=
+0,459 miljard gewichten
+	​
+
+
+Samen:
+
+1,836 miljard actieve MoE-gewichten/token
+	​
+
+
+Voor onze Qwen3-runtime is het routed-expertgedeelte:
+
+48×8×3×2048×768=
+1,812 miljard
+	​
+
+
+Dus de totale actieve expertberekening is vrijwel identiek. Maar bij Nemotron kan de relatief kleine shared-expertbank permanent resident op de GPU blijven. Alleen de 1,377B routed gewichten moeten uit host-RAM of cache komen.
+
+Dat betekent dat het daadwerkelijk te streamen routed expertgedeelte ongeveer:
+
+1−
+1,812
+1,377
+	​
+
+=
+24%kleiner
+	​
+
+
+is dan bij Qwen.
+
+Native NVFP4 maakt het nog gunstiger
+
+De officiële checkpoint gebruikt:
+
+NVFP4;
+quantization group size 16;
+FP8-KV-cache;
+quantization-aware distillation;
+BF16 voor de zes kritieke attentionlagen en de Mamba-projecties die rechtstreeks naar die attentionlagen voeren.
+
+Bij ongeveer 4,5 effectieve bit per routed gewicht is de volledig koude experttransfer per token ruwweg:
+
+1,377B×
+8
+4,5
+	​
+
+≈0,775 GB/token
+
+Met onze gemeten host→GPU-bandbreedte van ongeveer 26,16 GB/s:
+
+0,775/26,16≈
+29,6 ms/token
+	​
+
+
+Dat is de volledig koude situatie zonder één cachehit.
+
+Met een kleine statische/dynamische expertcache daalt dat verder. De huidige Qwen-runtime heeft bewezen dat dit type host-residente expertbank, GPU-cache en custom kernel op jouw laptop werkelijk uitvoerbaar is. Nemotron begint daarbij met minder routed bytes en een lagere native precisie.
+
+Het grootste voordeel: context wordt veel goedkoper
+
+Dit is waar Nemotron Qwen werkelijk verslaat.
+
+Voor FP8-KV-cache vraagt Nemotron per opgeslagen contexttoken:
+
+6 attentionlagen×2 K/V×2 KV-heads×128×1 byte=
+3.072 bytes/token
+	​
+
+
+Qwen3-30B-A3B vraagt op dezelfde FP8-precisie:
+
+48×2×4×128=49.152 bytes/token
+
+Nemotron heeft dus:
+
+16×mindergroeiendeKV−cache
+	​
+
+
+dan Qwen.
+
+Context	Nemotron FP8-KV
+4K	~12 MiB
+32K	~96 MiB
+128K	~384 MiB
+256K	~768 MiB
+1M	~3 GiB
+
+De 23 Mamba-lagen gebruiken daarnaast een vaste recurrente state van slechts orde tientallen MiB; die groeit niet met de context. De architectuur ondersteunt 1M, terwijl de standaardconfiguratie 256K gebruikt wegens het extra geheugen dat de volledige miljoen tokens vraagt.
+
+Daarom acht ik dit realistisch:
+
+4K–32K: zeer snel;
+128K: nog steeds heel praktisch;
+256K: waarschijnlijk haalbaar op 8 GB met beperkte expertcache;
+1M: technisch mogelijk als onderzoeksdoel, maar 3 GiB FP8-KV laat weinig VRAM over en de zes attentionlagen moeten iedere token die enorme cache lezen. Niet automatisch “blazing fast”.
+Hoe snel kan hij bij ons werkelijk worden?
+
+Een standaard transformers, NIM- of vLLM-launch gaat niet zomaar op jouw 8GB-GPU werken. De checkpoint alleen is 19,4 GB en NVIDIA’s standaard deployment verwacht dat veel meer van het model resident is. De gratis API draait uiteraard op NVIDIA’s serverhardware, niet op je laptop.
+
+Met onze aangepaste host-streamingruntime is mijn huidige projectie:
+
+Implementatiestatus	Verwachte 4K-decode
+Eerste correcte custom port	15–25 tok/s
+FP4 expertstreaming + resident trunk + cache	22–32 tok/s
+Geoptimaliseerde Mamba/ERVF/FP4-kernels	28–38 tok/s
+Stretchdoel	>40 tok/s
+
+Dit zijn technische projecties, geen metingen.
+
+Waarom ik boven onze huidige Qwen-snelheid durf projecteren:
+
+24% minder routed expertgewichten;
+FP4 in plaats van Q5;
+slechts zes attentionlagen;
+16× kleinere KV-cache;
+twee expertmatrices in plaats van drie;
+officiële QAD in plaats van eigen post-trainingquantisatie;
+de GPU is Blackwell en dus exact de architectuur waarvoor NVFP4 bedoeld is.
+
+Tegenwicht:
+
+Mamba-2 moet zeer goed worden geïmplementeerd;
+de standaard NVIDIA-stack ondersteunt vooral Linux en grotere GPU’s;
+batch-1 NVFP4-GEMV haalt niet vanzelf de geadverteerde FP4-tensorcore-TFLOPS;
+delen van de trunk zijn bewust BF16 gebleven;
+Windows/WSL en custom-codecompatibiliteit kunnen de eerste port vertragen.
+Kwaliteit is ook serieus
+
+De officiële evaluatie laat een merkbaar maar beperkt verschil zien tussen BF16 en NVFP4:
+
+Benchmark	BF16	NVFP4
+MMLU-Pro	78,3	77,4
+AIME25	89,1	86,7
+GPQA	73,0	71,9
+LiveCodeBench	68,3	65,4
+TauBench gemiddelde	49,0	45,6
+
+De NVFP4-versie is dus niet numeriek of gedragsmatig identiek aan BF16, maar de QAD-checkpoint behoudt een groot deel van de kwaliteit.
+
+Een beperking voor ons: Nederlands staat niet expliciet bij de zes officieel ondersteunde talen. Engels, Duits, Frans, Spaans, Italiaans en Japans wel. De Nederlandstalige kwaliteit moet daarom expliciet deel van de validatieset worden.
+
+De correcte onderzoeksroute
+N0 — Identiteit van “3.5 Lightning” vaststellen
+
+Vóór een claim:
+
+model-ID en NIM-revision vastleggen;
+controleren of de NIM-download dezelfde weights gebruikt als de publieke Nano-NVFP4-repo;
+API en lokale checkpoint vergelijken op een deterministische promptset;
+geen API-benchmark presenteren als lokale weightbenchmark.
+
+De officiële NIM-proza is momenteel zelfs enigszins inconsistent over top-5/top-6 en shared experts. De gepinde Hugging Face-config plus tensorindex moet de bron van waarheid worden: top-6, één shared expert, 52 lagen.
+
+N1 — Alleen de officiële 19,4GB-NVFP4 downloaden
+
+Niet de ongeveer 60GB-BF16-checkpoint.
+
+Eerst:
+
+alle vijf shards;
+hashes;
+tensorindex;
+quantizationmetadata;
+exacte fysieke grootte per routed expert;
+resident/nonresident partition.
+N2 — Eén-laagexactheid
+
+Bouw referenties voor:
+
+Mamba-2;
+attention;
+router;
+shared expert;
+routed fc1 → ReLU² → fc2;
+FP8-KV;
+officiële scaling en top-6-normalisatie.
+
+Pas na een bit-/tolerantiegecontroleerde één-laagtest volgt full depth.
+
+N3 — LightningStream-runtime
+
+GPU-resident:
+
+embeddings en LM-head;
+norms en routers;
+alle Mamba/attention-trunkgewichten;
+alle shared experts;
+Mamba-state;
+FP8-KV;
+stagingbuffers.
+
+Host-RAM:
+
+uitsluitend de 128 routed experts per MoE-laag;
+officiële NVFP4-representatie;
+pinned, random-access, layer/expert-major.
+
+Per token:
+
+sequence mixer uitvoeren;
+router top-6 berekenen;
+cachehits onmiddellijk starten;
+misses asynchroon kopiëren;
+fused NVFP4 fc1→ReLU²→fc2;
+gewogen expertaggregatie;
+volgende laag.
+N4 — Harde gates
+Gate	Doel
+VRAM	≤8 GiB
+Proces-RAM	≤32 GiB
+SSD	<25 GB modelartefacten
+4K	≥25 tok/s
+32K	≥22 tok/s
+128K	≥15 tok/s
+256K	≥10 tok/s
+Rollout	≥10.000 tokens
+Kwaliteit	officiële NVFP4-output/referentie
+Thermiek	60 minuten, <10% daling
+Domeinen	code, reasoning, tools, Engels én Nederlands
+
+Stretch:
+
+30B, 8 GB VRAM, 128K, ≥25 tok/s
+	​
+
+
+Dat zou een zeer sterke industriële demo zijn.
+
+Nog sterker:
+
+30B, 8 GB VRAM, 1M, ≥10 tok/s
+	​
+
+
+Dat is werkelijk een opvallende systemsdoorbraak, maar veel moeilijker vanwege de 3GiB-KV-cache en attentionreads.
+
+Definitief oordeel
+
+Ja, deze moet voorrang krijgen als volgende modelport.
+
+Voor de snelste kans op een indrukwekkende lokale doorbraak is hij beter dan meteen de ongesnoeide 80B-Qwen te bouwen:
+
+evenveel totale parameters als onze werkende Qwen;
+vrijwel dezelfde actieve expertberekening;
+minder routed expertdata;
+officiële native FP4;
+dramatisch kleinere contextstate;
+architectureel ontworpen voor snelle agentische inferentie;
+checkpoint past comfortabel in jouw RAM en opslag.
+
+Qwen3-Coder-Next 80B blijft de betere kandidaat voor de headline “80B op 8GB”.
+
+Nemotron is de betere kandidaat voor:
+
+“30B op 8GB, extreem snel 
+e
+ˊ
+n met zeer lange context.”
+	​
+
+
+Mijn prioriteit zou daarom worden:
+
+Nemotron Lightning/Nano NVFP4-port;
+4K/32K/128K fysieke runtime;
+daarna 256K en 1M;
+vervolgens pas GaugePack of de 80B-port.
+
+De 4× marketingclaim neem ik niet over. Maar op basis van de werkelijke architectuur en onze al bewezen Qwen-dataplane acht ik 25–35 lokale tokens per seconde een geloofwaardig engineeringdoel, en niet louter een theoretische moonshot.

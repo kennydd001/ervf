@@ -1,0 +1,131 @@
+{
+  "checks": [
+    {
+      "detail": "",
+      "name": "verifier hash lock",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "bank result hash lock",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "producer hash lock",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "preregistration hash lock",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "producer result status",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "declared physical semantics",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "declared bank cardinality",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "producer resource gates",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "48 layer artifacts and manifests",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "immutable source tensor hashes",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "all headers",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "all payload CRC32",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "all padding zero",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "all decoded codes in range",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "all codes match source recomputation",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "all BF16 scales finite and positive",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "all raw BF16 scale bits match source",
+      "pass": true
+    },
+    {
+      "detail": "",
+      "name": "exact independently counted cardinality",
+      "pass": true
+    }
+  ],
+  "checks_passed": 18,
+  "checks_total": 18,
+  "claim_boundary": "Physical representation and exact source equivalence only; measured transfer, Q5 kernel, overlap, and integrated wall-clock remain unproven.",
+  "completed_utc": "2026-08-12T08:38:12.040045+00:00",
+  "conclusion": "Every physical record independently decoded and matched exactly to recomputed source Q5 codes and raw BF16 scale bits.",
+  "counters": {
+    "artifact_hash_failures": 0,
+    "code_range_failures": 0,
+    "code_source_mismatches": 0,
+    "codes": 28991029248,
+    "crc_failures": 0,
+    "experts": 6144,
+    "header_failures": 0,
+    "layer_report_failures": 0,
+    "layers": 48,
+    "padding_failures": 0,
+    "records": 18432,
+    "scale_elements": 226492416,
+    "scale_source_mismatches": 0,
+    "scale_validity_failures": 0,
+    "source_hash_failures": 0
+  },
+  "inputs": {
+    "bank_result_sha256": "08c1f8f469998e46ef985578b07006f884b737335fbdb7b63ca1efb37afe0e09",
+    "model_index_sha256": "df0d481ec595c55a0ba58426d517390c6214a566ec4ff1c8fc4bbce9f57b3c24",
+    "preregistration_sha256": "8f96211121d02381633b45e6eaf42b79630559587f81164b63762504104e428b",
+    "producer_sha256": "c92e59b49458fbb9edd2cbfed4bcdecbfc940e686633d561b5b4755c8cdca259",
+    "verifier_lock_sha256": "0ed64a5f5a9f1286ea2c5d3042d2deb3d7a5676a1fd6f971a1e0f8ae06075c6a",
+    "verifier_sha256": "a977f7b744b3bfc21135d3e255559f92d7078a18f329b2511c639ea525c9f518"
+  },
+  "kind": "streamq5_moe_p1d_independent_physical_bank_verification",
+  "runtime": {
+    "peak_cuda_allocated_bytes": 18972672,
+    "peak_rss_bytes": 1371099136,
+    "seconds": 266.19286999999895
+  },
+  "status": "p1d_physical_bank_verification_pass"
+}

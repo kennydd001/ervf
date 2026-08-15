@@ -1,0 +1,143 @@
+{
+  "kind": "nemotron_n0_metadata_gate",
+  "completed_utc": "2026-08-12T21:25:37.703475+00:00",
+  "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4",
+  "revision_requested": "main",
+  "files": {
+    "config.json": {
+      "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4/resolve/main/config.json",
+      "bytes": 1817,
+      "sha256": "f4fcbaaaed3ee215f86205a7600636cd930bde069f2b603d7ff908c046a0cd96",
+      "etag": "\"6b2510909bcc6a25c83b9c54092c011d6dcc31f4\"",
+      "x_repo_commit": "ce1b118ae66ec705d02c241525192832eb045fd3"
+    },
+    "model.safetensors.index.json": {
+      "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4/resolve/main/model.safetensors.index.json",
+      "bytes": 2497886,
+      "sha256": "e076394997f518b64a2b81b9648a58063faa611c95a1d5fb5495e77194e5dfb7",
+      "etag": "\"38a5106dac3057f0218b9152a8942fa398c735f7\"",
+      "x_repo_commit": "ce1b118ae66ec705d02c241525192832eb045fd3"
+    },
+    "hf_quant_config.json": {
+      "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4/resolve/main/hf_quant_config.json",
+      "bytes": 3050,
+      "sha256": "37ff9e85d04311916a38ff7bc28cae1972dfdc54d39da8439d3f85204b9e8fbf",
+      "etag": "\"bcc60ffa270339371d97868033ddd131303bf9cf\"",
+      "x_repo_commit": "ce1b118ae66ec705d02c241525192832eb045fd3"
+    }
+  },
+  "identity": {
+    "commit_values": [
+      "ce1b118ae66ec705d02c241525192832eb045fd3"
+    ],
+    "config": {
+      "architectures": [
+        "NemotronHForCausalLM"
+      ],
+      "hidden_size": 2688,
+      "num_hidden_layers": 52,
+      "num_attention_heads": 32,
+      "num_key_value_heads": 2,
+      "num_experts": 128,
+      "top_k": 6,
+      "moe_intermediate_size": 1856,
+      "shared_expert_intermediate_size": null,
+      "hybrid_override_pattern": "MEMEM*EMEMEM*EMEMEM*EMEMEM*EMEMEM*EMEMEMEM*EMEMEMEME",
+      "max_position_embeddings": 262144,
+      "quantization_config": null
+    },
+    "weight_map_tensors": 24147,
+    "shards": [
+      "model-00001-of-00005.safetensors",
+      "model-00002-of-00005.safetensors",
+      "model-00003-of-00005.safetensors",
+      "model-00004-of-00005.safetensors",
+      "model-00005-of-00005.safetensors"
+    ],
+    "shard_count": 5,
+    "index_total_size_bytes": 19339781632,
+    "index_total_size_gib": 18.01157522201538,
+    "hf_quant_config": {
+      "producer": {
+        "name": "modelopt",
+        "version": "0.29.0"
+      },
+      "quantization": {
+        "quant_algo": "NVFP4",
+        "kv_cache_quant_algo": "FP8",
+        "group_size": 16,
+        "exclude_modules": [
+          "lm_head",
+          "backbone.layers.4.mixer.in_proj",
+          "backbone.layers.4.mixer.out_proj",
+          "backbone.layers.5.mixer.q_proj",
+          "backbone.layers.5.mixer.k_proj",
+          "backbone.layers.5.mixer.v_proj",
+          "backbone.layers.5.mixer.o_proj",
+          "backbone.layers.11.mixer.in_proj",
+          "backbone.layers.11.mixer.out_proj",
+          "backbone.layers.12.mixer.q_proj",
+          "backbone.layers.12.mixer.k_proj",
+          "backbone.layers.12.mixer.v_proj",
+          "backbone.layers.12.mixer.o_proj",
+          "backbone.layers.18.mixer.in_proj",
+          "backbone.layers.18.mixer.out_proj",
+          "backbone.layers.19.mixer.q_proj",
+          "backbone.layers.19.mixer.k_proj",
+          "backbone.layers.19.mixer.v_proj",
+          "backbone.layers.19.mixer.o_proj",
+          "backbone.layers.25.mixer.in_proj",
+          "backbone.layers.25.mixer.out_proj",
+          "backbone.layers.26.mixer.q_proj",
+          "backbone.layers.26.mixer.k_proj",
+          "backbone.layers.26.mixer.v_proj",
+          "backbone.layers.26.mixer.o_proj",
+          "backbone.layers.32.mixer.in_proj",
+          "backbone.layers.32.mixer.out_proj",
+          "backbone.layers.33.mixer.q_proj",
+          "backbone.layers.33.mixer.k_proj",
+          "backbone.layers.33.mixer.v_proj",
+          "backbone.layers.33.mixer.o_proj",
+          "backbone.layers.41.mixer.in_proj",
+          "backbone.layers.41.mixer.out_proj",
+          "backbone.layers.42.mixer.q_proj",
+          "backbone.layers.42.mixer.k_proj",
+          "backbone.layers.42.mixer.v_proj",
+          "backbone.layers.42.mixer.o_proj",
+          "backbone.layers.0.mixer.conv1d",
+          "backbone.layers.2.mixer.conv1d",
+          "backbone.layers.4.mixer.conv1d",
+          "backbone.layers.7.mixer.conv1d",
+          "backbone.layers.9.mixer.conv1d",
+          "backbone.layers.11.mixer.conv1d",
+          "backbone.layers.14.mixer.conv1d",
+          "backbone.layers.16.mixer.conv1d",
+          "backbone.layers.18.mixer.conv1d",
+          "backbone.layers.21.mixer.conv1d",
+          "backbone.layers.23.mixer.conv1d",
+          "backbone.layers.25.mixer.conv1d",
+          "backbone.layers.28.mixer.conv1d",
+          "backbone.layers.30.mixer.conv1d",
+          "backbone.layers.32.mixer.conv1d",
+          "backbone.layers.35.mixer.conv1d",
+          "backbone.layers.37.mixer.conv1d",
+          "backbone.layers.39.mixer.conv1d",
+          "backbone.layers.41.mixer.conv1d",
+          "backbone.layers.44.mixer.conv1d",
+          "backbone.layers.46.mixer.conv1d",
+          "backbone.layers.48.mixer.conv1d",
+          "backbone.layers.50.mixer.conv1d"
+        ]
+      }
+    }
+  },
+  "gates": {
+    "config_and_index_fetched": true,
+    "single_commit": true,
+    "five_shards": true,
+    "model_payload_lt_25gib": true,
+    "lightning_alias_weight_identity_proven": false
+  },
+  "status": "public_checkpoint_metadata_pass_alias_unproven",
+  "claim_boundary": "Metadata/index-only network gate; no shard payload downloaded, tensor decoded, API output compared, kernel run, model quality or performance measured."
+}

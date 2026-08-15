@@ -1,0 +1,214 @@
+{
+  "aggregate": {
+    "fused_async": {
+      "miss_slope_ms": 1.5200998812256357,
+      "misses": {
+        "max": 301.0,
+        "mean": 143.25,
+        "p50": 98.5,
+        "p95": 273.54999999999995,
+        "p99": 295.50999999999993
+      },
+      "tokens": 4,
+      "wall_ms": {
+        "max": 355.5904,
+        "mean": 108.0093,
+        "p50": 26.97935,
+        "p95": 306.32876499999986,
+        "p99": 345.73807299999993
+      }
+    },
+    "prediction_relative_error": 4.666804826862539,
+    "serial": {
+      "miss_slope_ms": 0.2803616336940286,
+      "misses": {
+        "max": 301.0,
+        "mean": 143.25,
+        "p50": 98.5,
+        "p95": 273.54999999999995,
+        "p99": 295.50999999999993
+      },
+      "tokens": 4,
+      "wall_ms": {
+        "max": 93.2095,
+        "mean": 48.6037,
+        "p50": 35.3729,
+        "p95": 85.15999,
+        "p99": 91.59959799999999
+      }
+    },
+    "speedup": 0.44999550964592866
+  },
+  "claim_boundary": "Physical causal fused full-overlap expert dataplane on independent routes only; no full-model decode.",
+  "completed_utc": "2026-08-12T10:14:44.304684+00:00",
+  "correctness": {
+    "general": {
+      "exact": true,
+      "finite": true,
+      "max_abs": 0.0,
+      "relative_l2": 0.0,
+      "values": 8192
+    }
+  },
+  "fused_async": {
+    "general": {
+      "miss_stats": {
+        "max": 301.0,
+        "mean": 143.25,
+        "p50": 98.5,
+        "p95": 273.54999999999995,
+        "p99": 295.50999999999993
+      },
+      "misses": [
+        301,
+        118,
+        79,
+        75
+      ],
+      "tokens": 4,
+      "wall_ms": [
+        355.5904,
+        27.1795,
+        26.7792,
+        22.4881
+      ],
+      "wall_ms_stats": {
+        "max": 355.5904,
+        "mean": 108.0093,
+        "p50": 26.97935,
+        "p95": 306.32876499999986,
+        "p99": 345.73807299999993
+      }
+    }
+  },
+  "gates": {
+    "all_domain_mean_le_22": false,
+    "all_domain_p95_le_30": false,
+    "async_mean_le_20": false,
+    "async_misses_match_serial": true,
+    "async_p95_le_25": false,
+    "copy_bytes_exact": true,
+    "copy_records_exact": true,
+    "device_co_resident_and_scratch": true,
+    "finite": true,
+    "full_bank_pinned_and_hashed": true,
+    "outputs_exact": true,
+    "outputs_within_limits": true,
+    "pinned_hashes_match": true,
+    "prediction_within_15pct": false,
+    "serial_mean_le_35": false,
+    "serial_miss_slope_positive": true
+  },
+  "inputs": {
+    "evaluator_lock_sha256": "32ed595cfe552565077365a4ca40e8f0ba94cd5f1a41ff4b17cee7dc4fd74139",
+    "evaluator_sha256": "c44f10d25e979e4e5e9496d52749e7eef861a70072238a0abd6e92bc0381df9b",
+    "input_lock_sha256": "f8694f9ca45e9e060e9f0587f851d417936106a4383a06d353c7dfbcd3bb4c17",
+    "preregistration_sha256": "3ecbdb0bd19abc3ac700401af4538a6e6382376f34a0fbf039fba0893ffa6976",
+    "route_artifact_sha256": {
+      "0": "c43f9406ee8cebd6f357ab349aadc61f2cf87420ceb402371711eb628b8dd32c",
+      "1": "24f3c73c93a94ca2e812dd656537fcd190363bf217ad6be9ca9f8fe3cc6e9d3f",
+      "10": "111a46f709f331baeb43b149e939c1f4b327be9cc33db721d54fb0e1e296bad0",
+      "11": "12cde96339cf4b69a60ac9f52999f53db619ade1c9d50cdda935e45f6adad5e0",
+      "12": "1596de0288722cd54abc5f7270916d74b706ae85507b62985c7c88e540e72f1e",
+      "13": "e279b514de4afcf475404f13bbb48627ab0175103bed2c9e092642687880a839",
+      "14": "e991bfb52d0f782da1825a81acda76d2deeebc47ec69674b17568644b53eedd1",
+      "15": "17c009622485fd57ac9a48a308df1dd6a7c1f3136796623b05bb5d83276f3448",
+      "16": "2cfa9a7e9241a711693deaf46c65e33169f52ff51025cddd0b23a3e0036b1dd4",
+      "17": "01e5816e8f9c68d08ed549c5c8ffc89eb83aa02aaaaa44dc8917ac0b76808d3f",
+      "18": "90a8e036250efd52e5a8260ae0a7ae4f5239a6601acee590c8bff92c263aca9e",
+      "19": "5b3647da27154e61eb70627fdb8f8b8c5d1e76425fde2e3f79e43112b83bad8f",
+      "2": "28e9aa5cd03226ca6f86faacc719d13c054fe334b80d424b0d070c945a84049d",
+      "20": "a621c9b39c728025f3440227126f6e40b0739b975f4967a30621184df5b64974",
+      "21": "50ae17ae714c401d5503862feb17a91c75b2be4365873f7838fb824cbbe68fe0",
+      "22": "db7171229293f7a55b799c1787fdb5d1d6a7a6bcf4403decb05ad372e33c6d50",
+      "23": "9ac073756549e1df492fad81649297bd8111d6506799375da514f981b91ffdb1",
+      "24": "f94d9f10d65139d66f7affd4be39acdcf2523e9275a5a23bc7972d583c097dfe",
+      "25": "56d2e6026fcfcf21a53b4e18049a0dd92a388b51558b618e1d3b4e52d53fb9c4",
+      "26": "67aec8140cc5f11c7a91e9b766864bd5dd294a9e0f447fe27b650c3d8bdefa92",
+      "27": "841e0373a1e501b51eae7bfc11a9bcca2584d55422a628473b8515722db6a9ab",
+      "28": "54354135748f67dc64c50a9c1c8b180c276fa23fbf4c7b80e2234e0a3bc6682e",
+      "29": "b0422656be5da5ef4a7ecb5bc44a19435ce3e5780079f6d6495751c6f71bbbbe",
+      "3": "3a365b02f65c197921a78227b0c59369028ef93bbbe6d5cf2eb843baf3c0ca79",
+      "30": "71d15366afdc31ca4d9253772e20b4b319b26a89f62d13475a2b37bce7a7429f",
+      "31": "303fa93ed696f59d8510bb303a0737fe40fc9eebfd5d0a5dfcbac199706a6d3d",
+      "32": "98f23c24b0f7733c6b907601c95e52995c3a4f69e157b932a83f3871e9e8541b",
+      "33": "b39aa974015d50c795890cd1e230a335261385b7cf893bdf081204a1f986df10",
+      "34": "fd9991249bc2b75460988383a72e596b2a8c7050b7c1ae456b0992623da76a39",
+      "35": "40f3d285730b816fa959c5daca07c3bf49b720fb094047d07804f60780ceb32c",
+      "36": "16a026006321f75587a22a0f7108cce2f612543f628178cbe35ddc983554aebf",
+      "37": "76529cf4762ac41487085e104ec10ef38dceaee6910aa7b4ffcae51c03c9897c",
+      "38": "553d24e4fce959b9887effbc012738dd0ae2a031faacb4e25a3ab5a5c2fa110e",
+      "39": "7885bdf0f1f582595d7e09de7c8c79335f9ede73d8097bc6c60754494386bd29",
+      "4": "85f7f22672ac26418c4d1faa5511e6ca5cc8e54241196f6917eea85f02cc1d53",
+      "40": "9bff94b061f5830dd17cdaf4a9f868cd247c4374d398b47b091117f9d8ef1a2d",
+      "41": "dd1eadf8d328e6d7d6d7063d545f8efa212907f29ec0d4eec1d43954a8d426bd",
+      "42": "6f174ec43a6bd6b9dcbbf88a789567c968e8926aa6a5cbbcc55975ae2bcca709",
+      "43": "7204616883b6e33474c0b7ea402573d21be8baf5c46a3014937ff0714b8763e9",
+      "44": "5787afc08b08f93f4807541f6e172f5333026e838b76d0e7ccfe191e8a69c35d",
+      "45": "14c779f899c5f53e609f74174297313078fe5865589e0b05a9a5fe1aa7241abc",
+      "46": "5fe420e907e7f2424d6210c54eabf5644596436219bb07362ecb33d5e6663462",
+      "47": "08f6b4dcdcf650fef0ddd0def28cd31c3010954464847d060a4cd67cd7bea730",
+      "5": "2aef6a467ebea195bb38f4502989de1093ff118fce268291a688433cfe945d3a",
+      "6": "1396f87ffe6622234fecc0e88f177c176b4d04ade9aedc04721b5e9533695e1f",
+      "7": "3e68fc0cc27714b9b2d11f93582e165b3d3b552ee9a0677b1fb321e6db8ee6e1",
+      "8": "96f7b10b280fd5903c679757c05f52a5c412159cc2ca017c98e9bdbcf483bae1",
+      "9": "de61b23e315f236ceab8a8eed61981a31957609bd004e9be28ae05ab75789556"
+    },
+    "route_capture_sha256": "dd29ee571b8b2428d45f1ca8ed40ba7970420e5143ad8b9bc1c5401f334af72a"
+  },
+  "kind": "streamq5_moe_p4c_fused_overlap",
+  "phase": "smoke",
+  "physical": {
+    "cache_bytes": 4977623040,
+    "copied_bytes": 1739132928,
+    "copied_records": 573,
+    "free_after_bytes": 462422016,
+    "free_before_bytes": 7385120768,
+    "kv_reservation_bytes": 402653184,
+    "mixed_layer_events": 164,
+    "pin_and_hash_ms": 13491.66190001415,
+    "pinned_bank_bytes": 18647875584,
+    "total_vram_bytes": 8546484224,
+    "trunk_reservation_bytes": 1541093376
+  },
+  "policy": {
+    "dynamic_layers_0_7": 15,
+    "dynamic_layers_8_47": 14,
+    "lookahead_layers": 0,
+    "metadata_h2d_bytes_per_layer": 160,
+    "mixed_layer_kernel_launches": 5,
+    "static": 20
+  },
+  "serial": {
+    "general": {
+      "miss_stats": {
+        "max": 301.0,
+        "mean": 143.25,
+        "p50": 98.5,
+        "p95": 273.54999999999995,
+        "p99": 295.50999999999993
+      },
+      "misses": [
+        301,
+        118,
+        79,
+        75
+      ],
+      "tokens": 4,
+      "wall_ms": [
+        93.2095,
+        39.5461,
+        30.4595,
+        31.1997
+      ],
+      "wall_ms_stats": {
+        "max": 93.2095,
+        "mean": 48.6037,
+        "p50": 35.3729,
+        "p95": 85.15999,
+        "p99": 91.59959799999999
+      }
+    }
+  },
+  "status": "p4c_smoke_pass"
+}

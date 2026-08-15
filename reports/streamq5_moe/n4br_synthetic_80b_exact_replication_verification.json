@@ -1,0 +1,160 @@
+{
+  "kind": "streamq5_moe_n4br_synthetic_80b_exact_replication_independent_verification",
+  "completed_utc": "2026-08-12T18:05:26.307350+00:00",
+  "inputs": {
+    "preregistration_sha256": "7b85556074d30ee743c0c990270bc54fb8acb6ebd940b9e0d97b195f9cdcf642",
+    "evaluator_sha256": "4149b3000f3d7e558bf36da98ac9dad29c3fb2ce9d8309ff2fac2b108456bb33",
+    "result_sha256": "08a74ab10ab1e89bd7c04863dd2a1dbcbc541db9b548dac712ec7a2b4666a917",
+    "n4b_sha256": "1bd3bc903b27fe99b68be5dc680e84a64104a6e7e4c982b2293bae94f8833a62",
+    "n4a_sha256": "f24482e9223d64dd0e9b60e9f4d611613260690846aad2d4ebed7aca0cdafdc3",
+    "n1c_sha256": "10312adcd295be15e502651a14988c0900aa0667ea19f1aaca686d842bc83a02",
+    "gpu_rerun_performed": false
+  },
+  "record_contract": {
+    "weights_per_matrix": 1048576,
+    "code_bytes": 655360,
+    "scale_bytes": 16384,
+    "header_bytes": 64,
+    "padding_bytes": 4032,
+    "matrix_record_bytes": 675840,
+    "expert_record_bytes": 2027520,
+    "slots": 528,
+    "bank_bytes": 1070530560
+  },
+  "output_contract": {
+    "outputs_per_layer": 33792,
+    "outputs_all_layers": 1622016,
+    "independent_input_sha256": "28c9b40609a3e2b76c070c0dba794a5f0f5181f6b25fa97ca3565db560f504f1",
+    "independent_output_sha256": "80097faf092ca9ba4aadf0ce6609046192c2350578c4c05a7dd6ac2bad56df0b",
+    "reconstructed_uniform_values": {
+      "raw_gate_up": -2.8125,
+      "rounded_silu": -0.1591796875,
+      "post_swiglu_gate": 0.447265625,
+      "down": 0.89453125
+    }
+  },
+  "event_stats": {
+    "validation": {
+      "8": {
+        "mean": 7.777919006347656,
+        "p50": 6.866336107254028,
+        "p95": 12.974128055572502,
+        "min": 6.430816173553467,
+        "max": 15.660223960876465
+      },
+      "16": {
+        "mean": 9.004268741607666,
+        "p50": 7.456176042556763,
+        "p95": 20.380783462524406,
+        "min": 6.886240005493164,
+        "max": 21.59369659423828
+      },
+      "32": {
+        "mean": 14.24444793065389,
+        "p50": 12.10478401184082,
+        "p95": 27.768942356109612,
+        "min": 10.964896202087402,
+        "max": 30.82512092590332
+      }
+    },
+    "test": {
+      "16": {
+        "mean": 7.844490416844686,
+        "p50": 7.578240156173706,
+        "p95": 9.331301164627074,
+        "min": 7.168000221252441,
+        "max": 10.277215957641602
+      },
+      "8": {
+        "mean": 7.42153039375941,
+        "p50": 7.1507041454315186,
+        "p95": 8.868892431259155,
+        "min": 6.70854377746582,
+        "max": 9.852543830871582
+      }
+    }
+  },
+  "selection": {
+    "selected_width": 8,
+    "expert_test_stats": {
+      "mean": 7.42153039375941,
+      "p50": 7.1507041454315186,
+      "p95": 8.868892431259155,
+      "min": 6.70854377746582,
+      "max": 9.852543830871582
+    }
+  },
+  "dense_projection": {
+    "n1c_q8_p95_ms": 9.066176271438598,
+    "source_bytes": 1248931840,
+    "official_80b_shell_bytes": 1933921280,
+    "byte_linear_p95_ms": 14.038613363853516,
+    "conservative_2x_p95_ms": 28.077226727707032,
+    "reported_total_p95_ms": 36.946119158966184
+  },
+  "transfer_aware_sensitivity": {
+    "all_cold_h2d_analytical_ms": 37.202201834862386,
+    "ideal_overlap_expert_ms": 37.202201834862386,
+    "serial_expert_ms": 46.07109426612154,
+    "ideal_overlap_total_ms": 65.27942856256942,
+    "serial_total_ms": 74.14832099382858,
+    "gates": {
+      "ideal_overlap_expert_le_50ms": true,
+      "serial_expert_le_50ms": true,
+      "ideal_overlap_total_le_90ms": true,
+      "serial_total_le_90ms": true
+    }
+  },
+  "recomputed_gates": {
+    "all_widths_exact": true,
+    "expert_p95_le_50ms": true,
+    "dense_byte_linear_p95_le_40ms": true,
+    "dense_2x_p95_le_40ms": true,
+    "projected_total_p95_le_90ms": true,
+    "n4a_host_le_58g": true,
+    "n4a_4k_cache": true,
+    "n4a_32k_cache": true,
+    "all_output_digests_equal": true
+  },
+  "checks": {
+    "preregistration_hash_exact": true,
+    "evaluator_hash_exact": true,
+    "n4b_hash_exact": true,
+    "n4a_hash_exact": true,
+    "n1c_hash_exact": true,
+    "seed_exact": true,
+    "input_digest_independently_recomputed": true,
+    "canonical_two_stage_swiglu_present": true,
+    "old_noncanonical_swiglu_absent": true,
+    "record_code_bytes_exact": true,
+    "record_scale_bytes_exact": true,
+    "record_padding_bytes_exact": true,
+    "matrix_record_bytes_exact": true,
+    "expert_record_bytes_exact": true,
+    "slot_count_exact": true,
+    "bank_bytes_exact": true,
+    "physical_shape_exact": true,
+    "output_element_count_exact": true,
+    "comparison_summaries_exact": true,
+    "digest_values_valid_sha256": true,
+    "all_archived_digests_equal": true,
+    "output_digest_independently_recomputed": true,
+    "raw_event_stats_exact": true,
+    "raw_event_sample_counts_exact": true,
+    "selected_width_recomputed": true,
+    "expert_test_stats_exact": true,
+    "fresh_test_arrays_not_reused_from_n4b": true,
+    "dense_source_p95_exact": true,
+    "dense_source_bytes_exact": true,
+    "dense_shell_bytes_exact": true,
+    "dense_projection_exact": true,
+    "all_reported_gates_exact": true,
+    "reported_overall_pass_exact": true,
+    "transfer_sensitivity_gates_pass": true
+  },
+  "passed_checks": 34,
+  "total_checks": 34,
+  "overall_pass": true,
+  "verdict": "independently_verified_exact_synthetic_shape_timing_pass",
+  "claim_boundary": "CPU-only independent artifact audit, including exact reconstruction of the deterministic synthetic input and 48-layer output digest. No GPU rerun and no expansion beyond N4B-R's claim boundary."
+}

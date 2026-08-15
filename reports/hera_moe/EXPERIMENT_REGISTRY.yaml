@@ -1,0 +1,70 @@
+project: HERA_MOE
+codename: HotEntropyResidentRareExact
+created_at: 2026-08-11
+updated_at: 2026-08-11
+status: p0_closed_static_tier_negative
+parents:
+  - project: E2GQ_MOE
+    status: p0_closed_coverage_negative
+    inherited_claim: all-expert natural-coverage rule remains closed
+hypothesis:
+  id: HERA_TIERED_RESIDENCY
+  statement: >-
+    A Qwen3 MoE can reach at least 10 batch-1 decode tokens per second within
+    8 GiB VRAM and 32 GiB RAM by retaining a frozen multidomain hot union as
+    entropy-coded 2-bit GPTQ on GPU and serving every remaining expert exactly
+    in BF16 from host memory.
+  novelty_claim: false
+  status: falsified_for_static_multidomain_count_union
+positive_precondition:
+  source: reports/runs/e2gq_moe/p0_calibration plus layer reports
+  threshold_rows: 128
+  wikitext_hot_experts: 4449
+  wikitext_cold_experts: 1695
+  wikitext_cold_invocation_fraction: 0.003811359405517578
+  projected_resident_weights_gib: 5.4361040310058595
+  status: requires_independent_reproduction_and_multidomain_stress
+  final_status: wikitext_only_precondition_reproduced_but_not_cross_domain
+sources:
+  acquisition: reports/hera_moe/p0_source_acquisition.json
+  acquisition_sha256: 20a7170d41bb18c9fb68780552ae6d6ae3c12f2f16633d9521d18afbbd73da08
+phases:
+  - id: P0_MULTIDOMAIN_TIER_AUDIT
+    status: complete_static_tier_negative
+    preregistration: reports/hera_moe/P0_MULTIDOMAIN_TIER_PREREGISTRATION.md
+    result: reports/hera_moe/p0_multidomain_tier_result.json
+    result_sha256: 87ae25a1c111345bec9c7f74c6bbe62390eb41f491554c812949f1c90f0ac8a5
+    report: reports/hera_moe/P0_MULTIDOMAIN_TIER_AUDIT.md
+    report_sha256: cbf4875928875b7677c02c875a3272f81c64f4703edb4095bf7da0634880e2b2
+    verification: reports/hera_moe/p0_multidomain_verification.json
+    verification_sha256: 317e5d91f557328ce50f84094b91aa8fc824e0553f18663bdbd40f7586762284
+    controls: 15/15
+    result_summary: 6081/6144_hot_7.166954GiB_resident_vs_5.75GiB_gate
+  - id: P1_FULL_MODEL_QUALITY
+    status: not_authorized_by_failed_P0_memory_gate
+  - id: P2_ACTUAL_HOT_PACK
+    status: blocked_by_P1
+  - id: P3_COLD_TIER_RUNTIME
+    status: blocked_by_P2
+  - id: P4_FULL_RUNTIME
+    status: blocked_by_P3
+  - id: P5_SECOND_FAMILY
+    status: blocked_by_P4
+gates:
+  projected_hot_plus_trunk_gib_max: 5.75
+  actual_hot_pack_gib_max: 4.95
+  exact_cold_bf16_host_gib_max: 24.0
+  relative_ce_delta_max: 0.02
+  rollout_tokens_min: 512
+  peak_vram_gib_max: 8.0
+  process_ram_gib_max: 32.0
+  batch1_tokens_per_second_min: 10.0
+claim_boundary:
+  - The hot entropy rate is extrapolated from 16 experts.
+  - P0 measures routing only and opens no quality data.
+  - Mixed residency, offload, caching and entropy coding are prior art.
+terminal_state:
+  verdict: static_multidomain_count_tier_falsified
+  p1_authorized: false
+  dynamic_or_domain_conditioned_tiering: untested
+  eureka: false

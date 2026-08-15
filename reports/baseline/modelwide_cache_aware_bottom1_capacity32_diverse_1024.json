@@ -1,0 +1,599 @@
+{
+  "created_at_utc": "2026-08-09T21:31:45.540421+00:00",
+  "git_revision": null,
+  "kind": "route_equivalent_cache",
+  "payload": {
+    "blocks_per_split": 8,
+    "cache_caveat": "expert-granularity simulator; no bytes, prefetch, concurrency, or kernel latency modeled",
+    "corpus_preset": "local_diverse",
+    "corpus_sources": {
+      "test": "Python source under workspace scripts, src, and tests",
+      "validation": "three user-supplied Dutch research/instruction attachments"
+    },
+    "dataset_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "experiment": "modelwide_cache_aware_bottom1_substitution",
+    "final": {
+      "test": {
+        "32": {
+          "candidate_cross_entropy": 1.7157206497793123,
+          "cross_entropy_delta": -0.002399354469118986,
+          "relative_cross_entropy_delta": -0.0013964999320106,
+          "teacher_cross_entropy": 1.7181200042484313,
+          "teacher_to_candidate_kl": 0.0025169530417770147,
+          "top1_agreement": 0.9794921875
+        }
+      },
+      "validation": {
+        "32": {
+          "candidate_cross_entropy": 3.1351398257758674,
+          "cross_entropy_delta": 0.00030619703878587146,
+          "relative_cross_entropy_delta": 9.76756903393396e-05,
+          "teacher_cross_entropy": 3.1348336287370815,
+          "teacher_to_candidate_kl": 0.007065785815939307,
+          "top1_agreement": 0.953125
+        }
+      }
+    },
+    "layer_reports": [
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 4838,
+              "expert_load_reduction_fraction": 0.08957470831765146,
+              "strict_expert_loads": 5314,
+              "substituted_token_fraction": 0.22998046875
+            },
+            "hidden": {
+              "cosine": 0.9996933937072754,
+              "mae": 0.0009971228428184986,
+              "max_abs_error": 0.078125,
+              "nrmse": 0.026692694053053856
+            },
+            "router_topk_overlap": 0.961669921875,
+            "router_weight_nrmse": 0.10341612994670868
+          }
+        },
+        "layer": 1
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 5073,
+              "expert_load_reduction_fraction": 0.08014505893019042,
+              "strict_expert_loads": 5515,
+              "substituted_token_fraction": 0.21875
+            },
+            "hidden": {
+              "cosine": 0.9994022846221924,
+              "mae": 0.002677877666428685,
+              "max_abs_error": 0.140625,
+              "nrmse": 0.03348187357187271
+            },
+            "router_topk_overlap": 0.9578450520833334,
+            "router_weight_nrmse": 0.09236022084951401
+          }
+        },
+        "layer": 2
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 4233,
+              "expert_load_reduction_fraction": 0.0939640410958904,
+              "strict_expert_loads": 4672,
+              "substituted_token_fraction": 0.22607421875
+            },
+            "hidden": {
+              "cosine": 0.9990676641464233,
+              "mae": 0.00463897455483675,
+              "max_abs_error": 8.0,
+              "nrmse": 0.0016910525737330317
+            },
+            "router_topk_overlap": 0.9527994791666666,
+            "router_weight_nrmse": 0.10415461659431458
+          }
+        },
+        "layer": 3
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3633,
+              "expert_load_reduction_fraction": 0.11260381045432344,
+              "strict_expert_loads": 4094,
+              "substituted_token_fraction": 0.21923828125
+            },
+            "hidden": {
+              "cosine": 0.9990162253379822,
+              "mae": 0.006512205582112074,
+              "max_abs_error": 8.0,
+              "nrmse": 0.0024334052577614784
+            },
+            "router_topk_overlap": 0.9530436197916666,
+            "router_weight_nrmse": 0.10701574385166168
+          }
+        },
+        "layer": 4
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3505,
+              "expert_load_reduction_fraction": 0.10403885480572594,
+              "strict_expert_loads": 3912,
+              "substituted_token_fraction": 0.212890625
+            },
+            "hidden": {
+              "cosine": 0.9987876415252686,
+              "mae": 0.00829898938536644,
+              "max_abs_error": 8.0,
+              "nrmse": 0.0027024794835597277
+            },
+            "router_topk_overlap": 0.9532877604166666,
+            "router_weight_nrmse": 0.11918272823095322
+          }
+        },
+        "layer": 5
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3331,
+              "expert_load_reduction_fraction": 0.13074112734864296,
+              "strict_expert_loads": 3832,
+              "substituted_token_fraction": 0.2353515625
+            },
+            "hidden": {
+              "cosine": 0.9987331032752991,
+              "mae": 0.010015781968832016,
+              "max_abs_error": 8.0,
+              "nrmse": 0.0030019402038306
+            },
+            "router_topk_overlap": 0.947998046875,
+            "router_weight_nrmse": 0.15007668733596802
+          }
+        },
+        "layer": 6
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3054,
+              "expert_load_reduction_fraction": 0.11785095320623917,
+              "strict_expert_loads": 3462,
+              "substituted_token_fraction": 0.20166015625
+            },
+            "hidden": {
+              "cosine": 0.9984849095344543,
+              "mae": 0.011811171658337116,
+              "max_abs_error": 8.0,
+              "nrmse": 0.00335711520165205
+            },
+            "router_topk_overlap": 0.9512532552083334,
+            "router_weight_nrmse": 0.1492479294538498
+          }
+        },
+        "layer": 7
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2648,
+              "expert_load_reduction_fraction": 0.12520647505781302,
+              "strict_expert_loads": 3027,
+              "substituted_token_fraction": 0.2041015625
+            },
+            "hidden": {
+              "cosine": 0.9982469081878662,
+              "mae": 0.014403028413653374,
+              "max_abs_error": 8.0,
+              "nrmse": 0.003831218695268035
+            },
+            "router_topk_overlap": 0.948974609375,
+            "router_weight_nrmse": 0.15251561999320984
+          }
+        },
+        "layer": 8
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2713,
+              "expert_load_reduction_fraction": 0.13516098182977365,
+              "strict_expert_loads": 3137,
+              "substituted_token_fraction": 0.20068359375
+            },
+            "hidden": {
+              "cosine": 0.998418927192688,
+              "mae": 0.01615091972053051,
+              "max_abs_error": 8.0,
+              "nrmse": 0.004170811735093594
+            },
+            "router_topk_overlap": 0.9510091145833334,
+            "router_weight_nrmse": 0.15816454589366913
+          }
+        },
+        "layer": 9
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2682,
+              "expert_load_reduction_fraction": 0.13983322642719687,
+              "strict_expert_loads": 3118,
+              "substituted_token_fraction": 0.197265625
+            },
+            "hidden": {
+              "cosine": 0.9982321262359619,
+              "mae": 0.01891879364848137,
+              "max_abs_error": 8.0,
+              "nrmse": 0.004714705049991608
+            },
+            "router_topk_overlap": 0.9462890625,
+            "router_weight_nrmse": 0.17232775688171387
+          }
+        },
+        "layer": 10
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2431,
+              "expert_load_reduction_fraction": 0.1556095866620354,
+              "strict_expert_loads": 2879,
+              "substituted_token_fraction": 0.20703125
+            },
+            "hidden": {
+              "cosine": 0.9984704256057739,
+              "mae": 0.02257372811436653,
+              "max_abs_error": 8.0,
+              "nrmse": 0.005458882078528404
+            },
+            "router_topk_overlap": 0.947021484375,
+            "router_weight_nrmse": 0.15636062622070312
+          }
+        },
+        "layer": 11
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2767,
+              "expert_load_reduction_fraction": 0.14519616929255486,
+              "strict_expert_loads": 3237,
+              "substituted_token_fraction": 0.205078125
+            },
+            "hidden": {
+              "cosine": 0.9983013868331909,
+              "mae": 0.025441041216254234,
+              "max_abs_error": 8.0,
+              "nrmse": 0.006035678554326296
+            },
+            "router_topk_overlap": 0.947509765625,
+            "router_weight_nrmse": 0.1463836133480072
+          }
+        },
+        "layer": 12
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2571,
+              "expert_load_reduction_fraction": 0.1355077336919973,
+              "strict_expert_loads": 2974,
+              "substituted_token_fraction": 0.20556640625
+            },
+            "hidden": {
+              "cosine": 0.9982067346572876,
+              "mae": 0.02829974703490734,
+              "max_abs_error": 8.0,
+              "nrmse": 0.006634176708757877
+            },
+            "router_topk_overlap": 0.9434407552083334,
+            "router_weight_nrmse": 0.15335583686828613
+          }
+        },
+        "layer": 13
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2776,
+              "expert_load_reduction_fraction": 0.12649465072372557,
+              "strict_expert_loads": 3178,
+              "substituted_token_fraction": 0.197265625
+            },
+            "hidden": {
+              "cosine": 0.9983184337615967,
+              "mae": 0.031662534922361374,
+              "max_abs_error": 8.0,
+              "nrmse": 0.00731413159519434
+            },
+            "router_topk_overlap": 0.9443359375,
+            "router_weight_nrmse": 0.13332222402095795
+          }
+        },
+        "layer": 14
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2939,
+              "expert_load_reduction_fraction": 0.12425506555423127,
+              "strict_expert_loads": 3356,
+              "substituted_token_fraction": 0.20751953125
+            },
+            "hidden": {
+              "cosine": 0.9983357191085815,
+              "mae": 0.035576820373535156,
+              "max_abs_error": 8.0,
+              "nrmse": 0.008110258728265762
+            },
+            "router_topk_overlap": 0.9441731770833334,
+            "router_weight_nrmse": 0.1171758845448494
+          }
+        },
+        "layer": 15
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3048,
+              "expert_load_reduction_fraction": 0.12262521588946462,
+              "strict_expert_loads": 3474,
+              "substituted_token_fraction": 0.20556640625
+            },
+            "hidden": {
+              "cosine": 0.9983641505241394,
+              "mae": 0.040449634194374084,
+              "max_abs_error": 8.0,
+              "nrmse": 0.009168936870992184
+            },
+            "router_topk_overlap": 0.9393717447916666,
+            "router_weight_nrmse": 0.11882657557725906
+          }
+        },
+        "layer": 16
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3365,
+              "expert_load_reduction_fraction": 0.12597402597402596,
+              "strict_expert_loads": 3850,
+              "substituted_token_fraction": 0.23046875
+            },
+            "hidden": {
+              "cosine": 0.998410165309906,
+              "mae": 0.04519927129149437,
+              "max_abs_error": 8.0,
+              "nrmse": 0.010166734457015991
+            },
+            "router_topk_overlap": 0.943359375,
+            "router_weight_nrmse": 0.100888192653656
+          }
+        },
+        "layer": 17
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2920,
+              "expert_load_reduction_fraction": 0.11915535444947212,
+              "strict_expert_loads": 3315,
+              "substituted_token_fraction": 0.22216796875
+            },
+            "hidden": {
+              "cosine": 0.9985665678977966,
+              "mae": 0.05080173909664154,
+              "max_abs_error": 8.0,
+              "nrmse": 0.011292955838143826
+            },
+            "router_topk_overlap": 0.9407552083333334,
+            "router_weight_nrmse": 0.11773724108934402
+          }
+        },
+        "layer": 18
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3431,
+              "expert_load_reduction_fraction": 0.1132075471698113,
+              "strict_expert_loads": 3869,
+              "substituted_token_fraction": 0.232421875
+            },
+            "hidden": {
+              "cosine": 0.9984973669052124,
+              "mae": 0.05605506896972656,
+              "max_abs_error": 8.0,
+              "nrmse": 0.012376479804515839
+            },
+            "router_topk_overlap": 0.93994140625,
+            "router_weight_nrmse": 0.130411759018898
+          }
+        },
+        "layer": 19
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3234,
+              "expert_load_reduction_fraction": 0.11880108991825611,
+              "strict_expert_loads": 3670,
+              "substituted_token_fraction": 0.216796875
+            },
+            "hidden": {
+              "cosine": 0.9986459016799927,
+              "mae": 0.06307873129844666,
+              "max_abs_error": 8.0,
+              "nrmse": 0.013785568065941334
+            },
+            "router_topk_overlap": 0.9407552083333334,
+            "router_weight_nrmse": 0.12758567929267883
+          }
+        },
+        "layer": 20
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3214,
+              "expert_load_reduction_fraction": 0.12946912242686892,
+              "strict_expert_loads": 3692,
+              "substituted_token_fraction": 0.23291015625
+            },
+            "hidden": {
+              "cosine": 0.998645007610321,
+              "mae": 0.07041388750076294,
+              "max_abs_error": 8.0,
+              "nrmse": 0.015254317782819271
+            },
+            "router_topk_overlap": 0.9383138020833334,
+            "router_weight_nrmse": 0.13136301934719086
+          }
+        },
+        "layer": 21
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 2993,
+              "expert_load_reduction_fraction": 0.12202992079788799,
+              "strict_expert_loads": 3409,
+              "substituted_token_fraction": 0.2109375
+            },
+            "hidden": {
+              "cosine": 0.9986556768417358,
+              "mae": 0.08227658271789551,
+              "max_abs_error": 8.0,
+              "nrmse": 0.01768472231924534
+            },
+            "router_topk_overlap": 0.9430338541666666,
+            "router_weight_nrmse": 0.11190349608659744
+          }
+        },
+        "layer": 22
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3055,
+              "expert_load_reduction_fraction": 0.11679676206996237,
+              "strict_expert_loads": 3459,
+              "substituted_token_fraction": 0.1943359375
+            },
+            "hidden": {
+              "cosine": 0.9987786412239075,
+              "mae": 0.09361568093299866,
+              "max_abs_error": 8.0,
+              "nrmse": 0.0197713952511549
+            },
+            "router_topk_overlap": 0.943603515625,
+            "router_weight_nrmse": 0.11506140232086182
+          }
+        },
+        "layer": 23
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3013,
+              "expert_load_reduction_fraction": 0.1364287761536257,
+              "strict_expert_loads": 3489,
+              "substituted_token_fraction": 0.228515625
+            },
+            "hidden": {
+              "cosine": 0.9988926649093628,
+              "mae": 0.10390929877758026,
+              "max_abs_error": 14.0,
+              "nrmse": 0.027859313413500786
+            },
+            "router_topk_overlap": 0.9370930989583334,
+            "router_weight_nrmse": 0.12395593523979187
+          }
+        },
+        "layer": 24
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3502,
+              "expert_load_reduction_fraction": 0.10043668122270744,
+              "strict_expert_loads": 3893,
+              "substituted_token_fraction": 0.1953125
+            },
+            "hidden": {
+              "cosine": 0.9992145299911499,
+              "mae": 0.11540952324867249,
+              "max_abs_error": 14.0,
+              "nrmse": 0.03728165104985237
+            },
+            "router_topk_overlap": 0.94482421875,
+            "router_weight_nrmse": 0.11278126388788223
+          }
+        },
+        "layer": 25
+      },
+      {
+        "capacities": {
+          "32": {
+            "cache": {
+              "adaptive_expert_loads": 3374,
+              "expert_load_reduction_fraction": 0.11813904861474123,
+              "strict_expert_loads": 3826,
+              "substituted_token_fraction": 0.19921875
+            },
+            "hidden": {
+              "cosine": 0.9994494915008545,
+              "mae": 0.12967848777770996,
+              "max_abs_error": 34.0,
+              "nrmse": 0.02986636757850647
+            },
+            "router_topk_overlap": 0.9474283854166666,
+            "router_weight_nrmse": 0.1281050741672516
+          }
+        },
+        "layer": 26
+      }
+    ],
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "policy": "replace router rank 6 by rank 7 only when rank 6 misses and rank 7 hits in a per-layer per-block LRU cache",
+    "status": "complete",
+    "total_cache_statistics": {
+      "32": {
+        "adaptive_expert_loads": 84343,
+        "expert_load_reduction_fraction": 0.11823988792824058,
+        "strict_expert_loads": 95653,
+        "substituted_token_fraction": 0.21296574519230768
+      }
+    },
+    "wall_seconds": 61.79038420000143
+  },
+  "schema_version": 1
+}

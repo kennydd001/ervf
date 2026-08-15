@@ -1,0 +1,208 @@
+{
+  "all_finite": true,
+  "artifact": "reports/runs/fleq_moe/p1/layer_47_expert_027.safetensors",
+  "artifact_sha256": "1f94b4565c5b465f4ffc3142cac553b058ee7e1596039c9a59a47ab7191f3595",
+  "calibration_rows": 273,
+  "code_summaries": {
+    "gptq_2bit": {
+      "down": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 372808,
+          "-2": 103812,
+          "0": 644711,
+          "1": 451533
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "gate": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 376540,
+          "-2": 100510,
+          "0": 643212,
+          "1": 452602
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "up": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 378398,
+          "-2": 101452,
+          "0": 639829,
+          "1": 453185
+        },
+        "scales": 12288,
+        "weights": 1572864
+      }
+    },
+    "gsq_2bit": {
+      "down": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 372884,
+          "-2": 108074,
+          "0": 638534,
+          "1": 453372
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "gate": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 376672,
+          "-2": 104766,
+          "0": 637181,
+          "1": 454245
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "up": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 378398,
+          "-2": 105749,
+          "0": 633728,
+          "1": 454989
+        },
+        "scales": 12288,
+        "weights": 1572864
+      }
+    }
+  },
+  "completed_utc": "2026-08-11T11:50:10.267051+00:00",
+  "elapsed_seconds": 46.01059789999999,
+  "expert": 27,
+  "fallback_bit_exact": true,
+  "gsq_losses": [
+    0.7620728611946106,
+    0.6146093606948853,
+    0.540604293346405,
+    0.40632525086402893,
+    0.28381502628326416,
+    0.31306329369544983,
+    0.25610584020614624,
+    0.2823513448238373,
+    0.3035935163497925,
+    0.3007752299308777,
+    0.25810521841049194,
+    0.252424418926239,
+    0.20899242162704468,
+    0.18037232756614685,
+    0.18267056345939636,
+    0.19098635017871857,
+    0.1595630943775177,
+    0.16556134819984436,
+    0.15757298469543457,
+    0.18084362149238586,
+    0.15456083416938782,
+    0.16108438372612,
+    0.17909051477909088,
+    0.14773127436637878,
+    0.15977320075035095,
+    0.1548123061656952,
+    0.1608852744102478,
+    0.17996203899383545,
+    0.15610608458518982,
+    0.15457090735435486,
+    0.16060639917850494,
+    0.18819573521614075,
+    0.1655399352312088,
+    0.19035479426383972,
+    0.16629372537136078,
+    0.16902145743370056,
+    0.17493876814842224,
+    0.20790328085422516,
+    0.17687560617923737,
+    0.17523100972175598
+  ],
+  "heldout_gsq_improvement_over_gptq": -0.45964770734287824,
+  "heldout_rows": 170,
+  "kind": "fleq_moe_p1_expert_result",
+  "layer": 47,
+  "metrics": {
+    "gptq_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9973841905593872,
+        "relative_l2": 0.06982168555259705,
+        "relative_row_p50": 0.07076840102672577,
+        "relative_row_p95": 0.09171347320079803,
+        "router_weighted_relative_mse": 0.004815508145838976,
+        "rows": 273
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9758158922195435,
+        "relative_l2": 0.23341666162014008,
+        "relative_row_p50": 0.21315531432628632,
+        "relative_row_p95": 0.32247602939605713,
+        "router_weighted_relative_mse": 0.05766061693429947,
+        "rows": 170
+      }
+    },
+    "gsq_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9836393594741821,
+        "relative_l2": 0.17886513471603394,
+        "relative_row_p50": 0.17825055122375488,
+        "relative_row_p95": 0.20790469646453857,
+        "router_weighted_relative_mse": 0.03210563585162163,
+        "rows": 273
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9623725414276123,
+        "relative_l2": 0.28385549783706665,
+        "relative_row_p50": 0.26669806241989136,
+        "relative_row_p95": 0.3714422881603241,
+        "router_weighted_relative_mse": 0.08416418731212616,
+        "rows": 170
+      }
+    },
+    "rtn_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9137754440307617,
+        "relative_l2": 0.46605968475341797,
+        "relative_row_p50": 0.46626967191696167,
+        "relative_row_p95": 0.5327523350715637,
+        "router_weighted_relative_mse": 0.2154969424009323,
+        "rows": 273
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9127892851829529,
+        "relative_l2": 0.48063719272613525,
+        "relative_row_p50": 0.47633227705955505,
+        "relative_row_p95": 0.5502610206604004,
+        "router_weighted_relative_mse": 0.2300489991903305,
+        "rows": 170
+      }
+    }
+  },
+  "original_weight_sha256": {
+    "down": "49c7e98c8b4b732e5d633fb6631c1c740246fe1c918e309e1d80e38d6bebe1db",
+    "gate": "4443e8b24599fa098f8cc818b94c8fc33ac00f5c53b416eb4479400b8d60cebf",
+    "up": "6f114090cdfb679fe226ba279b47dd323f5fbbfd3c9788a39f6feb24309d8fa3"
+  },
+  "peak_cuda_allocated_bytes": 320258048,
+  "peak_cuda_reserved_bytes": 354418688,
+  "process_rss_peak_observed_bytes": 2318811136,
+  "repeat_exact": null,
+  "repeat_losses": null,
+  "repeat_required": false,
+  "selection_lock_sha256": "99038787f6aee75f18db40c7dd879bd090ffbe4dc659bc07143b2b8f77e26257"
+}

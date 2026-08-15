@@ -1,0 +1,127 @@
+{
+  "kind": "lightningstream_nemotron_y2r1_bytes_vs_time",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "Y2_R1_BYTES_VS_TIME",
+  "completed_utc": "2026-08-15T11:56:42.296643+00:00",
+  "model_dir": "nemotron_3_5_lightning_v35",
+  "runner_sha256": "6c81d08d87e11c98200f4023fcf5d7c0127489cf7904e523a838fcbcf9512878",
+  "tensor": "backbone.layers.1.mixer.experts.0.up_proj",
+  "config": {
+    "rows": 1856,
+    "full_cols": 2688,
+    "fractions": [
+      1.0,
+      0.875,
+      0.75,
+      0.5,
+      0.25
+    ],
+    "calls_per_round": 200,
+    "rounds": 9,
+    "sync": "once per round, not per call"
+  },
+  "rows": {
+    "1.000": {
+      "fraction": 1.0,
+      "cols": 2688,
+      "bytes": 2806272,
+      "us_per_call_p50": 34.472,
+      "us_raw": [
+        151.174,
+        32.851,
+        32.810500000000005,
+        36.308,
+        37.0315,
+        37.093,
+        34.472,
+        34.2495,
+        34.066
+      ],
+      "gb_s": 81.40728707356696
+    },
+    "0.875": {
+      "fraction": 0.875,
+      "cols": 2352,
+      "bytes": 2455488,
+      "us_per_call_p50": 30.8215,
+      "us_raw": [
+        30.8415,
+        30.7885,
+        30.7635,
+        30.7865,
+        30.833000000000002,
+        30.8075,
+        30.8215,
+        30.846500000000002,
+        30.848499999999998
+      ],
+      "gb_s": 79.66802394432459
+    },
+    "0.750": {
+      "fraction": 0.75,
+      "cols": 2016,
+      "bytes": 2104704,
+      "us_per_call_p50": 26.7035,
+      "us_raw": [
+        26.673000000000002,
+        26.678,
+        26.7005,
+        26.721,
+        26.7225,
+        26.7035,
+        26.7035,
+        26.705,
+        26.7375
+      ],
+      "gb_s": 78.81753328215403
+    },
+    "0.500": {
+      "fraction": 0.5,
+      "cols": 1344,
+      "bytes": 1403136,
+      "us_per_call_p50": 22.691999999999997,
+      "us_raw": [
+        22.691999999999997,
+        22.723499999999998,
+        22.463,
+        22.495500000000003,
+        22.689,
+        22.7605,
+        22.5875,
+        23.08,
+        23.314
+      ],
+      "gb_s": 61.83395029085141
+    },
+    "0.250": {
+      "fraction": 0.25,
+      "cols": 672,
+      "bytes": 701568,
+      "us_per_call_p50": 16.781,
+      "us_raw": [
+        16.837,
+        16.7025,
+        16.954,
+        16.781,
+        16.4555,
+        16.542,
+        16.567999999999998,
+        17.09,
+        17.0315
+      ],
+      "gb_s": 41.80728204517014
+    }
+  },
+  "halving_saving": 0.34172661870503607,
+  "linear_fit": {
+    "us_per_byte": 8.127054019685559e-06,
+    "intercept_us": 10.899461206896547,
+    "intercept_share_of_full": 0.3161830241035201
+  },
+  "gate_G_Y2R1": {
+    "required_halving_saving": 0.4,
+    "measured": 0.34172661870503607,
+    "passed": false
+  },
+  "claim_boundary": "Single-kernel microbenchmark of the real NVFP4 up_proj GEMV on one real expert record, with the column count reduced to shrink the record and the structure otherwise unchanged. It is a cost oracle for byte-reduction schemes: it says what a codec that removed those bytes could save on this kernel. It is NOT a quantizer, NOT a quality claim, and NOT a token time; it is not converted to tokens per second. The linear fit's intercept is the byte-independent part of this kernel's cost as measured, not a theoretical floor."
+}

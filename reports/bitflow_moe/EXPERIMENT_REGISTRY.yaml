@@ -1,0 +1,85 @@
+registry_id: BITFLOW_MOE_V1
+created_at: 2026-08-11
+updated_at: 2026-08-11
+status: closed_p0_linear_branch_negative_verified
+claim_status: falsified_for_registered_linear_branch
+source_pack: info/BITFLOW_MOE_AGENT_PACK_2026-08-11
+closed_upstream_registries:
+  CRAFT_MOE: {status: closed_no_eureka, immutable: true}
+  RSIV_MOE_V1: {status: falsified_rank_working_set, immutable: true}
+  FLEQ_MOE: {status: p1_smoke_negative, immutable: true}
+  E2GQ_MOE: {status: p0_coverage_negative, immutable: true}
+hypothesis:
+  name: BITFLOW-MoE
+  statement: >-
+    A layer-level full-rank linear equalizer fitted sequentially on regenerated
+    Q4 student states can repair at least half of the full-depth Q4 CE damage,
+    and ultimately meet the registered 70-percent primary recovery gate.
+p0_screen:
+  base: uniform_q4_all_26_routed_layers
+  candidate: C1_two_full_rank_matrices
+  features:
+    - rmsnorm_provisional_post_state
+    - rmsnorm_quantized_routed_moe_output
+  fit: deterministic_dual_ridge
+  ridge_grid_on_features_divided_by_sqrt_4096: [0.0001, 0.01, 1.0]
+  per_layer_lambda_selection: minimum_validation_correction_nrmse
+  stored_repair_dtype: bfloat16
+  student_state_sequential: true
+  dataset:
+    id: wikitext-2-raw-v1
+    revision: b08601e04326c79dfdd32d625aee71d232d685c3
+    block_tokens: 128
+    train: {token_start: 0, token_end: 1024, blocks: 8}
+    validation: {token_start: 0, token_end: 256, blocks: 2}
+    test: {token_start: 0, token_end: 256, blocks: 2, open_once: true}
+  model:
+    id: deepseek-ai/DeepSeek-V2-Lite
+    revision: 604d5664dddd88a0433dbae533b7fe9472482de0
+  numerical_controls:
+    covariance_accumulation: fp32_cuda
+    ridge_solver: cholesky
+    repair_application: bf16_dense_matrix
+    rmsnorm_epsilon: 0.000001
+    official_layer_decomposition_max_abs_tolerance: 0.0
+  resource_ceilings:
+    peak_cuda_allocated_gib_max: 7.5
+    process_rss_gib_max: 48
+  validation_progression_gate:
+    ce_damage_recovery_min: 0.50
+  test_hard_stop:
+    ce_damage_recovery_min: 0.50
+    rule: both_validation_and_test_must_pass
+    action_if_fail: close_linear_branch_without_c0_c2_q3_or_syndrome
+  primary_gates_q4:
+    ce_damage_recovery_min: 0.70
+    relative_ce_increase_max: 0.01
+    top1_agreement_min: 0.97
+    late_layer_explosion_ratio_max: 2.0
+  dominance_note: >-
+    C1 contains the C0 feature family. C0, the fixed low-rank control, C2 and
+    Q3 are opened only if maximal C1 passes both 50-percent progression gates.
+artifacts:
+  preregistration: reports/bitflow_moe/P0_C1_Q4_PREREGISTRATION.md
+  input_lock: reports/bitflow_moe/p0_input_lock.json
+  repair_directory: reports/runs/bitflow_moe/p0_c1_q4_repairs
+  validation_result: reports/bitflow_moe/p0_c1_q4_validation.json
+  test_result: reports/bitflow_moe/p0_c1_q4_test.json
+  validation_logits: reports/runs/bitflow_moe/p0_c1_q4_validation_logits.safetensors
+  test_logits: reports/runs/bitflow_moe/p0_c1_q4_test_logits.safetensors
+  independent_verification: reports/bitflow_moe/p0_c1_q4_verification.json
+  final_verdict: reports/bitflow_moe/P0_FINAL_VERDICT.md
+outcome:
+  validation_ce_damage_recovery: -6.459522157129583
+  test_ce_damage_recovery: -3.9502151262462344
+  test_top1_agreement: 0.75
+  late_layer_explosion_ratio: 6.4635223429
+  verification_checks: 23/23
+  progression_gate_pass: false
+  primary_gates_pass: false
+  closed_without_opening: [C0, C2, Q3, syndrome, P1_runtime]
+claim_boundary:
+  - This screen tests the maximal linear C1 mechanism, not runtime or novelty.
+  - With 1024 fit tokens, the empirical design rank is data-limited even
+    though the deployed parameterization contains two dense full-rank maps.
+  - Qwen packing, syndrome, nonlinear repair and tokens-per-second are blocked.

@@ -1,0 +1,54 @@
+project: HERA_MOE
+codename: HotEntropyResidentRareExact
+created_at: 2026-08-11
+status: proposed_new_independent_registry
+parents:
+  - project: E2GQ_MOE
+    status: p0_closed_coverage_negative
+    inherited_claim: all-expert natural-coverage rule remains falsified
+hypothesis:
+  id: HERA_TIERED_RESIDENCY
+  statement: >-
+    A Qwen3 MoE can achieve at least 10 batch-1 decode tokens per second on
+    8 GiB VRAM and 32 GiB RAM by keeping sufficiently calibrated,
+    entropy-coded 2-bit GPTQ experts resident on GPU while serving
+    undercovered experts exactly in BF16 from host memory.
+  novelty_claim: false
+positive_precondition:
+  source_zip_sha256: 8e6a2951a6ed4bd11ac3094262e53dbc075f3771c7e33279643e49d2f7bba070
+  hot_threshold_rows: 128
+  hot_experts: 4449
+  cold_experts: 1695
+  cold_parameter_fraction: 0.275878906250
+  cold_locked_invocation_fraction: 0.003811359406
+  projected_hot_bank_gib: 4.718476505676
+  projected_nonexpert_int4_gib: 0.717627525330
+  projected_resident_weight_vram_gib: 5.436104031006
+  projected_cold_bf16_host_gib: 14.897460937500
+  projected_all_weight_bytes_across_tiers_gib: 20.333564968506
+phases:
+  - id: P0_MULTIDOMAIN_TIER_AUDIT
+    status: ready_after_preregistration
+  - id: P1_FULL_MODEL_QUALITY
+    status: blocked_by_P0
+  - id: P2_ACTUAL_HOT_PACK
+    status: blocked_by_P1
+  - id: P3_COLD_TIER_RUNTIME
+    status: blocked_by_P2
+  - id: P4_FULL_RUNTIME
+    status: blocked_by_P3
+  - id: P5_SECOND_FAMILY
+    status: blocked_by_P4
+gates:
+  projected_hot_plus_trunk_gib_max: 5.75
+  actual_hot_pack_gib_max: 4.95
+  relative_ce_delta_max: 0.02
+  rollout_tokens_min: 512
+  peak_vram_gib_max: 8.0
+  process_ram_gib_max: 32.0
+  batch1_tokens_per_second_min: 10.0
+claim_boundary:
+  - The current hot entropy rate is a locked-sample extrapolation.
+  - Cold rarity is measured on WikiText and is not a cross-domain guarantee.
+  - Full-model quality and actual runtime remain unproven.
+  - Entropy coding, mixed precision, expert caching and CPU/GPU offload are prior art.

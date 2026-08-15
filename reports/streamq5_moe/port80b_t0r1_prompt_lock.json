@@ -1,0 +1,55 @@
+{
+  "kind": "port80b_t0r1_fresh_prompt_lock",
+  "locked_date": "2026-08-13",
+  "outputs_opened": false,
+  "model": "Qwen/Qwen3-Coder-Next",
+  "revision": "a19358a7659bd1f564300250ee189120c49a562f",
+  "tokenizer_sha256": "19564a48c4f71a2a1b937cce34c737a1e662b171c5f5d7edf641a15cd896f07d",
+  "tokenizer_config_sha256": "fc76878832c668e3f0f8be66e6239a475b9093d2fe5cef97c242369779e6c6e6",
+  "tokenization": {
+    "add_special_tokens": false,
+    "take_first_tokens": 16,
+    "reject_if_shorter_than": 16,
+    "token_id_hash_encoding": "unsigned little-endian uint32 concatenation"
+  },
+  "partition": {
+    "calibration_positions_inclusive": [0, 7],
+    "heldout_positions_inclusive": [8, 15],
+    "primary_heldout_rows": 32
+  },
+  "prompts": [
+    {
+      "domain": "general",
+      "utf8_text": "Explain how a small team can verify a difficult technical claim using reproducible evidence and independent checks.",
+      "utf8_sha256": "ebd87431f54332e50e69beddbb5b8fdbe2e162bcac5ea8421e6b2f946302cd52",
+      "token_ids": [840, 20772, 1246, 264, 2613, 2083, 646, 10146, 264, 5000, 10916, 3717, 1667, 52723, 78285, 5904],
+      "token_ids_le_u32_sha256": "98992f3910353ebaafd4165f20cc1efe4c4904a9875d232aba9793b795be0199"
+    },
+    {
+      "domain": "python",
+      "utf8_text": "Write a Python function that merges two sorted integer lists while preserving duplicates, then state its time complexity.",
+      "utf8_sha256": "1f24aa8ae2dc61179ffc94f65a697e8e879dba426d19f2518a84c62ea40e1801",
+      "token_ids": [7985, 264, 13027, 729, 429, 80953, 1378, 10615, 7546, 11469, 1393, 46895, 42328, 11, 1221, 1584],
+      "token_ids_le_u32_sha256": "57e08f91a49ae76cbd490ca4f38d565a2d68f576b07014f8a50a684ce7e209c6"
+    },
+    {
+      "domain": "mathematics",
+      "utf8_text": "A matrix has eigenvalues two, three, and five. Compute its determinant and explain each step.",
+      "utf8_sha256": "130b4c4ae55c0c0660e2c26daaa2f3800ce7d35610fadc53c79215f71053c278",
+      "token_ids": [32, 6172, 702, 28724, 3661, 1378, 11, 2326, 11, 323, 4236, 13, 22603, 1181, 86960, 323],
+      "token_ids_le_u32_sha256": "2fffe3365da5b3385b3eda5bd4bcbc8a2cb85b1429fed6dd1c5d90f34ab88d70"
+    },
+    {
+      "domain": "multilingual",
+      "utf8_text": "Leg in het Nederlands uit waarom reproduceerbare metingen belangrijk zijn voor betrouwbare technische conclusies.",
+      "utf8_sha256": "855d1c8c4371989c49a668544d736f18bf403d556d8df044c54ce377fe26dcb5",
+      "token_ids": [18910, 304, 9017, 451, 7294, 8166, 24302, 37295, 316, 22800, 40499, 546, 2270, 27918, 83246, 86674],
+      "token_ids_le_u32_sha256": "89d40da82d9e58df142a68a7b9e96a07bc80090a821584625cce0ebaaa4d89a6"
+    }
+  ],
+  "freshness_contract": {
+    "exact_token_id_arrays_must_not_equal_any_prior_decision_row": true,
+    "prior_lock_checked": "reports/streamq5_moe/p4d_route_input_lock.json",
+    "prior_model_is_not_target_evidence": "Qwen3-30B-A3B"
+  }
+}

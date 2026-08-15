@@ -1,0 +1,177 @@
+{
+  "kind": "treesweep200_e0_roofline_reproduction",
+  "registry": "NEMOTRON_TREESWEEP_200_ROOFLINE_V2",
+  "phase": "P0_E0_IDENTITY_AND_REPRODUCTION",
+  "started_utc": "2026-08-15T16:02:05.333750+00:00",
+  "completed_utc": "2026-08-15T16:02:07.826499+00:00",
+  "runner_sha256": "45283c504062e069dea995121ea8a8e8f79b4254a0df56285ad276ba178c8f1a",
+  "identity_manifest_sha256": "4091038ff9940e6f2753851e77149c6417abaeaa35f61ba76ddfaa5632a1b8b1",
+  "evidence_manifest_sha256": "55879c50cdfcd5dfd262316c8985b6840b5a0b06853e12bbbf9640239a95e88c",
+  "byte_model": {
+    "method": "safetensors shard headers; resident = total - bank - mtp - embed; expert read = 23 x 6 x (up_record + nonzero_frac x down_record); kv = 6 x 2 x ctx x 256 B (fp8)",
+    "total_checkpoint_bytes": 21559589596,
+    "bank_bytes": 16523353088,
+    "mtp_bytes": 2670652160,
+    "embed_bytes": 704643072,
+    "resident_bytes": 1660941276,
+    "lm_head_bytes_in_resident": 176160768,
+    "up_record_bytes": 2806272,
+    "down_record_bytes": 2806272,
+    "relu2_nonzero_fraction": 0.09310888891118496,
+    "n_moe_layers": 23,
+    "n_attn_layers": 6,
+    "top_k": 6
+  },
+  "roofline": {
+    "own_gb_s": 330.52447946807854,
+    "reps_gb_s": [
+      211.10054734193142,
+      338.71981829653,
+      338.33558860599953,
+      330.54482945450064,
+      330.50413198719525,
+      328.76357134109,
+      330.4227671097981,
+      330.54482945450064,
+      330.789224892175,
+      317.11217483756644
+    ],
+    "imported_gb_s": 338.4
+  },
+  "floors": {
+    "0": {
+      "context": 0,
+      "resident_bytes": 1660941276,
+      "expert_read_bytes": 423323399,
+      "expert_up_bytes": 387265536,
+      "expert_down_sparse_bytes": 36057863,
+      "kv_bytes": 0,
+      "total_bytes": 2084264675,
+      "floor_ms": 6.3059313438879325,
+      "ceiling_tok_s": 158.58085752380683
+    },
+    "4096": {
+      "context": 4096,
+      "resident_bytes": 1660941276,
+      "expert_read_bytes": 423323399,
+      "expert_up_bytes": 387265536,
+      "expert_down_sparse_bytes": 36057863,
+      "kv_bytes": 12582912,
+      "total_bytes": 2096847587,
+      "floor_ms": 6.344000875137932,
+      "ceiling_tok_s": 157.62923424537797
+    },
+    "32768": {
+      "context": 32768,
+      "resident_bytes": 1660941276,
+      "expert_read_bytes": 423323399,
+      "expert_up_bytes": 387265536,
+      "expert_down_sparse_bytes": 36057863,
+      "kv_bytes": 100663296,
+      "total_bytes": 2184927971,
+      "floor_ms": 6.610487593887933,
+      "ceiling_tok_s": 151.27477145930985
+    },
+    "131072": {
+      "context": 131072,
+      "resident_bytes": 1660941276,
+      "expert_read_bytes": 423323399,
+      "expert_up_bytes": 387265536,
+      "expert_down_sparse_bytes": 36057863,
+      "kv_bytes": 402653184,
+      "total_bytes": 2486917859,
+      "floor_ms": 7.524156343887933,
+      "ceiling_tok_s": 132.90526595879763
+    },
+    "262100": {
+      "context": 262100,
+      "resident_bytes": 1660941276,
+      "expert_read_bytes": 423323399,
+      "expert_up_bytes": 387265536,
+      "expert_down_sparse_bytes": 36057863,
+      "kv_bytes": 805171200,
+      "total_bytes": 2889435875,
+      "floor_ms": 8.74197239384521,
+      "ceiling_tok_s": 114.39066093414463
+    }
+  },
+  "classification": [
+    {
+      "claim": "N5 streaming roofline",
+      "own_value": 330.52447946807854,
+      "imported_value": 338.4,
+      "classification": "reproduced",
+      "note": "own kernel, 256 MiB float4, 10 reps p50"
+    },
+    {
+      "claim": "N5 byte floor ctx0",
+      "own_value": 6.3059313438879325,
+      "imported_value": 6.05,
+      "classification": "reproduced",
+      "note": "own header-derived byte model incl. sparse-down correction (0.0931 of down read)"
+    },
+    {
+      "claim": "N5 byte floor ctx262100",
+      "own_value": 8.74197239384521,
+      "imported_value": 8.43,
+      "classification": "reproduced",
+      "note": "idem"
+    },
+    {
+      "claim": "N1 graph gain 23.7%",
+      "own_value": null,
+      "imported_value": null,
+      "classification": "reproduced",
+      "note": "in-repo independent verification verdict: VERIFIED (0 failed checks)"
+    },
+    {
+      "claim": "N2 gather 8.192 ms / 4.3 GB/s in-loop",
+      "own_value": null,
+      "imported_value": null,
+      "classification": "reproduced",
+      "note": "in-repo independent verification verdict: VERIFIED (0 failed checks)"
+    },
+    {
+      "claim": "N4 attention byte-linear, 47.2 GB/s",
+      "own_value": null,
+      "imported_value": null,
+      "classification": "reproduced",
+      "note": "in-repo independent verification verdict: VERIFIED (0 failed checks)"
+    },
+    {
+      "claim": "N3 low-rank prefilter closed",
+      "own_value": null,
+      "imported_value": null,
+      "classification": "reproduced",
+      "note": "in-repo independent verification verdict: VERIFIED (0 failed checks)"
+    },
+    {
+      "claim": "N5 critical GEMV 81.4 GB/s",
+      "own_value": null,
+      "imported_value": 81.4,
+      "classification": "reproduced",
+      "note": "y2r1 artifact + y1y2 verification verdict: VERIFIED"
+    }
+  ],
+  "gates": {
+    "G_P0_I1": {
+      "pass": true
+    },
+    "G_P0_B1": {
+      "pass": true
+    },
+    "G_E0_R1": {
+      "pass": true,
+      "own": 330.52447946807854,
+      "imported": 338.4
+    },
+    "G_E0_F1": {
+      "pass": true,
+      "own_ctx0_ms": 6.3059313438879325,
+      "imported_ctx0_ms": 6.05,
+      "own_262k_ms": 8.74197239384521,
+      "imported_262k_ms": 8.43
+    }
+  },
+  "claim_boundary": "Byte floors are an own recomputation from checkpoint headers plus measured sparsity, divided by an own measured streaming roofline; they are hard upper bounds on tokens/s for any semantics-preserving implementation, not measurements of the runtime. Classifications of N1-N4 and the GEMV claim rest on in-repo independently verified artifacts whose hashes are locked in the evidence manifest. No optimization, no throughput claim, no quality claim."
+}

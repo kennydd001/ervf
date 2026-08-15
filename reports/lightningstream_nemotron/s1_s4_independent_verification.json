@@ -1,0 +1,129 @@
+{
+  "kind": "lightningstream_nemotron_s1_s4_independent_verification",
+  "verifier": "scripts/lightningstream_nemotron/s1_s4_independent_verify.py",
+  "checks_pass": 20,
+  "checks_total": 20,
+  "all_pass": true,
+  "recomputed": {
+    "s1_mean_recall": {
+      "recall@6": 0.4731826999885883,
+      "recall@8": 0.5418521054433413,
+      "recall@12": 0.6114914983453156,
+      "recall@16": 0.6588497090037658,
+      "recall@24": 0.7240385712655483
+    },
+    "s1_min_layer_recall12": 0.5111548556430445,
+    "s1_temporal_identity_overlap": 0.28991213054889875,
+    "s1_adjacent_layer_overlap": 0.050559303977272714,
+    "s2_mean_zero_fraction": 0.906891111088815,
+    "s2_zero16_block_fraction": 0.3059452587281885,
+    "s2_zero64_block_fraction": 0.04932571954940312,
+    "s3_min_nibble_entropy_bits": 3.967141899874166,
+    "s3_mean_nibble_entropy_bits": 3.9698307598971656,
+    "s3_mean_scale_byte_entropy_bits": 3.8721431488796303,
+    "s3_mean_cond_entropy_bits": 3.9662691961312446,
+    "s4_draft_hits": []
+  },
+  "checks": [
+    {
+      "check": "V1.1 23 MoE layers",
+      "pass": true,
+      "detail": "n=23"
+    },
+    {
+      "check": "V1.2 route rows per layer >= 256",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "V1.3 every route row is 6 unique ids",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "V1.4 sparsity call count multiple of 138",
+      "pass": true,
+      "detail": "n=72174"
+    },
+    {
+      "check": "V1.5 sparsity arrays consistent",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "V2.1 recall@12 recomputed matches runner",
+      "pass": true,
+      "detail": "verifier 0.611491 runner 0.611491"
+    },
+    {
+      "check": "V2.2 min-layer recall@12 matches",
+      "pass": true,
+      "detail": "verifier 0.511155"
+    },
+    {
+      "check": "V2.3 recall@24 matches",
+      "pass": true,
+      "detail": "verifier 0.724039"
+    },
+    {
+      "check": "V2.4 G-S1-PASS verdict matches runner",
+      "pass": true,
+      "detail": "PASS=False"
+    },
+    {
+      "check": "V2.5 G-S1-CLOSE verdict matches runner",
+      "pass": true,
+      "detail": "CLOSE=True"
+    },
+    {
+      "check": "V3.1 mean zero fraction matches",
+      "pass": true,
+      "detail": "verifier 0.906891"
+    },
+    {
+      "check": "V3.2 zero-16 block fraction matches",
+      "pass": true,
+      "detail": "verifier 0.305945"
+    },
+    {
+      "check": "V3.3 zero-64 block fraction matches",
+      "pass": true,
+      "detail": "verifier 0.049326"
+    },
+    {
+      "check": "V3.4 G-S2-PASS verdict matches",
+      "pass": true,
+      "detail": "PASS=True"
+    },
+    {
+      "check": "V3.5 G-S2-CLOSE verdict matches",
+      "pass": true,
+      "detail": "CLOSE=False"
+    },
+    {
+      "check": "V4.1 per-layer nibble entropy matches runner",
+      "pass": true,
+      "detail": "max diff 0.00e+00"
+    },
+    {
+      "check": "V4.2 per-layer conditional entropy matches runner",
+      "pass": true,
+      "detail": "max diff 0.00e+00"
+    },
+    {
+      "check": "V4.3 G-S3-LOSSLESS verdict matches",
+      "pass": true,
+      "detail": "open=False (min 3.9671 bits)"
+    },
+    {
+      "check": "V4.4 G-S3-DELTA verdict matches",
+      "pass": true,
+      "detail": "open=False (mean 3.9663 bits)"
+    },
+    {
+      "check": "V5.1 draft scan matches runner",
+      "pass": true,
+      "detail": "0 hits"
+    }
+  ]
+}

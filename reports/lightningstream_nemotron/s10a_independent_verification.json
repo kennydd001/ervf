@@ -1,0 +1,322 @@
+{
+  "kind": "lightningstream_nemotron_s10a_independent_verification",
+  "completed_utc": "2026-08-15T08:09:19.321497+00:00",
+  "verifier_sha256": "b3d51826cc50980c6ce56dbd3e6511a832de7720b3bb9ae1e1ace8662145db1c",
+  "verified_file_sha256": "6f7604ce672fcb3a571ceebaa225d46e0d789613a0c283da84d15944cbf37a6a",
+  "recomputed": {
+    "per_prompt": {
+      "expository": {
+        "steps": 120,
+        "mean_A": 1.85
+      },
+      "narrative": {
+        "steps": 120,
+        "mean_A": 1.2083333333333333
+      },
+      "code": {
+        "steps": 120,
+        "mean_A": 3.283333333333333
+      }
+    },
+    "pooled_steps": 360,
+    "pooled_mean_A": 2.113888888888889,
+    "pooled_histogram_A": {
+      "0": 77,
+      "1": 70,
+      "2": 58,
+      "3": 45,
+      "4": 110
+    },
+    "conditional_accept": [
+      0.7861111111111111,
+      0.7526501766784452,
+      0.7276995305164319,
+      0.7096774193548387
+    ],
+    "long_context_steps": 60,
+    "long_context_mean_A": 2.0833333333333335,
+    "a1_winner": "eh_post",
+    "a1_mean_nll": {
+      "eh_pre": 4.018031716346741,
+      "eh_post": 3.2624907184250747,
+      "he_pre": 10.53425254701059,
+      "he_post": 10.457504746280138
+    }
+  },
+  "gate_G_S10_1": {
+    "required_mean_A": 1.5,
+    "measured_mean_A": 2.113888888888889,
+    "passed": true
+  },
+  "checks": [
+    {
+      "check": "corpus sha256 in result matches corpus file on disk",
+      "ok": true
+    },
+    {
+      "check": "corpus source parquet still hashes to the locked value",
+      "ok": true
+    },
+    {
+      "check": "A1 winner is the argmin of the four mean NLLs",
+      "ok": true,
+      "recomputed": "eh_post",
+      "stored": "eh_post"
+    },
+    {
+      "check": "A1 winner is below the preregistered 7.0 nat ceiling",
+      "ok": true,
+      "mean_nll": 3.2624907184250747
+    },
+    {
+      "check": "A1 scored at least 256 positions per variant",
+      "ok": true,
+      "positions": {
+        "eh_pre": 632,
+        "eh_post": 632,
+        "he_pre": 632,
+        "he_post": 632
+      }
+    },
+    {
+      "check": "A2 ran with the wiring A1 selected",
+      "ok": true
+    },
+    {
+      "check": "A1 corpus rows are disjoint from the A2 gate prompts",
+      "ok": true,
+      "note": "A1 uses wikitext rows; gate prompts are hand-written strings in the corpus lock"
+    },
+    {
+      "check": "each decoded sequence starts with the locked prompt tokens",
+      "ok": true
+    },
+    {
+      "check": "gate[expository].first_measured_index == prompt_tokens - 1",
+      "ok": true,
+      "got": 21,
+      "expected": 21
+    },
+    {
+      "check": "gate[expository].measured indices are consecutive from first",
+      "ok": true,
+      "n": 120
+    },
+    {
+      "check": "gate[expository].truth windows equal sequence[i+2 : i+2+D]",
+      "ok": true
+    },
+    {
+      "check": "gate[expository].every step has exactly D=4 drafts",
+      "ok": true
+    },
+    {
+      "check": "gate[expository].every truth window fits inside the sequence",
+      "ok": true
+    },
+    {
+      "check": "gate[expository].recomputed A equals stored A",
+      "ok": true,
+      "mismatches": 0
+    },
+    {
+      "check": "gate[expository].histogram reproduces",
+      "ok": true,
+      "recomputed": {
+        "0": 27,
+        "1": 28,
+        "2": 25,
+        "3": 16,
+        "4": 24
+      }
+    },
+    {
+      "check": "gate[expository].mean_A reproduces",
+      "ok": true,
+      "recomputed": 1.85,
+      "stored": 1.85
+    },
+    {
+      "check": "gate[narrative].first_measured_index == prompt_tokens - 1",
+      "ok": true,
+      "got": 22,
+      "expected": 22
+    },
+    {
+      "check": "gate[narrative].measured indices are consecutive from first",
+      "ok": true,
+      "n": 120
+    },
+    {
+      "check": "gate[narrative].truth windows equal sequence[i+2 : i+2+D]",
+      "ok": true
+    },
+    {
+      "check": "gate[narrative].every step has exactly D=4 drafts",
+      "ok": true
+    },
+    {
+      "check": "gate[narrative].every truth window fits inside the sequence",
+      "ok": true
+    },
+    {
+      "check": "gate[narrative].recomputed A equals stored A",
+      "ok": true,
+      "mismatches": 0
+    },
+    {
+      "check": "gate[narrative].histogram reproduces",
+      "ok": true,
+      "recomputed": {
+        "0": 43,
+        "1": 36,
+        "2": 21,
+        "3": 13,
+        "4": 7
+      }
+    },
+    {
+      "check": "gate[narrative].mean_A reproduces",
+      "ok": true,
+      "recomputed": 1.2083333333333333,
+      "stored": 1.2083333333333333
+    },
+    {
+      "check": "gate[code].first_measured_index == prompt_tokens - 1",
+      "ok": true,
+      "got": 27,
+      "expected": 27
+    },
+    {
+      "check": "gate[code].measured indices are consecutive from first",
+      "ok": true,
+      "n": 120
+    },
+    {
+      "check": "gate[code].truth windows equal sequence[i+2 : i+2+D]",
+      "ok": true
+    },
+    {
+      "check": "gate[code].every step has exactly D=4 drafts",
+      "ok": true
+    },
+    {
+      "check": "gate[code].every truth window fits inside the sequence",
+      "ok": true
+    },
+    {
+      "check": "gate[code].recomputed A equals stored A",
+      "ok": true,
+      "mismatches": 0
+    },
+    {
+      "check": "gate[code].histogram reproduces",
+      "ok": true,
+      "recomputed": {
+        "0": 7,
+        "1": 6,
+        "2": 12,
+        "3": 16,
+        "4": 79
+      }
+    },
+    {
+      "check": "gate[code].mean_A reproduces",
+      "ok": true,
+      "recomputed": 3.283333333333333,
+      "stored": 3.283333333333333
+    },
+    {
+      "check": "pooled mean_A reproduces",
+      "ok": true,
+      "recomputed": 2.113888888888889,
+      "stored": 2.113888888888889
+    },
+    {
+      "check": "pooled histogram reproduces",
+      "ok": true
+    },
+    {
+      "check": "pooled step count >= 200",
+      "ok": true,
+      "steps": 360
+    },
+    {
+      "check": "at least 3 gate prompts",
+      "ok": true
+    },
+    {
+      "check": "G-S10-1 verdict agrees with the runner",
+      "ok": true,
+      "recomputed": true,
+      "stored": true
+    },
+    {
+      "check": "gate threshold in the result is still the preregistered 1.5",
+      "ok": true
+    },
+    {
+      "check": "long_ctx.first_measured_index == prompt_tokens - 1",
+      "ok": true,
+      "got": 4095,
+      "expected": 4095
+    },
+    {
+      "check": "long_ctx.measured indices are consecutive from first",
+      "ok": true,
+      "n": 60
+    },
+    {
+      "check": "long_ctx.truth windows equal sequence[i+2 : i+2+D]",
+      "ok": true
+    },
+    {
+      "check": "long_ctx.every step has exactly D=4 drafts",
+      "ok": true
+    },
+    {
+      "check": "long_ctx.every truth window fits inside the sequence",
+      "ok": true
+    },
+    {
+      "check": "long_ctx.recomputed A equals stored A",
+      "ok": true,
+      "mismatches": 0
+    },
+    {
+      "check": "long_ctx.histogram reproduces",
+      "ok": true,
+      "recomputed": {
+        "0": 18,
+        "1": 6,
+        "2": 9,
+        "3": 7,
+        "4": 20
+      }
+    },
+    {
+      "check": "long_ctx.mean_A reproduces",
+      "ok": true,
+      "recomputed": 2.0833333333333335,
+      "stored": 2.0833333333333335
+    },
+    {
+      "check": "long-context arm is excluded from the pooled gate figure",
+      "ok": true
+    },
+    {
+      "check": "no A exceeds D",
+      "ok": true
+    },
+    {
+      "check": "result reports no tokens-per-second figure at top level",
+      "ok": true
+    },
+    {
+      "check": "result carries a claim boundary",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

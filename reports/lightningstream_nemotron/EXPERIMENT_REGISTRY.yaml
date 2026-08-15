@@ -1,0 +1,1536 @@
+# registry: LIGHTNINGSTREAM_NEMOTRON
+# This file is APPEND-ONLY. Entries are never deleted, reworded to change
+# meaning, or reclassified after the fact. A failed attempt keeps its entry and
+# a follow-up revision gets a new one (suffix R1, R2, ...).
+
+registry: LIGHTNINGSTREAM_NEMOTRON
+version: 1
+created_utc: "2026-08-14T09:52:12Z"
+owner: lightningstream_nemotron
+independent_of: [PORT80B, STREAMQ5, HET_NEXT, CRAFT, RSIV, FLEQ, E2GQ, HERA, CORETAIL, BITFLOW, STREAMQ4, TIERFLOW, ERVF, ERGV]
+
+identity:
+  LIGHTNING_SERVICE: nvidia/nemotron-3.5-nano-30b-a3b
+  LOCAL_PUBLIC_WEIGHTS: nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4
+  naming_rule: >
+    Anything measured locally is described as "public Nemotron 3 Nano NVFP4
+    checkpoint". The NIM name is described as a separate endpoint. The phrase
+    "Nemotron 3.5 Lightning local weights" is forbidden unless H0 returns
+    identity_proven.
+  known_metadata_conflict: >
+    NVIDIA NIM model card states top-5 routing in at least one place; the public
+    checkpoint configuration indicates top-6. For the local checkpoint the
+    pinned config, tensor index, model code and one intercepted official routing
+    call are authoritative. N1's 138-records/token figure already assumes top-6
+    and must be re-derived in N2, not inherited.
+
+isolation:
+  protected_manifest_before: reports/lightningstream_nemotron/PROTECTED_80B_MANIFEST_BEFORE.json
+  protected_root_digest: "7c992ce222841f975b349a1e2e3cdecb79606a7372852f67c0dd16dabce946ba"
+  protected_files: 4501
+  protected_bytes: 193299000498
+  write_allowlist:
+    - reports/lightningstream_nemotron/
+    - reports/runs/lightningstream_nemotron/
+    - scripts/lightningstream_nemotron/
+    - src/moe_lab/lightningstream_nemotron/
+    - tests/lightningstream_nemotron/
+    - docs/LIGHTNINGSTREAM_NEMOTRON_RESEARCH_LOG.md
+    - models/nemotron_3_5_lightning/
+    - .cache/nemotron_3_5_lightning/
+    - .venv-nemotron/
+  environment: .venv-nemotron (Python 3.12.10; numpy 2.2.6, huggingface_hub 0.35.3, safetensors 0.6.2, requests 2.32.5)
+  accepted_deviations:
+    - id: no_git_branch
+      reason: >
+        The repository has zero commits and 193 GB of untracked content. Creating
+        a branch or worktree would not isolate anything and risks disturbing the
+        other agent's working tree. Isolation is enforced by path allowlist plus
+        the protected manifest instead.
+    - id: gitignore_unmodified
+      reason: >
+        .gitignore is a protected file. Adding .venv-nemotron/ and .cache/ to it
+        would itself be a protected-byte change and therefore a hard stop.
+
+# ---------------------------------------------------------------------------
+# Imported prior evidence. Read-only. Not rewritten, not rerun, not duplicated.
+# ---------------------------------------------------------------------------
+imported_evidence:
+  - id: NEMOTRON_N0_METADATA_GATE
+    phase_of_record: executed 2026-08-12 under the STREAMQ5 report namespace
+    status: imported_readonly
+    artifacts:
+      - path: reports/streamq5_moe/NEMOTRON_N0_METADATA_GATE_REPORT_2026-08-12.md
+        bytes: 446
+        sha256: "0aad902cfb98644689420349505cfb827b726592204730fe8df87107f3e8cc76"
+      - path: reports/streamq5_moe/nemotron_n0_metadata_gate.json
+        bytes: 5885
+        sha256: "28d4660af02da40f712fe21fb1f284ad260f76de715461e5cfb95009564e00d7"
+    established:
+      public_checkpoint: nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4
+      pinned_commit: ce1b118ae66ec705d02c241525192832eb045fd3
+      shards: 5
+      tensors: 24147
+      indexed_payload_gib: 18.01157522201538
+      alias_identity_proven: false
+      shard_downloaded: false
+
+  - id: NEMOTRON_N1_HEADER_INVENTORY
+    phase_of_record: executed 2026-08-12 under the STREAMQ5 report namespace
+    status: imported_readonly
+    artifacts:
+      - path: reports/streamq5_moe/NEMOTRON_N1_HEADER_INVENTORY_PREREGISTRATION.md
+        bytes: 829
+        sha256: "2d38753c96d36283a7eb1f58abdb1e8ef5554563ecca6667e6b8d07572235f7e"
+      - path: reports/streamq5_moe/NEMOTRON_N1_HEADER_INVENTORY_REPORT_2026-08-12.md
+        bytes: 476
+        sha256: "0f019beaeaad7cad514560eac3277e541b55076ff373a3c3868dd55c6eb54779"
+      - path: reports/streamq5_moe/nemotron_n1_header_inventory.json
+        bytes: 3266
+        sha256: "4a501c79a4608c3e6aff53b9b027a546416a41b98bbafb20004fffef65aad348"
+    established:
+      status: header_inventory_pass
+      tensor_bytes: 19339781632
+      bucket_bytes:
+        routed_experts: 16523376640
+        shared_experts: 258177392
+        trunk_other: 2558227600
+      dtype_bytes:
+        U8: 15245905920
+        BF16: 2156424064
+        F8_E4M3: 1905738240
+        F32: 31713408
+      moe_layers: 23
+      routed_experts_per_layer: 128
+      routed_records: 2944
+      routed_record_bytes: 5612560
+      all_cold_top6_records_per_token: 138
+      all_cold_top6_bytes_per_token: 774533280
+      all_cold_floor_ms_at_26_158915_gb_s: 29.608769323957052
+    claim_boundary: >
+      Pinned official safetensors-header/index inventory only; no tensor payload
+      downloaded, decoded or executed and no quality/performance result.
+    arithmetic_reverified_by_lightningstream: true
+    arithmetic_notes: >
+      2944 * 5612560 = 16523376640 matches the routed bucket exactly;
+      23 * 6 = 138; 138 * 5612560 = 774533280;
+      774533280 / 26.158915e9 = 29.6088 ms. Internally consistent.
+
+# ---------------------------------------------------------------------------
+# Phase plan. A phase may not execute before its preregistration, input lock,
+# runner hash, verifier hash, gates and claim boundary all exist.
+# ---------------------------------------------------------------------------
+phases:
+  - id: N0R_IDENTITY_REFRESH
+    hypothesis: H0
+    status: preregistered
+    question: >
+      Is the NIM nemotron-3.5-nano-30b-a3b payload the same checkpoint as the
+      public HF NVFP4 checkpoint, a new post-training revision, or a serving
+      alias over an unknown payload?
+    outcomes: [identity_proven, behaviorally_close_identity_unproven, distinct_revision, service_only_unknown_payload]
+    blocking: false
+    controls_naming: true
+
+  - id: N2_FULL_PAYLOAD_AND_QUANT_SEMANTICS
+    hypothesis: H1
+    status: planned
+    depends_on: [N0R_IDENTITY_REFRESH]
+
+  - id: N3_ONE_MODULE_REFERENCE
+    hypothesis: H2
+    status: planned
+    depends_on: [N2_FULL_PAYLOAD_AND_QUANT_SEMANTICS]
+
+  - id: N4_ZERO_CACHE_DATAPLANE
+    hypothesis: H3
+    status: planned
+    depends_on: [N3_ONE_MODULE_REFERENCE]
+
+  - id: N5_PHYSICAL_RESIDENT_SHELL
+    hypothesis: H4
+    status: planned
+    depends_on: [N4_ZERO_CACHE_DATAPLANE]
+
+  - id: N6_FULL_MODEL_4K
+    hypothesis: H4
+    status: planned
+    depends_on: [N5_PHYSICAL_RESIDENT_SHELL]
+
+  - id: N7_NATURAL_ROUTE_CACHE
+    hypothesis: H5
+    status: planned
+    depends_on: [N6_FULL_MODEL_4K]
+
+  - id: N8_GROUPED_PREFILL
+    hypothesis: H7
+    status: planned
+    depends_on: [N6_FULL_MODEL_4K]
+
+  - id: N9_CONTEXT_32K
+    hypothesis: H8
+    status: planned
+    depends_on: [N7_NATURAL_ROUTE_CACHE, N8_GROUPED_PREFILL]
+
+  - id: N10_CONTEXT_128K
+    hypothesis: H8
+    status: planned
+    depends_on: [N9_CONTEXT_32K]
+
+  - id: N11_CONTEXT_256K
+    hypothesis: H8
+    status: planned
+    depends_on: [N10_CONTEXT_128K]
+
+  - id: N12_LONG_ROLLOUT_AND_THERMAL
+    hypothesis: H9
+    status: planned
+    depends_on: [N10_CONTEXT_128K]
+
+  - id: N13_1M_STRETCH
+    hypothesis: H8
+    status: planned
+    depends_on: [N11_CONTEXT_256K]
+    note: No 1M claim may be made from architecture metadata alone.
+
+  - id: N14_SECOND_RUNTIME_OR_MODEL_REPLICATION
+    hypothesis: H6
+    status: planned
+    depends_on: [N6_FULL_MODEL_4K]
+
+  # --- New-science campaign for the 50 tok/s question, added 2026-08-14 ---
+  - id: S0_REPRO_BASELINE
+    hypothesis: H10
+    status: executed
+    note: >
+      n7b_cached_decode.py reproduced before any new work: 22,062 / 20,147 /
+      16,686 / 13,143 tok/s at ctx 0 / 32K / 131K / 262100, correctness Paris.
+      Matches the N8 report within run-to-run noise.
+  - id: S1_ROUTE_PREDICTABILITY_CENSUS
+    hypothesis: H11
+    status: preregistered
+    preregistration: reports/lightningstream_nemotron/S1_S4_HYPOTHESIS_CENSUS_PREREGISTRATION_2026-08-14.md
+  - id: S2_RELU2_SPARSITY_CENSUS
+    hypothesis: H12
+    status: preregistered
+    preregistration: reports/lightningstream_nemotron/S1_S4_HYPOTHESIS_CENSUS_PREREGISTRATION_2026-08-14.md
+  - id: S3_CODE_ENTROPY_CENSUS
+    hypothesis: H13
+    status: preregistered
+    preregistration: reports/lightningstream_nemotron/S1_S4_HYPOTHESIS_CENSUS_PREREGISTRATION_2026-08-14.md
+  - id: S4_MTP_WEIGHT_SCAN
+    hypothesis: H14
+    status: preregistered
+    preregistration: reports/lightningstream_nemotron/S1_S4_HYPOTHESIS_CENSUS_PREREGISTRATION_2026-08-14.md
+  - id: S5_COLUMN_SELECTIVE_DOWN_PROJ
+    hypothesis: H15
+    status: preregistered
+    depends_on: [S2_RELU2_SPARSITY_CENSUS]
+    preregistration: reports/lightningstream_nemotron/S5_COLUMN_SELECTIVE_DOWN_PROJ_PREREGISTRATION_2026-08-14.md
+
+# ---------------------------------------------------------------------------
+# Execution records. APPEND ONLY. One entry per executed attempt, including
+# failures. The `phases` list above stays the plan; this is what happened.
+# ---------------------------------------------------------------------------
+executions:
+  - phase: N0R_IDENTITY_REFRESH
+    attempt: 1
+    executed_utc: "2026-08-14T10:0x:00Z"
+    outcome: service_only_unknown_payload
+    decision_branch: 3
+    gates_all_pass: true
+    predicted_before_execution: true
+    preregistration: reports/lightningstream_nemotron/N0R_IDENTITY_REFRESH_PREREGISTRATION_2026-08-14.md
+    input_lock: reports/lightningstream_nemotron/n0r_input_lock.json
+    result: reports/lightningstream_nemotron/n0r_identity_refresh.json
+    report: reports/lightningstream_nemotron/N0R_IDENTITY_REFRESH_REPORT_2026-08-14.md
+    protected_verification: reports/lightningstream_nemotron/protected_verification_after_n0r.json
+    protected_verdict: PROTECTED_80B_INTACT
+    shard_downloaded: false
+    prompt_sent_to_endpoint: false
+    established:
+      hf_resolved_sha: ce1b118ae66ec705d02c241525192832eb045fd3
+      hf_main_drift_since_n0: none
+      hf_last_modified: "2026-03-15T04:27:10Z"
+      siblings: 18
+      shard_total_bytes: 19342796520
+      architectures: [NemotronHForCausalLM]
+      model_type: nemotron_h
+      num_hidden_layers: 52
+      hybrid_override_pattern: "MEMEM*EMEMEM*EMEMEM*EMEMEM*EMEMEM*EMEMEMEM*EMEMEMEME"
+      mamba_layers: 23
+      moe_layers: 23
+      attention_layers: 6
+      attention_layer_indices: [5, 12, 19, 26, 33, 42]
+      hidden_size: 2688
+      moe_intermediate_size: 1856
+      moe_shared_expert_intermediate_size: 3712
+      n_routed_experts: 128
+      num_experts_per_tok: 6
+      n_shared_experts: 1
+      norm_topk_prob: true
+      routed_scaling_factor: 2.5
+      mlp_hidden_act: relu2
+      num_attention_heads: 32
+      num_key_value_heads: 2
+      head_dim: 128
+      rope_theta: 10000
+      mamba_num_heads: 64
+      mamba_head_dim: 64
+      ssm_state_size: 128
+      conv_kernel: 4
+      n_groups: 8
+      chunk_size: 128
+      mamba_ssm_cache_dtype: float32
+      vocab_size: 131072
+      tie_word_embeddings: false
+      max_position_embeddings: 262144
+      quant_producer: "modelopt 0.29.0"
+      quant_algo: NVFP4
+      kv_cache_quant_algo: FP8
+      group_size: 16
+      exclude_modules_count: 63
+      declared_languages: [en, es, fr, de, ja, it]
+    resolved_conflicts:
+      - id: routing_arity
+        nim_card: 5
+        pinned_config: 6
+        resolution: >
+          Pinned config is authoritative for the local checkpoint. 23*6=138
+          records/token and 138*5612560=774533280 bytes/token both reproduce N1
+          exactly, so N1's derived traffic figures stand.
+      - id: context_length
+        nim_service: 1048576
+        pinned_config_max_position_embeddings: 262144
+        resolution: >
+          Separate statements about separate things. The local checkpoint's
+          declared architectural ceiling is 262144. N13_1M_STRETCH therefore
+          cannot be a plain context extension of this checkpoint and must be
+          redesigned or reclassified before it is opened.
+        raised_before: N13
+    derived_not_proven:
+      - id: nvfp4_record_layout
+        status: derived_hypothesis_not_layout_proof
+        artifact: reports/lightningstream_nemotron/n0r_layout_consistency.json
+        claim: >
+          Per quantized matrix of N weights: N/2 bytes packed 4-bit codes (U8),
+          N/16 bytes FP8-E4M3 block scales, 2x FP32 global scales. Reproduces
+          N1's routed record bytes, routed record count, routed bucket and
+          shared bucket exactly. Must be confirmed against real tensor-index
+          entries in N2 before any decoder depends on it.
+    claim_boundary: >
+      Public metadata only. No behavioral equivalence, quality, throughput or
+      context claim. The 1M figure is a service-side statement, not local
+      evidence. The 29.609 ms transfer floor remains a floor.
+
+  - phase: N2_FULL_PAYLOAD_AND_QUANT_SEMANTICS
+    attempt: 1
+    executed_utc: "2026-08-14T10:1x:00Z"
+    outcome: pass
+    gates_all_pass: true
+    layout_hypothesis_verdict: confirmed
+    preregistration: reports/lightningstream_nemotron/N2_FULL_PAYLOAD_AND_QUANT_SEMANTICS_PREREGISTRATION_2026-08-14.md
+    input_lock: reports/lightningstream_nemotron/n2_input_lock.json
+    results:
+      - reports/lightningstream_nemotron/n2_payload_manifest.json
+      - reports/lightningstream_nemotron/n2_tensor_inventory.json
+      - reports/lightningstream_nemotron/n2_decoder_validation.json
+    report: reports/lightningstream_nemotron/N2_FULL_PAYLOAD_AND_QUANT_SEMANTICS_REPORT_2026-08-14.md
+    protected_verification: reports/lightningstream_nemotron/protected_verification_after_n2.json
+    protected_verdict: PROTECTED_80B_INTACT
+    gpu_used: false
+    bf16_model_materialized: false
+    established:
+      shards_verified_first_attempt: 5
+      payload_bytes: 19342796520
+      payload_gib: 18.014383
+      artifact_gate_25gib_pass: true
+      tensors: 24147
+      tensor_bytes: 19339781632
+      routed_expert_bytes: 16523376640
+      shared_expert_bytes: 258177392
+      trunk_other_bytes: 2558227600
+      routed_records: 2944
+      routed_record_bytes_uniform: 5612560
+      dtype_bytes:
+        U8: 15245905920
+        BF16: 2156424064
+        F8_E4M3: 1905738240
+        F32: 31713408
+      u8_tensor_count: 5968
+      u8_tensor_decomposition: "2 * (2944 routed + 23 shared + 17 trunk mixers)"
+      index_reconciles_fully: true
+      layer_roles_confirmed_from_tensors: true
+      lm_head_bytes_bf16: 704643072
+      embeddings_bytes_bf16: 704643072
+      embedding_plus_lm_head_bytes: 1409286144
+      bf16_total_bytes: 2156424064
+      bf16_tensor_count: 229
+    routed_expert_random_access:
+      single_shard_experts: 2940
+      ranges_per_single_shard_expert: 3
+      range_bytes:
+        nvfp4_codes_both_matrices: 4988928
+        fp8_block_scales_both_matrices: 623616
+        fp32_globals_four_scalars: 16
+      split_across_shard_boundary: 4
+      split_experts:
+        - {layer: 8, expert: 34}
+        - {layer: 20, expert: 39}
+        - {layer: 31, expert: 63}
+        - {layer: 43, expert: 68}
+      note: >
+        Recorded per preregistration §6, not treated as a defect. Three
+        contiguous ranges per expert is a materially better transport shape than
+        an eight-range gather; four experts need a two-file gather.
+    provenance_cross_check:
+      shard1_header_matches_n1_remote_read: true
+      resolved_ambiguity: >
+        N1 hashed the 8-byte little-endian length prefix together with the
+        header body. Body-only hashing gives a different digest. Both
+        conventions are now recorded per shard.
+    open_assumptions_not_proven:
+      - id: nibble_order
+        value: low_first
+        falsify_in: N3
+        risk: >
+          A wrong nibble order passes every self-consistency rule while
+          producing a wrong model. Must be checked against
+          modeling_nemotron_h.py and one real forward.
+      - id: dequant_grouping
+        value: "w = e2m1(code) * e4m3(weight_scale) * f32(weight_scale_2); input_scale applies to activations"
+        falsify_in: N3
+    process_corrections:
+      - id: contiguity_gate_moved_to_observations
+        detail: >
+          The runner initially carried "every routed expert in a single shard"
+          as a hard gate. The preregistration §5 does not list it and §6
+          designates splitting as a recording. The check was moved to
+          observations to match the frozen document. This is a correction of the
+          runner toward the preregistration, not a relaxation of a preregistered
+          gate.
+    claim_boundary: >
+      Byte-identical local copy, exact on-disk layout and declared quantization
+      semantics, true partition, three-range random-access shape, and one expert
+      decoding self-consistently. NOT established: equality with the publisher's
+      BF16 source weights, model quality, any latency/throughput figure, full
+      model correctness, or runtime feasibility.
+
+  - phase: N3_ONE_MODULE_REFERENCE
+    attempt: 1
+    executed_utc: "2026-08-14T11:2x:00Z"
+    outcome: pass
+    gates_all_pass: true
+    preregistration: reports/lightningstream_nemotron/N3_ONE_MODULE_REFERENCE_PREREGISTRATION_2026-08-14.md
+    input_lock: reports/lightningstream_nemotron/n3_input_lock.json
+    results:
+      - reports/lightningstream_nemotron/n3_module_reference.json
+      - reports/lightningstream_nemotron/n3_nibble_order_resolution.json
+      - reports/lightningstream_nemotron/n3_official_route_capture.json
+      - reports/lightningstream_nemotron/n3_state_budget.json
+    report: reports/lightningstream_nemotron/N3_ONE_MODULE_REFERENCE_REPORT_2026-08-14.md
+    protected_verification: reports/lightningstream_nemotron/protected_verification_after_n3.json
+    protected_verdict: PROTECTED_80B_INTACT
+    device: cpu
+    gpu_used: false
+    timing_produced: false
+    resolved_open_assumptions:
+      - id: nibble_order
+        resolution: confirmed
+        value: low_first
+        reference: "torchao 0.18.0 unpack_uint4 + f4_unpacked_to_f32"
+        elements_compared: 2097152
+        high_first_matches: false
+        note: >
+          Nibble order is not falsifiable by any per-block statistic: a nibble
+          swap permutes elements only within a byte, and a byte lies wholly
+          inside one group of 16, so every block's value multiset is invariant.
+          Resolved against an external published implementation instead.
+        attempt_1_torch_float4_e2m1fn_x2: "dtype present, no CPU copy_kernel; could not decide"
+      - id: dequant_grouping
+        resolution: confirmed_structurally
+        reference: "torchao NVFP4Tensor.dequantize"
+        note: >
+          Unpack, E2M1 convert, reshape [M, K/block, block], multiply by
+          per-block scale along the contraction dimension with the per-tensor
+          scale folded in. Matches the N2 decoder.
+    module_comparisons_rel_l2:
+      rms_norm: 6.837e-08
+      router_logits: 2.519e-07
+      routed_expert: 3.008e-07
+      shared_expert: 1.746e-07
+      moe_aggregate: 1.886e-07
+      attention: 7.666e-07
+      mamba2: 5.435e-07
+      mixed_block: 1.095e-07
+    router:
+      index_set_match_all_tokens: true
+      weights_max_abs_diff: 1.099e-07
+      min_tie_margin: 1.192e-03
+      tie_ambiguous_threshold: 1.0e-06
+      official_call_captured: reports/lightningstream_nemotron/n3_official_route_capture.json
+      capture_note: "SYNTHETIC-INPUT routes; never describe as natural routes"
+      semantics_confirmed:
+        selection_uses_scores_plus_correction_bias: true
+        weighting_uses_raw_scores_without_bias: true
+        activation: sigmoid
+        group_mask_is_noop_at_n_group_1: true
+    mamba2_evidence_strength: >
+      Our sequential recurrence versus the official chunked SSD factorisation --
+      genuinely different algorithms, agreeing to 5.4e-07.
+    architectural_findings:
+      - id: no_rope
+        detail: >
+          apply_rotary_pos_emb appears nowhere in modeling_nemotron_h.py;
+          rope_theta and partial_rotary_factor are unused. The six attention
+          layers are NoPE and all positional information comes from the 23
+          Mamba-2 layers. Long context here is not a RoPE-scaling problem, and
+          N13_1M_STRETCH cannot be reframed as a RoPE extension.
+      - id: shared_expert_ungated
+        detail: >
+          NemotronHMOE computes routed + shared_experts(h), a plain add.
+          Qwen3-Next gates its shared expert with a sigmoid and the project's
+          D10 notes describe that variant; it must not be carried over. Routed
+          contributions accumulate in fp32 and are cast down before the shared
+          expert is added.
+      - id: per_sequence_state_is_small
+        artifact: reports/lightningstream_nemotron/n3_state_budget.json
+        status: arithmetic_projection_from_shapes_not_measured
+        kv_elements_per_token: 3072
+        mamba_state_bytes_constant: 49364992
+        mamba_state_mib_constant: 47.078
+        kv_fp8_mib:
+          "4096": 12.0
+          "32768": 96.0
+          "131072": 384.0
+          "262144": 768.0
+        comparison: >
+          STREAMQ5's Qwen3-30B needed 402,653,184 B of KV at 4K context. This
+          checkpoint's entire per-sequence state at 262K is about 2x that -- a
+          64x context ratio for roughly double the state. Says nothing about
+          attention compute, expert streaming or tokens per second.
+    shims_recorded:
+      - id: torch_symbols_and_cuda_stream
+        cost: none
+        detail: >
+          torchao expects torch >= 2.11 and is imported by transformers;
+          NemotronHBlock wraps its forward in a CUDA stream context that fails on
+          CPU-only torch. Both patched in-process. Scheduling, not arithmetic.
+      - id: mamba_ssm_rmsnorm_fn
+        cost: real
+        detail: >
+          mamba_ssm requires CUDA and cannot be installed here, so our gated
+          RMSNorm is used by BOTH sides. That single operation is therefore NOT
+          independently validated by N3. The rest of the Mamba mixer, including
+          the entire SSD scan, is validated. Deferred to N6 coherence.
+    process_corrections:
+      - id: vacuous_gate_replaced
+        detail: >
+          The runner initially expressed the no-GPU gate as
+          "not cuda_available or True", which is vacuously true. Replaced with
+          "not torch.cuda.is_available()" and the phase re-run. A gate that
+          cannot fail is not a gate.
+    known_limitations:
+      - gated RMSNorm shared by both sides, unvalidated
+      - synthetic activations, not natural
+      - one layer of each type, one 8-token sequence, batch 1
+      - Mamba cached-decode branch (cache_position > 0) not exercised
+      - FP8 KV figure indicative only (rel_l2 2.454e-03)
+    claim_boundary: >
+      Independent implementations reproduce official nemotron_h module math on
+      synthetic inputs within pre-declared tolerances, CPU float32, one layer of
+      each type; and NVFP4 packing order matches an independent published
+      implementation. NOT established: full-model correctness, natural routing,
+      quality, latency, throughput, memory feasibility, or equality with the
+      publisher's BF16 source weights.
+
+  - phase: N4_ZERO_CACHE_DATAPLANE
+    attempt: 1
+    executed_utc: "2026-08-14T12:0x:00Z"
+    outcome: negative
+    terminal_state: n4_zero_cache_screen_fail_unfused_decode_dominates
+    gates_all_pass: false
+    failed_gate: G4_routed_path_p95_under_45ms
+    preregistration: reports/lightningstream_nemotron/N4_ZERO_CACHE_DATAPLANE_PREREGISTRATION_2026-08-14.md
+    input_lock: reports/lightningstream_nemotron/n4_input_lock.json
+    result: reports/lightningstream_nemotron/n4_zero_cache_dataplane.json
+    independent_verifier: scripts/lightningstream_nemotron/n4_independent_verify.py
+    independent_verification: reports/lightningstream_nemotron/n4_independent_verification.json
+    independent_verification_score: "32/32"
+    report: reports/lightningstream_nemotron/N4_ZERO_CACHE_DATAPLANE_REPORT_2026-08-14.md
+    protected_verification: reports/lightningstream_nemotron/protected_verification_after_n4.json
+    protected_verdict: PROTECTED_80B_INTACT
+    device: "NVIDIA RTX PRO 2000 Blackwell Laptop, CC 12.0, torch 2.9.1+cu128"
+    measured:
+      working_set_bytes_per_token: 774533280
+      records_per_token: 138
+      transport_best_arm: single_contiguous
+      transport_p50_ms: 29.756
+      transport_p95_ms: 29.848
+      transport_gb_s_at_p50: 26.03
+      n1_floor_ms: 29.608769
+      n1_assumed_gb_s: 26.158915
+      percent_of_floor_time: 100.50
+      percent_of_assumed_bandwidth: 99.51
+      transport_arms:
+        per_record: {copies: 414, p50_ms: 30.988, p95_ms: 31.226, gb_s: 24.99}
+        per_layer_batched: {copies: 69, p50_ms: 29.983, p95_ms: 30.058, gb_s: 25.83}
+        single_contiguous: {copies: 3, p50_ms: 29.756, p95_ms: 29.848, gb_s: 26.03}
+      batching_gain_414_to_3_copies_percent: 3.98
+      decode_only_p50_ms: 353.133
+      composed_token_p50_ms: 376.244
+      composed_token_p95_ms: 403.649
+      decode_share_of_composed_p50_percent: 93.9
+      expert_output_rel_l2_vs_n3: 1.859e-07
+      gpu_decode_bit_identical_to_cpu: true
+      peak_device_reserved_bytes: 968884224
+    findings:
+      - id: transport_is_solved
+        detail: >
+          774,533,280 B move in 29.756 ms at 26.03 GB/s, 99.51% of the assumed
+          roofline, with no cache and a 0.902 GiB device footprint. The 45 ms
+          screen would pass on transport with 15.2 ms to spare.
+      - id: host_gather_term_eliminated
+        detail: >
+          PORT80B's 63.034 ms p50 decomposed as 37.204 ms PCIe + 25.830 ms host
+          gather over 480 records of 2,027,520 B. Pre-pinning the bank removes
+          the gather term entirely. Transferable mechanism, not a Nemotron
+          accident.
+      - id: batching_is_not_the_lever_here
+        detail: >
+          414 copies versus 3 differ by 1.232 ms (3.98%), about 3 us per copy.
+          cudaMemcpyBatchAsync, mapped-host and TMA paths are NOT worth testing
+          on this evidence: the remaining gap to the roofline is 0.49%.
+      - id: unfused_decode_is_the_wall
+        detail: >
+          Decode is >=10x transport and 93.9% of the composed token. The decode
+          expands 4,988,928 packed bytes into 9,977,856 float32 weights per
+          matrix through an int64 gather, a LUT lookup, a repeat_interleave and
+          two multiplies -- ~120 MB of intermediate traffic per matrix, 276
+          times per token, to feed two GEMVs that consume it once.
+      - id: residual_deliberately_unattributed
+        detail: >
+          transport 29.756 + decode_only 353.133 = 382.889 > composed 376.244.
+          The arms do not sum: decode_only forces a scalar readback per matrix
+          to prevent elision, adding syncs the composed loop lacks. The residual
+          (GEMV, allocation, loop overhead) is left UNNAMED, per the project rule
+          learned from the "glue" term that turned out to be attention.
+    architectural_stop:
+      declared: false
+      reason: >
+        The preregistered stop requires p95 > 60 ms AFTER registered/batched
+        transfer AND a correct fused kernel. Batched transfer was tested; a fused
+        kernel was NOT built. The precondition is unsatisfied, so the stop must
+        not fire regardless of the 403.649 ms measurement. Declaring it would
+        condemn the architecture for the cost of an implementation the
+        preregistration itself designates as future work.
+    process_corrections:
+      - id: non_interference_rule_corrected
+        detail: >
+          The guard first blocked on "a foreign python process exists", which
+          produced a false positive: this machine runs short-lived python helpers
+          with changing PIDs, and a CPU-only process contends for nothing. The
+          guard now blocks on nvidia-smi --query-compute-apps (does any other PID
+          hold a CUDA context) plus a device-memory threshold, and fails closed
+          if the query errors. Python process names are recorded as context only.
+      - id: g4_measured_on_composed_path_not_transport
+        detail: >
+          An intermediate run evaluated G4 on transport alone, which would have
+          passed. G4 as preregistered is the routed-expert PATH, so the composed
+          token measurement was added and G4 re-evaluated against it. It fails.
+    next_phase: N4_R1_FUSED_NVFP4_EXPERT_KERNEL
+    next_phase_target: >
+      Decode must fall from ~353 ms to under ~15 ms for the routed path to meet
+      the 45 ms screen alongside 29.8 ms of transport. H5 cache work stays closed
+      until the zero-cache path passes.
+    claim_boundary: >
+      Physically measured cache-free routed-expert transport and decode for one
+      token on this specific GPU, bit-exact decode, reference-matching output.
+      NOT tokens per second, full-model latency, quality, memory feasibility of
+      the complete runtime, any cross-runtime comparison, or evidence that a
+      fused kernel will close the gap.
+
+  - phase: N4_R1_FUSED_NVFP4_EXPERT_KERNEL
+    attempt: 1
+    executed_utc: "2026-08-14T12:3x:00Z"
+    outcome: negative
+    terminal_state: n4r1_fused_screen_fail
+    gates_all_pass: false
+    failed_gate: F3_composed_p95_under_45ms
+    failed_by_ms: 2.421
+    preregistration: reports/lightningstream_nemotron/N4R1_FUSED_NVFP4_KERNEL_PREREGISTRATION_2026-08-14.md
+    input_lock: reports/lightningstream_nemotron/n4r1_input_lock.json
+    result: reports/lightningstream_nemotron/n4r1_fused_dataplane.json
+    independent_verification: reports/lightningstream_nemotron/n4r1_independent_verification.json
+    independent_verification_score: "28/28"
+    report: reports/lightningstream_nemotron/N4R1_FUSED_NVFP4_KERNEL_REPORT_2026-08-14.md
+    protected_verdict: PROTECTED_80B_INTACT
+    toolchain: "CuPy 14.1.1, NVRTC, cc 120; no host CUDA toolchain required"
+    measured:
+      transport_only_p50_ms: 32.273
+      fused_compute_only_p50_ms: 13.762
+      composed_p50_ms: 46.954
+      composed_p95_ms: 47.421
+      decode_speedup_vs_n4_unfused: 25.66
+      composed_speedup_vs_n4_unfused: 8.01
+      expert_output_rel_l2: 1.654e-07
+      activation_rel_l2: 1.539e-07
+      peak_device_pool_bytes: 774601728
+      peak_minus_working_set_bytes: 68448
+    findings:
+      - id: fusion_removes_96_percent_of_decode
+        detail: >
+          353.133 ms unfused decode becomes 13.762 ms fused, beating the ~15 ms
+          target N4 set. The kernel never materialises the dequantised matrix:
+          one block per output row streams packed bytes and block scales and
+          decodes in registers.
+      - id: no_materialised_matrix_proven_structurally
+        detail: >
+          Peak device pool exceeds the working set by only 68,448 B. A single
+          materialised [1856, 2688] float32 matrix would be 19,961,856 B, so F5
+          is settled by measurement rather than assertion.
+      - id: transport_path_differs_from_n4
+        detail: >
+          32.273 ms here versus 29.756 ms in N4 for identical bytes; N4 used
+          torch pinned copy_, this phase uses CuPy .set(). Recorded, not
+          explained away. Not the cause of the gate miss.
+    bit_identity_claimed: false
+    bit_identity_note: >
+      The fused kernel reduces with a block-parallel warp-shuffle tree, not the
+      sequential order of the numpy reference. Cross-backend bit identity is not
+      demanded and is NOT claimed.
+    superseded_by: N4_R2_CAUSAL_OVERLAP
+    claim_boundary: >
+      Physically measured cache-free routed-expert path for one token on this
+      GPU, reference-matching within a declared tolerance. NOT tok/s, full-model
+      latency, quality, memory feasibility, bit-exactness of the fused output,
+      kernel novelty, or any cross-runtime comparison.
+
+  - phase: N4_R2_CAUSAL_OVERLAP
+    attempt: 1
+    executed_utc: "2026-08-14T12:5x:00Z"
+    outcome: pass
+    terminal_state: n4r2_overlapped_zero_cache_screen_pass
+    gates_all_pass: true
+    preregistration: reports/lightningstream_nemotron/N4R2_CAUSAL_OVERLAP_PREREGISTRATION_2026-08-14.md
+    input_lock: reports/lightningstream_nemotron/n4r2_input_lock.json
+    result: reports/lightningstream_nemotron/n4r2_overlap_dataplane.json
+    independent_verification: reports/lightningstream_nemotron/n4r2_independent_verification.json
+    independent_verification_score: "34/34"
+    report: reports/lightningstream_nemotron/N4R2_CAUSAL_OVERLAP_REPORT_2026-08-14.md
+    protected_verification: reports/lightningstream_nemotron/protected_verification_after_n4r2.json
+    protected_verdict: PROTECTED_80B_INTACT
+    measured:
+      transport_only_p50_ms: 29.888
+      fused_compute_only_p50_ms: 18.454
+      composed_serial_p50_ms: 45.853
+      composed_serial_p95_ms: 50.917
+      composed_overlap_p50_ms: 31.506
+      composed_overlap_p95_ms: 39.714
+      gate_p95_ms: 45.0
+      margin_ms: 5.286
+      speedup_vs_r1_serial: 1.490
+      speedup_vs_n4_unfused: 11.94
+      expert_output_rel_l2: 1.654e-07
+      peak_device_pool_bytes: 774601728
+    overlap_equivalence:
+      bit_identical_to_serial: true
+      differing_words: 0
+      elements: 2688
+      note: >
+        Overlap is only admissible if semantically invisible. A speedup with even
+        one changed bit would be a failure, not a trade-off. Reproduces on
+        Nemotron what STREAMQ5 P4A established on the protected line: causal
+        same-layer overlap with bit-identical end states. Ported, not invented.
+    h3_sequence_conclusion:
+      - "transport is at the roofline: 774,533,280 B in 29.888 ms"
+      - "pre-pinning eliminates the 80B line's 25.830 ms host-gather term"
+      - "batching is not the lever: 414 copies vs 3 differ by 3.98%"
+      - "fusing decode into the GEMV removes 96.1% of decode cost for +68,448 B"
+      - "causal overlap closes the gap and changes 0 of 2688 words"
+      - "complete cache-free routed path: 31.506 ms p50 / 39.714 ms p95, 0.721 GiB, no cache"
+    honest_caveats:
+      - id: wide_p95_tail
+        detail: >
+          fused compute p50 18.454 vs p95 37.828; composed overlap p50 31.506 vs
+          p95 39.714; the same compute arm moved 13.762 -> 18.454 ms p50 between
+          R1 and R2, a 34% run-to-run shift. The gate is met with 5.286 ms of
+          margin but the tail is wide. Cause NOT diagnosed here -- naming it
+          without measuring it is the error recorded over the "glue" term. A
+          thermal/steady-state characterisation is N12 work.
+      - id: synthetic_routes
+        detail: >
+          Routes are synthetic-input routes from the frozen N3 capture. They
+          determine which bytes move, not how many, so they are adequate for
+          transport but are not a routing result.
+      - id: component_not_model
+        detail: >
+          The routed-expert path is one component. Attention, Mamba-2, trunk, LM
+          head and sampling are not in this number. A component measurement is
+          never promoted to tok/s.
+    unblocks: H5 cache work (zero-cache pass was the precondition)
+    recommended_next: N5_PHYSICAL_RESIDENT_SHELL
+    recommended_next_reason: >
+      The measured numbers make the memory question concrete: routed path needs
+      0.721 GiB transient, N2 measured 2.008 GiB incompressible BF16 of which
+      lm_head + embeddings are 1.312 GiB, N3 projected 47.078 MiB constant Mamba
+      state plus 384 MiB FP8 KV at 128K. A cache is worth designing only after
+      the resident shell is physically allocated, since the cache gets whatever
+      VRAM is left.
+    claim_boundary: >
+      Physically measured cache-free causally overlapped routed-expert path for
+      one token on this GPU, output-identical to the serial path and
+      reference-matching within a declared tolerance. NOT tok/s, full-model
+      latency, quality, memory feasibility of the complete runtime, or any
+      cross-runtime comparison.
+
+  - phase: N5_PHYSICAL_RESIDENT_SHELL
+    attempt: 1
+    executed_utc: "2026-08-14T13:2x:00Z"
+    outcome: pass
+    terminal_state: n5_resident_shell_fits
+    gates_all_pass: true
+    preregistration: reports/lightningstream_nemotron/N5_PHYSICAL_RESIDENT_SHELL_PREREGISTRATION_2026-08-14.md
+    input_lock: reports/lightningstream_nemotron/n5_input_lock.json
+    result: reports/lightningstream_nemotron/n5_resident_shell.json
+    independent_verification: reports/lightningstream_nemotron/n5_independent_verification.json
+    independent_verification_score: "32/32"
+    report: reports/lightningstream_nemotron/N5_PHYSICAL_RESIDENT_SHELL_REPORT_2026-08-14.md
+    protected_verification: reports/lightningstream_nemotron/protected_verification_after_n5.json
+    protected_verdict: PROTECTED_80B_INTACT
+    measurement_source: "cuMemGetInfo driver delta; allocations touched, not merely reserved"
+    measured:
+      device_total_bytes: 8546484224
+      free_without_context: 7385120768
+      driver_reserve_bytes: 1161363456
+      cuda_context_overhead_bytes: 2097152
+      routed_bytes_host_resident: 16523376640
+      shell_bytes_device: 2816404992
+      embeddings_bytes: 704643072
+      lm_head_bytes: 704643072
+      expert_staging_bytes: 774533280
+      mamba_state_bytes: 49364992
+      kv_fp8_4k_bytes: 12582912
+      kv_fp8_128k_bytes: 402653184
+      variant_A_peak_device_bytes: 5332402176
+      variant_A_peak_device_gib: 4.9664
+      variant_A_free_bytes: 3214082048
+      variant_A_free_mib: 3065.0
+      peak_process_commit_bytes: 6453698560
+      teardown_leak_bytes: 0
+    variants:
+      A_embed_device_head_device: {uploaded: 2816404992, free_mib: 3065.0, fits: true}
+      B_embed_host_head_device: {uploaded: 2111761920, free_mib: 3737.0, fits: true}
+      C_embed_host_head_host: {uploaded: 1407118848, free_mib: 4409.0, fits: true}
+    h4_answer: >
+      Embedding AND lm_head are both physically justified ON DEVICE. All three
+      placement variants fit; variant A leaves 2.99 GiB free at full 128K KV.
+    design_choice_note: >
+      The runner labels variant C "best" because it minimises device bytes. That
+      label is misleading and variant A is the correct engineering choice:
+      memory-minimal is not design-optimal when there is headroom. A keeps the
+      per-token LM-head matvec and embedding gather on device; C would trade
+      1.34 GiB of unused headroom for two host round-trips on the critical path.
+    findings:
+      - id: driver_reserve_must_be_budgeted
+        detail: >
+          1,161,363,456 B is reserved before any allocation of ours and matches
+          the figure the protected D10 audit records for this GPU. Budgeting
+          against total rather than free would overstate available memory by
+          1.08 GiB.
+      - id: cache_budget_now_measured
+        detail: >
+          3,214,082,048 B free with everything resident at 128K = 572 routed
+          expert slots at 5,612,560 B each, 19.4% of the 2,944-record bank. At
+          4K context the KV term drops 390,070,272 B, buying ~69 more slots.
+          First time a cache can be sized against measured VRAM instead of
+          arithmetic.
+    process_corrections:
+      - id: teardown_leak_was_a_runner_defect
+        detail: >
+          First run reported a 1,558,183,936 B leak. Clearing the held list did
+          not drop the loop's local references so the pool could not reclaim the
+          blocks. Defect in the runner, not the shell; fixed leak is exactly 0.
+      - id: s3_gate_was_vacuous
+        detail: >
+          peak_commit_bytes read 0 because the psapi entry point filled only the
+          base struct, making S3 vacuously true. Now uses K32GetProcessMemoryInfo,
+          validates the counters and FAILS CLOSED when the footprint cannot be
+          measured. An unmeasurable gate is not a passing gate.
+    claim_boundary: >
+      Which components physically fit simultaneously on this specific GPU with
+      real touched allocations, and how much headroom remains. NOT tok/s,
+      full-model latency, quality, evidence a full runtime exists, or that 128K
+      context is achievable in practice -- KV allocation is necessary for long
+      context, not sufficient.
+
+  - phase: N6_A_FULL_DEPTH_FORWARD
+    attempt: 1
+    executed_utc: "2026-08-14T13:5x:00Z"
+    outcome: pass
+    terminal_state: n6a_full_depth_coherent
+    gates_all_pass: true
+    preregistration: reports/lightningstream_nemotron/N6A_FULL_DEPTH_FORWARD_PREREGISTRATION_2026-08-14.md
+    input_lock: reports/lightningstream_nemotron/n6a_input_lock.json
+    result: reports/lightningstream_nemotron/n6a_full_depth_forward.json
+    natural_routes: reports/lightningstream_nemotron/n6a_natural_routes.json
+    independent_verification: reports/lightningstream_nemotron/n6a_independent_verification.json
+    independent_verification_score: "32/32"
+    report: reports/lightningstream_nemotron/N6A_FULL_DEPTH_FORWARD_REPORT_2026-08-14.md
+    protected_verification: reports/lightningstream_nemotron/protected_verification_after_n6a.json
+    protected_verdict: PROTECTED_80B_INTACT
+    device: cpu
+    gpu_used: false
+    timing_claim: false
+    bf16_model_materialised: false
+    coherence:
+      P1: {prompt: "The capital of France is", top1: " Paris", prob: 0.9603, gated: true}
+      P2: {prompt: "1, 2, 3, 4,", top1: " ", prob: 0.9255, gated: false}
+      P3: {prompt: "def add(a, b):\\n    return", top1: " a", prob: 0.9865, gated: false}
+      note: >
+        P3 is exactly right for "return a + b". P2 selects a space, a
+        tokenisation artefact of digit sequences, preregistered as
+        reported-not-gated.
+    settles:
+      - id: gated_rmsnorm
+        was: >
+          UNVALIDATED in N3 -- mamba_ssm requires CUDA so our implementation was
+          used on both sides of that comparison. N3 deferred it explicitly to
+          end-to-end coherence at N6.
+        now: jointly confirmed
+      - id: nibble_order_low_first
+        now: jointly confirmed in a running model
+      - id: dequant_grouping_and_input_scale
+        now: jointly confirmed
+      - id: relu2_ungated_shared_router_bias_split
+        now: confirmed in composition
+    joint_test_caveat: >
+      Coherence is a JOINT test. Passing supports the assumption set as a whole;
+      a failure would not have identified which member was wrong.
+    natural_route_statistics:
+      route_rows: 552
+      moe_layers_per_prompt: 23
+      experts_per_token: 6
+      unique_within_token: true
+      weights_sum_to: 2.5
+      distinct_experts_used: 128
+      distinct_expert_fraction: 1.0
+      usage_max: 61
+      usage_min: 7
+      usage_ratio: 8.7
+      implication_for_h5: >
+        All 128 experts of every layer appear and the popularity spread is
+        shallow at this sample. A cache sized at N5's measured 572 slots cannot
+        be filled by "the popular experts", so the validation-selected static
+        plus causal-dynamic split from STREAMQ5 must be RE-DERIVED here, not
+        inherited.
+      sample_bound: >
+        Three prompts and 552 rows are not a routing distribution. The artifact
+        records this in its own provenance field.
+    confirmations:
+      - id: exclude_modules_reading_confirmed_by_failure
+        detail: >
+          The first run failed on backbone.layers.4.mixer.in_proj.weight_scale,
+          which does not exist: layers 4, 11, 18, 25, 32 and 41 keep Mamba
+          in_proj/out_proj in BF16, exactly as the N0R exclude_modules analysis
+          predicted. The failure confirms that reading rather than contradicting
+          it; the fix was to load through the dtype-agnostic path.
+    memory:
+      peak_process_commit_bytes: 7230000000
+      peak_process_commit_gib: 6.734
+      full_model_float32_would_be_gb: 117
+    claim_boundary: >
+      The assembled 52-layer graph runs to completion on real weights and
+      produces specific next-token predictions for three frozen prompts, plus the
+      natural routes observed for those prompts. NOT model quality, benchmark
+      scores, tok/s, latency, general runtime correctness, or a representative
+      routing distribution. The forward is a numpy CPU reference, not the
+      runtime.
+    next_phase: N6_B_GPU_DECODE_LOOP
+    next_phase_definition: >
+      Assemble the N5 resident shell plus the N4-R2 overlapped routed path into a
+      single-token forward on device, gated on reproducing N6-A's logits within a
+      declared tolerance and on the same natural routes.
+
+  - phase: N6_B_C_GPU_DECODE_AND_BREAKDOWN
+    attempt: 1
+    executed_utc: "2026-08-14T14:3x:00Z"
+    outcome: coherent_but_performance_negative
+    terminal_state: n6bc_runtime_coherent_performance_negative
+    report: reports/lightningstream_nemotron/N6BC_GPU_DECODE_AND_BREAKDOWN_REPORT_2026-08-14.md
+    results:
+      - reports/lightningstream_nemotron/n6b_gpu_decode.json
+      - reports/lightningstream_nemotron/n6c_breakdown_and_context.json
+    protected_verification: reports/lightningstream_nemotron/protected_verification_after_n6bc.json
+    protected_verdict: PROTECTED_80B_INTACT
+    hardware:
+      gpu: "NVIDIA RTX PRO 2000 Blackwell Laptop, 8 GiB"
+      igpu_used: false
+      igpu_note: "Intel Arc Pro 140T belongs to the protected HET-NEXT line; never touched."
+    correctness:
+      prompt: "The capital of France is"
+      gpu_top1: " Paris"
+      cpu_n6a_top1: " Paris"
+      matches_n6a: true
+      generated_sample: ' Paris." No extra punctuation? The sentence includes a period at the end. The'
+    context:
+      architectural_limit: 262144
+      nim_service_claim: 1048576
+      max_physically_run: 262100
+      device_use_at_262144_gib: 5.816
+    throughput_tok_s:
+      ctx_0: 13.258
+      real_generation_16_tokens: 12.975
+      ctx_4096: 10.046
+      ctx_16384: 6.166
+      ctx_32768: 3.742
+      ctx_65536: 2.225
+      ctx_131072: 1.215
+      ctx_262100: 0.637
+      note: >
+        Context rows above 0 use a synthetically populated KV cache and set pos;
+        they measure decode-step cost at depth, not a real generation to that
+        depth. Full-token measurements, never extrapolations.
+    breakdown_p50_ms_short_context:
+      moe_one_layer: 2.501
+      moe_total_23: 57.531
+      lm_head: 5.383
+      mamba_one_layer: 0.313
+      mamba_total_23: 7.205
+      attention_one_layer: 0.400
+      attention_total_6: 2.398
+      rmsnorm_one: 0.040
+      rmsnorm_total_53: 2.120
+      router_one_layer: 0.262
+      shared_expert_only: 0.177
+      sum_of_measured_parts: 74.637
+      full_token_measured: 79.195
+      unattributed: 4.549
+      moe_share_percent: 72.6
+      unattributed_note: >
+        Reported as a number and deliberately NOT named. Project rule after the
+        "glue" term turned out to be attention.
+    gates_failed:
+      - {gate: "4K decode primary", required: 25, measured: 10.046}
+      - {gate: "4K decode minimum acceptable", required: 20, measured: 10.046}
+      - {gate: "128K decode primary", required: 15, measured: 1.215}
+      - {gate: "128K decode minimum acceptable", required: 10, measured: 1.215}
+    named_causes:
+      - id: moe_transfer_not_overlapped_in_runtime
+        detail: >
+          N4-R2 measured the complete 138-record routed path at 31.506 ms p50
+          with causal overlap and bit-identical output (34/34 verified). The
+          runtime spends ~47.4 ms because _moe synchronises the copy stream per
+          layer, so layer L+1 is not prefetched while layer L computes. The
+          mechanism is built and verified but not yet ported into the runtime.
+        expected_gain: "~2x at short context, ~79 ms -> ~63 ms, 13.3 -> ~16 tok/s"
+        changes_semantics: false
+      - id: attention_kernel_serialises_over_positions
+        detail: >
+          attn_decode runs one block per query head and walks all t positions
+          with a block-wide reduction and two __syncthreads per position: O(t)
+          serialised. At 262,144 that is ~248 ms per attention layer. Fix is
+          standard flash-decoding: split positions across blocks and combine
+          partial (max, sum, acc) triples. The online-softmax rescaling the
+          kernel already implements is what makes the split legal.
+        scope: "my kernel's limitation, NOT the architecture's"
+        architecture_note: >
+          The architecture is unusually suited to long context: only 6 of 52
+          layers carry KV, 3,072 B/token, and 262,144 positions fit in 5.816 GiB.
+    proven:
+      - joined runtime is coherent and matches the frozen N6-A CPU result
+      - 262,144 context depth is physically real, allocated and stepped
+      - full 15.4 GiB routed bank host-resident and streamed, no expert cache
+      - bottleneck measured not guessed: MoE 72.6% short, attention long
+      - no iGPU used, no protected-line interference
+    next_in_expected_gain_order:
+      - port N4-R2 overlap into _moe (built and verified, ~2x)
+      - flash-decode split for attn_decode (unlocks long context)
+      - expert cache H5 (N5 measured 572 slots; N6-A found all 128 experts used with only 8.7x spread, so the static prior must be re-derived)
+      - quality, thermal steady state, Dutch, long-context retrieval
+    claim_boundary: >
+      Measured batch-1 single-stream decode on this specific GPU with a
+      zero-cache streamed expert bank. A working runtime with two identified
+      engineering debts -- NOT a breakthrough claim, not a quality result, not a
+      benchmark score, not a claim about other hardware or batch sizes.
+
+  - phase: S1_S4_HYPOTHESIS_CENSUS
+    attempt: 1
+    executed_utc: "2026-08-14T18:4x:00Z"
+    outcome: three_of_four_falsified_one_opened
+    terminal_state: s1s4_census_relu2_sparsity_opened
+    gates_evaluated_as_preregistered: true
+    preregistration: reports/lightningstream_nemotron/S1_S4_HYPOTHESIS_CENSUS_PREREGISTRATION_2026-08-14.md
+    input_lock: reports/lightningstream_nemotron/s1_s4_input_lock.json
+    result: reports/lightningstream_nemotron/s1_s4_hypothesis_census.json
+    raw_artifacts:
+      - reports/lightningstream_nemotron/s1_routes_raw.json
+      - reports/lightningstream_nemotron/s2_sparsity_raw.json
+    independent_verification: reports/lightningstream_nemotron/s1_s4_independent_verification.json
+    independent_verification_score: "20/20"
+    report: reports/lightningstream_nemotron/S1_S4_HYPOTHESIS_CENSUS_REPORT_2026-08-14.md
+    protected_verification: reports/lightningstream_nemotron/protected_verification_after_s1s4.json
+    protected_verdict: PROTECTED_80B_INTACT
+    timing_claim: false
+    measured:
+      s1_recall12_mean: 0.611491
+      s1_recall12_min_layer: 0.511155
+      s1_recall24_mean: 0.724039
+      s1_temporal_identity_overlap: 0.338
+      s1_adjacent_layer_overlap: 0.050
+      s2_mean_zero_fraction: 0.906891
+      s2_zero16_block_fraction: 0.305945
+      s2_zero64_block_fraction: 0.049326
+      s2_expert_calls: 72174
+      s3_min_nibble_entropy_bits: 3.9671
+      s3_mean_cond_entropy_bits: 3.9663
+      s4_draft_weight_hits: 0
+    verdicts:
+      S1_route_prediction: falsified_for_temporal_bigram_predictor (G-S1-CLOSE)
+      S2_relu2_sparsity: OPEN (G-S2-PASS, 0.907 vs gate 0.45)
+      S3_lossless_and_delta_coding: falsified (entropy 3.97/4 bits; H(B|A) 3.97)
+      S4_publisher_draft_weights: closed (none exist in checkpoint)
+    design_constraint_learned: >
+      ReLU2 zeros do NOT cluster: 16-column all-zero blocks 30.6%, 64-column
+      4.9%. Only column-accurate selection preserves the ~90% saving; a
+      16-column gather keeps ~31%.
+    next_phase: S5_COLUMN_SELECTIVE_DOWN_PROJ (own preregistration required)
+    claim_boundary: >
+      Statistics on routes, activations and code bytes of the public Nemotron 3
+      Nano NVFP4 checkpoint, one rollout of 2 prompts x 256 greedy tokens plus
+      bank bytes, this machine. No tok/s, timing or quality claims. The ~45%
+      miss-byte projection is component arithmetic that motivates S5; it is not
+      a measurement.
+
+  - phase: S5_COLUMN_SELECTIVE_DOWN_PROJ
+    attempt: 1
+    executed_utc: "2026-08-14T19:1x:00Z"
+    outcome: correctness_pass_performance_negative
+    terminal_state: s5_masked_path_exact_perf_gates_failed
+    design: A2_sm_side_wide_gather (R1 addendum; variant A component-falsified by microbench, variant B dead by scattered-copy measurement)
+    preregistration: reports/lightningstream_nemotron/S5_COLUMN_SELECTIVE_DOWN_PROJ_PREREGISTRATION_2026-08-14.md
+    input_lock: reports/lightningstream_nemotron/s5_input_lock.json
+    result: reports/lightningstream_nemotron/s5_masked_decode.json
+    transpose_check: reports/lightningstream_nemotron/s5_transpose_check.json
+    independent_verification: reports/lightningstream_nemotron/s5_independent_verification.json
+    independent_verification_score: "9/9"
+    report: reports/lightningstream_nemotron/S5_COLUMN_SELECTIVE_DOWN_PROJ_REPORT_2026-08-14.md
+    protected_verification: reports/lightningstream_nemotron/protected_verification_after_s5.json
+    protected_verdict: PROTECTED_80B_INTACT
+    gates:
+      G-S5-C1_identical_generation: pass (2x32 tokens exact)
+      G-S5-C2_transpose_exact: pass (2944/2944 records)
+      G-S5-C3_per_call_rel_l2: pass (2208 calls, worst 1.88e-07 <= 1e-6)
+      G-S5-P3_no_regression_ctx0: pass (21.759 >= 21)
+      G-S5-P1_262k_minimum: FAIL (13.678 < 15)
+      G-S5-P2_262k_primary: FAIL (13.678 < 18)
+    measured:
+      tok_s_masked: {ctx0: 21.759, ctx32768: 20.854, ctx131072: 16.661, ctx262100: 13.678}
+      tok_s_baseline_reproduced: {ctx0: 22.062, ctx32768: 20.147, ctx131072: 16.686, ctx262100: 13.143}
+      effect_at_262k: "+4.1%"
+      cache_gib: 1.863 (was 3.727; up-only slots)
+      microbench_gbs: {byte_per_thread: 1.78, uchar4_coalesced: 25.05, uint4: 24.84, scattered_1344B_copy_engine: 0.16}
+    mechanism_conclusion: >
+      The byte cut is real but does not move 262K token time: N8 measured
+      attention at ~39.3 ms/token there against a 3.2 ms FP8-KV read floor
+      (~12x above roofline), while the MoE-miss transfer is already partially
+      overlapped. At ctx 0 the masked path nets ~0%, consistent with transfer
+      being hidden there. The premise that MoE-miss PCIe dominates 262K is
+      falsified for this runtime; attention dominates it.
+    process_note: >
+      First verifier run failed W3 at rel_l2 1.1e+03 due to a spy capturing
+      reused buffers before kernel execution -- verifier-protocol negative,
+      fixed (compute-then-snapshot), same artifacts re-adjudicated: 9/9.
+    claim_boundary: >
+      Measured batch-1 decode of the masked column-selective runtime on this
+      GPU with bit-identical generation. No quality/benchmark/cross-hardware
+      claims. The attention-dominance conclusion rests on N8's component
+      measurement and is queued for re-measurement on the current runtime.
+
+  - phase: S10_A_MTP_ACCEPTANCE
+    attempt: 1
+    executed_utc: "2026-08-15T08:1x:00Z"
+    outcome: gate_passed_cost_side_worse_than_assumed
+    terminal_state: s10a_acceptance_gate_passed_cost_side_worse_than_assumed
+    design: >
+      Two independent forwards, no speculative loop and no shared state beyond the
+      hidden state that is passed explicitly. Phase A1 resolves the two wiring
+      ambiguities the checkpoint leaves open (transformers 5.15.0 ignores mtp.*
+      entirely and the model directory ships no modeling code) by NLL on frozen
+      held-out text. Phase A2 counts accepted drafts against the greedy tokens
+      this runtime itself produces.
+    preregistration: reports/lightningstream_nemotron/S10A_MTP_ACCEPTANCE_PREREGISTRATION_2026-08-15.md
+    input_lock: reports/lightningstream_nemotron/s10a_corpus.json
+    result: reports/lightningstream_nemotron/s10a_mtp_acceptance.json
+    wiring_resolution: reports/lightningstream_nemotron/s10a_wiring_resolution.json
+    independent_verification: reports/lightningstream_nemotron/s10a_independent_verification.json
+    independent_verification_score: "48/48"
+    report: reports/lightningstream_nemotron/S10A_MTP_ACCEPTANCE_REPORT_2026-08-15.md
+    protected_verdict: PROTECTED_80B_INTACT
+    gates:
+      G-S10-1_mean_A: pass (2.114 >= 1.5, 360 steps, 3 prompts)
+    measured:
+      wiring: eh_proj(concat(enorm(embed), hnorm(norm_f(h))))
+      a1_mean_nll: {eh_post: 3.2625, eh_pre: 4.0180, he_post: 10.4575, he_pre: 10.5343}
+      backbone_next_token_nll_anchor: 2.4732
+      mean_A_pooled: 2.1139
+      mean_A_per_prompt: {expository: 1.850, narrative: 1.208, code: 3.283}
+      histogram_A: {0: 77, 1: 70, 2: 58, 3: 45, 4: 110}
+      conditional_accept: [0.7861, 0.7527, 0.7277, 0.7097]
+      mean_A_at_ctx4096_secondary: 2.0833
+      mtp_chain_of_4_ms_p50: 19.10
+    mechanism_conclusion: >
+      The benefit side clears its gate and the acceptance ladder barely decays, so
+      D>4 is a live option. The cost side is 2.4x worse than the S10
+      preregistration assumed, measured with all 128 MTP experts device-resident,
+      which is the most favourable memory layout that exists. The decisive term
+      for step 2 is still unmeasured: a D+1 token verification sweep scales with
+      the UNION of the routes, and the MoE term is 39.5 of the 54.3 ms per token.
+      Count that union from captured routes before building anything. The 19.10 ms
+      chain figure is a component measurement and must never be restated as tok/s.
+
+  - phase: S11_FULL_RECORD_CACHE
+    attempt: 1
+    executed_utc: "2026-08-15T10:2x:00Z"
+    outcome: refuted_at_equal_bytes
+    terminal_state: s11_full_record_cache_refuted_moe_not_transfer_bound
+    design: >
+      Three arms in one process against one model load, A1/B/A2, so the repeat of A
+      bounds drift. A full-record slot is exactly twice an up-only slot, so
+      capacity 36 and capacity 72 allocate exactly the same 4.328 GiB and the only
+      variable is what a slot holds.
+    preregistration: reports/lightningstream_nemotron/S11_FULL_RECORD_CACHE_PREREGISTRATION_2026-08-15.md
+    result: reports/lightningstream_nemotron/s11_cache_mode_ab.json
+    independent_verification: reports/lightningstream_nemotron/s11_independent_verification.json
+    independent_verification_score: "41/41"
+    report: reports/lightningstream_nemotron/S11_FULL_RECORD_CACHE_REPORT_2026-08-15.md
+    protected_verdict: PROTECTED_80B_INTACT
+    gates:
+      G-S11-C1_bit_identical: pass (all three arms identical over 2x64 tokens)
+      G-S11-P1_adopt: FAIL (-4.84% at 262100 against a +3% gate)
+      G-S11-D1_drift: pass (0.042 drift vs 0.881 effect, conclusive)
+    measured:
+      tok_s_A1_up_only_72: {ctx0: 27.078, ctx131072: 21.466, ctx262100: 18.227}
+      tok_s_B_full_36: {ctx0: 25.551, ctx131072: 20.903, ctx262100: 17.346}
+      tok_s_A2_up_only_72: {ctx0: 26.391, ctx131072: 21.590, ctx262100: 18.185}
+      hit_rate: {A1: 0.8793, B: 0.6901, A2: 0.8793}
+      misses: {A1: 4530, B: 11631, A2: 4530}
+      pcie_bytes_ratio_B_over_A: 2.9
+    mechanism_conclusion: >
+      Halving capacity costs 0.879 to 0.690 hit rate, so 2.57x the misses at twice
+      the bytes each. Dropping all 37531 gather_down_sparse calls does not pay for
+      that. Beyond the gate: arm B moves 2.9x the PCIe bytes and loses only 4.8%,
+      which independently confirms S8 that the MoE term is not transfer bound.
+      Spending VRAM on down_proj is worth less than spending it on more up_proj
+      slots.
+
+  - phase: S12_IN_LOOP_ATTRIBUTION
+    attempt: 2
+    executed_utc: "2026-08-15T11:0x:00Z"
+    outcome: partial_attribution_router_probe_confounded
+    terminal_state: s12_in_loop_attribution_partial_router_probe_confounded
+    design: >
+      Never time a component in isolation, because S8 showed that overcounts by
+      forcing a sync that hides the loop's real overlap. Run the real loop and add
+      exactly one extra invocation of one component per occurrence, output to
+      scratch, and read the end-to-end delta. The probe lives in a subclass in the
+      runner; runtime.py is untouched and the verifier checks that the word probe
+      does not appear in it. Attempt 1 failed its own drift gate at 262100 (5.057
+      ms, GPU at 86-87 C after five heavier arms) and is reported as failed.
+      Attempt 2 brackets every probe between two baselines and measures against
+      their mean, with a per-probe local noise floor. The gate was not widened.
+    preregistration: reports/lightningstream_nemotron/S12_IN_LOOP_ATTRIBUTION_PREREGISTRATION_2026-08-15.md
+    preregistration_r1: reports/lightningstream_nemotron/S12R1_BRACKETED_ATTRIBUTION_PREREGISTRATION_2026-08-15.md
+    result: reports/lightningstream_nemotron/s12_in_loop_attribution.json
+    result_r1: reports/lightningstream_nemotron/s12r1_bracketed_attribution.json
+    independent_verification: reports/lightningstream_nemotron/s12r1_independent_verification.json
+    independent_verification_score: "99/99"
+    report: reports/lightningstream_nemotron/S12_IN_LOOP_ATTRIBUTION_REPORT_2026-08-15.md
+    protected_verdict: PROTECTED_80B_INTACT
+    gates:
+      G-S12-D1_drift_attempt1: FAIL (5.057 ms drift over a 3.898 ms smallest marginal)
+      G-S12R-C1_identity: pass (all eleven arms bit-identical)
+      G-S12R-D1_local_drift: pass (accum below its local drift in both contexts)
+      G-S12R-S1_sanity: pass (23.688 <= 39.523)
+      G-S12R-T1_thermal: pass (global drift 4.722 under the largest marginal 8.156)
+    measured:
+      marginal_ms_262100: {down: 7.478, up: 4.756, shared: 3.298, accum: 0.533, router: 8.156}
+      marginal_ms_ctx0: {down: 6.144, up: 5.245, shared: 3.481, accum: 1.403, router: 4.275}
+      clean_marginal_sum_262100: 15.53
+      s8_moe_term_ms: 39.523
+      gpu_temp_c: "86-87"
+    mechanism_conclusion: >
+      No single component's replication explains even half the MoE term, so the
+      39.5 ms is not sitting in one place a kernel rewrite removes. Every marginal
+      is a LOWER BOUND. The router probe is NOT comparable to the other four and is
+      excluded from the attribution: it replicates the device to host readback,
+      which is a sync, and it sits at the end of the layer where six experts are
+      queued, while the real readback sits early precisely so the shared expert can
+      hide it. It does corroborate the sync cost: 8.156 ms over 23 layers is 0.355
+      ms per layer against 0.339 ms per layer from an earlier measurement the
+      runtime cites. The correct follow-up is the same probe with MATCHED
+      PLACEMENT, own preregistration.
+
+  - phase: S13_EXPERT_UNION
+    attempt: 1
+    executed_utc: "2026-08-15T12:5x:00Z"
+    outcome: build_gate_failed_speculative_loop_refuted_before_build
+    terminal_state: s13_expert_union_gate_failed_no_build
+    design: >
+      The decisive pre-build measurement S10A section 5 asked for: count the
+      union of routed experts over non-overlapping W-token windows (W in
+      2,3,4,5,6,8) per MoE layer, on real greedy generation captured with the
+      existing step(capture_routes=...), runtime.py untouched. Four arms: the
+      three frozen S10A gate prompts (124 steps each, C1: bit-identical to the
+      S10A sequences so routes and acceptance come from the same states) and a
+      4K natural-text prompt (64 steps). Builds nothing. Also the make-or-break
+      pre-measurement for the LIGHTNINGFLASH_50 program in
+      info/SWEEPSPEC_50_PACK_2026-08-14, because every draft source shares the
+      same target verification sweep.
+    preregistration: reports/lightningstream_nemotron/S13_EXPERT_UNION_PREREGISTRATION_2026-08-15.md
+    result: reports/lightningstream_nemotron/s13_expert_union.json
+    independent_verification: reports/lightningstream_nemotron/s13_independent_verification.json
+    independent_verification_score: "43/43"
+    report: reports/lightningstream_nemotron/S13_EXPERT_UNION_REPORT_2026-08-15.md
+    input_lock: reports/lightningstream_nemotron/s13_input_lock.json
+    protected_verdict: PROTECTED_80B_INTACT
+    gates:
+      G-S13-C1_identity: pass (3 x 124 tokens bit-identical to the S10A sequences)
+      G-S13-S1_sanity: pass (W=1 union exactly 6.0 everywhere; pooled mean monotone in W)
+      G-S13-U1_build_gate: FAIL (pooled mean union at W=5 is 19.512 of 128, threshold 12.0)
+    measured:
+      pooled_union_by_window: {W1: 6.0, W2: 9.895, W3: 13.421, W4: 16.659, W5: 19.512, W6: 22.180, W8: 27.204}
+      union_w5_by_arm: {expository: 19.457, narrative: 19.518, code: 20.862, ctx4k: 18.210}
+      moe_records_per_committed_token_at_measured_A: 6.27
+      moe_records_per_token_unspeculated: 6.0
+    mechanism_conclusion: >
+      Each extra token in a window adds ~2.5-3.9 experts its predecessor did not
+      touch. Per VERIFIED token the MoE byte cost does drop (3.90 vs 6.00
+      records), but a W=5 sweep commits only A+1 = 3.114 tokens at the measured
+      acceptance, so per COMMITTED token the sweep moves 6.27 records versus
+      6.00 unspeculated -- more, not less -- before the 19.10 ms MTP draft chain
+      is even counted. The domain with the highest acceptance (code, A=3.283)
+      also has the highest union (20.862): the two parameters that would rescue
+      speculation work against each other. The gate was frozen before the run
+      and is not widened: no speculative loop is built, and the
+      LIGHTNINGFLASH_50 track is closed for this model in this form, since
+      larger trees only grow the union (W=8: 27.204).
+
+  - phase: S14_MOE_LAYER_TIMELINE
+    attempt: 1
+    executed_utc: "2026-08-15T13:1x:00Z"
+    outcome: moe_term_fully_attributed_residual_was_drain_artifact
+    terminal_state: s14_moe_timeline_attributed_residual_named
+    design: >
+      CUDA events with timing between the stages of _moe_cached via a subclass
+      in the runner -- timestamps on the stream, no host sync added, so the
+      overlap S8's isolated timing destroyed stays intact. Every microsecond of
+      every MoE layer falls in exactly one segment (consecutive event pairs on
+      the same stream). Arms base0/probed/base1, contexts 0 and 262100 with the
+      established pos-jump protocol, capacity 72, 16 tokens per context.
+      runtime.py untouched; attribution only, nothing built.
+    preregistration: reports/lightningstream_nemotron/S14_MOE_LAYER_TIMELINE_PREREGISTRATION_2026-08-15.md
+    result: reports/lightningstream_nemotron/s14_moe_layer_timeline.json
+    independent_verification: reports/lightningstream_nemotron/s14_independent_verification.json
+    independent_verification_score: "all checks passed"
+    report: reports/lightningstream_nemotron/S14_MOE_LAYER_TIMELINE_REPORT_2026-08-15.md
+    input_lock: reports/lightningstream_nemotron/s14_input_lock.json
+    protected_verdict: PROTECTED_80B_INTACT
+    gates:
+      G-S14-C1_identity: pass (instrumented == uninstrumented, 2 x 32 tokens)
+      G-S14_P1_probe_load: pass (+4.97 ms ctx0, +3.00 ms 262100, both < 20%)
+      G-S14-S1_bookkeeping: pass (segment sum 27.7 <= token p50, >= half the S8 MoE term at 262K, segments sum to layer_total within 0.05 ms)
+    measured:
+      moe_layer_stream_ms_per_token: {ctx0: 27.741, ctx262100: 27.690}
+      segments_ms_262100: {route: 3.503, shared: 3.576, host_gap: 4.672, up: 6.551, down_masked: 8.393, accum: 0.995}
+      segments_ms_ctx0: {route: 3.583, shared: 3.445, host_gap: 5.058, up: 6.715, down_masked: 7.830, accum: 1.111}
+      readback_host_ms: {ctx0: 12.968, ctx262100: 31.010}
+      miss_copy_batch_ms_copy_stream: {ctx0: 2.817, ctx262100: 2.325}
+    mechanism_conclusion: >
+      The MoE layers occupy 27.7 ms of stream wall per token at BOTH contexts;
+      the token p50 difference (41.2 -> 57.2 ms probed) lives entirely outside
+      them. S8's 39.5 ms MoE term was 27.7 ms real MoE plus ~12 ms of attention
+      and Mamba work draining at the route readback -- the loop's only sync.
+      Direct proof: readback host wall is 18.0 ms per token larger at 262K than
+      at ctx 0 while every MoE segment is context-independent, matching S8's
+      18.634 ms attention term. The unnamed residual is now named: drain
+      artifact, host_gap (4.7 ms GPU idle while the host does readback
+      handling, LRU bookkeeping and copy issue), launch-bound router (3.5 ms
+      for 344 kFLOP), and in-loop slowdown of up/down vs the S9 microbench
+      (15.0 vs ~9.0 ms). Floor arithmetic at 262K on measured floors: MoE ~16 +
+      attention 3.3 + Mamba ~8.3 + lm_head ~2.1 ~= 30 ms/token ~= 33 tok/s --
+      50 tok/s at 262K requires 20 ms and lies outside the measured physics of
+      this model on this GPU without changing what moves (fewer KV bytes or
+      fewer expert bytes per committed token are semantics changes).
+
+  - phase: K0_ROUTE_UNION_CENSUS
+    attempt: 1
+    executed_utc: "2026-08-15T12:0x:00Z"
+    outcome: p0_negative_on_records_but_not_time_decisive
+    terminal_state: k0_union_above_parity_p0_negative_but_not_time_decisive
+    design: >
+      Kimi's LightningSpec-50 P0, on the OFFICIAL routes step(capture_routes=...)
+      emits during real greedy generation. Kimi's correction to the earlier
+      threshold is adopted: raw-load parity is U* = top_k x (A+1) = 18.683, and a
+      union of 12 would be a 36% improvement, not a failure. No threshold is
+      invented; the autoregressive baseline of 6 records per emitted token is the
+      criterion.
+    preregistration: reports/lightningstream_nemotron/K0_ROUTE_UNION_AND_VOCAB_PREREGISTRATION_2026-08-15.md
+    input_lock: reports/lightningstream_nemotron/s10a_corpus.json
+    result: reports/lightningstream_nemotron/k0_route_union_census.json
+    independent_verification: reports/lightningstream_nemotron/k0_independent_verification.json
+    independent_verification_score: "62/62"
+    report: reports/lightningstream_nemotron/K0_ROUTE_UNION_AND_VOCAB_REPORT_2026-08-15.md
+    protected_verdict: PROTECTED_80B_INTACT
+    gates:
+      G-K0-1_records_per_emitted: FAIL (6.384 >= 6 at B=5)
+      G-K0-2_round_misses: FAIL (1.62x AR at every capacity 32..72)
+      G-K0-3_window_coverage: pass
+      G-K2-T1_chain_cut: pass (-44.9% against -30%)
+      G-K2-R1_recall: FAIL (0.932 < 0.995 at N=4096)
+      G-K2-A1_acceptance: FAIL (2.003 < 2.064)
+    measured:
+      mean_union: {B2: 10.06, B3: 13.63, B5: 19.88, B7: 25.23, B9: 30.01, B13: 38.24}
+      records_per_emitted: {B2: 5.631, B3: 5.734, B5: 6.384}
+      lru_round_over_ar_ratio: 1.62
+      chain_marginal_ms: {lm_head: 10.508, experts: 3.546, attn: 1.262, shared: 0.824, eh_proj: 0.733}
+      vocab_arms: {full: 2.1139, 4096: 2.0028, 2048: 1.9278, 1024: 1.8139}
+      chain_ms: {full: 18.83, n4096: 10.52}
+    mechanism_conclusion: >
+      The LM head is ~51% of the draft chain and the experts 17%, which reorders
+      the compact-draft hypothesis: quantising MTP experts attacks the smallest
+      term and the active vocabulary the largest. P0 comes out negative on its own
+      criterion, but P0 measures RECORDS and S12 measured that the MoE term is not
+      expert-load bound, so the census is not decisive for time. X1 settles it.
+
+  - phase: X1_SWEEPSPEC_MOE_ORACLE
+    attempt: 1
+    executed_utc: "2026-08-15T13:0x:00Z"
+    outcome: exact_but_refuted
+    terminal_state: x1_sweepspec_exact_but_moe_linear_in_positions_not_experts
+    design: >
+      The expert-major block verifier both agent packs put first (ExactFlow
+      hypothesis E, LightningSpec P1), built for the dominant term only. A batched
+      NVFP4 GEMM reads each weight once and multiplies it against B activation
+      vectors; a batched masked down-GEMV runs over the union panel mask. Node
+      selection and result scatter go through index arrays. Contributions are
+      stored per (node, slot) and summed in route order, so per-node accumulation
+      order is unchanged. runtime.py untouched.
+    preregistration: reports/lightningstream_nemotron/X1_SWEEPSPEC_MOE_ORACLE_PREREGISTRATION_2026-08-15.md
+    result: reports/lightningstream_nemotron/x1_sweepspec_moe_oracle.json
+    independent_verification: reports/lightningstream_nemotron/x1_independent_verification.json
+    independent_verification_score: "35/35"
+    report: reports/lightningstream_nemotron/X1_SWEEPSPEC_MOE_ORACLE_REPORT_2026-08-15.md
+    protected_verdict: PROTECTED_80B_INTACT
+    gates:
+      G-X1-C1_batched_equals_gemv: pass (bit-identical, B up to 8)
+      G-X1-C2_sweep_equals_sequential: pass (460 layer-blocks, 0 mismatches, rel_l2 0.0)
+      G-X1-P1_ratio: FAIL (1.0017 against a required 0.6228)
+      G-X1-D1_drift: conclusive at every B
+    measured:
+      ratio_sweep_over_seq: {B1: 1.1465, B2: 1.0753, B3: 1.0343, B4: 1.0192, B5: 1.0017}
+      seq_p50_ms: {B1: 22.454, B2: 43.993, B3: 66.580, B4: 88.799, B5: 111.359}
+      seq_scaling_vs_B1: {B5: 4.959}
+      mean_union_per_layer: {B1: 6.00, B5: 18.85}
+      ms_per_emitted_token: {B1: 22.45, B2: 24.63, B3: 27.99, B4: 31.62, B5: 35.76}
+    mechanism_conclusion: >
+      The MoE term is linear in the number of (node, expert) ASSIGNMENTS, not in
+      the number of unique expert records: loading each record 18.85 instead of 30
+      times per layer buys nothing, because reading records is not where the time
+      is. Third independent confirmation after S11 and S12. Consequence: the
+      routed-expert part alone of a B=5 verification costs 111.5 ms, 1.8x the whole
+      62.280 ms round budget for 50 tok/s, before router, shared, Mamba, attention,
+      LM head and draft. And because cost follows B while yield is 1+A, even
+      PERFECT acceptance (A=4 at B=5) only breaks even at 22.3 vs 22.45 ms per
+      emitted token, before draft cost. No drafter improvement can make
+      speculation pay on this runtime. This closes SweepSpec, ExactFlow-E and
+      LightningSpec H2/H3/H4/H6/H7/H8 as routes to 50 tok/s.
+
+# ---------------------------------------------------------------------------
+# Observed activity of the protected line. Recorded because isolation claims
+# must be checkable, not asserted.
+# ---------------------------------------------------------------------------
+protected_line_activity:
+  - observed_utc: "2026-08-14T13:0x:00Z"
+    observation: >
+      The protected-manifest verification after N4-R2 reported 66 ADDED files in
+      reports/streamq5_moe/, with 0 modified, 0 removed and 0 listing changes.
+      All 66 are HET_NEXT_L0_PH1_NVIDIA_NC0..NC13 preregistrations, design
+      audits, errata, design locks and fixture manifests dated 2026-08-14 -- the
+      other agent's own new work, in a directory this line has never written to.
+    interpretation: >
+      Confirms the isolation is holding in both directions: their line advanced
+      from the N5 static-preflight NO-GO to NC0-NC13 compile-only work while this
+      line ran four GPU phases, and not one protected byte was modified or
+      removed. Additions by the owning agent are informational by design and do
+      not trigger the hard stop; only modification, removal or a listing change
+      does.
+    gpu_contention: >
+      None observed. Every GPU phase checked nvidia-smi --query-compute-apps and
+      found zero foreign CUDA contexts, consistent with their current work being
+      design and audit rather than device execution.
+
+# ---------------------------------------------------------------------------
+gates:
+  correctness:
+    - one-module references pass
+    - same official route IDs and weights within one deployment path
+    - no uncounted fallback
+    - no full dequantized routed bank
+  resource:
+    peak_vram_gib_max: 8.0
+    process_ram_gib_max: 32
+    model_artifacts_gib_max: 25
+    steady_state_paging: none
+  performance_primary:
+    decode_4k_tok_s_min: 25
+    decode_32k_tok_s_min: 22
+    decode_128k_tok_s_min: 15
+    decode_256k_tok_s_min: 10
+  performance_minimum_acceptable:
+    decode_4k_tok_s_min: 20
+    decode_128k_tok_s_min: 10
+  stability:
+    generated_tokens_min: 10000
+    thermal_run_minutes: 60
+    last15_vs_first5_throughput_ratio_min: 0.90
+    forbidden: [driver_reset, oom, state_corruption, generation_collapse]
+  quality:
+    - custom runtime matches the frozen public NVFP4 target semantics
+    - no unexplained CE/KL regression introduced by the runtime
+    - fixed code / reasoning / tool / Dutch / long-context suites
+
+stop_rules:
+  - id: identity_unprovable
+    action: keep tracks separate, do not block local work
+  - id: one_module_semantics_unreproducible
+    action: debug implementation only; make no quality conclusion
+  - id: zero_cache_p95_over_60ms
+    condition: after registered/batched transfer and a correct fused kernel
+    action: reassess physical architecture before building a full model
+  - id: full_4k_below_15_tok_s
+    action: do not open 128K/256K performance claims
+  - id: runtime_quality_loss_beyond_checkpoint
+    action: fix semantics; never mask with prompt tuning
+  - id: context_128k_state_does_not_fit
+    action: report actual maximum context; do not extrapolate
+  - id: protected_80b_file_changed
+    action: STOP IMMEDIATELY, restore from manifest, do not touch the other agent's work
+
+forbidden_hypotheses:
+  - shared or low-rank expert surrogates (RSIV falsified_rank_working_set)
+  - post-hoc hidden-state correction
+  - Q2 CORETAIL as model semantics (+42.943% test relative CE)
+  - CRAFT route substitution as a primary method
+  - dynamic Q3/Q4 selectors
+  - atom skipping or neuron sparsity as the baseline (pruning cost is ~linear in removed fraction)
+  - speculative block-coalescing before an ordinary decoder exists
+  - multiplying local oracle gains without one full-depth candidate
+  - recomputed topk as authoritative routing when the official block returned IDs
+  - naming a residual/"glue" term without measuring it independently
+  - promoting a microkernel or component projection to tokens per second
+  - "speculative block verification on this runtime (X1: MoE cost is linear in verified positions, not unique experts, so even perfect acceptance only breaks even before draft cost)"
+  - "expert-major grouping as a speed optimisation (X1: sweep/sequential ratio 1.0017 at B=5 against a required 0.6228)"
+  - "full-record expert caching at equal cache bytes (S11: -4.84% at 262100; halving capacity costs more in misses than the dropped gathers save)"
+  - "treating a probe that contains a synchronisation as a component cost without matching where the real synchronisation sits in the loop (S12 router probe)"
+  - "isolated component timing as attribution on this runtime (S8: overcounts by 16.9 ms at 262K because the sync destroys the loop's overlap)"

@@ -1,0 +1,84 @@
+{
+  "kind": "lightningstream_nemotron_n3_state_budget",
+  "status": "arithmetic_projection_from_shapes_not_measured",
+  "inputs": {
+    "attention_layers": 6,
+    "mamba_layers": 23,
+    "moe_layers": 23,
+    "num_key_value_heads": 2,
+    "head_dim": 128,
+    "mamba_num_heads": 64,
+    "mamba_head_dim": 64,
+    "ssm_state_size": 128,
+    "conv_kernel": 4,
+    "conv_dim": 6144,
+    "d_inner": 4096,
+    "max_position_embeddings": 262144,
+    "rope_present_in_modeling_code": false
+  },
+  "kv_elements_per_token": 3072,
+  "kv_bytes_per_token_fp8": 3072,
+  "kv_by_context": {
+    "4096": {
+      "elements": 12582912,
+      "fp8_bytes": 12582912,
+      "bf16_bytes": 25165824,
+      "fp8_mib": 12.0,
+      "bf16_mib": 24.0
+    },
+    "32768": {
+      "elements": 100663296,
+      "fp8_bytes": 100663296,
+      "bf16_bytes": 201326592,
+      "fp8_mib": 96.0,
+      "bf16_mib": 192.0
+    },
+    "131072": {
+      "elements": 402653184,
+      "fp8_bytes": 402653184,
+      "bf16_bytes": 805306368,
+      "fp8_mib": 384.0,
+      "bf16_mib": 768.0
+    },
+    "262144": {
+      "elements": 805306368,
+      "fp8_bytes": 805306368,
+      "bf16_bytes": 1610612736,
+      "fp8_mib": 768.0,
+      "bf16_mib": 1536.0
+    }
+  },
+  "mamba_state": {
+    "ssm_state_elements": 12058624,
+    "ssm_state_fp32_bytes": 48234496,
+    "conv_state_elements": 565248,
+    "conv_state_bf16_bytes": 1130496,
+    "conv_state_fp32_bytes": 2260992,
+    "total_bytes_fp32_ssm_bf16_conv": 49364992,
+    "total_mib_fp32_ssm_bf16_conv": 47.078,
+    "context_dependent": false
+  },
+  "combined_state_by_context": {
+    "4096": {
+      "kv_fp8_plus_mamba_bytes": 61947904,
+      "mib": 59.078
+    },
+    "32768": {
+      "kv_fp8_plus_mamba_bytes": 150028288,
+      "mib": 143.078
+    },
+    "131072": {
+      "kv_fp8_plus_mamba_bytes": 452018176,
+      "mib": 431.078
+    },
+    "262144": {
+      "kv_fp8_plus_mamba_bytes": 854671360,
+      "mib": 815.078
+    }
+  },
+  "notes": [
+    "The six attention layers carry no rotary embedding; positional information comes from the Mamba layers. Long-context work here is therefore not a RoPE-scaling problem.",
+    "Mamba state is constant in context length, so the only context-dependent term is the KV cache of six layers with two KV heads each.",
+    "These are projections from tensor shapes and the pinned config. They are not measured allocations and must not be quoted as VRAM figures."
+  ]
+}

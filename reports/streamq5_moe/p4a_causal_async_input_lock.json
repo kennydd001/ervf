@@ -1,0 +1,35 @@
+{
+  "kind": "streamq5_moe_p4a_causal_async_input_lock",
+  "locked_utc": "2026-08-12T12:20:00+00:00",
+  "preregistration_sha256": "6284cee2aca37893b1719264c1c0cdcb15bc5f972960f8ac5ab3374dd9fe9be5",
+  "p1d_bank_result_sha256": "08c1f8f469998e46ef985578b07006f884b737335fbdb7b63ca1efb37afe0e09",
+  "p1d_verification_sha256": "46a424fd4c0d8c37985b5f44b9d76503c1511f6de04478d938779b33338507ed",
+  "p3a_route_capture_sha256": "b15ab0c5a9bc10c8c245e13ad9f5725b91ffd923809fcf9b2786562bcbcc3f88",
+  "p3a_validation_sha256": "7d3848a5972942ec6e8f5926f5bf22e4ff80855ef9c2993c1ce67b8af0bf78da",
+  "p3a_test_sha256": "dd06ffee9fc599f2f8a5be24d266a27cf820303e61d437dd0f2b1de7094664d5",
+  "partitions": {
+    "smoke": [0, 4],
+    "validation": [512, 768],
+    "test": [768, 1024]
+  },
+  "domains": ["general", "code", "math", "multilingual", "instruction"],
+  "initial_state_seed": 20260812,
+  "cache": {
+    "total_slots": 1640,
+    "static_slots_per_layer": 20,
+    "dynamic_slots_layers_0_7": 15,
+    "dynamic_slots_layers_8_47": 14
+  },
+  "prediction_ms": {"mean": 19.06, "p95": 20.68, "mean_tolerance_fraction": 0.15},
+  "gates": {
+    "aggregate_mean_ms_max": 20.0,
+    "aggregate_p95_ms_max": 25.0,
+    "all_domain_mean_ms_max": 22.0,
+    "all_domain_p95_ms_max": 30.0,
+    "serial_reproduction_relative_tolerance": 0.15,
+    "max_abs_output_error": 0.00002,
+    "relative_l2_output_error": 0.000001,
+    "minimum_scratch_bytes": 402653184
+  },
+  "outputs_opened": false
+}

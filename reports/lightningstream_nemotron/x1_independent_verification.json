@@ -1,0 +1,222 @@
+{
+  "kind": "lightningstream_nemotron_x1_independent_verification",
+  "completed_utc": "2026-08-15T11:41:16.769533+00:00",
+  "verifier_sha256": "2d2d9108a83cb9c44496fee119d5788cbf7b6f63fb97a31739e1e18b9fe3965a",
+  "verified_file_sha256": "3d54998375dbf4e51ef920835960edd53adb1388ae14e57fb524e16e29e0730a",
+  "recomputed": {
+    "emitted_per_round": 3.113888888888889,
+    "threshold": 0.6227777777777778,
+    "per_B": {
+      "1": {
+        "seq_bracketed_p50_ms": 22.453850000000003,
+        "local_drift_ms": 0.04539999999999722,
+        "ratio": 1.146542797783008,
+        "conclusive": true,
+        "seq_scaling_vs_B1": 1.0,
+        "sweep_ms_per_emitted": 8.26757181088314
+      },
+      "2": {
+        "seq_bracketed_p50_ms": 43.993375,
+        "local_drift_ms": 0.01824999999999477,
+        "ratio": 1.0752505348816725,
+        "conclusive": true,
+        "seq_scaling_vs_B1": 1.95927981170267,
+        "sweep_ms_per_emitted": 15.191261373773417
+      },
+      "3": {
+        "seq_bracketed_p50_ms": 66.58015,
+        "local_drift_ms": 0.16489999999998872,
+        "ratio": 1.0342594602144934,
+        "conclusive": true,
+        "seq_scaling_vs_B1": 2.96519973189453,
+        "sweep_ms_per_emitted": 22.11419625334523
+      },
+      "4": {
+        "seq_bracketed_p50_ms": 88.79852500000001,
+        "local_drift_ms": 0.5262499999999903,
+        "ratio": 1.0191768388044733,
+        "conclusive": true,
+        "seq_scaling_vs_B1": 3.95471266620201,
+        "sweep_ms_per_emitted": 29.06378590544157
+      },
+      "5": {
+        "seq_bracketed_p50_ms": 111.3589,
+        "local_drift_ms": 0.031999999999996476,
+        "ratio": 1.0016832960814088,
+        "conclusive": true,
+        "seq_scaling_vs_B1": 4.959456841477074,
+        "sweep_ms_per_emitted": 35.822199821587866
+      }
+    }
+  },
+  "gates": {
+    "G_X1_C1": true,
+    "G_X1_C2": true,
+    "G_X1_P1": false
+  },
+  "checks": [
+    {
+      "check": "emitted-per-round equals 1 + the S10-A pooled acceptance",
+      "ok": true,
+      "recomputed": 3.113888888888889
+    },
+    {
+      "check": "gate threshold is emitted/B_max, not an invented number",
+      "ok": true,
+      "recomputed": 0.6227777777777778
+    },
+    {
+      "check": "B=1: zero mismatches over >=80 layer-blocks",
+      "ok": true,
+      "checked": 92
+    },
+    {
+      "check": "B=1: bit_identical flag consistent with the count",
+      "ok": true
+    },
+    {
+      "check": "B=2: zero mismatches over >=80 layer-blocks",
+      "ok": true,
+      "checked": 92
+    },
+    {
+      "check": "B=2: bit_identical flag consistent with the count",
+      "ok": true
+    },
+    {
+      "check": "B=3: zero mismatches over >=80 layer-blocks",
+      "ok": true,
+      "checked": 92
+    },
+    {
+      "check": "B=3: bit_identical flag consistent with the count",
+      "ok": true
+    },
+    {
+      "check": "B=4: zero mismatches over >=80 layer-blocks",
+      "ok": true,
+      "checked": 92
+    },
+    {
+      "check": "B=4: bit_identical flag consistent with the count",
+      "ok": true
+    },
+    {
+      "check": "B=5: zero mismatches over >=80 layer-blocks",
+      "ok": true,
+      "checked": 92
+    },
+    {
+      "check": "B=5: bit_identical flag consistent with the count",
+      "ok": true
+    },
+    {
+      "check": "G-X1-C1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "G-X1-C2 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "B=1: bracketed sequential baseline reproduces",
+      "ok": true
+    },
+    {
+      "check": "B=1: ratio reproduces",
+      "ok": true,
+      "recomputed": 1.146542797783008
+    },
+    {
+      "check": "B=1: samples present in all three arms",
+      "ok": true
+    },
+    {
+      "check": "B=2: bracketed sequential baseline reproduces",
+      "ok": true
+    },
+    {
+      "check": "B=2: ratio reproduces",
+      "ok": true,
+      "recomputed": 1.0752505348816725
+    },
+    {
+      "check": "B=2: samples present in all three arms",
+      "ok": true
+    },
+    {
+      "check": "B=3: bracketed sequential baseline reproduces",
+      "ok": true
+    },
+    {
+      "check": "B=3: ratio reproduces",
+      "ok": true,
+      "recomputed": 1.0342594602144934
+    },
+    {
+      "check": "B=3: samples present in all three arms",
+      "ok": true
+    },
+    {
+      "check": "B=4: bracketed sequential baseline reproduces",
+      "ok": true
+    },
+    {
+      "check": "B=4: ratio reproduces",
+      "ok": true,
+      "recomputed": 1.0191768388044733
+    },
+    {
+      "check": "B=4: samples present in all three arms",
+      "ok": true
+    },
+    {
+      "check": "B=5: bracketed sequential baseline reproduces",
+      "ok": true
+    },
+    {
+      "check": "B=5: ratio reproduces",
+      "ok": true,
+      "recomputed": 1.0016832960814088
+    },
+    {
+      "check": "B=5: samples present in all three arms",
+      "ok": true
+    },
+    {
+      "check": "G-X1-P1 verdict agrees with the runner",
+      "ok": true,
+      "recomputed_ratio": 1.0016832960814088,
+      "threshold": 0.6227777777777778
+    },
+    {
+      "check": "the sequential arm scales close to linearly in B",
+      "ok": true,
+      "scaling": {
+        "1": 1.0,
+        "2": 1.95927981170267,
+        "3": 2.96519973189453,
+        "4": 3.95471266620201,
+        "5": 4.959456841477074
+      }
+    },
+    {
+      "check": "runtime.py was not modified for this phase",
+      "ok": true
+    },
+    {
+      "check": "sweepspec.py on disk hashes to the measured value",
+      "ok": true
+    },
+    {
+      "check": "no tokens-per-second figure anywhere in the result",
+      "ok": true
+    },
+    {
+      "check": "result carries a claim boundary",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

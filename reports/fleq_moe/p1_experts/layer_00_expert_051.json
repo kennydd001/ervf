@@ -1,0 +1,228 @@
+{
+  "all_finite": true,
+  "artifact": "reports/runs/fleq_moe/p1/layer_00_expert_051.safetensors",
+  "artifact_sha256": "24bb9976a0769250f3a8178a2206c9511b805c00c7338f53311b5fe07d599e5f",
+  "calibration_rows": 384,
+  "code_summaries": {
+    "gptq_2bit": {
+      "down": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 378558,
+          "-2": 104932,
+          "0": 631937,
+          "1": 457437
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "gate": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 373008,
+          "-2": 96179,
+          "0": 661275,
+          "1": 442402
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "up": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 375540,
+          "-2": 100588,
+          "0": 646588,
+          "1": 450148
+        },
+        "scales": 12288,
+        "weights": 1572864
+      }
+    },
+    "gsq_2bit": {
+      "down": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 378550,
+          "-2": 108662,
+          "0": 627767,
+          "1": 457885
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "gate": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 373415,
+          "-2": 100495,
+          "0": 654170,
+          "1": 444784
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "up": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 375799,
+          "-2": 104997,
+          "0": 640088,
+          "1": 451980
+        },
+        "scales": 12288,
+        "weights": 1572864
+      }
+    }
+  },
+  "completed_utc": "2026-08-11T11:38:32.928323+00:00",
+  "elapsed_seconds": 42.92079449999437,
+  "expert": 51,
+  "fallback_bit_exact": true,
+  "gsq_losses": [
+    3.6686815292341635e-05,
+    2.9936327337054536e-05,
+    2.504806616343558e-05,
+    2.985447099490557e-05,
+    2.3473738110624254e-05,
+    2.543895971029997e-05,
+    2.0628765923902392e-05,
+    1.6091147699626163e-05,
+    1.3297682016855106e-05,
+    1.3814284102409147e-05,
+    1.6724101442378014e-05,
+    1.4072900739847682e-05,
+    1.3865071196050849e-05,
+    1.557797622808721e-05,
+    1.4074263162910938e-05,
+    1.1591215297812596e-05,
+    1.5060315490700305e-05,
+    1.2172176866442896e-05,
+    1.344253178103827e-05,
+    1.0699084668885916e-05,
+    1.0451092748553492e-05,
+    9.56780968408566e-06,
+    1.0449804904055782e-05,
+    1.1719663234543987e-05,
+    1.1264588465564884e-05,
+    9.224944733432494e-06,
+    8.613455065642484e-06,
+    1.012380380416289e-05,
+    9.081846656044945e-06,
+    7.956678018672392e-06,
+    1.0374429621151648e-05,
+    8.667720976518467e-06,
+    8.4668508861796e-06,
+    8.860601155902259e-06,
+    9.978126399801113e-06,
+    7.930908395792358e-06,
+    8.683267878950574e-06,
+    8.597744454164058e-06,
+    8.078754945017863e-06,
+    8.473389243590645e-06,
+    1.0408389243821148e-05,
+    9.887226042337716e-06,
+    9.999055691878311e-06,
+    8.683169653522782e-06,
+    8.747567335376516e-06,
+    1.0605925126583315e-05,
+    9.156352462014183e-06,
+    8.277276720036753e-06,
+    8.760964192333631e-06,
+    8.789211278781295e-06,
+    9.30369697016431e-06,
+    1.0859377653105184e-05,
+    8.537834219168872e-06,
+    1.0480107448529452e-05,
+    9.282533028454054e-06,
+    9.398789188708179e-06,
+    1.1062851626775227e-05,
+    1.0822524018294644e-05,
+    9.672698070062324e-06,
+    8.975468517746776e-06
+  ],
+  "heldout_gsq_improvement_over_gptq": -0.20444384353800463,
+  "heldout_rows": 298,
+  "kind": "fleq_moe_p1_expert_result",
+  "layer": 0,
+  "metrics": {
+    "gptq_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9919952750205994,
+        "relative_l2": 0.11284032464027405,
+        "relative_row_p50": 0.11998026072978973,
+        "relative_row_p95": 0.1756170690059662,
+        "router_weighted_relative_mse": 0.012336887419223785,
+        "rows": 384
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9195948839187622,
+        "relative_l2": 0.4243420660495758,
+        "relative_row_p50": 0.3863716423511505,
+        "relative_row_p95": 0.5298981070518494,
+        "router_weighted_relative_mse": 0.18394461274147034,
+        "rows": 298
+      }
+    },
+    "gsq_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9733034372329712,
+        "relative_l2": 0.222008615732193,
+        "relative_row_p50": 0.22668710350990295,
+        "relative_row_p95": 0.27621006965637207,
+        "router_weighted_relative_mse": 0.0486266054213047,
+        "rows": 384
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.8979472517967224,
+        "relative_l2": 0.46693354845046997,
+        "relative_row_p50": 0.4334305226802826,
+        "relative_row_p95": 0.5746926665306091,
+        "router_weighted_relative_mse": 0.22155095636844635,
+        "rows": 298
+      }
+    },
+    "rtn_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.8816622495651245,
+        "relative_l2": 0.4845424294471741,
+        "relative_row_p50": 0.4903212785720825,
+        "relative_row_p95": 0.5445812940597534,
+        "router_weighted_relative_mse": 0.23345635831356049,
+        "rows": 384
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.8815769553184509,
+        "relative_l2": 0.48105618357658386,
+        "relative_row_p50": 0.4911741018295288,
+        "relative_row_p95": 0.5529814958572388,
+        "router_weighted_relative_mse": 0.22836625576019287,
+        "rows": 298
+      }
+    }
+  },
+  "original_weight_sha256": {
+    "down": "d516bd2126f29d29e0d0848c44c021c33194cb9d061e319a865a8500ac13c5b9",
+    "gate": "15fdbee3bdadc80f8df0202feac6b28b0adbcebb09e8a5a963c2f227ab3cc02a",
+    "up": "a4c4f49835a7941f206f452ec8ce81b478fa88bb9a9f5d38e7e1b66c19f58ba2"
+  },
+  "peak_cuda_allocated_bytes": 320258048,
+  "peak_cuda_reserved_bytes": 354418688,
+  "process_rss_peak_observed_bytes": 2322194432,
+  "repeat_exact": null,
+  "repeat_losses": null,
+  "repeat_required": false,
+  "selection_lock_sha256": "99038787f6aee75f18db40c7dd879bd090ffbe4dc659bc07143b2b8f77e26257"
+}

@@ -1,0 +1,32 @@
+project: PORT80B_ACTIVE_SET
+created_at: 2026-08-12
+scope: P0_only
+status: P0_closed_fail
+immutable_inputs:
+  n4a: reports/streamq5_moe/n4a_synthetic_80b_shape_capacity.json
+  n4br: reports/streamq5_moe/n4br_synthetic_80b_exact_replication.json
+  next_phase_capacity: info/BREAKTHROUGH_NEXT_PHASE_PACK_2026-08-12/PORT80B_CAPACITY_AND_LATENCY.json
+phases:
+  PORT80B_P0:
+    status: closed_fail
+    objective: physical_non_sparse_49925652480_byte_host_bank_gate
+    preregistration: reports/streamq5_moe/PORT80B_P0_PHYSICAL_HOST_BANK_PREREGISTRATION.md
+    runner: scripts/streamq5_moe/run_port80b_p0_physical_host_bank.py
+    preflight: reports/streamq5_moe/port80b_p0_preflight_dry_run.json
+    result: reports/streamq5_moe/port80b_p0_physical_host_bank_result.json
+    report: reports/streamq5_moe/PORT80B_P0_PHYSICAL_HOST_BANK_REPORT_2026-08-12.md
+    independent_verification: reports/streamq5_moe/port80b_p0_independent_verification.json
+    acknowledgement: PORT80B_P0_49925652480
+    physical_file_created: true
+    gpu_used: true
+    verdict: fail_postwarm_page_reads_and_zero_cache_h2d_p95
+    bank_bytes: 49925652480
+    bank_sha256: 4a97af22833b239badc065d9c065ca259c791a84218640946d68c4e72e034462
+    elapsed_seconds: 3600.092517400015
+    zero_cache_h2d_p95_ms: 73.54437026977537
+    peak_process_commit_bytes: 6074916864
+    page_reads_per_sec_max: 7759.004682464511
+claim_boundary:
+  - P0 has no model quality or end-to-end decode.
+  - A synthetic physical bank is not a real 80B runtime.
+  - No hardware purchase is authorized before a completed P0 result.

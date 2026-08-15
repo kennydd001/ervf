@@ -1,0 +1,82 @@
+{
+  "kind": "lightningstream_nemotron_n6a_independent_verification",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "N6_A_FULL_DEPTH_FORWARD",
+  "completed_utc": "2026-08-14T14:56:47.185356+00:00",
+  "verifier_sha256": "2155dd4add982cae4563a954ea7b6be7697fca85201965cf61fa8257b30caa35",
+  "verified_result_sha256": "55225d7dfd78839addb5da08ef7648577c2a505e0639e6a348bf0c252f01e044",
+  "verified_routes_sha256": "82dc9717b2bc88bc3088ec7ac8c8187cbdb18caf72332403392fcd38c3a984c6",
+  "gpu_opened": false,
+  "runner_imported": false,
+  "forward_recomputed": false,
+  "forward_recompute_note": "Re-running the forward would re-execute the same code rather than check it; what is verified here is artifact consistency, correct token decoding behind the coherence claim, and route well-formedness.",
+  "checks": {
+    "phase_correct": true,
+    "claim_boundary_present": true,
+    "no_tok_s_promotion": true,
+    "gpu_not_used": true,
+    "no_timing_claim": true,
+    "no_bf16_model_materialised": true,
+    "runner_hash_matches_recorded": true,
+    "fifty_two_layers": true,
+    "prompts_retokenise_identically": true,
+    "top1_ids_redecode_identically": true,
+    "primary_top1_contains_paris": true,
+    "primary_coherence_flag_consistent": true,
+    "all_logits_finite_flagged": true,
+    "vocab_size_correct": true,
+    "top1_prob_in_unit_interval": true,
+    "entropy_non_negative": true,
+    "top5_logits_descending": true,
+    "top1_matches_top5_head": true,
+    "route_capture_covers_all_prompts": true,
+    "route_provenance_marked_non_representative": true,
+    "routes_cover_expected_moe_layers": true,
+    "route_ids_valid": true,
+    "route_ids_unique_within_token": true,
+    "route_weights_sum_to_scaling_factor": true,
+    "tie_margins_finite": true,
+    "route_rows_recomputed": true,
+    "router_uses_many_distinct_experts": true,
+    "process_memory_measured": true,
+    "process_commit_under_32gib": true,
+    "gates_all_pass_consistent": true,
+    "terminal_state_consistent": true,
+    "joint_confirmation_note_present": true
+  },
+  "passed": 32,
+  "total": 32,
+  "pass": true,
+  "detail": {
+    "primary_top1": " Paris",
+    "primary_top1_prob": 0.960280443542907,
+    "route_rows": 552,
+    "distinct_experts_used": 128,
+    "distinct_expert_fraction": 1.0,
+    "most_common_experts": [
+      [
+        33,
+        61
+      ],
+      [
+        78,
+        57
+      ],
+      [
+        115,
+        49
+      ],
+      [
+        12,
+        48
+      ],
+      [
+        46,
+        47
+      ]
+    ],
+    "expert_usage_max": 61,
+    "expert_usage_min": 7,
+    "peak_commit_gib": 6.734
+  }
+}

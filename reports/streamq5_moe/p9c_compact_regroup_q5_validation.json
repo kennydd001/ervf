@@ -1,0 +1,532 @@
+{
+  "kind": "streamq5_moe_p9c_compact_regroup_q5",
+  "completed_utc": "2026-08-12T16:11:33.992569+00:00",
+  "split": "validation",
+  "status": "validation_closed",
+  "inputs": {
+    "preregistration_sha256": "28072a627d98660afb1a832e5f16e7b96e50fbf3b441518cb33b9f313c53c57c",
+    "data_sha256": "ecb6211102bca5641314bf4dff604395a147ba53a03a918855cb25f8cbec0b26",
+    "masks_sha256": "a238950c97c52f7b5c12eaae76a1ef21f8c4ad4fabd4724bc13f9ed17801dab1",
+    "p9b_validation_sha256": "46ca0be57b6494e5b4ac367912835da65fa733ba06be39727842cf8ca1ece9d6",
+    "p9b_test_sha256": "4c5d63ddd6e2a499a00361db7db9dd279297062222099ed7c1aa54e88ffade68",
+    "model_index_sha256": "df0d481ec595c55a0ba58426d517390c6214a566ec4ff1c8fc4bbce9f57b3c24"
+  },
+  "compact_shapes": {
+    "gate": [
+      384,
+      2048
+    ],
+    "up": [
+      384,
+      2048
+    ],
+    "down": [
+      2048,
+      384
+    ]
+  },
+  "expert_weight_ratio": 0.5,
+  "teacher": {
+    "ce": 1.870477294921875,
+    "labels": 1270,
+    "domains": {
+      "general": {
+        "ce": 1.6067534919798843,
+        "labels": 254
+      },
+      "code": {
+        "ce": 1.355918824203371,
+        "labels": 254
+      },
+      "math": {
+        "ce": 1.1993521742933377,
+        "labels": 254
+      },
+      "multilingual": {
+        "ce": 3.475061611866388,
+        "labels": 254
+      },
+      "instruction": {
+        "ce": 1.715300372266394,
+        "labels": 254
+      }
+    }
+  },
+  "candidate": {
+    "ce": 2.7688028410663756,
+    "labels": 1270,
+    "domains": {
+      "general": {
+        "ce": 2.466460580900898,
+        "labels": 254
+      },
+      "code": {
+        "ce": 1.8190138208584523,
+        "labels": 254
+      },
+      "math": {
+        "ce": 2.209221066452387,
+        "labels": 254
+      },
+      "multilingual": {
+        "ce": 5.024498166061762,
+        "labels": 254
+      },
+      "instruction": {
+        "ce": 2.3248205710583782,
+        "labels": 254
+      }
+    }
+  },
+  "relative_cross_entropy_increase": 0.48026541064323436,
+  "top1_agreement": 0.6047244071960449,
+  "final_hidden_error": {
+    "relative_l2": 0.48655229806900024,
+    "max_abs": 599.0,
+    "finite": true
+  },
+  "layers": [
+    {
+      "layer": 0,
+      "hidden_error": {
+        "relative_l2": 0.19079960882663727,
+        "max_abs": 0.640625,
+        "finite": true
+      },
+      "seconds": 2.270182400010526
+    },
+    {
+      "layer": 1,
+      "hidden_error": {
+        "relative_l2": 0.4671515226364136,
+        "max_abs": 98.75,
+        "finite": true
+      },
+      "seconds": 1.8641420000058133
+    },
+    {
+      "layer": 2,
+      "hidden_error": {
+        "relative_l2": 0.10683728754520416,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.011873600014951
+    },
+    {
+      "layer": 3,
+      "hidden_error": {
+        "relative_l2": 0.06981982290744781,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.71470589999808
+    },
+    {
+      "layer": 4,
+      "hidden_error": {
+        "relative_l2": 0.07103259861469269,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9380288000102155
+    },
+    {
+      "layer": 5,
+      "hidden_error": {
+        "relative_l2": 0.07263679057359695,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9442202000063844
+    },
+    {
+      "layer": 6,
+      "hidden_error": {
+        "relative_l2": 0.07370489835739136,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.697452799999155
+    },
+    {
+      "layer": 7,
+      "hidden_error": {
+        "relative_l2": 0.07480812072753906,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9185353000066243
+    },
+    {
+      "layer": 8,
+      "hidden_error": {
+        "relative_l2": 0.07698757946491241,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.992382099997485
+    },
+    {
+      "layer": 9,
+      "hidden_error": {
+        "relative_l2": 0.07820406556129456,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9705239000031725
+    },
+    {
+      "layer": 10,
+      "hidden_error": {
+        "relative_l2": 0.07962163537740707,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9471428000251763
+    },
+    {
+      "layer": 11,
+      "hidden_error": {
+        "relative_l2": 0.0809650719165802,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.968846100004157
+    },
+    {
+      "layer": 12,
+      "hidden_error": {
+        "relative_l2": 0.08206473290920258,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.8859059999813326
+    },
+    {
+      "layer": 13,
+      "hidden_error": {
+        "relative_l2": 0.08376870304346085,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9078314999933355
+    },
+    {
+      "layer": 14,
+      "hidden_error": {
+        "relative_l2": 0.08584513515233994,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9318093000038061
+    },
+    {
+      "layer": 15,
+      "hidden_error": {
+        "relative_l2": 0.08795575052499771,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.0132614000176545
+    },
+    {
+      "layer": 16,
+      "hidden_error": {
+        "relative_l2": 0.08946912735700607,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9953020999964792
+    },
+    {
+      "layer": 17,
+      "hidden_error": {
+        "relative_l2": 0.09069645404815674,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.099621199973626
+    },
+    {
+      "layer": 18,
+      "hidden_error": {
+        "relative_l2": 0.09238976985216141,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.8934333000215702
+    },
+    {
+      "layer": 19,
+      "hidden_error": {
+        "relative_l2": 0.09346280992031097,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9011070000124164
+    },
+    {
+      "layer": 20,
+      "hidden_error": {
+        "relative_l2": 0.09651094675064087,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9472014000057243
+    },
+    {
+      "layer": 21,
+      "hidden_error": {
+        "relative_l2": 0.10334938764572144,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.031689600000391
+    },
+    {
+      "layer": 22,
+      "hidden_error": {
+        "relative_l2": 0.10761678218841553,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.66519060000428
+    },
+    {
+      "layer": 23,
+      "hidden_error": {
+        "relative_l2": 0.10936620831489563,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.0062048999825493
+    },
+    {
+      "layer": 24,
+      "hidden_error": {
+        "relative_l2": 0.1084875762462616,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.884735500003444
+    },
+    {
+      "layer": 25,
+      "hidden_error": {
+        "relative_l2": 0.10842588543891907,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9033434000157285
+    },
+    {
+      "layer": 26,
+      "hidden_error": {
+        "relative_l2": 0.11182840913534164,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9348263000138104
+    },
+    {
+      "layer": 27,
+      "hidden_error": {
+        "relative_l2": 0.11582697927951813,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.037550500012003
+    },
+    {
+      "layer": 28,
+      "hidden_error": {
+        "relative_l2": 0.11908938735723495,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.8470633999968413
+    },
+    {
+      "layer": 29,
+      "hidden_error": {
+        "relative_l2": 0.12156739085912704,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.0459780999808572
+    },
+    {
+      "layer": 30,
+      "hidden_error": {
+        "relative_l2": 0.12416094541549683,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.952653599990299
+    },
+    {
+      "layer": 31,
+      "hidden_error": {
+        "relative_l2": 0.12889796495437622,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.92282370000612
+    },
+    {
+      "layer": 32,
+      "hidden_error": {
+        "relative_l2": 0.13598325848579407,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.2520132000208832
+    },
+    {
+      "layer": 33,
+      "hidden_error": {
+        "relative_l2": 0.14874006807804108,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.4221722000220325
+    },
+    {
+      "layer": 34,
+      "hidden_error": {
+        "relative_l2": 0.15475183725357056,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.5970754000009038
+    },
+    {
+      "layer": 35,
+      "hidden_error": {
+        "relative_l2": 0.15926013886928558,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9891675999970175
+    },
+    {
+      "layer": 36,
+      "hidden_error": {
+        "relative_l2": 0.16094745695590973,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.0288981999910902
+    },
+    {
+      "layer": 37,
+      "hidden_error": {
+        "relative_l2": 0.16843250393867493,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9197609000257216
+    },
+    {
+      "layer": 38,
+      "hidden_error": {
+        "relative_l2": 0.18234127759933472,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.046742800011998
+    },
+    {
+      "layer": 39,
+      "hidden_error": {
+        "relative_l2": 0.19972403347492218,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.068980800017016
+    },
+    {
+      "layer": 40,
+      "hidden_error": {
+        "relative_l2": 0.220121368765831,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.061574399995152
+    },
+    {
+      "layer": 41,
+      "hidden_error": {
+        "relative_l2": 0.24229012429714203,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.062209800002165
+    },
+    {
+      "layer": 42,
+      "hidden_error": {
+        "relative_l2": 0.27865070104599,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.1044372000033036
+    },
+    {
+      "layer": 43,
+      "hidden_error": {
+        "relative_l2": 0.3094770908355713,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9952289999928325
+    },
+    {
+      "layer": 44,
+      "hidden_error": {
+        "relative_l2": 0.3357722759246826,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 1.9903050999855623
+    },
+    {
+      "layer": 45,
+      "hidden_error": {
+        "relative_l2": 0.3646848797798157,
+        "max_abs": 168.0,
+        "finite": true
+      },
+      "seconds": 2.035021299991058
+    },
+    {
+      "layer": 46,
+      "hidden_error": {
+        "relative_l2": 0.45484769344329834,
+        "max_abs": 68.0,
+        "finite": true
+      },
+      "seconds": 2.1228037000109907
+    },
+    {
+      "layer": 47,
+      "hidden_error": {
+        "relative_l2": 0.48655229806900024,
+        "max_abs": 599.0,
+        "finite": true
+      },
+      "seconds": 2.048509300017031
+    }
+  ],
+  "gates": {
+    "finite": true,
+    "all_48_layers": true,
+    "masks_unique_valid": true,
+    "relative_ce_gate": false,
+    "top1_ge_90pct": false
+  },
+  "overall_pass": false,
+  "runtime_seconds": 103.3961531999812,
+  "claim_boundary": "Full-depth quality of exact compact-regroup Q5 weights; no physical bank or wall-clock claim."
+}

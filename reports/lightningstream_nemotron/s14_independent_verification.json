@@ -1,0 +1,178 @@
+{
+  "kind": "lightningstream_nemotron_s14_independent_verification",
+  "completed_utc": "2026-08-15T09:15:19.131963+00:00",
+  "verifier_sha256": "a199b13becbf5451bdd88a08bc8d4c42235a90b9db3fdec927fd99626a02bd45",
+  "verified_file_sha256": "664ae4afb0a06d4742f723ee06c2e851090e3f27fb408a3240e9170ef9c0e1c1",
+  "recomputed": {
+    "stage_means_ms": {
+      "0": {
+        "route": 3.5826059989631176,
+        "shared_up": 1.9087160010822117,
+        "shared_dn": 1.5361099825240672,
+        "host_gap": 5.05758200911805,
+        "up": 6.715200029546395,
+        "down_masked": 7.830107996822335,
+        "accum": 1.1106780042755418,
+        "layer_total": 27.740999974310398,
+        "up_waited": 0.8387260048184544,
+        "down_waited": 1.0999879989540204,
+        "miss_copy_batch": 2.8169160070974613,
+        "readback_host": 12.967706249999999,
+        "experts_waited": 18.875
+      },
+      "262100": {
+        "route": 3.5030940012075007,
+        "shared_up": 1.937556000892073,
+        "shared_dn": 1.637736007105559,
+        "host_gap": 4.671637989813462,
+        "up": 6.551100023556501,
+        "down_masked": 8.393145987880416,
+        "accum": 0.995450002810685,
+        "layer_total": 27.689720015972853,
+        "up_waited": 0.6437360043637455,
+        "down_waited": 0.9470460001612082,
+        "miss_copy_batch": 2.3245619923545746,
+        "readback_host": 31.010025,
+        "experts_waited": 15.625
+      }
+    }
+  },
+  "checks": [
+    {
+      "check": "input lock covers preregistration, runner and runtime",
+      "ok": true
+    },
+    {
+      "check": "runner on disk still hashes to the locked value",
+      "ok": true
+    },
+    {
+      "check": "runtime.py unchanged since the locked measurement",
+      "ok": true
+    },
+    {
+      "check": "three arms in the preregistered order base0, probed, base1",
+      "ok": true
+    },
+    {
+      "check": "base0@0: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "base0@0: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 36.27335,
+      "stored": 36.27335
+    },
+    {
+      "check": "base0@262100: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "base0@262100: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 53.00385,
+      "stored": 53.00385
+    },
+    {
+      "check": "probed@0: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "probed@0: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 41.24785,
+      "stored": 41.24785
+    },
+    {
+      "check": "probed@262100: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "probed@262100: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 57.169799999999995,
+      "stored": 57.169799999999995
+    },
+    {
+      "check": "base1@0: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "base1@0: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 37.22825,
+      "stored": 37.22825
+    },
+    {
+      "check": "base1@262100: 16 timing samples",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "base1@262100: p50 reproduces from raw samples",
+      "ok": true,
+      "recomputed": 55.32835,
+      "stored": 55.32835
+    },
+    {
+      "check": "probed@0: 16 tokens with stage sums",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "probed@262100: 16 tokens with stage sums",
+      "ok": true,
+      "n": 16
+    },
+    {
+      "check": "generation identity flag present and true",
+      "ok": true
+    },
+    {
+      "check": "probed@0: segment parts sum to layer_total within 0.05 ms for all 16 tokens",
+      "ok": true
+    },
+    {
+      "check": "probed@262100: segment parts sum to layer_total within 0.05 ms for all 16 tokens",
+      "ok": true
+    },
+    {
+      "check": "G-S14-C1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "G_S14_P1_ctx0 verdict agrees with the runner",
+      "ok": true,
+      "recomputed_overhead_ms": 4.4970500000000015
+    },
+    {
+      "check": "G-S14-S1_ctx0 verdict agrees with the runner",
+      "ok": true,
+      "recomputed_layer_sum_ms": 27.740999974310398,
+      "probed_p50_ms": 41.24785
+    },
+    {
+      "check": "G_S14_P1_ctx262100 verdict agrees with the runner",
+      "ok": true,
+      "recomputed_overhead_ms": 3.003699999999995
+    },
+    {
+      "check": "G-S14-S1_ctx262100 verdict agrees with the runner",
+      "ok": true,
+      "recomputed_layer_sum_ms": 27.689720015972853,
+      "probed_p50_ms": 57.169799999999995
+    },
+    {
+      "check": "result carries a claim boundary",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

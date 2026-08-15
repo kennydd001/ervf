@@ -1,0 +1,226 @@
+{
+  "kind": "lightningstream_nemotron_n6a_full_depth_forward",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "N6_A_FULL_DEPTH_FORWARD",
+  "started_utc": "2026-08-14T14:50:25.778982+00:00",
+  "completed_utc": "2026-08-14T14:55:43.448106+00:00",
+  "runner_sha256": "581cb4430ad4aa9d48a0ec18419528e631025d8962f84b01193d7b2eb4d2db8a",
+  "reference_sha256": "89c56bfb7cd9b3a15fe87af94a97408b83b4a0990ef79ba4de0768ee51f43d94",
+  "device": "cpu",
+  "gpu_used": false,
+  "timing_claim": false,
+  "bf16_model_materialised": false,
+  "layers": 52,
+  "hybrid_override_pattern": "MEMEM*EMEMEM*EMEMEM*EMEMEM*EMEMEM*EMEMEMEM*EMEMEMEME",
+  "prompts": {
+    "P1": {
+      "prompt": "The capital of France is",
+      "token_ids": [
+        1784,
+        8961,
+        1307,
+        5498,
+        1395
+      ],
+      "n_tokens": 5,
+      "seconds": 90.19100330001675,
+      "logits_finite": true,
+      "logits_shape": [
+        131072
+      ],
+      "top5": [
+        {
+          "id": 6993,
+          "logit": 22.65519821721052,
+          "text": " Paris"
+        },
+        {
+          "id": 1603,
+          "logit": 19.016815465656666,
+          "text": " **"
+        },
+        {
+          "id": 59199,
+          "logit": 17.036937140957267,
+          "text": "\u202f"
+        },
+        {
+          "id": 109708,
+          "logit": 16.501015750804438,
+          "text": " **["
+        },
+        {
+          "id": 67898,
+          "logit": 16.092677473549504,
+          "text": " paris"
+        }
+      ],
+      "top1_id": 6993,
+      "top1_text": " Paris",
+      "top1_prob": 0.960280443542907,
+      "entropy_nats": 0.24770813786667978,
+      "hidden_last_finite": true
+    },
+    "P2": {
+      "prompt": "1, 2, 3, 4,",
+      "token_ids": [
+        1049,
+        1044,
+        1032,
+        1050,
+        1044,
+        1032,
+        1051,
+        1044,
+        1032,
+        1052,
+        1044
+      ],
+      "n_tokens": 11,
+      "seconds": 112.92529749998357,
+      "logits_finite": true,
+      "logits_shape": [
+        131072
+      ],
+      "top5": [
+        {
+          "id": 1032,
+          "logit": 25.4755907459415,
+          "text": " "
+        },
+        {
+          "id": 6421,
+          "logit": 21.82479346281711,
+          "text": " ..."
+        },
+        {
+          "id": 1321,
+          "logit": 21.188316921899897,
+          "text": " and"
+        },
+        {
+          "id": 1505,
+          "logit": 20.74928219190609,
+          "text": " or"
+        },
+        {
+          "id": 84091,
+          "logit": 20.62660221406961,
+          "text": " ...,"
+        }
+      ],
+      "top1_id": 1032,
+      "top1_text": " ",
+      "top1_prob": 0.9255497630176316,
+      "entropy_nats": 0.45134537579259765,
+      "hidden_last_finite": true
+    },
+    "P3": {
+      "prompt": "def add(a, b):\n    return",
+      "token_ids": [
+        3149,
+        2229,
+        8897,
+        1044,
+        1289,
+        3640,
+        1293,
+        1850
+      ],
+      "n_tokens": 8,
+      "seconds": 113.7749975999468,
+      "logits_finite": true,
+      "logits_shape": [
+        131072
+      ],
+      "top5": [
+        {
+          "id": 1261,
+          "logit": 25.709279751567202,
+          "text": " a"
+        },
+        {
+          "id": 1032,
+          "logit": 19.46542464180476,
+          "text": " "
+        },
+        {
+          "id": 1319,
+          "logit": 19.449120130519525,
+          "text": " ("
+        },
+        {
+          "id": 20267,
+          "logit": 18.91108901469945,
+          "text": " math"
+        },
+        {
+          "id": 1429,
+          "logit": 18.463841647456615,
+          "text": " \""
+        }
+      ],
+      "top1_id": 1261,
+      "top1_text": " a",
+      "top1_prob": 0.9864844805169094,
+      "entropy_nats": 0.12548246469952717,
+      "hidden_last_finite": true
+    }
+  },
+  "route_audit": {
+    "moe_layers_expected": 23,
+    "per_prompt": {
+      "P1": {
+        "moe_layers_seen": 23,
+        "layers_match": true,
+        "indices_valid": true,
+        "weights_valid": true,
+        "weight_sums_equal_scaling_factor": true,
+        "example_sum": 2.5
+      },
+      "P2": {
+        "moe_layers_seen": 23,
+        "layers_match": true,
+        "indices_valid": true,
+        "weights_valid": true,
+        "weight_sums_equal_scaling_factor": true,
+        "example_sum": 2.5000000000000004
+      },
+      "P3": {
+        "moe_layers_seen": 23,
+        "layers_match": true,
+        "indices_valid": true,
+        "weights_valid": true,
+        "weight_sums_equal_scaling_factor": true,
+        "example_sum": 2.5000000000000004
+      }
+    }
+  },
+  "primary_prompt": "P1",
+  "primary_expectation": "paris",
+  "primary_coherent": true,
+  "process_memory": {
+    "working_set_bytes": 664211456,
+    "peak_working_set_bytes": 6300160000,
+    "commit_bytes": 1583611904,
+    "peak_commit_bytes": 7230603264
+  },
+  "gates": {
+    "C1_all_prompts_completed_52_layers": true,
+    "C2_all_logits_finite": true,
+    "C3_natural_routes_all_moe_layers": true,
+    "C4_route_weights_valid": true,
+    "C5_primary_prompt_coherent": true,
+    "C6_distribution_not_degenerate": true,
+    "C7_process_commit_under_32gib": true
+  },
+  "gates_all_pass": true,
+  "settles": {
+    "gated_rmsnorm_deferred_from_n3": true,
+    "nibble_order_joint_confirmation": true,
+    "dequant_grouping_joint_confirmation": true,
+    "note": "Coherence is a JOINT test of these assumptions. Passing supports all of them together; failing would not identify which one is wrong."
+  },
+  "claim_boundary": "The assembled 52-layer graph runs to completion on real weights and produces specific next-token predictions for three frozen prompts, plus the natural routes observed for those prompts. NOT model quality, benchmark scores, tokens per second, latency, general runtime correctness, or a representative routing distribution -- three prompts are three prompts. A component measurement is never promoted to tok/s.",
+  "terminal_state": "n6a_full_depth_coherent"
+}

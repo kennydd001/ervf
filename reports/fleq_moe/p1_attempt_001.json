@@ -1,0 +1,14 @@
+{
+  "kind": "fleq_moe_p1_failed_attempt",
+  "attempt": 1,
+  "completed_utc": "2026-08-11T11:33:43.4074931Z",
+  "layer": 0,
+  "expert": 46,
+  "status": "failed_before_artifact_or_metric_write",
+  "error": "RuntimeError: expected mat1 and mat2 to have the same dtype, but got BFloat16 != float",
+  "cause": "Pinned GSQ GPTQ/RTN helpers return float32 dequantized weights while the Qwen activation path is BF16.",
+  "correction": "Cast dequantized candidate weights to the unchanged source/model dtype before F.linear; codes and scales are unchanged.",
+  "artifact_written": false,
+  "result_written": false,
+  "selection_or_gate_changed": false
+}

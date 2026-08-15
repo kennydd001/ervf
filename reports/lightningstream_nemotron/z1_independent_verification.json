@@ -1,0 +1,143 @@
+{
+  "kind": "lightningstream_nemotron_z1_independent_verification",
+  "completed_utc": "2026-08-15T12:12:27.592189+00:00",
+  "verifier_sha256": "ceb6642d266ed1ad9f812857dc17feb4f012600e0744bc3dde1c4b121f6195f9",
+  "verified_file_sha256": "fb0b74e84c25db472366bfdd1a8309cba66d70be2f15a1b0ae3927595019d60b",
+  "recomputed": {
+    "slope_ms_per_position": 16.505300940860216,
+    "intercept_ms": -1.037945833333339,
+    "r2": 0.9998584914398767,
+    "scaling": 15.844515000090201,
+    "ceiling_tok_s": 60.58659600228304,
+    "x1_slope_ms_per_position": 22.27178,
+    "x1_ceiling_tok_s": 44.89986880258336
+  },
+  "gates": {
+    "G_Z1_L1": true,
+    "G_Z1_P2C": false,
+    "G_Z1_S1": false
+  },
+  "checks": [
+    {
+      "check": "N=1: p50 reproduces from the raw rounds",
+      "ok": true,
+      "recomputed": 16.6299
+    },
+    {
+      "check": "N=1: ms per position reproduces",
+      "ok": true
+    },
+    {
+      "check": "N=1: all three bracket arms have samples",
+      "ok": true
+    },
+    {
+      "check": "N=2: p50 reproduces from the raw rounds",
+      "ok": true,
+      "recomputed": 32.5191
+    },
+    {
+      "check": "N=2: ms per position reproduces",
+      "ok": true
+    },
+    {
+      "check": "N=2: all three bracket arms have samples",
+      "ok": true
+    },
+    {
+      "check": "N=4: p50 reproduces from the raw rounds",
+      "ok": true,
+      "recomputed": 63.0208
+    },
+    {
+      "check": "N=4: ms per position reproduces",
+      "ok": true
+    },
+    {
+      "check": "N=4: all three bracket arms have samples",
+      "ok": true
+    },
+    {
+      "check": "N=8: p50 reproduces from the raw rounds",
+      "ok": true,
+      "recomputed": 130.8121
+    },
+    {
+      "check": "N=8: ms per position reproduces",
+      "ok": true
+    },
+    {
+      "check": "N=8: all three bracket arms have samples",
+      "ok": true
+    },
+    {
+      "check": "N=16: p50 reproduces from the raw rounds",
+      "ok": true,
+      "recomputed": 263.4927
+    },
+    {
+      "check": "N=16: ms per position reproduces",
+      "ok": true
+    },
+    {
+      "check": "N=16: all three bracket arms have samples",
+      "ok": true
+    },
+    {
+      "check": "linear fit slope reproduces",
+      "ok": true,
+      "recomputed": 16.505300940860216
+    },
+    {
+      "check": "R2 reproduces",
+      "ok": true,
+      "recomputed": 0.9998584914398767
+    },
+    {
+      "check": "R2 >= 0.99 (the cost really is linear in positions)",
+      "ok": true
+    },
+    {
+      "check": "T(16)/T(1) is within 10% of 16",
+      "ok": true,
+      "scaling": 15.844515000090201
+    },
+    {
+      "check": "ceiling 1/c reproduces",
+      "ok": true,
+      "recomputed": 60.58659600228304
+    },
+    {
+      "check": "G-Z1-P2C verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "pack gate is still the preregistered 250 tok/s",
+      "ok": true
+    },
+    {
+      "check": "G-Z1-S1 sanity verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "both independent slopes give a ceiling far below the pack gate",
+      "ok": true,
+      "z1_ceiling": 60.58659600228304,
+      "x1_ceiling": 44.89986880258336
+    },
+    {
+      "check": "runtime.py was not modified for this phase",
+      "ok": true
+    },
+    {
+      "check": "claim boundary states the ceiling is an upper bound",
+      "ok": true
+    },
+    {
+      "check": "no measured tokens-per-second is claimed",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

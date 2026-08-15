@@ -1,0 +1,105 @@
+{
+  "created_at_utc": "2026-08-09T19:27:25.965700+00:00",
+  "git_revision": null,
+  "kind": "compression_baseline",
+  "payload": {
+    "execution": "fake quantized weights dequantized to BF16; storage estimate only, not a packed-kernel latency benchmark",
+    "layer": 1,
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "results": [
+      {
+        "bits": 8,
+        "compression_ratio_vs_bf16_routed_bank": 1.997753473248596,
+        "packed_storage_bytes": 554270720,
+        "scale_count": 311296,
+        "scale_dtype": "bf16",
+        "scheme": "symmetric_per_output_row_fake_quantization",
+        "test": {
+          "cosine": 0.9999535083770752,
+          "mae": 0.0002801855152938515,
+          "max_abs_error": 0.015625,
+          "nrmse": 0.009797320701181889,
+          "router_topk_overlap": 1.0
+        },
+        "validation": {
+          "cosine": 0.9999530911445618,
+          "mae": 0.0002972614602185786,
+          "max_abs_error": 0.015625,
+          "nrmse": 0.01008355151861906,
+          "router_topk_overlap": 1.0
+        }
+      },
+      {
+        "bits": 4,
+        "compression_ratio_vs_bf16_routed_bank": 3.991023975434038,
+        "packed_storage_bytes": 277446656,
+        "scale_count": 311296,
+        "scale_dtype": "bf16",
+        "scheme": "symmetric_per_output_row_fake_quantization",
+        "test": {
+          "cosine": 0.9882587194442749,
+          "mae": 0.004591525532305241,
+          "max_abs_error": 0.1015625,
+          "nrmse": 0.1558857411146164,
+          "router_topk_overlap": 1.0
+        },
+        "validation": {
+          "cosine": 0.9881430268287659,
+          "mae": 0.004883002955466509,
+          "max_abs_error": 0.1337890625,
+          "nrmse": 0.161239892244339,
+          "router_topk_overlap": 1.0
+        }
+      },
+      {
+        "bits": 3,
+        "compression_ratio_vs_bf16_routed_bank": 5.317387883556255,
+        "packed_storage_bytes": 208240640,
+        "scale_count": 311296,
+        "scale_dtype": "bf16",
+        "scheme": "symmetric_per_output_row_fake_quantization",
+        "test": {
+          "cosine": 0.9383167028427124,
+          "mae": 0.011010322719812393,
+          "max_abs_error": 0.27734375,
+          "nrmse": 0.3740144371986389,
+          "router_topk_overlap": 1.0
+        },
+        "validation": {
+          "cosine": 0.9377000331878662,
+          "mae": 0.011698313988745213,
+          "max_abs_error": 0.408203125,
+          "nrmse": 0.3865029215812683,
+          "router_topk_overlap": 1.0
+        }
+      },
+      {
+        "bits": 2,
+        "compression_ratio_vs_bf16_routed_bank": 7.9641762903605935,
+        "packed_storage_bytes": 139034624,
+        "scale_count": 311296,
+        "scale_dtype": "bf16",
+        "scheme": "symmetric_per_output_row_fake_quantization",
+        "test": {
+          "cosine": 0.41037318110466003,
+          "mae": 0.027185697108507156,
+          "max_abs_error": 1.583984375,
+          "nrmse": 0.9256296753883362,
+          "router_topk_overlap": 1.0
+        },
+        "validation": {
+          "cosine": 0.4126914143562317,
+          "mae": 0.02851254492998123,
+          "max_abs_error": 1.625,
+          "nrmse": 0.9328920245170593,
+          "router_topk_overlap": 1.0
+        }
+      }
+    ],
+    "scope": "routed experts only; router and shared experts remain exact",
+    "status": "complete",
+    "teacher_bf16_bytes": 1107296256,
+    "teacher_routed_expert_parameters": 553648128
+  },
+  "schema_version": 1
+}

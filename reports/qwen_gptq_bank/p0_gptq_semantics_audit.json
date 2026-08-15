@@ -1,0 +1,32 @@
+{
+  "behavioral_probe": {
+    "bf16_scale_bit_mismatches": 8,
+    "integer_code_mismatches": 214,
+    "outputs_differ": true
+  },
+  "claim_boundary": "Confirms the historical helper name collision; does not assess model quality.",
+  "completed_utc": "2026-08-11T18:25:27.793617+00:00",
+  "inputs": {
+    "erratum_sha256": "c4bcd382bec61a1d869b4fc302ab3a2edc14351c9e58510804d856e8eb559983",
+    "helper_sha256": "3f5421e8cd0f107fc06c30eda882a610c79d65b81458ae5522a8632882179856",
+    "probe_calibration_shape": [
+      128,
+      128
+    ],
+    "probe_weight_shape": [
+      8,
+      128
+    ],
+    "seed": 260811,
+    "upstream_gptq_sha256": "b3787929bf0f289c0599e04c70f1b85096f570ab276c32fa3fef51a24c35b4b0"
+  },
+  "kind": "qwen_gptq_bank_p0_gptq_semantics_audit",
+  "static_control_flow": {
+    "helper_uses_historical_name": true,
+    "historical_name_matches_q_proj": true,
+    "neutral_name_matches_no_marker": true,
+    "upstream_branch_runs_2000_epochs": true,
+    "upstream_has_name_gated_branch": true
+  },
+  "status": "historical_name_collision_confirmed"
+}

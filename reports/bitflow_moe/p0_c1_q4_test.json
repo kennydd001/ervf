@@ -1,0 +1,651 @@
+{
+  "claim_boundary": "One opened test of data-limited dense C1/Q4. No C0/C2/Q3/syndrome/runtime claim.",
+  "completed_utc": "2026-08-11T16:52:19.253637+00:00",
+  "final": {
+    "baseline_q4": {
+      "logits": {
+        "cosine": 0.9877660870552063,
+        "mae": 0.5700767636299133,
+        "max_abs_error": 32.9375,
+        "nrmse": 0.16309800744056702
+      },
+      "next_token_cross_entropy": 2.4427871704101562,
+      "next_token_cross_entropy_delta": 0.11459541320800781,
+      "relative_cross_entropy_increase": 0.04922077804803848,
+      "teacher_next_token_cross_entropy": 2.3281917572021484,
+      "teacher_to_student_kl_mean": 0.1507209688425064,
+      "teacher_to_student_kl_p95": 0.26607567071914673,
+      "top1_token_agreement": 0.9140625
+    },
+    "late_layer_explosion_ratio": 6.463522342899623,
+    "repaired": {
+      "logits": {
+        "cosine": 0.947699785232544,
+        "mae": 1.2676060199737549,
+        "max_abs_error": 32.90625,
+        "nrmse": 0.3185180425643921
+      },
+      "next_token_cross_entropy": 2.895463705062866,
+      "next_token_cross_entropy_delta": 0.5672719478607178,
+      "relative_cross_entropy_increase": 0.24365344643592834,
+      "teacher_next_token_cross_entropy": 2.3281917572021484,
+      "teacher_to_student_kl_mean": 0.6253352761268616,
+      "teacher_to_student_kl_p95": 1.4630389213562012,
+      "top1_token_agreement": 0.75
+    },
+    "teacher": {
+      "logits": {
+        "cosine": 0.9999998807907104,
+        "mae": 0.0,
+        "max_abs_error": 0.0,
+        "nrmse": 0.0
+      },
+      "next_token_cross_entropy": 2.3281917572021484,
+      "next_token_cross_entropy_delta": 0.0,
+      "relative_cross_entropy_increase": 0.0,
+      "teacher_next_token_cross_entropy": 2.3281917572021484,
+      "teacher_to_student_kl_mean": 0.0,
+      "teacher_to_student_kl_p95": 0.0,
+      "top1_token_agreement": 1.0
+    },
+    "test_ce_damage_recovery": -3.9502151262462344,
+    "validation_ce_damage_recovery": -6.459522157129583
+  },
+  "full_slate_authorized": false,
+  "gates": {
+    "all_official_decomposition_controls_exact": true,
+    "both_progression_gates": false,
+    "late_layer_explosion_le_2": false,
+    "primary_recovery_ge_0_70": false,
+    "relative_ce_increase_le_0_01": false,
+    "test_recovery_ge_0_50": false,
+    "top1_agreement_ge_0_97": false,
+    "validation_recovery_ge_0_50": false
+  },
+  "inputs": {
+    "preregistration_sha256": "d38d73edd4b28133f2b557f3a98add1a70d2211da1450a34f41f587c9a7d3da0",
+    "repair_manifest": {
+      "1": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_01.safetensors",
+        "sha256": "b1019c99396279b1e017ba27003efa093b2259e98f8bb0fabf996f90efc59a28"
+      },
+      "10": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_10.safetensors",
+        "sha256": "2818220bc96cfd0799c4d1be674d1ae540450c547c22d4b182b1c60c2a949c14"
+      },
+      "11": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_11.safetensors",
+        "sha256": "46eb7e302c09ad538fdf8f313c863597df8ee3540e91bade2328e91ac6b7941a"
+      },
+      "12": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_12.safetensors",
+        "sha256": "86523335d280cec3995f87b58016d63764e6d514b23a5884ec31a59c2e75cc6e"
+      },
+      "13": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_13.safetensors",
+        "sha256": "446a8c55a21f3c1da02cf22189188f6a740c93ac3ff4513c720b439bd26a0466"
+      },
+      "14": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_14.safetensors",
+        "sha256": "82de8aebe0e629a403f612a69f880693890f6b7d7b2da6f7d487c901b9d69af5"
+      },
+      "15": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_15.safetensors",
+        "sha256": "8cc2d144a2f9e110f74fa76beab50af3412d82fd39725da4677e4b1dd3f71836"
+      },
+      "16": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_16.safetensors",
+        "sha256": "c92ddc20773e3622f4bc7bae131edbbf9dc6e1398c0377078239d12b1ce632ac"
+      },
+      "17": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_17.safetensors",
+        "sha256": "3110c70d4508d6efd92039287b63b310bfae37358810c8df50584c520533bffc"
+      },
+      "18": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_18.safetensors",
+        "sha256": "cc5e588b30e04bd00b1ff4f4761e88535a2fd870875670460266811dd33ccb5d"
+      },
+      "19": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_19.safetensors",
+        "sha256": "59270f963a16525120ac4c7607eb367eafd87aa526c9d7f9de2b59db564bf611"
+      },
+      "2": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_02.safetensors",
+        "sha256": "46a53388d09c77a30e61bfae25a663baf79ebc9b9ddfd7eb41ce8e54069d9499"
+      },
+      "20": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_20.safetensors",
+        "sha256": "4e791ddac0c60319bb3e8a503f945381b92d540e2efbe4274f25f250dd33ead2"
+      },
+      "21": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_21.safetensors",
+        "sha256": "a4bae48f389c7cab88e522cbf8a7d6fe4663ca9c8d469153f0bffe4f75a3bede"
+      },
+      "22": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_22.safetensors",
+        "sha256": "ad137447b0d4154c4a70ecd16700b3fc3e3c2031d4f0fee6d7ff68b68b6a8574"
+      },
+      "23": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_23.safetensors",
+        "sha256": "4d7ccad1b13206b7d15ce05abcaa97e70d9a46617966cadb37e7f1cd26fc8573"
+      },
+      "24": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_24.safetensors",
+        "sha256": "5656cf46f484cb56406b6e31f1e28812d273508e1359fd089b170290c90de114"
+      },
+      "25": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_25.safetensors",
+        "sha256": "eef2632d68bd43bba67fe0d9ab4c78174945d4178c31d40ae1a580b9ea62792d"
+      },
+      "26": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_26.safetensors",
+        "sha256": "e79ed50bb21c0c47e4eb130ab84dbe51431cbc894b14c1886718e6ff5d0b0118"
+      },
+      "3": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_03.safetensors",
+        "sha256": "12ee0cbb4b67d6798ee70e39acd5a509f24fd393823549315165528999cf5844"
+      },
+      "4": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_04.safetensors",
+        "sha256": "7b98e9c4dbdf4295ff1483743b758979081826bbb6af82fd3c4c26fa372208bb"
+      },
+      "5": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_05.safetensors",
+        "sha256": "877e31d79c701b0b65c467ff12fcf81143004ea741a7ddddc7ad354c0159a125"
+      },
+      "6": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_06.safetensors",
+        "sha256": "30e778a987e75c6319e277a78e5849acaeac56780a7a2c6e2acd5cfb5134cc11"
+      },
+      "7": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_07.safetensors",
+        "sha256": "56ac31b8070310730300df75bf36eae1e69c37e5bd93cc21405d8366458a8687"
+      },
+      "8": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_08.safetensors",
+        "sha256": "8272cca71650744ded2429d02e9b0fad8721527c8524f2a8098c7fec08b69143"
+      },
+      "9": {
+        "path": "reports/runs/bitflow_moe/p0_c1_q4_repairs/layer_09.safetensors",
+        "sha256": "237f5cab83fc86b620f1d6f75188514743f5d3499fa66208ba8eef873d1f388a"
+      }
+    },
+    "validation_result_sha256": "2b59e837bcb0757c359f062066e84b2b03f86528143f5644b7604a841f0fb142"
+  },
+  "kind": "bitflow_moe_p0_c1_q4_test",
+  "layers": [
+    {
+      "baseline_hidden": {
+        "cosine": 0.9987196922302246,
+        "mae": 0.004568771459162235,
+        "max_abs_error": 0.083984375,
+        "nrmse": 0.05313243716955185
+      },
+      "layer": 1,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "b1019c99396279b1e017ba27003efa093b2259e98f8bb0fabf996f90efc59a28",
+      "repaired_hidden": {
+        "cosine": 0.9988589882850647,
+        "mae": 0.004358511883765459,
+        "max_abs_error": 0.09375,
+        "nrmse": 0.05180303007364273
+      },
+      "router_overlap_repaired_teacher": 1.0
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9971097707748413,
+        "mae": 0.008985265158116817,
+        "max_abs_error": 0.34375,
+        "nrmse": 0.08687178790569305
+      },
+      "layer": 2,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "46a53388d09c77a30e61bfae25a663baf79ebc9b9ddfd7eb41ce8e54069d9499",
+      "repaired_hidden": {
+        "cosine": 0.997306764125824,
+        "mae": 0.008583853021264076,
+        "max_abs_error": 0.28125,
+        "nrmse": 0.08187151700258255
+      },
+      "router_overlap_repaired_teacher": 0.9765625
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9954069256782532,
+        "mae": 0.054319266229867935,
+        "max_abs_error": 24.0,
+        "nrmse": 0.09717783331871033
+      },
+      "layer": 3,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "12ee0cbb4b67d6798ee70e39acd5a509f24fd393823549315165528999cf5844",
+      "repaired_hidden": {
+        "cosine": 0.9126304388046265,
+        "mae": 0.06332409381866455,
+        "max_abs_error": 8.0,
+        "nrmse": 0.02338569052517414
+      },
+      "router_overlap_repaired_teacher": 0.9661458333333334
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.99483722448349,
+        "mae": 0.06981033831834793,
+        "max_abs_error": 24.0,
+        "nrmse": 0.09706539660692215
+      },
+      "layer": 4,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "7b98e9c4dbdf4295ff1483743b758979081826bbb6af82fd3c4c26fa372208bb",
+      "repaired_hidden": {
+        "cosine": 0.9600474238395691,
+        "mae": 0.04839708283543587,
+        "max_abs_error": 32.0,
+        "nrmse": 0.019978273659944534
+      },
+      "router_overlap_repaired_teacher": 0.86328125
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9934728145599365,
+        "mae": 0.07465174049139023,
+        "max_abs_error": 74.0,
+        "nrmse": 0.10157675296068192
+      },
+      "layer": 5,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "877e31d79c701b0b65c467ff12fcf81143004ea741a7ddddc7ad354c0159a125",
+      "repaired_hidden": {
+        "cosine": 0.8809961676597595,
+        "mae": 0.07299067080020905,
+        "max_abs_error": 179.99853515625,
+        "nrmse": 0.09281899780035019
+      },
+      "router_overlap_repaired_teacher": 0.880859375
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9925772547721863,
+        "mae": 0.07967733591794968,
+        "max_abs_error": 76.0,
+        "nrmse": 0.1003418117761612
+      },
+      "layer": 6,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "30e778a987e75c6319e277a78e5849acaeac56780a7a2c6e2acd5cfb5134cc11",
+      "repaired_hidden": {
+        "cosine": 0.7965088486671448,
+        "mae": 0.10926848649978638,
+        "max_abs_error": 73.7177734375,
+        "nrmse": 0.06700031459331512
+      },
+      "router_overlap_repaired_teacher": 0.796875
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9911984205245972,
+        "mae": 0.0841151773929596,
+        "max_abs_error": 76.0,
+        "nrmse": 0.10024380683898926
+      },
+      "layer": 7,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "56ac31b8070310730300df75bf36eae1e69c37e5bd93cc21405d8366458a8687",
+      "repaired_hidden": {
+        "cosine": 0.7874773740768433,
+        "mae": 0.14549362659454346,
+        "max_abs_error": 78.7578125,
+        "nrmse": 0.06517116725444794
+      },
+      "router_overlap_repaired_teacher": 0.71875
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9897420406341553,
+        "mae": 0.09032290428876877,
+        "max_abs_error": 74.0,
+        "nrmse": 0.10001621395349503
+      },
+      "layer": 8,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "8272cca71650744ded2429d02e9b0fad8721527c8524f2a8098c7fec08b69143",
+      "repaired_hidden": {
+        "cosine": 0.8214821815490723,
+        "mae": 0.17069487273693085,
+        "max_abs_error": 68.0,
+        "nrmse": 0.058658502995967865
+      },
+      "router_overlap_repaired_teacher": 0.7115885416666666
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9904381036758423,
+        "mae": 0.09471604228019714,
+        "max_abs_error": 74.0,
+        "nrmse": 0.10000991821289062
+      },
+      "layer": 9,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "237f5cab83fc86b620f1d6f75188514743f5d3499fa66208ba8eef873d1f388a",
+      "repaired_hidden": {
+        "cosine": 0.8121024370193481,
+        "mae": 0.2122475504875183,
+        "max_abs_error": 168.078125,
+        "nrmse": 0.10601687431335449
+      },
+      "router_overlap_repaired_teacher": 0.7662760416666666
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9897034764289856,
+        "mae": 0.10109466314315796,
+        "max_abs_error": 76.0,
+        "nrmse": 0.10017170011997223
+      },
+      "layer": 10,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "2818220bc96cfd0799c4d1be674d1ae540450c547c22d4b182b1c60c2a949c14",
+      "repaired_hidden": {
+        "cosine": 0.7660292983055115,
+        "mae": 0.30843058228492737,
+        "max_abs_error": 240.978515625,
+        "nrmse": 0.158273845911026
+      },
+      "router_overlap_repaired_teacher": 0.7102864583333334
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9912799000740051,
+        "mae": 0.10949049144983292,
+        "max_abs_error": 76.0,
+        "nrmse": 0.10005571693181992
+      },
+      "layer": 11,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "46eb7e302c09ad538fdf8f313c863597df8ee3540e91bade2328e91ac6b7941a",
+      "repaired_hidden": {
+        "cosine": 0.8042292594909668,
+        "mae": 0.3235158920288086,
+        "max_abs_error": 213.1103515625,
+        "nrmse": 0.13922935724258423
+      },
+      "router_overlap_repaired_teacher": 0.6927083333333334
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9903930425643921,
+        "mae": 0.11774695664644241,
+        "max_abs_error": 78.0,
+        "nrmse": 0.1002560406923294
+      },
+      "layer": 12,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "86523335d280cec3995f87b58016d63764e6d514b23a5884ec31a59c2e75cc6e",
+      "repaired_hidden": {
+        "cosine": 0.8185147047042847,
+        "mae": 0.34248292446136475,
+        "max_abs_error": 223.90185546875,
+        "nrmse": 0.15098801255226135
+      },
+      "router_overlap_repaired_teacher": 0.7200520833333334
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9902099370956421,
+        "mae": 0.12618105113506317,
+        "max_abs_error": 76.0,
+        "nrmse": 0.10022799670696259
+      },
+      "layer": 13,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "446a8c55a21f3c1da02cf22189188f6a740c93ac3ff4513c720b439bd26a0466",
+      "repaired_hidden": {
+        "cosine": 0.8313099145889282,
+        "mae": 0.354087769985199,
+        "max_abs_error": 215.775390625,
+        "nrmse": 0.14861145615577698
+      },
+      "router_overlap_repaired_teacher": 0.703125
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9899700880050659,
+        "mae": 0.1396971046924591,
+        "max_abs_error": 76.0,
+        "nrmse": 0.10105229914188385
+      },
+      "layer": 14,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "82de8aebe0e629a403f612a69f880693890f6b7d7b2da6f7d487c901b9d69af5",
+      "repaired_hidden": {
+        "cosine": 0.8377310037612915,
+        "mae": 0.3874075710773468,
+        "max_abs_error": 204.8095703125,
+        "nrmse": 0.14724589884281158
+      },
+      "router_overlap_repaired_teacher": 0.7376302083333334
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9895328283309937,
+        "mae": 0.15454089641571045,
+        "max_abs_error": 76.0,
+        "nrmse": 0.1014111116528511
+      },
+      "layer": 15,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "8cc2d144a2f9e110f74fa76beab50af3412d82fd39725da4677e4b1dd3f71836",
+      "repaired_hidden": {
+        "cosine": 0.8479071855545044,
+        "mae": 0.42134571075439453,
+        "max_abs_error": 193.982421875,
+        "nrmse": 0.14753121137619019
+      },
+      "router_overlap_repaired_teacher": 0.75390625
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9892832040786743,
+        "mae": 0.17075470089912415,
+        "max_abs_error": 76.0,
+        "nrmse": 0.10189946740865707
+      },
+      "layer": 16,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "c92ddc20773e3622f4bc7bae131edbbf9dc6e1398c0377078239d12b1ce632ac",
+      "repaired_hidden": {
+        "cosine": 0.855792760848999,
+        "mae": 0.46197959780693054,
+        "max_abs_error": 188.9375,
+        "nrmse": 0.1519073247909546
+      },
+      "router_overlap_repaired_teacher": 0.74609375
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9892501831054688,
+        "mae": 0.18499703705310822,
+        "max_abs_error": 76.0,
+        "nrmse": 0.10237708687782288
+      },
+      "layer": 17,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "3110c70d4508d6efd92039287b63b310bfae37358810c8df50584c520533bffc",
+      "repaired_hidden": {
+        "cosine": 0.8680707216262817,
+        "mae": 0.48991960287094116,
+        "max_abs_error": 188.28125,
+        "nrmse": 0.15703313052654266
+      },
+      "router_overlap_repaired_teacher": 0.78125
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9898461699485779,
+        "mae": 0.19927813112735748,
+        "max_abs_error": 76.0,
+        "nrmse": 0.10275594145059586
+      },
+      "layer": 18,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "cc5e588b30e04bd00b1ff4f4761e88535a2fd870875670460266811dd33ccb5d",
+      "repaired_hidden": {
+        "cosine": 0.8826070427894592,
+        "mae": 0.5241777896881104,
+        "max_abs_error": 182.640625,
+        "nrmse": 0.162187397480011
+      },
+      "router_overlap_repaired_teacher": 0.7415364583333334
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9890188574790955,
+        "mae": 0.22412267327308655,
+        "max_abs_error": 78.0,
+        "nrmse": 0.1040673777461052
+      },
+      "layer": 19,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "59270f963a16525120ac4c7607eb367eafd87aa526c9d7f9de2b59db564bf611",
+      "repaired_hidden": {
+        "cosine": 0.8846263885498047,
+        "mae": 0.5811154842376709,
+        "max_abs_error": 189.671875,
+        "nrmse": 0.17593300342559814
+      },
+      "router_overlap_repaired_teacher": 0.7669270833333334
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9890720248222351,
+        "mae": 0.24505890905857086,
+        "max_abs_error": 78.0,
+        "nrmse": 0.10591558367013931
+      },
+      "layer": 20,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "4e791ddac0c60319bb3e8a503f945381b92d540e2efbe4274f25f250dd33ead2",
+      "repaired_hidden": {
+        "cosine": 0.8899542093276978,
+        "mae": 0.6308735609054565,
+        "max_abs_error": 188.8125,
+        "nrmse": 0.18916533887386322
+      },
+      "router_overlap_repaired_teacher": 0.7408854166666666
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9883801937103271,
+        "mae": 0.27378809452056885,
+        "max_abs_error": 78.0,
+        "nrmse": 0.10779011994600296
+      },
+      "layer": 21,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "a4bae48f389c7cab88e522cbf8a7d6fe4663ca9c8d469153f0bffe4f75a3bede",
+      "repaired_hidden": {
+        "cosine": 0.890586256980896,
+        "mae": 0.7076203227043152,
+        "max_abs_error": 208.5,
+        "nrmse": 0.21758590638637543
+      },
+      "router_overlap_repaired_teacher": 0.7623697916666666
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.988003134727478,
+        "mae": 0.3063545227050781,
+        "max_abs_error": 78.0,
+        "nrmse": 0.10968165099620819
+      },
+      "layer": 22,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "ad137447b0d4154c4a70ecd16700b3fc3e3c2031d4f0fee6d7ff68b68b6a8574",
+      "repaired_hidden": {
+        "cosine": 0.8963110446929932,
+        "mae": 0.7893905639648438,
+        "max_abs_error": 290.0,
+        "nrmse": 0.25680503249168396
+      },
+      "router_overlap_repaired_teacher": 0.7526041666666666
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9892390370368958,
+        "mae": 0.34169331192970276,
+        "max_abs_error": 80.0,
+        "nrmse": 0.11172927916049957
+      },
+      "layer": 23,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "4d7ccad1b13206b7d15ce05abcaa97e70d9a46617966cadb37e7f1cd26fc8573",
+      "repaired_hidden": {
+        "cosine": 0.91275954246521,
+        "mae": 0.9124403595924377,
+        "max_abs_error": 490.5,
+        "nrmse": 0.3600965738296509
+      },
+      "router_overlap_repaired_teacher": 0.7506510416666666
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9846395254135132,
+        "mae": 0.4141397774219513,
+        "max_abs_error": 248.0,
+        "nrmse": 0.27440229058265686
+      },
+      "layer": 24,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "5656cf46f484cb56406b6e31f1e28812d273508e1359fd089b170290c90de114",
+      "repaired_hidden": {
+        "cosine": 0.9246816039085388,
+        "mae": 1.1405452489852905,
+        "max_abs_error": 637.0,
+        "nrmse": 0.7051056027412415
+      },
+      "router_overlap_repaired_teacher": 0.7669270833333334
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9854737520217896,
+        "mae": 0.4753180742263794,
+        "max_abs_error": 428.0,
+        "nrmse": 0.48650607466697693
+      },
+      "layer": 25,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "eef2632d68bd43bba67fe0d9ab4c78174945d4178c31d40ae1a580b9ea62792d",
+      "repaired_hidden": {
+        "cosine": 0.9415454268455505,
+        "mae": 1.2843618392944336,
+        "max_abs_error": 703.25,
+        "nrmse": 0.9605534672737122
+      },
+      "router_overlap_repaired_teacher": 0.7845052083333334
+    },
+    {
+      "baseline_hidden": {
+        "cosine": 0.9870697855949402,
+        "mae": 0.5750223398208618,
+        "max_abs_error": 412.0,
+        "nrmse": 0.3558748960494995
+      },
+      "layer": 26,
+      "official_decomposition_max_abs": 0.0,
+      "repair_sha256": "e79ed50bb21c0c47e4eb130ab84dbe51431cbc894b14c1886718e6ff5d0b0118",
+      "repaired_hidden": {
+        "cosine": 0.9543567299842834,
+        "mae": 1.4242024421691895,
+        "max_abs_error": 808.5,
+        "nrmse": 0.6945290565490723
+      },
+      "router_overlap_repaired_teacher": 0.8138020833333334
+    }
+  ],
+  "logits_artifact": "reports/runs/bitflow_moe/p0_c1_q4_test_logits.safetensors",
+  "logits_artifact_sha256": "4f93be769cab54d837e823dd21f1088206ce36e1878094fec3025e62f71e60e5",
+  "p1_authorized": false,
+  "test_open_count": 1,
+  "verdict": "p0_linear_branch_negative"
+}

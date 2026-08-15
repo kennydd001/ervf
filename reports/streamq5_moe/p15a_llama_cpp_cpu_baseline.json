@@ -1,0 +1,54 @@
+{
+  "kind": "streamq5_moe_p15a_llama_cpp_same_machine_cpu_baseline",
+  "completed_utc": "2026-08-12T15:45:00+00:00",
+  "status": "cpu_baseline_complete_hybrid_cuda_unavailable",
+  "inputs": {
+    "preregistration_sha256": "93416a805f3b90dda6e9433e5cf3bc8fc330cd7a5566a66566e0675f3605f42f",
+    "llama_cpp_commit": "9558fa44c92746a58dd07ad1bf0c889715b938a6",
+    "llama_bench_sha256": "b5be1012b1785a3432ac72db927acbf54213c0df4c0cb070a037fe81c5274071",
+    "model_gguf": "reports/runs/qwen3-30b-a3b-q5_k_m.gguf",
+    "model_gguf_bytes": 21725580864,
+    "model_gguf_sha256": "ebcc2ac28d8565e8a871016e80428abca8c1f89b3aefea5e782b57070b839e0d",
+    "source_model_index_sha256": "df0d481ec595c55a0ba58426d517390c6214a566ec4ff1c8fc4bbce9f57b3c24"
+  },
+  "environment": {
+    "os": "WSL Ubuntu 24.04 on the same Windows laptop",
+    "cpu": "Intel Core Ultra 9 285H",
+    "threads": 16,
+    "build": "Release; GGML_CUDA=OFF; GGML_NATIVE=ON",
+    "gpu_layers": 0
+  },
+  "command": "llama-bench -m reports/runs/qwen3-30b-a3b-q5_k_m.gguf -p 4096 -n 128 -r 3 -t 16 -ngl 0 -b 512 -ub 512 -o json --progress",
+  "model": {
+    "parameters": 30532000000,
+    "quantization": "Q5_K_M",
+    "reported_size_mib": 20713.44,
+    "reported_bpw": 5.69
+  },
+  "prompt_4096": {
+    "average_nanoseconds": 103054669264,
+    "standard_deviation_nanoseconds": 704205250,
+    "average_tokens_per_second": 39.747135,
+    "samples_nanoseconds": [102271289668, 103635150855, 103257567269],
+    "samples_tokens_per_second": [40.0503, 39.5233, 39.6678]
+  },
+  "decode_128": {
+    "average_nanoseconds": 568518251346,
+    "standard_deviation_nanoseconds": 2167847215,
+    "average_tokens_per_second": 0.225149,
+    "samples_nanoseconds": [567802957820, 566798441027, 570953355191],
+    "samples_tokens_per_second": [0.22543, 0.22583, 0.224186],
+    "average_milliseconds_per_token": 4441.50318233703
+  },
+  "comparison": {
+    "p13c_tokens_per_second": 14.234757765439186,
+    "p13c_to_llama_cpp_cpu_ratio": 63.2237219149949,
+    "preregistered_1_25x_gate": true
+  },
+  "limitations": [
+    "This is CPU-only, not an optimized llama.cpp CPU+CUDA partial-offload baseline.",
+    "The quantization format and numerical semantics differ from STREAMQ5-MoE.",
+    "The llama.cpp process was not placed under the Windows 32 GiB Job Object used by P13C."
+  ],
+  "claim_boundary": "Same-machine public-runtime CPU anchor only; no SOTA or apples-to-apples hybrid-runtime claim."
+}

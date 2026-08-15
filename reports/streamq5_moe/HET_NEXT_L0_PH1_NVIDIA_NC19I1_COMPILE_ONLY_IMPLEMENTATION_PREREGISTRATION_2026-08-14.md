@@ -1,0 +1,11 @@
+# PH1 NVIDIA NC19I1 compile-only implementation preregistration
+
+NC19I1 is a fresh successor namespace; NC19 and NC19I0 are immutable inputs. The only scientific input is the frozen 6,173-byte N5 CUDA source. The physical phase, currently closed, is one direct `.venv` CPython `-I -B` process using NVRTC 13.3 only. It makes no nvcuda/Driver, CUDA Runtime, context, module, allocation, copy, launch, device, model, D2, shard, LUT, or CPU-stage-payload call.
+
+Before any mutation or source/compiler read, the runner must authenticate the exact invocation, closed/open phase lock transition, full direct binding rows, exact 18/18 no-device preflight result, independent verifier identity, and clean/recoverable topology. Wrong, closed, or drifted authorization returns without filesystem mutation.
+
+The compile lifecycle has exactly ten ordered NVRTC rows and twelve cache snapshots: pre-load, one after each row including skipped suffixes, and post-release. Returned sizes are recorded and capped before allocation. Source/name have exactly one terminal NUL. Program destruction is attempted exactly once when owned; a destroy failure becomes primary when no earlier primary exists. Loaded NVRTC and builtins modules are proven by resolved path, handle, size, and SHA during ownership, then released. The six cache environment variables are captured, redirected to four distinct private directories, restored in reverse order, and retained with exact history digests.
+
+Only `compile_positive` and a fully cleaned `compile_valid_negative` are valid terminals. Protocol, resource, ownership, cache, transaction, verifier, or cleanup failures are incidental and immutable. Bundle, failure, and verifier publications are create-new, bounded, staged, flushed, promoted last, and never overwrite a prior terminal. Only a single valid in-progress debris tree is recoverable, by quarantine with both directories flushed.
+
+Static preflight is separately authorized and must execute the shared production classifier over all 1,106 corrected fixture cases, the production compile state machine with fake APIs/faults, environment/cache and transaction faults, and the independent verifier positive/negative/mutation suites. It may not load NVRTC or read a scientific payload. Physical execution remains closed pending source audit and later authorization.

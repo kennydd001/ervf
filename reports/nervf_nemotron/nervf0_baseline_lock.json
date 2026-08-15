@@ -1,0 +1,35 @@
+{
+  "kind": "nervf_nemotron_baseline_lock",
+  "completed_utc": "2026-08-15T17:21:35.801446+00:00",
+  "model_dir": "nemotron_3_5_lightning_v35",
+  "sha256": {
+    "runtime.py": "e387beccf64c2a8e0d315efb7313e2d038e8fd30423c304ca961aee2fbb856a2",
+    "fused_nvfp4.py": "8eb0b504a394d3ee0a39df7b475b9e64bd2e7f38cb41bbb2ff12eadfc51b87a2",
+    "gpu_kernels.py": "2a918efcf31af095f709f47a67e882107a441a1cef540a6f7ca99b5650e13d44",
+    "runner": "3cd5b50282a1f6e15b3e1841a7dd644d83f5ab0792a6234491b4050a22159840"
+  },
+  "gpu": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 3090 MHz",
+  "cupy": "14.1.1",
+  "config": {
+    "hidden": 2688,
+    "moe_inter": 1856,
+    "moe_layers": 23
+  },
+  "frozen_throughput_baseline": {
+    "source": "reports/lightningstream_nemotron/n7b_cached_decode.json",
+    "tok_s": {
+      "ctx0": 27.574,
+      "ctx32768": 25.523,
+      "ctx131072": 21.794,
+      "ctx262100": 18.358
+    }
+  },
+  "frozen_generation_anchor": "reports/treesweep200/V35_GENERATION_ANCHOR.json",
+  "prior_ervf": {
+    "line": "streamq5_moe (read-only)",
+    "report": "reports/streamq5_moe/P7_ERVF_FINAL_REPORT_2026-08-12.md",
+    "qwen_q8_speedup": 1.725,
+    "qwen_q5_speedup": 2.386,
+    "qwen_width": 16
+  }
+}

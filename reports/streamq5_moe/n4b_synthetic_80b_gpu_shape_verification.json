@@ -1,0 +1,163 @@
+{
+  "kind": "streamq5_moe_n4b_synthetic_80b_gpu_shape_independent_verification",
+  "completed_utc": "2026-08-12T17:57:30.783431+00:00",
+  "inputs": {
+    "preregistration_sha256": "0ec62c1ebf44c897e72fbc7284afc8e689619deaf762dd9070f5bd38d770db08",
+    "evaluator_sha256_current": "24a33b4b26d7226a376c51c4ced5982fed2b018fe82940565475c3c5e8030e51",
+    "result_sha256": "1bd3bc903b27fe99b68be5dc680e84a64104a6e7e4c982b2293bae94f8833a62",
+    "n4a_sha256": "f24482e9223d64dd0e9b60e9f4d611613260690846aad2d4ebed7aca0cdafdc3",
+    "n1c_sha256": "10312adcd295be15e502651a14988c0900aa0667ea19f1aaca686d842bc83a02",
+    "gpu_rerun_performed": false
+  },
+  "recomputed_record_contract": {
+    "weights_per_matrix": 1048576,
+    "code_bytes": 655360,
+    "scale_bytes": 16384,
+    "header_bytes": 64,
+    "padding_bytes": 4032,
+    "matrix_record_bytes": 675840,
+    "expert_record_bytes": 2027520,
+    "resident_slots": 528,
+    "resident_bank_bytes": 1070530560
+  },
+  "recomputed_output_contract": {
+    "outputs_per_layer": 33792,
+    "outputs_all_layers": 1622016
+  },
+  "recomputed_event_stats": {
+    "validation": {
+      "8": {
+        "mean": 6.5240970293680824,
+        "p50": 6.320191860198975,
+        "p95": 8.161203098297118,
+        "min": 6.0503997802734375,
+        "max": 8.839712142944336
+      },
+      "16": {
+        "mean": 6.963964811960856,
+        "p50": 6.787359952926636,
+        "p95": 8.356567907333373,
+        "min": 6.40012788772583,
+        "max": 9.383392333984375
+      },
+      "32": {
+        "mean": 11.11439781188965,
+        "p50": 10.496304035186768,
+        "p95": 15.018158531188963,
+        "min": 9.977952003479004,
+        "max": 16.827072143554688
+      }
+    },
+    "test": {
+      "16": {
+        "mean": 7.29093945423762,
+        "p50": 7.0858399868011475,
+        "p95": 8.283448457717896,
+        "min": 6.7894721031188965,
+        "max": 8.385855674743652
+      },
+      "8": {
+        "mean": 6.857872807979584,
+        "p50": 6.6996800899505615,
+        "p95": 7.706691122055053,
+        "min": 6.425471782684326,
+        "max": 8.162431716918945
+      }
+    }
+  },
+  "width_exactness": {
+    "reported_summaries_consistent": true,
+    "independently_recomputable_without_gpu": false,
+    "reason": "The JSON archives only comparison summaries, not raw outputs or per-width digests; without a prohibited GPU rerun, bitwise equality cannot be independently recomputed."
+  },
+  "recomputed_selection": {
+    "selected_width": 8,
+    "expert_test_stats": {
+      "mean": 6.857872807979584,
+      "p50": 6.6996800899505615,
+      "p95": 7.706691122055053,
+      "min": 6.425471782684326,
+      "max": 8.162431716918945
+    }
+  },
+  "recomputed_dense_projection": {
+    "n1c_q8_p95_ms": 9.066176271438598,
+    "source_bytes": 1248931840,
+    "official_80b_shell_bytes": 1933921280,
+    "byte_linear_p95_ms": 14.038613363853516,
+    "conservative_2x_p95_ms": 28.077226727707032,
+    "reported_formula_total_p95_ms": 35.783917849762084
+  },
+  "transfer_aware_sensitivity": {
+    "resident_compute_p95_ms": 7.706691122055053,
+    "all_cold_h2d_analytical_ms": 37.202201834862386,
+    "ideal_overlap_expert_ms": 37.202201834862386,
+    "conservative_serial_expert_ms": 44.90889295691744,
+    "ideal_overlap_total_with_dense_2x_ms": 65.27942856256942,
+    "serial_total_with_dense_2x_ms": 72.98611968462447,
+    "gates": {
+      "ideal_overlap_expert_le_50ms": true,
+      "conservative_serial_expert_le_50ms": true,
+      "ideal_overlap_total_with_dense_2x_le_90ms": true,
+      "serial_total_with_dense_2x_le_90ms": true
+    }
+  },
+  "reported_gate_recalculation": {
+    "all_widths_exact": true,
+    "expert_p95_le_50ms": true,
+    "dense_byte_linear_p95_le_40ms": true,
+    "dense_2x_p95_le_40ms": true,
+    "projected_total_p95_le_90ms": true,
+    "n4a_host_le_58g": true,
+    "n4a_4k_cache": true,
+    "n4a_32k_cache": true
+  },
+  "checks": {
+    "preregistration_hash_current": true,
+    "n4a_hash_current": true,
+    "n1c_hash_current": true,
+    "record_code_bytes_exact": true,
+    "record_scale_bytes_exact": true,
+    "record_padding_bytes_exact": true,
+    "matrix_record_bytes_exact": true,
+    "expert_record_bytes_exact": true,
+    "resident_slot_count_exact": true,
+    "resident_bank_bytes_exact": true,
+    "output_elements_exact": true,
+    "reported_width_comparisons_structurally_exact": true,
+    "raw_event_statistics_exact": true,
+    "raw_event_sample_counts_exact": true,
+    "selected_width_recomputed": true,
+    "dense_projection_exact": true,
+    "reported_gates_recomputed_exact": true,
+    "reported_overall_pass_recomputed": true,
+    "transfer_aware_analytical_gates_pass": true,
+    "evaluator_hash_recorded_in_result": false,
+    "raw_width_outputs_or_digests_archived": false,
+    "canonical_streamq5_swiglu_rounding_present": false
+  },
+  "passed_checks": 19,
+  "total_checks": 22,
+  "methodological_findings": {
+    "silu_rounding_contract_breach": {
+      "present": true,
+      "canonical_contract": "round_bf16(round_bf16(g/(1+exp(-g))) * u)",
+      "n4b_contract": "round_bf16((g/(1+exp(-g))) * u)",
+      "counterexample": {
+        "gate_bf16": -7.9375,
+        "up_bf16": 1.5,
+        "canonical_float32": -0.0042724609375,
+        "n4b_float32": -0.004241943359375,
+        "different": true
+      },
+      "impact": "All widths share the same non-canonical SwiGLU, so mutual equality does not establish bit-exactness against the proven STREAMQ5 runtime."
+    },
+    "independent_width_exactness_limit": "The JSON archives only comparison summaries, not raw outputs or per-width digests; without a prohibited GPU rerun, bitwise equality cannot be independently recomputed.",
+    "artifact_binding_limit": "The result records preregistration/N4A/N1C hashes but omits the evaluator SHA256 and input digest.",
+    "projection_limit": "The measured 7.7067 ms p95 is resident Q5 compute. All-cold H2D and the dense shell are analytical; DeltaNet recurrence, routing/aggregation, real cache behavior and their p95 variability are not measured."
+  },
+  "reported_numerical_pass_confirmed": true,
+  "independent_verification_pass": false,
+  "verdict": "reported_numeric_shape_timing_gates_recompute_but_independent_exact_port_gate_fails",
+  "claim_boundary": "No GPU rerun. Arithmetic, raw event summaries and projections were independently recomputed. Width outputs cannot be independently reconstructed from the archived artifact."
+}

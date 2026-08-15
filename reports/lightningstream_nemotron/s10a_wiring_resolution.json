@@ -1,0 +1,57 @@
+{
+  "kind": "lightningstream_nemotron_s10a_wiring_resolution",
+  "completed_utc": "2026-08-15T08:04:56.898552+00:00",
+  "model_dir": "nemotron_3_5_lightning_v35",
+  "corpus_sha256": "33e4395f677b41b1ae6413e8bbd63730617b0712ebb1b35c2900fea600516f33",
+  "positions_per_variant": 632,
+  "a1_rows": [
+    50,
+    55,
+    56,
+    61
+  ],
+  "max_tokens_per_passage": 160,
+  "backbone_next_token_nll_anchor": {
+    "n": 636,
+    "mean": 2.473204691455049
+  },
+  "variants": {
+    "eh_pre": {
+      "concat_order": "eh",
+      "h_source": "pre",
+      "positions": 632,
+      "mean_nll": 4.018031716346741,
+      "median_nll": 3.013986110687256,
+      "top1_agreement": 0.34651898734177217
+    },
+    "eh_post": {
+      "concat_order": "eh",
+      "h_source": "post",
+      "positions": 632,
+      "mean_nll": 3.2624907184250747,
+      "median_nll": 2.097249984741211,
+      "top1_agreement": 0.4240506329113924
+    },
+    "he_pre": {
+      "concat_order": "he",
+      "h_source": "pre",
+      "positions": 632,
+      "mean_nll": 10.53425254701059,
+      "median_nll": 10.0854811668396,
+      "top1_agreement": 0.023734177215189875
+    },
+    "he_post": {
+      "concat_order": "he",
+      "h_source": "post",
+      "positions": 632,
+      "mean_nll": 10.457504746280138,
+      "median_nll": 10.369526863098145,
+      "top1_agreement": 0.00949367088607595
+    }
+  },
+  "winner": "eh_post",
+  "winner_mean_nll": 3.2624907184250747,
+  "nll_ceiling": 7.0,
+  "resolved": true,
+  "decision_rule": "argmin mean NLL over the four wirings on frozen held-out text; declared unresolved if the winner exceeds the preregistered ceiling of 7.0 nats. Choosing the argmin is deliberately the most MTP-favourable option, which makes a later gate FAILURE conservative and a gate PASS non-final."
+}

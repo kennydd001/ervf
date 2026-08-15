@@ -1,0 +1,554 @@
+{
+  "kind": "lightningstream_nemotron_s12r1_independent_verification",
+  "completed_utc": "2026-08-15T08:32:54.457283+00:00",
+  "verifier_sha256": "9f33f27131e957d7ba512ecc7b77c715b1320b63aacff1c6a7f50da2b24943d8",
+  "verified_file_sha256": "5c32788a1bf7263abed58696e72bc48d7ac10a6406f68cb6335ae25daf7a0763",
+  "recomputed": {
+    "p50_ms": {
+      "base0": {
+        "0": 36.295100000000005,
+        "262100": 53.3232
+      },
+      "up": {
+        "0": 41.7392,
+        "262100": 58.4424
+      },
+      "base1": {
+        "0": 36.693,
+        "262100": 54.04915
+      },
+      "down": {
+        "0": 45.114850000000004,
+        "262100": 62.8202
+      },
+      "base2": {
+        "0": 41.24935,
+        "262100": 56.63525
+      },
+      "router": {
+        "0": 43.8895,
+        "262100": 64.29515
+      },
+      "base3": {
+        "0": 37.9788,
+        "262100": 55.6429
+      },
+      "shared": {
+        "0": 41.59365,
+        "262100": 59.5689
+      },
+      "base4": {
+        "0": 38.24605,
+        "262100": 56.89945
+      },
+      "accum": {
+        "0": 40.84305,
+        "262100": 58.00535
+      },
+      "base5": {
+        "0": 40.634100000000004,
+        "262100": 58.04535
+      }
+    },
+    "marginal_ms": {
+      "0": {
+        "up": 5.245149999999995,
+        "down": 6.143675000000002,
+        "router": 4.2754249999999985,
+        "shared": 3.481224999999995,
+        "accum": 1.4029749999999979
+      },
+      "262100": {
+        "up": 4.756225000000001,
+        "down": 7.4780000000000015,
+        "router": 8.156075000000008,
+        "shared": 3.297725,
+        "accum": 0.5329499999999996
+      }
+    },
+    "local_drift_ms": {
+      "0": {
+        "up": 0.3978999999999928,
+        "down": 4.556350000000002,
+        "router": 3.27055,
+        "shared": 0.2672499999999971,
+        "accum": 2.388050000000007
+      },
+      "262100": {
+        "up": 0.7259499999999974,
+        "down": 2.586100000000002,
+        "router": 0.9923500000000018,
+        "shared": 1.2565500000000043,
+        "accum": 1.1458999999999975
+      }
+    },
+    "global_drift_ms": {
+      "0": 4.338999999999999,
+      "262100": 4.722149999999999
+    },
+    "reported_above_noise": {
+      "0": {
+        "up": true,
+        "down": true,
+        "router": true,
+        "shared": true,
+        "accum": false
+      },
+      "262100": {
+        "up": true,
+        "down": true,
+        "router": true,
+        "shared": true,
+        "accum": false
+      }
+    },
+    "reported_sum_ms": {
+      "0": 19.14547499999999,
+      "262100": 23.68802500000001
+    }
+  },
+  "gates": {
+    "G_S12R_C1_identity": true,
+    "G_S12R_S1_sanity": true,
+    "G_S12R_T1_conclusive": {
+      "0": true,
+      "262100": true
+    }
+  },
+  "checks": [
+    {
+      "check": "schedule is base/probe alternating with a closing baseline",
+      "ok": true,
+      "expected": [
+        "base0",
+        "up",
+        "base1",
+        "down",
+        "base2",
+        "router",
+        "base3",
+        "shared",
+        "base4",
+        "accum",
+        "base5"
+      ]
+    },
+    {
+      "check": "every scheduled arm produced results",
+      "ok": true
+    },
+    {
+      "check": "runtime.py contains no probe hook",
+      "ok": true
+    },
+    {
+      "check": "runtime.py on disk still hashes to the measured value",
+      "ok": true
+    },
+    {
+      "check": "reference generation is 2 prompts x 32 tokens",
+      "ok": true
+    },
+    {
+      "check": "base0: generation identical to base0",
+      "ok": true
+    },
+    {
+      "check": "up: generation identical to base0",
+      "ok": true
+    },
+    {
+      "check": "base1: generation identical to base0",
+      "ok": true
+    },
+    {
+      "check": "down: generation identical to base0",
+      "ok": true
+    },
+    {
+      "check": "base2: generation identical to base0",
+      "ok": true
+    },
+    {
+      "check": "router: generation identical to base0",
+      "ok": true
+    },
+    {
+      "check": "base3: generation identical to base0",
+      "ok": true
+    },
+    {
+      "check": "shared: generation identical to base0",
+      "ok": true
+    },
+    {
+      "check": "base4: generation identical to base0",
+      "ok": true
+    },
+    {
+      "check": "accum: generation identical to base0",
+      "ok": true
+    },
+    {
+      "check": "base5: generation identical to base0",
+      "ok": true
+    },
+    {
+      "check": "base0@0: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "base0@0: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base0@262100: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "base0@262100: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "up@0: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "up@0: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "up@262100: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "up@262100: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base1@0: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "base1@0: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base1@262100: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "base1@262100: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "down@0: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "down@0: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "down@262100: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "down@262100: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base2@0: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "base2@0: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base2@262100: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "base2@262100: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "router@0: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "router@0: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "router@262100: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "router@262100: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base3@0: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "base3@0: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base3@262100: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "base3@262100: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "shared@0: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "shared@0: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "shared@262100: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "shared@262100: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base4@0: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "base4@0: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base4@262100: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "base4@262100: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "accum@0: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "accum@0: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "accum@262100: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "accum@262100: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base5@0: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "base5@0: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base5@262100: 16 timing samples",
+      "ok": true
+    },
+    {
+      "check": "base5@262100: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "marginal[up]@0 reproduces",
+      "ok": true,
+      "recomputed": 5.245149999999995
+    },
+    {
+      "check": "local drift[up]@0 reproduces",
+      "ok": true
+    },
+    {
+      "check": "noise-floor flag[up]@0 reproduces",
+      "ok": true
+    },
+    {
+      "check": "marginal[down]@0 reproduces",
+      "ok": true,
+      "recomputed": 6.143675000000002
+    },
+    {
+      "check": "local drift[down]@0 reproduces",
+      "ok": true
+    },
+    {
+      "check": "noise-floor flag[down]@0 reproduces",
+      "ok": true
+    },
+    {
+      "check": "marginal[router]@0 reproduces",
+      "ok": true,
+      "recomputed": 4.2754249999999985
+    },
+    {
+      "check": "local drift[router]@0 reproduces",
+      "ok": true
+    },
+    {
+      "check": "noise-floor flag[router]@0 reproduces",
+      "ok": true
+    },
+    {
+      "check": "marginal[shared]@0 reproduces",
+      "ok": true,
+      "recomputed": 3.481224999999995
+    },
+    {
+      "check": "local drift[shared]@0 reproduces",
+      "ok": true
+    },
+    {
+      "check": "noise-floor flag[shared]@0 reproduces",
+      "ok": true
+    },
+    {
+      "check": "marginal[accum]@0 reproduces",
+      "ok": true,
+      "recomputed": 1.4029749999999979
+    },
+    {
+      "check": "local drift[accum]@0 reproduces",
+      "ok": true
+    },
+    {
+      "check": "noise-floor flag[accum]@0 reproduces",
+      "ok": true
+    },
+    {
+      "check": "global drift@0 reproduces",
+      "ok": true
+    },
+    {
+      "check": "marginal[up]@262100 reproduces",
+      "ok": true,
+      "recomputed": 4.756225000000001
+    },
+    {
+      "check": "local drift[up]@262100 reproduces",
+      "ok": true
+    },
+    {
+      "check": "noise-floor flag[up]@262100 reproduces",
+      "ok": true
+    },
+    {
+      "check": "marginal[down]@262100 reproduces",
+      "ok": true,
+      "recomputed": 7.4780000000000015
+    },
+    {
+      "check": "local drift[down]@262100 reproduces",
+      "ok": true
+    },
+    {
+      "check": "noise-floor flag[down]@262100 reproduces",
+      "ok": true
+    },
+    {
+      "check": "marginal[router]@262100 reproduces",
+      "ok": true,
+      "recomputed": 8.156075000000008
+    },
+    {
+      "check": "local drift[router]@262100 reproduces",
+      "ok": true
+    },
+    {
+      "check": "noise-floor flag[router]@262100 reproduces",
+      "ok": true
+    },
+    {
+      "check": "marginal[shared]@262100 reproduces",
+      "ok": true,
+      "recomputed": 3.297725
+    },
+    {
+      "check": "local drift[shared]@262100 reproduces",
+      "ok": true
+    },
+    {
+      "check": "noise-floor flag[shared]@262100 reproduces",
+      "ok": true
+    },
+    {
+      "check": "marginal[accum]@262100 reproduces",
+      "ok": true,
+      "recomputed": 0.5329499999999996
+    },
+    {
+      "check": "local drift[accum]@262100 reproduces",
+      "ok": true
+    },
+    {
+      "check": "noise-floor flag[accum]@262100 reproduces",
+      "ok": true
+    },
+    {
+      "check": "global drift@262100 reproduces",
+      "ok": true
+    },
+    {
+      "check": "G-S12R-C1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "G-S12R-S1 verdict agrees with the runner",
+      "ok": true,
+      "sum_ms": {
+        "0": 19.14547499999999,
+        "262100": 23.68802500000001
+      }
+    },
+    {
+      "check": "G-S12R-T1 conclusiveness agrees with the runner",
+      "ok": true,
+      "recomputed": {
+        "0": true,
+        "262100": true
+      },
+      "global_drift_ms": {
+        "0": 4.338999999999999,
+        "262100": 4.722149999999999
+      }
+    },
+    {
+      "check": "S8 MoE term used by the sanity gate is unchanged",
+      "ok": true
+    },
+    {
+      "check": "no result field is named as a share or percentage",
+      "ok": true,
+      "offending_keys": []
+    },
+    {
+      "check": "no tokens-per-second figure anywhere in the result",
+      "ok": true
+    },
+    {
+      "check": "claim boundary names the lower bound",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

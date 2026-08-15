@@ -1,0 +1,109 @@
+{
+  "created_at_utc": "2026-08-09T19:18:18.332939+00:00",
+  "git_revision": null,
+  "kind": "compression_baseline",
+  "payload": {
+    "batch_size": 128,
+    "learning_rate": 0.0001,
+    "max_epochs": 20,
+    "method": "shared_swiglu_plus_expert_specific_low_rank_residual",
+    "patience": 5,
+    "results": [
+      {
+        "artifact": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\data\\models\\layer1_residual_basis_rank64.safetensors",
+        "best_epoch": 2,
+        "best_validation_nrmse": 0.8586684465408325,
+        "bf16_bytes": 34340864,
+        "compression_ratio_vs_bf16_routed_bank": 32.2442748091603,
+        "history": [
+          {
+            "epoch": 1,
+            "train_normalized_mse": 0.39947376353666186,
+            "validation": {
+              "cosine": 0.5258211493492126,
+              "mae": 0.02551495097577572,
+              "max_abs_error": 0.91015625,
+              "nrmse": 0.8600702881813049
+            }
+          },
+          {
+            "epoch": 2,
+            "train_normalized_mse": 0.3733251674566418,
+            "validation": {
+              "cosine": 0.5338964462280273,
+              "mae": 0.02540426328778267,
+              "max_abs_error": 0.9140625,
+              "nrmse": 0.8586684465408325
+            }
+          },
+          {
+            "epoch": 3,
+            "train_normalized_mse": 0.3513646977953613,
+            "validation": {
+              "cosine": 0.5395069122314453,
+              "mae": 0.025348516181111336,
+              "max_abs_error": 0.919921875,
+              "nrmse": 0.8586998581886292
+            }
+          },
+          {
+            "epoch": 4,
+            "train_normalized_mse": 0.33284280681982636,
+            "validation": {
+              "cosine": 0.5435744524002075,
+              "mae": 0.02532145567238331,
+              "max_abs_error": 0.900390625,
+              "nrmse": 0.8593440055847168
+            }
+          },
+          {
+            "epoch": 5,
+            "train_normalized_mse": 0.31806561280973256,
+            "validation": {
+              "cosine": 0.5462930798530579,
+              "mae": 0.025318605825304985,
+              "max_abs_error": 0.896484375,
+              "nrmse": 0.8603972792625427
+            }
+          },
+          {
+            "epoch": 6,
+            "train_normalized_mse": 0.3049143317621201,
+            "validation": {
+              "cosine": 0.5482016205787659,
+              "mae": 0.025330929085612297,
+              "max_abs_error": 0.87890625,
+              "nrmse": 0.8620265126228333
+            }
+          },
+          {
+            "epoch": 7,
+            "train_normalized_mse": 0.29406339046545327,
+            "validation": {
+              "cosine": 0.5495092272758484,
+              "mae": 0.02535627782344818,
+              "max_abs_error": 0.87890625,
+              "nrmse": 0.8639407157897949
+            }
+          }
+        ],
+        "initial_base_artifact": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\data\\models\\layer1_aggregate_unconditioned_width1408.safetensors",
+        "parameter_count": 17170432,
+        "rank": 64,
+        "test": {
+          "cosine": 0.5156869292259216,
+          "mae": 0.02438640221953392,
+          "max_abs_error": 0.7265625,
+          "nrmse": 0.8506580591201782
+        },
+        "wall_seconds": 62.84912670000267
+      }
+    ],
+    "seed": 20260809,
+    "status": "complete",
+    "test_tokens": 4096,
+    "train_tokens": 16384,
+    "validation_tokens": 4096
+  },
+  "schema_version": 1
+}

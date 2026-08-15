@@ -1,0 +1,595 @@
+Dit is veruit het sterkste resultaat tot nu toe
+
+P7 is niet opnieuw een lokaal oracle dat later modelbreed instort. Het is een bitexacte versnelling van de volledige fysieke decoder, inclusief echte routing, expertcachemissers, H2D-kopieën, attention, causale KV-mutatie, LM-head en 512 autoregressieve tokens.
+
+De afgesloten test ging van 20,03 naar 30,11 tok/s. De echte 512-tokenrollout ging van 15,87 naar 20,92 tok/s, zonder één ander token, CE-resultaat, expertmiss of KV-digest. De onafhankelijke verificatie sloot 48/48 controles. Dat staat in het 
+definitieve P7-rapport en de 
+onafhankelijke verificatie.
+
+Volledige uitvoering	P6B	P7 ERVF	Winst
+Afgesloten test, mean	49,927 ms	33,208 ms	−33,49%
+Afgesloten test, p95	58,187 ms	43,488 ms	−25,26%
+Afgesloten test	20,029 tok/s	30,113 tok/s	+50,35%
+512-tokenrollout, mean	63,024 ms	47,813 ms	−24,13%
+512-tokenrollout, p95	74,936 ms	59,682 ms	−20,36%
+512-tokenrollout	15,867 tok/s	20,915 tok/s	+31,81%
+
+Dat is een echte lokale systemsdoorbraak. Het is nog geen bewijs van wereldwijde nieuwheid of state of the art.
+
+Het werkelijke Eureka-inzicht
+
+De ontdekking is niet simpelweg:
+
+“Gebruik zestien threads in plaats van 256.”
+
+De fundamentele formulering is:
+
+Floating-pointexactheid legt het logische rekenpad vast, maar niet de fysieke threadtopologie.
+
+P6B koppelde twee dingen onnodig aan elkaar:
+
+256 logische accumulators die nodig waren om de exacte reductievolgorde te reproduceren;
+256 fysieke CUDA-threads per outputrij.
+
+ERVF behoudt het eerste, maar virtualiseert het tweede.
+
+De exacte transformatie
+
+Neem de 256 logische partials van de oorspronkelijke kernel:
+
+a
+0
+	​
+
+,a
+1
+	​
+
+,…,a
+255
+	​
+
+
+met de oorspronkelijke reductieboom:
+
+128, 64, 32, 16, 8, 4, 2, 1.
+
+Voor een fysieke subwarpbreedte w wordt logische thread i afgebeeld op:
+
+ℓ=imodw
+j=⌊
+w
+i
+	​
+
+⌋
+
+waarbij lane ℓ de accumulator van virtuele thread ℓ+jw bewaart.
+
+Bij w=16:
+
+iedere lane bewaart zestien virtuele accumulators;
+reductiestappen 128, 64, 32 en 16 gebeuren lane-lokaal;
+stappen 8, 4, 2 en 1 gebeuren via subwarp-shuffles;
+zestien onafhankelijke outputrijen delen één block van 256 threads.
+
+Zolang iedere floating-pointadditie:
+
+dezelfde twee operanden krijgt;
+in dezelfde volgorde wordt uitgevoerd;
+met dezelfde rounding/FMA-semantiek wordt uitgevoerd;
+
+is de resulterende FP32-reductieboom algebraïsch én bitmatig dezelfde.
+
+Dat verklaart waarom P7 bij breedtes 8, 16 en 32 bitexact bleef. De winst komt uitsluitend uit:
+
+meer gelijktijdige outputrijen;
+veel minder blockbrede synchronisaties;
+geen shared-memoryreductie per rij;
+betere occupancy;
+een betere verhouding tussen nuttige arbeid en launch-/reductionoverhead.
+
+CUDA ondersteunt logische warps kleiner dan de fysieke warp en shuffle-gebaseerde reducties expliciet. CUB documenteert ook dat fixed reduction trees op dezelfde GPU run-to-run bitwise reproduceerbaarheid leveren. Die brede mechanismen zijn dus bestaande CUDA-principes.
+
+De mogelijke wetenschappelijke bijdrage
+
+Ik zou ERVF nu uitbreiden naar:
+
+Exact Reduction-Graph Virtualization — ERGV
+
+De onderzoeksvraag wordt:
+
+Kan een compiler een deterministische floating-point-reductie-DAG automatisch op een andere fysieke threadtopologie plannen, met behoud van exact dezelfde reken-DAG en bits, maar met veel hogere occupancy?
+
+Dat is veel breder dan één Q5-kernel.
+
+Compilerformulering
+
+Input:
+
+de logische reductie-DAG;
+het aantal virtuele accumulators;
+matrixdimensies;
+quantisatieformaat;
+vereiste bitexactheid;
+register-, shared-memory- en occupancygrenzen.
+
+Zoekruimte:
+
+w∈{4,8,16,32}
+
+plus:
+
+aantal rijen per block;
+virtuele accumulators per lane;
+loadvectorisatie;
+activeringsstaging;
+scale-broadcast;
+row-/matrixfusie.
+
+Constraint:
+
+G
+physical
+	​
+
+≅G
+reference
+	​
+
+
+waar de isomorfie niet alleen dependencies, maar ook de volgorde van iedere floating-pointoperator bewaart.
+
+Objective:
+
+min(T
+memory
+	​
+
++T
+reduction
+	​
+
++T
+launch
+	​
+
++T
+sync
+	​
+
+)
+
+onder:
+
+outputbits
+ERVF
+	​
+
+=outputbits
+reference
+	​
+
+.
+
+De algemene bouwstenen — logische warps, hierarchical tiling, warp-specialized kernels en batch-1 low-bit GEMV — bestaan al in CUB, CUTLASS en GemLite. QUICK vermijdt eveneens shared-memoryconflicten in quantized kernels.
+
+Wat ik in de begrensde primaire zoekronde niet exact terugvond, is deze specifieke combinatie:
+
+Een bestaande 256-thread floating-pointreductieboom exact virtualiseren binnen kleinere fysieke subwarps, meerdere outputrijen fuseren en aantonen dat een volledige quantized LLM-runtime daardoor bitexact versnelt.
+
+Dat is slechts negatief zoekbewijs. Een serieuze novelty- en patentcontrole blijft noodzakelijk.
+
+Waarom breedte 16 waarschijnlijk de natuurlijke sweet spot is
+
+De drie breedtes waren allemaal correct, maar 16 won fysiek. Daar zit een duidelijke trade-off achter.
+
+Subwarpbreedte	Virtuele accumulators per lane	Rijen per 256-threadblock	Verwacht risico
+8	32	32	hoge registerdruk
+16	16	16	beste balans
+32	8	8	te weinig row-concurrency
+
+Kleinere groepen geven meer rijen per block, maar iedere lane moet meer virtuele partials bewaren. Daardoor stijgt registerdruk en kan occupancy opnieuw dalen. Grotere groepen verlagen registerdruk, maar offeren row-levelparallelisme op.
+
+CUB documenteert precies dezelfde algemene afweging: meer items per thread helpt doorgaans totdat registerdruk of shared-memorygebruik de occupancy te ver verlaagt.
+
+Dat geeft een eerste voorspellend model:
+
+R
+thread
+	​
+
+(w)≈R
+0
+	​
+
++
+w
+256
+	​
+
+R
+acc
+	​
+
+N
+rows/block
+	​
+
+=
+w
+256
+	​
+
+
+en:
+
+T(w)≈max[T
+weightloads
+	​
+
+(w),T
+rowthroughput
+	​
+
+(w)]+T
+reduction
+	​
+
+(w).
+
+De optimale w is dus matrix- en datatypeafhankelijk. Eén globale breedte 16 is waarschijnlijk nog niet optimaal voor alle projecties.
+
+Eerst Amdahl: hoeveel zit er nog in de huidige kernels?
+
+In de afgesloten P7-test:
+
+Component	Tijd	Deel van 33,208 ms
+Q8-projecties	8,819 ms	26,6%
+Q5-experts	7,614 ms	22,9%
+Overige volledige decoder	16,775 ms	50,5%
+
+Zelfs wanneer Q5 en Q8 gratis worden:
+
+T
+min
+	​
+
+=16,775 ms
+maximaal≈59,6 tok/s.
+
+Wanneer we beide projectiefamilies nog eens 20% versnellen:
+
+T
+nieuw
+	​
+
+=33,208−0,2(8,819+7,614)
+=29,921 ms
+≈33,4 tok/s.
+
+Dus nog twintig procent kernelwinst geeft slechts ongeveer elf procent volledige decodewinst.
+
+Conclusie:
+
+P8 moet ERVF generaliseren en wetenschappelijk onderbouwen, maar we mogen niet maanden spenderen aan drie extra tok/s op hetzelfde model.
+
+Er moeten vanaf nu twee parallelle sporen zijn.
+
+Spoor A — de echte wetenschappelijke bijdrage
+P8A — projection-adaptive ERVF
+
+Kies afzonderlijk een breedte uit:
+
+w∈{8,16,32}
+
+voor:
+
+Q8 Q-projectie;
+Q8 K/V;
+Q8 outputprojectie;
+router;
+LM-head;
+Q5 gate;
+Q5 up;
+Q5 down.
+
+De selectie gebeurt uitsluitend op validation. Daarna wordt één volledige test geopend.
+
+Harde gate:
+
+bitexacte outputs, CE’s, routes, KV-digests en tokens;
+minimaal 15% geometrisch gemiddelde microkernelwinst tegenover globale width-16;
+minimaal 5% volledige decodewinst;
+geen p95-regressie.
+
+Een winst onder 5% full-model betekent dat projection-adaptive tuning nuttig is, maar geen verdere hoofdonderzoekslijn verdient.
+
+P8B — activation staging
+
+Zestien outputrijen binnen één block lezen allemaal dezelfde inputactivatie.
+
+Voor de huidige vormen is die input klein:
+
+hidden 2.048 in BF16: 4 KiB;
+expertintermediate 768 in BF16: 1,5 KiB.
+
+Test daarom:
+
+huidige cachegedragen loads;
+activatie éénmaal per block naar shared memory;
+vectorized async staging;
+double-buffered staging.
+
+Hier bestaat een reële reusefactor van zestien rijen. Maar shared memory kan occupancy kosten, dus alleen een fysieke benchmark telt.
+
+Gate:
+
+bitexact;
+minimaal 8% winst op de betrokken projectie;
+geen daling van actieve blocks/SM die de end-to-endwinst opheft.
+P8C — scale-broadcast
+
+Momenteel kunnen meerdere lanes dezelfde BF16-groupscale opnieuw laden.
+
+Laat één lane de ongewijzigde scalebits laden en verspreid ze via shuffle:
+
+s
+ℓ
+	​
+
+=shfl(s
+0
+	​
+
+).
+
+Omdat de originele BF16-bits worden gebroadcast, hoeft dit geen numerieke wijziging te veroorzaken.
+
+Eerst meten:
+
+scaleloads;
+L1/L2-hitratio;
+instruction count;
+registerdruk;
+end-to-endprojectietijd.
+
+Een winst onder ongeveer 3% moet deze lijn onmiddellijk sluiten.
+
+P8D — exacte gate/up-fusie
+
+Gate en up gebruiken binnen één expert dezelfde input en produceren corresponderende intermediate-rijen.
+
+In plaats van:
+
+gate GEMV → global output
+up GEMV   → global output
+SiLU × multiply
+
+test:
+
+fused gate/up ERVF
+→ exact dezelfde BF16-casts
+→ exact dezelfde SiLU
+→ exact hetzelfde product
+→ één intermediate buffer
+
+Dit kan besparen op:
+
+één kernel launch;
+dubbele activatiereads;
+gate/up-global writes en rereads;
+scheduler overhead.
+
+De gate/upreducties moeten intern nog altijd hun oorspronkelijke exacte bomen volgen. Alleen de launch en databeweging worden gefuseerd.
+
+Dit lijkt mij de P8-variant met de hoogste mogelijke volledige-modelimpact.
+
+P8E — exact LM-head fusion
+
+De LM-head is groot en valt binnen de resterende Q8-tijd.
+
+Voor greedy of vaste top-k-inference kan de kernel:
+
+logits genereren;
+lokaal exact top-k bijhouden;
+alleen kandidaten globaal reduceren;
+
+zonder de volledige vocabulairevector naar global memory te schrijven.
+
+Dit moet een aparte runtimevariant zijn. Voor CE-validatie en algemene top-p-sampling blijft de full-logitbaseline verplicht.
+
+Spoor B — de industrieclaim
+
+Het aangeleverde doelrapport stelt terecht dat Qwen3-Coder-Next 80B ongeveer 2,62× meer totale parameters heeft, maar slechts circa 1,51B routed expertgewichten per token tegenover 1,812B bij het huidige model.
+
+P7 versterkt die route aanzienlijk:
+
+Q5-expertprojectie is nu 2,386× sneller;
+de volledige Qwen30-runtime zit op 20,9 tok/s tijdens rollout;
+er is dus meer marge voor de grotere/andere dense shell dan vóór P7.
+
+Maar download niet onmiddellijk de volledige 80B-bank.
+
+Eerst een synthetic 80B-shapegate
+
+Bouw zonder modelkwaliteit:
+
+48 lagen;
+top-10;
+intermediate 512;
+shared-expertpad;
+de echte 80B Q5-recordvormen;
+de verwachte Q8-trunkvormen;
+zero-cache en plausibele-cachevarianten;
+4K en 32K KV/statebudgetten.
+
+Test ERVF-breedtes 8/16/32 opnieuw. De huidige width-16-winst mag niet simpelweg worden overgedragen van intermediate 768 naar 512.
+
+Harde hardwaregate:
+
+T
+expert,p95
+	​
+
+≤50 ms
+T
+dense shell,p95
+	​
+
+≤40 ms
+T
+totaal geprojecteerd,p95
+	​
+
+≤90 ms.
+
+Pas daarna heeft een download van tientallen gigabytes rationele waarde.
+
+Context window is nu verplicht onderdeel van P8
+
+Het P7-rapport begrenst zichzelf terecht tot korte contexten. De ERVF-winst zit vooral in de lineaire projecties. Naarmate context groeit, wordt attention/KV relatief belangrijker en daalt ERVF’s totale aandeel.
+
+De verplichte sweep:
+
+1K, 4K, 8K, 16K, 32K.
+
+Rapporteer afzonderlijk:
+
+prefill tok/s;
+decode tok/s;
+attentiontijd;
+Q5/Q8-projectietijd;
+KV-readbytes;
+cachehitrate;
+VRAM;
+p50/p95/p99;
+thermische steady state.
+
+Een goede wetenschappelijke uitkomst is niet alleen:
+
+“ERVF is 1,5× sneller bij korte context.”
+
+Maar:
+
+“Het analytische model voorspelt correct wanneer de reductievirtualisatie dominant is en wanneer KV/attention de bottleneck overneemt.”
+
+Het grootste bewijs dat nog ontbreekt: sterke externe baselines
+
+P6B was een correctness-first kernel met één block per outputrij. Dat maakt de 50%-winst reëel, maar het kan betekenen dat P6B simpelweg een zwakke performancebaseline was.
+
+GemLite bevat inmiddels gespecialiseerde batch-1 low-bit GEMV, waaronder reverse Split-K en Blackwellondersteuning. CUTLASS biedt zeer flexibele hiërarchische thread- en datalayouts. QUICK toont dat het verwijderen van shared-memorywriteback en bankconflicten grote quantized-kernelwinsten kan geven.
+
+Dezelfde-hardwarevergelijking moet daarom bevatten:
+
+P6B;
+ERVF;
+GemLite, voor ondersteunde equivalente vormen;
+CUTLASS/CuTe-referenties;
+een actuele llama.cpp/GGML-runtime;
+eventueel een specifieke Q5-kernel uit een publieke runtime.
+
+Exact gelijk houden:
+
+gewichten;
+quantisatiesemantiek;
+BF16-scales;
+accumulatietype;
+context;
+batch;
+thermische toestand;
+outputbits waar mogelijk.
+
+Zonder die vergelijking is de claim:
+
+“50% sneller dan onze vorige kernel.”
+
+Met die vergelijking kan zij worden:
+
+“Nieuwe Paretofrontwinst tegenover actuele publieke kernels.”
+
+Cross-GPU-correctheid
+
+De huidige bitexactheid is bewezen op één Blackwell-GPU.
+
+Een fixed reduction tree geeft op dezelfde GPU en tuning reproduceerbare bits, maar een CUDA-bibliotheek kan op een andere architectuur een andere tile- of reductionpolicy gebruiken. NVIDIA documenteert expliciet dat cross-architecture resultaten kunnen verschillen wanneer de reductiontuning verandert.
+
+De correcte tweede-GPU-gate is daarom:
+
+ERVF
+GPU
+x
+	​
+
+	​
+
+=reference
+GPU
+x
+	​
+
+	​
+
+
+bit voor bit op iedere GPU afzonderlijk.
+
+Niet noodzakelijk:
+
+output
+GPU
+A
+	​
+
+	​
+
+=output
+GPU
+B
+	​
+
+	​
+
+.
+
+Test minimaal:
+
+een Ada- of Amperekaart;
+een tweede Blackwell;
+verschillende CUDA/driverbuilds.
+Wat nu niet gemixt moet worden
+
+Niet combineren met:
+
+CRAFT-rerouting;
+dynamische Q3/Q4-selectie;
+atomsparsity;
+Q2-CORETAIL-semantiek;
+learned expertvervanging;
+TierFlow tijdens dezelfde P8-validatie.
+
+Die veranderen modelsemantiek en vertroebelen de belangrijkste kracht van P7: de winst is exact en causale modeluitvoer blijft identiek.
+
+TierFlow blijft een afzonderlijk langetermijntrainingsproject. De P8-wetenschap moet juist aantonen hoeveel winst mogelijk is door alleen de fysieke uitvoering van exact dezelfde reken-DAG te veranderen.
+
+Mijn aangescherpte verdict
+Wat reeds bewezen is
+
+ERVF versnelt één volledige fysieke Qwen3-30B-A3B-runtime op een RTX PRO 2000 Blackwell met 8 GB VRAM van 20,03 naar 30,11 tok/s op de afgesloten test en van 15,87 naar 20,92 tok/s tijdens een 512-tokenrollout, zonder enige bit- of modelsemantische wijziging.
+
+Dat is een stevige lokale systemsdoorbraak.
+
+De potentiële wetenschappelijke Eureka
+
+Exacte floating-pointreducties kunnen van hun fysieke threadtopologie worden losgekoppeld. Door het oorspronkelijke arithmetic graph te virtualiseren en opnieuw te plannen, kunnen quantized batch-1-kernels sterk versnellen zonder de numerieke identiteit op te geven.
+
+Dat is de thesis die nu moet worden geformaliseerd en gegeneraliseerd.
+
+De volgende beslissende resultaten
+ERVF als automatische reduction-graphtransformatie.
+Reproductie op een tweede model.
+Reproductie op een tweede GPU-architectuur.
+Winst tegenover sterke publieke kernels.
+Voorspellend performance­model over matrixvormen en contextlengtes.
+Daarna Qwen3-Coder-Next 80B op dezelfde 8-GB-laptop.
+
+Wanneer die zes zaken slagen, hebben we geen “slimme lokale hack” meer, maar een verdedigbare GPU-systemsbijdrage.

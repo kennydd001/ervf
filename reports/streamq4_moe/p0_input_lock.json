@@ -1,0 +1,166 @@
+{
+  "artifact": "reports/runs/streamq4_moe/p0_fresh_input_ids.safetensors",
+  "artifact_sha256": "31cf97ac01cb22b26631286f285209c56ec13efbd43535b7d4e0238e3b3d4c6b",
+  "context_tokens": 128,
+  "contexts_per_domain": 2,
+  "domains": [
+    "general",
+    "code",
+    "math",
+    "multilingual",
+    "instruction"
+  ],
+  "exact_context_disjoint_from_coretail_p2": true,
+  "input_ids_sha256": {
+    "test_code": "c83cde178925f2cb70189fc4bbb1a6509b2193cae91087150594746dad5390cd",
+    "test_general": "82378c24d941908bc2f61c47f7920e1c4c976c5866336c864826d194d922d242",
+    "test_instruction": "72bc7d2fc2cac4eee42bc90c439790eb273f82a21788ba99c0091f61fda7efd3",
+    "test_math": "d3d2aee6ac6ff464dba99285008673c6968381b20ac6dfd04346f84650e749a4",
+    "test_multilingual": "399af802dab348f3de2594f1cdda0320cc31d71a61faaf699de1f4f0b0b1d793",
+    "validation_code": "e175c37a20836a5fe5263f6b0ae41b1093e88a41f37ae5833da600e647b6f3a1",
+    "validation_general": "8771548df2f45d900aca7b630eacda6c20c79eb133e2f16dd7f5a48cf52ab18c",
+    "validation_instruction": "cefe84b5d5404723aa24cefced7f2f659d9f7d3aaa786e1f6c053db524caa516",
+    "validation_math": "f0a177642b005cad91ba4893f11c4d8f1ab1e8df64b6c7dd182539d805770995",
+    "validation_multilingual": "07e1df866c786dcb8a32d368a72cf69a998ad0fbaf812f8791f71cf866711fb5"
+  },
+  "kind": "streamq4_moe_p0_input_lock",
+  "locked_utc": "2026-08-12T07:25:38.542011+00:00",
+  "model_index_sha256": "df0d481ec595c55a0ba58426d517390c6214a566ec4ff1c8fc4bbce9f57b3c24",
+  "outputs_opened": false,
+  "preregistration_sha256": "65d5a943bccb618492e09122169bcc86c018e142f01cd3e4239be7c6091ba406",
+  "previous_coretail_input_sha256": "02b015e67b65171a1f7f67cfa3dcbd6b4d8a08cbb24395ad76ae96486c1afe04",
+  "previous_coretail_lock_sha256": "ba127580f62bcfd6c0df242d2c22839f9e5549b016851e556c3402fc2a7a9654",
+  "primary_gate": {
+    "test_relative_ce_max": 0.02,
+    "validation_progression_relative_ce_max": 0.03,
+    "validation_relative_ce_max": 0.02,
+    "variant": "q4_experts_int8_trunk"
+  },
+  "quantization": {
+    "dequant_dtype": "bfloat16",
+    "group_size": 128,
+    "int4_codes": [
+      -7,
+      7
+    ],
+    "int8_codes": [
+      -127,
+      127
+    ],
+    "q4_codes": [
+      -7,
+      7
+    ],
+    "rounding": "torch_round_nearest_even"
+  },
+  "source_manifest": {
+    "code": {
+      "java": {
+        "path": "data/corpora/hera_moe_p0/code/java/train-00000-of-00001.parquet",
+        "sha256": "d4e9b6099aaafbdfc7c6fab65edafcf2e692cb29db15abc49db50635ef32e63d",
+        "test_offset": 196736,
+        "tokens_per_split": 128,
+        "total_tokens": 1365959,
+        "validation_offset": 196608
+      },
+      "python": {
+        "path": "data/corpora/hera_moe_p0/code/python/train-00000-of-00001.parquet",
+        "sha256": "0e9da7aa684b7ceac8f1736b329329a12d53dcbfc4813f5e9f1244889ea1e085",
+        "test_offset": 196736,
+        "tokens_per_split": 128,
+        "total_tokens": 8176693,
+        "validation_offset": 196608
+      }
+    },
+    "general": {
+      "path": "data/corpora/wikitext/wikitext-2-raw-v1/train-00000-of-00001.parquet",
+      "sha256": "e83889baabc497075506f91975be5fac0d45c5290b6b20582c8cd1e853d0c9f7",
+      "test_offset": 262400,
+      "tokens_per_split": 256,
+      "total_tokens": 2517232,
+      "validation_offset": 262144
+    },
+    "instruction": {
+      "path": "data/corpora/hera_moe_p0/instruction/databricks-dolly-15k.jsonl",
+      "sha256": "2df9083338b4abd6bceb5635764dab5d833b393b55759dffb0959b6fcbf794ec",
+      "test_offset": 786688,
+      "tokens_per_split": 256,
+      "total_tokens": 2768249,
+      "validation_offset": 786432
+    },
+    "math": {
+      "path": "data/corpora/hera_moe_p0/math/main/train-00000-of-00001.parquet",
+      "sha256": "ea82612ea9582142387730c793eb67d3b12849002bc0b7fa6f8efafa7351419d",
+      "test_offset": 524544,
+      "tokens_per_split": 256,
+      "total_tokens": 1390693,
+      "validation_offset": 524288
+    },
+    "multilingual": {
+      "languages": {
+        "arb_Arab": {
+          "test_offset": 24608,
+          "tokens_per_split": 32,
+          "total_tokens": 42786,
+          "validation_offset": 24576
+        },
+        "hin_Deva": {
+          "test_offset": 24608,
+          "tokens_per_split": 32,
+          "total_tokens": 117035,
+          "validation_offset": 24576
+        },
+        "jpn_Jpan": {
+          "test_offset": 24608,
+          "tokens_per_split": 32,
+          "total_tokens": 36930,
+          "validation_offset": 24576
+        },
+        "nld_Latn": {
+          "test_offset": 24608,
+          "tokens_per_split": 32,
+          "total_tokens": 41372,
+          "validation_offset": 24576
+        },
+        "rus_Cyrl": {
+          "test_offset": 24608,
+          "tokens_per_split": 32,
+          "total_tokens": 46554,
+          "validation_offset": 24576
+        },
+        "spa_Latn": {
+          "test_offset": 24608,
+          "tokens_per_split": 32,
+          "total_tokens": 40027,
+          "validation_offset": 24576
+        },
+        "swh_Latn": {
+          "test_offset": 24608,
+          "tokens_per_split": 32,
+          "total_tokens": 50741,
+          "validation_offset": 24576
+        },
+        "zho_Hans": {
+          "test_offset": 24608,
+          "tokens_per_split": 32,
+          "total_tokens": 26933,
+          "validation_offset": 24576
+        }
+      },
+      "path": "data/corpora/hera_moe_p0/multilingual/dev.parquet",
+      "sha256": "024301782a6ae84962bef679dd994f84ea46062d92dd379d14ff8df9f244aca2"
+    }
+  },
+  "splits": [
+    "validation",
+    "test"
+  ],
+  "tokens_per_domain": 256,
+  "variants": [
+    "bf16_teacher",
+    "q4_experts_bf16_trunk",
+    "bf16_experts_int8_trunk",
+    "q4_experts_int8_trunk",
+    "q4_experts_int4_trunk"
+  ]
+}

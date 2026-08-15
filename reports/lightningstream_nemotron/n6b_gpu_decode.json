@@ -1,0 +1,191 @@
+{
+  "kind": "lightningstream_nemotron_n6b_gpu_decode",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "N6_B_GPU_DECODE_LOOP",
+  "started_utc": "2026-08-14T17:34:15.297364+00:00",
+  "completed_utc": "2026-08-14T17:40:32.013130+00:00",
+  "runner_sha256": "a3d437975b677c2b9b27a28dc15100d6ae93f381021235ec5b6a1c6aeba86443",
+  "runtime_sha256": "dfe04cfba721f1779b06b37e654f907ef7787a497e605ce9e53290c41e979f82",
+  "kernels_sha256": "0902b59a1526f7673c8cdaaaf4e10861a189fa4e1c2538dab852540d1d4e8401",
+  "fused_sha256": "f9829ed2aa7b4fbfaff0f2430710cb7aec821dfb93d84eaf4a3ace2afd261e27",
+  "device": {
+    "name": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU",
+    "total_bytes": 8546484224,
+    "free_before": 7385120768,
+    "free_after_shell": 4306501632,
+    "free_after_run": 4304404480,
+    "free_end": 4304404480,
+    "shell_bytes": 3078619136
+  },
+  "igpu_used": false,
+  "igpu_note": "Intel Arc Pro 140T belongs to the protected HET-NEXT line and was not touched.",
+  "max_context_allocated": 4096,
+  "architectural_context_limit": 262144,
+  "load_seconds": {
+    "shell": 1.7742543000495061,
+    "routed_bank_pin": 12.037880900024902
+  },
+  "correctness": {
+    "prompt": "The capital of France is",
+    "top1_text": " Paris",
+    "coherent": true,
+    "n6a_expected": " Paris",
+    "generated": " Paris.\" No extra punctuation? The sentence includes a period at"
+  },
+  "generation": {
+    "tokens": 13,
+    "ms": {
+      "n": 13,
+      "mean": 68.97359230769231,
+      "p50": 67.0245,
+      "p95": 75.43834,
+      "p99": 75.655108,
+      "max": 75.7093,
+      "min": 64.523
+    },
+    "raw_ms": [
+      64.5491,
+      65.1929,
+      71.237,
+      72.2326,
+      75.7093,
+      75.2577,
+      73.9396,
+      69.4797,
+      67.0245,
+      66.8829,
+      65.5989,
+      64.523,
+      65.0295
+    ],
+    "tok_s_at_p50": 14.919917343657916
+  },
+  "throughput_by_context": {
+    "0": {
+      "context_before_step": 0,
+      "ms": {
+        "n": 12,
+        "mean": 67.58381666666666,
+        "p50": 67.9837,
+        "p95": 70.15055,
+        "p99": 70.38155,
+        "max": 70.4393,
+        "min": 64.5001
+      },
+      "raw_ms": [
+        65.0065,
+        64.5001,
+        64.8384,
+        66.4004,
+        68.3712,
+        68.8245,
+        69.7743,
+        70.4393,
+        69.9143,
+        68.5874,
+        67.5962,
+        66.7532
+      ],
+      "tok_s_at_p50": 14.709408284632934,
+      "tok_s_at_mean": 14.796441653068326,
+      "gpu": {
+        "used_mib": 3030,
+        "free_mib": 4870,
+        "temp_c": 74,
+        "sm_mhz": 2392
+      }
+    },
+    "1024": {
+      "context_before_step": 1024,
+      "ms": {
+        "n": 12,
+        "mean": 68.37923333333332,
+        "p50": 68.19444999999999,
+        "p95": 69.360835,
+        "p99": 69.437527,
+        "max": 69.4567,
+        "min": 67.8322
+      },
+      "raw_ms": [
+        67.9082,
+        68.3123,
+        67.8322,
+        68.3837,
+        67.8819,
+        68.0766,
+        68.7559,
+        68.7328,
+        69.2824,
+        67.8634,
+        69.4567,
+        68.0647
+      ],
+      "tok_s_at_p50": 14.663949925543797,
+      "tok_s_at_mean": 14.624323076645593,
+      "gpu": {
+        "used_mib": 3030,
+        "free_mib": 4870,
+        "temp_c": 87,
+        "sm_mhz": 2212
+      }
+    },
+    "4032": {
+      "context_before_step": 4032,
+      "ms": {
+        "n": 12,
+        "mean": 71.96480833333335,
+        "p50": 71.80385,
+        "p95": 72.76287,
+        "p99": 73.377374,
+        "max": 73.531,
+        "min": 71.493
+      },
+      "raw_ms": [
+        72.1299,
+        71.5487,
+        71.6507,
+        71.6017,
+        72.1344,
+        73.531,
+        71.7919,
+        71.8158,
+        71.7335,
+        71.493,
+        72.081,
+        72.0661
+      ],
+      "tok_s_at_p50": 13.926829828762665,
+      "tok_s_at_mean": 13.895680724502261,
+      "gpu": {
+        "used_mib": 3030,
+        "free_mib": 4870,
+        "temp_c": 87,
+        "sm_mhz": 1927
+      }
+    }
+  },
+  "gpu_before": {
+    "used_mib": 0,
+    "free_mib": 7899,
+    "temp_c": 65,
+    "sm_mhz": 0
+  },
+  "gpu_after": {
+    "used_mib": 3030,
+    "free_mib": 4870,
+    "temp_c": 87,
+    "sm_mhz": 1927
+  },
+  "non_interference": {
+    "foreign_cuda_contexts": []
+  },
+  "gates": {
+    "B1_matches_n6a_coherence": true,
+    "B2_all_contexts_measured": true,
+    "B3_device_under_8gib": true,
+    "B4_no_igpu_used": true
+  },
+  "claim_boundary": "Measured single-stream batch-1 decode on this specific GPU with a zero-cache streamed expert bank. Throughput figures are for this configuration only. NOT a quality result, not a benchmark score, not a claim about other hardware, batch sizes or contexts beyond those measured. A component measurement is never promoted to tok/s.",
+  "gates_all_pass": true,
+  "terminal_state": "n6b_gpu_decode_coherent_and_measured"
+}

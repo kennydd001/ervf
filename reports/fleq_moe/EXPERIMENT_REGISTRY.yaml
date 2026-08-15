@@ -1,0 +1,83 @@
+project: FLEQ_MOE
+codename: EntropyExperts
+created_at: 2026-08-11T11:22:13.8964253Z
+updated_at: 2026-08-11T12:04:22.573718Z
+status: p1_closed_negative
+current_verdict: >-
+  The pinned expert-streamed GSQ operator is compatible and resource-safe, but
+  the preregistered 2-bit hypothesis is falsified on this smoke: GSQ improves
+  zero of sixteen held-out experts over GPTQ and regresses p95 on all sixteen.
+  This closes the registered reproduction line without a general impossibility
+  claim for low-entropy MoE quantization.
+parents:
+  - {project: CRAFT_MOE, status: closed_no_eureka}
+  - {project: RSIV_MOE, status: closed_falsified_rank_working_set}
+hypotheses:
+  existing_method_reproduction:
+    id: FLEQ_MOE_P1_GSQ_PTQ
+    statement: >-
+      Expert-streamed GSQ can improve held-out Qwen SwiGLU expert reconstruction
+      over a matched 2-bit scalar GPTQ initializer within laptop resource limits.
+    novelty_claim: false
+    status: falsified_on_preregistered_smoke
+  contingent_training_hypothesis:
+    id: FLEQ_MOE_V1_TRAJECTORY_QAT
+    statement: >-
+      If scalar PTQ is close but misses full-depth quality, expert-codebook,
+      scale and router training on student trajectories can recover quality
+      without lowering matrix rank.
+    status: not_opened_no_ptq_near_miss
+inputs:
+  model: Qwen/Qwen3-30B-A3B-Base
+  revision: 1b75feb79f60b8dc6c5bc769a898c206a1c6a4f9
+  local_checkpoint_bytes: 61066575648
+  total_parameters: 30532122624
+  routed_expert_parameters: 28991029248
+  gsq_repository: https://github.com/IST-DASLab/GSQ
+  gsq_commit: 03fc16484c369e3127225615d5e03e8d3a6043e3
+resource_limits:
+  gpu_peak_bytes_max: 8053063680
+  process_rss_bytes_max: 34359738368
+  target_gpu: NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU
+  compute_capability: sm_120
+phases:
+  - id: P0_SOURCE_AND_FEASIBILITY_AUDIT
+    status: complete
+    report: reports/fleq_moe/FLEQ_MOE_SOURCE_AUDIT.md
+  - id: P1_EXPERT_STREAMED_GSQ_SMOKE
+    status: complete_smoke_negative
+    dependencies: [P0_SOURCE_AND_FEASIBILITY_AUDIT]
+    preregistration: reports/fleq_moe/P1_QWEN_EXPERT_STREAMED_PREREGISTRATION.md
+    layers: [0, 47]
+    experts_per_layer: 8
+    evaluation_data_opened: true
+    result: reports/fleq_moe/p1_smoke_result.json
+    result_sha256: 2f06b4dfc079ec9efe3f8133e0ea945742a1fe5c2a8bb4af33ddaa0880f60ed5
+    report: reports/fleq_moe/P1_QWEN_EXPERT_STREAMED.md
+    report_sha256: b8cf4dbb2b471eca93d91a6e95aad33e9454526b973c81786d8be7d7b8a24606
+    verification: reports/fleq_moe/p1_verification.json
+    verification_sha256: b7629356509228993f0cd7b9fbac597c9eed585c7434e3babca79ec4d77435a0
+    controls: 18/18
+    primary_result: 0/16_experts_improved_16/16_p95_regressed
+    ternary_diagnostic: 16/16_improved_over_hard_rtn_but_absolute_error_too_high
+  - id: P2_THREE_LAYER_PTQ_ORACLE
+    status: not_authorized_by_failed_P1_gate
+  - id: P3_FULL_MODEL_PTQ
+    status: blocked_by_P2
+  - id: P4_EXPERT_TRAJECTORY_QAT
+    status: blocked_by_P3_near_miss
+  - id: P5_PACKED_RUNTIME
+    status: blocked_by_quality
+  - id: P6_SECOND_FAMILY
+    status: blocked_by_runtime
+final_practical_gate:
+  routed_expert_bits_including_metadata_max: 2.0
+  relative_ce_delta_max: 0.02
+  stable_rollout_tokens_min: 512
+  measured_batch1_tokens_per_second_min: 10.0
+  gpu_peak_bytes_max: 8053063680
+  process_rss_bytes_max: 34359738368
+  second_family_replication_required: true
+terminal_verdicts: [falsified, software_blocked, engineering_positive, eureka_confirmed]
+terminal_verdict: falsified
+eureka: false

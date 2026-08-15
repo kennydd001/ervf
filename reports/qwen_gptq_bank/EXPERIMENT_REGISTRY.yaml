@@ -1,0 +1,78 @@
+project: QWEN_GPTQ_BANK
+created_at: 2026-08-11
+updated_at: 2026-08-12
+status: p0_complete_full_bank_pass
+claim_status: canonical_source_asset_independently_verified
+semantic_erratum:
+  status: locked_before_bank_outputs
+  document: reports/qwen_gptq_bank/P0_GPTQ_SEMANTICS_ERRATUM.md
+  audit: reports/qwen_gptq_bank/p0_gptq_semantics_audit.json
+  finding: historical_fleq_projection_name_accidentally_triggered_gumbel_branch
+  canonical_bank_rule: pinned_name_neutral_pure_gptq
+parents:
+  E2GQ_MOE: {status: p0_closed_coverage_negative, immutable: true}
+  FLEQ_MOE_GSQ: {status: falsified, immutable: true}
+  HERA_MOE: {status: static_tier_negative, immutable: true}
+  DHERA_MOE: {status: dynamic_cache_negative, immutable: true}
+  CORETAIL_MOE: {status: p0_opened_by_verified_bank}
+hypothesis:
+  id: COMPLETE_CANONICAL_QWEN_GPTQ_BANK
+  statement: >-
+    Fixed multi-domain calibration plus a preregistered supplement can provide
+    at least 128 true routed rows for every expert and support an exact,
+    complete 2-bit GPTQ bank without RTN substitution.
+preregistration: reports/qwen_gptq_bank/P0_FULL_BANK_PREREGISTRATION.md
+phases:
+  P0_INPUT_LOCK:
+    status: completed
+    result: reports/qwen_gptq_bank/p0_input_lock.json
+  P0_SUPPLEMENT_ROUTES:
+    status: completed_coverage_fail
+    result: reports/qwen_gptq_bank/p0_coverage_result.json
+    minimum_rows: 89
+    deficient_pairs: 2
+  P0_SUPPLEMENT_B_INPUT_LOCK:
+    status: completed
+    preregistration: reports/qwen_gptq_bank/P0_SUPPLEMENT_B_PREREGISTRATION.md
+    result: reports/qwen_gptq_bank/p0_supplement_b_input_lock.json
+  P0_SUPPLEMENT_B_ROUTES:
+    status: completed_coverage_pass
+    result: reports/qwen_gptq_bank/p0_coverage_result_b.json
+    minimum_rows: 257
+    deficient_pairs: 0
+  P0_CALIBRATION_SELECTION:
+    status: completed
+    result: reports/qwen_gptq_bank/p0_calibration_selection_lock.json
+    selected_rows: 786432
+  P0_CALIBRATION_CAPTURE:
+    status: completed
+    result: reports/qwen_gptq_bank/p0_calibration_capture_result.json
+    total_rows: 786432
+  P0_CALIBRATION_VERIFICATION:
+    status: completed_pass
+    result: reports/qwen_gptq_bank/p0_calibration_verification.json
+    checks: 17/17
+  P0_BATCHED_EQUIVALENCE:
+    status: completed_pass_attempts_f_and_h
+    reference: pinned_name_neutral_pure_gptq
+    result: reports/qwen_gptq_bank/p0_fastgrid_equivalence_result_h.json
+    matrices: 30
+    code_mismatches: 0
+    bf16_scale_bit_mismatches: 0
+    speedup: 3.31291442480629
+  P0_FULL_BANK_QUANTIZATION:
+    status: completed
+    experts: 6144
+    matrices: 18432
+    codes: 28991029248
+    scale_elements: 226492416
+    artifact_bytes: 7700786304
+  P0_INDEPENDENT_VERIFICATION:
+    status: completed_pass
+    result: reports/qwen_gptq_bank/p0_full_bank_verification.json
+    checks: 21/21
+    effective_source_bpp: 2.125
+claim_boundary:
+  - This new registry does not alter or reinterpret closed parent registries.
+  - Existing HERA and DHERA routes informed supplement sizing; this is disclosed design evidence, not held-out validation.
+  - The verified bank is a source asset; it does not itself prove CORETAIL size, quality, kernel speed, or end-to-end throughput.

@@ -1,0 +1,18 @@
+{
+  "kind": "port80b_t0r4r2_independent_verifier_lock",
+  "locked_date": "2026-08-13",
+  "outputs_opened": false,
+  "schema_version": "PORT80B_T0R4R2_REF_V1",
+  "verifier": "scripts/streamq5_moe/verify_port80b_t0r4r2_official_layer0_reference.py",
+  "verifier_sha256": "b8b4a5eccc42c46ba475c5689835ce5d98fd2297c577050108eaa2a78bae0db3",
+  "verifies": [
+    "all retained raw tensor keys/dtypes/shapes/bytes/SHA256 and finiteness",
+    "64 fresh-cache rows with exact conv/recurrent schemas",
+    "positive finite non-increasing top-10 routes and minimum rank-10/rank-11 margin",
+    "manual BF16 MoE maximum one-ULP gate and prefix ladder",
+    "actual CPU/runtime/callable evidence",
+    "513-record revision/layer/expert/shared/projection/byte bindings",
+    "bank size/SHA256, resource gates and run-2 semantic replay"
+  ],
+  "claim_boundary": "Verifier covers R4-REF-R2 BF16 reference and real-Q5 bank build/replay artifacts only; Q5 execution and T0-P4 remain closed."
+}

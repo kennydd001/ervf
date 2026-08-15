@@ -1,0 +1,167 @@
+{
+  "kind": "lightningstream_nemotron_s5_masked_decode",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "S5_COLUMN_SELECTIVE_DOWN_PROJ",
+  "design": "A2_sm_side_wide_gather",
+  "started_utc": "2026-08-14T20:17:24.974240+00:00",
+  "completed_utc": "2026-08-14T20:18:25.929457+00:00",
+  "runner_sha256": "85ca1b6dfa7efce985c6f3d519ea88ff0a41c0c46f1654377a0a2b443ead0acc",
+  "runtime_sha256": "868eb8b3b085027f9dcfa49a4c7703e39175eae688218346e2ce0715031bb487",
+  "fused_sha256": "8eb0b504a394d3ee0a39df7b475b9e64bd2e7f38cb41bbb2ff12eadfc51b87a2",
+  "baseline_sha256": "2ccc2569948c935e7df30a531d9ace9429cb857c674a3b3de960c3cedd69d20c",
+  "capacity_per_layer": 31,
+  "cache_gib": 1.863457202911377,
+  "device_used_gib": 5.45703125,
+  "generation_checks": [
+    {
+      "prompt": "The capital of France is",
+      "identical_32_tokens": true,
+      "generated_text": " Paris.\" No extra punctuation? The sentence includes a period at the end. The user wrote: \u201cThe capital of France is Paris.\u201d with a period inside the"
+    },
+    {
+      "prompt": "The history of computing began when",
+      "identical_32_tokens": true,
+      "generated_text": " humans first needed to count and record information. Early tools like the abacus and later mechanical calculators such as Blaise Pascal\u2019s Pascaline (164"
+    }
+  ],
+  "cache": {
+    "hits": 14669,
+    "misses": 8239,
+    "hit_rate": 0.640343984634189
+  },
+  "decode_warm_cache": {
+    "n": 129,
+    "mean": 45.98862248062015,
+    "p50": 45.9769,
+    "p95": 48.009499999999996,
+    "p99": 49.118248
+  },
+  "tok_s_warm_p50": 21.750052743877905,
+  "context_sweep_warm": {
+    "0": {
+      "ms": {
+        "n": 16,
+        "mean": 46.02275,
+        "p50": 45.9578,
+        "p95": 47.5854,
+        "p99": 47.63676
+      },
+      "raw_ms": [
+        43.9421,
+        44.6631,
+        44.9729,
+        46.8056,
+        46.835,
+        46.1177,
+        47.564,
+        46.7244,
+        45.572,
+        47.3094,
+        47.6496,
+        45.7979,
+        44.7834,
+        46.8215,
+        45.4945,
+        45.3109
+      ],
+      "tok_s_p50": 21.7590920366075
+    },
+    "32768": {
+      "ms": {
+        "n": 16,
+        "mean": 47.81619375,
+        "p50": 47.9527,
+        "p95": 49.04415,
+        "p99": 49.72395
+      },
+      "raw_ms": [
+        48.3782,
+        47.1849,
+        48.066,
+        48.6984,
+        48.7609,
+        46.5081,
+        48.4413,
+        49.8939,
+        47.1774,
+        48.2102,
+        47.0565,
+        46.5416,
+        47.1655,
+        47.8394,
+        48.5836,
+        46.5532
+      ],
+      "tok_s_p50": 20.853883097302134
+    },
+    "131072": {
+      "ms": {
+        "n": 16,
+        "mean": 60.17456875,
+        "p50": 60.022149999999996,
+        "p95": 62.09525,
+        "p99": 62.25569
+      },
+      "raw_ms": [
+        60.7126,
+        59.9597,
+        60.4817,
+        60.7642,
+        60.0846,
+        60.6066,
+        62.0284,
+        62.2958,
+        59.8201,
+        60.5893,
+        59.2653,
+        59.7005,
+        59.2699,
+        59.825,
+        58.9073,
+        58.4821
+      ],
+      "tok_s_p50": 16.660516159451138
+    },
+    "262100": {
+      "ms": {
+        "n": 16,
+        "mean": 73.41878125,
+        "p50": 73.11075,
+        "p95": 75.242775,
+        "p99": 75.357675
+      },
+      "raw_ms": [
+        74.1343,
+        74.9003,
+        73.5417,
+        72.1387,
+        73.905,
+        73.9814,
+        73.0892,
+        73.1323,
+        72.147,
+        73.0172,
+        75.3864,
+        71.6663,
+        73.0289,
+        75.1949,
+        72.9494,
+        72.4875
+      ],
+      "tok_s_p50": 13.677879108065504
+    }
+  },
+  "gates": {
+    "G-S5-C1_identical_generation": true,
+    "G-S5-P3_no_regression_ctx0": true,
+    "G-S5-P1_262k_minimum": false,
+    "G-S5-P2_262k_primary": false
+  },
+  "reproduced_baseline_tok_s": {
+    "0": 22.062,
+    "32768": 20.147,
+    "131072": 16.686,
+    "262100": 13.143
+  },
+  "claim_boundary": "Measured batch-1 decode of the masked column-selective runtime on this GPU at the measured contexts, generation gate checked against the frozen pre-S5 baseline. NOT a quality result, benchmark, or a claim about other hardware, batch sizes or prompts."
+}

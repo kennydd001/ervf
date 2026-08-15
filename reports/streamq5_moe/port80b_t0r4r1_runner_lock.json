@@ -1,0 +1,25 @@
+{
+  "kind": "port80b_t0r4_ref_r1_runner_lock",
+  "locked_date": "2026-08-13",
+  "outputs_opened": false,
+  "supersedes_runner_sha256": "a47a40eafc30c988c7c918e67896bdfb42c689739db30626d211f601864f66f6",
+  "repairs_only": [
+    "top10/top11 margin uses unnormalized FP32 probabilities at ranks 10 and 11",
+    "Windows peak working set is sampled and gated at 12 GiB",
+    "process affinity is set and verified",
+    "every packed parameter slice is rehashed after copy",
+    "tokenizer reproduces prompt IDs before shard hashing/touch",
+    "actual runtime settings and resolved callables are retained",
+    "every packed Q5 field is decoded, bounded at 30 and roundtrip-compared"
+  ],
+  "runner": "scripts/streamq5_moe/run_port80b_t0r4r1_official_layer0_reference.py",
+  "runner_sha256": "007c572768f5af0c03c648df151bd45d84c5fcdb51b957fe6bcb8862d357fbfe",
+  "t0r4_sha256": "4c5da965e47e11e9ff36594e15387c48a1a2943aa0d9cbdc3b9b271418400a03",
+  "t0p4_sha256": "ff544820774fb9655f08b02756b0d36b8c5bb8f86e12f7a2173fe29db1942e2d",
+  "dependency_lock_sha256": "1d08457aded09f139d25af84ba778d8e275ab5ff71967a3dc8b9a7452e6d2fae",
+  "acknowledgement": "T0R4R1_OFFICIAL_LAYER0_CPU_REFERENCE_AFTER_INDEPENDENT_AUDIT",
+  "run_order": [1, 2],
+  "separate_create_new_outputs": true,
+  "no_retry_or_retune": true,
+  "stage_claim_boundary": "R4-REF-R1 alone can never emit final T0-R4 pass. R4-Q5 and an independent combined verifier remain mandatory."
+}

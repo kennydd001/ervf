@@ -1,0 +1,408 @@
+{
+  "kind": "lightningstream_nemotron_n2_tensor_inventory",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "N2_FULL_PAYLOAD_AND_QUANT_SEMANTICS",
+  "completed_utc": "2026-08-14T10:16:45.962018+00:00",
+  "runner_sha256": "093180dbe44017ae3bf755fe287660e7fd8e688df975e95d0ea358e8f52be292",
+  "payload_decoded": false,
+  "bf16_model_materialized": false,
+  "gpu_used": false,
+  "shards": [
+    {
+      "shard": "model-00001-of-00005.safetensors",
+      "file_bytes": 3998838864,
+      "header_bytes": 429488,
+      "header_sha256_body_only": "da994537e5c861410d933dfcef3ef99c0e2328b3daa350a3ca39c6d2121abc96",
+      "header_sha256_with_length_prefix": "f9b2428248cfb2b8d36dbd879882f72e1a9ed417d4a734c65d80c7192c5a1a78",
+      "tensors": 3454,
+      "payload_extent_bytes": 3998409368,
+      "metadata": {
+        "format": "pt"
+      }
+    },
+    {
+      "shard": "model-00002-of-00005.safetensors",
+      "file_bytes": 4000414120,
+      "header_bytes": 661840,
+      "header_sha256_body_only": "bfa5c224c0801069f98ebefff1e0ea1d11fa153f37c030e8897311fc3bd463d2",
+      "header_sha256_with_length_prefix": "a905e3a920f663b2ccea254dab573ea42438131d7d06fdbdfeed59823a48c382",
+      "tensors": 5289,
+      "payload_extent_bytes": 3999752272,
+      "metadata": {
+        "format": "pt"
+      }
+    },
+    {
+      "shard": "model-00003-of-00005.safetensors",
+      "file_bytes": 3999641680,
+      "header_bytes": 679352,
+      "header_sha256_body_only": "d023e98bbd6370c1a7af5bc67311349705f2519ab5fdadb080940bae75569ee1",
+      "header_sha256_with_length_prefix": "fa84fd13b47d67c41a99a5bc98a2758be9e171271692dc57cfd08e022c384c25",
+      "tensors": 5440,
+      "payload_extent_bytes": 3998962320,
+      "metadata": {
+        "format": "pt"
+      }
+    },
+    {
+      "shard": "model-00004-of-00005.safetensors",
+      "file_bytes": 4000413336,
+      "header_bytes": 661056,
+      "header_sha256_body_only": "ded1fdc9bfb2acb12481408faa63450db8c048bb591e904c19ae165f99759166",
+      "header_sha256_with_length_prefix": "d02a3eeac275fae100245f87d291cca824e2d00ccbb54c15cb1525934933fa3e",
+      "tensors": 5289,
+      "payload_extent_bytes": 3999752272,
+      "metadata": {
+        "format": "pt"
+      }
+    },
+    {
+      "shard": "model-00005-of-00005.safetensors",
+      "file_bytes": 3343488520,
+      "header_bytes": 583112,
+      "header_sha256_body_only": "eae58f96c0fbb4381a2970c9a70ffbae0bb03cb103e7e6c48c958ade30780609",
+      "header_sha256_with_length_prefix": "043e2df396727674dd9230f08f2771bd791a7b881c799d3512ffb1322460d12b",
+      "tensors": 4675,
+      "payload_extent_bytes": 3342905400,
+      "metadata": {
+        "format": "pt"
+      }
+    }
+  ],
+  "totals": {
+    "tensor_count": 24147,
+    "tensor_bytes": 19339781632,
+    "routed_expert_bytes": 16523376640,
+    "shared_expert_bytes": 258177392,
+    "trunk_other_bytes": 2558227600
+  },
+  "n1_frozen": {
+    "tensor_count": 24147,
+    "tensor_bytes": 19339781632,
+    "routed_experts": 16523376640,
+    "shared_experts": 258177392,
+    "trunk_other": 2558227600,
+    "routed_records": 2944,
+    "routed_record_bytes": 5612560,
+    "moe_layers": 23,
+    "shard1_header_bytes": 429488,
+    "shard1_header_sha256": "f9b2428248cfb2b8d36dbd879882f72e1a9ed417d4a734c65d80c7192c5a1a78",
+    "shard1_header_sha256_convention": "sha256(u64_length_prefix + header_body)",
+    "shard1_tensors": 3454,
+    "shard1_payload_extent": 3998409368
+  },
+  "dtype_bytes": {
+    "BF16": 2156424064,
+    "F32": 31713408,
+    "F8_E4M3": 1905738240,
+    "U8": 15245905920
+  },
+  "dtype_counts": {
+    "BF16": 229,
+    "F32": 11982,
+    "F8_E4M3": 5968,
+    "U8": 5968
+  },
+  "layer_roles": {
+    "mamba": [
+      0,
+      2,
+      4,
+      7,
+      9,
+      11,
+      14,
+      16,
+      18,
+      21,
+      23,
+      25,
+      28,
+      30,
+      32,
+      35,
+      37,
+      39,
+      41,
+      44,
+      46,
+      48,
+      50
+    ],
+    "moe": [
+      1,
+      3,
+      6,
+      8,
+      10,
+      13,
+      15,
+      17,
+      20,
+      22,
+      24,
+      27,
+      29,
+      31,
+      34,
+      36,
+      38,
+      40,
+      43,
+      45,
+      47,
+      49,
+      51
+    ],
+    "attention": [
+      5,
+      12,
+      19,
+      26,
+      33,
+      42
+    ]
+  },
+  "moe_layers_from_tensors": [
+    1,
+    3,
+    6,
+    8,
+    10,
+    13,
+    15,
+    17,
+    20,
+    22,
+    24,
+    27,
+    29,
+    31,
+    34,
+    36,
+    38,
+    40,
+    43,
+    45,
+    47,
+    49,
+    51
+  ],
+  "routed_layout_adjudication": {
+    "experts_examined": 2944,
+    "all_pass": true,
+    "failures": [],
+    "failure_count": 0,
+    "record_size_distribution": {
+      "5612560": 2944
+    }
+  },
+  "shared_layout_adjudication": {
+    "layers_examined": 23,
+    "all_pass": true,
+    "failures": [],
+    "failure_count": 0,
+    "record_size_distribution": {
+      "11225104": 23
+    }
+  },
+  "layout_hypothesis_verdict": "confirmed",
+  "contiguity": {
+    "single_shard": 2940,
+    "split_across_shards": 4,
+    "split_examples": [
+      {
+        "layer": 8,
+        "expert": 34,
+        "shards": [
+          "model-00001-of-00005.safetensors",
+          "model-00002-of-00005.safetensors"
+        ],
+        "tensors_per_shard": {
+          "model-00001-of-00005.safetensors": [
+            "up_proj.input_scale",
+            "up_proj.weight",
+            "up_proj.weight_scale",
+            "up_proj.weight_scale_2"
+          ],
+          "model-00002-of-00005.safetensors": [
+            "down_proj.input_scale",
+            "down_proj.weight",
+            "down_proj.weight_scale",
+            "down_proj.weight_scale_2"
+          ]
+        }
+      },
+      {
+        "layer": 20,
+        "expert": 39,
+        "shards": [
+          "model-00002-of-00005.safetensors",
+          "model-00003-of-00005.safetensors"
+        ],
+        "tensors_per_shard": {
+          "model-00002-of-00005.safetensors": [
+            "down_proj.weight",
+            "up_proj.input_scale",
+            "up_proj.weight",
+            "up_proj.weight_scale",
+            "up_proj.weight_scale_2"
+          ],
+          "model-00003-of-00005.safetensors": [
+            "down_proj.input_scale",
+            "down_proj.weight_scale",
+            "down_proj.weight_scale_2"
+          ]
+        }
+      },
+      {
+        "layer": 31,
+        "expert": 63,
+        "shards": [
+          "model-00003-of-00005.safetensors",
+          "model-00004-of-00005.safetensors"
+        ],
+        "tensors_per_shard": {
+          "model-00003-of-00005.safetensors": [
+            "up_proj.input_scale",
+            "up_proj.weight",
+            "up_proj.weight_scale",
+            "up_proj.weight_scale_2"
+          ],
+          "model-00004-of-00005.safetensors": [
+            "down_proj.input_scale",
+            "down_proj.weight",
+            "down_proj.weight_scale",
+            "down_proj.weight_scale_2"
+          ]
+        }
+      },
+      {
+        "layer": 43,
+        "expert": 68,
+        "shards": [
+          "model-00004-of-00005.safetensors",
+          "model-00005-of-00005.safetensors"
+        ],
+        "tensors_per_shard": {
+          "model-00004-of-00005.safetensors": [
+            "down_proj.weight",
+            "up_proj.input_scale",
+            "up_proj.weight",
+            "up_proj.weight_scale",
+            "up_proj.weight_scale_2"
+          ],
+          "model-00005-of-00005.safetensors": [
+            "down_proj.input_scale",
+            "down_proj.weight_scale",
+            "down_proj.weight_scale_2"
+          ]
+        }
+      }
+    ],
+    "examples": [
+      {
+        "layer": 1,
+        "expert": 0,
+        "total_ranges": 3,
+        "codes_u8": {
+          "runs": 1,
+          "bytes": 4988928
+        },
+        "scales_f8": {
+          "runs": 1,
+          "bytes": 623616
+        },
+        "globals_f32": {
+          "runs": 1,
+          "bytes": 16
+        }
+      },
+      {
+        "layer": 1,
+        "expert": 1,
+        "total_ranges": 3,
+        "codes_u8": {
+          "runs": 1,
+          "bytes": 4988928
+        },
+        "scales_f8": {
+          "runs": 1,
+          "bytes": 623616
+        },
+        "globals_f32": {
+          "runs": 1,
+          "bytes": 16
+        }
+      },
+      {
+        "layer": 1,
+        "expert": 2,
+        "total_ranges": 3,
+        "codes_u8": {
+          "runs": 1,
+          "bytes": 4988928
+        },
+        "scales_f8": {
+          "runs": 1,
+          "bytes": 623616
+        },
+        "globals_f32": {
+          "runs": 1,
+          "bytes": 16
+        }
+      }
+    ],
+    "ranges_per_expert_distribution": {
+      "3": 2940
+    },
+    "runs_per_class_distribution": {
+      "codes_u8": {
+        "1": 2940
+      },
+      "scales_f8": {
+        "1": 2940
+      },
+      "globals_f32": {
+        "1": 2940
+      }
+    }
+  },
+  "excluded_and_bf16": {
+    "bf16_tensor_count": 229,
+    "bf16_bytes": 2156424064,
+    "lm_head_bytes": 704643072,
+    "lm_head_dtype": "BF16",
+    "embeddings_bytes": 704643072,
+    "embeddings_dtype": "BF16"
+  },
+  "index_check": {
+    "present": true,
+    "index_keys": 24147,
+    "keys_match_headers": true,
+    "shard_assignment_matches": true,
+    "declared_total_size": 19339781632
+  },
+  "gates": {
+    "g2_five_headers_parse_and_tensor_count_24147": true,
+    "g3_tensor_bytes_match_n1": true,
+    "g4_routed_shared_trunk_buckets_match_n1": true,
+    "g5_layout_hypothesis_explicitly_adjudicated": true,
+    "g7_no_payload_decode_no_bf16_materialization_no_gpu": true
+  },
+  "gates_all_pass": true,
+  "additional_checks": {
+    "routed_records_2944": true,
+    "routed_record_bytes_uniform_5612560": true,
+    "moe_layers_match_hybrid_pattern": true,
+    "shard1_header_matches_n1": true,
+    "shard1_payload_extent_matches_n1": true,
+    "routed_layout_adjudication_passed": true,
+    "shared_layout_adjudication_passed": true,
+    "index_keys_match_headers": true,
+    "index_shard_assignment_matches": true,
+    "every_routed_expert_in_single_shard": false
+  },
+  "additional_checks_all_pass": false,
+  "claim_boundary": "Header/index/layout evidence only. No decode of payload here, no quality, latency or throughput claim, no full-model statement."
+}

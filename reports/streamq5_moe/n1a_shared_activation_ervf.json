@@ -1,0 +1,99 @@
+{
+  "kind": "streamq5_moe_n1a_shared_activation_ervf",
+  "completed_utc": "2026-08-12T16:27:45.325417+00:00",
+  "inputs": {
+    "preregistration_sha256": "abdbc4fe91a9a43b35839a59fee9354a73cf533a5f0b9548eaa0120bd7dc54bd",
+    "script_sha256": "b19b72b898928ce0a1f652881af70bf5144f41579429ca252749cdc6524a363e",
+    "q8_manifest_sha256": "d05f3845c26b8e7b2fd5bfe2b431edb06e386a4cde459ce757225eb8a64dbaea",
+    "q8_aggregate_sha256": "b85e7e885b4b65bcc12f9e0dbeaa9b4fca53a6428be7430de5824a26fbcc9b00"
+  },
+  "seed": 120819,
+  "correctness": {
+    "q8": {
+      "bitwise_equal": true,
+      "elements": 502144,
+      "different": 0,
+      "max_abs": 0.0,
+      "finite": true
+    },
+    "q5": {
+      "bitwise_equal": true,
+      "elements": 1376256,
+      "different": 0,
+      "max_abs": 0.0,
+      "finite": true
+    }
+  },
+  "validation": {
+    "q8": {
+      "baseline": {
+        "mean": 8.503446420033773,
+        "p50": 8.54745626449585,
+        "p95": 8.638598442077637,
+        "min": 8.012928009033203,
+        "max": 8.683039665222168,
+        "iterations": 30
+      },
+      "staged": {
+        "mean": 10.474873606363932,
+        "p50": 10.465583801269531,
+        "p95": 10.57296290397644,
+        "min": 10.393312454223633,
+        "max": 10.597184181213379,
+        "iterations": 30
+      },
+      "p50_ratio": 1.2244091665892622,
+      "test_opened": false
+    },
+    "q5": {
+      "baseline": {
+        "mean": 10.634470367431641,
+        "p50": 10.993663787841797,
+        "p95": 12.429326438903807,
+        "min": 7.439263820648193,
+        "max": 12.629887580871582,
+        "iterations": 30
+      },
+      "staged": {
+        "mean": 7.0454026858011884,
+        "p50": 6.906703948974609,
+        "p95": 7.74323194026947,
+        "min": 6.719520092010498,
+        "max": 7.789152145385742,
+        "iterations": 30
+      },
+      "p50_ratio": 0.6282440578738572,
+      "test_opened": true
+    }
+  },
+  "test": {
+    "q8": null,
+    "q5": {
+      "baseline": {
+        "mean": 8.178657062848409,
+        "p50": 7.969536066055298,
+        "p95": 9.77625617980957,
+        "min": 7.095647811889648,
+        "max": 10.29372787475586,
+        "iterations": 120
+      },
+      "staged": {
+        "mean": 7.350777848561605,
+        "p50": 7.184992074966431,
+        "p95": 8.192300796508789,
+        "min": 6.681312084197998,
+        "max": 8.230048179626465,
+        "iterations": 120
+      },
+      "p50_ratio": 0.9015571314834145,
+      "p95_ratio": 0.8379793497461689,
+      "pass": true
+    }
+  },
+  "component_pass": {
+    "q8": false,
+    "q5": true
+  },
+  "overall_pass": false,
+  "claim_boundary": "Isolated Q8/Q5 projection planes; no end-to-end decoder claim."
+}

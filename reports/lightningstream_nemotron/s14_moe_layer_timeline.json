@@ -1,0 +1,788 @@
+{
+  "kind": "lightningstream_nemotron_s14_moe_layer_timeline",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "S14_MOE_LAYER_TIMELINE",
+  "started_utc": "2026-08-15T09:11:57.208978+00:00",
+  "completed_utc": "2026-08-15T09:12:59.855589+00:00",
+  "model_dir": "nemotron_3_5_lightning_v35",
+  "runner_sha256": "d66cd9ed3788fc2e49f61bbc847ba97f33d2858dd6bfce4102862a895a852cd3",
+  "runtime_sha256": "0a51e0c5923057c10e3ce12adc2fafa3336f7c4acb31c008fd236a5d7e496488",
+  "config": {
+    "capacity_per_layer": 72,
+    "max_ctx": 262144,
+    "contexts": [
+      0,
+      262100
+    ],
+    "embed_on_host": true,
+    "backbone_fp8_kv": true,
+    "samples_per_context": 16,
+    "varied_seed": 11,
+    "cache_mode": "up_only",
+    "arm_order": [
+      "base0",
+      "probed",
+      "base1"
+    ]
+  },
+  "cache_gib": 4.328029632568359,
+  "generation_identical": true,
+  "arms": {
+    "base0": {
+      "context_sweep": {
+        "0": {
+          "context": 0,
+          "ms": {
+            "n": 16,
+            "mean": 36.48643125,
+            "p50": 36.27335,
+            "p95": 37.606624999999994,
+            "max": 37.9589,
+            "min": 35.5179
+          },
+          "raw_ms": [
+            36.9103,
+            35.5179,
+            36.2269,
+            37.4892,
+            35.9628,
+            35.7851,
+            37.2877,
+            36.6756,
+            36.3198,
+            36.8818,
+            37.9589,
+            36.3324,
+            36.1174,
+            36.084,
+            36.0573,
+            36.1758
+          ],
+          "gpu": {
+            "temp_c": 70,
+            "sm_mhz": 2640,
+            "power_w": 56.78
+          }
+        },
+        "262100": {
+          "context": 262100,
+          "ms": {
+            "n": 16,
+            "mean": 53.34425625,
+            "p50": 53.00385,
+            "p95": 55.49955,
+            "max": 56.5938,
+            "min": 51.6818
+          },
+          "raw_ms": [
+            52.0852,
+            51.8927,
+            52.8509,
+            53.285,
+            51.8064,
+            54.0443,
+            55.1348,
+            52.6922,
+            51.6818,
+            56.5938,
+            53.0616,
+            52.4516,
+            52.9731,
+            53.0346,
+            54.8638,
+            55.0563
+          ],
+          "gpu": {
+            "temp_c": 74,
+            "sm_mhz": 2250,
+            "power_w": 59.48
+          }
+        }
+      },
+      "cache": {
+        "hits": 27235,
+        "misses": 4919
+      }
+    },
+    "probed": {
+      "context_sweep": {
+        "0": {
+          "context": 0,
+          "ms": {
+            "n": 16,
+            "mean": 41.46450625,
+            "p50": 41.24785,
+            "p95": 44.341750000000005,
+            "max": 45.4363,
+            "min": 38.0411
+          },
+          "raw_ms": [
+            42.1584,
+            43.9376,
+            40.6737,
+            39.548,
+            40.1159,
+            43.9769,
+            45.4363,
+            42.8996,
+            40.5145,
+            41.8773,
+            40.8288,
+            39.444,
+            43.4684,
+            41.6669,
+            38.0411,
+            38.8447
+          ],
+          "gpu": {
+            "temp_c": 76,
+            "sm_mhz": 2752,
+            "power_w": 53.4
+          },
+          "token_stage_sums": [
+            {
+              "route": 3.140544019639492,
+              "shared_up": 2.260480023920536,
+              "shared_dn": 1.7893120124936104,
+              "host_gap": 4.018815986812115,
+              "up": 6.862111978232861,
+              "down_masked": 8.059456001967192,
+              "accum": 0.8745920020155609,
+              "layer_total": 27.005312204360962,
+              "up_waited": 0.5650879964232445,
+              "down_waited": 0.7808319963514805,
+              "miss_copy_batch": 1.8493440200109035,
+              "readback_host": 17.3884,
+              "experts_waited": 13
+            },
+            {
+              "route": 4.608000002801418,
+              "shared_up": 1.8563519790768623,
+              "shared_dn": 1.585759975016117,
+              "host_gap": 6.183424100279808,
+              "up": 6.957184035331011,
+              "down_masked": 7.626240016892552,
+              "accum": 1.1673280042596161,
+              "layer_total": 29.984288096427917,
+              "up_waited": 0.9252800047397614,
+              "down_waited": 1.1008960008621216,
+              "miss_copy_batch": 3.4641599846072495,
+              "readback_host": 11.3156,
+              "experts_waited": 23
+            },
+            {
+              "route": 3.5650879964232445,
+              "shared_up": 1.7504320070147514,
+              "shared_dn": 1.5150079876184464,
+              "host_gap": 4.949792005121708,
+              "up": 6.389984019100666,
+              "down_masked": 7.994431992992759,
+              "accum": 0.9965760065242648,
+              "layer_total": 27.16131192445755,
+              "up_waited": 0.6953920051455498,
+              "down_waited": 1.0577919948846102,
+              "miss_copy_batch": 2.7536960162688047,
+              "readback_host": 12.5561,
+              "experts_waited": 18
+            },
+            {
+              "route": 2.9570879861712456,
+              "shared_up": 1.6814080029726028,
+              "shared_dn": 1.5177599787712097,
+              "host_gap": 5.499936006963253,
+              "up": 5.827232018113136,
+              "down_masked": 7.873216010630131,
+              "accum": 0.9233280010521412,
+              "layer_total": 26.27996790409088,
+              "up_waited": 0.8165760152041912,
+              "down_waited": 1.391392007470131,
+              "miss_copy_batch": 3.2035520183853805,
+              "readback_host": 16.5647,
+              "experts_waited": 22
+            },
+            {
+              "route": 3.783551946282387,
+              "shared_up": 1.9815680161118507,
+              "shared_dn": 1.5102719813585281,
+              "host_gap": 4.554719984531403,
+              "up": 6.147968031466007,
+              "down_masked": 7.4189119804650545,
+              "accum": 1.223840007558465,
+              "layer_total": 26.620831787586212,
+              "up_waited": 0.7853120118379593,
+              "down_waited": 0.9937919955700636,
+              "miss_copy_batch": 2.4853439815342426,
+              "readback_host": 14.3212,
+              "experts_waited": 17
+            },
+            {
+              "route": 4.083264045417309,
+              "shared_up": 2.069727972149849,
+              "shared_dn": 1.518943965435028,
+              "host_gap": 5.809439949691296,
+              "up": 7.629120051860809,
+              "down_masked": 7.707583969458938,
+              "accum": 1.2907840018160641,
+              "layer_total": 30.108863830566406,
+              "up_waited": 1.0453439988195896,
+              "down_waited": 1.1420159861445427,
+              "miss_copy_batch": 3.386207999428734,
+              "readback_host": 10.2274,
+              "experts_waited": 21
+            },
+            {
+              "route": 4.218111976981163,
+              "shared_up": 1.9982079938054085,
+              "shared_dn": 1.5175679847598076,
+              "host_gap": 6.501439988613129,
+              "up": 7.687264032661915,
+              "down_masked": 8.11945603042841,
+              "accum": 1.3280640095472336,
+              "layer_total": 31.37011182308197,
+              "up_waited": 1.325344007462263,
+              "down_waited": 1.7243520095944405,
+              "miss_copy_batch": 4.005183992208913,
+              "readback_host": 8.1337,
+              "experts_waited": 24
+            },
+            {
+              "route": 3.703104004263878,
+              "shared_up": 1.9021439924836159,
+              "shared_dn": 1.5407679677009583,
+              "host_gap": 4.53846400976181,
+              "up": 8.038176015019417,
+              "down_masked": 7.959520002827048,
+              "accum": 1.3528000069782138,
+              "layer_total": 29.03497576713562,
+              "up_waited": 0.705824002623558,
+              "down_waited": 0.8090880028903484,
+              "miss_copy_batch": 2.1139520097058266,
+              "readback_host": 9.3007,
+              "experts_waited": 14
+            },
+            {
+              "route": 3.4060800075531006,
+              "shared_up": 1.96441600471735,
+              "shared_dn": 1.5059840008616447,
+              "host_gap": 4.4524160251021385,
+              "up": 6.555424023419619,
+              "down_masked": 8.15177595615387,
+              "accum": 1.1043200097046793,
+              "layer_total": 27.140415906906128,
+              "up_waited": 0.7551039978861809,
+              "down_waited": 0.9388480000197887,
+              "miss_copy_batch": 2.376480010105297,
+              "readback_host": 13.2394,
+              "experts_waited": 16
+            },
+            {
+              "route": 3.5956479907035828,
+              "shared_up": 1.9679360166192055,
+              "shared_dn": 1.514431968331337,
+              "host_gap": 6.218688018620014,
+              "up": 6.120000056922436,
+              "down_masked": 8.05843198671937,
+              "accum": 0.9305280027911067,
+              "layer_total": 28.40566396713257,
+              "up_waited": 1.2675200141966343,
+              "down_waited": 1.8756159991025925,
+              "miss_copy_batch": 4.240032056113705,
+              "readback_host": 15.3751,
+              "experts_waited": 31
+            },
+            {
+              "route": 3.5770559906959534,
+              "shared_up": 1.9066559746861458,
+              "shared_dn": 1.5097599923610687,
+              "host_gap": 5.082240007817745,
+              "up": 6.3134400472044945,
+              "down_masked": 7.7058240249753,
+              "accum": 1.202655994798988,
+              "layer_total": 27.297632098197937,
+              "up_waited": 0.7416320107877254,
+              "down_waited": 1.1762560028582811,
+              "miss_copy_batch": 2.8552640366833657,
+              "readback_host": 13.0841,
+              "experts_waited": 20
+            },
+            {
+              "route": 3.482367992401123,
+              "shared_up": 1.9087360054254532,
+              "shared_dn": 1.5127359703183174,
+              "host_gap": 4.155776008963585,
+              "up": 6.46361606195569,
+              "down_masked": 7.271647972986102,
+              "accum": 1.0645760027691722,
+              "layer_total": 25.85945612192154,
+              "up_waited": 0.5301440060138702,
+              "down_waited": 0.5101120043545961,
+              "miss_copy_batch": 2.093791964929551,
+              "readback_host": 11.5036,
+              "experts_waited": 12
+            },
+            {
+              "route": 3.4167359992861748,
+              "shared_up": 2.1449600011110306,
+              "shared_dn": 1.512767992913723,
+              "host_gap": 5.088256008923054,
+              "up": 7.960319980978966,
+              "down_masked": 7.6532160099595785,
+              "accum": 1.3632639995776117,
+              "layer_total": 29.139520168304443,
+              "up_waited": 1.131104003638029,
+              "down_waited": 0.983615992590785,
+              "miss_copy_batch": 2.571967988042161,
+              "readback_host": 9.3342,
+              "experts_waited": 17
+            },
+            {
+              "route": 3.353824034333229,
+              "shared_up": 1.7222080081701279,
+              "shared_dn": 1.5067519694566727,
+              "host_gap": 5.11539202183485,
+              "up": 6.746464051306248,
+              "down_masked": 8.39478400349617,
+              "accum": 1.1084800120443106,
+              "layer_total": 27.94790416955948,
+              "up_waited": 0.7016000039875507,
+              "down_waited": 0.9895039983093739,
+              "miss_copy_batch": 2.537216004682705,
+              "readback_host": 12.7057,
+              "experts_waited": 16
+            },
+            {
+              "route": 3.29212798923254,
+              "shared_up": 1.7313600108027458,
+              "shared_dn": 1.5125439763069153,
+              "host_gap": 3.968704007565975,
+              "up": 5.8338560573756695,
+              "down_masked": 7.680032007396221,
+              "accum": 0.8676480017602444,
+              "layer_total": 24.886271953582764,
+              "up_waited": 0.5910399965941906,
+              "down_waited": 0.9574080035090446,
+              "miss_copy_batch": 2.1664000069722533,
+              "readback_host": 15.7183,
+              "experts_waited": 16
+            },
+            {
+              "route": 3.139104001224041,
+              "shared_up": 1.6928640082478523,
+              "shared_dn": 1.5073919966816902,
+              "host_gap": 4.7838080152869225,
+              "up": 5.911040011793375,
+              "down_masked": 7.607199981808662,
+              "accum": 0.9720640052109957,
+              "layer_total": 25.61347186565399,
+              "up_waited": 0.837312001734972,
+              "down_waited": 1.1682879887521267,
+              "miss_copy_batch": 2.968064023880288,
+              "readback_host": 16.7151,
+              "experts_waited": 22
+            }
+          ]
+        },
+        "262100": {
+          "context": 262100,
+          "ms": {
+            "n": 16,
+            "mean": 56.90184375,
+            "p50": 57.169799999999995,
+            "p95": 59.172275,
+            "max": 59.6954,
+            "min": 54.2268
+          },
+          "raw_ms": [
+            54.8029,
+            54.2268,
+            55.7668,
+            54.9839,
+            54.847,
+            56.3223,
+            59.6954,
+            56.9358,
+            57.5554,
+            57.1481,
+            57.1915,
+            58.2382,
+            57.7791,
+            57.3745,
+            58.9979,
+            58.5639
+          ],
+          "gpu": {
+            "temp_c": 79,
+            "sm_mhz": 2535,
+            "power_w": 58.46
+          },
+          "token_stage_sums": [
+            {
+              "route": 3.231935992836952,
+              "shared_up": 1.865983985364437,
+              "shared_dn": 1.6250559836626053,
+              "host_gap": 3.556575994938612,
+              "up": 6.340992037206888,
+              "down_masked": 8.234527973458171,
+              "accum": 0.9119040002115071,
+              "layer_total": 25.76697599887848,
+              "up_waited": 0.34857600554823875,
+              "down_waited": 0.6115840077400208,
+              "miss_copy_batch": 1.4148479891009629,
+              "readback_host": 28.8399,
+              "experts_waited": 9
+            },
+            {
+              "route": 3.2541760206222534,
+              "shared_up": 1.7763519957661629,
+              "shared_dn": 1.5821759924292564,
+              "host_gap": 4.200512029230595,
+              "up": 6.3107520416378975,
+              "down_masked": 7.756223989650607,
+              "accum": 0.9163520014844835,
+              "layer_total": 25.796543896198273,
+              "up_waited": 0.7516799978911877,
+              "down_waited": 0.8002560064196587,
+              "miss_copy_batch": 2.033471975242719,
+              "readback_host": 30.4779,
+              "experts_waited": 15
+            },
+            {
+              "route": 3.2137919813394547,
+              "shared_up": 1.9184000045061111,
+              "shared_dn": 1.6081920191645622,
+              "host_gap": 4.775935962796211,
+              "up": 6.4757120087742805,
+              "down_masked": 8.149439979344606,
+              "accum": 0.9394239992834628,
+              "layer_total": 27.080896019935608,
+              "up_waited": 0.6663040071725845,
+              "down_waited": 0.9961599968373775,
+              "miss_copy_batch": 2.425759983016178,
+              "readback_host": 29.1751,
+              "experts_waited": 16
+            },
+            {
+              "route": 3.5127680003643036,
+              "shared_up": 1.876672014594078,
+              "shared_dn": 1.5981440097093582,
+              "host_gap": 4.451359950006008,
+              "up": 6.249568052589893,
+              "down_masked": 7.991904009133577,
+              "accum": 0.8510400014929473,
+              "layer_total": 26.531456112861633,
+              "up_waited": 0.6112960055470467,
+              "down_waited": 1.0373120084404945,
+              "miss_copy_batch": 2.2825600060168654,
+              "readback_host": 28.854699999999998,
+              "experts_waited": 16
+            },
+            {
+              "route": 3.1689920276403427,
+              "shared_up": 1.7385599911212921,
+              "shared_dn": 1.626208022236824,
+              "host_gap": 4.260255992412567,
+              "up": 6.164768040180206,
+              "down_masked": 8.217855973169208,
+              "accum": 0.8820160035975277,
+              "layer_total": 26.05865579843521,
+              "up_waited": 0.539936002343893,
+              "down_waited": 0.9073599949479103,
+              "miss_copy_batch": 2.024192015407607,
+              "readback_host": 31.5483,
+              "experts_waited": 14
+            },
+            {
+              "route": 3.1405440121889114,
+              "shared_up": 1.8928320035338402,
+              "shared_dn": 1.626784011721611,
+              "host_gap": 4.513887949287891,
+              "up": 6.595360040664673,
+              "down_masked": 8.06182399019599,
+              "accum": 1.1862399987876415,
+              "layer_total": 27.017471969127655,
+              "up_waited": 0.5875520072877407,
+              "down_waited": 0.7054079957306385,
+              "miss_copy_batch": 2.2756799734197557,
+              "readback_host": 29.4227,
+              "experts_waited": 14
+            },
+            {
+              "route": 3.7341759875416756,
+              "shared_up": 1.851967990398407,
+              "shared_dn": 1.6253440082073212,
+              "host_gap": 5.435935989022255,
+              "up": 7.1170240342617035,
+              "down_masked": 9.522432023659348,
+              "accum": 1.2481280099600554,
+              "layer_total": 30.535008132457733,
+              "up_waited": 0.7299840077757835,
+              "down_waited": 1.2867520041763783,
+              "miss_copy_batch": 2.886943979887292,
+              "readback_host": 29.6858,
+              "experts_waited": 19
+            },
+            {
+              "route": 3.698783978819847,
+              "shared_up": 1.9991040155291557,
+              "shared_dn": 1.6186880245804787,
+              "host_gap": 5.031807988882065,
+              "up": 6.491872005164623,
+              "down_masked": 8.050815982744098,
+              "accum": 1.099967998918146,
+              "layer_total": 27.991039991378784,
+              "up_waited": 0.6740480065345764,
+              "down_waited": 0.9074239954352379,
+              "miss_copy_batch": 2.317343985894695,
+              "readback_host": 28.9811,
+              "experts_waited": 16
+            },
+            {
+              "route": 3.3793919906020164,
+              "shared_up": 1.9360320046544075,
+              "shared_dn": 1.621152013540268,
+              "host_gap": 4.437215968966484,
+              "up": 6.755104009062052,
+              "down_masked": 8.98479999229312,
+              "accum": 1.1501440051943064,
+              "layer_total": 28.26384001970291,
+              "up_waited": 0.5687680020928383,
+              "down_waited": 0.7972479984164238,
+              "miss_copy_batch": 2.0712319978047162,
+              "readback_host": 29.6981,
+              "experts_waited": 13
+            },
+            {
+              "route": 3.3321920186281204,
+              "shared_up": 1.835199996829033,
+              "shared_dn": 1.640224002301693,
+              "host_gap": 5.6752640157938,
+              "up": 6.238912023603916,
+              "down_masked": 8.311007978394628,
+              "accum": 0.9168640030547976,
+              "layer_total": 27.94966435432434,
+              "up_waited": 1.0195840038359165,
+              "down_waited": 1.4909439980983734,
+              "miss_copy_batch": 3.6547200304921716,
+              "readback_host": 33.7744,
+              "experts_waited": 26
+            },
+            {
+              "route": 4.173663966357708,
+              "shared_up": 1.9112960025668144,
+              "shared_dn": 1.6456000059843063,
+              "host_gap": 4.503104023635387,
+              "up": 6.248736023902893,
+              "down_masked": 8.489951999858022,
+              "accum": 0.9106240044347942,
+              "layer_total": 27.88297575712204,
+              "up_waited": 0.7476480081677437,
+              "down_waited": 1.1807999983429909,
+              "miss_copy_batch": 2.5086719894316047,
+              "readback_host": 33.5038,
+              "experts_waited": 18
+            },
+            {
+              "route": 4.49251201748848,
+              "shared_up": 2.0560640171170235,
+              "shared_dn": 1.6745599955320358,
+              "host_gap": 4.615935996174812,
+              "up": 6.7782080210745335,
+              "down_masked": 7.863775992766023,
+              "accum": 1.0237440043129027,
+              "layer_total": 28.504799962043762,
+              "up_waited": 0.3923199996352196,
+              "down_waited": 0.5406399946659803,
+              "miss_copy_batch": 1.7372479976620525,
+              "readback_host": 32.6161,
+              "experts_waited": 10
+            },
+            {
+              "route": 3.738752029836178,
+              "shared_up": 2.1653760075569153,
+              "shared_dn": 1.6757760122418404,
+              "host_gap": 5.157600000500679,
+              "up": 6.661216005682945,
+              "down_masked": 7.951903969049454,
+              "accum": 0.8921600026078522,
+              "layer_total": 28.242784023284912,
+              "up_waited": 0.5548799969255924,
+              "down_waited": 0.8016640022397041,
+              "miss_copy_batch": 2.2688320230226964,
+              "readback_host": 30.2452,
+              "experts_waited": 14
+            },
+            {
+              "route": 3.1825280115008354,
+              "shared_up": 2.013151988387108,
+              "shared_dn": 1.6761600077152252,
+              "host_gap": 4.450239926576614,
+              "up": 6.469024013727903,
+              "down_masked": 8.904127966612577,
+              "accum": 0.9690880044363439,
+              "layer_total": 27.664320051670074,
+              "up_waited": 0.6712960004806519,
+              "down_waited": 1.027392003685236,
+              "miss_copy_batch": 2.467615992296487,
+              "readback_host": 34.3374,
+              "experts_waited": 17
+            },
+            {
+              "route": 3.6365119591355324,
+              "shared_up": 2.2529599964618683,
+              "shared_dn": 1.678112007677555,
+              "host_gap": 4.4302720203995705,
+              "up": 7.043136030435562,
+              "down_masked": 9.079807974398136,
+              "accum": 1.0481600034981966,
+              "layer_total": 29.168960094451904,
+              "up_waited": 0.5506880097091198,
+              "down_waited": 0.7751359939575195,
+              "miss_copy_batch": 1.9573119666893035,
+              "readback_host": 31.7128,
+              "experts_waited": 13
+            },
+            {
+              "route": 3.1587840244174004,
+              "shared_up": 1.9109439998865128,
+              "shared_dn": 1.681599996984005,
+              "host_gap": 5.250304028391838,
+              "up": 6.87721598893404,
+              "down_masked": 8.719936011359096,
+              "accum": 0.9813440036959946,
+              "layer_total": 28.580128073692322,
+              "up_waited": 0.8852160088717937,
+              "down_waited": 1.2866560034453869,
+              "miss_copy_batch": 2.866559972288087,
+              "readback_host": 33.2871,
+              "experts_waited": 20
+            }
+          ]
+        }
+      },
+      "cache": {
+        "hits": 27894,
+        "misses": 4260
+      }
+    },
+    "base1": {
+      "context_sweep": {
+        "0": {
+          "context": 0,
+          "ms": {
+            "n": 16,
+            "mean": 37.1897875,
+            "p50": 37.22825,
+            "p95": 38.6911,
+            "max": 39.649,
+            "min": 34.9583
+          },
+          "raw_ms": [
+            38.3718,
+            36.5949,
+            36.3113,
+            36.2404,
+            35.9447,
+            37.0472,
+            38.2424,
+            36.0807,
+            37.739,
+            37.6487,
+            38.2138,
+            34.9583,
+            38.1868,
+            36.3983,
+            37.4093,
+            39.649
+          ],
+          "gpu": {
+            "temp_c": 81,
+            "sm_mhz": 2587,
+            "power_w": 59.45
+          }
+        },
+        "262100": {
+          "context": 262100,
+          "ms": {
+            "n": 16,
+            "mean": 55.60436875,
+            "p50": 55.32835,
+            "p95": 58.815725,
+            "max": 58.8278,
+            "min": 52.3194
+          },
+          "raw_ms": [
+            55.2433,
+            58.8278,
+            52.3194,
+            58.8117,
+            56.8414,
+            57.545,
+            55.037,
+            55.9476,
+            55.172,
+            56.4919,
+            53.3735,
+            53.2296,
+            55.4134,
+            54.8044,
+            53.7737,
+            56.8382
+          ],
+          "gpu": {
+            "temp_c": 82,
+            "sm_mhz": 2437,
+            "power_w": 56.67
+          }
+        }
+      },
+      "cache": {
+        "hits": 27894,
+        "misses": 4260
+      }
+    }
+  },
+  "gates": {
+    "G_S14_C1": {
+      "requirement": "instrumented == uninstrumented, 2 prompts x 32 tokens",
+      "pass": true
+    },
+    "G_S14_P1_ctx0": {
+      "requirement": "probe overhead <= 20% of baseline p50",
+      "base0_p50": 36.27335,
+      "base1_p50": 37.22825,
+      "probed_p50": 41.24785,
+      "overhead_ms": 4.4970500000000015,
+      "overhead_frac": 0.12236604373238139,
+      "conclusive": true
+    },
+    "G_S14_S1_ctx0": {
+      "requirement": "segment sum <= probed token p50, segments >= 0",
+      "mean_layer_sum_ms": 27.740999974310398,
+      "probed_p50_ms": 41.24785,
+      "segments_nonnegative": true,
+      "pass": true
+    },
+    "G_S14_P1_ctx262100": {
+      "requirement": "probe overhead <= 20% of baseline p50",
+      "base0_p50": 53.00385,
+      "base1_p50": 55.32835,
+      "probed_p50": 57.169799999999995,
+      "overhead_ms": 3.003699999999995,
+      "overhead_frac": 0.0554535032058796,
+      "conclusive": true
+    },
+    "G_S14_S1_ctx262100": {
+      "requirement": "segment sum <= probed token p50, segments >= 0, >= half the S8 MoE term",
+      "mean_layer_sum_ms": 27.689720015972853,
+      "probed_p50_ms": 57.169799999999995,
+      "segments_nonnegative": true,
+      "pass": true
+    }
+  },
+  "gpu": {
+    "temp_c": 82,
+    "sm_mhz": 2437,
+    "power_w": 56.67
+  },
+  "claim_boundary": "CUDA-event timeline of the real decode loop on this GPU at capacity 72. Events timestamp stream progress; no host sync is added inside a token. Stream segments are wall time on the stream and contain both work and event-waits by design; miss_copy_batch is measured on the copy stream and is NOT part of the layer totals. The 262100 context uses the established pos-jump protocol (64 real tokens, pos set, 32 warm, 16 measured). Attribution only: nothing is built, nothing is converted to tokens per second, no quality claim, no statement about other hardware."
+}

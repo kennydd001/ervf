@@ -1,0 +1,2162 @@
+﻿{
+    "kind":  "het_next_l0_ph1_nvidia_nc13_generic_topology_fixture_manifest",
+    "revision":  "NC13-design-only",
+    "schema_version":  1,
+    "shared_contract":  {
+                            "module":  "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_contract.py",
+                            "stdlib_only":  true,
+                            "import_inert":  true,
+                            "exports":  [
+                                            "paths_for_revision",
+                                            "classify_topology"
+                                        ],
+                            "manual_revision_branches_forbidden":  true,
+                            "descriptor_and_functions_same_object_and_code_in_runner_preflight_verifier":  true
+                        },
+    "descriptor_fields":  [
+                              "revision",
+                              "prefix",
+                              "phase_roots",
+                              "inprogress_patterns",
+                              "caps"
+                          ],
+    "path_generation":  {
+                            "prefix_support_templates":  [
+                                                             "scripts/streamq5_moe/het_next_l0_ph1_nvidia_{prefix}_compile_contract.py",
+                                                             "scripts/streamq5_moe/run_het_next_l0_ph1_nvidia_{prefix}_compile_only.py",
+                                                             "scripts/streamq5_moe/verify_het_next_l0_ph1_nvidia_{prefix}_compile_only.py",
+                                                             "scripts/streamq5_moe/preflight_het_next_l0_ph1_nvidia_{prefix}_compile_only.py",
+                                                             "reports/streamq5_moe/het_next_l0_ph1_nvidia_{prefix}_source_lock.json",
+                                                             "reports/streamq5_moe/het_next_l0_ph1_nvidia_{prefix}_preflight_lock.json",
+                                                             "reports/streamq5_moe/het_next_l0_ph1_nvidia_{prefix}_verifier_lock.json"
+                                                         ],
+                            "phase_rule":  "flatten exact phase_roots arrays",
+                            "normalization":  "forward slash, no dot segments, unique ordinal sort",
+                            "return":  "paths plus inprogress_patterns"
+                        },
+    "descriptors":  [
+                        {
+                            "revision":  "NC8",
+                            "prefix":  [
+                                           "nc8"
+                                       ],
+                            "phase_roots":  {
+                                                "preflight_result":  [
+                                                                         "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_static_preflight_result.json"
+                                                                     ],
+                                                "preflight_fail":  [
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_static_preflight_failures"
+                                                                   ],
+                                                "preflight_quar":  [
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_static_preflight_quarantine"
+                                                                   ],
+                                                "durability":  [
+
+                                                               ],
+                                                "compile_pos":  [
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_compile_only"
+                                                                ],
+                                                "compile_neg":  [
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_compile_only_negative"
+                                                                ],
+                                                "compile_fail":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_compile_only_incidental_failures"
+                                                                 ],
+                                                "compile_quar":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_compile_only_quarantine"
+                                                                 ],
+                                                "verifier_pos":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_independent_verification"
+                                                                 ],
+                                                "verifier_neg":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_independent_verification_negative"
+                                                                 ],
+                                                "verifier_fail":  [
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_independent_verification_failures"
+                                                                  ],
+                                                "verifier_quar":  [
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_independent_verification_quarantine"
+                                                                  ]
+                                            },
+                            "inprogress_patterns":  [
+                                                        "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_*.inprogress.*"
+                                                    ],
+                            "caps":  {
+                                         "fixture_manifest":  8388608,
+                                         "json_each":  4194304,
+                                         "total_bundle":  67108864
+                                     }
+                        },
+                        {
+                            "revision":  "NC9",
+                            "prefix":  [
+                                           "nc9"
+                                       ],
+                            "phase_roots":  {
+                                                "preflight_result":  [
+                                                                         "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_result.json"
+                                                                     ],
+                                                "preflight_fail":  [
+
+                                                                   ],
+                                                "preflight_quar":  [
+
+                                                                   ],
+                                                "durability":  [
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_durability_adjudication",
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_durability_adjudication"
+                                                               ],
+                                                "compile_pos":  [
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_compile_only"
+                                                                ],
+                                                "compile_neg":  [
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_compile_only_negative"
+                                                                ],
+                                                "compile_fail":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_compile_only_incidental_failures"
+                                                                 ],
+                                                "compile_quar":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_compile_only_quarantine"
+                                                                 ],
+                                                "verifier_pos":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_independent_verification"
+                                                                 ],
+                                                "verifier_neg":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_independent_verification_negative"
+                                                                 ],
+                                                "verifier_fail":  [
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_independent_verification_failures"
+                                                                  ],
+                                                "verifier_quar":  [
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_independent_verification_quarantine"
+                                                                  ]
+                                            },
+                            "inprogress_patterns":  [
+                                                        "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_*.inprogress.*"
+                                                    ],
+                            "caps":  {
+                                         "fixture_manifest":  8388608,
+                                         "json_each":  4194304,
+                                         "total_bundle":  67108864
+                                     }
+                        },
+                        {
+                            "revision":  "NC10",
+                            "prefix":  [
+                                           "nc10"
+                                       ],
+                            "phase_roots":  {
+                                                "preflight_result":  [
+                                                                         "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_result.json"
+                                                                     ],
+                                                "preflight_fail":  [
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_failures",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_failures"
+                                                                   ],
+                                                "preflight_quar":  [
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_quarantine",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_quarantine"
+                                                                   ],
+                                                "durability":  [
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_durability_adjudication",
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_durability_adjudication"
+                                                               ],
+                                                "compile_pos":  [
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only"
+                                                                ],
+                                                "compile_neg":  [
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_negative"
+                                                                ],
+                                                "compile_fail":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_incidental_failures"
+                                                                 ],
+                                                "compile_quar":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_quarantine"
+                                                                 ],
+                                                "verifier_pos":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification"
+                                                                 ],
+                                                "verifier_neg":  [
+
+                                                                 ],
+                                                "verifier_fail":  [
+
+                                                                  ],
+                                                "verifier_quar":  [
+
+                                                                  ]
+                                            },
+                            "inprogress_patterns":  [
+                                                        "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_*.inprogress.*"
+                                                    ],
+                            "caps":  {
+                                         "fixture_manifest":  8388608,
+                                         "json_each":  4194304,
+                                         "total_bundle":  67108864
+                                     }
+                        },
+                        {
+                            "revision":  "NC11",
+                            "prefix":  [
+                                           "nc10",
+                                           "nc11"
+                                       ],
+                            "phase_roots":  {
+                                                "preflight_result":  [
+                                                                         "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_result.json",
+                                                                         "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_result.json"
+                                                                     ],
+                                                "preflight_fail":  [
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_failures",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_failures",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_failures"
+                                                                   ],
+                                                "preflight_quar":  [
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_quarantine",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_quarantine",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_quarantine"
+                                                                   ],
+                                                "durability":  [
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_durability_adjudication",
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_durability_adjudication",
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_durability_adjudication",
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_durability_adjudication"
+                                                               ],
+                                                "compile_pos":  [
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only",
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only"
+                                                                ],
+                                                "compile_neg":  [
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_negative",
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_negative"
+                                                                ],
+                                                "compile_fail":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_incidental_failures",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_incidental_failures"
+                                                                 ],
+                                                "compile_quar":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_quarantine",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_quarantine"
+                                                                 ],
+                                                "verifier_pos":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification"
+                                                                 ],
+                                                "verifier_neg":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_negative",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_negative"
+                                                                 ],
+                                                "verifier_fail":  [
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_failures",
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_failures"
+                                                                  ],
+                                                "verifier_quar":  [
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_quarantine",
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_quarantine"
+                                                                  ]
+                                            },
+                            "inprogress_patterns":  [
+                                                        "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_*.inprogress.*",
+                                                        "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_*.inprogress.*"
+                                                    ],
+                            "caps":  {
+                                         "fixture_manifest":  8388608,
+                                         "json_each":  4194304,
+                                         "total_bundle":  67108864
+                                     }
+                        },
+                        {
+                            "revision":  "NC12",
+                            "prefix":  [
+                                           "nc10",
+                                           "nc11",
+                                           "nc12"
+                                       ],
+                            "phase_roots":  {
+                                                "preflight_result":  [
+                                                                         "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_result.json",
+                                                                         "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_result.json",
+                                                                         "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_result.json"
+                                                                     ],
+                                                "preflight_fail":  [
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_failures",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_failures",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_failures",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_failures"
+                                                                   ],
+                                                "preflight_quar":  [
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_quarantine",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_quarantine",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_quarantine",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_quarantine"
+                                                                   ],
+                                                "durability":  [
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_durability_adjudication",
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_durability_adjudication",
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_durability_adjudication",
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_durability_adjudication",
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_durability_adjudication"
+                                                               ],
+                                                "compile_pos":  [
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only",
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only",
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only"
+                                                                ],
+                                                "compile_neg":  [
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_negative",
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_negative",
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_negative"
+                                                                ],
+                                                "compile_fail":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_incidental_failures",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_incidental_failures",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_incidental_failures"
+                                                                 ],
+                                                "compile_quar":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_quarantine",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_quarantine",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_quarantine"
+                                                                 ],
+                                                "verifier_pos":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification"
+                                                                 ],
+                                                "verifier_neg":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_negative",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_negative",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_negative"
+                                                                 ],
+                                                "verifier_fail":  [
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_failures",
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_failures",
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_failures"
+                                                                  ],
+                                                "verifier_quar":  [
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_quarantine",
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_quarantine",
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_quarantine"
+                                                                  ]
+                                            },
+                            "inprogress_patterns":  [
+                                                        "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_*.inprogress.*",
+                                                        "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_*.inprogress.*",
+                                                        "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_*.inprogress.*"
+                                                    ],
+                            "caps":  {
+                                         "fixture_manifest":  8388608,
+                                         "json_each":  4194304,
+                                         "total_bundle":  67108864
+                                     }
+                        },
+                        {
+                            "revision":  "NC13",
+                            "prefix":  [
+                                           "nc10",
+                                           "nc11",
+                                           "nc12",
+                                           "nc13"
+                                       ],
+                            "phase_roots":  {
+                                                "preflight_result":  [
+                                                                         "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_result.json",
+                                                                         "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_result.json",
+                                                                         "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_result.json",
+                                                                         "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_static_preflight_result.json"
+                                                                     ],
+                                                "preflight_fail":  [
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_failures",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_failures",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_failures",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_static_preflight_failures",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_failures"
+                                                                   ],
+                                                "preflight_quar":  [
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_quarantine",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_quarantine",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_quarantine",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_static_preflight_quarantine",
+                                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_quarantine"
+                                                                   ],
+                                                "durability":  [
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_durability_adjudication",
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_durability_adjudication",
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_durability_adjudication",
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_durability_adjudication",
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_durability_adjudication",
+                                                                   "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_durability_adjudication"
+                                                               ],
+                                                "compile_pos":  [
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only",
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only",
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only",
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only"
+                                                                ],
+                                                "compile_neg":  [
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_negative",
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_negative",
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_negative",
+                                                                    "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only_negative"
+                                                                ],
+                                                "compile_fail":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_incidental_failures",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_incidental_failures",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_incidental_failures",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only_incidental_failures"
+                                                                 ],
+                                                "compile_quar":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_quarantine",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_quarantine",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_quarantine",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only_quarantine"
+                                                                 ],
+                                                "verifier_pos":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification"
+                                                                 ],
+                                                "verifier_neg":  [
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_negative",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_negative",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_negative",
+                                                                     "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification_negative"
+                                                                 ],
+                                                "verifier_fail":  [
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_failures",
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_failures",
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_failures",
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification_failures"
+                                                                  ],
+                                                "verifier_quar":  [
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_quarantine",
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_quarantine",
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_quarantine",
+                                                                      "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification_quarantine"
+                                                                  ]
+                                            },
+                            "inprogress_patterns":  [
+                                                        "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_*.inprogress.*",
+                                                        "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_*.inprogress.*",
+                                                        "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_*.inprogress.*",
+                                                        "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_*.inprogress.*"
+                                                    ],
+                            "caps":  {
+                                         "fixture_manifest":  8388608,
+                                         "json_each":  4194304,
+                                         "total_bundle":  67108864
+                                     }
+                        }
+                    ],
+    "historical_lock_expectations":  [
+                                         {
+                                             "revision":  "NC8",
+                                             "lock_path":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_design_lock.json",
+                                             "lock_sha256":  "189cd733907ce971e539ba3b1e76eddee83a62525cb4f979958ffe3ed230b327",
+                                             "path_count":  18,
+                                             "canonical_pathset_sha256":  "a65b4cd317bb8a0477558cced66af3232af73998f841e8ee7d4a1f9d7c5d8748"
+                                         },
+                                         {
+                                             "revision":  "NC9",
+                                             "lock_path":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_design_lock.json",
+                                             "lock_sha256":  "914a22a68548b32f8fe62f5092d6c0b39776a16192bbeb1a388aed2d7a062f89",
+                                             "path_count":  18,
+                                             "canonical_pathset_sha256":  "f2b7164f238ea5bce632bbb38bec6b8e3afa95cb4700dd4a3c69ac601fbfe1ee"
+                                         },
+                                         {
+                                             "revision":  "NC10",
+                                             "lock_path":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_design_lock.json",
+                                             "lock_sha256":  "518e445a4a322e2f44221e3837034e1f5b30a2a14690a88b520cfa16e977947c",
+                                             "path_count":  19,
+                                             "canonical_pathset_sha256":  "82da115ca1332e0b6560d1f338700bce41fe7a2d610f49e059da64543a1b68cc"
+                                         },
+                                         {
+                                             "revision":  "NC11",
+                                             "lock_path":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_design_lock.json",
+                                             "lock_sha256":  "2a471fb13345f9a2eaaf87ae023fd7d207c956909f319ed803ec851bc454ce4c",
+                                             "path_count":  42,
+                                             "canonical_pathset_sha256":  "6e662cd9baccb14604f785a8b9dcf4cb7de57da9bb5bd4625a92620d222ae26e"
+                                         },
+                                         {
+                                             "revision":  "NC12",
+                                             "lock_path":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_design_lock.json",
+                                             "lock_sha256":  "b186cb71b6c2019fdb2a1e554889db477351ed0523cae3b483e217aa1bc32b6a",
+                                             "path_count":  61,
+                                             "canonical_pathset_sha256":  "f9d2f8c39b8f015f1fab7223567d65d48d716e1cebbe5962a754fe50b2458818"
+                                         }
+                                     ],
+    "current_expectation":  {
+                                "revision":  "NC13",
+                                "path_count":  80,
+                                "canonical_pathset_sha256":  "27c8229d1faae359c6eb91fae963fd73452e85fa219275fdefa7fb0a502949eb",
+                                "expected_paths":  [
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_incidental_failures",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_negative",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_quarantine",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_durability_adjudication",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_failures",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_negative",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_quarantine",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_preflight_lock.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_source_lock.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_failures",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_quarantine",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_result.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_verifier_lock.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_incidental_failures",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_negative",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_quarantine",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_durability_adjudication",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_failures",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_negative",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_quarantine",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_preflight_lock.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_source_lock.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_failures",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_quarantine",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_result.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_verifier_lock.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_incidental_failures",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_negative",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_quarantine",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_durability_adjudication",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_failures",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_negative",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_quarantine",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_preflight_lock.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_source_lock.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_failures",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_quarantine",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_result.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_verifier_lock.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only_incidental_failures",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only_negative",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only_quarantine",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_durability_adjudication",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification_failures",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification_negative",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification_quarantine",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_preflight_lock.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_source_lock.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_static_preflight_failures",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_static_preflight_quarantine",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_static_preflight_result.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_verifier_lock.json",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_durability_adjudication",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_durability_adjudication",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_failures",
+                                                       "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_quarantine",
+                                                       "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_contract.py",
+                                                       "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_contract.py",
+                                                       "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_contract.py",
+                                                       "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_contract.py",
+                                                       "scripts/streamq5_moe/preflight_het_next_l0_ph1_nvidia_nc10_compile_only.py",
+                                                       "scripts/streamq5_moe/preflight_het_next_l0_ph1_nvidia_nc11_compile_only.py",
+                                                       "scripts/streamq5_moe/preflight_het_next_l0_ph1_nvidia_nc12_compile_only.py",
+                                                       "scripts/streamq5_moe/preflight_het_next_l0_ph1_nvidia_nc13_compile_only.py",
+                                                       "scripts/streamq5_moe/run_het_next_l0_ph1_nvidia_nc10_compile_only.py",
+                                                       "scripts/streamq5_moe/run_het_next_l0_ph1_nvidia_nc11_compile_only.py",
+                                                       "scripts/streamq5_moe/run_het_next_l0_ph1_nvidia_nc12_compile_only.py",
+                                                       "scripts/streamq5_moe/run_het_next_l0_ph1_nvidia_nc13_compile_only.py",
+                                                       "scripts/streamq5_moe/verify_het_next_l0_ph1_nvidia_nc10_compile_only.py",
+                                                       "scripts/streamq5_moe/verify_het_next_l0_ph1_nvidia_nc11_compile_only.py",
+                                                       "scripts/streamq5_moe/verify_het_next_l0_ph1_nvidia_nc12_compile_only.py",
+                                                       "scripts/streamq5_moe/verify_het_next_l0_ph1_nvidia_nc13_compile_only.py"
+                                                   ]
+                            },
+    "case_count":  198,
+    "cases":  [
+                  {
+                      "name":  "nc13_fresh",
+                      "descriptor":  "NC13",
+                      "mutation":  "none",
+                      "target":  null,
+                      "expected_class":  "fresh",
+                      "expected_valid":  true
+                  },
+                  {
+                      "name":  "nc13_each_root_file_8c6eaf3c9c6f",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_8c6eaf3c9c6f",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_9657a97eb526",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_incidental_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_9657a97eb526",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_incidental_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_2275df1a2a92",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_2275df1a2a92",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_2cb328979de3",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_2cb328979de3",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_only_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_c2bc90a921fa",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_durability_adjudication",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_c2bc90a921fa",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_durability_adjudication",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_54dd7a13dbdd",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_54dd7a13dbdd",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_7ac83b4eef60",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_7ac83b4eef60",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_79989677f44b",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_79989677f44b",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_82a3902c324f",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_82a3902c324f",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_independent_verification_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_031531d5be64",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_preflight_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_031531d5be64",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_preflight_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_c7aac06faadb",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_source_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_c7aac06faadb",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_source_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_eacb09a14644",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_eacb09a14644",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_a46a1838d077",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_a46a1838d077",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_e8956a4eccc1",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_result.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_e8956a4eccc1",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_static_preflight_result.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_d6ba1bf9073f",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_verifier_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_d6ba1bf9073f",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc10_verifier_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_f5da4763805d",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_f5da4763805d",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_c5ee23e49b17",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_incidental_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_c5ee23e49b17",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_incidental_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_427ef5baa583",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_427ef5baa583",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_a3046cfeb1e7",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_a3046cfeb1e7",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_only_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_714dfd0a6a49",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_durability_adjudication",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_714dfd0a6a49",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_durability_adjudication",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_d236fbbd2982",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_d236fbbd2982",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_4b6c1f696a19",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_4b6c1f696a19",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_562b9c8c016c",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_562b9c8c016c",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_c18dd68943d4",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_c18dd68943d4",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_independent_verification_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_eb9e3e1bb81a",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_preflight_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_eb9e3e1bb81a",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_preflight_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_113e4ddf380d",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_source_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_113e4ddf380d",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_source_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_fc4d45416ab8",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_fc4d45416ab8",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_782530a53488",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_782530a53488",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_d99c70b17f2e",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_result.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_d99c70b17f2e",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_static_preflight_result.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_6988f5606ecb",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_verifier_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_6988f5606ecb",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc11_verifier_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_ba1c245cffe8",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_ba1c245cffe8",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_0e707bd747f5",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_incidental_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_0e707bd747f5",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_incidental_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_b1362b4b38a1",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_b1362b4b38a1",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_d5b4d6a6356b",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_d5b4d6a6356b",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_only_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_c2f4ed8d452b",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_durability_adjudication",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_c2f4ed8d452b",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_durability_adjudication",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_09bc1b8ff832",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_09bc1b8ff832",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_93625e08c4a0",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_93625e08c4a0",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_97a4a81e5f45",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_97a4a81e5f45",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_cdf613a44b4d",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_cdf613a44b4d",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_independent_verification_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_64e74f8f6830",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_preflight_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_64e74f8f6830",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_preflight_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_460973d0244a",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_source_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_460973d0244a",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_source_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_265353a8b879",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_265353a8b879",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_58dfeba3ac5a",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_58dfeba3ac5a",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_0fbd0754ab36",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_result.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_0fbd0754ab36",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_static_preflight_result.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_462b79e44a9b",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_verifier_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_462b79e44a9b",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc12_verifier_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_1e3b3ac96fe4",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_1e3b3ac96fe4",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_74073c591c9a",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only_incidental_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_74073c591c9a",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only_incidental_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_ba8e906697f1",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_ba8e906697f1",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_190f52f56eed",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_190f52f56eed",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_only_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_24fa424dff38",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_durability_adjudication",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_24fa424dff38",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_durability_adjudication",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_5b84eeb9e11f",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_5b84eeb9e11f",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_385aaef2d688",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_385aaef2d688",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_7fb1f20ea71a",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_7fb1f20ea71a",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification_negative",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_0ef64077b340",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_0ef64077b340",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_independent_verification_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_04c98d09d0ef",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_preflight_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_04c98d09d0ef",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_preflight_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_6d5ffba4504e",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_source_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_6d5ffba4504e",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_source_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_3c9cb342171a",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_static_preflight_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_3c9cb342171a",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_static_preflight_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_ab829487375e",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_static_preflight_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_ab829487375e",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_static_preflight_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_52949a4fa691",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_static_preflight_result.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_52949a4fa691",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_static_preflight_result.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_e0afda1c0acb",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_verifier_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_e0afda1c0acb",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc13_verifier_lock.json",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_e0cc1d1cf9a7",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_durability_adjudication",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_e0cc1d1cf9a7",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc8_durability_adjudication",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_72a78c09c184",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_durability_adjudication",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_72a78c09c184",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_durability_adjudication",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_103ff0c586e7",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_103ff0c586e7",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_failures",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_6779f3677aad",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_6779f3677aad",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "reports/streamq5_moe/het_next_l0_ph1_nvidia_nc9_static_preflight_quarantine",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_0629628006b6",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_contract.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_0629628006b6",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc10_compile_contract.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_a52dcdac61c9",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_contract.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_a52dcdac61c9",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc11_compile_contract.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_d20a600399d8",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_contract.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_d20a600399d8",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc12_compile_contract.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_e483f0d97188",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_contract.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_e483f0d97188",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/het_next_l0_ph1_nvidia_nc13_compile_contract.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_87f5782f4922",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/preflight_het_next_l0_ph1_nvidia_nc10_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_87f5782f4922",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/preflight_het_next_l0_ph1_nvidia_nc10_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_bf688feaeccf",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/preflight_het_next_l0_ph1_nvidia_nc11_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_bf688feaeccf",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/preflight_het_next_l0_ph1_nvidia_nc11_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_2a585cd60ea4",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/preflight_het_next_l0_ph1_nvidia_nc12_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_2a585cd60ea4",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/preflight_het_next_l0_ph1_nvidia_nc12_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_c526ac91d7b4",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/preflight_het_next_l0_ph1_nvidia_nc13_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_c526ac91d7b4",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/preflight_het_next_l0_ph1_nvidia_nc13_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_cea01f0a298b",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/run_het_next_l0_ph1_nvidia_nc10_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_cea01f0a298b",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/run_het_next_l0_ph1_nvidia_nc10_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_06fed0156d92",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/run_het_next_l0_ph1_nvidia_nc11_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_06fed0156d92",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/run_het_next_l0_ph1_nvidia_nc11_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_d2cdc4a2f6ce",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/run_het_next_l0_ph1_nvidia_nc12_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_d2cdc4a2f6ce",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/run_het_next_l0_ph1_nvidia_nc12_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_6cf86abe2994",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/run_het_next_l0_ph1_nvidia_nc13_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_6cf86abe2994",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/run_het_next_l0_ph1_nvidia_nc13_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_542baf2365cf",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/verify_het_next_l0_ph1_nvidia_nc10_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_542baf2365cf",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/verify_het_next_l0_ph1_nvidia_nc10_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_c2629b878a79",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/verify_het_next_l0_ph1_nvidia_nc11_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_c2629b878a79",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/verify_het_next_l0_ph1_nvidia_nc11_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_83e2d9b3fe2a",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/verify_het_next_l0_ph1_nvidia_nc12_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_83e2d9b3fe2a",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/verify_het_next_l0_ph1_nvidia_nc12_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_file_c03c456440cf",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_file",
+                      "target":  "scripts/streamq5_moe/verify_het_next_l0_ph1_nvidia_nc13_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_each_root_directory_c03c456440cf",
+                      "descriptor":  "NC13",
+                      "mutation":  "root_directory",
+                      "target":  "scripts/streamq5_moe/verify_het_next_l0_ph1_nvidia_nc13_compile_only.py",
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_valid_terminal",
+                      "descriptor":  "NC13",
+                      "mutation":  "valid_terminal",
+                      "target":  null,
+                      "expected_class":  "compile_positive",
+                      "expected_valid":  true
+                  },
+                  {
+                      "name":  "nc13_single_debris",
+                      "descriptor":  "NC13",
+                      "mutation":  "single_debris",
+                      "target":  null,
+                      "expected_class":  "recoverable_debris",
+                      "expected_valid":  true
+                  },
+                  {
+                      "name":  "nc13_missing",
+                      "descriptor":  "NC13",
+                      "mutation":  "missing",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_orphan",
+                      "descriptor":  "NC13",
+                      "mutation":  "orphan",
+                      "target":  null,
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_collision",
+                      "descriptor":  "NC13",
+                      "mutation":  "collision",
+                      "target":  null,
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_mixed",
+                      "descriptor":  "NC13",
+                      "mutation":  "mixed",
+                      "target":  null,
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_multiple",
+                      "descriptor":  "NC13",
+                      "mutation":  "multiple",
+                      "target":  null,
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_oversize",
+                      "descriptor":  "NC13",
+                      "mutation":  "oversize",
+                      "target":  null,
+                      "expected_class":  "invalid_topology",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_drop_path",
+                      "descriptor":  "NC13",
+                      "mutation":  "drop_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_duplicate_path",
+                      "descriptor":  "NC13",
+                      "mutation":  "duplicate_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_wrong_revision",
+                      "descriptor":  "NC13",
+                      "mutation":  "wrong_revision",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc13_wrong_path",
+                      "descriptor":  "NC13",
+                      "mutation":  "wrong_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc8_property_exact_lockset",
+                      "descriptor":  "NC8",
+                      "mutation":  "exact_lockset",
+                      "target":  null,
+                      "expected_class":  "historical_lockset_equal",
+                      "expected_valid":  true
+                  },
+                  {
+                      "name":  "nc8_property_drop_path",
+                      "descriptor":  "NC8",
+                      "mutation":  "drop_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc8_property_duplicate_path",
+                      "descriptor":  "NC8",
+                      "mutation":  "duplicate_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc8_property_wrong_revision",
+                      "descriptor":  "NC8",
+                      "mutation":  "wrong_revision",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc8_property_wrong_path",
+                      "descriptor":  "NC8",
+                      "mutation":  "wrong_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc9_property_exact_lockset",
+                      "descriptor":  "NC9",
+                      "mutation":  "exact_lockset",
+                      "target":  null,
+                      "expected_class":  "historical_lockset_equal",
+                      "expected_valid":  true
+                  },
+                  {
+                      "name":  "nc9_property_drop_path",
+                      "descriptor":  "NC9",
+                      "mutation":  "drop_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc9_property_duplicate_path",
+                      "descriptor":  "NC9",
+                      "mutation":  "duplicate_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc9_property_wrong_revision",
+                      "descriptor":  "NC9",
+                      "mutation":  "wrong_revision",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc9_property_wrong_path",
+                      "descriptor":  "NC9",
+                      "mutation":  "wrong_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc10_property_exact_lockset",
+                      "descriptor":  "NC10",
+                      "mutation":  "exact_lockset",
+                      "target":  null,
+                      "expected_class":  "historical_lockset_equal",
+                      "expected_valid":  true
+                  },
+                  {
+                      "name":  "nc10_property_drop_path",
+                      "descriptor":  "NC10",
+                      "mutation":  "drop_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc10_property_duplicate_path",
+                      "descriptor":  "NC10",
+                      "mutation":  "duplicate_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc10_property_wrong_revision",
+                      "descriptor":  "NC10",
+                      "mutation":  "wrong_revision",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc10_property_wrong_path",
+                      "descriptor":  "NC10",
+                      "mutation":  "wrong_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc11_property_exact_lockset",
+                      "descriptor":  "NC11",
+                      "mutation":  "exact_lockset",
+                      "target":  null,
+                      "expected_class":  "historical_lockset_equal",
+                      "expected_valid":  true
+                  },
+                  {
+                      "name":  "nc11_property_drop_path",
+                      "descriptor":  "NC11",
+                      "mutation":  "drop_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc11_property_duplicate_path",
+                      "descriptor":  "NC11",
+                      "mutation":  "duplicate_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc11_property_wrong_revision",
+                      "descriptor":  "NC11",
+                      "mutation":  "wrong_revision",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc11_property_wrong_path",
+                      "descriptor":  "NC11",
+                      "mutation":  "wrong_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc12_property_exact_lockset",
+                      "descriptor":  "NC12",
+                      "mutation":  "exact_lockset",
+                      "target":  null,
+                      "expected_class":  "historical_lockset_equal",
+                      "expected_valid":  true
+                  },
+                  {
+                      "name":  "nc12_property_drop_path",
+                      "descriptor":  "NC12",
+                      "mutation":  "drop_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc12_property_duplicate_path",
+                      "descriptor":  "NC12",
+                      "mutation":  "duplicate_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc12_property_wrong_revision",
+                      "descriptor":  "NC12",
+                      "mutation":  "wrong_revision",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  },
+                  {
+                      "name":  "nc12_property_wrong_path",
+                      "descriptor":  "NC12",
+                      "mutation":  "wrong_path",
+                      "target":  null,
+                      "expected_class":  "invalid_descriptor",
+                      "expected_valid":  false
+                  }
+              ]
+}

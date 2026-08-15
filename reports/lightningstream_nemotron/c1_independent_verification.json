@@ -1,0 +1,117 @@
+{
+  "kind": "lightningstream_nemotron_c1_independent_verification",
+  "completed_utc": "2026-08-15T12:47:44.295972+00:00",
+  "verifier_sha256": "f64f1a1e51198f3f02e3b82fb1a79cbced44ffe50a661041c53680d55eaf3acf",
+  "verified_file_sha256": "72f6c67b288d3f6b3ccdf885839a44ee78f09b538d107eda6a72716d65cd2819",
+  "recomputed": {
+    "per_core": {
+      "2": {
+        "certified_fraction": 0.003324802442528736,
+        "false_certificates": 0,
+        "rows": 445440,
+        "mean_bound": 22.615929142322646,
+        "mean_abs_y0": 0.7274737955478398,
+        "bound_over_y0": 31.088307621158002
+      },
+      "3": {
+        "certified_fraction": 0.003327047413793103,
+        "false_certificates": 0,
+        "rows": 445440,
+        "mean_bound": 10.490007363448846,
+        "mean_abs_y0": 1.1574835525473017,
+        "bound_over_y0": 9.062770127802885
+      }
+    },
+    "true_zero_fraction": 0.9063644935344828,
+    "best_core": "3"
+  },
+  "gates": {
+    "G_C1_S1": true,
+    "G_C1_R1": false,
+    "G_C1_B1": false
+  },
+  "checks": [
+    {
+      "check": "at least 200 (expert, activation) pairs",
+      "ok": true,
+      "pairs": 240
+    },
+    {
+      "check": "pairs span more than one MoE layer",
+      "ok": true,
+      "layers": 23
+    },
+    {
+      "check": "pairs span many distinct experts",
+      "ok": true,
+      "experts": 102
+    },
+    {
+      "check": "core 2: certified fraction reproduces from per-pair records",
+      "ok": true,
+      "recomputed": 0.003324802442528736,
+      "stored": 0.003324802442528736
+    },
+    {
+      "check": "core 2: false-certificate total reproduces",
+      "ok": true
+    },
+    {
+      "check": "core 2: row count reproduces",
+      "ok": true
+    },
+    {
+      "check": "core 2: the bound is SOUND (zero false certificates)",
+      "ok": true
+    },
+    {
+      "check": "core 3: certified fraction reproduces from per-pair records",
+      "ok": true,
+      "recomputed": 0.003327047413793103,
+      "stored": 0.0033270474137931036
+    },
+    {
+      "check": "core 3: false-certificate total reproduces",
+      "ok": true
+    },
+    {
+      "check": "core 3: row count reproduces",
+      "ok": true
+    },
+    {
+      "check": "core 3: the bound is SOUND (zero false certificates)",
+      "ok": true
+    },
+    {
+      "check": "true-zero fraction is consistent with S5's ~91% ReLU2 sparsity",
+      "ok": true,
+      "measured": 0.9063644935344828
+    },
+    {
+      "check": "G-C1-S1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "G-C1-R1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "G-C1-B1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "gates are still the pack's own 30% thresholds",
+      "ok": true
+    },
+    {
+      "check": "claim boundary names the upper-bound nature of the bound",
+      "ok": true
+    },
+    {
+      "check": "runtime.py hashes to the measured value",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

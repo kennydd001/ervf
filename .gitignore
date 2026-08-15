@@ -1,0 +1,37 @@
+# Virtualenvs -- ~4 GB of CUDA DLLs, several single files over GitHub's 100 MB
+# hard limit. Recreate from requirements.txt / pyproject.toml.
+.venv/
+.venv-*/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Model weights and quantised banks. Tens of GB; not research output.
+models/
+*.safetensors
+*.bin
+*.gguf
+*.q8bin
+*.bf16bin
+*.gpk
+*.inprogress
+
+# Caches, vendored code, corpora
+.cache/
+third_party/
+data/traces/
+data/corpora/
+*.parquet
+
+# Raw oracle dumps that exceed GitHub's 100 MB per-file hard limit, or come
+# close enough to trip its warning. The reports that summarise them ARE tracked;
+# the dumps themselves are reproducible from the runners in scripts/.
+reports/craft_moe/crcq_full_oracle.json
+reports/craft_moe/crcq_layer23_downstream.json
+reports/craft_moe/atomic_full_depth_oracle.json
+reports/craft_moe/block_route_coalescing.json
+reports/craft_moe/crcq_oracle.json
+
+# Distribution archives -- these are snapshots OF the repo content
+*.zip

@@ -1,0 +1,55 @@
+project: SWEEPSPEC_50
+created_at: 2026-08-14
+status: proposed_two_program_registry
+programs:
+  LIGHTNINGFLASH_50:
+    target: public Nemotron 3 Nano / verified local checkpoint
+    baseline_tps:
+      short: 21.4
+      context_32768: 20.211
+      context_131072: 16.682
+      context_262100: 13.225
+    primary_hypothesis: hybrid tree speculation can commit >=3-4 tokens per target round
+    phases:
+      - L0_BASELINE
+      - L1_BOLE_VERIFIER
+      - L2_DRAFT_BASELINES
+      - L3_CAUSAL_DIFFUSION_FOREST
+      - L4_LIBRASPEC_COST_CONTROL
+      - L5_SAGUARO_OVERLAP
+      - L6_LONG_CONTEXT_ROLLOUT
+    gates:
+      tps_4k_min: 50
+      tps_128k_min: 40
+      tps_256k_min: 30
+      mean_accepted_depth_min: 4
+      lossless: true
+  SWEEPSPEC_Q38_50:
+    target: Qwen/Qwen3.8-27B
+    architecture: dense_hybrid_gated_deltanet_attention
+    primary_hypothesis: large-tree verification amortizes each offloaded target weight sweep over >=18 accepted tokens
+    phases:
+      - Q0_VERIFIER_NODE_SCALING
+      - Q1_NATIVE_MTP_NGRAM
+      - Q2_SUBSTITUTE_SHADOW
+      - Q3_DFLASH_JETSPEC_DOMINO
+      - Q4_OFFLOAD_AWARE_FOREST
+      - Q5_ASYNC_SPECULATIVE_SPECULATION
+      - Q6_CERTIFIED_LM_HEAD
+      - Q7_CPU_GPU_COOPERATIVE_VERIFY
+      - Q8_END_TO_END
+    gates:
+      verify_256_nodes_multiple_max: 1.5
+      mean_accepted_tokens_min: 18
+      preferred_mean_accepted_tokens: 22
+      round_ms_per_accepted_token_max: 20
+      output_tps_min: 50
+      vram_gib_max: 8
+      process_ram_gib_max: 64
+      rollout_tokens_min: 512
+      lossless: true
+claim_boundary:
+  - Individual components are prior art.
+  - No speedup factors may be multiplied without a combined physical run.
+  - Novelty is unproven until a formal literature and patent audit.
+  - A dense 27B 50-tok/s claim requires real Qwen3.8 weights and end-to-end execution.

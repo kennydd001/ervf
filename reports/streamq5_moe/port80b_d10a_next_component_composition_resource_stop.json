@@ -1,0 +1,39 @@
+{
+  "kind": "port80b_d10a_next_component_composition_resource_stop",
+  "completed_utc": "2026-08-13T07:00:43.5125219Z",
+  "status": "component_not_started_hard_ram_stop",
+  "pass": false,
+  "blocked_resource": "available_system_ram_before_registration",
+  "threshold_bytes": 53687091200,
+  "observed_available_ram_bytes": 50252566528,
+  "observed_available_ram_gib": 46.80134963989258,
+  "deficit_bytes": 3434524672,
+  "deficit_gib": 3.198650360107422,
+  "observed_free_vram_mib": 7899,
+  "observed_total_vram_mib": 8151,
+  "requested_device_bytes": 4521569280,
+  "requested_device_gib": 4.2110395431518555,
+  "required_vram_reserve_bytes": 536870912,
+  "registered_prefix_bytes_if_opened": 48563159040,
+  "registered_prefix_gib_if_opened": 45.22796630859375,
+  "inputs": {
+    "preregistration_sha256": "ee71a17bf8889e009f8f692aa1dbafddcbd8691b68aa808ab09df0977d607b91",
+    "runner_sha256": "ffde9c13a3d6d19e3e1132369a4eb9a2e98a4e974bbece86ec224e2931f0ecfd",
+    "compile_sha256": "7a6761422930608512b6e6325ca1e5e2793f0eaeed2801434f03f09862cead81"
+  },
+  "physical_actions": {
+    "host_registration": false,
+    "large_device_allocation": false,
+    "kernel_launch": false,
+    "bank_scan": false,
+    "endurance": false
+  },
+  "cleanup": {
+    "registered_ranges": 0,
+    "unregister_attempts_required": 0,
+    "unregister_failures": [],
+    "cleanup_pass": true
+  },
+  "exception": "RuntimeError: hard stop: less than 50 GiB system RAM available",
+  "claim_boundary": "Resource-stop evidence only. No D10A1 component correctness, timing, first-touch, endurance, or model claim was produced."
+}

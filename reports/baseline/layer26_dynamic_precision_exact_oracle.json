@@ -1,0 +1,364 @@
+{
+  "created_at_utc": "2026-08-09T20:56:58.901751+00:00",
+  "git_revision": null,
+  "kind": "dynamic_precision_oracle",
+  "payload": {
+    "block_size": 128,
+    "blocks_per_split": 8,
+    "component_artifact": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\data\\traces\\layer26_dynamic_precision_components.safetensors",
+    "dataset_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "experiment": "layer26_token_expert_dynamic_3_to_4bit_oracle",
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "reproducibility": {
+      "quant3": {
+        "cosine": 1.0,
+        "mae": 0.0,
+        "max_abs_error": 0.0,
+        "nrmse": 0.0
+      },
+      "quant3_max_abs": 0.0,
+      "teacher": {
+        "cosine": 1.0,
+        "mae": 0.0,
+        "max_abs_error": 0.0,
+        "nrmse": 0.0
+      },
+      "teacher_max_abs": 0.0
+    },
+    "results": {
+      "test": {
+        "all_3bit": {
+          "candidate_cross_entropy": 2.52863107516071,
+          "cross_entropy_delta": 0.030291579839751392,
+          "relative_cross_entropy_delta": 0.012124685174486213,
+          "teacher_cross_entropy": 2.4983394953209586,
+          "teacher_to_candidate_kl": 0.020320537500083447,
+          "top1_agreement": 0.94140625
+        },
+        "all_4bit": {
+          "candidate_cross_entropy": 2.5036282276544046,
+          "cross_entropy_delta": 0.005288732333446067,
+          "relative_cross_entropy_delta": 0.002116898981644058,
+          "teacher_cross_entropy": 2.4983394953209586,
+          "teacher_to_candidate_kl": 0.003245277621317655,
+          "top1_agreement": 0.97265625
+        },
+        "minimum_exact_upgrade_fraction_to_match_4bit_kl_within_1pct": 0.23811848958333334,
+        "rate_distortion": [
+          {
+            "actual_upgrade_fraction": 0.0,
+            "average_effective_bits": 3.0,
+            "candidate_cross_entropy": 2.52863107516071,
+            "cross_entropy_delta": 0.030291579839751392,
+            "dp_vs_direct_kl_abs_error": 6.613562614221635e-10,
+            "dynamic_program_kl_mean": 0.020320538161439708,
+            "relative_cross_entropy_delta": 0.012124685174486213,
+            "requested_upgrade_fraction": 0.0,
+            "teacher_cross_entropy": 2.4983394953209586,
+            "teacher_to_candidate_kl": 0.020320537500083447,
+            "top1_agreement": 0.94140625
+          },
+          {
+            "actual_upgrade_fraction": 0.049967447916666664,
+            "average_effective_bits": 3.0499674479166665,
+            "candidate_cross_entropy": 2.510233360951341,
+            "cross_entropy_delta": 0.011893865630382638,
+            "dp_vs_direct_kl_abs_error": 7.638063792558825e-11,
+            "dynamic_program_kl_mean": 0.007295255159971384,
+            "relative_cross_entropy_delta": 0.004760708323531765,
+            "requested_upgrade_fraction": 0.05,
+            "teacher_cross_entropy": 2.4983394953209586,
+            "teacher_to_candidate_kl": 0.007295255083590746,
+            "top1_agreement": 0.9619140625
+          },
+          {
+            "actual_upgrade_fraction": 0.09993489583333333,
+            "average_effective_bits": 3.0999348958333335,
+            "candidate_cross_entropy": 2.507519459161233,
+            "cross_entropy_delta": 0.009179963840274308,
+            "dp_vs_direct_kl_abs_error": 1.4758243238599533e-10,
+            "dynamic_program_kl_mean": 0.005338969027190069,
+            "relative_cross_entropy_delta": 0.003674426096800335,
+            "requested_upgrade_fraction": 0.1,
+            "teacher_cross_entropy": 2.4983394953209586,
+            "teacher_to_candidate_kl": 0.005338969174772501,
+            "top1_agreement": 0.9697265625
+          },
+          {
+            "actual_upgrade_fraction": 0.14990234375,
+            "average_effective_bits": 3.14990234375,
+            "candidate_cross_entropy": 2.5045503030611775,
+            "cross_entropy_delta": 0.006210807740218982,
+            "dp_vs_direct_kl_abs_error": 4.234564088267945e-11,
+            "dynamic_program_kl_mean": 0.004272153061319409,
+            "relative_cross_entropy_delta": 0.0024859742848603876,
+            "requested_upgrade_fraction": 0.15,
+            "teacher_cross_entropy": 2.4983394953209586,
+            "teacher_to_candidate_kl": 0.004272153018973768,
+            "top1_agreement": 0.97265625
+          },
+          {
+            "actual_upgrade_fraction": 0.19986979166666666,
+            "average_effective_bits": 3.1998697916666665,
+            "candidate_cross_entropy": 2.5035710372324065,
+            "cross_entropy_delta": 0.005231541911447923,
+            "dp_vs_direct_kl_abs_error": 9.726179583946504e-11,
+            "dynamic_program_kl_mean": 0.0036160011850911583,
+            "relative_cross_entropy_delta": 0.002094007608351816,
+            "requested_upgrade_fraction": 0.2,
+            "teacher_cross_entropy": 2.4983394953209586,
+            "teacher_to_candidate_kl": 0.003616001282352954,
+            "top1_agreement": 0.9755859375
+          },
+          {
+            "actual_upgrade_fraction": 0.25,
+            "average_effective_bits": 3.25,
+            "candidate_cross_entropy": 2.502376105841689,
+            "cross_entropy_delta": 0.004036610520730566,
+            "dp_vs_direct_kl_abs_error": 5.1292595171226196e-11,
+            "dynamic_program_kl_mean": 0.0031925233128247826,
+            "relative_cross_entropy_delta": 0.001615717370793911,
+            "requested_upgrade_fraction": 0.25,
+            "teacher_cross_entropy": 2.4983394953209586,
+            "teacher_to_candidate_kl": 0.0031925232615321875,
+            "top1_agreement": 0.9814453125
+          },
+          {
+            "actual_upgrade_fraction": 0.3333333333333333,
+            "average_effective_bits": 3.3333333333333335,
+            "candidate_cross_entropy": 2.501299820547029,
+            "cross_entropy_delta": 0.0029603252260703705,
+            "dp_vs_direct_kl_abs_error": 3.023513384103893e-11,
+            "dynamic_program_kl_mean": 0.002771129801436581,
+            "relative_cross_entropy_delta": 0.0011849171145933716,
+            "requested_upgrade_fraction": 0.3333333333333333,
+            "teacher_cross_entropy": 2.4983394953209586,
+            "teacher_to_candidate_kl": 0.0027711298316717148,
+            "top1_agreement": 0.9794921875
+          },
+          {
+            "actual_upgrade_fraction": 0.5,
+            "average_effective_bits": 3.5,
+            "candidate_cross_entropy": 2.4992481141578495,
+            "cross_entropy_delta": 0.0009086188368909731,
+            "dp_vs_direct_kl_abs_error": 1.6747839226560757e-11,
+            "dynamic_program_kl_mean": 0.0024312195477381865,
+            "relative_cross_entropy_delta": 0.0003636890977357919,
+            "requested_upgrade_fraction": 0.5,
+            "teacher_cross_entropy": 2.4983394953209586,
+            "teacher_to_candidate_kl": 0.0024312195309903473,
+            "top1_agreement": 0.9814453125
+          },
+          {
+            "actual_upgrade_fraction": 0.6666666666666666,
+            "average_effective_bits": 3.6666666666666665,
+            "candidate_cross_entropy": 2.5001689880851687,
+            "cross_entropy_delta": 0.0018294927642101833,
+            "dp_vs_direct_kl_abs_error": 7.407091606737026e-11,
+            "dynamic_program_kl_mean": 0.0023838415932533885,
+            "relative_cross_entropy_delta": 0.0007322834897485182,
+            "requested_upgrade_fraction": 0.6666666666666666,
+            "teacher_cross_entropy": 2.4983394953209586,
+            "teacher_to_candidate_kl": 0.0023838416673243046,
+            "top1_agreement": 0.9814453125
+          },
+          {
+            "actual_upgrade_fraction": 0.74072265625,
+            "average_effective_bits": 3.74072265625,
+            "candidate_cross_entropy": 2.500112278254952,
+            "cross_entropy_delta": 0.001772782933993522,
+            "dp_vs_direct_kl_abs_error": 7.1082167929503726e-12,
+            "dynamic_program_kl_mean": 0.00238332500901782,
+            "relative_cross_entropy_delta": 0.0007095844809377177,
+            "requested_upgrade_fraction": 0.75,
+            "teacher_cross_entropy": 2.4983394953209586,
+            "teacher_to_candidate_kl": 0.0023833250161260366,
+            "top1_agreement": 0.9814453125
+          },
+          {
+            "actual_upgrade_fraction": 0.74072265625,
+            "average_effective_bits": 3.74072265625,
+            "candidate_cross_entropy": 2.500112278254952,
+            "cross_entropy_delta": 0.001772782933993522,
+            "dp_vs_direct_kl_abs_error": 7.1082167929503726e-12,
+            "dynamic_program_kl_mean": 0.00238332500901782,
+            "relative_cross_entropy_delta": 0.0007095844809377177,
+            "requested_upgrade_fraction": 1.0,
+            "teacher_cross_entropy": 2.4983394953209586,
+            "teacher_to_candidate_kl": 0.0023833250161260366,
+            "top1_agreement": 0.9814453125
+          }
+        ]
+      },
+      "validation": {
+        "all_3bit": {
+          "candidate_cross_entropy": 2.197480569674274,
+          "cross_entropy_delta": 0.015463220791553933,
+          "relative_cross_entropy_delta": 0.007086662624140784,
+          "teacher_cross_entropy": 2.18201734888272,
+          "teacher_to_candidate_kl": 0.010565010132268071,
+          "top1_agreement": 0.9287109375
+        },
+        "all_4bit": {
+          "candidate_cross_entropy": 2.1846462460014764,
+          "cross_entropy_delta": 0.002628897118756246,
+          "relative_cross_entropy_delta": 0.001204801199267433,
+          "teacher_cross_entropy": 2.18201734888272,
+          "teacher_to_candidate_kl": 0.0023982434649951756,
+          "top1_agreement": 0.9716796875
+        },
+        "minimum_exact_upgrade_fraction_to_match_4bit_kl_within_1pct": 0.22249348958333334,
+        "rate_distortion": [
+          {
+            "actual_upgrade_fraction": 0.0,
+            "average_effective_bits": 3.0,
+            "candidate_cross_entropy": 2.197480569674274,
+            "cross_entropy_delta": 0.015463220791553933,
+            "dp_vs_direct_kl_abs_error": 6.766597437923849e-08,
+            "dynamic_program_kl_mean": 0.01056507779824245,
+            "relative_cross_entropy_delta": 0.007086662624140784,
+            "requested_upgrade_fraction": 0.0,
+            "teacher_cross_entropy": 2.18201734888272,
+            "teacher_to_candidate_kl": 0.010565010132268071,
+            "top1_agreement": 0.9287109375
+          },
+          {
+            "actual_upgrade_fraction": 0.049967447916666664,
+            "average_effective_bits": 3.0499674479166665,
+            "candidate_cross_entropy": 2.1839424193374755,
+            "cross_entropy_delta": 0.0019250704547553177,
+            "dp_vs_direct_kl_abs_error": 6.782604544675053e-08,
+            "dynamic_program_kl_mean": 0.005397120446583026,
+            "relative_cross_entropy_delta": 0.0008822434229228427,
+            "requested_upgrade_fraction": 0.05,
+            "teacher_cross_entropy": 2.18201734888272,
+            "teacher_to_candidate_kl": 0.005397052620537579,
+            "top1_agreement": 0.9599609375
+          },
+          {
+            "actual_upgrade_fraction": 0.09993489583333333,
+            "average_effective_bits": 3.0999348958333335,
+            "candidate_cross_entropy": 2.1837333919495108,
+            "cross_entropy_delta": 0.001716043066790629,
+            "dp_vs_direct_kl_abs_error": 6.785263395592267e-08,
+            "dynamic_program_kl_mean": 0.0038506354146738975,
+            "relative_cross_entropy_delta": 0.0007864479481198037,
+            "requested_upgrade_fraction": 0.1,
+            "teacher_cross_entropy": 2.18201734888272,
+            "teacher_to_candidate_kl": 0.0038505675620399415,
+            "top1_agreement": 0.9677734375
+          },
+          {
+            "actual_upgrade_fraction": 0.14990234375,
+            "average_effective_bits": 3.14990234375,
+            "candidate_cross_entropy": 2.1849723275252213,
+            "cross_entropy_delta": 0.0029549786425011604,
+            "dp_vs_direct_kl_abs_error": 6.869765400985273e-08,
+            "dynamic_program_kl_mean": 0.0030603831527236114,
+            "relative_cross_entropy_delta": 0.0013542415893321046,
+            "requested_upgrade_fraction": 0.15,
+            "teacher_cross_entropy": 2.18201734888272,
+            "teacher_to_candidate_kl": 0.0030603144550696015,
+            "top1_agreement": 0.974609375
+          },
+          {
+            "actual_upgrade_fraction": 0.19986979166666666,
+            "average_effective_bits": 3.1998697916666665,
+            "candidate_cross_entropy": 2.185918973186823,
+            "cross_entropy_delta": 0.003901624304103013,
+            "dp_vs_direct_kl_abs_error": 6.86667742666458e-08,
+            "dynamic_program_kl_mean": 0.0025826040472718415,
+            "relative_cross_entropy_delta": 0.0017880812478877862,
+            "requested_upgrade_fraction": 0.2,
+            "teacher_cross_entropy": 2.18201734888272,
+            "teacher_to_candidate_kl": 0.002582535380497575,
+            "top1_agreement": 0.9794921875
+          },
+          {
+            "actual_upgrade_fraction": 0.25,
+            "average_effective_bits": 3.25,
+            "candidate_cross_entropy": 2.1822932686392718,
+            "cross_entropy_delta": 0.0002759197565516125,
+            "dp_vs_direct_kl_abs_error": 6.868139013072039e-08,
+            "dynamic_program_kl_mean": 0.002260712262784237,
+            "relative_cross_entropy_delta": 0.00012645167862340527,
+            "requested_upgrade_fraction": 0.25,
+            "teacher_cross_entropy": 2.18201734888272,
+            "teacher_to_candidate_kl": 0.002260643581394106,
+            "top1_agreement": 0.9794921875
+          },
+          {
+            "actual_upgrade_fraction": 0.3333333333333333,
+            "average_effective_bits": 3.3333333333333335,
+            "candidate_cross_entropy": 2.1829781119279037,
+            "cross_entropy_delta": 0.0009607630451835547,
+            "dp_vs_direct_kl_abs_error": 6.872502456012342e-08,
+            "dynamic_program_kl_mean": 0.0019380946868874371,
+            "relative_cross_entropy_delta": 0.0004403095354285353,
+            "requested_upgrade_fraction": 0.3333333333333333,
+            "teacher_cross_entropy": 2.18201734888272,
+            "teacher_to_candidate_kl": 0.001938025961862877,
+            "top1_agreement": 0.9814453125
+          },
+          {
+            "actual_upgrade_fraction": 0.5,
+            "average_effective_bits": 3.5,
+            "candidate_cross_entropy": 2.1830797270527036,
+            "cross_entropy_delta": 0.0010623781699834467,
+            "dp_vs_direct_kl_abs_error": 1.1489895701544128e-09,
+            "dynamic_program_kl_mean": 0.0016818671568465948,
+            "relative_cross_entropy_delta": 0.00048687888321668327,
+            "requested_upgrade_fraction": 0.5,
+            "teacher_cross_entropy": 2.18201734888272,
+            "teacher_to_candidate_kl": 0.0016818660078570247,
+            "top1_agreement": 0.982421875
+          },
+          {
+            "actual_upgrade_fraction": 0.6666666666666666,
+            "average_effective_bits": 3.6666666666666665,
+            "candidate_cross_entropy": 2.182576967975286,
+            "cross_entropy_delta": 0.0005596190925660771,
+            "dp_vs_direct_kl_abs_error": 1.1467617966332e-09,
+            "dynamic_program_kl_mean": 0.0016427263443601348,
+            "relative_cross_entropy_delta": 0.00025646867237449987,
+            "requested_upgrade_fraction": 0.6666666666666666,
+            "teacher_cross_entropy": 2.18201734888272,
+            "teacher_to_candidate_kl": 0.0016427251975983381,
+            "top1_agreement": 0.9833984375
+          },
+          {
+            "actual_upgrade_fraction": 0.7268880208333334,
+            "average_effective_bits": 3.7268880208333335,
+            "candidate_cross_entropy": 2.1824812400998095,
+            "cross_entropy_delta": 0.00046389121708934056,
+            "dp_vs_direct_kl_abs_error": 1.1576107294963833e-09,
+            "dynamic_program_kl_mean": 0.001642200740031019,
+            "relative_cross_entropy_delta": 0.00021259740089915938,
+            "requested_upgrade_fraction": 0.75,
+            "teacher_cross_entropy": 2.18201734888272,
+            "teacher_to_candidate_kl": 0.0016421995824202895,
+            "top1_agreement": 0.9833984375
+          },
+          {
+            "actual_upgrade_fraction": 0.7268880208333334,
+            "average_effective_bits": 3.7268880208333335,
+            "candidate_cross_entropy": 2.1824812400998095,
+            "cross_entropy_delta": 0.00046389121708934056,
+            "dp_vs_direct_kl_abs_error": 1.1576107294963833e-09,
+            "dynamic_program_kl_mean": 0.001642200740031019,
+            "relative_cross_entropy_delta": 0.00021259740089915938,
+            "requested_upgrade_fraction": 1.0,
+            "teacher_cross_entropy": 2.18201734888272,
+            "teacher_to_candidate_kl": 0.0016421995824202895,
+            "top1_agreement": 0.9833984375
+          }
+        ]
+      }
+    },
+    "selection": "direct LM-head KL for all 64 masks per token; exact global cost dynamic program; direct KL/CE evaluation",
+    "status": "complete",
+    "tokens_per_split": 1024,
+    "wall_seconds": 82.00069020000228
+  },
+  "schema_version": 1
+}

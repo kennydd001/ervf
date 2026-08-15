@@ -1,0 +1,171 @@
+{
+  "artifact": "reports/runs/streamq5_moe/p0c_fresh_input_ids.safetensors",
+  "artifact_sha256": "ecb6211102bca5641314bf4dff604395a147ba53a03a918855cb25f8cbec0b26",
+  "context_tokens": 128,
+  "contexts_per_domain": 2,
+  "domains": [
+    "general",
+    "code",
+    "math",
+    "multilingual",
+    "instruction"
+  ],
+  "exact_context_disjoint_from_prior_decision_sets": true,
+  "input_ids_sha256": {
+    "test_code": "6845c2a579fbd9e9ff102665313fd587878636e98e6614c0e226b5a13cca1ae5",
+    "test_general": "cd6602351fa8e59b9cae166916777747174f93ae38a17b8a89f7a092fe7638cc",
+    "test_instruction": "d7f687dde012e03c5d54a18cf465232fb6fc307970b4bf86e0cdc584c784d536",
+    "test_math": "20788c32cdbc59e0b9bd3ebc3ba3b412f10e71bc765aa0f30f48aa70523245da",
+    "test_multilingual": "178322d95374035da1aa5fa318b5d64cdca209a4dcba59af44856ded032091ca",
+    "validation_code": "5cfbb1f50c5ba4072b6c0dd283cbdb1ec09627101ce848ea4fb25e11912881b7",
+    "validation_general": "453e5d07354146d99d454deb92797e1e19afa532d8dc940a47cb7df79376bb2b",
+    "validation_instruction": "427992c3ad6b897f1d1e59b348219ce45dc9975ce0801eec54bf8bbadcd59397",
+    "validation_math": "20a81cbbf64900c89c99cce3f06dbf2cf66fbe9005e075505d0fc598f0288de7",
+    "validation_multilingual": "d6bc2122041804412b5f589e0be9df227bbc46cf105e0f80b3136e50b42c5277"
+  },
+  "kind": "streamq5_moe_p0c_input_lock",
+  "locked_utc": "2026-08-12T08:00:24.006864+00:00",
+  "model_index_sha256": "df0d481ec595c55a0ba58426d517390c6214a566ec4ff1c8fc4bbce9f57b3c24",
+  "outputs_opened": false,
+  "physical_semantics": "codes selected with FP32 maxabs scale; scale stored BF16; dequant uses float(BF16 scale) then BF16 output",
+  "preregistration_sha256": "d6c308ef2ea686bb7c6d952f178c0d16ea0e2ad499bcc6fde64c732b761561f9",
+  "previous_coretail_input_sha256": "02b015e67b65171a1f7f67cfa3dcbd6b4d8a08cbb24395ad76ae96486c1afe04",
+  "previous_coretail_lock_sha256": "ba127580f62bcfd6c0df242d2c22839f9e5549b016851e556c3402fc2a7a9654",
+  "previous_streamq4_input_sha256": "31cf97ac01cb22b26631286f285209c56ec13efbd43535b7d4e0238e3b3d4c6b",
+  "previous_streamq4_lock_sha256": "a88bb9ad0a83e6171a5ec5075471fe5770c45926c59317ae08de76a7e5feb59f",
+  "previous_streamq5_input_sha256": "43d8d7a92498d8fae4e6cb177bc23b2b542f6ee6120119133da35baa12ec0413",
+  "previous_streamq5_lock_sha256": "57e4add1d385c8128464138774bc379812e93776ca50b47b86422c09e44ceaef",
+  "primary_gate": {
+    "test_relative_ce_max": 0.02,
+    "validation_progression_relative_ce_max": 0.025,
+    "validation_relative_ce_max": 0.02,
+    "variant": "q5_experts_int8_trunk"
+  },
+  "quantization": {
+    "dequant_dtype": "bfloat16",
+    "group_size": 128,
+    "int4_codes": [
+      -7,
+      7
+    ],
+    "int8_codes": [
+      -127,
+      127
+    ],
+    "q5_codes": [
+      -15,
+      15
+    ],
+    "rounding": "torch_round_nearest_even"
+  },
+  "source_manifest": {
+    "code": {
+      "java": {
+        "path": "data/corpora/hera_moe_p0/code/java/train-00000-of-00001.parquet",
+        "sha256": "d4e9b6099aaafbdfc7c6fab65edafcf2e692cb29db15abc49db50635ef32e63d",
+        "test_offset": 198272,
+        "tokens_per_split": 128,
+        "total_tokens": 1365959,
+        "validation_offset": 198144
+      },
+      "python": {
+        "path": "data/corpora/hera_moe_p0/code/python/train-00000-of-00001.parquet",
+        "sha256": "0e9da7aa684b7ceac8f1736b329329a12d53dcbfc4813f5e9f1244889ea1e085",
+        "test_offset": 198272,
+        "tokens_per_split": 128,
+        "total_tokens": 8176693,
+        "validation_offset": 198144
+      }
+    },
+    "general": {
+      "path": "data/corpora/wikitext/wikitext-2-raw-v1/train-00000-of-00001.parquet",
+      "sha256": "e83889baabc497075506f91975be5fac0d45c5290b6b20582c8cd1e853d0c9f7",
+      "test_offset": 264448,
+      "tokens_per_split": 256,
+      "total_tokens": 2517232,
+      "validation_offset": 264192
+    },
+    "instruction": {
+      "path": "data/corpora/hera_moe_p0/instruction/databricks-dolly-15k.jsonl",
+      "sha256": "2df9083338b4abd6bceb5635764dab5d833b393b55759dffb0959b6fcbf794ec",
+      "test_offset": 788736,
+      "tokens_per_split": 256,
+      "total_tokens": 2768249,
+      "validation_offset": 788480
+    },
+    "math": {
+      "path": "data/corpora/hera_moe_p0/math/main/train-00000-of-00001.parquet",
+      "sha256": "ea82612ea9582142387730c793eb67d3b12849002bc0b7fa6f8efafa7351419d",
+      "test_offset": 526592,
+      "tokens_per_split": 256,
+      "total_tokens": 1390693,
+      "validation_offset": 526336
+    },
+    "multilingual": {
+      "languages": {
+        "arb_Arab": {
+          "test_offset": 25120,
+          "tokens_per_split": 32,
+          "total_tokens": 42786,
+          "validation_offset": 25088
+        },
+        "hin_Deva": {
+          "test_offset": 25120,
+          "tokens_per_split": 32,
+          "total_tokens": 117035,
+          "validation_offset": 25088
+        },
+        "jpn_Jpan": {
+          "test_offset": 25120,
+          "tokens_per_split": 32,
+          "total_tokens": 36930,
+          "validation_offset": 25088
+        },
+        "nld_Latn": {
+          "test_offset": 25120,
+          "tokens_per_split": 32,
+          "total_tokens": 41372,
+          "validation_offset": 25088
+        },
+        "rus_Cyrl": {
+          "test_offset": 25120,
+          "tokens_per_split": 32,
+          "total_tokens": 46554,
+          "validation_offset": 25088
+        },
+        "spa_Latn": {
+          "test_offset": 25120,
+          "tokens_per_split": 32,
+          "total_tokens": 40027,
+          "validation_offset": 25088
+        },
+        "swh_Latn": {
+          "test_offset": 25120,
+          "tokens_per_split": 32,
+          "total_tokens": 50741,
+          "validation_offset": 25088
+        },
+        "zho_Hans": {
+          "test_offset": 25120,
+          "tokens_per_split": 32,
+          "total_tokens": 26933,
+          "validation_offset": 25088
+        }
+      },
+      "path": "data/corpora/hera_moe_p0/multilingual/dev.parquet",
+      "sha256": "024301782a6ae84962bef679dd994f84ea46062d92dd379d14ff8df9f244aca2"
+    }
+  },
+  "splits": [
+    "validation",
+    "test"
+  ],
+  "tokens_per_domain": 256,
+  "variants": [
+    "bf16_teacher",
+    "q5_experts_bf16_trunk",
+    "bf16_experts_int8_trunk",
+    "q5_experts_int8_trunk",
+    "q5_experts_int4_trunk"
+  ]
+}

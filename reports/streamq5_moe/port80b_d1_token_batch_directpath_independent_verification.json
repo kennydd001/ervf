@@ -1,0 +1,200 @@
+{
+  "kind": "port80b_d1_token_batch_directpath_independent_verification",
+  "completed_utc": "2026-08-12T21:14:10.774614+00:00",
+  "cpu_only": true,
+  "gpu_context_opened": false,
+  "independent_verdict": "verified_negative",
+  "all_replayable_checks_pass": true,
+  "verified_component_pass": false,
+  "verified_overall_pass": false,
+  "verified_status": "directpath_closed",
+  "input_hashes": {
+    "preregistration_sha256": "ab95104a3f308d524f73ae53b9f937b992291f356ebd16af157951263900e5f2",
+    "evaluator_sha256": "3dda09e0d9b39d4bfdb12b5c31248d93681612a2e5b2f9f699c1e60a9e026085",
+    "bank_manifest_sha256": "466250b39c5f28c8b5b2f7432904100adf8c9e8c246c860a233cdf4b9aeb412c",
+    "result_sha256": "8361b082d22bbb017bdffa6ccf800d059978c73ff0d4f998667aef3add137f8f"
+  },
+  "verifier_sha256": "c1a00e858d3997483ed0fc85fdd4090cdb01b7ef94c7d675a2a99e89550ad884",
+  "full_bank_sha256": "4a97af22833b239badc065d9c065ca259c791a84218640946d68c4e72e034462",
+  "source_token_sha256": "7e9423a1863cb698decbe8ec8dea98f834162e5bf0bbd26b9a0e36765225cc6a",
+  "staging_edge_digest": "727d0cbcd5b7466094ed59f0d59be140e42cb42f61faee6580542a0298d82ff3",
+  "checks": {
+    "provenance": {
+      "preregistration_sha256": true,
+      "evaluator_sha256": true,
+      "bank_manifest_sha256": true,
+      "manifest_bank_sha_matches_result": true,
+      "manifest_bank_sha_matches_frozen_value": true,
+      "bank_file_size_exact": true,
+      "manifest_bank_size_exact": true,
+      "manifest_expert_size_exact": true,
+      "manifest_order_exact": true
+    },
+    "runner_source_contract": {
+      "token_constant": true,
+      "arms_constant": true,
+      "warmups_constant": true,
+      "rounds_constant": true,
+      "expected_bank_sha_constant": true,
+      "uses_cuda_events": true,
+      "uses_async_h2d": true,
+      "uses_read_only_memmap": true,
+      "uses_np_copyto_gather": true,
+      "prereg_has_frozen_gates": true
+    },
+    "route_and_physical_order": {
+      "source_token": true,
+      "offset_count_480": true,
+      "all_offsets_in_bank": true,
+      "ten_unique_per_layer": true,
+      "routed_experts_exclude_shared_512": true,
+      "token_bytes_exact": true,
+      "records_per_token_exact": true,
+      "pinned_bytes_exact": true,
+      "two_device_buffers_exact": true
+    },
+    "data_hashes": {
+      "full_bank_sha256": true,
+      "source_pinned_sha256": true,
+      "staging_edge_digest": true
+    },
+    "measurement_order": {
+      "warmups_per_arm_10": true,
+      "rounds_120": true,
+      "stored_order_count_120": true,
+      "orders_match_rotation_reverse_algorithm": true,
+      "each_of_six_permutations_20_times": true,
+      "each_arm_each_position_40_times": true
+    },
+    "samples": {
+      "record480_120_finite": true,
+      "layer48_120_finite": true,
+      "token1_120_finite": true,
+      "staging_32_finite": true,
+      "staging_tokens_exact": true
+    },
+    "timing_stats": {
+      "record480": true,
+      "layer48": true,
+      "token1": true
+    },
+    "staging_stats": {
+      "count": true,
+      "mean": true,
+      "p50": true,
+      "p95": true,
+      "p99": true,
+      "min": true,
+      "max": true
+    },
+    "ratios": {
+      "token1_over_record480_p50": true,
+      "token1_over_record480_p95": true
+    },
+    "projection": {
+      "ideal_overlap_p95_ms": true,
+      "fully_serial_p95_ms": true
+    },
+    "correctness_claim_internal_consistency": {
+      "three_named_arms": true,
+      "all_claim_byte_equal": true,
+      "all_claim_full_token_bytes": true,
+      "stored_aggregate_matches_arm_claims": true
+    },
+    "gates": {
+      "all_full_buffers_byte_equal": true,
+      "all_arms_120_finite_samples": true,
+      "token1_p95_le_45ms": true,
+      "token1_p50_ratio_le_0_80": true,
+      "token1_p95_ratio_le_0_90": true,
+      "ideal_overlap_p95_le_45ms": true
+    },
+    "verdict": {
+      "component_pass": true,
+      "overall_pass": true,
+      "status": true
+    }
+  },
+  "recomputed": {
+    "timing": {
+      "record480": {
+        "count": 120,
+        "mean": 40.19471321105957,
+        "p50": 40.17233657836914,
+        "p95": 40.33038806915283,
+        "p99": 40.48360511779785,
+        "min": 40.103294372558594,
+        "max": 40.72550582885742
+      },
+      "layer48": {
+        "count": 120,
+        "mean": 39.00215590794881,
+        "p50": 38.966064453125,
+        "p95": 39.158491134643555,
+        "p99": 39.19845695495606,
+        "min": 38.93766403198242,
+        "max": 39.277183532714844
+      },
+      "token1": {
+        "count": 120,
+        "mean": 38.867811648050946,
+        "p50": 38.83902359008789,
+        "p95": 39.041289710998534,
+        "p99": 39.082947425842285,
+        "min": 38.809696197509766,
+        "max": 39.13622283935547
+      }
+    },
+    "staging": {
+      "count": 32,
+      "mean": 70.5282781209462,
+      "p50": 69.04239999130368,
+      "p95": 88.47488001047168,
+      "p99": 91.61074900417589,
+      "min": 48.51469999994151,
+      "max": 92.16010000091046
+    },
+    "ratios": {
+      "token1_over_record480_p50": 0.9668101708328518,
+      "token1_over_record480_p95": 0.9680365496125667
+    },
+    "projection": {
+      "ideal_overlap_p95_ms": 88.47488001047168,
+      "fully_serial_p95_ms": 127.51616972147022
+    },
+    "gates": {
+      "all_full_buffers_byte_equal": true,
+      "all_arms_120_finite_samples": true,
+      "token1_p95_le_45ms": true,
+      "token1_p50_ratio_le_0_80": false,
+      "token1_p95_ratio_le_0_90": false,
+      "ideal_overlap_p95_le_45ms": false
+    }
+  },
+  "measurement_order_counts": {
+    "layer48/record480/token1": 20,
+    "layer48/token1/record480": 20,
+    "record480/layer48/token1": 20,
+    "record480/token1/layer48": 20,
+    "token1/layer48/record480": 20,
+    "token1/record480/layer48": 20
+  },
+  "measurement_position_counts": {
+    "record480": [
+      40,
+      40,
+      40
+    ],
+    "layer48": [
+      40,
+      40,
+      40
+    ],
+    "token1": [
+      40,
+      40,
+      40
+    ]
+  },
+  "limitation": "The saved D1 result contains boolean full-device-buffer equality claims but no per-arm device hashes or buffers. This CPU-only audit can verify their internal aggregation and independently reconstruct all source/provenance hashes, but it cannot replay the transient GPU equality operation. The negative verdict does not depend on that limitation, because the preregistered p50/p95 ratio and staging gates fail."
+}

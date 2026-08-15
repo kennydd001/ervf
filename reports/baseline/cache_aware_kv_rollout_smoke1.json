@@ -1,0 +1,61 @@
+{
+  "created_at_utc": "2026-08-09T21:38:11.800040+00:00",
+  "git_revision": null,
+  "kind": "autoregressive_rollout",
+  "payload": {
+    "all_generated_tokens_agree": true,
+    "attention_cache_length": 16,
+    "capacity_experts_per_layer": 32,
+    "decoding": "greedy independent teacher/student tokens with a persistent DynamicCache KV cache",
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "policy": "replace router rank 6 with rank 7 only on rank-6 cache miss plus rank-7 cache hit",
+    "prompt": "Explain in one paragraph why mixture-of-experts routing can be redundant.",
+    "prompt_token_ids": [
+      99297,
+      279,
+      634,
+      16764,
+      2643,
+      14848,
+      12,
+      994,
+      12,
+      98282,
+      27332,
+      481,
+      330,
+      33483,
+      13
+    ],
+    "status": "complete",
+    "steps": [
+      {
+        "mean_last_token_router_overlap": 0.9807692307692307,
+        "minimum_last_token_router_overlap": 0.8333333333333334,
+        "pre_decision_teacher_to_student_kl": 0.010500062257051468,
+        "step": 1,
+        "step_cache": {
+          "adaptive_expert_loads": 91,
+          "strict_expert_loads": 88,
+          "substitutions": 4
+        },
+        "student_token": "\n",
+        "student_token_id": 185,
+        "teacher_token": "\n",
+        "teacher_token_id": 185,
+        "token_agreement": true,
+        "wall_seconds": 62.504143499994825
+      }
+    ],
+    "student_text": "Explain in one paragraph why mixture-of-experts routing can be redundant.\n",
+    "teacher_text": "Explain in one paragraph why mixture-of-experts routing can be redundant.\n",
+    "total_cache_statistics": {
+      "adaptive_expert_loads": 1188,
+      "expert_load_reduction_fraction": 0.034930950446791176,
+      "strict_expert_loads": 1231,
+      "substitutions": 89
+    },
+    "wall_seconds": 125.65411769999628
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,217 @@
+{
+  "kind": "treesweep200_a1_adoption_precondition",
+  "registry": "TREESWEEP200",
+  "phase": "A1",
+  "started_utc": "2026-08-15T18:38:03.952703+00:00",
+  "completed_utc": "2026-08-15T18:41:57.569066+00:00",
+  "model_dir": "nemotron_3_5_lightning",
+  "runner_sha256": "735c6197cc0f71a505d7dad2e2be4c2cef3576f8bec6b010c2966ab182e186b0",
+  "runtime_sha256": "1831c090e6f9f583da25d32ec087db15957eea1a31f3fd0d1f2f27d91537a13c",
+  "config": {
+    "capacities": [
+      72,
+      56
+    ],
+    "tokens": 256,
+    "prompts": [
+      "expository",
+      "narrative"
+    ],
+    "max_ctx": 4096,
+    "stack": "ervf_w16 + attention_fp8_gqa4"
+  },
+  "digests": {
+    "det": {
+      "72": [
+        "2c604432bea41b6705a23f8d2c1922123d32373c022a8cd5b99e37fd0e299b2d",
+        "12f93b59a46cab18428c1d992b82d17e7089dd4b88951ee251f44df8caec1522"
+      ],
+      "56": [
+        "2c604432bea41b6705a23f8d2c1922123d32373c022a8cd5b99e37fd0e299b2d",
+        "12f93b59a46cab18428c1d992b82d17e7089dd4b88951ee251f44df8caec1522"
+      ]
+    },
+    "control": {
+      "72": [
+        "c29c5f98390334672a05f38f9d563e5fd109521eb8987ebd57c852a9958fe5fa",
+        "12f93b59a46cab18428c1d992b82d17e7089dd4b88951ee251f44df8caec1522"
+      ],
+      "56": [
+        "2c604432bea41b6705a23f8d2c1922123d32373c022a8cd5b99e37fd0e299b2d",
+        "12f93b59a46cab18428c1d992b82d17e7089dd4b88951ee251f44df8caec1522"
+      ]
+    }
+  },
+  "gates": {
+    "G_A1_CAP_hard": {
+      "required": "identical across capacity 72 vs 56 with D1",
+      "identical": true,
+      "first_divergence_index": {
+        "expository": null,
+        "narrative": null
+      },
+      "passed": true
+    },
+    "G_A1_CTL_control": {
+      "required": "MUST differ without D1, else test is blind",
+      "identical": false,
+      "first_divergence_index": {
+        "expository": 224,
+        "narrative": null
+      },
+      "passed": true
+    },
+    "G_A2_ANCHOR_informative": {
+      "anchor_kernel": "attention_fp8_gqa",
+      "anchor_capacity": 72,
+      "stack_under_test": "ervf_w16 + attention_fp8_gqa4 + deterministic_accum",
+      "per_prompt": {
+        "The capital of France is": {
+          "identical": false,
+          "first_divergence_index": 1
+        },
+        "The history of computing began when": {
+          "identical": false,
+          "first_divergence_index": 1
+        }
+      },
+      "all_match": false,
+      "produced_ids": {
+        "The capital of France is": [
+          6993,
+          2613,
+          3501,
+          7185,
+          34315,
+          65656,
+          1063,
+          1531,
+          19286,
+          6987,
+          1261,
+          4279,
+          1513,
+          1278,
+          2362,
+          1046,
+          1531,
+          3330,
+          9956,
+          1058,
+          2129,
+          1784,
+          8961,
+          1307,
+          5498,
+          1395,
+          6993,
+          4479,
+          1454,
+          1261,
+          4279,
+          6625,
+          1278,
+          37598,
+          1046,
+          4159,
+          2933,
+          1278,
+          7092,
+          19286,
+          1044,
+          6906,
+          3907,
+          1278,
+          4279,
+          1046,
+          4493,
+          1729,
+          2715,
+          4848,
+          10693,
+          1455,
+          19286,
+          1044,
+          3907,
+          1278,
+          4279,
+          1046,
+          3501,
+          7185,
+          53879,
+          1046,
+          4493,
+          2586
+        ],
+        "The history of computing began when": [
+          16059,
+          2158,
+          6618,
+          1317,
+          4014,
+          1321,
+          4218,
+          3686,
+          1046,
+          24554,
+          12589,
+          2479,
+          1278,
+          1715,
+          1413,
+          1374,
+          1321,
+          4025,
+          17054,
+          5878,
+          6094,
+          2516,
+          1435,
+          1398,
+          57139,
+          44618,
+          2190,
+          44618,
+          1519,
+          1319,
+          1049,
+          1054,
+          1052,
+          1050,
+          1041,
+          10597,
+          1455,
+          54114,
+          2481,
+          1402,
+          5334,
+          2779,
+          1046,
+          1531,
+          1032,
+          1049,
+          1057,
+          1411,
+          109431,
+          2572,
+          4024,
+          34580,
+          7555,
+          9543,
+          1536,
+          8810,
+          1398,
+          23558,
+          1541,
+          1044,
+          5823,
+          1454,
+          63212,
+          41355
+        ]
+      }
+    }
+  },
+  "verdict": "adopt",
+  "claim_boundary": "2 prompts x 256 causal tokens per arm, capacity 72 against 56, one cache rebuild per capacity, contexts_max 4096. This tests ORDER INDEPENDENCE of the output, not speed; no latency claim is made here. It demonstrates determinism across the two capacities tested, not across all possible cache states."
+}

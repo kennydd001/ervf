@@ -1,0 +1,93 @@
+{
+  "kind": "streamq5_moe_p11a_cpu_q5_miss_compute",
+  "completed_utc": "2026-08-12T13:52:41.346961+00:00",
+  "preregistration_sha256": "3792f05bbe308770df6547155127218d62595032ac04e716033c749b2a987fb6",
+  "script_sha256": "b24051493d97b7c522ccdaa04e3dc6d836cf774a123bf05f28b41ffed820e6db",
+  "cpp_source_sha256": "977f4c2a2d63e4aa27aee4f7c5de4ff5f67b04d9283553a971029d9a4c67a52b",
+  "bank_sha256": "913d0a13b9cf227b5f919aa22ac4e82ee73053db36ae5544f1d87206e1ad6dfa",
+  "cpu": {
+    "validation": {
+      "1": {
+        "values_ms": [
+          38.395115,
+          33.228452,
+          36.011832
+        ],
+        "p50_ms": 36.011832
+      },
+      "4": {
+        "values_ms": [
+          12.429022,
+          13.683922,
+          9.112241
+        ],
+        "p50_ms": 12.429022
+      },
+      "8": {
+        "values_ms": [
+          7.500431,
+          6.242076,
+          13.433309
+        ],
+        "p50_ms": 7.500431
+      },
+      "16": {
+        "values_ms": [
+          32.674666,
+          38.461945,
+          25.562297
+        ],
+        "p50_ms": 32.674666
+      }
+    },
+    "selected_threads": 8,
+    "test_ms": [
+      6.519629,
+      6.104144,
+      6.169895,
+      6.509586,
+      7.29955,
+      9.558284,
+      10.123911,
+      8.40052,
+      8.329004,
+      9.530907,
+      8.565581,
+      13.27491,
+      23.510675,
+      9.054725,
+      7.451091,
+      7.301976,
+      7.44204,
+      7.000235,
+      6.383389,
+      6.590238
+    ],
+    "test_p50_ms": 7.4465655,
+    "test_p95_ms": 13.786698250000008,
+    "finite": true
+  },
+  "correctness": {
+    "bitwise_equal": true,
+    "elements": 28672,
+    "different": 0,
+    "max_abs": 0.0,
+    "finite": true
+  },
+  "gpu_all_cold_reference": {
+    "event_ms_per_copy_mean": 0.12039805894750848,
+    "event_ms_per_copy_p95_proxy": 0.12011604040877248,
+    "cached_q5_layer_p50_ms": 0.15863299866517386,
+    "cached_q5_layer_p95_ms": 0.16337216347455977,
+    "all_cold_mean_ms": 1.1218174702452417,
+    "all_cold_p95_proxy_ms": 1.1243004867447397
+  },
+  "gates": {
+    "bitwise_equal": true,
+    "finite": true,
+    "cpu_p50_le_95pct_gpu_mean": false,
+    "cpu_p95_le_95pct_gpu_p95_proxy": false
+  },
+  "overall_pass": false,
+  "claim_boundary": "Exact local OpenMP CPU implementation versus a measured per-copy GPU-path proxy; not a universal CPU-kernel impossibility proof."
+}

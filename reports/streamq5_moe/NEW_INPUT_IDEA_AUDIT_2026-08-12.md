@@ -1,0 +1,77 @@
+# Audit van nieuwe inputideeën
+
+**Datum:** 2026-08-12  
+**Scope:** `info/nemotron.txt`, `info/RAND_VAN_WAT_2026-08-12.md`, alle vijf bestanden in `info/PORT80B_DIRECTPATH_PACK_2026-08-12`, en `info/gpt.txt`.  
+**Type:** inventaris en deduplicatie; er is voor deze audit niets uitgevoerd, gedownload of aan een registry gewijzigd.
+
+## Samenvatting
+
+Na deduplicatie zijn er drie werkelijk open onderzoeksprogramma's:
+
+1. **PORT80B DirectPath:** verklaar en verwijder de extra hostdatapass en dispatch-/pagingtails. Dit is de hoogste prioriteit omdat de fysieke bank, routebelasting en fout al gemeten zijn en een goedkope discriminatietest bestaat.
+2. **Nemotron NVFP4-port:** een afzonderlijke modelport met een gunstiger actieve expertset en contextstate, maar zonder lokaal checkpoint, laagreferentie of werkende Mamba-2/NVFP4-runtime.
+3. **Heterogene iGPU+dGPU-expertuitvoering:** potentieel om de discrete-PCIe-muur te omzeilen, maar de bestaande iGPU-meting is geen Q5-expertkernel en bewijst geen gelijktijdige bandbreedte.
+
+`gpt.txt` en de DirectPath-pack beschrijven inhoudelijk hetzelfde programma. `RAND_VAN_WAT_2026-08-12.md` voegt vooral de goedkope route-prefixresidentietest en de iGPU-route toe. De pruning-, ERGV- en TierFlow-passages zijn grotendeels statusanalyse van reeds geregistreerd werk.
+
+## Genormaliseerde hypothese-inventaris
+
+| ID | Concrete hypothese | Verwacht mechanisme | Nodige artefacten/hardware | Overlap en huidige status | Prioriteit |
+|---|---|---|---|---|---:|
+| DP0 | De lokale GPU kan geregistreerd/mapped hostgeheugen en mogelijk remote TMA gebruiken. | CUDA-deviceattributen bepalen welke DirectPath-varianten überhaupt uitvoerbaar zijn. | Bestaande dGPU; projectruntime met CuPy/NVRTC; attribute- en compile/run-probe vóór contextcreatie. | Niet gemeten in PORT80B-P0. ERGV bewees alleen dat lokale NVRTC-CUDA-compilatie werkt. | 0 |
+| DP1 | De 73,544-ms-p95 bestaat uit afzonderlijk meetbare mmap-copy-, H2D-, dispatch- en pagingcomponenten. | Onafhankelijke timers voor mmap→RAM, mmap→acht pinned vensters, één 973.209.600-byte H2D, 480 copies en 48 batches lokaliseren het verlies. | Bestaande 49.925.652.480-byte bank en bevroren routedigest; CUDA events; CPU- en pagetelemetrie. | PORT80B-P0 mat alleen het samengestelde achtvensterpad; een losse 512-MiB-H2D-meting bestaat, niet deze exacte decompositie. | 0 |
+| DP1A | Paging, niet dispatch, veroorzaakt het grootste deel van de tail. | Dezelfde 480 records/token beperken tot 60/70/80% van de bank maakt de working set resident zonder de datapath te veranderen. | Bestaande bank en runner; routegenerator met bevroren prefixparameter; identieke 60/70/80/100%-runs. | Nieuw, alleen in `RAND_VAN_WAT`; niet in de DirectPath-registry en niet uitgevoerd. | 0 |
+| DP1B | Hostregistratie heeft een capaciteits- of performantieknik. | Een 2/8/16/32/46,5-GiB-sweep scheidt pointer-/dispatchkosten van full-bank memory pressure. | `cudaHostRegister`, mapped/read-onlyvarianten, latency- en pagefaulttelemetrie. | `gpt.txt` maakt deze sweep expliciet; de pack vraagt capabilities en full-pathmetingen maar registreert geen groottecurve. | 1 |
+| DP2 | Registered batched copy is sneller en stabieler dan 480 losse stagingcopies. | Bankranges direct registreren verwijdert mmap→pinned gather; 48 calls met tien sources amortiseren API/driveroverhead. | CUDA-runtime met werkende `cudaMemcpyBatchAsync`-binding; geregistreerde bronranges; bestaande bank. | Exact aanbevolen door het PORT80B-eindrapport, `gpt.txt` en de pack; nog geen run. | 1 |
+| DP3 | Een Q5-ERVG-kernel kan geselecteerde expertrecords rechtstreeks uit mapped host memory lezen. | Eenmalige, coalesced PCIe-loads gaan naar SMEM/registers; HBM-staging en bounce-copy verdwijnen terwijl codes, BF16-schalen en reductie-DAG behouden blijven. | Werkende mapped-hostpointer; aangepaste ERGV Q5-kernel; resident-HBM-orakel; random/adversarial/real records. | ERGV is bitexact op resident Q5; direct-hostadressering is volledig open. Gate: 0 bitverschillen, p95 ≤65 ms, ≥15 GB/s, nul post-warmup hard faults. | 1 |
+| DP4 | TMA kan host-Q5 direct naar dubbelgebufferd SMEM halen en DP3 overtreffen. | Producer/consumerkernel verbergt remote latency zonder HBM-bounce. | Positieve TMA-remote capability- en compile/run-probe op deze mobiele Blackwell; aangepaste ERGV-codegen. | Alleen conditional stretch in `gpt.txt`/pack; DAK is genoemd als prior art, maar geen lokale compatibiliteit bewezen. | 3, na DP3 |
+| DP5 | Eén 2-MiB nonpageable page per expertrecord vermindert IOMMU-/pagingtails. | 24.576 records × 2 MiB reduceert de mappinggranulariteit van 237.600 4-KiB-pages naar 480 expertpages/token. | 48-GiB large-pageallocatie; `SeLockMemoryPrivilege`; volledige inhoudsdigest; waarschijnlijk meer fysiek RAM. | Geen bestaande large-pageproef. Alleen openen nadat DP3/DP4 correct is, zodat twee mechanismen niet worden vermengd. | 3, conditioneel |
+| DP6 | 96 GiB RAM verwijdert resterende residentie-/tailproblemen. | Volledige registratie of large-pagebank wordt mogelijk zonder Windows uit te hongeren. | Fysieke 96-GiB-configuratie en exact dezelfde winnende DP2/DP3-route op 64 versus 96 GiB. | PORT80B-P0 staat vergelijking toe maar bewijst geen RAM-oorzaak. Blocked op DP1/DP3-resultaat en alternatieve hardware. | 4, conditioneel |
+| DP7 | Een echte Qwen3-Coder-Next-80B-port kan op 8-GiB dGPU ≥10 tok/s halen. | DirectPath verlaagt experttransport voldoende; de werkelijke hybride shell en routing bepalen daarna end-to-end. | Officiële weights, converter/Q5-bank, Gated-DeltaNet-shell, officiële top-k/router, kwaliteitset en 512-tokenrollout. | I036 is `blocked_artifact`; huidige 46,5-GiB-bank en shell zijn synthetisch. Niet openen vóór transferpass. | 4, gated |
+| NEM0 | De NIM-naam `nemotron-3.5-nano-30b-a3b` en de publieke Nemotron-3-Nano NVFP4-checkpoint zijn exact dezelfde of aantoonbaar verschillende revisies. | Model-ID, revision, hashes, config en deterministische API/lokale outputs voorkomen een valse identiteitsclaim. | Toegang tot NIM/API-metadata en publieke repository; hashes en vaste promptset. | Volledig open; bron signaleert zelf top-5/top-6/shared-expert-inconsistentie. | 1 |
+| NEM1 | De officiële NVFP4-bank kan fysiek worden opgesplitst in resident trunk/shared experts en host-residente routed experts. | Alleen 23×128 routed experts worden gestreamd; trunk, shared experts, state en KV blijven op GPU. | Vijf officiële shards (bron schat 19,4 GB), tensorindex, quantizationmetadata en per-tensor/expertsize-inventaris. | Geen Nemotron-model lokaal; `models` bevat alleen Qwen3-30B en DeepSeek-V2-Lite. Qwen-P1D bewijst het algemene host-bankpatroon, niet dit formaat. | 1 |
+| NEM2 | Eén Nemotron-laag kan tegen de officiële representatie worden gereproduceerd. | Referenties voor Mamba-2, GQA-attention, router/top-6-normalisatie, shared expert, routed `fc1→ReLU²→fc2`, NVFP4-scaling en FP8-KV sluiten semantische fouten vóór full depth. | Officiële checkpoint/reference stack; laagcaptures; NVFP4-dequant/orakel; Mamba-state en FP8-KV-testvectors. | Geen van deze model-specifieke referenties bestaat lokaal. ERGV dekt alleen reductiecodegeneratie. | 2 |
+| NEM3 | Native NVFP4 plus top-6/twee-matrixexperts kan een eerste correcte 4K-runtime van 15–25 tok/s en daarna ≥25 tok/s leveren. | Minder routed bytes, twee projecties en slechts zes attentionlagen verlagen de koude expert- en attentionkosten. | NEM1/NEM2; fused NVFP4 expertkernel; asynchrone staging/cache; volledige trunkimplementatie; 8-GiB dGPU/64-GiB host. | Projectie, geen meting. P13/P1D leveren herbruikbare dataplaneonderdelen maar geen Mamba-2 of NVFP4 batch-1-GEMV. | 2 |
+| NEM4 | De hybride Mamba/GQA-architectuur houdt 32K–256K decode praktisch en maakt 1M technisch mogelijk. | Slechts zes attentionlagen en twee KV-heads beperken groeiende FP8-KV; Mamba-state blijft vrijwel constant. | Correcte FP8-KV-cache, contextdatasets, prefill/decode-profiler; 128K/256K/1M rollouts. | Volledig open; een rekenschatting is geen werkelijke aandachtbandbreedte- of kwaliteitstest. | 4, na NEM3 |
+| NEM5 | De NVFP4-port behoudt bruikbare Engelse én Nederlandse kwaliteit en 60-minutenstabiliteit. | Officiële QAD beperkt degradatie, maar Nederlands moet apart worden gemeten. | Bevroren meertalige/code/reasoning/toolset; officiële referentie; 10.000 tokens; thermische telemetrie. | De Qwen-kwaliteitsharnas kan deels worden hergebruikt; voor Nemotron is niets uitgevoerd. | 3, na correcte full-depth port |
+| HET0 | De Intel Arc Pro 140T kan een echte Q5-expert rechtstreeks uit host-USM uitvoeren met minstens 21,63 GB/s. | Near-data compute vermijdt dGPU-HBM-staging en gebruikt gedeeld DDR5 direct. | Level Zero/SYCL/OpenVINO Q5-kernel, Q5-layout/orakel en host-USM; toolchain/capabilityprobe. | P11B mat een generieke FP16 batch-8-matmul (iGPU 1,315 ms), geen Q5-expert, sequentiële tokenbelasting of USM-datapad. P18C/gpt1 waren slechts voorstellen. | 2 |
+| HET1 | ERGV kan één logische expertreductie bitexact over iGPU en dGPU partitioneren. | Beide devices berekenen vaste bron-DAG-subtrees; alleen kleine activaties/partials kruisen de devicegrens en de oorspronkelijke boom voegt ze samen. | HET0, dGPU-ERVG, gemeenschappelijk IR, cross-device synchronisatie en bit-orakel. | Geen heterogene kernel of exacte cross-device reductie bestaat. Bestaande ERGV is één dGPU. | 3, na HET0 |
+| HET2 | Gelijktijdige iGPU+dGPU-uitvoering verhoogt de totale effectieve expertbandbreedte ondanks gedeeld DDR5. | Een gemeten, gebalanceerde weightshard verdeelt werk over DDR5-near-data en PCIe/dGPU. | Concurrente bandwidth- en thermalrun; 64-GiB-capaciteitsplanning; scheduler en 10K trace. | Tabellen in `RAND` zijn optelsommen van afzonderlijke schattingen. Gelijktijdige buscontentie is niet gemeten. | 3, na HET1 |
+| ERGV-X | ERGV generaliseert naar een tweede GPU/model en gematchte publieke kernels. | De compiler moet dezelfde bron-DAG op andere fysieke topologieën genereren en competitief blijven. | Tweede GPU-architectuur of externe runner; tweede modelvorm; gematchte publieke kernels en protocol. | Expliciet open in B006/B007 en het eindrapport; lokaal geblokkeerd door ontbrekende tweede GPU. | 3 |
+| ATT-X | Attention kan van de gemeten lage piekbenutting naar ≥30% worden gebracht en end-to-end waarde leveren. | Verdere projectie-/attentionfusie of betere tiling benut de resterende bandwidth/compute. | Nieuwe exactheidsbewarende kernelhypothese, publieke baseline en end-to-end integratietest. | P13, N3A2/N3A3 leverden componentwinst; integraties bleven onder de algemene 2%-poort. `RAND` geeft geen nieuwe transformatie, alleen een doel. | 5 |
+| TF-R1 | Een getrainde TierFlow-router behoudt LM-kwaliteit terwijl hij routewijzigingen begrenst. | Persistente routeflow reduceert cold expertloads; training leert de 32% oracle-substituties te absorberen. | Afzonderlijk 100–300M trainingsproject, corpus, baselines, route/runtime- en ≤1%-kwaliteitsgate. | B008/F0 bewees alleen verkeersrekenkunde (4,158×; 32,03% substitutie). I044 blijft `blocked_scope`. | 5, apart budget |
+| PRUNE-X | Zeer lage pruningfracties of andere MoE-modellen volgen de uit 25/50% afgeleide bijna-lineaire kwaliteitscurve. | Als schade lineair blijft, verbruikt circa 2% pruning het volledige kwaliteitsbudget. | Correct gemuteerde 2/5/10%-ablaties, meerdere seeds/datasets en liefst een tweede MoE. | 25% en 50% zijn negatief; 2/5/10% zijn geëxtrapoleerd, niet gemeten. De universele zin “op elke fractie” is dus niet bewezen. Lage prioriteit omdat de voorspelde bytewinst klein is. | 6 |
+
+## Exacte deduplicatie tegen bestaande registries en resultaten
+
+- **GaugePack/pruning:** B001–B005 zijn gesloten of geïnvalideerd. Alleen de lage-fractie/cross-modelschaalwet `PRUNE-X` is formeel open; GaugePack zelf mag niet worden heropend op basis van de foutieve P9B-premisse.
+- **ERVG:** B006/B007 zijn componentpasses op één dGPU. `DP3`, `HET1` en `ERGV-X` gebruiken dezelfde exacte-reductie-infrastructuur, maar stellen nieuwe adresruimte-, devicepartitionerings- en generalisatievragen.
+- **PORT80B:** B010/P0 blijft negatief onder de bevroren 45-ms- en page-readgates. `DP0–DP7` vormen terecht een nieuwe mechanisme-registry en mogen dat historische verdict niet herschrijven.
+- **TierFlow:** B008 is alleen een oracle/verkeerspass. `TF-R1` is dezelfde reeds geopende trainingskloof, geen nieuwe lokale runtimehypothese.
+- **iGPU:** P11B is geen sluiting van `HET0–HET2`; het was een andere datatype-, vorm- en runtimeproef. De eerdere P18C/gpt1-teksten zijn voorstellen zonder uitvoeringsartefact.
+- **Nemotron:** geen bestaande registry, checkpoint, script of rapport dekt `NEM0–NEM5`. DeepSeek-P14A is alleen precedent voor een tweede-modelkwaliteitstest.
+- **`gpt.txt`:** geen afzonderlijke programmalijn; normaliseert naar `DP0–DP7`. De enige extra operationele detaillering is de registratiesizesweep `DP1B`.
+
+## Exacte open blockers
+
+1. **DirectPath capability:** lokale ondersteuning voor mapped/read-only host registration, batchcopy en remote TMA is niet gelogd. TMA en large pages mogen vóór die probes niet worden aangenomen.
+2. **Full-bank residentie:** bij de P0-start was minder beschikbaar fysiek RAM dan de 46,5-GiB-bank. Dat maakt full registration/48-GiB nonpageable allocation op 64 GiB onzeker; de route-prefixproef moet paging van dispatch scheiden.
+3. **Batchcopy API:** werkende lokale binding/runtime voor `cudaMemcpyBatchAsync` is niet aangetoond. NVRTC-compilatie via CuPy 14.1.1 bewijst dit runtime-API-pad niet.
+4. **Windows large pages:** `SeLockMemoryPrivilege`, succesvolle 48-GiB allocatie en CUDA-mapping van die allocatie zijn alle onbewezen. Dit is geen eerstelijnstest.
+5. **Echte 80B:** officiële weights, converter, echte router en hybride Gated-DeltaNet-shell ontbreken. Een synthetische transferpass is geen modelresultaat.
+6. **Nemotron artefact en identiteit:** geen lokaal NVFP4-checkpoint; NIM/API-alias versus publieke weighthash en top-k/shared-expertconfig zijn niet vastgesteld.
+7. **Nemotron kernelstack:** geen correcte lokale Mamba-2-, NVFP4 batch-1 expert-, FP8-KV- of full-depthreferentie. De door het brondocument genoemde tok/s-getallen zijn uitsluitend projecties.
+8. **Heterogene route:** Level Zero/SYCL Q5-toolchain en host-USM-kernel ontbreken. Gelijktijdige iGPU+dGPU-bandbreedte, DDR5-contentie en thermiek zijn niet gemeten.
+9. **Externe ERGV-validatie:** geen tweede GPU beschikbaar en geen gematchte publieke kernelbenchmark vastgelegd.
+10. **TierFlow:** vereist training, checkpoint en corpus buiten de bestaande lokale oraclemeting.
+
+## Aanbevolen uitvoeringsvolgorde
+
+1. `DP0`, daarna `DP1A` en `DP1` met dezelfde bank en routedigest.
+2. Open op basis van die diagnose `DP2` en/of `DP3`; `DP1B` alleen zover memory pressure veilig blijft.
+3. Parallel zonder zware port: `NEM0` en `NEM1` als identiteit-/artefactgate; geen performanceclaim vóór `NEM2`.
+4. `HET0` als zelfstandige Q5-host-USM-microgate. Alleen bij pass door naar `HET1/HET2`.
+5. `DP4`, `DP5` en `DP6` uitsluitend conditioneel; `DP7` pas na een fysieke transferpass.
+6. `NEM3–NEM5`, `ERGV-X` en `TF-R1` zijn vervolgfases met respectievelijk modelport-, externe-hardware- en trainingsbudget.
+
+De kortste beslissende open test is daarmee **niet** nog een pruning- of cachevariant, maar de combinatie `DP1A + DP1`: dezelfde 480 records/token met een resident bankprefix, plus afzonderlijke timing van hostcopy, bus en dispatch.

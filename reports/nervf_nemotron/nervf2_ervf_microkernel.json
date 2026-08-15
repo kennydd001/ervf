@@ -1,0 +1,139 @@
+{
+  "kind": "nervf_nemotron_ervf_microkernel",
+  "completed_utc": "2026-08-15T17:21:42.618919+00:00",
+  "baseline_us": 38.576,
+  "baseline_gb_s": 72.74657818332643,
+  "widths": {
+    "4": {
+      "width": 4,
+      "rows_per_block": 64,
+      "grid": 29,
+      "us_p50": 28.884,
+      "gb_s": 97.1566265060241,
+      "speedup": 1.3355490929234177,
+      "bitwise_cases": 72,
+      "bitwise_mismatches": 0,
+      "bitwise_identical": true,
+      "regs": 96,
+      "static_shared": 64,
+      "raw": [
+        28.747,
+        28.763,
+        28.884,
+        29.342,
+        29.226,
+        28.818,
+        28.8225,
+        28.8985,
+        29.276
+      ]
+    },
+    "8": {
+      "width": 8,
+      "rows_per_block": 32,
+      "grid": 58,
+      "us_p50": 22.8775,
+      "gb_s": 122.66515134957929,
+      "speedup": 1.6861982297016718,
+      "bitwise_cases": 72,
+      "bitwise_mismatches": 0,
+      "bitwise_identical": true,
+      "regs": 68,
+      "static_shared": 64,
+      "raw": [
+        22.608,
+        22.8775,
+        22.9065,
+        22.620500000000003,
+        22.701999999999998,
+        28.166999999999998,
+        22.837,
+        23.2095,
+        25.624000000000002
+      ]
+    },
+    "16": {
+      "width": 16,
+      "rows_per_block": 16,
+      "grid": 116,
+      "us_p50": 19.929000000000002,
+      "gb_s": 140.81348788198102,
+      "speedup": 1.935671634301771,
+      "bitwise_cases": 72,
+      "bitwise_mismatches": 0,
+      "bitwise_identical": true,
+      "regs": 48,
+      "static_shared": 64,
+      "raw": [
+        19.929000000000002,
+        19.5325,
+        20.308,
+        22.164499999999997,
+        19.3,
+        20.200499999999998,
+        18.9105,
+        21.008000000000003,
+        19.665499999999998
+      ]
+    },
+    "32": {
+      "width": 32,
+      "rows_per_block": 8,
+      "grid": 232,
+      "us_p50": 20.337,
+      "gb_s": 137.98849387815315,
+      "speedup": 1.8968382750651522,
+      "bitwise_cases": 72,
+      "bitwise_mismatches": 0,
+      "bitwise_identical": true,
+      "regs": 40,
+      "static_shared": 64,
+      "raw": [
+        20.0665,
+        20.222,
+        20.558000000000003,
+        19.89,
+        20.337,
+        20.069000000000003,
+        20.555,
+        20.627,
+        20.634
+      ]
+    }
+  },
+  "exact_widths": [
+    "16",
+    "32",
+    "4",
+    "8"
+  ],
+  "best_exact_width": 16,
+  "best_speedup": 1.935671634301771,
+  "cases_per_width": {
+    "experts": 9,
+    "activations": [
+      "random",
+      "adversarial",
+      "zero_heavy",
+      "dense"
+    ],
+    "relu2_variants": 2
+  },
+  "gates": {
+    "G_NERVF_2C_exact": {
+      "all_widths_bitwise": {
+        "4": true,
+        "8": true,
+        "16": true,
+        "32": true
+      },
+      "passed": true
+    },
+    "G_NERVF_2S_primary": {
+      "required": 1.35,
+      "measured": 1.935671634301771,
+      "passed": true
+    }
+  },
+  "claim_boundary": "Isolated projection-plane microbenchmark on one real NVFP4 up_proj record; bitwise exactness checked against the production kernel over 3 layers x N experts x 4 activation regimes x 2 relu2 settings. This is NOT a token time, NOT a throughput result, and NOT integrated: runtime integration is NERVF-3. Speedups are projection-plane only and may not be added to other component gains."
+}

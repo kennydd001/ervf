@@ -1,0 +1,90 @@
+{
+  "kind": "port80b_d10br_heldout_10000_endurance_independent_cpu_verification",
+  "completed_utc": "2026-08-13T08:15:15.009636+00:00",
+  "verification_pass": true,
+  "check_count": 19,
+  "checks": {
+    "immutable_hashes_exact": true,
+    "raw_input_locks_replay": true,
+    "canonical_status_and_all_19_gates": true,
+    "heldout_route_contract_exact": true,
+    "latency_vectors_10000_finite_positive": true,
+    "latency_statistics_replay": true,
+    "timing_and_drift_hard_gates": true,
+    "all_10000_state_checks_true": true,
+    "telemetry_10000_and_state_true": true,
+    "ram_vram_and_loss_replay": true,
+    "checkpoint_schedule_exact_101": true,
+    "checkpoint_schema_exact_9_each": true,
+    "all_909_arrays_finite_digested_no_poison": true,
+    "all_101_composed_digests_unique": true,
+    "paging_replay": true,
+    "dense_and_runtime_exact": true,
+    "registration_rows_48_exact": true,
+    "unregister_rows_48_clean": true,
+    "claim_boundary_remains_synthetic": true
+  },
+  "inputs": {
+    "raw": "f4e01b4aa810f26a09835bfa8dd2b7e9153be432523841a35ac1fc7d6671fc9a",
+    "raw_report": "c5cbb93e15928a5850cdfdb6cb19a308d3c13da72bf83d54b3f50ecc463c111d",
+    "runner": "b91eed7dda9930859a8c95b1f0116c017e0f7d00651e4d0632f5530b840e55e9",
+    "prereg": "236587175a33e39ac3052e3e7b537938ce62a5842d61fb3d67a407273205b928",
+    "preflight": "d1f0bdcb2e41dbd1c8734130acb2bacd740f2e39e908cd3f37747d77155fbf1f"
+  },
+  "replay": {
+    "wall_stats": {
+      "count": 10000,
+      "mean": 67.0995012899075,
+      "p50": 67.01195001369342,
+      "p95": 69.04735999996774,
+      "p99": 77.2186339920154,
+      "min": 63.54889998328872,
+      "max": 96.34530000039376
+    },
+    "cuda_event_stats": {
+      "count": 10000,
+      "mean": 67.05897176208497,
+      "p50": 66.97545623779297,
+      "p95": 69.0056526184082,
+      "p99": 77.09745643615726,
+      "min": 63.51980972290039,
+      "max": 96.3127670288086
+    },
+    "first_1000_wall_stats": {
+      "count": 1000,
+      "mean": 67.5947122995276,
+      "p50": 65.49559999257326,
+      "p95": 79.34589498036075,
+      "p99": 84.43238699721405,
+      "min": 63.54889998328872,
+      "max": 96.34530000039376
+    },
+    "last_1000_wall_stats": {
+      "count": 1000,
+      "mean": 67.27817319982569,
+      "p50": 67.313749997993,
+      "p95": 69.03190999291837,
+      "p99": 70.62500199244823,
+      "min": 63.90040001133457,
+      "max": 72.78060002136044
+    },
+    "last_first_p95_ratio": 0.8700123681257205,
+    "telemetry_min_ram": 4564619264,
+    "telemetry_min_vram": 2844786688,
+    "telemetry_memory_loss": -1024204800,
+    "page_read_samples": 703,
+    "page_reads_per_sec_max": 1020.7381634823033,
+    "checkpoints": 101,
+    "array_evidence_rows": 909,
+    "unique_composed_digests": 101,
+    "registration_rows": 48,
+    "unregister_rows": 48
+  },
+  "claim_boundary": "Synthetic shape-informed 10,000-step endurance on held-out P4D-shaped proxy routes and uniform Q5 payloads only; not checkpoint, natural routing, quality, production throughput or breakthrough evidence.",
+  "physical_actions": {
+    "gpu_run": false,
+    "host_registration": false,
+    "bank_scan": false,
+    "registry_edit": false
+  }
+}

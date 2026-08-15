@@ -1,0 +1,140 @@
+{
+  "kind": "streamq5_moe_p13a_exact_virtual_attention",
+  "completed_utc": "2026-08-12T14:27:28.361515+00:00",
+  "preregistration_sha256": "caecb26129ee21f43dd0beda394acfc1bca089fbef6d9a3a798830b5bbef2b7f",
+  "script_sha256": "a54527c47b195c9106d019ba3dd9e0d06935060188d2fb0a0eca8feaf68c22d6",
+  "seed": 130812,
+  "correctness": {
+    "128": {
+      "scores_bitwise_equal_all_layers": false,
+      "score_differences": 11,
+      "values": {
+        "bitwise_equal": false,
+        "elements": 196608,
+        "different": 2,
+        "max_abs": 0.00390625,
+        "finite": true
+      }
+    },
+    "512": {
+      "scores_bitwise_equal_all_layers": false,
+      "score_differences": 55,
+      "values": {
+        "bitwise_equal": true,
+        "elements": 196608,
+        "different": 0,
+        "max_abs": 0.0,
+        "finite": true
+      }
+    },
+    "1024": {
+      "scores_bitwise_equal_all_layers": false,
+      "score_differences": 114,
+      "values": {
+        "bitwise_equal": false,
+        "elements": 196608,
+        "different": 2,
+        "max_abs": 0.00390625,
+        "finite": true
+      }
+    },
+    "4096": {
+      "scores_bitwise_equal_all_layers": false,
+      "score_differences": 398,
+      "values": {
+        "bitwise_equal": false,
+        "elements": 196608,
+        "different": 2,
+        "max_abs": 0.00390625,
+        "finite": true
+      }
+    }
+  },
+  "validation": {
+    "128": {
+      "original": {
+        "mean": 2.053501864274343,
+        "p50": 2.0029600858688354,
+        "p95": 2.3985135316848756,
+        "min": 1.8840960264205933,
+        "max": 2.507456064224243,
+        "iterations": 30
+      },
+      "evt_pm": {
+        "mean": 1.2783626675605775,
+        "p50": 1.2848960161209106,
+        "p95": 1.3711648404598236,
+        "min": 1.003391981124878,
+        "max": 1.5461440086364746,
+        "iterations": 30
+      },
+      "p50_ratio": 0.6414985626453729,
+      "p95_ratio": 0.5716727557908027
+    },
+    "512": {
+      "original": {
+        "mean": 12.279470856984457,
+        "p50": 12.289023876190186,
+        "p95": 12.314391613006592,
+        "min": 12.208288192749023,
+        "max": 12.319583892822266,
+        "iterations": 30
+      },
+      "evt_pm": {
+        "mean": 2.4274922529856364,
+        "p50": 2.398975968360901,
+        "p95": 2.7753824114799497,
+        "min": 1.990015983581543,
+        "max": 3.304863929748535,
+        "iterations": 30
+      },
+      "p50_ratio": 0.1952128983172442,
+      "p95_ratio": 0.22537714397100717
+    },
+    "1024": {
+      "original": {
+        "mean": 27.288815879821776,
+        "p50": 28.18406391143799,
+        "p95": 28.236275386810302,
+        "min": 24.179264068603516,
+        "max": 28.537023544311523,
+        "iterations": 30
+      },
+      "evt_pm": {
+        "mean": 3.999075198173523,
+        "p50": 3.9632320404052734,
+        "p95": 4.059225559234619,
+        "min": 3.950592041015625,
+        "max": 4.665952205657959,
+        "iterations": 30
+      },
+      "p50_ratio": 0.14061960875687868,
+      "p95_ratio": 0.14375924245060878
+    },
+    "4096": {
+      "original": {
+        "mean": 96.85862325032552,
+        "p50": 96.29719924926758,
+        "p95": 99.33397407531739,
+        "min": 96.20783996582031,
+        "max": 103.39437103271484,
+        "iterations": 30
+      },
+      "evt_pm": {
+        "mean": 12.316565418243409,
+        "p50": 12.308688163757324,
+        "p95": 12.345795249938964,
+        "min": 12.247008323669434,
+        "max": 12.586912155151367,
+        "iterations": 30
+      },
+      "p50_ratio": 0.12781979392667478,
+      "p95_ratio": 0.12428572766632782
+    }
+  },
+  "eligible": false,
+  "validation_gate": true,
+  "test": null,
+  "overall_pass": false,
+  "claim_boundary": "Full 48-layer isolated attention-plane result; exact decoder integration remains required."
+}

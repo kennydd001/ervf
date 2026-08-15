@@ -1,0 +1,129 @@
+{
+  "artifact": "reports/runs/qwen_gptq_bank/p0_supplement_input_ids.safetensors",
+  "artifact_sha256": "71c0b764e4a91f600f5a324e64b711bcdc5f2f04fcdf8190210d2fc714bbbd4f",
+  "base_route_corpora": [
+    "reports/runs/hera_moe/p0_input_ids.safetensors",
+    "reports/runs/dhera_moe/p0_input_ids.safetensors"
+  ],
+  "context_tokens": 1024,
+  "contexts_per_domain": 128,
+  "domains": [
+    "general",
+    "code",
+    "math",
+    "multilingual",
+    "instruction"
+  ],
+  "input_ids_sha256": {
+    "code": "3c271e89d32defce93c6469a6a01c68e30a9273263f9359ad115d52c1629b411",
+    "general": "2b88b9f25176674506eb807c16128e8acb9be2a37c4f2d0158a3a3ffbd35bbb0",
+    "instruction": "9c426a16393380ab2f53a69cc5effbbe6c9a6ad3f77f4f7999e3739112b7ac16",
+    "math": "dcf8ea47e3177d988809bb9919010b6bf69bdd3856a0ad85c58afb8c15399889",
+    "multilingual": "df752eccc957079ae9a50d1da442f06ac4ca71aea67cf8eb80d3504592108115"
+  },
+  "kind": "qwen_gptq_bank_p0_input_lock",
+  "locked_utc": "2026-08-11T17:39:00.929810+00:00",
+  "model_revision": "1b75feb79f60b8dc6c5bc769a898c206a1c6a4f9",
+  "selection_disclosure": "Supplement size and source windows were fixed after inspecting aggregate HERA+DHERA coverage (6/6144 pairs below 128), but before opening any supplement routes.",
+  "sources": {
+    "code": [
+      {
+        "offset": 32768,
+        "path": "data/corpora/hera_moe_p0/code/python/train-00000-of-00001.parquet",
+        "sha256": "0e9da7aa684b7ceac8f1736b329329a12d53dcbfc4813f5e9f1244889ea1e085",
+        "tokens": 65536
+      },
+      {
+        "offset": 32768,
+        "path": "data/corpora/hera_moe_p0/code/java/train-00000-of-00001.parquet",
+        "sha256": "d4e9b6099aaafbdfc7c6fab65edafcf2e692cb29db15abc49db50635ef32e63d",
+        "tokens": 65536
+      }
+    ],
+    "general": [
+      {
+        "offset": 32768,
+        "path": "data/corpora/wikitext/wikitext-2-raw-v1/train-00000-of-00001.parquet",
+        "sha256": "e83889baabc497075506f91975be5fac0d45c5290b6b20582c8cd1e853d0c9f7",
+        "tokens": 131072
+      }
+    ],
+    "instruction": [
+      {
+        "offset": 65536,
+        "path": "data/corpora/hera_moe_p0/instruction/databricks-dolly-15k.jsonl",
+        "sha256": "2df9083338b4abd6bceb5635764dab5d833b393b55759dffb0959b6fcbf794ec",
+        "tokens": 131072
+      }
+    ],
+    "math": [
+      {
+        "offset": 32768,
+        "path": "data/corpora/hera_moe_p0/math/main/train-00000-of-00001.parquet",
+        "sha256": "ea82612ea9582142387730c793eb67d3b12849002bc0b7fa6f8efafa7351419d",
+        "tokens": 131072
+      }
+    ],
+    "multilingual": [
+      {
+        "column": "arb_Arab",
+        "offset": 4096,
+        "path": "data/corpora/hera_moe_p0/multilingual/dev.parquet",
+        "sha256": "024301782a6ae84962bef679dd994f84ea46062d92dd379d14ff8df9f244aca2",
+        "tokens": 16384
+      },
+      {
+        "column": "zho_Hans",
+        "offset": 4096,
+        "path": "data/corpora/hera_moe_p0/multilingual/dev.parquet",
+        "sha256": "024301782a6ae84962bef679dd994f84ea46062d92dd379d14ff8df9f244aca2",
+        "tokens": 16384
+      },
+      {
+        "column": "hin_Deva",
+        "offset": 4096,
+        "path": "data/corpora/hera_moe_p0/multilingual/dev.parquet",
+        "sha256": "024301782a6ae84962bef679dd994f84ea46062d92dd379d14ff8df9f244aca2",
+        "tokens": 16384
+      },
+      {
+        "column": "rus_Cyrl",
+        "offset": 4096,
+        "path": "data/corpora/hera_moe_p0/multilingual/dev.parquet",
+        "sha256": "024301782a6ae84962bef679dd994f84ea46062d92dd379d14ff8df9f244aca2",
+        "tokens": 16384
+      },
+      {
+        "column": "spa_Latn",
+        "offset": 4096,
+        "path": "data/corpora/hera_moe_p0/multilingual/dev.parquet",
+        "sha256": "024301782a6ae84962bef679dd994f84ea46062d92dd379d14ff8df9f244aca2",
+        "tokens": 16384
+      },
+      {
+        "column": "swh_Latn",
+        "offset": 4096,
+        "path": "data/corpora/hera_moe_p0/multilingual/dev.parquet",
+        "sha256": "024301782a6ae84962bef679dd994f84ea46062d92dd379d14ff8df9f244aca2",
+        "tokens": 16384
+      },
+      {
+        "column": "jpn_Jpan",
+        "offset": 4096,
+        "path": "data/corpora/hera_moe_p0/multilingual/dev.parquet",
+        "sha256": "024301782a6ae84962bef679dd994f84ea46062d92dd379d14ff8df9f244aca2",
+        "tokens": 16384
+      },
+      {
+        "column": "nld_Latn",
+        "offset": 4096,
+        "path": "data/corpora/hera_moe_p0/multilingual/dev.parquet",
+        "sha256": "024301782a6ae84962bef679dd994f84ea46062d92dd379d14ff8df9f244aca2",
+        "tokens": 16384
+      }
+    ]
+  },
+  "supplement_routes_opened": false,
+  "tokens_per_domain": 131072,
+  "total_supplement_tokens": 655360
+}

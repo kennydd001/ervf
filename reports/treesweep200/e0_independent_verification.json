@@ -1,0 +1,85 @@
+{
+  "kind": "treesweep200_e0_independent_verification",
+  "completed_utc": "2026-08-15T16:04:54.809707+00:00",
+  "verifier_sha256": "6cf0f622c5a2a37d74c85224fbbeb593f4253fae0c02272d7c81f9d4ca641380",
+  "verified_file_sha256": "88fca33b85d1c5379b051e26aa7facaf8ce4b936ee3085c16b05ca65f699b536",
+  "recomputed": {
+    "resident_bytes": 1660941276,
+    "roofline_gb_s": 330.52447946807854,
+    "floor_ms": {
+      "0": 6.3059313438879325,
+      "4096": 6.344000875137932,
+      "32768": 6.610487593887933,
+      "131072": 7.524156343887933,
+      "262100": 8.74197239384521
+    }
+  },
+  "checks": [
+    {
+      "check": "identity manifest hash matches the runner's record",
+      "ok": true
+    },
+    {
+      "check": "evidence manifest hash matches the runner's record",
+      "ok": true
+    },
+    {
+      "check": "all ten evidence sources still hash to the locked values",
+      "ok": true
+    },
+    {
+      "check": "identity files all present and hashed",
+      "ok": true
+    },
+    {
+      "check": "runtime.py unchanged since P0 lock",
+      "ok": true
+    },
+    {
+      "check": "identity fields match config.json",
+      "ok": true
+    },
+    {
+      "check": "resident bytes reproduce from own header count",
+      "ok": true,
+      "recomputed": 1660941276,
+      "stored": 1660941276
+    },
+    {
+      "check": "up/down record sizes match the byte model",
+      "ok": true
+    },
+    {
+      "check": "nonzero fraction rederived from frozen census",
+      "ok": true
+    },
+    {
+      "check": "all five byte floors reproduce from headers + own roofline",
+      "ok": true
+    },
+    {
+      "check": "G-E0-R1: own roofline within 10% of imported",
+      "ok": true
+    },
+    {
+      "check": "G-E0-F1: own floors within 10% of imported",
+      "ok": true,
+      "own_ctx0_ms": 6.3059313438879325,
+      "own_262k_ms": 8.74197239384521
+    },
+    {
+      "check": "G-P0-I1 and G-P0-B1 pass as stored",
+      "ok": true
+    },
+    {
+      "check": "every imported claim classified with a note",
+      "ok": true
+    },
+    {
+      "check": "result carries a claim boundary",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

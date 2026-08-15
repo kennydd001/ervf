@@ -1,0 +1,79 @@
+{
+  "kind": "PORT80B_DIRECTPATH_SMOKING_GUN",
+  "created_at": "2026-08-12",
+  "source_bundle": "research_docs_nuttige_info_2026-08-12_222503_compleet(1).zip",
+  "source_bundle_sha256": "40e37bc4fa92e179b6955a493a49906c43a30ec8e7fb8bb9aaa334490ba9dc61",
+  "status": "new_independent_hypothesis_not_result",
+  "locked_input": {
+    "record_bytes": 2027520,
+    "records_per_token": 480,
+    "active_bytes_per_token": 973209600,
+    "physical_bank_bytes": 49925652480,
+    "physical_bank_gib": 46.49688720703125,
+    "zero_cache_mean_ms": 65.53,
+    "zero_cache_p50_ms": 63.034,
+    "zero_cache_p95_ms": 73.544,
+    "zero_cache_p99_ms": 121.315,
+    "cache4k_hit_rate": 0.09382,
+    "cache4k_p95_ms": 66.148,
+    "measured_pinned_h2d_gb_s": 26.158915,
+    "resident_expert_compute_p95_ms": 8.86889,
+    "dense_shell_p95_ms": 28.077227
+  },
+  "smoking_gun_arithmetic": {
+    "raw_pinned_h2d_floor_ms": 37.20374488009155,
+    "p50_excess_over_raw_floor_ms": 25.83025511990845,
+    "p95_excess_over_raw_floor_ms": 36.34025511990845,
+    "p50_excess_implied_host_copy_gb_s": 37.677119156670926,
+    "p95_excess_implied_host_copy_gb_s": 26.78048342777985,
+    "interpretation": "The observed p50 is almost exactly the sum of one raw PCIe pass and one plausible DRAM gather pass. This strongly implicates the mmap-to-pinned bounce path rather than the PCIe floor itself."
+  },
+  "end_to_end_budget": {
+    "token_budget_ms_for_10_tps": 100.0,
+    "expert_path_budget_after_dense_shell_ms": 71.922773,
+    "remote_effective_gb_s_required": 13.531313649433397,
+    "current_zero_cache_effective_p95_gb_s": 13.233025127814642,
+    "current_zero_cache_overlap_projection_ms": 101.621227,
+    "current_zero_cache_overlap_projection_tps": 9.840463744843387,
+    "p50_overlap_projection_ms": 91.111227,
+    "p50_overlap_projection_tps": 10.975595795675105,
+    "cache4k_overlap_projection_ms": 94.22522699999999,
+    "cache4k_overlap_projection_tps": 10.612869099269988,
+    "warning": "These combine separate synthetic measurements and are not a real full-model result."
+  },
+  "page_geometry": {
+    "4k_pages_per_expert_record": 495,
+    "4k_page_translations_per_zero_cache_token": 237600,
+    "2mib_padding_per_record_bytes": 69632,
+    "2mib_aligned_bank_gib": 48.0,
+    "extra_bank_gib_for_2mib_alignment": 1.50311279296875,
+    "large_page_records_per_token": 480,
+    "hypothesis": "One expert per 2 MiB nonpageable allocation reduces the mapping granularity from 237,600 4-KiB pages to 480 large pages per token. GPU/IOMMU benefits must be measured; they are not assumed."
+  },
+  "candidate_paths": [
+    {
+      "id": "A_REFERENCE_8_WINDOW",
+      "description": "Existing mmap -> 8 pinned windows -> 480 cudaMemcpyAsync operations."
+    },
+    {
+      "id": "B_REGISTERED_BATCHCOPY",
+      "description": "Register stable bank ranges and issue one cudaMemcpyBatchAsync for the ten active expert records of each layer."
+    },
+    {
+      "id": "C_MAPPED_HOST_DIRECT",
+      "description": "ERVG/Q5 kernel directly reads mapped page-locked host records; no HBM staging."
+    },
+    {
+      "id": "D_TMA_DIRECT",
+      "description": "If an architecture probe succeeds, adapt a DAK-style producer/consumer kernel that fetches host Q5 tiles directly into SMEM."
+    },
+    {
+      "id": "E_2MIB_EXPERT_PAGES",
+      "description": "Allocate a 48-GiB, one-expert-per-large-page bank at startup; requires SeLockMemoryPrivilege and probably 96 GiB RAM."
+    }
+  ],
+  "hardware_decision": {
+    "buy_96gb_now": false,
+    "rule": "Buy 96 GiB only if full-bank registration/large-page allocation fails on 64 GiB or if an A/B run shows that removing hard faults substantially reduces p95 after the bounce path is removed."
+  }
+}

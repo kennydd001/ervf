@@ -1,0 +1,81 @@
+{
+  "created_at_utc": "2026-08-10T02:58:50.199639+00:00",
+  "git_revision": null,
+  "kind": "preregistered_mass_budget_confirmation_gates",
+  "payload": {
+    "gates": {
+      "gate_1_exact_original_control": {
+        "maximum_layer_error": 0.0,
+        "passed": true
+      },
+      "gate_2_low_mass_beats_old_baseline_on_test": {
+        "mass_budget_kl": 0.003703920461703092,
+        "mass_budget_load_reduction_fraction": 0.14017052912120387,
+        "mass_budget_policy": "mass_budget_j2_delta0p004",
+        "old_kl": 0.004388764325994998,
+        "old_load_reduction_fraction": 0.10559379602633079,
+        "old_policy": "max_rank_j5_m7",
+        "passed": true
+      },
+      "gate_3_at_least_one_paired_front_comparison": {
+        "pairs": {
+          "high": {
+            "fixed_policy": "cache_prior_j2_lambda0p095",
+            "mass_budget_policy": "mass_budget_j2_delta0p018",
+            "passed": false,
+            "splits": {
+              "test": {
+                "kl_at_least_five_percent_lower": true,
+                "load_within_two_percentage_points": true,
+                "mass_budget_minus_fixed_load_reduction_fraction": -0.019247146993697783,
+                "relative_kl_change": -0.09935394649763152
+              },
+              "validation": {
+                "kl_at_least_five_percent_lower": true,
+                "load_within_two_percentage_points": false,
+                "mass_budget_minus_fixed_load_reduction_fraction": -0.022739028780699777,
+                "relative_kl_change": -0.08653202280554861
+              }
+            }
+          },
+          "low": {
+            "fixed_policy": "cache_prior_j2_lambda0p0275",
+            "mass_budget_policy": "mass_budget_j2_delta0p004",
+            "passed": true,
+            "splits": {
+              "test": {
+                "kl_at_least_five_percent_lower": true,
+                "load_within_two_percentage_points": true,
+                "mass_budget_minus_fixed_load_reduction_fraction": -0.01392687887623123,
+                "relative_kl_change": -0.15109368802311973
+              },
+              "validation": {
+                "kl_at_least_five_percent_lower": true,
+                "load_within_two_percentage_points": true,
+                "mass_budget_minus_fixed_load_reduction_fraction": -0.013790320912044018,
+                "relative_kl_change": -0.15536203714349894
+              }
+            }
+          }
+        },
+        "passed": true
+      },
+      "gate_4_low_mass_cross_entropy_sanity": {
+        "bootstrap_95_percent_interval": [
+          -0.0017139990819410426,
+          0.0006017785837941575
+        ],
+        "passed": true,
+        "relative_cross_entropy_delta": -0.0005709886868928175
+      },
+      "gate_5_every_low_mass_test_block_saves_loads": {
+        "passed": true,
+        "passing_blocks": 16,
+        "test_blocks": 16
+      }
+    },
+    "source_report": "reports/baseline/preregistered_wikitext_offset4096_mass_budget_confirmation.json",
+    "status": "pass"
+  },
+  "schema_version": 1
+}

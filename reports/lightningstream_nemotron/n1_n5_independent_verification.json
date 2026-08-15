@@ -1,0 +1,210 @@
+{
+  "kind": "lightningstream_nemotron_n1_n5_independent_verification",
+  "completed_utc": "2026-08-15T13:33:32.637382+00:00",
+  "verifier_sha256": "17946f1e244e8941700b2fcdcfdbcf3c9a0a5e288c6a7bacf76b9bb6d3a92329",
+  "verified": {
+    "ceilings": "e9f3e687caff03c24add05d1853524bebdb24723138799a0ea616795982397ca",
+    "n3": "3198ba29649c6e2b00438672b20916b6d68c26015026ecf9d73707a5c8db977e"
+  },
+  "recomputed": {
+    "n1_removable": 0.23671462715430658,
+    "n2_marginals": {
+      "scan": {
+        "m": 0.3062749999999994,
+        "drift": 4.669049999999999
+      },
+      "gather": {
+        "m": 8.191825000000001,
+        "drift": 0.039550000000005525
+      },
+      "gemv": {
+        "m": 12.429274999999997,
+        "drift": 4.825649999999996
+      },
+      "down_all": {
+        "m": 12.648974999999993,
+        "drift": 3.2168499999999938
+      }
+    },
+    "n2_share": 0.6718409989742257,
+    "n4_slope_ms_per_byte": 2.148063378331142e-08,
+    "n4_r2": 0.9964022597021448,
+    "n5": {
+      "ctx0": 165.20873555316908,
+      "ctx262100": 118.58950728603371
+    },
+    "n3_best_certified": 0.00013469827586206896
+  },
+  "checks": [
+    {
+      "check": "N1 graph capture succeeded",
+      "ok": true
+    },
+    {
+      "check": "N1 eager p50 reproduces from raw",
+      "ok": true
+    },
+    {
+      "check": "N1 removable fraction reproduces",
+      "ok": true,
+      "recomputed": 0.23671462715430658
+    },
+    {
+      "check": "N1 graph is faster than eager (overhead exists)",
+      "ok": true
+    },
+    {
+      "check": "N2 scan: p50 reproduces from raw",
+      "ok": true
+    },
+    {
+      "check": "N2 scan: marginal reproduces",
+      "ok": true,
+      "recomputed": 0.3062749999999994,
+      "drift": 4.669049999999999
+    },
+    {
+      "check": "N2 gather: p50 reproduces from raw",
+      "ok": true
+    },
+    {
+      "check": "N2 gather: marginal reproduces",
+      "ok": true,
+      "recomputed": 8.191825000000001,
+      "drift": 0.039550000000005525
+    },
+    {
+      "check": "N2 gemv: p50 reproduces from raw",
+      "ok": true
+    },
+    {
+      "check": "N2 gemv: marginal reproduces",
+      "ok": true,
+      "recomputed": 12.429274999999997,
+      "drift": 4.825649999999996
+    },
+    {
+      "check": "N2 down_all: p50 reproduces from raw",
+      "ok": true
+    },
+    {
+      "check": "N2 down_all: marginal reproduces",
+      "ok": true,
+      "recomputed": 12.648974999999993,
+      "drift": 3.2168499999999938
+    },
+    {
+      "check": "N2 scan+gather share reproduces",
+      "ok": true,
+      "recomputed": 0.6718409989742257
+    },
+    {
+      "check": "G-N2-1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "N2 gather marginal is above its own local drift",
+      "ok": true,
+      "marginal": 8.191825000000001,
+      "drift": 0.039550000000005525
+    },
+    {
+      "check": "N2 scan marginal is BELOW its drift and is reported as such",
+      "ok": true
+    },
+    {
+      "check": "N4 slope reproduces",
+      "ok": true,
+      "recomputed": 2.148063378331142e-08
+    },
+    {
+      "check": "N4 R2 reproduces",
+      "ok": true
+    },
+    {
+      "check": "G-N4-2 fit quality",
+      "ok": true
+    },
+    {
+      "check": "N4 fixed term is small, i.e. attention is byte-bound",
+      "ok": true
+    },
+    {
+      "check": "N4 effective bandwidth is far below the measured device peak",
+      "ok": true,
+      "attention_gb_s": 47.23367484916302,
+      "device_gb_s": 338.37823774108153
+    },
+    {
+      "check": "N5 ctx0: byte total reproduces",
+      "ok": true
+    },
+    {
+      "check": "N5 ctx0: floor reproduces",
+      "ok": true,
+      "recomputed": 6.052948693370819
+    },
+    {
+      "check": "N5 ctx0: ceiling is 1000/floor",
+      "ok": true
+    },
+    {
+      "check": "N5 ctx262100: byte total reproduces",
+      "ok": true
+    },
+    {
+      "check": "N5 ctx262100: floor reproduces",
+      "ok": true,
+      "recomputed": 8.432449235057831
+    },
+    {
+      "check": "N5 ctx262100: ceiling is 1000/floor",
+      "ok": true
+    },
+    {
+      "check": "N5 bandwidth was measured, not taken from a datasheet",
+      "ok": true
+    },
+    {
+      "check": "N5 excludes 1000 tok/s at both depths",
+      "ok": true
+    },
+    {
+      "check": "N5 does NOT exclude 50 tok/s at either depth",
+      "ok": true
+    },
+    {
+      "check": "N3 bound is sound (zero false certificates)",
+      "ok": true
+    },
+    {
+      "check": "G-N3-R1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "N3 energy fraction rises with rank (spectrum is near-flat)",
+      "ok": true,
+      "energy": {
+        "8": 0.07767571871199894,
+        "16": 0.10657082574520146,
+        "32": 0.15057509466595423,
+        "64": 0.21794128015735242
+      }
+    },
+    {
+      "check": "N3 rank 64 captures well under half the spectral energy",
+      "ok": true,
+      "measured": 0.21794128015735242
+    },
+    {
+      "check": "N1/N2/N4/N5 carries a claim boundary",
+      "ok": true
+    },
+    {
+      "check": "N3 carries a claim boundary",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

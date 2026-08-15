@@ -1,0 +1,293 @@
+{
+  "kind": "lightningstream_nemotron_x1_sweepspec_moe_oracle",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "X1_SWEEPSPEC_MOE_ORACLE",
+  "started_utc": "2026-08-15T11:38:28.023538+00:00",
+  "completed_utc": "2026-08-15T11:40:05.121880+00:00",
+  "model_dir": "nemotron_3_5_lightning_v35",
+  "runner_sha256": "45366e4923dfcea0deea322811698c570b3d10b43f32947c46b3d3fc591a0d84",
+  "sweepspec_sha256": "26dd6a51bbc8a013b5300f63d0094c7fee703be992728f2e3c062da92ec2bb3f",
+  "runtime_sha256": "0a51e0c5923057c10e3ce12adc2fafa3336f7c4acb31c008fd236a5d7e496488",
+  "config": {
+    "capacity": 72,
+    "max_ctx": 8192,
+    "gen_tokens": 64,
+    "blocks": 8,
+    "reps": 3,
+    "b_values": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "moe_layers": 23,
+    "top_k": 6,
+    "opt_in_shared_bytes": 99328,
+    "emitted_per_round": 3.1139,
+    "s8_moe_term_ms": 39.523
+  },
+  "exactness": {
+    "1": {
+      "layer_blocks_checked": 92,
+      "mismatches": 0,
+      "worst_rel_l2": 0.0,
+      "bit_identical": true
+    },
+    "2": {
+      "layer_blocks_checked": 92,
+      "mismatches": 0,
+      "worst_rel_l2": 0.0,
+      "bit_identical": true
+    },
+    "3": {
+      "layer_blocks_checked": 92,
+      "mismatches": 0,
+      "worst_rel_l2": 0.0,
+      "bit_identical": true
+    },
+    "4": {
+      "layer_blocks_checked": 92,
+      "mismatches": 0,
+      "worst_rel_l2": 0.0,
+      "bit_identical": true
+    },
+    "5": {
+      "layer_blocks_checked": 92,
+      "mismatches": 0,
+      "worst_rel_l2": 0.0,
+      "bit_identical": true
+    }
+  },
+  "timing": {
+    "1": {
+      "B": 1,
+      "blocks": 8,
+      "reps": 3,
+      "seq_ms": {
+        "n": 24,
+        "mean": 23.001312499999997,
+        "p50": 22.47655,
+        "p95": 24.62676,
+        "min": 21.6026,
+        "max": 28.8481
+      },
+      "sweep_ms": {
+        "n": 24,
+        "mean": 26.4232375,
+        "p50": 25.7443,
+        "p95": 29.115559999999995,
+        "min": 25.0654,
+        "max": 31.2329
+      },
+      "seq_repeat_ms": {
+        "n": 24,
+        "mean": 22.677904166666668,
+        "p50": 22.431150000000002,
+        "p95": 24.609274999999997,
+        "min": 21.6992,
+        "max": 24.8346
+      },
+      "seq_bracketed_p50_ms": 22.453850000000003,
+      "local_drift_ms": 0.04539999999999722,
+      "ratio_sweep_over_seq": 1.146542797783008,
+      "mean_union_per_layer": 6.0,
+      "conclusive": true
+    },
+    "2": {
+      "B": 2,
+      "blocks": 8,
+      "reps": 3,
+      "seq_ms": {
+        "n": 24,
+        "mean": 44.50199166666666,
+        "p50": 44.0025,
+        "p95": 46.504385,
+        "min": 43.071,
+        "max": 48.4314
+      },
+      "sweep_ms": {
+        "n": 24,
+        "mean": 47.741841666666666,
+        "p50": 47.3039,
+        "p95": 52.411575,
+        "min": 43.8064,
+        "max": 53.852
+      },
+      "seq_repeat_ms": {
+        "n": 24,
+        "mean": 44.545179166666664,
+        "p50": 43.98425,
+        "p95": 47.82596,
+        "min": 42.8844,
+        "max": 48.6939
+      },
+      "seq_bracketed_p50_ms": 43.993375,
+      "local_drift_ms": 0.01824999999999477,
+      "ratio_sweep_over_seq": 1.0752505348816725,
+      "mean_union_per_layer": 9.771739130434783,
+      "conclusive": true
+    },
+    "3": {
+      "B": 3,
+      "blocks": 8,
+      "reps": 3,
+      "seq_ms": {
+        "n": 24,
+        "mean": 66.89624166666665,
+        "p50": 66.6626,
+        "p95": 70.226785,
+        "min": 63.7302,
+        "max": 70.6826
+      },
+      "sweep_ms": {
+        "n": 24,
+        "mean": 70.3049,
+        "p50": 68.86115000000001,
+        "p95": 76.74286,
+        "min": 66.1738,
+        "max": 80.6476
+      },
+      "seq_repeat_ms": {
+        "n": 24,
+        "mean": 66.90830833333334,
+        "p50": 66.49770000000001,
+        "p95": 70.471965,
+        "min": 63.8452,
+        "max": 71.53
+      },
+      "seq_bracketed_p50_ms": 66.58015,
+      "local_drift_ms": 0.16489999999998872,
+      "ratio_sweep_over_seq": 1.0342594602144934,
+      "mean_union_per_layer": 13.179347826086957,
+      "conclusive": true
+    },
+    "4": {
+      "B": 4,
+      "blocks": 8,
+      "reps": 3,
+      "seq_ms": {
+        "n": 24,
+        "mean": 88.78489583333332,
+        "p50": 89.06165,
+        "p95": 92.065945,
+        "min": 84.83,
+        "max": 92.9144
+      },
+      "sweep_ms": {
+        "n": 24,
+        "mean": 91.1016,
+        "p50": 90.5014,
+        "p95": 95.42695499999999,
+        "min": 86.7926,
+        "max": 96.9671
+      },
+      "seq_repeat_ms": {
+        "n": 24,
+        "mean": 89.14164166666666,
+        "p50": 88.53540000000001,
+        "p95": 93.45013,
+        "min": 84.4911,
+        "max": 101.3216
+      },
+      "seq_bracketed_p50_ms": 88.79852500000001,
+      "local_drift_ms": 0.5262499999999903,
+      "ratio_sweep_over_seq": 1.0191768388044733,
+      "mean_union_per_layer": 16.16304347826087,
+      "conclusive": true
+    },
+    "5": {
+      "B": 5,
+      "blocks": 8,
+      "reps": 3,
+      "seq_ms": {
+        "n": 24,
+        "mean": 111.123925,
+        "p50": 111.3429,
+        "p95": 115.766645,
+        "min": 105.4279,
+        "max": 116.3026
+      },
+      "sweep_ms": {
+        "n": 24,
+        "mean": 112.21103333333333,
+        "p50": 111.54635,
+        "p95": 115.96514,
+        "min": 107.6419,
+        "max": 117.5064
+      },
+      "seq_repeat_ms": {
+        "n": 24,
+        "mean": 111.17789166666667,
+        "p50": 111.3749,
+        "p95": 114.59317999999999,
+        "min": 105.4692,
+        "max": 122.8765
+      },
+      "seq_bracketed_p50_ms": 111.3589,
+      "local_drift_ms": 0.031999999999996476,
+      "ratio_sweep_over_seq": 1.0016832960814088,
+      "mean_union_per_layer": 18.847826086956523,
+      "conclusive": true
+    }
+  },
+  "gates": {
+    "G_X1_C1_batched_equals_gemv_at_B1": {
+      "required": "gemm_nvfp4_rows_b with B=1 bit-identical to the runtime path",
+      "passed": true
+    },
+    "G_X1_C2_sweep_equals_sequential": {
+      "required": "expert-major output bit-identical to token-major, nchunks=1",
+      "per_B": {
+        "1": {
+          "layer_blocks_checked": 92,
+          "mismatches": 0,
+          "worst_rel_l2": 0.0,
+          "bit_identical": true
+        },
+        "2": {
+          "layer_blocks_checked": 92,
+          "mismatches": 0,
+          "worst_rel_l2": 0.0,
+          "bit_identical": true
+        },
+        "3": {
+          "layer_blocks_checked": 92,
+          "mismatches": 0,
+          "worst_rel_l2": 0.0,
+          "bit_identical": true
+        },
+        "4": {
+          "layer_blocks_checked": 92,
+          "mismatches": 0,
+          "worst_rel_l2": 0.0,
+          "bit_identical": true
+        },
+        "5": {
+          "layer_blocks_checked": 92,
+          "mismatches": 0,
+          "worst_rel_l2": 0.0,
+          "bit_identical": true
+        }
+      },
+      "passed": true
+    },
+    "G_X1_P1_ratio": {
+      "required_ratio_below": 0.62278,
+      "reason": "a round emits 3.1139 tokens, so the sweep must cost less than 3.1139/5 of five sequential passes to beat AR",
+      "measured_ratio": 1.0016832960814088,
+      "passed": false
+    },
+    "G_X1_D1_drift": {
+      "conclusive_per_B": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      }
+    }
+  },
+  "device_free_bytes": 756023296,
+  "claim_boundary": "Measured cost of the ROUTED-EXPERT part of all 23 MoE layers for B nodes, on real hidden states and real official routes captured from a real greedy generation, with every expert of the block already resident so that the one variable is token-major versus expert-major execution. It is NOT a token time and NOT a throughput result: the router, the shared expert, Mamba, attention and the LM head are not in either arm, and no speculative loop exists. Exactness is proven at nchunks=1, where the union panel mask can only add exactly-zero columns; the timed configuration uses the production nchunks and differs from the sequential path by float reassociation only."
+}

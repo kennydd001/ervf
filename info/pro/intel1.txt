@@ -1,0 +1,743 @@
+De nieuwe resultaten veranderen de richting opnieuw
+
+P7/ERVF is het sterkste resultaat van het hele traject tot nu toe:
+
+test: 20,03 → 30,11 tok/s;
+echte 512-tokenrollout: 15,87 → 20,92 tok/s;
+bitexact dezelfde CE-waarden, voorspellingen, routes, KV-digests en rollouttokens;
+dezelfde Q5-gewichten, Q8-trunk, cachemissers en H2D-kopieën;
+48/48 onafhankelijke verificatiepoorten geslaagd.
+
+Dit is geen oracle of simulatie meer. Het is een echte full-model systems-doorbraak op jouw 8GB-GPU. 
+P7 ERVF-eindrapport
+
+Maar het belangrijkste nieuwe inzicht is niet alleen “ERVF is sneller”. ERVF heeft de bottleneck verschoven.
+
+Het nieuwe kostenmodel
+
+De twee gemeten projectievlakken kosten na P7:
+
+T
+Q5
+	​
+
+=7,614 ms
+T
+Q8
+	​
+
+=8,819 ms.
+
+Samen:
+
+T
+weights
+	​
+
+=16,433 ms.
+
+Vergeleken met de volledige looptijden geeft dat deze eerste-orde-ontleding:
+
+Traject	Volledige token	Q5 + Q8	Overige uitvoering
+Afgesloten test	33,208 ms	16,433 ms	16,775 ms — 50,5%
+Autoregressieve rollout	47,813 ms	16,433 ms	31,380 ms — 65,6%
+
+Dit is geen apart geprofileerde trace: ik trek de geïsoleerde kernelmetingen van de geïntegreerde tijden af. Maar het signaal is ondubbelzinnig: in echte generatie zit ongeveer twee derde van de tijd nu buiten de Q5/Q8-matvecs.
+
+De raw-scanmetingen geven bovendien een absolute optimistische ondergrens van ongeveer:
+
+T
+Q8,min
+	​
+
+=
+356,81 GB/s
+1,249 GB
+	​
+
+≈3,50 ms
+T
+Q5,min
+	​
+
+=
+361,32 GB/s
+1,165 GB
+	​
+
+≈3,23 ms.
+
+Zelfs wanneer beide kernels morgen bijna hun raw-scanplafond halen, wordt de rollout bij onveranderde rest:
+
+31,38+3,50+3,23=38,11 ms
+
+oftewel:
+
+26,2 tok/s
+	​
+
+.
+
+Dat is de nieuwe harde conclusie:
+
+Nog betere single-token GEMV-kernels alleen gaan ons niet naar 40–60 tok/s brengen.
+
+We moeten nu óf de resterende attention/glue-stroom sterk reduceren, óf meerdere tokens per dure modelpass produceren.
+
+Doorbraak 1 — maak van ERVF een algemene wet: EVRM
+
+De belangrijkste wetenschappelijke kans zit volgens mij in het generaliseren van ERVF tot:
+
+Exact Virtual Reduction Multiplexing
+
+ERVF gebruikt nu één specifieke variant:
+
+256 oorspronkelijke virtuele threads;
+16 fysieke lanes;
+16 virtuele accumulatoren per lane;
+dezelfde binaire FP32-reductieboom.
+
+Maar dit is een algemene transformatie.
+
+Neem een originele reductie over V virtuele threads en kies een fysieke subwarpbreedte w, waarbij:
+
+w∣V.
+
+Map virtuele thread i naar:
+
+lane(i)=imodw
+slot(i)=⌊
+w
+i
+	​
+
+⌋.
+
+Iedere lane bewaart dus:
+
+V/w
+
+virtuele accumulatoren.
+
+Alle reductiestappen met stride:
+
+s≥w
+
+worden lokaal tussen slots uitgevoerd. De resterende stappen:
+
+s<w
+
+worden met subwarp-shuffles uitgevoerd.
+
+Omdat iedere oorspronkelijke boomedge met dezelfde twee operanden en dezelfde volgorde wordt uitgevoerd, geldt:
+
+bits(y
+EVRM
+	​
+
+)=bits(y
+origineel
+	​
+
+)
+	​
+
+
+ook voor niet-associatieve floating-pointoptelling.
+
+Dat is meer dan “een snelle kernel”. Het is een mogelijke compilertransformatie:
+
+virtuele reductiegraaf→fysieke lane-multiplexing
+
+onder een exactheidsconstraint.
+
+Brede warp specialization en geoptimaliseerde low-bit GEMM bestaan natuurlijk al. Tawa automatiseert producer-consumer warps; LiquidGEMM overlapt loading, dequantisatie en MMA. Ik vond in deze gerichte primaire zoekronde echter geen exact dezelfde formulering waarin een vaste floating-pointreductieboom bitexact wordt gevirtualiseerd over minder fysieke lanes om meerdere onafhankelijke outputs per block te verwerken. Dat is alleen negatief zoekbewijs, geen formele nieuwheidsgarantie.
+
+Wat EVRM moet bewijzen
+
+Niet alleen Q5 en Q8 op één GPU. Test:
+
+Q5, Q8, INT4 en BF16 GEMV;
+RMSNorm- en softmaxreducties;
+attention score/value reductions;
+verschillende matrixvormen;
+minstens een tweede NVIDIA-architectuur;
+minstens een tweede MoE-model;
+breedtes 4/8/16/32/64;
+automatisch gekozen breedte op validation;
+test slechts eenmaal openen.
+
+De publiceerbare gate zou zijn:
+
+bitexact waar bitexactheid technisch mogelijk is;
+minimaal 1,2× mediaan over meerdere kernelfamilies;
+geen regressie groter dan 5% op een ondersteunde vorm;
+een analytisch register/occupancy-model dat de gekozen w voorspelt.
+
+P7 is dan niet langer een toevallige Qwen-kernel. Het wordt een algemene GPU-codegeneratietechniek.
+
+Doorbraak 2 — Shared-Activation ERVF
+
+ERVF deelt fysieke threads, maar de volgende vraag is of het ook de inputvector optimaal deelt.
+
+Bij een matrix-vectorproduct gebruikt iedere outputrij dezelfde input:
+
+y
+r
+	​
+
+=
+c
+∑
+	​
+
+W
+r,c
+	​
+
+x
+c
+	​
+
+.
+
+Zestien subwarps in hetzelfde block verwerken zestien rijen. Wanneer iedere subwarp zelfstandig x
+c
+	​
+
+ laadt, worden dezelfde activatiewaarden zestienmaal geadresseerd en mogelijk meermaals door de geheugenhiërarchie gehaald.
+
+De nieuwe variant:
+
+één warp/block laadt een tile van x één keer;
+die tile staat in shared memory of registers;
+zestien rij-subwarps consumeren dezelfde activatietile;
+ieder verwerkt zijn eigen weightrow;
+de originele virtuele reduction tree blijft behouden.
+
+De weightbytes domineren op papier, maar P7A toont dat de row-pattern-kernels slechts ongeveer 25–27% van de raw-scanbandbreedte halen. Dat verschil kan niet uitsluitend uit gewichtdecode komen, want Q8 heeft nauwelijks decodecomplexiteit. 
+P7 idee-audit
+
+Daarom moet P8 expliciet meten:
+
+globale inputloads;
+L1/L2-hitrate;
+instruction count;
+register pressure;
+achieved occupancy;
+gedeelde activatieload versus huidige ERVF.
+
+Een gecombineerd schema wordt:
+
+EVRM+activation broadcast+scale broadcast+projection-specifieke breedte.
+
+Realistische gate:
+
+Q8-plane ≤7,0 ms;
+Q5-plane ≤6,0 ms;
+volledige rollout ≥23 tok/s;
+alle outputs bitexact.
+
+Dit is waarschijnlijk geen 2× meer, maar wel de laagste-risicowinst.
+
+Doorbraak 3 — ERVA: Exact Virtual Attention
+
+Na P7 wordt attention/contextverwerking waarschijnlijk de grootste groeiende component. De rollout heeft circa 14,6 ms meer “overige uitvoering” dan de kortere test.
+
+Qwen3-30B-A3B gebruikt 32 queryheads en vier KV-heads: acht queryheads delen dus één KV-head. De huidige P6-runtime voert correcte causale GQA uit, maar er is nog geen attentionroofline zoals P7A voor de projecties. 
+P6B full-modelrapport
+
+De nieuwe dataflow:
+
+één KV-headgroep
+    ↓
+K/V-tile één keer laden
+    ↓
+acht queryheads tegelijk
+    ↓
+acht onafhankelijke score-reducties
+    ↓
+acht onafhankelijke online-softmaxstates
+    ↓
+acht value-accumulaties
+
+ERVM bewaart per queryhead de originele reductievolgorde, terwijl K en V over de acht queryheads worden gedeeld.
+
+PersistentKV laat zien dat page-aware scheduling en K/V-tilehergebruik over GQA-headgroepen bij batch 1 en lange context relevant kunnen zijn; MoA-Structured Attention leidt eveneens de theoretische h
+q
+	​
+
+/h
+kv
+	​
+
+-reductie in KV-verkeer af. Hun specifieke resultaten zijn niet rechtstreeks overdraagbaar op jouw runtime, maar ondersteunen de gekozen geometrie.
+
+Eerst meten, niet aannemen
+
+P8-attention moet drie curves maken voor context:
+
+512, 4096, 16384, 32768.
+
+Per context:
+
+raw unieke KV-scan;
+huidige address pattern zonder softmax;
+huidige volledige attention;
+fused GQA-tilevariant;
+page-aware/workqueuevariant.
+
+Harde gates:
+
+≥1,3× attentionversnelling bij 4K;
+≥1,7× bij 32K;
+volledige rollout ≥25 tok/s bij 4K;
+≥10 tok/s bij 32K;
+dezelfde logits binnen vooraf vastgelegde numerieke tolerantie;
+geen KV-layoutwijziging vóór de control sluit.
+
+Dit is waarschijnlijk de belangrijkste kortetermijnroute voor lange context.
+
+Doorbraak 4 — Temporal ERVF
+
+Dit is de grootste nieuwe hypothese.
+
+ERVF virtualiseert de reductie ruimtelijk over verschillende outputrijen. We kunnen hetzelfde temporeel doen over meerdere tokenposities.
+
+Voor s kandidaat-tokens:
+
+X=[x
+1
+	​
+
+,…,x
+s
+	​
+
+].
+
+Normaal voeren we voor iedere token uit:
+
+y
+r,t
+	​
+
+=ReduceTree(W
+r,:
+	​
+
+⊙x
+t
+	​
+
+).
+
+Temporal ERVF laadt en dequantiseert ieder gewicht één keer:
+
+w
+r,c
+	​
+
+
+en werkt daarmee s onafhankelijke virtuele accumulatorsets bij:
+
+a
+t,v
+	​
+
+←a
+t,v
+	​
+
++w
+r,c
+	​
+
+x
+c,t
+	​
+
+.
+
+Daarna wordt voor iedere token afzonderlijk exact dezelfde oorspronkelijke boom uitgevoerd.
+
+Dus:
+
+y
+r,t
+T-ERVF
+	​
+
+=y
+r,t
+referentie
+	​
+
+	​
+
+
+maar de weightload en weightdecode worden gedeeld over meerdere tokens.
+
+Voor dense projecties
+
+De effectieve weighttraffic per geaccepteerde outputtoken wordt:
+
+E[A
+s
+	​
+
+]
+B
+W
+	​
+
+	​
+
+
+in plaats van B
+W
+	​
+
+, waarbij A
+s
+	​
+
+ het aantal geaccepteerde tokens uit een verificatieblok is.
+
+Voor MoE-experts
+
+Laat U
+s
+	​
+
+ de expertunion van het blok zijn. Dan wordt:
+
+B
+expert/output
+	​
+
+=
+E[A
+s
+	​
+
+]
+∣U
+s
+	​
+
+∣S
+e
+	​
+
+	​
+
+
+in plaats van:
+
+kS
+e
+	​
+
+.
+
+Iedere expertrecord wordt éénmaal geladen en voert alle tokenrows uit die naar die expert routeren.
+
+Dit is de correcte combinatie van:
+
+speculative decoding;
+expert-uniongroepering;
+exact weight reuse;
+ERVF-reducties;
+host-RAM-expertstreaming.
+Waarom de oude negatieve speculative conclusie niet meer beslissend is
+
+CRAFT vond terecht dat blockcoalescing maar ongeveer 20% van de expertunion verwijderde. Dat faalde de toenmalige 40%-gate.
+
+Maar die conclusie werd genomen toen expertverkeer en expertcompute als dominante kosten werden behandeld. Na P7 is de Q5-plane nog maar:
+
+7,614/47,813≈15,9%
+
+van een rollouttoken.
+
+De andere circa 84% kan bij mult-tokenverificatie gedeeltelijk worden geamortiseerd. De 20%-unionreductie hoeft dus niet langer zelf de hele versnelling te dragen.
+
+Bestaande MoE-speculatiemethoden herkennen expert scattering en expertunion al. EcoSpec rapporteert tot 1,62× in andere model- en hardwareomgevingen; CATS rapporteert grote self-speculativewinsten op memory-limited edgeplatforms. Onze mogelijke bijdrage is de exact-tree, weight-stationary targetkernel — niet de brede claim dat speculative decoding of expert-aware draftselection nieuw is.
+
+De goedkope oracle vóór een drafter
+
+Bouw nog geen draftmodel.
+
+Meet eerst een exacte target-verificatiepass met bekende kandidaatblokken van:
+
+s=2,4,8.
+
+Rapporteer:
+
+tijd per verificatiepass;
+expertunion per laag;
+bytes per pass;
+Q8/Q5 weight reuse;
+tijd per geverifieerde positie;
+bitexactheid tegenover de normale targetpass.
+
+De break-evenformule is:
+
+tok/s=
+T
+draft
+	​
+
+(s)+T
+verify
+	​
+
+(s)
+E[A
+s
+	​
+
+]
+	​
+
+.
+
+Met de huidige rollout:
+
+T
+1
+	​
+
+=47,813 ms.
+
+Voor 1,5× versnelling en gemiddeld A
+4
+	​
+
+=2,5 geaccepteerde tokens mag draft plus verification maximaal kosten:
+
+1,5
+2,5×47,813
+	​
+
+=79,69 ms.
+
+Voor 2×:
+
+59,77 ms.
+
+Dus een 4-tokenpass onder 60–80 ms maakt 31–42 tok/s fysisch plausibel, afhankelijk van acceptance en draftkosten.
+
+Dit is nu mijn hoogste-upside performancehypothese.
+
+Doorbraak 5 — Projection-Flow Fusion
+
+P7 heeft één reductieprobleem opgelost, maar de decoder schrijft nog veel kleine tussenresultaten en start meerdere kernels.
+
+De exacte fusies die geen modelsemantiek hoeven te wijzigen:
+
+Attentioningang
+RMSNorm→Q/K/V→Q/K-norm→RoPE→KV-write.
+
+De drie Q/K/V-projecties gebruiken dezelfde normalized input. Eén fusionkernel kan:
+
+de normalized vector één keer maken;
+Q/K/V gezamenlijk verwerken;
+Q/K direct normaliseren en roteren;
+K/V direct in de cache schrijven.
+Attentionuitgang
+O-projectie→residual add→post-attention RMSNorm→router→top-k.
+MoE-uitgang
+down projection→p
+e
+	​
+
+-weging→expertreductie→residual.
+
+Iedere huidige BF16-roundinggrens moet expliciet behouden of als aparte kwaliteitshypothese gepreregistreerd worden.
+
+Dit is minder wetenschappelijk nieuw dan T-ERVF, maar richt zich rechtstreeks op de resterende 16–31 ms.
+
+Doorbraak 6 — Exacte LM-head search
+
+De volledige vocabularyhead is:
+
+151.936×2048
+
+en bevat ongeveer 311 miljoen gewichten. Hij vormt grofweg een kwart van de Q8-projectieparameters.
+
+Voor greedy decode hoeven we niet noodzakelijk alle logits te berekenen, zolang de argmax exact gecertificeerd wordt.
+
+Cluster de outputrows. Voor cluster C
+j
+	​
+
+, centrum c
+j
+	​
+
+ en radius r
+j
+	​
+
+:
+
+w∈C
+j
+	​
+
+max
+	​
+
+h
+⊤
+w≤h
+⊤
+c
+j
+	​
+
++∥h∥r
+j
+	​
+
+.
+
+Verwerk clusters op dalende upper bound. Stop zodra de beste exacte logit groter is dan alle resterende bounds.
+
+Dit is exact voor greedy decode. Het kan echter falen doordat 2048-dimensionale clusterbounds te los zijn. Daarom eerst een goedkope offline oracle:
+
+hoeveel rows moeten exact worden geëvalueerd voordat argmax gecertificeerd is?
+bij validation gekozen clusterstructuur;
+test één keer;
+exacte argmax op iedere token.
+
+Gate:
+
+≥60% van de vocabularyrows overslaan;
+≥1 ms full-modelwinst;
+100% identieke greedy tokens.
+
+Learned MIPS bestaat, maar geeft doorgaans match probabilities en geen harde exactheid. De certificerende variant moet tegen bestaande MIPS-methoden worden afgezet.
+
+Doorbraak 7 — Active-Set Invariance op 80B
+
+De directe industrieproef blijft Qwen3-Coder-Next:
+
+80B totaal;
+3B actief;
+48 lagen;
+512 routed experts;
+top-10;
+hidden 2048;
+expert intermediate 512;
+één shared expert;
+262K context.
+
+Voor het huidige 30B-model zijn per token ongeveer:
+
+48×8×3×2048×768=1,812B
+
+routed expertgewichten actief.
+
+Voor Coder-Next:
+
+48×10×3×2048×512=1,510B.
+
+Inclusief de shared expert:
+
+1,510+0,151=1,661B.
+
+Dat is nog steeds ongeveer 8% minder actieve expertgewichten dan bij het huidige 30B-model, hoewel de totale capaciteit 2,6× groter is.
+
+De volledige routed-plus-shared Q5-bank wordt door mijn berekening ongeveer:
+
+46,2 GiB.
+
+De officiële volledige Q5-GGUF is 56,7 GB, wat deze orde bevestigt.
+
+Een bestaande community-implementatie voor 6GB VRAM rapporteert slechts ongeveer 1,7 tok/s, maar gebruikt een veel minder ontwikkelde offload/cachearchitectuur; dat is geen eerlijke directe benchmark voor STREAMQ5.
+
+De harde proef:
+
+80B, 8 GB VRAM, ≤58 GiB RAM, ≥10 tok/s
+	​
+
+
+met:
+
+4K context;
+512-tokenrollout;
+geen swap;
+≤2% CE-regressie;
+één uur thermische steady state.
+
+Een succes zou empirisch aantonen:
+
+Totale MoE-capaciteit kan met een factor 2,6 stijgen zonder evenredige tokenlatency, wanneer de actieve set gelijk of kleiner blijft.
+
+Dat is een sterkere industrieclaim dan Qwen30 van 21 naar 25 tok/s brengen.
+
+De werkelijke nieuwe wetenschap: twee claims
+Claim A — Reduction-Tree Virtualization
+
+Een vaste numerieke reduction graph kan bitexact over minder fysieke lanes worden gemultiplexed, waardoor meerdere onafhankelijke outputs per block passen.
+
+Dat is de generalisatie van ERVF.
+
+Claim B — Temporal Weight Virtualization
+
+Dezelfde gequantiseerde weightstream kan over meerdere causale verificatieposities worden gedeeld, terwijl iedere positie haar eigen exacte virtuele reduction tree behoudt.
+
+Dat is T-ERVF.
+
+Samen krijg je:
+
+spatial reuse×temporal reuse×exact numerical semantics
+	​
+
+
+Dit is volgens mij de meest verdedigbare route naar zowel een paper als een veel grotere praktische snelheidssprong.
+
+Experimentele volgorde
+
+Ik zou niet opnieuw tien hypotheses tegelijk openen.
+
+Prioriteit	Experiment	Beslissende gate
+1	P8A EVRM autotune + activation/scale broadcast	Q8 ≤7 ms, Q5 ≤6 ms, rollout ≥23 tok/s
+2	P8B attentionroofline + ERVA-GQA	≥1,3× bij 4K, ≥1,7× bij 32K
+3	P9A T-ERVF target-oracle, blok 2/4/8	vier-tokenverificatie ≤60–80 ms
+4	P9B lichte drafter/MTP-heads	≥2,5 geaccepteerde tokens/pass en ≥30 tok/s
+5	P10 80B Active-Set-replicatie	≥10 tok/s binnen 8GB/58GiB
+6	Externe runtime- en tweede-GPU-baselines	claimgrens en generalisatie
+7	60 minuten thermiek + 4K/32K-context	productierobuustheid
+Niet opnieuw openen
+RSIV/GhostWeights: cross-architectuur hard gefalsificeerd.
+Shared-basis-/hidden-statecorrectors.
+Q2 als kwaliteitsmodel.
+Nog een cachepolicy als hoofdonderzoek.
+Dynamische atomsparsity zonder nieuwe full-depthreden.
+Lokale oracles vermenigvuldigen; CRAFT heeft expliciet aangetoond dat die factoren niet stapelbaar waren.
+Mijn actuele verdict
+
+ERVF zelf is al een echte lokale doorbraak.
+
+De volgende echte industrie-Eureka is:
+
+80B op 8GB VRAM bij ≥10 tok/s
+	​
+
+
+De volgende echte performance-Eureka is:
+
+30B op 8GB bij ≥30–40 tok/s rollout
+	​
+
+
+De mogelijk nieuwe wetenschappelijke bijdrage is:
+
+Exact Reduction-Tree Virtualization+Temporal Weight-Stationary Verification
+	​
+
+
+De snelste rationele route is daarom: eerst EVRM/attentionrooflines, daarna T-ERVF als exact target-oracle, en pas daarna een drafter. Dat volgt uit het nieuwe P7-kostenmodel; verder uitsluitend single-tokenkernels tunen heeft een rolloutplafond rond 26 tok/s.

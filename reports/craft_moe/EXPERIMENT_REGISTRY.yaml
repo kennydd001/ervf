@@ -1,0 +1,272 @@
+project: CRAFT-MoE
+created: 2026-08-10
+initialized_utc: 2026-08-10T08:54:06.7912255Z
+status: closed_no_eureka
+closed_utc: 2026-08-10T19:27:13.5957082Z
+closure_reason: hypothesis_pack_convincingly_closed_without_eureka
+revolutionary_gate_result: "0/6 proven by one candidate"
+master_result_json: reports/craft_moe/master_verdict.json
+master_report: reports/craft_moe/CRAFT_MOE_MASTER_VERDICT.md
+master_result_sha256: 6935f7c10f547d2c411c7ff6f370cea48552f8d2b83527284d4b12155ae00847
+master_report_sha256: 446eaf390e5e760100f6698c3d4761d9e2f7eb3a09651ff594fb4808b7e940a1
+repository:
+  git_head: null
+  no_commits_yet: true
+  dirty: true
+baseline:
+  model: deepseek-ai/DeepSeek-V2-Lite
+  model_commit: 604d5664dddd88a0433dbae533b7fe9472482de0
+  dataset: WikiText-2-raw-v1
+  dataset_commit: b08601e04326c79dfdd32d625aee71d232d685c3
+  routing:
+    experts_per_layer: 64
+    active_experts: 6
+    shared_experts: 2
+    renormalize_selected_weights: false
+  strong_system_baseline: packed_int4_plus_mass_budget_delta_0_004
+revolutionary_v2_gate:
+  active_expert_byte_reduction_vs_int4_mass_budget: ">=4.0x"
+  wallclock_decode_speedup_vs_int4_mass_budget: ">=2.0x"
+  relative_ce_delta: "<2%"
+  rollout_tokens_per_prompt: 512
+  rollout_prompt_count_min: 20
+  second_model_required: true
+experiments:
+  - id: H7_ROUTE_CORESET
+    priority: P0
+    agent: 01_ROUTE_CORESET_AGENT.md
+    dependencies: []
+    status: complete
+    started_utc: 2026-08-10T08:54:06.7912255Z
+    completed_utc: 2026-08-10T09:07:17.384675Z
+    verdict: inconclusive_negative
+    result_json: reports/craft_moe/route_coreset_oracle.json
+    report: reports/craft_moe/ROUTE_CORESET_ORACLE.md
+    oracle_gate: "median k<=3 or p95 k<=4 at KL<=0.001"
+    gate_result: "validation median k=4, higher empirical p95 k=6; test replicated 4/6"
+    falsification_result: "not triggered: k5 KL>0.003 on 3.91% validation and 2.34% test"
+    downstream_layer23: not_opened_gate_failed
+  - id: H1_CRCQ
+    priority: P0
+    agent: 02_CRCQ_ORACLE_AGENT.md
+    dependencies: []
+    status: falsified
+    started_utc: 2026-08-10T09:10:00.000000Z
+    preregistration: reports/craft_moe/H1_CRCQ_PREREGISTRATION.md
+    screen_completed_utc: 2026-08-10T09:20:00.000000Z
+    screen_result_json: reports/craft_moe/crcq_oracle.json
+    screen_report: reports/craft_moe/CRCQ_ORACLE.md
+    screen_gate_result: "joint Q4 upgrades 11.263% validation, 14.128% test; strong point-estimate gate passed"
+    full_search_status: oracle_positive
+    full_search_preregistration: reports/craft_moe/H1_CRCQ_FULL_PREREGISTRATION.md
+    full_search_completed_utc: 2026-08-10T09:53:56.000000Z
+    full_result_json: reports/craft_moe/crcq_full_oracle.json
+    full_report: reports/craft_moe/CRCQ_FULL_ORACLE.md
+    full_gate_result: "9.831% validation and 12.240% test Q4 upgrades; direct-DP and superset gates passed"
+    layer23_status: downstream_falsified
+    layer23_started_utc: 2026-08-10T10:00:00.000000Z
+    layer23_preregistration: reports/craft_moe/H1_CRCQ_LAYER23_PREREGISTRATION.md
+    layer23_completed_utc: 2026-08-10T10:15:00.000000Z
+    layer23_result_json: reports/craft_moe/crcq_layer23_downstream.json
+    layer23_report: reports/craft_moe/CRCQ_LAYER23_DOWNSTREAM.md
+    layer23_gate_result: "joint local-Q4 target needs 75.521% validation and 70.508% test upgrades; hard falsification"
+    final_verdict: "strong layer26 oracle, but required earlier exact-tail intervention falsified"
+    oracle_gate: "<=15% Q4 upgrades or <=3.15 average bits at all-Q4 quality"
+  - id: H3_ATOMIC_ORACLE
+    priority: P0
+    agent: 03_ATOMIC_ORACLE_AGENT.md
+    dependencies: []
+    status: falsified
+    started_utc: 2026-08-10T10:10:45.000000Z
+    preregistration: reports/craft_moe/H3_ATOMIC_LAYER26_PREREGISTRATION.md
+    layer26_status: oracle_positive
+    layer26_completed_utc: 2026-08-10T10:23:45.769353Z
+    layer26_result_json: reports/craft_moe/atomic_oracle.json
+    layer26_report: reports/craft_moe/ATOMIC_ORACLE.md
+    layer26_primary_gate_result: "global 25% relative CE +0.1118% validation, -0.1390% test; passed"
+    layer26_moonshot_gate_result: "global 10% relative CE +0.4086% validation, +0.0079% test; passed"
+    layer26_hardware_gate_result: "tile64/global KL ratio 8.63x validation, 8.48x test; failed <=1.20x gate"
+    layer23_status: downstream_positive
+    layer23_started_utc: 2026-08-10T10:26:23.320103Z
+    layer23_preregistration: reports/craft_moe/H3_ATOMIC_LAYER23_PREREGISTRATION.md
+    layer23_completed_utc: 2026-08-10T10:32:42.101674Z
+    layer23_result_json: reports/craft_moe/atomic_layer23_downstream.json
+    layer23_report: reports/craft_moe/ATOMIC_LAYER23_DOWNSTREAM.md
+    layer23_primary_gate_result: "25% relative CE +0.0539% validation, +0.2942% test; KL <=0.000998 and top1 99.22%; passed"
+    layer23_moonshot_gate_result: "10% relative CE +0.2140% validation, +0.3250% test; passed"
+    spread_status: positive
+    spread_started_utc: 2026-08-10T10:34:49.295755Z
+    spread_preregistration: reports/craft_moe/H3_ATOMIC_SPREAD_PREREGISTRATION.md
+    spread_completed_utc: 2026-08-10T10:43:51.087663Z
+    spread_result_json: reports/craft_moe/atomic_spread_oracle.json
+    spread_report: reports/craft_moe/ATOMIC_SPREAD_ORACLE.md
+    spread_gate_result: "all 12 layer-domain cells passed at 25%; all 12 CE moonshot cells passed at 10%"
+    full_depth_status: falsified
+    full_depth_started_utc: 2026-08-10T10:46:15.700591Z
+    full_depth_preregistration: reports/craft_moe/H3_ATOMIC_FULL_DEPTH_PREREGISTRATION.md
+    full_depth_completed_utc: 2026-08-10T10:55:04.029776Z
+    full_depth_result_json: reports/craft_moe/atomic_full_depth_oracle.json
+    full_depth_supports: reports/craft_moe/atomic_full_depth_supports.safetensors
+    full_depth_report: reports/craft_moe/ATOMIC_FULL_DEPTH_ORACLE.md
+    full_depth_gate_result: "25% failed: WikiText test relative CE +2.1129%; local instruction KL 0.03505 >0.03"
+    full_depth_moonshot_result: "10% failed CE on WikiText validation/test and local instruction"
+    final_verdict: "positive single-layer and layer23 oracles, but simultaneous <=25% full-depth hypothesis falsified"
+    next_stage: closed_no_predictor
+    oracle_gate: "<=25% routed atoms with <2% relative CE"
+  - id: H4_SKETCHGATE
+    priority: P0
+    agent: 04_SKETCHGATE_AGENT.md
+    dependencies: []
+    status: falsified
+    started_utc: 2026-08-10T11:04:47.5754636Z
+    preregistration: reports/craft_moe/H4_SKETCHGATE_LAYER26_PREREGISTRATION.md
+    stage: trace_anchored_replication
+    initial_result_json: reports/craft_moe/sketchgate.json
+    initial_verdict: "content gates failed; extra component-recompute control also failed"
+    replication_started_utc: 2026-08-10T11:20:59.3729942Z
+    replication_preregistration: reports/craft_moe/H4_SKETCHGATE_TRACE_ANCHORED_REPLICATION_PREREGISTRATION.md
+    completed_utc: 2026-08-10T11:25:05.0714249Z
+    replication_result_json: reports/craft_moe/sketchgate_trace_anchored_replication.json
+    report: reports/craft_moe/SKETCHGATE.md
+    selected_configuration: "Rademacher r=64; primary seed 20260810"
+    recovery_result: "primary validation 84.35%, test 82.26%; all-five-seed minima 83.74%/82.18%"
+    high_damage_fn_result: "primary validation 22.73%, test 24.68% versus <=1% gate"
+    attribution_result: "down-only captures 53.76% validation and 65.89% test versus >=70% gate; gate+up dominates"
+    metadata_result: "0.08345 effective bit/original routed expert weight; passed"
+    hardware_model_result: "compute/avoided-transfer 24.30% versus <10%; failed; not a runtime claim"
+    control_result: "trace-anchored replication exact controls passed; initial recompute-control failure retained"
+    final_verdict: "KL recovery passes, but high-damage FN, down attribution, and hardware-model gates fail"
+    next_stage: closed_no_spread
+    oracle_gate: ">=80% of 3to4 oracle gain at <=25% upgrades"
+  - id: H2_BLOCK_COALESCING
+    priority: P0
+    agent: 05_BLOCK_COALESCING_AGENT.md
+    dependencies: [H1_CRCQ]
+    status: falsified
+    started_utc: 2026-08-10T11:30:36.8509214Z
+    preregistration: reports/craft_moe/H2_BLOCK_COALESCING_LAYER26_PREREGISTRATION.md
+    stage: closed_no_downstream
+    completed_utc: 2026-08-10T11:47:52.7474545Z
+    result_json: reports/craft_moe/block_route_coalescing.json
+    control_audit: reports/craft_moe/block_route_coalescing_control_audit_v2.json
+    report: reports/craft_moe/BLOCK_ROUTE_COALESCING.md
+    primary_result: "exact block8 union reduction 19.65% validation, 20.24% test versus >=40%"
+    mass_budget_result: "additional exact reduction 17.75% validation, 18.24% test versus >=25%"
+    quality_result: "mean local KL 0.000183/0.000200; passed <=0.001"
+    solver_result: "all 1280 HiGHS ILPs optimal; audit v2 resolves machine-epsilon adjudicator bug"
+    hard_falsification: "both splits below 25% natural-union reduction"
+    final_verdict: "exact combinatorial union ceiling is too low; no layer23 or speculative runtime"
+    oracle_gate: ">=40% natural-route union reduction at KL<=0.001"
+  - id: H5_ATOMIC_INDEX
+    priority: P1
+    agent: 06_ATOMIC_INDEX_AGENT.md
+    dependencies: [H3_ATOMIC_ORACLE]
+    status: blocked
+    blocked_reason: H3 simultaneous full-depth primary gate falsified
+    gate: ">=97% recall of atoms carrying 99% oracle energy"
+  - id: H6_QERC
+    priority: P1
+    agent: 07_QERC_AGENT.md
+    dependencies: []
+    status: falsified
+    started_utc: 2026-08-10T11:51:39.0265007Z
+    preregistration: reports/craft_moe/H6_QERC_LAYER26_PREREGISTRATION.md
+    stage: closed_at_preregistered_phase_a
+    completed_utc: 2026-08-10T11:57:43.972031Z
+    covariance_result: reports/runs/craft_moe/qerc_covariance_layer26.json
+    component_artifact: reports/runs/craft_moe/qerc_layer26_components.safetensors
+    result_json: reports/craft_moe/qerc.json
+    report: reports/craft_moe/QERC.md
+    cancellation_result: "validation -1.129%, test -0.106%; both abs <2%"
+    control_result: "teacher-delta bit-exact; route IDs/order exact; router-weight max error 0"
+    phase_b_status: not_opened_preregistered_hard_stop
+    final_verdict: "natural co-routed Q3 cross terms are near zero on both splits"
+    gate: ">=20% Q3 aggregate and full-depth KL reduction without bytes"
+  - id: H8_CACHE_SPAN
+    priority: P1
+    agent: 08_CACHE_SPAN_AGENT.md
+    dependencies: []
+    status: complete
+    started_utc: 2026-08-10T12:05:29.4785656Z
+    preregistration: reports/craft_moe/H8_CACHE_SPAN_LAYER26_PREREGISTRATION.md
+    stage: closed_no_predictor
+    completed_utc: 2026-08-10T18:35:20.810156Z
+    result_json: reports/craft_moe/cache_span.json
+    capture_artifact: reports/runs/craft_moe/cache_span_layer26_capture.safetensors
+    bootstrap_audit: reports/craft_moe/cache_span_block_bootstrap_audit.json
+    report: reports/craft_moe/CACHE_SPAN.md
+    selected_configuration: resident_selected_no_cached_bounded
+    primary_result: "41.35% validation, 48.54% test miss reduction; failed >=50% on both"
+    zero_fill_result: "39.90% validation, 48.31% test"
+    mechanism_result: "span uplift only +1.442 pp validation and +0.225 pp test versus >=10 pp"
+    quality_result: "mean KL 0.000251/0.000278; passed <=0.001"
+    compute_result: "zero extra expert forwards; span-combine/packed-int4-transfer microbenchmark ratio 13.04%; not runtime"
+    control_result: "exact IDs/routes/loadcounts/original; full router-weight max error 0"
+    verdict: inconclusive_negative
+    next_stage: closed_no_predictor
+    gate: ">=50% miss elimination at KL<=0.001"
+  - id: H9_BISPARSE
+    priority: P1
+    agent: 09_BISPARSE_AGENT.md
+    dependencies: [H3_ATOMIC_ORACLE]
+    status: blocked
+    blocked_reason: H3 simultaneous full-depth primary gate falsified
+    gate: "q<=0.25 plus atomic sparsity with <2% CE"
+  - id: H10_REDUCTION_ORDER
+    priority: P2
+    agent: 13_REDUCTION_ORDER_AGENT.md
+    dependencies: []
+    status: falsified
+    started_utc: 2026-08-10T18:40:18.0113408Z
+    preregistration: reports/craft_moe/H10_REDUCTION_ORDER_LAYER26_PREREGISTRATION.md
+    stage: closed_no_downstream
+    completed_utc: 2026-08-10T18:48:08.550642Z
+    result_json: reports/craft_moe/reduction_order.json
+    capture_artifact: reports/runs/craft_moe/reduction_order_capture.safetensors
+    raw_sweep_artifact: reports/runs/craft_moe/reduction_order_raw.safetensors
+    bootstrap_audit: reports/craft_moe/reduction_order_bootstrap_audit.json
+    report: reports/craft_moe/REDUCTION_ORDER.md
+    selected_configuration: "bf16_sequential [3,5,1,4,0,2]"
+    primary_result: "fixed Q3-to-Q4 KL-gap closure 1.487% validation, 0.829% test"
+    bootstrap_result: "fixed closure 95% intervals 0.924-2.261% / 0.672-0.886%"
+    fp32_result: "validation-selected FP32 closure approximately 0% validation and exactly 0% test"
+    protected_result: "BF16 operands promoted to FP32 are order-invariant for Q3/Q4 on both splits"
+    oracle_result: "per-token local-MSE oracle exact KL closure 0.831%/1.183%"
+    control_result: "route and original exact; full router-weight max error 0"
+    verdict: falsified_fixed_heldout_reduction_order
+    next_stage: closed_no_throughput_or_layer23
+    gate: ">=20% Q3-to-Q4 KL-gap recovery on held-out"
+  - id: PACKED_RUNTIME
+    priority: P2
+    agent: 10_PACKED_RUNTIME_AGENT.md
+    dependencies: [H2_BLOCK_COALESCING, H5_ATOMIC_INDEX]
+    status: blocked
+  - id: NOVELTY_AUDIT
+    priority: continuous
+    agent: 11_NOVELTY_AUDITOR_AGENT.md
+    dependencies: []
+    status: complete
+    started_utc: 2026-08-10T19:19:19.3551739Z
+    completed_utc: 2026-08-10T19:25:31.5227878Z
+    protocol: reports/craft_moe/NOVELTY_AUDIT_PROTOCOL.md
+    generator: scripts/craft_moe/build_novelty_audit.py
+    result_json: reports/craft_moe/novelty_matrix.json
+    report: reports/craft_moe/NOVELTY_VERDICT.md
+    prior_art: docs/CRAFT_MOE_PRIOR_ART.md
+    result: "8 mandatory families; 5 claim units; 34 primary/official/patent sources"
+    result_sha256: f1b85bd4a7c6673cef775a1f8dcf7b175ac70157ce8b562bc56bf11f47ac11b0
+    verdict: no_defensible_broad_novelty_claim_and_no_eureka
+  - id: REPRO_AUDIT
+    priority: continuous
+    agent: 12_REPRO_STATS_AGENT.md
+    dependencies: []
+    status: complete
+    started_utc: 2026-08-10T19:00:00.000000Z
+    completed_utc: 2026-08-10T19:12:56.7229722Z
+    protocol: reports/craft_moe/REPRO_AUDIT_PROTOCOL.md
+    verifier: scripts/craft_moe/verify_all_gates.py
+    result_json: reports/craft_moe/repro_audit.json
+    report: reports/craft_moe/REPRO_AUDIT.md
+    result: "751 checks; 748 passed, 0 required failures, 3 declared warnings"
+    artifact_manifest_entries: 136
+    verdict: reproducibility_audit_passed_with_declared_warnings

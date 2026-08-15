@@ -1,0 +1,58 @@
+project: PORT80B_DIRECTPATH
+created_at: 2026-08-12
+status: proposed_independent_registry
+parent:
+  project: PORT80B_P0_ACTIVE_SET
+  status: negative_under_frozen_gates
+  immutable: true
+source_bundle_sha256: 40e37bc4fa92e179b6955a493a49906c43a30ec8e7fb8bb9aaa334490ba9dc61
+hypothesis:
+  id: DIRECT_HOST_EXPERT_EXECUTION
+  statement: >-
+    The failed PORT80B transfer gate is dominated by mmap-to-pinned bounce
+    copying, per-record dispatch and tail paging rather than the PCIe payload
+    floor. Registered batch copies or exact mapped-host Q5 execution can
+    reduce p95 enough for a real 80B model to exceed 10 tok/s.
+  proven: false
+locked_facts:
+  record_bytes: 2027520
+  records_per_token: 480
+  active_bytes_per_token: 973209600
+  raw_pinned_h2d_floor_ms: 37.203744880092
+  measured_zero_cache_p50_ms: 63.034
+  measured_zero_cache_p95_ms: 73.544
+  dense_shell_projection_p95_ms: 28.077227
+  expert_path_budget_for_10tps_ms: 71.922773000000
+  required_effective_remote_gb_s: 13.531313649433
+phases:
+  P0_DEVICE_CAPABILITY:
+    status: pending
+  P1_PATH_DECOMPOSITION:
+    status: blocked_by_P0
+  P2_MAPPED_HOST_ERVG:
+    status: blocked_by_P1
+  P3_TMA_DIRECT:
+    status: conditional_on_device_probe
+  P4_LARGE_PAGE_LAYOUT:
+    status: blocked_by_P2_or_P3
+  P5_64_VS_96_RAM:
+    status: conditional_on_residency_failure
+  P6_REAL_80B:
+    status: blocked_by_transfer_pass
+hardware_gate:
+  expert_path_p95_ms_max: 65.0
+  effective_remote_gb_s_min: 15.0
+  bit_exact: true
+  hard_page_faults_after_warmup_max: 0
+  endurance_seconds_min: 3600
+final_model_gate:
+  relative_ce_max: 0.02
+  peak_vram_gib_max: 8.0
+  context: 4096
+  mean_tokens_per_second_min: 10.0
+  p95_token_latency_ms_max: 120.0
+  rollout_tokens_min: 512
+claim_boundary:
+  - No real 80B model result exists yet.
+  - DAK and CUDA direct host access are prior art.
+  - The original PORT80B P0 failure remains valid.

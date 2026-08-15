@@ -1,0 +1,76 @@
+{
+  "kind": "CORETAIL_MOE_projection",
+  "status": "hypothesis_not_result",
+  "locked_inputs": {
+    "gpu_reported_mib": 8151,
+    "gpu_gib": 7.9599609375,
+    "hera_hot_pairs": 6081,
+    "hera_cold_pairs": 63,
+    "hera_hot_projection_gib": 6.449,
+    "hera_int4_trunk_gib": 0.718,
+    "hera_resident_gib": 7.167,
+    "hera_gate_gib": 5.75,
+    "routed_params": 28991029248,
+    "nonexpert_params": 1541093376,
+    "active_routed_params_per_token": 1811939328,
+    "exact_gptq_bpp_projection": 1.9078648913739187,
+    "ternary_core_plus_scales_ideal_bpp": 1.686892876474792,
+    "simple_zero_sign_core_projection_bpp": 1.706443,
+    "extreme_tail_ideal_bpp": 0.2209720148991267
+  },
+  "hera_reinterpretation": {
+    "full_expert_bank_projection_from_hera_gib": 6.5158125308337445,
+    "increment_to_add_all_63_cold_experts_gib": 0.06681253083374461,
+    "all_experts_plus_q4_trunk_gib": 7.233440056163334,
+    "observation": "The cross-domain hot union is already 98.97% of all layer-expert pairs. Adding every remaining expert costs only about 68 MiB; expert identity is therefore the wrong primary tiering axis."
+  },
+  "core_tail_projection": {
+    "all_expert_exact_entropy_gib": 6.4390440083869755,
+    "all_expert_ideal_ternary_core_plus_scales_gib": 5.693263458102423,
+    "all_expert_simple_zero_sign_core_projection_gib": 5.759245125,
+    "full_extreme_tail_host_gib": 0.7457805502845527,
+    "active_core_mib_per_token": 364.36886131855505,
+    "active_tail_mib_per_token": 47.72995521821137,
+    "active_tail_gib_s_at_10_tps": 0.46611284392784547
+  },
+  "kv_cache_gib": {
+    "bf16_1k": 0.09375,
+    "bf16_4k": 0.375,
+    "int8_4k": 0.1875,
+    "bf16_8k": 0.75
+  },
+  "variant_a": {
+    "name": "ALLCORE_Q4TRUNK",
+    "resident_components_gib": {
+      "all_expert_ternary_core_plus_scales_practical_projection": 5.759245125,
+      "nonexpert_trunk_int4": 0.7176275253295898,
+      "bf16_kv_4k": 0.375
+    },
+    "resident_subtotal_gib": 6.8518726503295895,
+    "headroom_before_runtime_workspace_gib": 1.1080882871704105,
+    "host_tail_gib": 0.7457805502845527,
+    "tail_transfer_mib_per_token": 47.72995521821137,
+    "tail_transfer_gib_s_at_10_tps": 0.46611284392784547
+  },
+  "variant_b": {
+    "name": "GUCORE_FULLTAIL_Q8TRUNK_STREAMDOWN",
+    "resident_components_gib": {
+      "gate_up_two_thirds_of_practical_core": 3.83949675,
+      "full_exact_extreme_tail": 0.7457805502845527,
+      "nonexpert_trunk_int8": 1.4352550506591797,
+      "bf16_kv_4k": 0.375
+    },
+    "resident_subtotal_gib": 6.395532350943732,
+    "headroom_before_runtime_workspace_gib": 1.564428586556268,
+    "down_core_transfer_mib_per_token": 121.45628710618502,
+    "down_core_transfer_gib_s_at_10_tps": 1.1860965537713382
+  },
+  "warnings": [
+    "All entropy/core/tail rates are projections from the locked 16-expert E2GQ audit; a full 6144-expert census is mandatory.",
+    "No actual row-random-access CORETAIL file exists yet.",
+    "No fused ternary-core plus sparse-tail GPU kernel exists yet.",
+    "Full-model 2-bit GPTQ expert quality and INT4/INT8 trunk quality remain untested.",
+    "CUDA context, allocator fragmentation, temporary dequantization and kernel workspaces are not included in resident subtotals.",
+    "The architecture overlaps with prior work on bit-sliced caching, sparse residual quantization and expert splitting; no broad novelty claim is made."
+  ]
+}

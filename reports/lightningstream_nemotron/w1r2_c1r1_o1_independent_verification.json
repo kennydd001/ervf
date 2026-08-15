@@ -1,0 +1,206 @@
+{
+  "kind": "lightningstream_nemotron_w1r2_c1r1_o1_independent_verification",
+  "completed_utc": "2026-08-15T13:06:36.185683+00:00",
+  "verifier_sha256": "d92f57b6b9cb25ad015a29761da5cc796cf05271f48d6cf659ba4f065e06c366",
+  "verified": {
+    "w1r2": "0fe3dacd03bb891239ec75e1cd73a636835d02c78f79257692cd6d5a66e98594",
+    "c1r1_o1": "c3011ca8e0e3f7d3652e8d017f6a65fb4f84a5e90d7c85548cbfada276c379ad"
+  },
+  "recomputed": {
+    "w1r2": {
+      "0": {
+        "effect_p50": 1.8535874999999997,
+        "drift_p50": 2.521249999999995,
+        "sign": 0.75,
+        "resolution_ok": false
+      },
+      "262100": {
+        "effect_p50": 0.10637499999999989,
+        "drift_p50": 2.219549999999998,
+        "sign": 0.5,
+        "resolution_ok": false
+      }
+    },
+    "o1_pack_reduction": 0.07225143635448827,
+    "c1r1_best_core": "3",
+    "c1r1_certified": 0.001355962643678161
+  },
+  "gates": {
+    "G_W1R2_C1": true,
+    "G_W1R2_R1": {
+      "0": false,
+      "262100": false
+    },
+    "G_W1_P1": false,
+    "G_C1R1_S1": true,
+    "G_C1R1_R1": false,
+    "G_O1_1": false,
+    "G_O1_2": false
+  },
+  "checks": [
+    {
+      "check": "W1-R2 generation bit-identical",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 ctx 0: blocks alternate base/fast",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 ctx 0: every block has 8 samples",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 ctx 0: every block p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 ctx 0: effect p50 reproduces",
+      "ok": true,
+      "recomputed": 1.8535874999999997
+    },
+    {
+      "check": "W1-R2 ctx 0: drift p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 ctx 0: sign fraction reproduces",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 ctx 0: resolution verdict reproduces",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 ctx 262100: blocks alternate base/fast",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 ctx 262100: every block has 8 samples",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 ctx 262100: every block p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 ctx 262100: effect p50 reproduces",
+      "ok": true,
+      "recomputed": 0.10637499999999989
+    },
+    {
+      "check": "W1-R2 ctx 262100: drift p50 reproduces",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 ctx 262100: sign fraction reproduces",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 ctx 262100: resolution verdict reproduces",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 is the best-resolved of the three designs",
+      "ok": true,
+      "w1r2": 2.219549999999998,
+      "w1": 4.52,
+      "w1r1": 6.779
+    },
+    {
+      "check": "G-W1-P1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "adoption threshold still the preregistered 1.0 ms",
+      "ok": true
+    },
+    {
+      "check": "C1-R1 bound is sound (zero false certificates)",
+      "ok": true,
+      "false": {
+        "2": 0,
+        "3": 0
+      }
+    },
+    {
+      "check": "G-C1R1-R1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "C1-R1 gate still the pack's 30%",
+      "ok": true
+    },
+    {
+      "check": "C1-R1 core 2: bound/|y0| reproduces",
+      "ok": true
+    },
+    {
+      "check": "C1-R1 core 2: certified share of true zeros consistent",
+      "ok": true
+    },
+    {
+      "check": "C1-R1 core 3: bound/|y0| reproduces",
+      "ok": true
+    },
+    {
+      "check": "C1-R1 core 3: certified share of true zeros consistent",
+      "ok": true
+    },
+    {
+      "check": "C1-R1 derives the sign from the code's bit 3, not from -0.0",
+      "ok": true
+    },
+    {
+      "check": "C1-R1 bound uses only core-derived dmax, no stored residual norms",
+      "ok": true
+    },
+    {
+      "check": "O1 current record size reproduces",
+      "ok": true
+    },
+    {
+      "check": "O1 entropy-bound record size reproduces",
+      "ok": true
+    },
+    {
+      "check": "O1 pack reduction reproduces",
+      "ok": true,
+      "recomputed": 0.07225143635448827
+    },
+    {
+      "check": "O1 code entropy is below the 4-bit raw size",
+      "ok": true
+    },
+    {
+      "check": "G-O1-1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "G-O1-2 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "O1 gates still the pack's 12% / 20%",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 carries a claim boundary",
+      "ok": true
+    },
+    {
+      "check": "W1-R2 runtime.py hash matches disk",
+      "ok": true
+    },
+    {
+      "check": "C1-R1/O1 carries a claim boundary",
+      "ok": true
+    },
+    {
+      "check": "C1-R1/O1 runtime.py hash matches disk",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

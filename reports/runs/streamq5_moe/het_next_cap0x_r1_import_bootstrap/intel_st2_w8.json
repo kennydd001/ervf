@@ -1,0 +1,26 @@
+{
+  "kind": "streamq5_moe_st2_mini_ergv_width8_confirmation",
+  "started_utc": "2026-08-13T18:40:58.098520+00:00",
+  "preregistration_sha256": "39a67b8272c081e15116ffa683d16dbcf7057678fdae7858b1589f665efd6c33",
+  "primary_st2_result_sha256": "a6547f30575e9bc147bd3fdc8c81a7f42b74fadbcdae98d0786df580ef06e4a8",
+  "p1d_manifest_sha256": "08c1f8f469998e46ef985578b07006f884b737335fbdb7b63ca1efb37afe0e09",
+  "runner_sha256": "6472de274fa68a9f577b1483ef1225607f8425ac8587cb348d0c328cff7126ca",
+  "imported_runner_sha256": "399b79e819ec09e77ca5cde8683783b9f1a3c41d0cae5eef45f712585718aac2",
+  "kernel_source_sha256": "f6e218d65df3e21f219d801f5f26f9d164c1e7eb46bfee8fad728217947e30b6",
+  "execution_lock": {
+    "width": 8,
+    "rows_per_workgroup": 32,
+    "ring_records": 531,
+    "ring_bytes": 537219072,
+    "batch_records": 16,
+    "warmup_batches": 34,
+    "timed_iterations": 1000,
+    "minimum_p95_side_gbps": 21.63
+  },
+  "nvidia_gpu_kernel_or_transfer_calls": 0,
+  "status": "blocked_or_runtime_failure",
+  "error": "FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\de_do\\\\Documents\\\\ChatGPT\\\\New project\\\\reports\\\\runs\\\\streamq5_moe\\\\p1d_q5_bank\\\\layer_00.q5bin'",
+  "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\scripts\\streamq5_moe\\run_st2_mini_ergv_w8.py\", line 175, in main\n    payload.update(base.execute())\n                   ^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\scripts\\streamq5_moe\\run_st2_mini_host_usm_q5.py\", line 602, in execute\n    loaded, correctness_records = load_real_records(cl.usm_ptr)\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\scripts\\streamq5_moe\\run_st2_mini_host_usm_q5.py\", line 483, in load_real_records\n    actual = sha256(path)\n             ^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\scripts\\streamq5_moe\\run_st2_mini_host_usm_q5.py\", line 153, in sha256\n    with path.open(\"rb\") as handle:\n         ^^^^^^^^^^^^^^^\n  File \"C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\\Lib\\pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\de_do\\\\Documents\\\\ChatGPT\\\\New project\\\\reports\\\\runs\\\\streamq5_moe\\\\p1d_q5_bank\\\\layer_00.q5bin'\n",
+  "completed_utc": "2026-08-13T18:41:00.621953+00:00",
+  "claim_boundary": "Intel width-8 ERGV host-USM Q5 component only; no dGPU or SplitTree-layer claim."
+}

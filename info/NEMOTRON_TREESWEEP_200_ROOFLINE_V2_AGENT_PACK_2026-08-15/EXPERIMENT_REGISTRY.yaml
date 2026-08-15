@@ -1,0 +1,385 @@
+project: NEMOTRON_TREESWEEP_200_ROOFLINE_V2
+created_at: '2026-08-15'
+status: preregistered_plan
+claim_boundary: hypotheses_only_until_integrated_independent_verification
+hardware_target:
+  gpu: RTX_PRO_2000_Blackwell_Laptop_8GiB
+  research_ram_gib: 64
+  product_ram_stretch_gib: 32
+  primary_batch: 1
+immutable_rules:
+- do_not_modify_closed_registries
+- identity_before_model_claims
+- validation_before_test
+- exact_and_lossy_tracks_separate
+- no_component_speedup_multiplication
+- oracle_before_training
+- causal_student_state_evaluation
+- imported_N1_N5_require_independent_reproduction
+- baseline_tree_verifier_cannot_issue_final_performance_hard_stop
+- low_rank_relu2_prefilter_closed_negative
+- exact_efficiency_integrated_measurement_required
+experiments:
+  P0_IDENTITY_BASELINE:
+    status: queued
+    priority: 0
+    agent: agents/01_IDENTITY_BASELINE.md
+    gates:
+    - target_model_id_revision_hashes_locked
+    - runtime_commit_and_build_flags_locked
+    - mtp_artifact_and_algorithm_identified
+    - short_ar_within_3pct_of_provisional
+    - mtp_acceptance_within_5pct_of_provisional
+    - component_cost_decomposition_complete
+    opens:
+    - P1_TARGET_TREE_ROOFLINE
+    - P2_ORACLE_TREE_COVERAGE
+    - P11_ORBITANS_PATHQ_MODIFIERS
+  P1_TARGET_TREE_ROOFLINE:
+    status: dependency_blocked
+    priority: 1
+    depends_on:
+    - P0_IDENTITY_BASELINE
+    agent: agents/02_ROOFLINE_ORACLE.md
+    gates:
+    - exact_sequential_equivalence
+    - tree_sizes_1_5_15_31_63_profiled
+    - component_times_and_memory_reported
+    - runtime_model_fit_reported
+  P1B_TARGET_TREE_VERIFIER:
+    status: dependency_blocked
+    priority: 1
+    depends_on:
+    - P0_IDENTITY_BASELINE
+    - P1_TARGET_TREE_ROOFLINE
+    agent: agents/03_TARGET_TREE_VERIFIER.md
+    gates:
+    - exact_greedy_tokens_or_distribution_preserving_sampling
+    - accepted_state_commit_exact
+    - no_unrolled_prefix_duplication_claim_without_measurement
+  P2_ORACLE_TREE_COVERAGE:
+    status: dependency_blocked
+    priority: 1
+    depends_on:
+    - P0_IDENTITY_BASELINE
+    agent: agents/04_PROPOSAL_COVERAGE_ORACLE.md
+    gates_any:
+    - target_path_depth_ge_7_with_nodes_lte_32
+    - target_path_depth_ge_9_with_nodes_lte_64
+    hard_stop:
+    - both_coverage_gates_fail_on_validation_and_test
+  P2C_JOINT_SPEED_OF_LIGHT:
+    status: dependency_blocked
+    priority: 1
+    depends_on:
+    - P1_TARGET_TREE_ROOFLINE
+    - P2_ORACLE_TREE_COVERAGE
+    gate:
+    - max_oracle_output_tokens_over_target_verify_time_ge_250_tok_s
+    opens:
+    - P3_MAMBA_TREE_SCAN
+    - P4_TREE_ATTENTION
+    - P5_EXACT_MOE_TREE
+    claim_boundary: baseline_diagnostic_only_after_N1_N5
+  P3_MAMBA_TREE_SCAN:
+    status: dependency_blocked
+    priority: 2
+    depends_on:
+    - P2D_OPTIMIZED_SPEED_OF_LIGHT
+    agent: agents/05_MAMBA_TREE_SCAN.md
+    gates:
+    - exact_against_unrolled_reference
+    - accepted_state_reconstruction_exact
+    - tree_scan_faster_than_unrolled_at_registered_budgets
+    - no_state_memory_explosion
+  P4_TREE_ATTENTION:
+    status: dependency_blocked
+    priority: 2
+    depends_on:
+    - P2D_OPTIMIZED_SPEED_OF_LIGHT
+    agent: agents/06_TREE_ATTENTION.md
+    gates:
+    - topology_mask_correct
+    - branch_kv_commit_correct
+    - prefix_kv_reuse_measured
+    - tree_attention_within_round_budget
+  P5_EXACT_MOE_TREE:
+    status: dependency_blocked
+    priority: 2
+    depends_on:
+    - P2D_OPTIMIZED_SPEED_OF_LIGHT
+    agent: agents/07_MOE_EXPERT_UNION.md
+    gates:
+    - natural_target_routes_preserved
+    - grouped_expert_outputs_match_reference
+    - expert_union_h2d_and_compute_profiled
+    - tree_cost_model_predicts_measured_cost_within_10pct
+  P6_NATIVE_MTP_TREE:
+    status: dependency_blocked
+    priority: 3
+    depends_on:
+    - P3_MAMBA_TREE_SCAN
+    - P4_TREE_ATTENTION
+    - P5_EXACT_MOE_TREE
+    agent: agents/08_NATIVE_MTP_TREE.md
+    gates:
+    - real_draft_tree_output_per_ms_beats_linear_mtp
+    - integrated_round_throughput_ge_100_tok_s
+    strong_gate:
+    - integrated_round_throughput_ge_200_tok_s
+  P7_PARALLEL_DRAFTER:
+    status: dependency_blocked
+    priority: 4
+    depends_on:
+    - P2D_OPTIMIZED_SPEED_OF_LIGHT
+    opens_when: P6_NATIVE_MTP_TREE_misses_200_but_verifier_headroom_exists
+    agent: agents/09_PARALLEL_DRAFTER.md
+    candidate_families:
+    - Hydra
+    - FastMTP
+    - EAGLE3
+    - FastEagle
+    - PTP
+    - ReDrafter
+    gates:
+    - same_training_budget_baselines
+    - coverage_depth_ge_7_nodes_lte_32_or_depth_ge_9_nodes_lte_64
+    - draft_plus_verify_throughput_ge_200_tok_s
+  P8_DIFFUSION_DRAFTER:
+    status: dependency_blocked
+    priority: 5
+    depends_on:
+    - P2D_OPTIMIZED_SPEED_OF_LIGHT
+    opens_when: verifier_passes_and_parallel_drafter_insufficient_or_training_branch_approved
+    agent: agents/10_DIFFUSION_DRAFTER.md
+    gates:
+    - block_or_tree_draft_cost_measured
+    - prefix_aligned_coverage_gate_passed
+    - integrated_draft_plus_verify_throughput_ge_200_tok_s
+    - resource_budget_respected
+  P9_BRANCHCERT:
+    status: optional_dependency_blocked
+    depends_on:
+    - P1B_TARGET_TREE_VERIFIER
+    agent: agents/11_BRANCHCERT.md
+    opens_when: off_path_precision_is_measured_bottleneck
+    gates:
+    - sound_interval_certificates
+    - zero_false_certificates
+    - exact_target_semantics
+    - integrated_round_time_reduction_ge_0_05
+  P10_ORBITANS:
+    status: optional_dependency_blocked
+    depends_on:
+    - P0_IDENTITY_BASELINE
+    agent: agents/12_ORBITANS_PATHQ.md
+    track: exact
+    gates:
+    - byte_exact_codes_and_scales
+    - random_access_preserved
+    - integrated_round_time_reduction_ge_0_05
+  P10B_PATHQ:
+    status: optional_dependency_blocked
+    depends_on:
+    - P0_IDENTITY_BASELINE
+    agent: agents/12_ORBITANS_PATHQ.md
+    track: quality_changing
+    gates:
+    - test_relative_ce_lte_0_005_conservative_or_0_01_research
+    - active_bytes_reduction_ge_0_12
+    - integrated_round_time_reduction_ge_0_05
+    - formats_on_critical_path_lte_3
+  P11_ASYNC_HETEROGENEOUS:
+    status: optional_dependency_blocked
+    depends_on:
+    - P6_NATIVE_MTP_TREE
+    agent: agents/13_ASYNC_HETEROGENEOUS.md
+    opens_when: draft_time_is_on_critical_path
+    gates:
+    - device_microbenchmark_positive
+    - async_overlap_reduces_integrated_round_time_ge_0_05
+    - no_state_or_kv_inconsistency
+  P12_LONG_CONTEXT:
+    status: optional_dependency_blocked
+    depends_on_any:
+    - P6_NATIVE_MTP_TREE
+    - P7_PARALLEL_DRAFTER
+    - P8_DIFFUSION_DRAFTER
+    agent: agents/14_LONG_CONTEXT.md
+    gates:
+    - context128k_tok_s_ge_100
+    - context262k_tok_s_ge_60
+    - no_context_quality_regression
+    - memory_gate
+  P13_INTEGRATED_50:
+    status: dependency_blocked
+    depends_on_any:
+    - P6_NATIVE_MTP_TREE
+    - P7_PARALLEL_DRAFTER
+    - P8_DIFFUSION_DRAFTER
+    - E6_PERSISTENT_TOKEN_FABRIC
+    agent: agents/15_INTEGRATION_200.md
+    gate: short_tok_s_ge_50
+  P14_INTEGRATED_100:
+    status: dependency_blocked
+    depends_on:
+    - P13_INTEGRATED_50
+    agent: agents/15_INTEGRATION_200.md
+    gate: short_tok_s_ge_100
+  P15_INTEGRATED_200:
+    status: dependency_blocked
+    depends_on:
+    - P14_INTEGRATED_100
+    agent: agents/15_INTEGRATION_200.md
+    gates:
+    - short_single_stream_tok_s_ge_200
+    - batch_eq_1
+    - vram_gib_lte_8
+    - causal_output_tokens_ge_512
+    - exact_target_semantics_or_registered_quality_target
+    - p95_p99_reported
+    - thermal_one_hour_pass
+    - no_swap
+    - independent_verification_pass
+  P16_NOVELTY_AUDIT:
+    status: queued_after_candidate
+    agent: agents/16_NOVELTY_AUDIT.md
+  P17_INDEPENDENT_VERIFICATION:
+    status: queued_after_candidate
+    agent: agents/17_INDEPENDENT_VERIFIER.md
+  E0_N1_N5_REPRODUCTION:
+    status: queued
+    priority: 1
+    depends_on:
+    - P0_IDENTITY_BASELINE
+    agent: agents/18_ROOFLINE_REPRODUCTION.md
+    gates:
+    - raw_evidence_hashed
+    - streaming_roofline_reproduced_or_reclassified
+    - graph_gain_reproduced_or_reclassified
+    - gather_decomposition_reproduced_or_reclassified
+    - attention_byte_fit_reproduced_or_reclassified
+    - gemv_roofline_reproduced_or_reclassified
+  E1_GRAPH_RESIDENT_TOKEN:
+    status: dependency_blocked
+    priority: 2
+    depends_on:
+    - P0_IDENTITY_BASELINE
+    - E0_N1_N5_REPRODUCTION
+    agent: agents/19_GRAPH_RESIDENT_TOKEN.md
+    gates:
+    - exact_target_semantics
+    - graph_gain_within_5pct_of_reproduced_import
+    - p95_improves
+    - no_forbidden_vram_growth
+  E2_GATHERLESS_DOWNFLOW:
+    status: dependency_blocked
+    priority: 2
+    depends_on:
+    - P0_IDENTITY_BASELINE
+    - E0_N1_N5_REPRODUCTION
+    agent: agents/20_GATHERLESS_DOWNFLOW.md
+    gates:
+    - exact_support_and_weight_semantics
+    - gather_time_reduction_ge_80pct
+    - down_path_speedup_ge_1_8x
+    - no_hidden_duplicate_bank
+  E3_RELU2_PREFILTER_CLOSED:
+    status: falsified
+    priority: 99
+    evidence: imported_N3_requires_E0_hash_verification
+    result:
+    - relu2_zero_fraction_91pct
+    - sound_certified_fraction_0_01pct
+    - rank64_energy_21_8pct
+    - matrix_rank_1856
+    forbidden_reopen:
+    - larger_rank_sweep
+    - unsafe_learned_gate_in_exact_track
+    - RSIV_relabel
+  E4_ATTENTION_ROOFLINE_RECOVERY:
+    status: dependency_blocked
+    priority: 2
+    depends_on:
+    - P0_IDENTITY_BASELINE
+    - E0_N1_N5_REPRODUCTION
+    agent: agents/21_ATTENTION_ROOFLINE_RECOVERY.md
+    gates:
+    - byte_fit_r2_ge_0_99
+    - effective_bandwidth_ge_100_gb_s
+    - kv_commit_correct
+    - output_tolerance_pass
+    strong_gate:
+    - effective_bandwidth_ge_169_gb_s
+    - attention_262k_ms_lte_6
+  E5_GEMV_ROOFLINE_RECOVERY:
+    status: dependency_blocked
+    priority: 2
+    depends_on:
+    - P0_IDENTITY_BASELINE
+    - E0_N1_N5_REPRODUCTION
+    agent: agents/22_GEMV_ROOFLINE_RECOVERY.md
+    gates:
+    - weighted_suite_bandwidth_ge_140_gb_s
+    - no_critical_shape_regression_gt_5pct
+    - integrated_token_improvement_ge_8pct
+    strong_gate:
+    - weighted_suite_bandwidth_ge_170_gb_s
+  E6_PERSISTENT_TOKEN_FABRIC:
+    status: dependency_blocked
+    priority: 3
+    depends_on:
+    - E1_GRAPH_RESIDENT_TOKEN
+    - E2_GATHERLESS_DOWNFLOW
+    - E4_ATTENTION_ROOFLINE_RECOVERY
+    - E5_GEMV_ROOFLINE_RECOVERY
+    agent: agents/23_PERSISTENT_TOKEN_FABRIC.md
+    gates_any:
+    - exact_short_tok_s_ge_50
+    - best_exact_candidate_frozen_for_tree_rerun
+    milestones:
+    - E50_ms_lte_20
+    - E75_ms_lte_13_333
+    - E100_ms_lte_10
+  P1R_OPTIMIZED_TREE_ROOFLINE:
+    status: dependency_blocked
+    priority: 4
+    depends_on:
+    - P1B_TARGET_TREE_VERIFIER
+    - E6_PERSISTENT_TOKEN_FABRIC
+    agent: agents/24_OPTIMIZED_TREE_RERUN.md
+    gates:
+    - same_tree_budgets_as_baseline
+    - exact_target_semantics
+    - baseline_vs_optimized_reported
+  P2D_OPTIMIZED_SPEED_OF_LIGHT:
+    status: dependency_blocked
+    priority: 4
+    depends_on:
+    - P1R_OPTIMIZED_TREE_ROOFLINE
+    - P2_ORACLE_TREE_COVERAGE
+    gate:
+    - max_oracle_output_tokens_over_optimized_verify_time_ge_250_tok_s
+    hard_stop:
+    - optimized_joint_ceiling_lt_250_tok_s
+breakthrough_definition:
+  status: verified_breakthrough
+  required_same_candidate:
+  - integrated_physical_runtime
+  - single_stream_short_tok_s_ge_200
+  - exact_or_quality_gate
+  - memory_gate
+  - causal_rollout_gate
+  - tail_latency_gate
+  - thermal_gate
+  - independent_verifier
+  forbidden:
+  - multiplying_component_speedups
+  - calling_oracle_a_runtime
+  - treating_target_informed_tree_as_real_drafter
+  - mixing_exact_and_lossy_claims
+  exact_efficiency_milestones:
+  - E50_exact
+  - E75_exact
+  - E100_exact
+  note: E200 requires optimized TreeSweep temporal amortization; one-token byte floor exceeds 5 ms

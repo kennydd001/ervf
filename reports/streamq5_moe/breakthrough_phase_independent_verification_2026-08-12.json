@@ -1,0 +1,268 @@
+{
+  "kind": "breakthrough_phase_independent_verification",
+  "completed_utc": "2026-08-12T20:22:29.368024+00:00",
+  "overall_pass": true,
+  "checks_passed": 26,
+  "checks_total": 26,
+  "checks": [
+    {
+      "name": "registry_ids_contiguous",
+      "passed": true,
+      "detail": [
+        "B001",
+        "B002",
+        "B003",
+        "B004",
+        "B005",
+        "B006",
+        "B007",
+        "B008",
+        "B009",
+        "B010"
+      ]
+    },
+    {
+      "name": "registry_all_terminal",
+      "passed": true,
+      "detail": [
+        "invalidated_noop",
+        "verified_negative",
+        "verified_negative",
+        "verified_negative",
+        "verified_negative",
+        "verified_pass_component",
+        "verified_pass_component",
+        "verified_pass_oracle",
+        "verified_pass_component",
+        "verified_negative"
+      ]
+    },
+    {
+      "name": "registry_evidence_exists",
+      "passed": true,
+      "detail": {
+        "count": 25,
+        "missing": []
+      }
+    },
+    {
+      "name": "final_report_exists",
+      "passed": true,
+      "detail": 7016
+    },
+    {
+      "name": "p9b_noop_audit",
+      "passed": true,
+      "detail": {
+        "correct_indexed_fill_mutates_weights_and_forward": true,
+        "p9b_and_p9e_candidate_outputs_identical": true,
+        "p9b_and_p9e_masks_materially_different": true,
+        "p9b_boolean_selections_are_copies": true,
+        "p9b_helper_is_noop_on_actual_checkpoint_expert": true,
+        "p9b_helper_leaves_actual_expert_forward_bitexact": true,
+        "qwen_forward_uses_targeted_expert_parameters": true
+      }
+    },
+    {
+      "name": "quality_close_p9br_corrected_structured_wanda_validation",
+      "passed": true,
+      "detail": {
+        "relative_ce": 0.4780387471409896,
+        "top1": 0.608661413192749
+      }
+    },
+    {
+      "name": "quality_close_p9er_group_balanced_corrected_validation",
+      "passed": true,
+      "detail": {
+        "relative_ce": 0.4718605527685509,
+        "top1": 0.608661413192749
+      }
+    },
+    {
+      "name": "quality_close_p9f_quarter_pruning_validation",
+      "passed": true,
+      "detail": {
+        "relative_ce": 0.22845561347740692,
+        "top1": 0.748031497001648
+      }
+    },
+    {
+      "name": "gaugepack_blocked_before_kernel",
+      "passed": true,
+      "detail": "blocked_invalid_p9b_premise"
+    },
+    {
+      "name": "ergv_c0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "ergv_c1",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "ergv_c2_verifier",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "ergv_c2_beats_uniform_p7",
+      "passed": true,
+      "detail": {
+        "q8": {
+          "p50_ratio": 0.859878299858723,
+          "p95_ratio": 0.8574745826199114
+        },
+        "q5": {
+          "p50_ratio": 0.9270794794515949,
+          "p95_ratio": 0.928929912322388
+        }
+      }
+    },
+    {
+      "name": "ergv_c2_n1c_parity_not_breakthrough",
+      "passed": true,
+      "detail": {
+        "q8": {
+          "p50_ratio": 0.9980278846355961,
+          "p95_ratio": 1.0003544664889572
+        },
+        "q5": {
+          "p50_ratio": 1.0000749212875049,
+          "p95_ratio": 0.9998307037191524
+        }
+      }
+    },
+    {
+      "name": "tierflow_verifier",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "tierflow_traffic_gates",
+      "passed": true,
+      "detail": {
+        "transitions": 61440,
+        "baseline_new_loads": {
+          "count": 61440,
+          "mean": 4.116878255208333,
+          "p50": 4.0,
+          "p95": 7.0,
+          "p99": 8.0,
+          "max": 8
+        },
+        "oracle_new_loads": {
+          "count": 61440,
+          "mean": 0.990185546875,
+          "p50": 1.0,
+          "p95": 1.0,
+          "p99": 1.0,
+          "max": 1
+        },
+        "baseline_critical_expert_bytes": 767710334976,
+        "oracle_critical_expert_bytes": 184648568832,
+        "critical_expert_bytes_reduction_x": 4.157683646465145,
+        "worst_case_new_load_reduction_x": 8.0,
+        "mean_route_set_overlap": 0.67969970703125,
+        "router_output_substitution_rate": 0.32030029296874996,
+        "exact_route_set_match_rate": 0.089892578125,
+        "overlap_count": {
+          "count": 61440,
+          "mean": 5.43759765625,
+          "p50": 6.0,
+          "p95": 8.0,
+          "p99": 8.0,
+          "max": 8
+        },
+        "cold_start_expert_bytes_separate": 5827461120,
+        "stream_all_top8_bytes_without_reuse": 1491830046720
+      }
+    },
+    {
+      "name": "tierflow_quality_boundary",
+      "passed": true,
+      "detail": {
+        "substitution": 0.32030029296874996,
+        "exact_sets": 0.089892578125
+      }
+    },
+    {
+      "name": "port80b_independent_verifier",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "port80b_physical_file_size",
+      "passed": true,
+      "detail": 49925652480
+    },
+    {
+      "name": "port80b_one_hour",
+      "passed": true,
+      "detail": 3600.092517400015
+    },
+    {
+      "name": "port80b_zero_cache_raw_count",
+      "passed": true,
+      "detail": 10000
+    },
+    {
+      "name": "port80b_h2d_gate_failed",
+      "passed": true,
+      "detail": {
+        "count": 10000,
+        "mean": 65.53017066268922,
+        "p50": 63.03372764587402,
+        "p95": 73.54437026977537,
+        "p99": 121.31492378234867,
+        "max": 1358.4293212890625
+      }
+    },
+    {
+      "name": "port80b_page_read_gate_failed",
+      "passed": true,
+      "detail": {
+        "count": 3569,
+        "mean": 49.32036005412044,
+        "p50": 0.0,
+        "p95": 93.40648198897085,
+        "p99": 1468.2209403837671,
+        "max": 7759.004682464511
+      }
+    },
+    {
+      "name": "port80b_commit_pass",
+      "passed": true,
+      "detail": 6074916864
+    },
+    {
+      "name": "port80b_overall_negative",
+      "passed": true,
+      "detail": {
+        "bank_physical_contract": true,
+        "full_sha256_verified": true,
+        "three_scenarios_10000_tokens": true,
+        "one_hour_uninterrupted": true,
+        "pdh_available_and_sampled": true,
+        "no_system_page_reads_after_warmup": false,
+        "peak_process_commit_le_58gib": true,
+        "zero_cache_h2d_p95_le_45ms": false,
+        "no_cuda_or_runner_error": true,
+        "telemetry_gap_le_45s": true,
+        "no_thermal_or_driver_error": true
+      }
+    },
+    {
+      "name": "industrial_breakthrough_not_claimed",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "failures": [],
+  "gpu_used": false,
+  "network_used": false,
+  "physical_bank_rehashed": false,
+  "claim_boundary": "Cross-artifact consistency verifier; relies on the dedicated PORT80B full-hash verifier and does not repeat the one-hour GPU experiment."
+}

@@ -1,0 +1,526 @@
+{
+  "created_at_utc": "2026-08-09T21:59:38.034395+00:00",
+  "git_revision": null,
+  "kind": "route_cache_accounting",
+  "payload": {
+    "architecture": {
+      "active_routed_experts_per_token_per_layer": 6,
+      "bf16_bytes_per_routed_expert": 17301504,
+      "int4_bytes_per_routed_expert": 4335104,
+      "int4_scheme": "packed 4-bit values plus one BF16 scale per output row for gate, up, and down projections",
+      "moe_layers": 26,
+      "parameters_per_routed_expert": 8650752,
+      "routed_experts_per_layer": 64
+    },
+    "capacity_32_per_layer_cache": {
+      "bf16_cache_gib": 13.40625,
+      "experts_resident_across_layers": 832,
+      "int4_cache_gib": 3.359100341796875,
+      "nonrouted_bf16_plus_int4_cache_gib": 5.802206993103027
+    },
+    "corpora": {
+      "instructions_and_code": {
+        "adaptive_expert_loads": 83797,
+        "adaptive_int4_routed_io_mib_per_token": 169.16017508506775,
+        "expert_load_reduction_fraction": 0.12494517658361359,
+        "projected_int4_routed_bandwidth_gib_per_second_at_10_tokens_per_second": {
+          "adaptive": 1.6519548348151147,
+          "saved": 0.23587526520714164,
+          "strict": 1.8878301000222564
+        },
+        "quality": {
+          "test": {
+            "32": {
+              "bootstrap_95_percent_intervals": {
+                "confidence_level": 0.95,
+                "cross_entropy_delta": [
+                  -0.005542890293391611,
+                  0.003871336133461272
+                ],
+                "method": "sequence-block bootstrap with replacement",
+                "relative_cross_entropy_delta": [
+                  -0.0032497105226651905,
+                  0.0021256258304070716
+                ],
+                "resamples": 10000,
+                "sampling_units": 8,
+                "teacher_to_candidate_kl": [
+                  0.002162094226150657,
+                  0.003087730015977286
+                ],
+                "top1_agreement": [
+                  0.970703125,
+                  0.9912109375
+                ]
+              },
+              "cache_bootstrap_95_percent_intervals": {
+                "confidence_level": 0.95,
+                "expert_load_reduction_fraction": [
+                  0.12155527548390732,
+                  0.14860838828318412
+                ],
+                "method": "sequence-block bootstrap with replacement",
+                "resamples": 10000,
+                "sampling_units": 8,
+                "substituted_token_fraction": [
+                  0.20759465144230768,
+                  0.22626201923076922
+                ]
+              },
+              "candidate_cross_entropy": 1.7167114498108391,
+              "cross_entropy_delta": -0.0014085544375921355,
+              "per_block": [
+                {
+                  "candidate_cross_entropy": 2.4909862608421505,
+                  "cross_entropy_delta": -0.00870808278481805,
+                  "relative_cross_entropy_delta": -0.003483659034961422,
+                  "teacher_cross_entropy": 2.4996943436269685,
+                  "teacher_to_candidate_kl": 0.00303022307343781,
+                  "top1_agreement": 0.9765625
+                },
+                {
+                  "candidate_cross_entropy": 2.5319946769654282,
+                  "cross_entropy_delta": 0.013453205739419438,
+                  "relative_cross_entropy_delta": 0.005341665361924936,
+                  "teacher_cross_entropy": 2.518541471226009,
+                  "teacher_to_candidate_kl": 0.0036563805770128965,
+                  "top1_agreement": 0.96875
+                },
+                {
+                  "candidate_cross_entropy": 1.2209226352961984,
+                  "cross_entropy_delta": -0.004471546082984723,
+                  "relative_cross_entropy_delta": -0.0036490675008363357,
+                  "teacher_cross_entropy": 1.225394181379183,
+                  "teacher_to_candidate_kl": 0.0020755170844495296,
+                  "top1_agreement": 0.984375
+                },
+                {
+                  "candidate_cross_entropy": 1.7679443359375,
+                  "cross_entropy_delta": -0.005471297136441899,
+                  "relative_cross_entropy_delta": -0.003085174752270708,
+                  "teacher_cross_entropy": 1.773415633073942,
+                  "teacher_to_candidate_kl": 0.0017057614168152213,
+                  "top1_agreement": 1.0
+                },
+                {
+                  "candidate_cross_entropy": 1.7891256978192667,
+                  "cross_entropy_delta": -0.0009330689437747619,
+                  "relative_cross_entropy_delta": -0.0005212504533926716,
+                  "teacher_cross_entropy": 1.7900587667630414,
+                  "teacher_to_candidate_kl": 0.0019023476634174585,
+                  "top1_agreement": 0.9921875
+                },
+                {
+                  "candidate_cross_entropy": 1.0398781844011442,
+                  "cross_entropy_delta": 0.005140890286663424,
+                  "relative_cross_entropy_delta": 0.0049683048208511256,
+                  "teacher_cross_entropy": 1.0347372941144808,
+                  "teacher_to_candidate_kl": 0.0033506855834275484,
+                  "top1_agreement": 0.9765625
+                },
+                {
+                  "candidate_cross_entropy": 1.2072940135565329,
+                  "cross_entropy_delta": -0.004786213551919438,
+                  "relative_cross_entropy_delta": -0.0039487596983059986,
+                  "teacher_cross_entropy": 1.2120802271084523,
+                  "teacher_to_candidate_kl": 0.002899304497987032,
+                  "top1_agreement": 0.953125
+                },
+                {
+                  "candidate_cross_entropy": 1.685545553372601,
+                  "cross_entropy_delta": -0.005491842435100924,
+                  "relative_cross_entropy_delta": -0.003247617378962703,
+                  "teacher_cross_entropy": 1.6910373958077018,
+                  "teacher_to_candidate_kl": 0.0022953427396714687,
+                  "top1_agreement": 1.0
+                }
+              ],
+              "relative_cross_entropy_delta": -0.0008198230822696747,
+              "teacher_cross_entropy": 1.7181200042484313,
+              "teacher_to_candidate_kl": 0.0026144452567677945,
+              "top1_agreement": 0.9814453125
+            }
+          },
+          "validation": {
+            "32": {
+              "bootstrap_95_percent_intervals": {
+                "confidence_level": 0.95,
+                "cross_entropy_delta": [
+                  -0.006396586500753365,
+                  0.006463629054271902
+                ],
+                "method": "sequence-block bootstrap with replacement",
+                "relative_cross_entropy_delta": [
+                  -0.0021418464435961656,
+                  0.0019945463009855683
+                ],
+                "resamples": 10000,
+                "sampling_units": 8,
+                "teacher_to_candidate_kl": [
+                  0.005818260891828686,
+                  0.00875271315453574
+                ],
+                "top1_agreement": [
+                  0.9482421875,
+                  0.9609375
+                ]
+              },
+              "cache_bootstrap_95_percent_intervals": {
+                "confidence_level": 0.95,
+                "expert_load_reduction_fraction": [
+                  0.1074875137560315,
+                  0.1240011446936844
+                ],
+                "method": "sequence-block bootstrap with replacement",
+                "resamples": 10000,
+                "sampling_units": 8,
+                "substituted_token_fraction": [
+                  0.20594200721153846,
+                  0.21717247596153846
+                ]
+              },
+              "candidate_cross_entropy": 3.134637607364204,
+              "cross_entropy_delta": -0.00019602137287755284,
+              "per_block": [
+                {
+                  "candidate_cross_entropy": 3.466663270484744,
+                  "cross_entropy_delta": 0.015349140317421295,
+                  "relative_cross_entropy_delta": 0.004447332157701088,
+                  "teacher_cross_entropy": 3.4513141301673227,
+                  "teacher_to_candidate_kl": 0.011198481544852257,
+                  "top1_agreement": 0.96875
+                },
+                {
+                  "candidate_cross_entropy": 3.319056713674951,
+                  "cross_entropy_delta": 0.012484332707923151,
+                  "relative_cross_entropy_delta": 0.0037756115002303475,
+                  "teacher_cross_entropy": 3.3065723809670278,
+                  "teacher_to_candidate_kl": 0.007485304493457079,
+                  "top1_agreement": 0.9609375
+                },
+                {
+                  "candidate_cross_entropy": 2.7056978481022393,
+                  "cross_entropy_delta": -0.007904052734375,
+                  "relative_cross_entropy_delta": -0.002912753242079521,
+                  "teacher_cross_entropy": 2.7136019008366143,
+                  "teacher_to_candidate_kl": 0.005709669087082148,
+                  "top1_agreement": 0.9375
+                },
+                {
+                  "candidate_cross_entropy": 3.3332524337167815,
+                  "cross_entropy_delta": -0.008934922105684251,
+                  "relative_cross_entropy_delta": -0.0026733755934174705,
+                  "teacher_cross_entropy": 3.3421873558224657,
+                  "teacher_to_candidate_kl": 0.007949430495500565,
+                  "top1_agreement": 0.9609375
+                },
+                {
+                  "candidate_cross_entropy": 3.0213027113065944,
+                  "cross_entropy_delta": -0.0013778566375490797,
+                  "relative_cross_entropy_delta": -0.00045583931433622175,
+                  "teacher_cross_entropy": 3.0226805679441435,
+                  "teacher_to_candidate_kl": 0.009428860619664192,
+                  "top1_agreement": 0.9453125
+                },
+                {
+                  "candidate_cross_entropy": 3.0199435977485236,
+                  "cross_entropy_delta": 0.002026415246678237,
+                  "relative_cross_entropy_delta": 0.0006714615160507301,
+                  "teacher_cross_entropy": 3.0179171825018454,
+                  "teacher_to_candidate_kl": 0.005929435137659311,
+                  "top1_agreement": 0.953125
+                },
+                {
+                  "candidate_cross_entropy": 2.6513417161355806,
+                  "cross_entropy_delta": -0.013103575218381014,
+                  "relative_cross_entropy_delta": -0.0049179374261883665,
+                  "teacher_cross_entropy": 2.6644452913539616,
+                  "teacher_to_candidate_kl": 0.004191169049590826,
+                  "top1_agreement": 0.953125
+                },
+                {
+                  "candidate_cross_entropy": 3.5598428080401083,
+                  "cross_entropy_delta": -0.00010669137549212948,
+                  "relative_cross_entropy_delta": -2.9969912637705643e-05,
+                  "teacher_cross_entropy": 3.5599494994156005,
+                  "teacher_to_candidate_kl": 0.005698594730347395,
+                  "top1_agreement": 0.9609375
+                }
+              ],
+              "relative_cross_entropy_delta": -6.25300721163066e-05,
+              "teacher_cross_entropy": 3.1348336287370815,
+              "teacher_to_candidate_kl": 0.0071988682029768825,
+              "top1_agreement": 0.955078125
+            }
+          }
+        },
+        "saved_expert_loads": 11965,
+        "saved_int4_routed_io_mib_per_token": 24.153627157211304,
+        "source_report": "reports\\baseline\\modelwide_cache_aware_bottom1_teacher_lru_capacity32_diverse_1024_ci.json",
+        "strict_expert_loads": 95762,
+        "strict_int4_routed_io_mib_per_token": 193.31380224227905,
+        "tokens": 2048
+      },
+      "wikitext": {
+        "adaptive_expert_loads": 82221,
+        "adaptive_int4_routed_io_mib_per_token": 165.97871947288513,
+        "expert_load_reduction_fraction": 0.11215134925005665,
+        "projected_int4_routed_bandwidth_gib_per_second_at_10_tokens_per_second": {
+          "adaptive": 1.6208859323523939,
+          "saved": 0.20474722143262625,
+          "strict": 1.8256331537850201
+        },
+        "quality": {
+          "test": {
+            "32": {
+              "bootstrap_95_percent_intervals": {
+                "confidence_level": 0.95,
+                "cross_entropy_delta": [
+                  -0.0033096553772455906,
+                  0.007953133170060411
+                ],
+                "method": "sequence-block bootstrap with replacement",
+                "relative_cross_entropy_delta": [
+                  -0.0013016801060360106,
+                  0.0032792299892503048
+                ],
+                "resamples": 10000,
+                "sampling_units": 8,
+                "teacher_to_candidate_kl": [
+                  0.0034862013126257807,
+                  0.00422576524579199
+                ],
+                "top1_agreement": [
+                  0.966796875,
+                  0.9814453125
+                ]
+              },
+              "cache_bootstrap_95_percent_intervals": {
+                "confidence_level": 0.95,
+                "expert_load_reduction_fraction": [
+                  0.10085244327050069,
+                  0.11282426778242682
+                ],
+                "method": "sequence-block bootstrap with replacement",
+                "resamples": 10000,
+                "sampling_units": 8,
+                "substituted_token_fraction": [
+                  0.20056997445913463,
+                  0.2122521033653846
+                ]
+              },
+              "candidate_cross_entropy": 2.4982277577317604,
+              "cross_entropy_delta": 0.0024276493102544094,
+              "per_block": [
+                {
+                  "candidate_cross_entropy": 2.153608427273007,
+                  "cross_entropy_delta": -0.004608394592765741,
+                  "relative_cross_entropy_delta": -0.0021352787848172715,
+                  "teacher_cross_entropy": 2.1582168218657727,
+                  "teacher_to_candidate_kl": 0.003837788477540016,
+                  "top1_agreement": 0.9765625
+                },
+                {
+                  "candidate_cross_entropy": 2.5027148629736713,
+                  "cross_entropy_delta": 0.012224332554133799,
+                  "relative_cross_entropy_delta": 0.004908403547342354,
+                  "teacher_cross_entropy": 2.4904905304195375,
+                  "teacher_to_candidate_kl": 0.003929221536964178,
+                  "top1_agreement": 0.9765625
+                },
+                {
+                  "candidate_cross_entropy": 2.14037437138595,
+                  "cross_entropy_delta": 0.007331908218504157,
+                  "relative_cross_entropy_delta": 0.0034373006375206868,
+                  "teacher_cross_entropy": 2.133042463167446,
+                  "teacher_to_candidate_kl": 0.0028230573516339064,
+                  "top1_agreement": 0.984375
+                },
+                {
+                  "candidate_cross_entropy": 2.275191179410679,
+                  "cross_entropy_delta": 0.010782076617864345,
+                  "relative_cross_entropy_delta": 0.004761540926754906,
+                  "teacher_cross_entropy": 2.264409102792815,
+                  "teacher_to_candidate_kl": 0.0035950930323451757,
+                  "top1_agreement": 0.9765625
+                },
+                {
+                  "candidate_cross_entropy": 2.8528199683962843,
+                  "cross_entropy_delta": -0.013010580708661568,
+                  "relative_cross_entropy_delta": -0.004539898813181758,
+                  "teacher_cross_entropy": 2.865830549104946,
+                  "teacher_to_candidate_kl": 0.004061664920300245,
+                  "top1_agreement": 0.9609375
+                },
+                {
+                  "candidate_cross_entropy": 2.5624024398683565,
+                  "cross_entropy_delta": -0.0011625515194388925,
+                  "relative_cross_entropy_delta": -0.0004534901683181205,
+                  "teacher_cross_entropy": 2.5635649913877954,
+                  "teacher_to_candidate_kl": 0.004824169911444187,
+                  "top1_agreement": 0.9609375
+                },
+                {
+                  "candidate_cross_entropy": 2.6739679772084153,
+                  "cross_entropy_delta": -0.0011385219303643446,
+                  "relative_cross_entropy_delta": -0.00042559873064151985,
+                  "teacher_cross_entropy": 2.6751064991387796,
+                  "teacher_to_candidate_kl": 0.004116453230381012,
+                  "top1_agreement": 0.9921875
+                },
+                {
+                  "candidate_cross_entropy": 2.8247425950418306,
+                  "cross_entropy_delta": 0.009003406434547223,
+                  "relative_cross_entropy_delta": 0.0031975285463141474,
+                  "teacher_cross_entropy": 2.8157391886072833,
+                  "teacher_to_candidate_kl": 0.003700217232108116,
+                  "top1_agreement": 0.9609375
+                }
+              ],
+              "relative_cross_entropy_delta": 0.0009726938075140163,
+              "teacher_cross_entropy": 2.495800108421506,
+              "teacher_to_candidate_kl": 0.003860958095174283,
+              "top1_agreement": 0.9736328125
+            }
+          },
+          "validation": {
+            "32": {
+              "bootstrap_95_percent_intervals": {
+                "confidence_level": 0.95,
+                "cross_entropy_delta": [
+                  -0.00787295919703701,
+                  0.007555143101008377
+                ],
+                "method": "sequence-block bootstrap with replacement",
+                "relative_cross_entropy_delta": [
+                  -0.0036330053938598427,
+                  0.0035719425153003946
+                ],
+                "resamples": 10000,
+                "sampling_units": 8,
+                "teacher_to_candidate_kl": [
+                  0.0038305505586322397,
+                  0.004812145140022039
+                ],
+                "top1_agreement": [
+                  0.9521484375,
+                  0.970703125
+                ]
+              },
+              "cache_bootstrap_95_percent_intervals": {
+                "confidence_level": 0.95,
+                "expert_load_reduction_fraction": [
+                  0.11064916486754915,
+                  0.12862189181077277
+                ],
+                "method": "sequence-block bootstrap with replacement",
+                "resamples": 10000,
+                "sampling_units": 8,
+                "substituted_token_fraction": [
+                  0.19396033653846154,
+                  0.21003605769230768
+                ]
+              },
+              "candidate_cross_entropy": 2.18173452061931,
+              "cross_entropy_delta": -0.00040285606083889647,
+              "per_block": [
+                {
+                  "candidate_cross_entropy": 1.981095802126907,
+                  "cross_entropy_delta": -0.013935719888041431,
+                  "relative_cross_entropy_delta": -0.006985212882233855,
+                  "teacher_cross_entropy": 1.9950315220149484,
+                  "teacher_to_candidate_kl": 0.004417646676301956,
+                  "top1_agreement": 0.9765625
+                },
+                {
+                  "candidate_cross_entropy": 1.8904256745586245,
+                  "cross_entropy_delta": 0.00230828232652569,
+                  "relative_cross_entropy_delta": 0.0012225311498226706,
+                  "teacher_cross_entropy": 1.8881173922320988,
+                  "teacher_to_candidate_kl": 0.0031927230302244425,
+                  "top1_agreement": 0.96875
+                },
+                {
+                  "candidate_cross_entropy": 1.984396866926058,
+                  "cross_entropy_delta": 0.02057269239050208,
+                  "relative_cross_entropy_delta": 0.010475832132664073,
+                  "teacher_cross_entropy": 1.963824174535556,
+                  "teacher_to_candidate_kl": 0.003959281370043755,
+                  "top1_agreement": 0.9453125
+                },
+                {
+                  "candidate_cross_entropy": 2.559862031711368,
+                  "cross_entropy_delta": -0.0028785044752708266,
+                  "relative_cross_entropy_delta": -0.0011232133860706963,
+                  "teacher_cross_entropy": 2.562740536186639,
+                  "teacher_to_candidate_kl": 0.004402077291160822,
+                  "top1_agreement": 0.9453125
+                },
+                {
+                  "candidate_cross_entropy": 2.019378662109375,
+                  "cross_entropy_delta": -0.014308418814591661,
+                  "relative_cross_entropy_delta": -0.007035703254844352,
+                  "teacher_cross_entropy": 2.0336870809239667,
+                  "teacher_to_candidate_kl": 0.0056240917183458805,
+                  "top1_agreement": 0.96875
+                },
+                {
+                  "candidate_cross_entropy": 2.159571850393701,
+                  "cross_entropy_delta": 0.011310727577510171,
+                  "relative_cross_entropy_delta": 0.005265061801557323,
+                  "teacher_cross_entropy": 2.1482611228161907,
+                  "teacher_to_candidate_kl": 0.00498687569051981,
+                  "top1_agreement": 0.9765625
+                },
+                {
+                  "candidate_cross_entropy": 2.592065766101747,
+                  "cross_entropy_delta": -0.0024512583815203826,
+                  "relative_cross_entropy_delta": -0.0009447840805779963,
+                  "teacher_cross_entropy": 2.5945170244832676,
+                  "teacher_to_candidate_kl": 0.00419375766068697,
+                  "top1_agreement": 0.9453125
+                },
+                {
+                  "candidate_cross_entropy": 2.267079270730807,
+                  "cross_entropy_delta": -0.0038413701094981434,
+                  "relative_cross_entropy_delta": -0.0016915474897778583,
+                  "teacher_cross_entropy": 2.270920640840305,
+                  "teacher_to_candidate_kl": 0.0036506764590740204,
+                  "top1_agreement": 0.96875
+                }
+              ],
+              "relative_cross_entropy_delta": -0.00018461535242652411,
+              "teacher_cross_entropy": 2.182137376680149,
+              "teacher_to_candidate_kl": 0.004303390975110233,
+              "top1_agreement": 0.9619140625
+            }
+          }
+        },
+        "saved_expert_loads": 10386,
+        "saved_int4_routed_io_mib_per_token": 20.966115474700928,
+        "source_report": "reports\\baseline\\modelwide_cache_aware_bottom1_teacher_lru_capacity32_wikitext_1024_ci.json",
+        "strict_expert_loads": 92607,
+        "strict_int4_routed_io_mib_per_token": 186.94483494758606,
+        "tokens": 2048
+      }
+    },
+    "interpretation_limits": [
+      "The evaluator measured exact BF16 model quality and expert-level LRU load counts; it did not execute packed int4 kernels.",
+      "The int4 byte and bandwidth figures are deterministic accounting projections, not measured wall-clock throughput.",
+      "Capacity 32 means 32 routed experts reserved independently for each of 26 MoE layers, not 32 experts globally.",
+      "The bandwidth figures cover routed-expert cache fills only and exclude attention, shared experts, compute, prefetch overlap, metadata, and KV-cache traffic.",
+      "Combining this routing policy with quantized weights requires a separate end-to-end quality validation."
+    ],
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "status": "complete",
+    "storage": {
+      "checkpoint_tensor_bytes": 31412968448,
+      "checkpoint_tensor_gib": 29.255606651306152,
+      "checkpoint_with_nonrouted_bf16_and_routed_int4_gib": 9.161307334899902,
+      "nonrouted_checkpoint_bf16_gib": 2.4431066513061523,
+      "routed_experts_bf16_gib": 26.8125,
+      "routed_experts_int4_gib": 6.71820068359375
+    }
+  },
+  "schema_version": 1
+}

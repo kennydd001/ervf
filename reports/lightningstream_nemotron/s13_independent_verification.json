@@ -1,0 +1,279 @@
+{
+  "kind": "lightningstream_nemotron_s13_independent_verification",
+  "completed_utc": "2026-08-15T08:57:23.669585+00:00",
+  "verifier_sha256": "f2ed5bfcd482dd58d1c444ed01476761a8c37c0557bd066abf8c5c1a79a1a837",
+  "verified_file_sha256": "449feb2d2a9ef7b8cedeea721e902a6c073f4d35c75ac7bd7ddab15974fbdc87",
+  "recomputed": {
+    "pooled_mean_by_window": {
+      "2": 9.895369477559607,
+      "3": 13.420971569964147,
+      "4": 16.659252279102382,
+      "5": 19.51177536231884,
+      "6": 22.179891304347827,
+      "8": 27.203894927536233
+    },
+    "c1_all_identical": true,
+    "w1_exactly_6": true,
+    "monotone_in_W": true
+  },
+  "gates": {
+    "G_S13_C1": true,
+    "G_S13_S1": true,
+    "G_S13_U1": false
+  },
+  "checks": [
+    {
+      "check": "input lock covers preregistration, runner, corpus, acceptance file and runtime",
+      "ok": true
+    },
+    {
+      "check": "runner on disk still hashes to the locked value",
+      "ok": true
+    },
+    {
+      "check": "runtime.py unchanged since the locked measurement",
+      "ok": true
+    },
+    {
+      "check": "frozen corpus and acceptance file unchanged",
+      "ok": true
+    },
+    {
+      "check": "runner did not run with a widened gate threshold",
+      "ok": true
+    },
+    {
+      "check": "4 arms: 3 gate prompts + 1 long-context arm",
+      "ok": true
+    },
+    {
+      "check": "A-expository: 23 MoE layers x 124 steps x 6 route ids",
+      "ok": true
+    },
+    {
+      "check": "A-expository: all route ids in [0,128)",
+      "ok": true
+    },
+    {
+      "check": "A-narrative: 23 MoE layers x 124 steps x 6 route ids",
+      "ok": true
+    },
+    {
+      "check": "A-narrative: all route ids in [0,128)",
+      "ok": true
+    },
+    {
+      "check": "A-code: 23 MoE layers x 124 steps x 6 route ids",
+      "ok": true
+    },
+    {
+      "check": "A-code: all route ids in [0,128)",
+      "ok": true
+    },
+    {
+      "check": "B-4k: 23 MoE layers x 64 steps x 6 route ids",
+      "ok": true
+    },
+    {
+      "check": "B-4k: all route ids in [0,128)",
+      "ok": true
+    },
+    {
+      "check": "C1 A-expository: generated ids identical to the S10A sequence over 124 tokens",
+      "ok": true,
+      "first_diff": null
+    },
+    {
+      "check": "C1 A-narrative: generated ids identical to the S10A sequence over 124 tokens",
+      "ok": true,
+      "first_diff": null
+    },
+    {
+      "check": "C1 A-code: generated ids identical to the S10A sequence over 124 tokens",
+      "ok": true,
+      "first_diff": null
+    },
+    {
+      "check": "A-expository: tokenized corpus prompt matches the S10A sequence prefix (22 tokens)",
+      "ok": true
+    },
+    {
+      "check": "A-narrative: tokenized corpus prompt matches the S10A sequence prefix (23 tokens)",
+      "ok": true
+    },
+    {
+      "check": "A-code: tokenized corpus prompt matches the S10A sequence prefix (28 tokens)",
+      "ok": true
+    },
+    {
+      "check": "A-expository W=2: mean/p50/p95 reproduce from raw routes (n=1426)",
+      "ok": true,
+      "recomputed_mean": 9.861150070126227,
+      "stored_mean": 9.861150070126227
+    },
+    {
+      "check": "A-expository W=3: mean/p50/p95 reproduce from raw routes (n=943)",
+      "ok": true,
+      "recomputed_mean": 13.295864262990456,
+      "stored_mean": 13.295864262990456
+    },
+    {
+      "check": "A-expository W=4: mean/p50/p95 reproduce from raw routes (n=713)",
+      "ok": true,
+      "recomputed_mean": 16.420757363253855,
+      "stored_mean": 16.420757363253855
+    },
+    {
+      "check": "A-expository W=5: mean/p50/p95 reproduce from raw routes (n=552)",
+      "ok": true,
+      "recomputed_mean": 19.456521739130434,
+      "stored_mean": 19.456521739130434
+    },
+    {
+      "check": "A-expository W=6: mean/p50/p95 reproduce from raw routes (n=460)",
+      "ok": true,
+      "recomputed_mean": 21.656521739130437,
+      "stored_mean": 21.656521739130437
+    },
+    {
+      "check": "A-expository W=8: mean/p50/p95 reproduce from raw routes (n=345)",
+      "ok": true,
+      "recomputed_mean": 26.96231884057971,
+      "stored_mean": 26.96231884057971
+    },
+    {
+      "check": "A-narrative W=2: mean/p50/p95 reproduce from raw routes (n=1426)",
+      "ok": true,
+      "recomputed_mean": 9.962131837307153,
+      "stored_mean": 9.962131837307153
+    },
+    {
+      "check": "A-narrative W=3: mean/p50/p95 reproduce from raw routes (n=943)",
+      "ok": true,
+      "recomputed_mean": 13.389183457051962,
+      "stored_mean": 13.389183457051962
+    },
+    {
+      "check": "A-narrative W=4: mean/p50/p95 reproduce from raw routes (n=713)",
+      "ok": true,
+      "recomputed_mean": 16.73772791023843,
+      "stored_mean": 16.73772791023843
+    },
+    {
+      "check": "A-narrative W=5: mean/p50/p95 reproduce from raw routes (n=552)",
+      "ok": true,
+      "recomputed_mean": 19.518115942028984,
+      "stored_mean": 19.518115942028984
+    },
+    {
+      "check": "A-narrative W=6: mean/p50/p95 reproduce from raw routes (n=460)",
+      "ok": true,
+      "recomputed_mean": 22.295652173913044,
+      "stored_mean": 22.295652173913044
+    },
+    {
+      "check": "A-narrative W=8: mean/p50/p95 reproduce from raw routes (n=345)",
+      "ok": true,
+      "recomputed_mean": 26.944927536231884,
+      "stored_mean": 26.944927536231884
+    },
+    {
+      "check": "A-code W=2: mean/p50/p95 reproduce from raw routes (n=1426)",
+      "ok": true,
+      "recomputed_mean": 10.218793828892005,
+      "stored_mean": 10.218793828892005
+    },
+    {
+      "check": "A-code W=3: mean/p50/p95 reproduce from raw routes (n=943)",
+      "ok": true,
+      "recomputed_mean": 14.168610816542948,
+      "stored_mean": 14.168610816542948
+    },
+    {
+      "check": "A-code W=4: mean/p50/p95 reproduce from raw routes (n=713)",
+      "ok": true,
+      "recomputed_mean": 17.53015427769986,
+      "stored_mean": 17.53015427769986
+    },
+    {
+      "check": "A-code W=5: mean/p50/p95 reproduce from raw routes (n=552)",
+      "ok": true,
+      "recomputed_mean": 20.86231884057971,
+      "stored_mean": 20.86231884057971
+    },
+    {
+      "check": "A-code W=6: mean/p50/p95 reproduce from raw routes (n=460)",
+      "ok": true,
+      "recomputed_mean": 23.958695652173912,
+      "stored_mean": 23.958695652173912
+    },
+    {
+      "check": "A-code W=8: mean/p50/p95 reproduce from raw routes (n=345)",
+      "ok": true,
+      "recomputed_mean": 29.055072463768116,
+      "stored_mean": 29.055072463768116
+    },
+    {
+      "check": "B-4k W=2: mean/p50/p95 reproduce from raw routes (n=736)",
+      "ok": true,
+      "recomputed_mean": 9.539402173913043,
+      "stored_mean": 9.539402173913043
+    },
+    {
+      "check": "B-4k W=3: mean/p50/p95 reproduce from raw routes (n=483)",
+      "ok": true,
+      "recomputed_mean": 12.830227743271221,
+      "stored_mean": 12.830227743271221
+    },
+    {
+      "check": "B-4k W=4: mean/p50/p95 reproduce from raw routes (n=368)",
+      "ok": true,
+      "recomputed_mean": 15.94836956521739,
+      "stored_mean": 15.94836956521739
+    },
+    {
+      "check": "B-4k W=5: mean/p50/p95 reproduce from raw routes (n=276)",
+      "ok": true,
+      "recomputed_mean": 18.21014492753623,
+      "stored_mean": 18.21014492753623
+    },
+    {
+      "check": "B-4k W=6: mean/p50/p95 reproduce from raw routes (n=230)",
+      "ok": true,
+      "recomputed_mean": 20.808695652173913,
+      "stored_mean": 20.808695652173913
+    },
+    {
+      "check": "B-4k W=8: mean/p50/p95 reproduce from raw routes (n=184)",
+      "ok": true,
+      "recomputed_mean": 25.85326086956522,
+      "stored_mean": 25.85326086956522
+    },
+    {
+      "check": "pooled mean by window reproduces from per-arm means",
+      "ok": true
+    },
+    {
+      "check": "G-S13-C1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "G-S13-S1 verdict agrees with the runner",
+      "ok": true,
+      "w1_exactly_6": true,
+      "monotone": true
+    },
+    {
+      "check": "G-S13-U1 verdict agrees with the runner",
+      "ok": true,
+      "recomputed_union_w5": 19.51177536231884,
+      "threshold": 12.0
+    },
+    {
+      "check": "result carries a claim boundary",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

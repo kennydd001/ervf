@@ -1,0 +1,599 @@
+{
+  "baseline": {
+    "dataset": "WikiText-2-raw-v1",
+    "dataset_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "model": "deepseek-ai/DeepSeek-V2-Lite",
+    "model_revision": "604d5664dddd88a0433dbae533b7fe9472482de0",
+    "routing": "64 routed experts; top-6; selected weights not renormalized; 2 shared experts"
+  },
+  "claim_units": [
+    {
+      "admissible_claim": "At most: a locally positive diagnostic intersection that failed the required earlier-layer downstream test. No practical method or Eureka claim.",
+      "claim": "Joint alternative-route and quantization-bit selection",
+      "closest_source_ids": [
+        "counterfactual_routing",
+        "d2moe_dynamic",
+        "mobiquant",
+        "slicemoe",
+        "vsraq"
+      ],
+      "id": "CU1",
+      "label": "possibly novel intersection",
+      "reasoning": "Counterfactual expert routes and token/expert-adaptive precision are both direct prior art. The targeted search did not locate the exact frozen-model Cartesian selection of an alternative equal-compute expert subset and a per-route Q3/Q4 mask against teacher full-vocabulary KL. This is negative search evidence only.",
+      "technical_evidence": "H1's exhaustive layer-26 oracle required 9.831% validation and 12.240% test Q4 upgrades, but the preregistered layer-23 intervention required 75.521% and 70.508%; the <=15% downstream gate and >=25% hard-stop both failed.",
+      "technical_status": "falsified_downstream"
+    },
+    {
+      "admissible_claim": "An exact negative ceiling for the registered DeepSeek-V2-Lite slate, not a new serving system.",
+      "claim": "Blockwise route coalescing over explicit equivalence classes",
+      "closest_source_ids": [
+        "counterfactual_routing",
+        "ecospec",
+        "acceptmoe",
+        "edgexpert",
+        "moe_spec",
+        "dynamic_expert_sharing"
+      ],
+      "id": "CU2",
+      "label": "close/overlapping",
+      "reasoning": "Speculative and parallel-decoding systems already optimize union size, expert reuse, shared verifier sets, depth-aware coalescing, or block coresets. Explicit KL-certified equivalence classes plus an exact set-union ILP are a narrower formulation, not a defensible broad novelty claim.",
+      "technical_evidence": "H2's exact block-8 ILP reduced natural union by 19.65% validation and 20.24% test, below the >=40% gate and the 25% hard-falsification boundary; all 1,280 ILPs were optimal.",
+      "technical_status": "hard_falsified"
+    },
+    {
+      "admissible_claim": "A falsified, narrowly specified intersection; no precision controller or runtime claim.",
+      "claim": "Randomized residual syndrome for precision acquisition",
+      "closest_source_ids": [
+        "optimal_residual_sketch",
+        "jl_elementary",
+        "mobiquant",
+        "slicemoe",
+        "patent_residual_quant",
+        "patent_random_projection"
+      ],
+      "id": "CU3",
+      "label": "possibly novel intersection",
+      "reasoning": "Linear/JL sketches, residual-error estimation, residual quantization and adaptive bit slices are established. The exact intersection—a small randomized checksum of the actual Q3→Q4 expert-output residual used to request the next bitplane—was not located in the bounded search.",
+      "technical_evidence": "H4 met KL-recovery (84.35% validation, 82.26% test) but failed high-damage false negatives (22.73%/24.68% vs <=1%), down-only attribution (53.76%/65.89% vs >=70%), and the hardware model (24.30% vs <10%).",
+      "technical_status": "falsified"
+    },
+    {
+      "admissible_claim": "A research question only. It cannot be described as a demonstrated method, novel contribution, runtime, or Eureka result.",
+      "claim": "Joint route–bit–atom–cache optimizer",
+      "closest_source_ids": [
+        "d2moe_dynamic",
+        "slicemoe",
+        "moe_prism",
+        "floe",
+        "ecospec",
+        "acceptmoe",
+        "patent_partial_hot_expert"
+      ],
+      "id": "CU4",
+      "label": "not searched sufficiently",
+      "reasoning": "Every pair or major subset is densely occupied: route+bits, bits+cache, atoms+runtime, route+cache, and block+cache. No exact four-axis optimizer was located, but the project never implemented one, the required component gates failed, and the patent search was not exhaustive enough to label the full conjunction.",
+      "technical_evidence": "H1, H2, H3 and H4 failed their required downstream/full-depth/system gates. H5, H9 and PACKED_RUNTIME remained dependency-blocked, so no joint candidate exists.",
+      "technical_status": "not_implemented_dependencies_falsified"
+    },
+    {
+      "admissible_claim": "No CRAFT-specific kernel/layout claim exists.",
+      "claim": "Custom kernel or layout for CRAFT-MoE",
+      "closest_source_ids": [
+        "qmoe",
+        "puzzlemoe",
+        "sere",
+        "beam",
+        "floe",
+        "slicemoe",
+        "edgexpert",
+        "numerical_state"
+      ],
+      "id": "CU5",
+      "label": "clearly prior art",
+      "reasoning": "Bit-packed MoE layouts, bespoke quantized decoders, sparse expert/neuron kernels, rerouting masks, and hardware co-design are established. A kernel's numerical semantics also require exact compatibility controls.",
+      "technical_evidence": "CRAFT-MoE produced accounting and component microbenchmarks only. PACKED_RUNTIME was blocked and there is no custom packed kernel or end-to-end decode speedup.",
+      "technical_status": "not_implemented"
+    }
+  ],
+  "created_at_utc": "2026-08-10T19:25:31.5227878Z",
+  "kind": "craft_moe_independent_novelty_and_prior_art_audit",
+  "limitations": [
+    "The literature cutoff is 2026-08-10; future and unindexed work is absent.",
+    "The search is targeted rather than a systematic-review database export.",
+    "No citation graph, full-text similarity corpus, non-English database, or thesis repository was exhaustively searched.",
+    "The patent pass is a limited keyword search and supports no legal conclusion.",
+    "Several 2026 sources are preprints; their reported results were not independently reproduced here.",
+    "A possibly novel intersection label is negative search evidence only and never a novelty determination."
+  ],
+  "mandatory_families": [
+    {
+      "assessment": "Cache-aware promotion, residency-aware route selection, partial expert residency, and prefetch overlap are established mechanisms. CRAFT cannot claim cache-conditioned routing or cache-aware expert selection broadly.",
+      "claim_units": [
+        "CU2",
+        "CU4"
+      ],
+      "family": "Cache-Conditional Experts / Max Rank / Cache-Prior",
+      "id": "F1_CACHE_CONDITIONAL",
+      "label": "clearly prior art",
+      "mandatory_names": [
+        "Cache-Conditional Experts",
+        "Max Rank",
+        "Cache-Prior"
+      ],
+      "source_ids": [
+        "cache_conditional",
+        "moe_eras",
+        "patent_partial_hot_expert"
+      ]
+    },
+    {
+      "assessment": "Evaluating frozen-model alternative equal-compute routes and showing that non-natural routes can improve downstream utility is direct prior art. CRAFT's exhaustive top-12-choose-6 KL protocol is a narrower diagnostic distinction.",
+      "claim_units": [
+        "CU1",
+        "CU2"
+      ],
+      "family": "Counterfactual Routing Analysis",
+      "id": "F2_COUNTERFACTUAL_ROUTING",
+      "label": "clearly prior art",
+      "mandatory_names": [
+        "Counterfactual Routing Analysis"
+      ],
+      "source_ids": [
+        "counterfactual_routing"
+      ]
+    },
+    {
+      "assessment": "Resident substitution, similarity rerouting, residency-aware routing, dynamic allocation, and custom rerouting kernels overlap strongly. None performs the exact frozen-model joint route-and-bit oracle tested in CRAFT.",
+      "claim_units": [
+        "CU1",
+        "CU2",
+        "CU4",
+        "CU5"
+      ],
+      "family": "BuddyMoE, SERE, MoE-ERAS and ReMoE",
+      "id": "F3_REROUTING_AND_RESIDENCY",
+      "label": "close/overlapping",
+      "mandatory_names": [
+        "BuddyMoE",
+        "SERE",
+        "MoE-ERAS",
+        "ReMoE"
+      ],
+      "source_ids": [
+        "buddymoe",
+        "sere",
+        "sere_code",
+        "moe_eras",
+        "remoe"
+      ]
+    },
+    {
+      "assessment": "Dual expert/precision routing, residual bit slices, on-demand precision, bit-sliced caching, and routing-aware PTQ are occupied. The exact selection of a different expert subset jointly with per-expert Q3/Q4 masks was not found.",
+      "claim_units": [
+        "CU1",
+        "CU3",
+        "CU4",
+        "CU5"
+      ],
+      "family": "D²MoE, SliceMoE, MoBiQuant and routing-consistent PTQ",
+      "id": "F4_DYNAMIC_BITS_AND_ROUTING_PTQ",
+      "label": "close/overlapping",
+      "mandatory_names": [
+        "D²MoE",
+        "SliceMoE",
+        "MoBiQuant",
+        "routing-consistent PTQ"
+      ],
+      "source_ids": [
+        "d2moe_dynamic",
+        "d2moe_delta",
+        "d2moe_delta_code",
+        "slicemoe",
+        "mobiquant",
+        "vsraq"
+      ]
+    },
+    {
+      "assessment": "Neuron-level expert decomposition, activation-based neuron skipping, sub-expert scheduling, sparse MVM execution, and associated kernels are all prior art.",
+      "claim_units": [
+        "CU4",
+        "CU5"
+      ],
+      "family": "FloE, intra-expert activation sparsity, MoE-Prism and Mixture of Neuron Experts",
+      "id": "F5_INTRA_EXPERT_SPARSITY",
+      "label": "clearly prior art",
+      "mandatory_names": [
+        "FloE",
+        "intra-expert activation sparsity",
+        "MoE-Prism",
+        "Mixture of Neuron Experts"
+      ],
+      "source_ids": [
+        "floe",
+        "intra_expert_sparsity",
+        "moe_prism",
+        "mone"
+      ]
+    },
+    {
+      "assessment": "The activated expert union is already an explicit optimization target across a draft tree or parallel block. EdgeXpert even uses depth-aware expert coalescing, while DES uses a sequence-level expert coreset. CRAFT's explicit KL-equivalence slates and exact ILP differ, but the broad system idea is occupied.",
+      "claim_units": [
+        "CU2",
+        "CU4",
+        "CU5"
+      ],
+      "family": "EcoSpec, AcceptMoE, EdgeXpert, MoE-Spec and speculative expert prefetch",
+      "id": "F6_SPECULATIVE_EXPERT_UNIONS",
+      "label": "close/overlapping",
+      "mandatory_names": [
+        "EcoSpec",
+        "AcceptMoE",
+        "EdgeXpert",
+        "MoE-Spec",
+        "speculative expert prefetch"
+      ],
+      "source_ids": [
+        "ecospec",
+        "acceptmoe",
+        "edgexpert",
+        "moe_spec",
+        "specprefetch",
+        "dynamic_expert_sharing"
+      ]
+    },
+    {
+      "assessment": "Post-trained token-dependent expert skipping and learned masks are occupied, including physical kernels. These methods require adaptation or learned gates and are not the same as CRAFT's teacher-oracle equivalent-route enumeration.",
+      "claim_units": [
+        "CU1",
+        "CU2",
+        "CU4",
+        "CU5"
+      ],
+      "family": "ZEDA, BEAM and post-trained dynamic expert skipping",
+      "id": "F7_DYNAMIC_EXPERT_SKIPPING",
+      "label": "close/overlapping",
+      "mandatory_names": [
+        "ZEDA",
+        "BEAM",
+        "post-trained dynamic expert skipping"
+      ],
+      "source_ids": [
+        "zeda",
+        "beam",
+        "sere"
+      ]
+    },
+    {
+      "assessment": "Random norm-preserving sketches, residual-error sketches, recursive residual quantization, and adaptive residual bit slices all predate CRAFT. The targeted use of a tiny sketch of an MoE expert's Q3→Q4 output residual as a per-token precision decision was not located.",
+      "claim_units": [
+        "CU3",
+        "CU4"
+      ],
+      "family": "Random/JL sketches and adaptive bitplane acquisition",
+      "id": "F8_RANDOM_SKETCHES_AND_BITPLANES",
+      "label": "close/overlapping",
+      "mandatory_names": [
+        "random sketches",
+        "JL sketches",
+        "adaptive bitplane acquisition"
+      ],
+      "source_ids": [
+        "jl_elementary",
+        "optimal_residual_sketch",
+        "mobiquant",
+        "slicemoe",
+        "patent_residual_quant",
+        "patent_random_projection"
+      ]
+    }
+  ],
+  "methodology": {
+    "label_vocabulary": [
+      "clearly prior art",
+      "close/overlapping",
+      "not searched sufficiently",
+      "possibly novel intersection"
+    ],
+    "negative_search_rule": "Failure to locate an exact combination is not evidence that it is new.",
+    "no_patentability_opinion": true,
+    "patent_scope": "Limited keyword search in Google Patents on 2026-08-10; not a legal search, claim chart, CPC-class search, family search, prosecution-history review, or FTO analysis.",
+    "source_policy": "Primary papers, official proceedings/code, and patent publications for technical evidence; secondary pages only for discovery."
+  },
+  "overall": {
+    "decision": "Do not claim a new compressor, optimizer, kernel, runtime speedup, or Eureka. Describe CRAFT-MoE as a preregistered negative-results and oracle-ceiling study.",
+    "inference": "Two exact intersections were not located in this bounded search, but both were technically falsified in CRAFT and cannot support a contribution claim.",
+    "measured_fact": "The only locally strong new intersections failed required downstream, full-depth, union-reduction, safety, or hardware gates.",
+    "prior_art_finding": "Route alternatives, cache-conditioned selection, block-level expert-union optimization, token-adaptive residual precision, neuron sparsity, and custom execution paths are all represented in primary prior art."
+  },
+  "patent_keyword_audit": {
+    "conclusion": "The records reinforce that residual quantization, partial expert-weight caching, random-projection compression, and sparse MoE weights are not blank territory. They do not establish the absence or presence of any legally controlling claim.",
+    "queries": [
+      "mixture of experts cache routing expert weights",
+      "mixture of experts dynamic precision quantization bit width",
+      "mixture of experts neuron pruning inference",
+      "random projection residual quantization neural network",
+      "mixture-of-experts quantization caching",
+      "expert weights partial cache neural network"
+    ],
+    "scope": "Limited keyword search in Google Patents on 2026-08-10; not a legal search, claim chart, CPC-class search, family search, prosecution-history review, or FTO analysis.",
+    "source_ids": [
+      "patent_residual_quant",
+      "patent_partial_hot_expert",
+      "patent_random_projection",
+      "patent_sparse_moe_weights"
+    ]
+  },
+  "reproducibility": {
+    "command": ".venv\\Scripts\\python.exe scripts\\craft_moe\\build_novelty_audit.py",
+    "deterministic_local_render": true,
+    "generator": "scripts/craft_moe/build_novelty_audit.py",
+    "protocol": "reports/craft_moe/NOVELTY_AUDIT_PROTOCOL.md",
+    "remote_content_frozen": false,
+    "seed": null,
+    "test": "tests/craft_moe/test_novelty_audit.py"
+  },
+  "schema_version": 1,
+  "search_cutoff": "2026-08-10",
+  "source_catalog": {
+    "acceptmoe": {
+      "date": "2026-08-04",
+      "evidence": "Chooses a block-level verifier expert set from router scores, commitment probability, and—in offloading—cache residency.",
+      "source_type": "primary_paper",
+      "title": "AcceptMoE: Commitment-Weighted Self-Sizing Verifier Expert Sets for Efficient MoE Speculative Decoding",
+      "url": "https://arxiv.org/abs/2608.02989"
+    },
+    "beam": {
+      "date": "2026-05-14",
+      "evidence": "Learns token-adaptive binary masks over routed experts and implements a custom CUDA/vLLM path that skips masked computation.",
+      "source_type": "primary_paper",
+      "title": "BEAM: Binary Expert Activation Masking for Dynamic Routing in MoE",
+      "url": "https://arxiv.org/abs/2605.14438"
+    },
+    "buddymoe": {
+      "date": "2025-11-13",
+      "evidence": "Uses profiled expert redundancy and resident buddy substitution to handle prefetch misses without simply dropping the missing expert.",
+      "source_type": "primary_paper",
+      "title": "BuddyMoE: Exploiting Expert Redundancy to Accelerate Memory-Constrained Mixture-of-Experts Inference",
+      "url": "https://arxiv.org/abs/2511.10054"
+    },
+    "cache_conditional": {
+      "date": "2024-11-27",
+      "evidence": "Training-free cache-aware routing; Max Rank promotes resident experts within a bounded rank and Cache-Prior biases router ranking. Evaluated on mobile hardware.",
+      "source_type": "primary_paper",
+      "title": "Mixture of Cache-Conditional Experts for Efficient Mobile Device Inference",
+      "url": "https://arxiv.org/abs/2412.00099"
+    },
+    "counterfactual_routing": {
+      "date": "2026-05-08",
+      "evidence": "Scores sampled equal-compute alternative routes in frozen MoEs, including DeepSeek-V2-Lite, using downstream next-token utility.",
+      "source_type": "primary_paper",
+      "title": "When Are Experts Misrouted? Counterfactual Routing Analysis in Mixture-of-Experts Language Models",
+      "url": "https://arxiv.org/abs/2605.07260"
+    },
+    "d2moe_delta": {
+      "date": "2025-02-24",
+      "evidence": "A distinct D²-MoE work that decomposes experts into a Fisher-merged shared base plus compressed expert-specific deltas.",
+      "source_type": "primary_paper",
+      "title": "Delta Decompression for MoE-based LLMs Compression",
+      "url": "https://arxiv.org/abs/2502.17298"
+    },
+    "d2moe_delta_code": {
+      "date": "2025-02-24",
+      "evidence": "Official implementation linked by the delta-decompression paper.",
+      "source_type": "official_code",
+      "title": "Official D²-MoE delta-decompression implementation",
+      "url": "https://github.com/lliai/D2MoE"
+    },
+    "d2moe_dynamic": {
+      "date": "2025-11-21",
+      "evidence": "Combines expert routing with dynamic expert bit-width allocation, nested Matryoshka weights, and bit-aware I/O/compute scheduling.",
+      "source_type": "peer_reviewed_primary_paper",
+      "title": "D2MoE: Dual Routing and Dynamic Scheduling for Efficient On-Device MoE-based LLM Serving",
+      "url": "https://doi.org/10.1145/3680207.3723493"
+    },
+    "dynamic_expert_sharing": {
+      "date": "2026-01-31",
+      "evidence": "Selects a compact sequence-level expert coreset for an entire parallel-decoding block, directly optimizing expert reuse.",
+      "source_type": "primary_paper",
+      "title": "Dynamic Expert Sharing: Decoupling Memory from Parallelism in Mixture-of-Experts Diffusion LLMs",
+      "url": "https://arxiv.org/abs/2602.00879"
+    },
+    "ecospec": {
+      "date": "2026-07-14",
+      "evidence": "EcoSpec selects draft paths using marginal expert-union cost and reuse in a dynamic expert buffer while preserving target verification.",
+      "source_type": "primary_paper",
+      "title": "Less Experts, Faster Decoding: Cost-Aware Speculative Decoding for Mixture-of-Experts",
+      "url": "https://arxiv.org/abs/2607.12696"
+    },
+    "edgexpert": {
+      "date": "2026-08-05",
+      "evidence": "Uses shared expert sets and depth-aware expert coalescing; loads salient channels rather than the complete union and supplies hardware co-design.",
+      "source_type": "peer_reviewed_primary_paper",
+      "title": "EdgeXpert: An Edge Device for Memory-Efficient LLM Inference with Mixture-of-Experts and Speculative Decoding",
+      "url": "https://arxiv.org/abs/2608.05303"
+    },
+    "floe": {
+      "date": "2025-05-09",
+      "evidence": "Compresses internal expert matrices, predicts inter- and intra-expert sparsity, and implements sparse execution kernels with measured wall-clock results.",
+      "source_type": "peer_reviewed_primary_paper",
+      "title": "FloE: On-the-Fly MoE Inference on Memory-constrained GPU",
+      "url": "https://arxiv.org/abs/2505.05950"
+    },
+    "intra_expert_sparsity": {
+      "date": "2026-05-09",
+      "evidence": "Finds substantial neuron-level sparsity in pretrained MoEs and extends vLLM to skip inactive-neuron computation.",
+      "source_type": "primary_paper",
+      "title": "Uncovering Intra-expert Activation Sparsity for Efficient Mixture-of-Expert Model Execution",
+      "url": "https://arxiv.org/abs/2605.08575"
+    },
+    "jl_elementary": {
+      "date": "2002-11-25",
+      "evidence": "Foundational norm/distance preservation by randomized low-dimensional projection; establishes that the sketch primitive itself is old.",
+      "source_type": "peer_reviewed_primary_paper",
+      "title": "An Elementary Proof of a Theorem of Johnson and Lindenstrauss",
+      "url": "https://doi.org/10.1002/rsa.10073"
+    },
+    "mobiquant": {
+      "date": "2026-02-21",
+      "evidence": "Uses recursive residual quantization and a token-aware router to select runtime precision from additive residual slices.",
+      "source_type": "primary_paper",
+      "title": "MoBiQuant: Mixture-of-Bits Quantization for Token-Adaptive Any-Precision LLM",
+      "url": "https://arxiv.org/abs/2602.20191"
+    },
+    "moe_eras": {
+      "date": "2024-05-30",
+      "evidence": "Selects experts using both model quality and current residency through thresholding or biasing, on top of caching and quantization.",
+      "source_type": "primary_paper",
+      "title": "MoE-ERAS: Expert Residency Aware Selection",
+      "url": "https://openreview.net/forum?id=o43eHjPEMO"
+    },
+    "moe_prism": {
+      "date": "2025-10-22",
+      "evidence": "Refactors experts into neuron-group sub-experts and schedules their online activation under service-level constraints.",
+      "source_type": "primary_paper",
+      "title": "MoE-Prism: Disentangling Monolithic Experts for Elastic MoE Services via Model-System Co-Designs",
+      "url": "https://arxiv.org/abs/2510.19366"
+    },
+    "moe_spec": {
+      "date": "2026-02-17",
+      "evidence": "Applies training-free layerwise expert capacity limits during parallel draft verification to bound the activated expert union.",
+      "source_type": "primary_paper",
+      "title": "MoE-Spec: Expert Budgeting for Efficient Speculative Decoding",
+      "url": "https://arxiv.org/abs/2602.16052"
+    },
+    "mone": {
+      "date": "2025-10-07",
+      "evidence": "Decomposes each expert into neuron-granular experts and performs per-expert top-k neuron selection.",
+      "source_type": "primary_paper",
+      "title": "Mixture of Neuron Experts",
+      "url": "https://arxiv.org/abs/2510.05781"
+    },
+    "numerical_state": {
+      "date": "2026-07-30",
+      "evidence": "Shows that operand conversion, accumulator precision, and reduction order can belong to the numerical compatibility contract of sparse-MoE runtimes.",
+      "source_type": "primary_paper",
+      "title": "From Expert Reduction to Behavioral Divergence: Tracing Numerical State through Sparse MoE Inference",
+      "url": "https://arxiv.org/abs/2607.28097"
+    },
+    "optimal_residual_sketch": {
+      "date": "2024-08-16",
+      "evidence": "Studies linear sketches specifically for estimating residual error and proves dimension bounds; not an MoE precision controller.",
+      "source_type": "primary_paper",
+      "title": "Optimal Sketching for Residual Error Estimation for Matrix and Vector Norms",
+      "url": "https://arxiv.org/abs/2408.08494"
+    },
+    "patent_partial_hot_expert": {
+      "date": "2025-08-01",
+      "evidence": "Patent publication describes full and partial expert-weight buffers, chunked compute, asynchronous prefetch, and cache updates from expert usage.",
+      "source_type": "patent_publication",
+      "title": "US20250356164A1 — MoE inference with full and partial hot expert buffers",
+      "url": "https://patents.google.com/patent/US20250356164A1/en"
+    },
+    "patent_random_projection": {
+      "date": "2023-11-14",
+      "evidence": "Patent publication applies pseudo-random projection structures to machine-learning compression; it is not an MoE residual precision gate.",
+      "source_type": "patent_publication",
+      "title": "US20250156706A1 — Pseudo random projection for machine learning compression",
+      "url": "https://patents.google.com/patent/US20250156706A1/en"
+    },
+    "patent_residual_quant": {
+      "date": "2018-12-14",
+      "evidence": "Patent record with 2018 priority covering residual quantization mechanisms for neural networks; no conclusion is made about legal scope here.",
+      "source_type": "patent_publication",
+      "title": "US11586883B2 — Residual quantization for neural networks",
+      "url": "https://patents.google.com/patent/US11586883B2/en"
+    },
+    "patent_sparse_moe_weights": {
+      "date": "2022-03-31",
+      "evidence": "Patent publication covers MoE execution with sparsified expert weights at a broad level; no claim-scope comparison was performed.",
+      "source_type": "patent_publication",
+      "title": "US20230316042A1 — Mixture of experts models with sparsified weights",
+      "url": "https://patents.google.com/patent/US20230316042A1/en"
+    },
+    "puzzlemoe": {
+      "date": "2025-11-06",
+      "evidence": "Introduces a bit-packed MoE encoding and measured GPU inference in addition to sparse expert merging.",
+      "source_type": "primary_paper",
+      "title": "PuzzleMoE: Efficient Compression of Large Mixture-of-Experts Models via Sparse Expert Merging and Bit-packed inference",
+      "url": "https://arxiv.org/abs/2511.04805"
+    },
+    "qmoe": {
+      "date": "2023-10-25",
+      "evidence": "Co-designs a custom sub-1-bit format and bespoke GPU decoding kernels for compressed MoE execution.",
+      "source_type": "primary_paper",
+      "title": "QMoE: Practical Sub-1-Bit Compression of Trillion-Parameter Models",
+      "url": "https://arxiv.org/abs/2310.16795"
+    },
+    "remoe": {
+      "date": "2024-12-19",
+      "evidence": "Training-time ReLU routing enables dynamic allocation across tokens and layers; it is not a frozen-model post-training route optimizer.",
+      "source_type": "primary_paper",
+      "title": "ReMoE: Fully Differentiable Mixture-of-Experts with ReLU Routing",
+      "url": "https://arxiv.org/abs/2412.14711"
+    },
+    "sere": {
+      "date": "2026-02-07",
+      "evidence": "Re-routes secondary experts to similar primary experts, preserves critical experts, and supplies a vLLM CUDA kernel.",
+      "source_type": "primary_paper",
+      "title": "SERE: Similarity-based Expert Re-routing for Efficient Batch Decoding in MoE Models",
+      "url": "https://arxiv.org/abs/2602.07616"
+    },
+    "sere_code": {
+      "date": "2026-02-07",
+      "evidence": "Official calibration and vLLM/CUDA implementation linked by the paper.",
+      "source_type": "official_code",
+      "title": "Official SERE implementation",
+      "url": "https://github.com/JL-Cheng/SERE"
+    },
+    "slicemoe": {
+      "date": "2025-12-15",
+      "evidence": "Caches expert bit slices, assigns precision on demand, uses Matryoshka quantization and predictive cache warmup, including DeepSeek-V2-Lite results.",
+      "source_type": "primary_paper",
+      "title": "SliceMoE: Bit-Sliced Expert Caching under Miss-Rate Constraints for Efficient MoE Inference",
+      "url": "https://arxiv.org/abs/2512.12990"
+    },
+    "specprefetch": {
+      "date": "2026-06-24",
+      "evidence": "Predicts next-layer expert candidates only for asynchronous transfer and uses a window-aware cache/bandwidth scheduler without changing native routing.",
+      "source_type": "primary_paper",
+      "title": "SpecPrefetch: Parameter-Efficient Expert Prefetching for Sparse MoE Foundation Models",
+      "url": "https://arxiv.org/abs/2607.24787"
+    },
+    "vsraq": {
+      "date": "2026-06-04",
+      "evidence": "MoE-specific PTQ objective preserves routing values, ordering, and top-k boundaries under quantization.",
+      "source_type": "primary_paper",
+      "title": "Value-and-Structure Alignment for Routing-Consistent Quantization of Mixture-of-Experts Models",
+      "url": "https://arxiv.org/abs/2606.05688"
+    },
+    "zeda": {
+      "date": "2026-05-18",
+      "evidence": "ZEDA converts a trained static MoE to dynamic execution using zero experts and two-stage self-distillation, eliminating over half of expert FLOPs.",
+      "source_type": "primary_paper",
+      "title": "Post-Trained MoE Can Skip Half Experts via Self-Distillation",
+      "url": "https://arxiv.org/abs/2605.18643"
+    }
+  },
+  "status": "complete",
+  "summary": {
+    "broad_novelty_claim_supported": false,
+    "claim_label_counts": {
+      "clearly prior art": 1,
+      "close/overlapping": 1,
+      "not searched sufficiently": 1,
+      "possibly novel intersection": 2
+    },
+    "claim_unit_count": 5,
+    "eureka_supported": false,
+    "family_label_counts": {
+      "clearly prior art": 3,
+      "close/overlapping": 5,
+      "not searched sufficiently": 0,
+      "possibly novel intersection": 0
+    },
+    "mandatory_family_count": 8,
+    "patent_publication_count": 4,
+    "source_count": 34
+  },
+  "verdict": "no_defensible_broad_novelty_claim_and_no_eureka"
+}

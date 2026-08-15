@@ -1,0 +1,1184 @@
+{
+  "kind": "E2GQ_entropy_audit",
+  "source_zip": "/mnt/data/fleq_moe.zip",
+  "source_zip_sha256": "a33000d365afa6a7001a645bb112f358f20d4a3d3e6040eeeda9209c8158f6d2",
+  "locked_experts": 16,
+  "locked_matrices": 48,
+  "aggregate_gptq_code_histogram": {
+    "-2": 4713974,
+    "-1": 17846753,
+    "0": 31599966,
+    "1": 21336779
+  },
+  "aggregate_gptq_code_probabilities": {
+    "-2": 0.06243883238898383,
+    "-1": 0.23638874954647487,
+    "0": 0.41855661074320477,
+    "1": 0.2826158073213365
+  },
+  "aggregate_code_entropy_bpp": 1.7828648913739187,
+  "bf16_group128_scale_overhead_bpp": 0.125,
+  "ideal_total_bpp_including_raw_bf16_scales": 1.9078648913739187,
+  "fixed_width_total_bpp": 2.125,
+  "entropy_saving_vs_fixed_bpp": 0.21713510862608132,
+  "reserve_below_two_bpp": 0.09213510862608132,
+  "all_16_experts_ideal_below_2bpp": true,
+  "all_48_matrices_ideal_below_2bpp": true,
+  "per_expert_ideal_bpp_range": [
+    1.8642635633257538,
+    1.9219594986641788
+  ],
+  "per_matrix_ideal_bpp_range": [
+    1.8093894558308818,
+    1.928555613459452
+  ],
+  "constructive_enumerative_bpp": {
+    "mean": 1.9071048100789387,
+    "range": [
+      1.8604969448513455,
+      1.9219686720106337
+    ],
+    "assumptions": [
+      "exact multinomial rank for each matrix",
+      "16-byte header per matrix",
+      "raw BF16 group-128 scales"
+    ]
+  },
+  "conservative_projected_bpp": {
+    "mean": 1.9279513888888888,
+    "range": [
+      1.8819444444444444,
+      1.9444444444444444
+    ],
+    "assumptions": [
+      "matrix entropy plus 0.01 bpp coder redundancy",
+      "32-byte header per matrix",
+      "code stream aligned to 4 KiB",
+      "raw BF16 group-128 scales"
+    ],
+    "warning": "Projection only; an actual encoder must establish real byte size."
+  },
+  "static_huffman": {
+    "mapping_lengths": {
+      "0": 1,
+      "1": 2,
+      "-1": 3,
+      "-2": 3
+    },
+    "code_bpp": 1.880270971192254,
+    "total_with_raw_bf16_scales_bpp": 2.005270971192254
+  },
+  "exact_ternary_core_plus_extreme_tail": {
+    "identity": "q = t - e, t=max(q,-1), e=1[q==-2]",
+    "ternary_core_entropy_bpp": 1.561892876474792,
+    "core_plus_raw_bf16_scales_bpp": 1.686892876474792,
+    "extreme_tail_conditional_bpp": 0.2209720148991267,
+    "reconstructed_full_bpp": 1.9078648913739187,
+    "p_extreme_given_negative": 0.2089460149045729
+  },
+  "model_projection": {
+    "model": "Qwen/Qwen3-30B-A3B-Base",
+    "total_parameters": 30532122624,
+    "routed_expert_parameters": 28991029248,
+    "nonexpert_parameters": 1541093376,
+    "routed_bank_fixed_2p125_gib": 7.171875,
+    "routed_bank_ideal_entropy_gib": 6.4390440083869755,
+    "routed_bank_conservative_projected_gib": 6.5068359375,
+    "routed_bank_core_plus_scales_gib": 5.693263458102423,
+    "routed_bank_extreme_tail_gib": 0.7457805502845527,
+    "total_with_nonexpert_bf16_ideal_gib": 9.309554109705335,
+    "total_with_nonexpert_int4_ideal_gib": 7.156671533716565,
+    "total_with_nonexpert_int4_conservative_projected_gib": 7.22446346282959
+  },
+  "active_traffic_projection": {
+    "active_routed_parameters_per_token": 1811939328,
+    "ideal_full_mib_per_token": 412.09881653676644,
+    "conservative_full_mib_per_token": 416.4375,
+    "core_plus_scales_mib_per_token": 364.36886131855505,
+    "extreme_tail_mib_per_token": 47.72995521821137,
+    "ideal_full_gib_per_second_at_10_tps": 4.024402505241859,
+    "extreme_tail_gib_per_second_at_10_tps": 0.46611284392784547
+  },
+  "entropy_funded_repair": {
+    "available_bpp_below_2": 0.09213510862608132,
+    "rank8_int4_low_rank_correction_bpp_before_metadata": 0.057291666666666664,
+    "ideal_base_plus_rank8_int4_bpp_before_correction_metadata": 1.9651565580405854,
+    "warning": "Low-rank correction quality and real metadata are unproven."
+  },
+  "per_expert": [
+    {
+      "layer": 0,
+      "expert": 28,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 294795,
+        "-1": 1122147,
+        "0": 1963717,
+        "1": 1337933
+      },
+      "code_entropy_bpp": 1.784647637603898,
+      "ideal_total_bpp_including_bf16_scales": 1.909647637603898,
+      "enumerative_total_bpp": 1.9093992445203993,
+      "conservative_projected_total_bpp": 1.9305555555555556
+    },
+    {
+      "layer": 0,
+      "expert": 46,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 295749,
+        "-1": 1121266,
+        "0": 1960697,
+        "1": 1340880
+      },
+      "code_entropy_bpp": 1.7853934854170848,
+      "ideal_total_bpp_including_bf16_scales": 1.9103934854170848,
+      "enumerative_total_bpp": 1.9103486802842882,
+      "conservative_projected_total_bpp": 1.9305555555555556
+    },
+    {
+      "layer": 0,
+      "expert": 51,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 301699,
+        "-1": 1127106,
+        "0": 1939800,
+        "1": 1349987
+      },
+      "code_entropy_bpp": 1.7908240078345163,
+      "ideal_total_bpp_including_bf16_scales": 1.9158240078345163,
+      "enumerative_total_bpp": 1.9156818389892578,
+      "conservative_projected_total_bpp": 1.9305555555555556
+    },
+    {
+      "layer": 0,
+      "expert": 64,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 279836,
+        "-1": 1105597,
+        "0": 2023356,
+        "1": 1309803
+      },
+      "code_entropy_bpp": 1.7693219794903476,
+      "ideal_total_bpp_including_bf16_scales": 1.8943219794903476,
+      "enumerative_total_bpp": 1.8940272861056857,
+      "conservative_projected_total_bpp": 1.9097222222222223
+    },
+    {
+      "layer": 0,
+      "expert": 72,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 263648,
+        "-1": 1059359,
+        "0": 2156315,
+        "1": 1239270
+      },
+      "code_entropy_bpp": 1.7392635633257538,
+      "ideal_total_bpp_including_bf16_scales": 1.8642635633257538,
+      "enumerative_total_bpp": 1.8604969448513455,
+      "conservative_projected_total_bpp": 1.8819444444444444
+    },
+    {
+      "layer": 0,
+      "expert": 79,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 297091,
+        "-1": 1124786,
+        "0": 1949658,
+        "1": 1347057
+      },
+      "code_entropy_bpp": 1.7874721897518402,
+      "ideal_total_bpp_including_bf16_scales": 1.9124721897518402,
+      "enumerative_total_bpp": 1.9123959011501737,
+      "conservative_projected_total_bpp": 1.9305555555555556
+    },
+    {
+      "layer": 0,
+      "expert": 100,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 287039,
+        "-1": 1115613,
+        "0": 1987495,
+        "1": 1328445
+      },
+      "code_entropy_bpp": 1.7778282640381275,
+      "ideal_total_bpp_including_bf16_scales": 1.9028282640381275,
+      "enumerative_total_bpp": 1.9026366339789496,
+      "conservative_projected_total_bpp": 1.9236111111111112
+    },
+    {
+      "layer": 0,
+      "expert": 110,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 283539,
+        "-1": 1106996,
+        "0": 2011053,
+        "1": 1317004
+      },
+      "code_entropy_bpp": 1.7727525380375802,
+      "ideal_total_bpp_including_bf16_scales": 1.8977525380375802,
+      "enumerative_total_bpp": 1.8976732889811199,
+      "conservative_projected_total_bpp": 1.9236111111111112
+    },
+    {
+      "layer": 47,
+      "expert": 15,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 296152,
+        "-1": 1118096,
+        "0": 1965867,
+        "1": 1338477
+      },
+      "code_entropy_bpp": 1.7848015479328099,
+      "ideal_total_bpp_including_bf16_scales": 1.9098015479328099,
+      "enumerative_total_bpp": 1.9097203148735895,
+      "conservative_projected_total_bpp": 1.9305555555555556
+    },
+    {
+      "layer": 47,
+      "expert": 27,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 305774,
+        "-1": 1127746,
+        "0": 1927752,
+        "1": 1357320
+      },
+      "code_entropy_bpp": 1.7940355347929855,
+      "ideal_total_bpp_including_bf16_scales": 1.9190355347929855,
+      "enumerative_total_bpp": 1.9190792507595487,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 32,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 299418,
+        "-1": 1117217,
+        "0": 1959562,
+        "1": 1342395
+      },
+      "code_entropy_bpp": 1.786990040223436,
+      "ideal_total_bpp_including_bf16_scales": 1.911990040223436,
+      "enumerative_total_bpp": 1.9119476742214627,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 63,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 309254,
+        "-1": 1130268,
+        "0": 1916420,
+        "1": 1362650
+      },
+      "code_entropy_bpp": 1.7969594986641788,
+      "ideal_total_bpp_including_bf16_scales": 1.9219594986641788,
+      "enumerative_total_bpp": 1.9219686720106337,
+      "conservative_projected_total_bpp": 1.9444444444444444
+    },
+    {
+      "layer": 47,
+      "expert": 71,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 297958,
+        "-1": 1113303,
+        "0": 1969728,
+        "1": 1337603
+      },
+      "code_entropy_bpp": 1.784910969167938,
+      "ideal_total_bpp_including_bf16_scales": 1.909910969167938,
+      "enumerative_total_bpp": 1.9098955790201824,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 78,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 308440,
+        "-1": 1132281,
+        "0": 1916329,
+        "1": 1361542
+      },
+      "code_entropy_bpp": 1.7967139592860022,
+      "ideal_total_bpp_including_bf16_scales": 1.9217139592860022,
+      "enumerative_total_bpp": 1.9217669169108074,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 90,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 305275,
+        "-1": 1119566,
+        "0": 1945138,
+        "1": 1348613
+      },
+      "code_entropy_bpp": 1.7914380780303858,
+      "ideal_total_bpp_including_bf16_scales": 1.9164380780303858,
+      "enumerative_total_bpp": 1.9164182874891493,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 127,
+      "weights": 4718592,
+      "scales": 36864,
+      "histogram": {
+        "-2": 288307,
+        "-1": 1105406,
+        "0": 2007079,
+        "1": 1317800
+      },
+      "code_entropy_bpp": 1.7754074430920905,
+      "ideal_total_bpp_including_bf16_scales": 1.9004074430920905,
+      "enumerative_total_bpp": 1.900220447116428,
+      "conservative_projected_total_bpp": 1.9236111111111112
+    }
+  ],
+  "per_matrix": [
+    {
+      "layer": 0,
+      "expert": 28,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 93148,
+        "-1": 371134,
+        "0": 671019,
+        "1": 437563
+      },
+      "code_entropy_bpp": 1.7708933657885486,
+      "ideal_total_bpp_including_bf16_scales": 1.8958933657885486,
+      "enumerative_total_bpp": 1.895956039428711,
+      "conservative_projected_total_bpp": 1.9166666666666667
+    },
+    {
+      "layer": 0,
+      "expert": 28,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 97707,
+        "-1": 373421,
+        "0": 657351,
+        "1": 444385
+      },
+      "code_entropy_bpp": 1.7827842190147476,
+      "ideal_total_bpp_including_bf16_scales": 1.9077842190147476,
+      "enumerative_total_bpp": 1.907846450805664,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 0,
+      "expert": 28,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 103940,
+        "-1": 377592,
+        "0": 635347,
+        "1": 455985
+      },
+      "code_entropy_bpp": 1.7993327168980975,
+      "ideal_total_bpp_including_bf16_scales": 1.9243327168980975,
+      "enumerative_total_bpp": 1.924395243326823,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 0,
+      "expert": 46,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 95289,
+        "-1": 371917,
+        "0": 663746,
+        "1": 441912
+      },
+      "code_entropy_bpp": 1.776822907557148,
+      "ideal_total_bpp_including_bf16_scales": 1.901822907557148,
+      "enumerative_total_bpp": 1.9018853505452473,
+      "conservative_projected_total_bpp": 1.9166666666666667
+    },
+    {
+      "layer": 0,
+      "expert": 46,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 98326,
+        "-1": 374250,
+        "0": 653772,
+        "1": 446516
+      },
+      "code_entropy_bpp": 1.7850455662536486,
+      "ideal_total_bpp_including_bf16_scales": 1.9100455662536486,
+      "enumerative_total_bpp": 1.910107930501302,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 0,
+      "expert": 46,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 102134,
+        "-1": 375099,
+        "0": 643179,
+        "1": 452452
+      },
+      "code_entropy_bpp": 1.7939902293718395,
+      "ideal_total_bpp_including_bf16_scales": 1.9189902293718395,
+      "enumerative_total_bpp": 1.9190527598063152,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 0,
+      "expert": 51,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 96179,
+        "-1": 373008,
+        "0": 661275,
+        "1": 442402
+      },
+      "code_entropy_bpp": 1.7791601500318273,
+      "ideal_total_bpp_including_bf16_scales": 1.9041601500318273,
+      "enumerative_total_bpp": 1.9042224884033203,
+      "conservative_projected_total_bpp": 1.9166666666666667
+    },
+    {
+      "layer": 0,
+      "expert": 51,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 100588,
+        "-1": 375540,
+        "0": 646588,
+        "1": 450148
+      },
+      "code_entropy_bpp": 1.7908309063519867,
+      "ideal_total_bpp_including_bf16_scales": 1.9158309063519867,
+      "enumerative_total_bpp": 1.9158935546875,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 0,
+      "expert": 51,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 104932,
+        "-1": 378558,
+        "0": 631937,
+        "1": 457437
+      },
+      "code_entropy_bpp": 1.8018668278754204,
+      "ideal_total_bpp_including_bf16_scales": 1.9268668278754204,
+      "enumerative_total_bpp": 1.9269294738769531,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 0,
+      "expert": 64,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 89812,
+        "-1": 366777,
+        "0": 684957,
+        "1": 431318
+      },
+      "code_entropy_bpp": 1.7597832358941028,
+      "ideal_total_bpp_including_bf16_scales": 1.8847832358941028,
+      "enumerative_total_bpp": 1.8848457336425781,
+      "conservative_projected_total_bpp": 1.8958333333333333
+    },
+    {
+      "layer": 0,
+      "expert": 64,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 89666,
+        "-1": 366175,
+        "0": 685879,
+        "1": 431144
+      },
+      "code_entropy_bpp": 1.7590912926275262,
+      "ideal_total_bpp_including_bf16_scales": 1.8840912926275262,
+      "enumerative_total_bpp": 1.8841540018717449,
+      "conservative_projected_total_bpp": 1.8958333333333333
+    },
+    {
+      "layer": 0,
+      "expert": 64,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 100358,
+        "-1": 372645,
+        "0": 652520,
+        "1": 447341
+      },
+      "code_entropy_bpp": 1.7880197529624047,
+      "ideal_total_bpp_including_bf16_scales": 1.9130197529624047,
+      "enumerative_total_bpp": 1.9130821228027344,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 0,
+      "expert": 72,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 87777,
+        "-1": 373637,
+        "0": 681889,
+        "1": 429561
+      },
+      "code_entropy_bpp": 1.7590864121010412,
+      "ideal_total_bpp_including_bf16_scales": 1.8840864121010412,
+      "enumerative_total_bpp": 1.8841489156087239,
+      "conservative_projected_total_bpp": 1.8958333333333333
+    },
+    {
+      "layer": 0,
+      "expert": 72,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 88929,
+        "-1": 373731,
+        "0": 676961,
+        "1": 433243
+      },
+      "code_entropy_bpp": 1.762827439199041,
+      "ideal_total_bpp_including_bf16_scales": 1.887827439199041,
+      "enumerative_total_bpp": 1.8878898620605469,
+      "conservative_projected_total_bpp": 1.9166666666666667
+    },
+    {
+      "layer": 0,
+      "expert": 72,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 86942,
+        "-1": 311991,
+        "0": 797465,
+        "1": 376466
+      },
+      "code_entropy_bpp": 1.6843894558308818,
+      "ideal_total_bpp_including_bf16_scales": 1.8093894558308818,
+      "enumerative_total_bpp": 1.8094520568847656,
+      "conservative_projected_total_bpp": 1.8333333333333333
+    },
+    {
+      "layer": 0,
+      "expert": 79,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 96397,
+        "-1": 373305,
+        "0": 658151,
+        "1": 445011
+      },
+      "code_entropy_bpp": 1.7806493858736145,
+      "ideal_total_bpp_including_bf16_scales": 1.9056493858736145,
+      "enumerative_total_bpp": 1.9057121276855469,
+      "conservative_projected_total_bpp": 1.9166666666666667
+    },
+    {
+      "layer": 0,
+      "expert": 79,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 97208,
+        "-1": 373887,
+        "0": 655225,
+        "1": 446544
+      },
+      "code_entropy_bpp": 1.7829193962280063,
+      "ideal_total_bpp_including_bf16_scales": 1.9079193962280063,
+      "enumerative_total_bpp": 1.9079818725585938,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 0,
+      "expert": 79,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 103486,
+        "-1": 377594,
+        "0": 636282,
+        "1": 455502
+      },
+      "code_entropy_bpp": 1.7984310556952359,
+      "ideal_total_bpp_including_bf16_scales": 1.9234310556952359,
+      "enumerative_total_bpp": 1.9234937032063801,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 0,
+      "expert": 100,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 91756,
+        "-1": 368139,
+        "0": 677232,
+        "1": 435737
+      },
+      "code_entropy_bpp": 1.765978595480608,
+      "ideal_total_bpp_including_bf16_scales": 1.890978595480608,
+      "enumerative_total_bpp": 1.8910408020019531,
+      "conservative_projected_total_bpp": 1.9166666666666667
+    },
+    {
+      "layer": 0,
+      "expert": 100,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 94556,
+        "-1": 371258,
+        "0": 665890,
+        "1": 441160
+      },
+      "code_entropy_bpp": 1.7748803116950997,
+      "ideal_total_bpp_including_bf16_scales": 1.8998803116950997,
+      "enumerative_total_bpp": 1.8999430338541667,
+      "conservative_projected_total_bpp": 1.9166666666666667
+    },
+    {
+      "layer": 0,
+      "expert": 100,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 100727,
+        "-1": 376216,
+        "0": 644373,
+        "1": 451548
+      },
+      "code_entropy_bpp": 1.7918639430062688,
+      "ideal_total_bpp_including_bf16_scales": 1.9168639430062688,
+      "enumerative_total_bpp": 1.9169260660807292,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 0,
+      "expert": 110,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 90941,
+        "-1": 366719,
+        "0": 681295,
+        "1": 433909
+      },
+      "code_entropy_bpp": 1.7629304833098063,
+      "ideal_total_bpp_including_bf16_scales": 1.8879304833098063,
+      "enumerative_total_bpp": 1.8879928588867188,
+      "conservative_projected_total_bpp": 1.9166666666666667
+    },
+    {
+      "layer": 0,
+      "expert": 110,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 93693,
+        "-1": 369163,
+        "0": 671866,
+        "1": 438142
+      },
+      "code_entropy_bpp": 1.7710297438184148,
+      "ideal_total_bpp_including_bf16_scales": 1.8960297438184148,
+      "enumerative_total_bpp": 1.8960920969645183,
+      "conservative_projected_total_bpp": 1.9166666666666667
+    },
+    {
+      "layer": 0,
+      "expert": 110,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 98905,
+        "-1": 371114,
+        "0": 657892,
+        "1": 444953
+      },
+      "code_entropy_bpp": 1.7838724263526065,
+      "ideal_total_bpp_including_bf16_scales": 1.9088724263526065,
+      "enumerative_total_bpp": 1.9089349110921223,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 15,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 98522,
+        "-1": 375585,
+        "0": 651075,
+        "1": 447682
+      },
+      "code_entropy_bpp": 1.7864681487062126,
+      "ideal_total_bpp_including_bf16_scales": 1.9114681487062126,
+      "enumerative_total_bpp": 1.9115308125813801,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 15,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 98730,
+        "-1": 378193,
+        "0": 645061,
+        "1": 450880
+      },
+      "code_entropy_bpp": 1.7891986049022635,
+      "ideal_total_bpp_including_bf16_scales": 1.9141986049022635,
+      "enumerative_total_bpp": 1.9142608642578125,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 15,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 98900,
+        "-1": 364318,
+        "0": 669731,
+        "1": 439915
+      },
+      "code_entropy_bpp": 1.7783068394956723,
+      "ideal_total_bpp_including_bf16_scales": 1.9033068394956723,
+      "enumerative_total_bpp": 1.9033692677815754,
+      "conservative_projected_total_bpp": 1.9166666666666667
+    },
+    {
+      "layer": 47,
+      "expert": 27,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 100510,
+        "-1": 376540,
+        "0": 643212,
+        "1": 452602
+      },
+      "code_entropy_bpp": 1.7919958199791934,
+      "ideal_total_bpp_including_bf16_scales": 1.9169958199791934,
+      "enumerative_total_bpp": 1.9170583089192708,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 27,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 101452,
+        "-1": 378398,
+        "0": 639829,
+        "1": 453185
+      },
+      "code_entropy_bpp": 1.7946833906836144,
+      "ideal_total_bpp_including_bf16_scales": 1.9196833906836144,
+      "enumerative_total_bpp": 1.9197457631429036,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 27,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 103812,
+        "-1": 372808,
+        "0": 644711,
+        "1": 451533
+      },
+      "code_entropy_bpp": 1.795371263914582,
+      "ideal_total_bpp_including_bf16_scales": 1.920371263914582,
+      "enumerative_total_bpp": 1.9204336802164714,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 32,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 98463,
+        "-1": 375729,
+        "0": 649504,
+        "1": 449168
+      },
+      "code_entropy_bpp": 1.7869450873863555,
+      "ideal_total_bpp_including_bf16_scales": 1.9119450873863555,
+      "enumerative_total_bpp": 1.9120076497395833,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 32,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 99922,
+        "-1": 377557,
+        "0": 645595,
+        "1": 449790
+      },
+      "code_entropy_bpp": 1.7905727485326137,
+      "ideal_total_bpp_including_bf16_scales": 1.9155727485326137,
+      "enumerative_total_bpp": 1.9156354268391926,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 32,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 101033,
+        "-1": 363931,
+        "0": 664463,
+        "1": 443437
+      },
+      "code_entropy_bpp": 1.7831376780109829,
+      "ideal_total_bpp_including_bf16_scales": 1.9081376780109829,
+      "enumerative_total_bpp": 1.908199946085612,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 63,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 101167,
+        "-1": 377320,
+        "0": 641860,
+        "1": 452517
+      },
+      "code_entropy_bpp": 1.793466094324406,
+      "ideal_total_bpp_including_bf16_scales": 1.918466094324406,
+      "enumerative_total_bpp": 1.9185282389322917,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 63,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 100690,
+        "-1": 378517,
+        "0": 639692,
+        "1": 453965
+      },
+      "code_entropy_bpp": 1.7936970301130954,
+      "ideal_total_bpp_including_bf16_scales": 1.9186970301130954,
+      "enumerative_total_bpp": 1.9187596638997395,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 63,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 107397,
+        "-1": 374431,
+        "0": 634868,
+        "1": 456168
+      },
+      "code_entropy_bpp": 1.803555613459452,
+      "ideal_total_bpp_including_bf16_scales": 1.928555613459452,
+      "enumerative_total_bpp": 1.9286181131998699,
+      "conservative_projected_total_bpp": 1.9583333333333333
+    },
+    {
+      "layer": 47,
+      "expert": 71,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 96860,
+        "-1": 373888,
+        "0": 656697,
+        "1": 445419
+      },
+      "code_entropy_bpp": 1.7819117780692713,
+      "ideal_total_bpp_including_bf16_scales": 1.9069117780692713,
+      "enumerative_total_bpp": 1.906974156697591,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 71,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 97698,
+        "-1": 375244,
+        "0": 652471,
+        "1": 447451
+      },
+      "code_entropy_bpp": 1.7847847562953425,
+      "ideal_total_bpp_including_bf16_scales": 1.9097847562953425,
+      "enumerative_total_bpp": 1.9098472595214844,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 71,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 103400,
+        "-1": 364171,
+        "0": 660560,
+        "1": 444733
+      },
+      "code_entropy_bpp": 1.7878027344995076,
+      "ideal_total_bpp_including_bf16_scales": 1.9128027344995076,
+      "enumerative_total_bpp": 1.9128653208414714,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 78,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 102192,
+        "-1": 378008,
+        "0": 639575,
+        "1": 453089
+      },
+      "code_entropy_bpp": 1.795712426307288,
+      "ideal_total_bpp_including_bf16_scales": 1.920712426307288,
+      "enumerative_total_bpp": 1.9207750956217449,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 78,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 101624,
+        "-1": 378213,
+        "0": 639139,
+        "1": 453888
+      },
+      "code_entropy_bpp": 1.7951061861318596,
+      "ideal_total_bpp_including_bf16_scales": 1.9201061861318596,
+      "enumerative_total_bpp": 1.9201685587565105,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 78,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 104624,
+        "-1": 376060,
+        "0": 637615,
+        "1": 454565
+      },
+      "code_entropy_bpp": 1.7992946082806216,
+      "ideal_total_bpp_including_bf16_scales": 1.9242946082806216,
+      "enumerative_total_bpp": 1.9243570963541667,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 90,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 100141,
+        "-1": 376770,
+        "0": 644145,
+        "1": 451808
+      },
+      "code_entropy_bpp": 1.7912226112594138,
+      "ideal_total_bpp_including_bf16_scales": 1.9162226112594138,
+      "enumerative_total_bpp": 1.9162851969401042,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 90,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 100921,
+        "-1": 376962,
+        "0": 643820,
+        "1": 451161
+      },
+      "code_entropy_bpp": 1.7924349493450755,
+      "ideal_total_bpp_including_bf16_scales": 1.9174349493450755,
+      "enumerative_total_bpp": 1.9174976348876953,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 90,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 104213,
+        "-1": 365834,
+        "0": 657173,
+        "1": 445644
+      },
+      "code_entropy_bpp": 1.790409300284225,
+      "ideal_total_bpp_including_bf16_scales": 1.915409300284225,
+      "enumerative_total_bpp": 1.9154720306396484,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 127,
+      "matrix": "gate",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 95941,
+        "-1": 372042,
+        "0": 662597,
+        "1": 442284
+      },
+      "code_entropy_bpp": 1.7781857927506477,
+      "ideal_total_bpp_including_bf16_scales": 1.9031857927506477,
+      "enumerative_total_bpp": 1.9032484690348308,
+      "conservative_projected_total_bpp": 1.9166666666666667
+    },
+    {
+      "layer": 47,
+      "expert": 127,
+      "matrix": "up",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 97380,
+        "-1": 374319,
+        "0": 655571,
+        "1": 445594
+      },
+      "code_entropy_bpp": 1.7831072357593685,
+      "ideal_total_bpp_including_bf16_scales": 1.9081072357593685,
+      "enumerative_total_bpp": 1.908169428507487,
+      "conservative_projected_total_bpp": 1.9375
+    },
+    {
+      "layer": 47,
+      "expert": 127,
+      "matrix": "down",
+      "weights": 1572864,
+      "scales": 12288,
+      "histogram": {
+        "-2": 94986,
+        "-1": 359045,
+        "0": 688911,
+        "1": 429922
+      },
+      "code_entropy_bpp": 1.7641810589573952,
+      "ideal_total_bpp_including_bf16_scales": 1.8891810589573952,
+      "enumerative_total_bpp": 1.889243443806966,
+      "conservative_projected_total_bpp": 1.9166666666666667
+    }
+  ]
+}

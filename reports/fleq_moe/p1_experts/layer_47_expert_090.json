@@ -1,0 +1,208 @@
+{
+  "all_finite": true,
+  "artifact": "reports/runs/fleq_moe/p1/layer_47_expert_090.safetensors",
+  "artifact_sha256": "0b1659211c0876baac69e539b52fc9c4937430904cc82b38b5a949664bb7785f",
+  "calibration_rows": 296,
+  "code_summaries": {
+    "gptq_2bit": {
+      "down": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 365834,
+          "-2": 104213,
+          "0": 657173,
+          "1": 445644
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "gate": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 376770,
+          "-2": 100141,
+          "0": 644145,
+          "1": 451808
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "up": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 376962,
+          "-2": 100921,
+          "0": 643820,
+          "1": 451161
+        },
+        "scales": 12288,
+        "weights": 1572864
+      }
+    },
+    "gsq_2bit": {
+      "down": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 366249,
+          "-2": 108405,
+          "0": 650659,
+          "1": 447551
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "gate": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 376818,
+          "-2": 104603,
+          "0": 637942,
+          "1": 453501
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "up": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 376965,
+          "-2": 105313,
+          "0": 637415,
+          "1": 453171
+        },
+        "scales": 12288,
+        "weights": 1572864
+      }
+    }
+  },
+  "completed_utc": "2026-08-11T11:46:52.525796+00:00",
+  "elapsed_seconds": 44.82463120000466,
+  "expert": 90,
+  "fallback_bit_exact": true,
+  "gsq_losses": [
+    1.4585130214691162,
+    1.0854899883270264,
+    0.8143734335899353,
+    0.6477748155593872,
+    0.4986051321029663,
+    0.4443521797657013,
+    0.4448137581348419,
+    0.46306297183036804,
+    0.4836714565753937,
+    0.4811982214450836,
+    0.4779070019721985,
+    0.4104501008987427,
+    0.3197988271713257,
+    0.33226463198661804,
+    0.2972251772880554,
+    0.270298033952713,
+    0.2570422291755676,
+    0.2533770203590393,
+    0.24248746037483215,
+    0.26070544123649597,
+    0.25321057438850403,
+    0.2437726855278015,
+    0.24636290967464447,
+    0.27501219511032104,
+    0.2726355791091919,
+    0.2711465358734131,
+    0.24612364172935486,
+    0.2542397379875183,
+    0.25022217631340027,
+    0.2554846405982971,
+    0.25846630334854126,
+    0.2686508595943451,
+    0.26506391167640686,
+    0.2885822355747223,
+    0.252139687538147,
+    0.28051191568374634,
+    0.26489508152008057,
+    0.29503655433654785,
+    0.30143070220947266,
+    0.2776150703430176
+  ],
+  "heldout_gsq_improvement_over_gptq": -0.7231702804877979,
+  "heldout_rows": 233,
+  "kind": "fleq_moe_p1_expert_result",
+  "layer": 47,
+  "metrics": {
+    "gptq_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.997582733631134,
+        "relative_l2": 0.06792040914297104,
+        "relative_row_p50": 0.06749248504638672,
+        "relative_row_p95": 0.0906476080417633,
+        "router_weighted_relative_mse": 0.004505091812461615,
+        "rows": 296
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9842433929443359,
+        "relative_l2": 0.17918430268764496,
+        "relative_row_p50": 0.1689336597919464,
+        "relative_row_p95": 0.2564009726047516,
+        "router_weighted_relative_mse": 0.03216838464140892,
+        "rows": 233
+      }
+    },
+    "gsq_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9854576587677002,
+        "relative_l2": 0.16844972968101501,
+        "relative_row_p50": 0.16801248490810394,
+        "relative_row_p95": 0.20217858254909515,
+        "router_weighted_relative_mse": 0.028227180242538452,
+        "rows": 296
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9718449115753174,
+        "relative_l2": 0.23584645986557007,
+        "relative_row_p50": 0.23086826503276825,
+        "relative_row_p95": 0.31772518157958984,
+        "router_weighted_relative_mse": 0.05543160438537598,
+        "rows": 233
+      }
+    },
+    "rtn_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9098301529884338,
+        "relative_l2": 0.4857726991176605,
+        "relative_row_p50": 0.4861191511154175,
+        "relative_row_p95": 0.532354474067688,
+        "router_weighted_relative_mse": 0.23739874362945557,
+        "rows": 296
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9099435210227966,
+        "relative_l2": 0.49126163125038147,
+        "relative_row_p50": 0.49045366048812866,
+        "relative_row_p95": 0.5357393622398376,
+        "router_weighted_relative_mse": 0.24236147105693817,
+        "rows": 233
+      }
+    }
+  },
+  "original_weight_sha256": {
+    "down": "cdb2cffc0f0f07b8eee95422d2ce170bbfc82fb83a39627d36c1f4aa905bae5a",
+    "gate": "60e3ee083b7679e93c2d485425b2c83afbd55be9552a12f51ccbccf28416e572",
+    "up": "ea18a5da8154a682f4e538ec1d6018d77adda5419d24a5d8af5dc9fe68e164cf"
+  },
+  "peak_cuda_allocated_bytes": 320258048,
+  "peak_cuda_reserved_bytes": 354418688,
+  "process_rss_peak_observed_bytes": 2321092608,
+  "repeat_exact": null,
+  "repeat_losses": null,
+  "repeat_required": false,
+  "selection_lock_sha256": "99038787f6aee75f18db40c7dd879bd090ffbe4dc659bc07143b2b8f77e26257"
+}

@@ -1,0 +1,222 @@
+{
+  "artifact": {
+    "bytes": 24395840,
+    "full_p1d_reference_bytes": 48562176,
+    "path": "reports/runs/streamq5_moe/gaugepack_p9d1_layer00_e000_015.gpk",
+    "physical_byte_ratio": 0.5023629913124157,
+    "projected_full_bank_gib_at_same_ratio": 8.724632263183594,
+    "sha256": "6029bf6bb45c2485e9520cfb8235e26cec8e2dadb6b7300feda218062cabbc61"
+  },
+  "audit": {
+    "available_mask": "48 layers x 128 experts x 384 sorted int16 survivor indices",
+    "available_quantized_bank": "P1D full unpruned group-128 Q5 bank, 48 x 128 experts x 3 matrices",
+    "down_reuse": "P9B dense-zero Q5 codes/scales reconstructed from source BF16 plus frozen mask; original P1D down is only a diagnostic comparator",
+    "gate_up_reuse": "survivor codes and scale bits copied literally from P1D after independent P9B recomputation matched",
+    "historical_p9b_quantized_bank_persisted": false
+  },
+  "claim_boundary": "Exact codec/oracle pass for layer 0 experts 0-15 only; no kernel timing, full-bank, full-depth quality, runtime throughput, 80B, or novelty claim.",
+  "completed_utc": "2026-08-12T18:52:47.509692+00:00",
+  "diagnostics": {
+    "down_groups_compared": 196608,
+    "down_p1d_vs_p9b_group_scale_bit_mismatches": 86796,
+    "down_p1d_vs_p9b_survivor_code_mismatches": 2945113,
+    "gate_up_p1d_survivor_code_mismatches": 44317,
+    "gate_up_p1d_survivor_scale_bit_mismatches": 0
+  },
+  "format": {
+    "code_mapping": "unsigned=code+15; eight little-order 5-bit codes in five bytes",
+    "down_group_topology": "six original groups of 128 per output row retained",
+    "expert_header_bytes": 64,
+    "expert_stride_bytes": 1524736,
+    "global_header_bytes": 64,
+    "mask_bytes_per_expert": 768,
+    "projection_header_bytes": 64,
+    "scales": "raw little-endian bfloat16 bits"
+  },
+  "gates": {
+    "cpu_only_execution": true,
+    "gate_up_literal_p1d_bytes_preserved": false,
+    "headers_crcs_and_size_valid": true,
+    "mask_and_group_identity_exact": true,
+    "mask_cardinality_unique_range": true,
+    "physical_byte_ratio_le_0_51": true,
+    "sixteen_experts_complete": true,
+    "zero_dense_bf16_decode_bit_mismatches": false,
+    "zero_dense_p9b_code_or_scale_mismatches": false,
+    "zero_stored_scale_bit_mismatches": true,
+    "zero_survivor_code_mismatches": false
+  },
+  "group_survivor_counts": {
+    "maximum": 78,
+    "mean": 64.0,
+    "minimum": 53,
+    "per_expert": [
+      [
+        66,
+        58,
+        66,
+        65,
+        59,
+        70
+      ],
+      [
+        60,
+        60,
+        64,
+        70,
+        66,
+        64
+      ],
+      [
+        60,
+        60,
+        69,
+        55,
+        72,
+        68
+      ],
+      [
+        58,
+        69,
+        76,
+        71,
+        57,
+        53
+      ],
+      [
+        64,
+        61,
+        63,
+        66,
+        70,
+        60
+      ],
+      [
+        66,
+        57,
+        78,
+        65,
+        58,
+        60
+      ],
+      [
+        67,
+        62,
+        68,
+        66,
+        65,
+        56
+      ],
+      [
+        63,
+        54,
+        74,
+        65,
+        65,
+        63
+      ],
+      [
+        67,
+        59,
+        66,
+        62,
+        70,
+        60
+      ],
+      [
+        64,
+        64,
+        60,
+        74,
+        57,
+        65
+      ],
+      [
+        66,
+        73,
+        56,
+        63,
+        66,
+        60
+      ],
+      [
+        62,
+        71,
+        65,
+        63,
+        55,
+        68
+      ],
+      [
+        67,
+        57,
+        61,
+        61,
+        68,
+        70
+      ],
+      [
+        56,
+        66,
+        58,
+        69,
+        70,
+        65
+      ],
+      [
+        62,
+        61,
+        70,
+        56,
+        64,
+        71
+      ],
+      [
+        72,
+        65,
+        59,
+        68,
+        66,
+        54
+      ]
+    ]
+  },
+  "inputs": {
+    "model_index_sha256": "df0d481ec595c55a0ba58426d517390c6214a566ec4ff1c8fc4bbce9f57b3c24",
+    "p1d_layer00_sha256": "913d0a13b9cf227b5f919aa22ac4e82ee73053db36ae5544f1d87206e1ad6dfa",
+    "p1d_result_sha256": "08c1f8f469998e46ef985578b07006f884b737335fbdb7b63ca1efb37afe0e09",
+    "p1d_verification_sha256": "46a424fd4c0d8c37985b5f44b9d76503c1511f6de04478d938779b33338507ed",
+    "p9b_masks_sha256": "a238950c97c52f7b5c12eaae76a1ef21f8c4ad4fabd4724bc13f9ed17801dab1",
+    "p9b_test_sha256": "4c5d63ddd6e2a499a00361db7db9dd279297062222099ed7c1aa54e88ffade68",
+    "p9b_validation_sha256": "46ca0be57b6494e5b4ac367912835da65fa733ba06be39727842cf8ca1ece9d6",
+    "p9c_validation_sha256": "f7e2f7f4b6e5744c6ce3973811ad9415cde4dd2f3250e01f81b6bb1115e78178",
+    "preregistration_sha256": "f19d249df6d016d87e5adca8d2f595f494582de274d0fde22f6908e9e378c7bf",
+    "producer_oracle_sha256": "0500b6b598a248c597a5a3e026f7a5b2e38dd411f4c8f2df7f908eb085d30e50"
+  },
+  "kind": "gaugepack_p9d1_codec_oracle",
+  "oracle_counters": {
+    "crc_or_header_failures": 0,
+    "dense_bf16_decode_bit_mismatches": 44317,
+    "dense_code_mismatches": 44317,
+    "dense_elements_verified": 75497472,
+    "dense_scale_bit_mismatches": 0,
+    "experts": 16,
+    "group_count_mismatches": 0,
+    "mask_index_mismatches": 0,
+    "stored_scale_bit_mismatches": 0,
+    "survivor_code_mismatches": 44317
+  },
+  "runtime": {
+    "device": "cpu",
+    "seconds": 1.5216097999946214
+  },
+  "scope": {
+    "expert_count": 16,
+    "experts": [
+      0,
+      15
+    ],
+    "layer": 0
+  },
+  "status": "gaugepack_p9d1_fail"
+}

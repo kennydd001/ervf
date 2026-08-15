@@ -1,0 +1,212 @@
+{
+  "kind": "port80b_d10a2r2_component_independent_cpu_verification",
+  "completed_utc": "2026-08-13T07:54:52.263760+00:00",
+  "status": "component_pass_verified_new_endurance_arm_eligible_but_current_endurance_closed",
+  "verification_pass": true,
+  "independent_checks": {
+    "raw_runner_hash_matches": true,
+    "raw_prereg_hash_matches": true,
+    "raw_preflight_hash_matches": true,
+    "unit_hashes_and_oracle_exact": true,
+    "preflight_hashes_and_cpu_boundary_exact": true,
+    "all_route_tensor_hashes_match_capture_and_preflight": true,
+    "correctness_route_ids_recomputed_from_p4d": true,
+    "all_raw_canaries_recomputed": true,
+    "correctness_digests_internally_exact": true,
+    "negative_controls_exact_single_substitution": true,
+    "conv_oracle_independently_recomputed": true,
+    "shared_payloads_independently_rehashed": true,
+    "shared_output_summary_exact": true,
+    "validation_output_summaries_complete": true,
+    "all_28_gates_reproduced_exactly": true,
+    "wall_percentiles_exact": true,
+    "cuda_event_percentiles_exact": true,
+    "ram_vram_page_arithmetic_exact": true,
+    "registration_rows_exact": true,
+    "unregister_rows_exact": true,
+    "cuda_component_source_unchanged_from_d10a2r": true,
+    "no_endurance_artifact": true,
+    "endurance_source_unconditionally_closed": true,
+    "canonical_json_endurance_false": true,
+    "raw_report_has_incorrect_endurance_true_text": true,
+    "bank_size_and_manifest_contract": true
+  },
+  "inputs": {
+    "raw_sha256": "cd4486221dae9073a14a7e0d617c803120f7f3e094580559c81d9035111063b1",
+    "runner_sha256": "8bce44334d9d416ad53e7f8499b676133e21248964dee79bccd16cc04f65cf8c",
+    "preregistration_sha256": "46cffb32de3228b30ff6b45003bdc288c39d11d02857a00409334e29a980022a",
+    "unit_test_sha256": "02dfa87cee8ac58b54a8b71656d109a55d96298db659228c2726f447214f3650",
+    "unit_result_sha256": "ba7c398facaaa88b46ad95ec020bd031fed324755ed0bf7550af0c63ba9941c1",
+    "preflight_sha256": "eba995a770b8671f05fdea9c4fd593c9eacf04f05f26cb82ba343b5a0afb160c",
+    "raw_report_sha256": "a8388d54b4e0b5e76e2eec6a28f9d7cd3ef7e9e858d2051a8cdcd2cf104e601b"
+  },
+  "gate_replay": {
+    "count": 28,
+    "passed": 28,
+    "failed": [],
+    "raw_match": true,
+    "recomputed": {
+      "canary_exhaustive_injective_roundtrip_boundary": true,
+      "all_correctness_headers_zero_mismatch": true,
+      "all_canaries_raw_exact": true,
+      "all_routed_q5_bitexact": true,
+      "all_routed_q5_outputs_finite": true,
+      "all_routed_q5_outputs_fully_written": true,
+      "output_digest_uniqueness_ge_95pct": true,
+      "wrong_expert_header_and_numerical_detected": true,
+      "wrong_layer_header_and_numerical_detected": true,
+      "attention_reference_abs_rel_le_2e_5": true,
+      "gdn_reference_abs_rel_le_2e_5": true,
+      "conv_step0_full_bf16_bitexact_and_292608_nonzero": true,
+      "shared_q5_bitexact": true,
+      "shared_48_payloads_match_reference_excluding_headers": true,
+      "component_outputs_no_poison_remaining": true,
+      "dense_and_runtime_touched": true,
+      "validation_32_finite": true,
+      "validation_full_outputs_finite_digested_no_poison": true,
+      "validation_wall_p95_le_150ms": true,
+      "validation_wall_p99_le_200ms": true,
+      "post_warmup_page_reads_no_sample_gt_2048": true,
+      "validation_memory_loss_le_1gib": true,
+      "ram_after_first_touch_ge_2gib": true,
+      "vram_reserve_ge_512mib": true,
+      "registration_48_ranges": true,
+      "no_cuda_or_runner_error": true,
+      "registration_attempt_rows_48_all_success": true,
+      "clean_unregister_48_ranges": true
+    }
+  },
+  "exactness": {
+    "correctness_cases": 40,
+    "zero_header_mismatch_cases": 40,
+    "zero_canary_mismatch_cases": 40,
+    "bitexact_routed_cases": 40,
+    "fully_written_finite_routed_cases": 40,
+    "unique_output_digests": 40,
+    "route_failures": [],
+    "canary_failures": [],
+    "negative_controls": {
+      "wrong_expert": {
+        "exact_single_substitution": true,
+        "changed_index": [
+          0
+        ],
+        "actual_id": 276,
+        "header_mismatches": 3,
+        "different_bits": 2050,
+        "max_abs": 0.09375
+      },
+      "wrong_layer": {
+        "exact_single_substitution": true,
+        "changed_index": [
+          0
+        ],
+        "actual_id": 787,
+        "header_mismatches": 3,
+        "different_bits": 2050,
+        "max_abs": 1.46875
+      }
+    },
+    "conv_oracle": {
+      "words": 1179648,
+      "nonzero": 292608,
+      "sha256": "cedf5736557919b023d6f7cce73d0064df07236ff1e18b5d8b3fec49d658fa1e",
+      "bitexact": true
+    },
+    "shared_payload_reference_sha256": [
+      "fa7d8ee571fc73ce279dd01475c38a3be01da1115e901d6476b1edd7cb8cd957",
+      "fa7d8ee571fc73ce279dd01475c38a3be01da1115e901d6476b1edd7cb8cd957",
+      "fa7d8ee571fc73ce279dd01475c38a3be01da1115e901d6476b1edd7cb8cd957"
+    ],
+    "shared_payload_layers_exact": 48,
+    "shared_output_bitexact": true,
+    "attention_max_abs": 0.0,
+    "recurrent_sample_max_abs": 0.0,
+    "component_poison_counts": {
+      "attention": 0,
+      "delta": 0,
+      "shared_gate": 0,
+      "shared_up": 0,
+      "shared_down": 0
+    },
+    "dense_checksum_exact": true
+  },
+  "validation_output_evidence": {
+    "steps": 32,
+    "arrays_per_step": 9,
+    "summary_errors": [],
+    "unique_digests_per_array": {
+      "routed_capture": 32,
+      "routed_down": 32,
+      "shared_down": 1,
+      "attention": 32,
+      "delta": 32,
+      "kv_state": 25,
+      "recurrent_state": 32,
+      "conv_state": 32,
+      "composed_state": 32
+    },
+    "limitation": "The raw JSON retains digest/shape/dtype/finite/poison summaries, not the arrays. Their SHA-256 values are format- and sequence-checked but cannot be independently recomputed from this artifact."
+  },
+  "timing": {
+    "wall_ms": {
+      "count": 32,
+      "mean": 78.65846249933384,
+      "p50": 80.86205000290647,
+      "p95": 91.20489498454845,
+      "p99": 91.97109701228328,
+      "min": 64.17210001382045,
+      "max": 92.16680002282374
+    },
+    "cuda_event_ms": {
+      "count": 32,
+      "mean": 78.49284529685974,
+      "p50": 80.71160125732422,
+      "p95": 91.00971946716308,
+      "p99": 91.82843948364258,
+      "min": 64.09849548339844,
+      "max": 92.03807830810547
+    },
+    "wall_event_mean_gap_ms": 0.1656172024740954
+  },
+  "resources": {
+    "available_before_bytes": 55128748032,
+    "start_gate_bytes": 52652163072,
+    "start_margin_bytes": 2476584960,
+    "after_registration_bytes": 55041130496,
+    "after_first_touch_bytes": 5166436352,
+    "after_cleanup_bytes": 5057417216,
+    "validation_min_available_bytes": 4888330240,
+    "validation_endpoint_loss_bytes": 91082752,
+    "validation_min_free_vram_bytes": 2844786688,
+    "page_read_samples": 11,
+    "page_reads_per_sec_max": 130.44489399259405,
+    "pages_input_per_sec_max_diagnostic": 5219.742698420069
+  },
+  "lifecycle": {
+    "registration_rows": 48,
+    "registration_all_success": true,
+    "unregistration_rows": 48,
+    "unregistration_all_success": true,
+    "per_range_bytes": 1011732480,
+    "registered_total_bytes": 48563159040,
+    "host_pointer_layer_stride_bytes": 1040117760,
+    "unregister_failures": []
+  },
+  "endurance_decision": {
+    "component_evidence_supports_new_preregistered_arm": true,
+    "d10a2r2_endurance_actually_open": false,
+    "canonical_json_endurance_authorized_by_evidence": false,
+    "endurance_artifact_exists": false,
+    "runner_endurance_behavior": "unconditional RuntimeError",
+    "report_bug": "The Markdown report interpolates overall_pass and incorrectly prints Endurance evidence-authorized: True; canonical JSON and preregistration say false/closed.",
+    "decision": "D10A2-R2 independently verifies as a component pass. It does not itself open endurance; it satisfies the evidence prerequisite for a new, separately preregistered and authorized endurance runner."
+  },
+  "claim_boundary": "Synthetic shape-informed physical component/composition evidence on P4D-shaped proxy routes and uniform synthetic Q5 payloads; not an official checkpoint, natural routing, model quality, production throughput or endurance result.",
+  "physical_actions": {
+    "gpu_run": false,
+    "host_registration": false,
+    "registry_edit": false,
+    "bank_write": false
+  }
+}

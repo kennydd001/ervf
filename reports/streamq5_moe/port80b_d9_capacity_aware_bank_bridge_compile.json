@@ -1,0 +1,62 @@
+{
+  "kind": "port80b_d9_capacity_aware_bank_bridge_compile",
+  "completed_utc": "2026-08-12T21:55:41.532296+00:00",
+  "status": "compile_preflight_pass",
+  "pass": true,
+  "inputs": {
+    "preregistration_sha256": "2f52bc2d38cfbbc2a8141a7d0b4fbdfb196042ec676f8eb6f27a8a92b58610e9",
+    "runner_sha256": "688803964298b90a18ec21c4548f6017b679e8c0c3823537b1ed6c05ccd6e477",
+    "manifest_sha256": "466250b39c5f28c8b5b2f7432904100adf8c9e8c246c860a233cdf4b9aeb412c",
+    "manifest_bank_sha256": "4a97af22833b239badc065d9c065ca259c791a84218640946d68c4e72e034462",
+    "d7_result_sha256": "0a4cb1082a0bf08c5579926733280f706aca708779b30e7bcb8a31438bc93447",
+    "d8_independent_verification_sha256": "06cff7b04cfdbc317ea03f289c7701e1cc3f626008531532a23951392c3a8fbb"
+  },
+  "audit": {
+    "checks": {
+      "bank_exists_and_exact_size": true,
+      "manifest_bank_sha_locked": true,
+      "mapping_readonly": true,
+      "d7_strong_exact_pass": true,
+      "d8_independent_replayable": true,
+      "d8_largest_clean_prefix_is_499": true,
+      "d8_512_is_not_clean": true,
+      "d8_raw_512_unregister_failures_44": true,
+      "constant_math": true
+    },
+    "pass": true,
+    "bank_size": 49925652480,
+    "available_ram_bytes": 51429007360,
+    "expected_registered_bytes": 48563159040,
+    "expected_registered_gib": 45.22796630859375,
+    "d8_cumulative_ram_caveat": {
+      "first_four_before_values_chain_from_prior_after_unregister": true,
+      "before_512_minus_prior_after_unregister_bytes": 1949696,
+      "available_before_first_gib": 49.92033386230469,
+      "available_after_clean_499_gib": 4.340328216552734,
+      "available_after_512_attempt_gib": 3.1554298400878906,
+      "drop_first_before_to_after_clean_499_gib": 45.58000564575195,
+      "interpretation": "The sweep is cumulative, not five independent cold-start trials. Available RAM fell sharply and was not restored after clean unregisters, consistent with persistent residency/cache/OS effects. Thus 499 is the largest clean point observed in this sequence, not a stable monotone capacity guarantee or endurance result."
+    }
+  },
+  "cuda": {
+    "device": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU",
+    "runtime_version": 13020,
+    "cupy_version": "14.1.1",
+    "resolved_symbols": [
+      "canonical_swiglu_d7",
+      "host_to_smem_pipeline",
+      "staged_q5_down",
+      "staged_q5_gate_up",
+      "verify_record_bytes"
+    ]
+  },
+  "physical_actions": {
+    "host_registration": false,
+    "large_hbm_allocation": false,
+    "bank_sweep": false,
+    "timing": false
+  },
+  "error": null,
+  "wall_seconds": 4.995772199996281,
+  "claim_boundary": "Compile and read-only contract audit only; no 499-prefix registration, cold escape, correctness capture or timing."
+}

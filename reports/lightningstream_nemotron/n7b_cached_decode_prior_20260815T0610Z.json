@@ -1,0 +1,263 @@
+{
+  "kind": "lightningstream_nemotron_n7b_cached_decode",
+  "registry": "LIGHTNINGSTREAM_NEMOTRON",
+  "phase": "N7_B_CACHED_DECODE",
+  "started_utc": "2026-08-15T06:09:47.308192+00:00",
+  "completed_utc": "2026-08-15T06:10:35.822362+00:00",
+  "runner_sha256": "cae9ca11486f55bdf0683fa7967eb66845a5c714c6967f0de313c489f7f5f5f8",
+  "runtime_sha256": "f27b4125025309a634e5da025359e6edcddd7322b1d771d10611b41db032051a",
+  "capacity_per_layer": 72,
+  "cache_bytes": 4647186432,
+  "cache_gib": 4.328029632568359,
+  "device_total_bytes": 8546484224,
+  "device_used_bytes": 7385120768,
+  "device_free_end_bytes": 0,
+  "igpu_used": false,
+  "correctness": {
+    "top1": " Paris",
+    "coherent": true,
+    "n6a_expected": " Paris",
+    "generated": " humans started counting on their fingers. The first counting device was the abacus, invented around 3000 BC. It was used to perform basic arithmetic operations. In the 17th century, Blaise Pascal invented the Pascal"
+  },
+  "cache": {
+    "hits": 5993,
+    "misses": 1459,
+    "hit_rate": 0.8042136339237789,
+    "n7a_simulated_hit_rate_at_32": 0.65
+  },
+  "decode_all_tokens": {
+    "n": 49,
+    "mean": 38.3060224489796,
+    "p50": 38.006,
+    "p95": 40.168139999999994,
+    "p99": 41.97853199999999,
+    "max": 43.5033,
+    "min": 36.4733
+  },
+  "decode_warm_cache": {
+    "n": 17,
+    "mean": 37.77704117647059,
+    "p50": 37.5407,
+    "p95": 39.122060000000005,
+    "p99": 39.769932,
+    "max": 39.9319,
+    "min": 36.4733
+  },
+  "decode_cold_first_32": {
+    "n": 32,
+    "mean": 38.58704375,
+    "p50": 38.453900000000004,
+    "p95": 40.31966,
+    "p99": 42.51855400000001,
+    "max": 43.5033,
+    "min": 36.6239
+  },
+  "tok_s_warm_p50": 26.63775582234748,
+  "raw_per_token_ms": [
+    38.8471,
+    39.1328,
+    37.7548,
+    38.9687,
+    39.4137,
+    38.3134,
+    37.9191,
+    39.2755,
+    38.7469,
+    37.8959,
+    37.6283,
+    38.308,
+    38.3254,
+    39.1866,
+    39.9495,
+    40.3267,
+    40.3139,
+    39.2943,
+    37.6559,
+    38.6007,
+    36.8568,
+    39.195,
+    37.7378,
+    37.6962,
+    38.6711,
+    36.6239,
+    38.006,
+    37.4262,
+    37.4107,
+    43.5033,
+    38.5824,
+    37.2188,
+    37.7836,
+    38.013,
+    37.3663,
+    39.9319,
+    38.9196,
+    37.1489,
+    37.3741,
+    37.78,
+    37.0015,
+    37.5407,
+    38.7616,
+    38.1406,
+    36.4733,
+    37.6253,
+    37.5245,
+    37.4305,
+    37.3943
+  ],
+  "context_sweep_warm": {
+    "0": {
+      "context": 0,
+      "ms": {
+        "n": 16,
+        "mean": 36.17125,
+        "p50": 36.04465,
+        "p95": 37.322225,
+        "p99": 38.327645,
+        "max": 38.579,
+        "min": 34.5164
+      },
+      "raw_ms": [
+        36.2992,
+        36.0176,
+        36.3715,
+        36.5344,
+        36.3236,
+        34.5164,
+        36.0564,
+        36.0088,
+        35.9283,
+        35.9877,
+        36.0109,
+        34.5178,
+        36.0329,
+        38.579,
+        36.9033,
+        36.6522
+      ],
+      "tok_s_p50": 27.743368294601282,
+      "gpu": {
+        "used_mib": 7138,
+        "free_mib": 762,
+        "temp_c": 68,
+        "power_w": 60.71
+      }
+    },
+    "32768": {
+      "context": 32768,
+      "ms": {
+        "n": 16,
+        "mean": 38.309062499999996,
+        "p50": 38.16785,
+        "p95": 40.182975,
+        "p99": 40.464915000000005,
+        "max": 40.5354,
+        "min": 36.8841
+      },
+      "raw_ms": [
+        36.9412,
+        39.3369,
+        36.8841,
+        37.4317,
+        36.9894,
+        37.0521,
+        38.2207,
+        38.115,
+        40.5354,
+        38.4161,
+        39.3518,
+        37.0183,
+        37.8192,
+        40.0655,
+        39.2381,
+        39.5295
+      ],
+      "tok_s_p50": 26.20006104614224,
+      "gpu": {
+        "used_mib": 7138,
+        "free_mib": 762,
+        "temp_c": 71,
+        "power_w": 60.78
+      }
+    },
+    "131072": {
+      "context": 131072,
+      "ms": {
+        "n": 16,
+        "mean": 46.233774999999994,
+        "p50": 46.08545,
+        "p95": 47.91565,
+        "p99": 48.130810000000004,
+        "max": 48.1846,
+        "min": 44.9917
+      },
+      "raw_ms": [
+        45.6639,
+        44.9917,
+        45.5549,
+        45.7873,
+        45.6586,
+        46.4703,
+        45.2603,
+        45.5295,
+        45.8091,
+        48.1846,
+        46.6803,
+        46.3618,
+        47.826,
+        46.8686,
+        46.5437,
+        46.5498
+      ],
+      "tok_s_p50": 21.69882251339631,
+      "gpu": {
+        "used_mib": 7138,
+        "free_mib": 762,
+        "temp_c": 74,
+        "power_w": 59.24
+      }
+    },
+    "262100": {
+      "context": 262100,
+      "ms": {
+        "n": 16,
+        "mean": 54.24335625,
+        "p50": 54.27615,
+        "p95": 55.27255,
+        "p99": 55.37851,
+        "max": 55.405,
+        "min": 52.928
+      },
+      "raw_ms": [
+        55.2284,
+        54.5048,
+        53.0573,
+        53.7798,
+        52.928,
+        53.1738,
+        54.6181,
+        55.405,
+        53.7202,
+        53.911,
+        54.4096,
+        54.1116,
+        54.9395,
+        54.8125,
+        54.1427,
+        55.1514
+      ],
+      "tok_s_p50": 18.424298702100277,
+      "gpu": {
+        "used_mib": 7138,
+        "free_mib": 762,
+        "temp_c": 77,
+        "power_w": 62.15
+      }
+    }
+  },
+  "baseline_uncached": {
+    "ctx0_tok_s": 15.885,
+    "ctx4096_tok_s": 15.193,
+    "token_ms_ctx0": 62.95
+  },
+  "claim_boundary": "Measured batch-1 single-stream decode on this specific GPU with a per-layer LRU expert cache. Warm-cache figures exclude the first 32 tokens while the LRU fills, and that window is reported separately. NOT a quality result, benchmark score, or claim about other hardware, batch sizes, or prompts. Projections from N7-A are not measurements and are not restated here as such."
+}

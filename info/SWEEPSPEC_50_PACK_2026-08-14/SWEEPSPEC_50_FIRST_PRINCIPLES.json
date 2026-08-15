@@ -1,0 +1,59 @@
+{
+  "target_hardware": {
+    "gpu": "RTX PRO 2000 Blackwell Laptop GPU",
+    "vram_gib": 8.0,
+    "measured_h2d_gb_s": 26.03,
+    "device_bandwidth_gb_s": 384.0,
+    "system_ram_gib": 64
+  },
+  "nemotron_locked_baseline_tps": {
+    "short_context": 21.4,
+    "32k": 20.211,
+    "128k": 16.682,
+    "256k": 13.225
+  },
+  "accepted_tokens_required_for_50_tps_if_draft_hidden": {
+    "nemotron_short": 2.336448598130841,
+    "nemotron_32k": 2.47390035129385,
+    "nemotron_128k": 2.9972425368660836,
+    "nemotron_256k": 3.780718336483932
+  },
+  "qwen38_dense_projection": {
+    "q4_weight_gb_range": [
+      15.6,
+      17.1
+    ],
+    "device_resident_full_scan_floor_ms_range": [
+      40.625,
+      44.53125
+    ],
+    "offloaded_bytes_per_target_sweep_gb_example": 11.25,
+    "offloaded_sweep_floor_ms": 432.19362274298885,
+    "accepted_tokens_required_at_20ms_output": 21.609681137149444
+  },
+  "primary_metric": "accepted output tokens per target weight sweep",
+  "candidate_tree_sizes": [
+    1,
+    4,
+    8,
+    16,
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024
+  ],
+  "hard_go_no_go": {
+    "nemotron50": {
+      "minimum_mean_accepted_tokens": 3.0,
+      "maximum_round_ms_at_accepted_3": 60.0
+    },
+    "qwen38_50": {
+      "minimum_mean_accepted_tokens": 18.0,
+      "preferred_mean_accepted_tokens": 22.0,
+      "maximum_round_ms_per_accepted_token": 20.0,
+      "target_tree_verification_cost_multiple_vs_single_token": 1.5
+    }
+  }
+}

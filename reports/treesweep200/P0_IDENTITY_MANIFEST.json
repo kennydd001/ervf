@@ -1,0 +1,105 @@
+{
+  "kind": "treesweep200_p0_identity_manifest",
+  "created_utc": "2026-08-15T16:02:05.333750+00:00",
+  "model_dir": "nemotron_3_5_lightning_v35",
+  "architectures": [
+    "NemotronHForCausalLM"
+  ],
+  "hidden_size": 2688,
+  "layers": 52,
+  "layers_block_type_counts": {
+    "attention": 6,
+    "mamba": 23,
+    "moe": 23
+  },
+  "n_routed_experts": 128,
+  "n_shared_experts": 1,
+  "top_k": 6,
+  "mlp_hidden_act": "relu2",
+  "intermediate_size": 1856,
+  "num_attention_heads": 32,
+  "num_key_value_heads": 2,
+  "head_dim": 128,
+  "mamba": {
+    "head_dim": 64,
+    "num_heads": 64,
+    "chunk_size": 128,
+    "conv_kernel": 4
+  },
+  "num_nextn_predict_layers": 1,
+  "mtp_layers_block_type": [
+    "attention",
+    "moe"
+  ],
+  "quantization": null,
+  "vocab_size": 131072,
+  "identity_files": {
+    "config.json": {
+      "present": true,
+      "sha256": "f1d98b530846087dc08b574a219713a94f945bf6583dc7230a19ebf1e8c50933",
+      "bytes": 1337760
+    },
+    "generation_config.json": {
+      "present": true,
+      "sha256": "c67c90fcadf0e7ef78b663eb159664b36a35ffb9dd2523096e226e5c3d1b0e5f",
+      "bytes": 209
+    },
+    "hf_quant_config.json": {
+      "present": true,
+      "sha256": "529a5a524399ff5b68aabf8564db60b2fc62ad0a84b9c5038efc220c375e0938",
+      "bytes": 928085
+    },
+    "model.safetensors.index.json": {
+      "present": true,
+      "sha256": "3c3bc7efa8d658c2e909a0b9020eb0f72064e6647de348856af4dee9895bead9",
+      "bytes": 1905918
+    },
+    "tokenizer.json": {
+      "present": true,
+      "sha256": "623c34567aebb18582765289fbe23d901c62704d6518d71866e0e58db892b5b7",
+      "bytes": 17077484
+    },
+    "tokenizer_config.json": {
+      "present": true,
+      "sha256": "10f93eabcb9b1602fbb991d6308e787ce1df28ee9cd7a1c6d1e8c3f338b957bc",
+      "bytes": 177209
+    },
+    "chat_template.jinja": {
+      "present": true,
+      "sha256": "58933db77d3099b4f78c55a38347a72e1ea05b97d6bd8f38775303dc0194e0a9",
+      "bytes": 9867
+    }
+  },
+  "runtime_modules": {
+    "runtime.py": {
+      "present": true,
+      "sha256": "e387beccf64c2a8e0d315efb7313e2d038e8fd30423c304ca961aee2fbb856a2"
+    },
+    "gpu_kernels.py": {
+      "present": true,
+      "sha256": "7952af46810b0fdf5f56dd907f0d88cdbe2370f2271801448032c2dc37c46f41"
+    },
+    "fused_nvfp4.py": {
+      "present": true,
+      "sha256": "8eb0b504a394d3ee0a39df7b475b9e64bd2e7f38cb41bbb2ff12eadfc51b87a2"
+    },
+    "loader.py": {
+      "present": true,
+      "sha256": "c16ac40b43ac97fdf55809b1bd1412e028c28ee15226c5c9e1f6ac30cf3c2f0e"
+    },
+    "mtp.py": {
+      "present": true,
+      "sha256": "c3d2198fb6a38bd245c484c8dca5a57013c6cfe07ed1a500fb108a258de48cb8"
+    }
+  },
+  "inherited_locks": {
+    "v35_layout": {
+      "path": "reports\\lightningstream_nemotron\\n2r_v35_layout.json",
+      "sha256": "bb6a4ba6d9d60e17d5b6c6f7c243ecfde5e37e20248c7388a86053436fa985f3"
+    },
+    "mtp_wiring": {
+      "path": "reports\\lightningstream_nemotron\\s10a_wiring_resolution.json",
+      "sha256": "de79383beab62ea943f17a82bb3af2369e229496b0c9f6bc1d92831689a479ac"
+    }
+  }
+}

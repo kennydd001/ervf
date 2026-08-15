@@ -1,0 +1,188 @@
+{
+  "all_finite": true,
+  "artifact": "reports/runs/fleq_moe/p1/layer_00_expert_110.safetensors",
+  "artifact_sha256": "b4a945ff765214991655d6651852d61c080eca386cdaf0393cc971f438849d95",
+  "calibration_rows": 163,
+  "code_summaries": {
+    "gptq_2bit": {
+      "down": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 371114,
+          "-2": 98905,
+          "0": 657892,
+          "1": 444953
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "gate": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 366719,
+          "-2": 90941,
+          "0": 681295,
+          "1": 433909
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "up": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 369163,
+          "-2": 93693,
+          "0": 671866,
+          "1": 438142
+        },
+        "scales": 12288,
+        "weights": 1572864
+      }
+    },
+    "gsq_2bit": {
+      "down": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 371436,
+          "-2": 103272,
+          "0": 651174,
+          "1": 446982
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "gate": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 367660,
+          "-2": 95230,
+          "0": 673336,
+          "1": 436638
+        },
+        "scales": 12288,
+        "weights": 1572864
+      },
+      "up": {
+        "codes_in_range": true,
+        "effective_bits_per_weight_including_bf16_scales": 2.125,
+        "histogram": {
+          "-1": 369633,
+          "-2": 98248,
+          "0": 664376,
+          "1": 440607
+        },
+        "scales": 12288,
+        "weights": 1572864
+      }
+    }
+  },
+  "completed_utc": "2026-08-11T11:43:20.051793+00:00",
+  "elapsed_seconds": 43.8210412000044,
+  "expert": 110,
+  "fallback_bit_exact": true,
+  "gsq_losses": [
+    0.00014567439211532474,
+    0.00010682525316951796,
+    6.399783887900412e-05,
+    5.4235926654655486e-05,
+    3.555440343916416e-05,
+    2.798637251544278e-05,
+    2.5572580852895044e-05,
+    2.84226807707455e-05,
+    2.909415343310684e-05,
+    2.502709139662329e-05,
+    2.8052734705852345e-05,
+    2.6412166334921494e-05,
+    3.017840390384663e-05,
+    2.6468096621101722e-05,
+    3.0036098905839026e-05,
+    2.608525028335862e-05,
+    3.057309368159622e-05,
+    2.646399661898613e-05,
+    3.315056528663263e-05,
+    2.8747481337632053e-05
+  ],
+  "heldout_gsq_improvement_over_gptq": -0.16013811348584078,
+  "heldout_rows": 115,
+  "kind": "fleq_moe_p1_expert_result",
+  "layer": 0,
+  "metrics": {
+    "gptq_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9980277419090271,
+        "relative_l2": 0.039862390607595444,
+        "relative_row_p50": 0.05652964115142822,
+        "relative_row_p95": 0.10678738355636597,
+        "router_weighted_relative_mse": 0.0012550109531730413,
+        "rows": 163
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9635496735572815,
+        "relative_l2": 0.3176482319831848,
+        "relative_row_p50": 0.17827606201171875,
+        "relative_row_p95": 0.46472468972206116,
+        "router_weighted_relative_mse": 0.10266447812318802,
+        "rows": 115
+      }
+    },
+    "gsq_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9874136447906494,
+        "relative_l2": 0.1615639179944992,
+        "relative_row_p50": 0.16373701393604279,
+        "relative_row_p95": 0.24090440571308136,
+        "router_weighted_relative_mse": 0.025722935795783997,
+        "rows": 163
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9515736699104309,
+        "relative_l2": 0.3435564637184143,
+        "relative_row_p50": 0.23743976652622223,
+        "relative_row_p95": 0.5058227777481079,
+        "router_weighted_relative_mse": 0.11910497397184372,
+        "rows": 115
+      }
+    },
+    "rtn_2bit": {
+      "calibration": {
+        "all_finite": true,
+        "cosine_mean": 0.9436434507369995,
+        "relative_l2": 0.3942019045352936,
+        "relative_row_p50": 0.3868093490600586,
+        "relative_row_p95": 0.49422308802604675,
+        "router_weighted_relative_mse": 0.15545763075351715,
+        "rows": 163
+      },
+      "heldout": {
+        "all_finite": true,
+        "cosine_mean": 0.9403732419013977,
+        "relative_l2": 0.39151036739349365,
+        "relative_row_p50": 0.3864271640777588,
+        "relative_row_p95": 0.48815008997917175,
+        "router_weighted_relative_mse": 0.15326650440692902,
+        "rows": 115
+      }
+    }
+  },
+  "original_weight_sha256": {
+    "down": "23f47feb7b6018c3ac0e072538cfe67d408863ece3a94ab8c8a827f47f3d4925",
+    "gate": "836eeda3b825923f379c7dba6200284bd71a867301afe0538157e126be8d309c",
+    "up": "148eb97293f1bb3efad6d96ad4db4a610218e58ab06082bdafa1b46d7c13af75"
+  },
+  "peak_cuda_allocated_bytes": 318264320,
+  "peak_cuda_reserved_bytes": 354418688,
+  "process_rss_peak_observed_bytes": 2319630336,
+  "repeat_exact": null,
+  "repeat_losses": null,
+  "repeat_required": false,
+  "selection_lock_sha256": "99038787f6aee75f18db40c7dd879bd090ffbe4dc659bc07143b2b8f77e26257"
+}

@@ -1,0 +1,222 @@
+{
+  "kind": "lightningstream_nemotron_w1_independent_verification",
+  "completed_utc": "2026-08-15T12:23:40.059875+00:00",
+  "verifier_sha256": "9f61cbba210e3a1d946953cfbdf5e8bb1eb4c3113b52ef4b00cfb2a8f5ab44de",
+  "verified_file_sha256": "e2d3893525c2dbb7df75f7d72c0a9752335e055fb103eaefa6b06fb5996863a1",
+  "recomputed": {
+    "0": {
+      "base": 39.87695,
+      "fast": 37.67105,
+      "drift": 0.04749999999999943,
+      "gain": 2.2058999999999997,
+      "relative": 0.05531767098536873,
+      "conclusive": true,
+      "within_s14": true
+    },
+    "131072": {
+      "base": 49.144400000000005,
+      "fast": 48.70585,
+      "drift": 2.5914,
+      "gain": 0.43855000000000643,
+      "relative": 0.008923702395390042,
+      "conclusive": false,
+      "within_s14": true
+    },
+    "262100": {
+      "base": 58.383875,
+      "fast": 57.87265,
+      "drift": 4.520049999999998,
+      "gain": 0.5112250000000031,
+      "relative": 0.008756270459951539,
+      "conclusive": false,
+      "within_s14": true
+    }
+  },
+  "gates": {
+    "G_W1_C1": true,
+    "G_W1_P1": false,
+    "G_W1_D1": {
+      "0": true,
+      "131072": false,
+      "262100": false
+    },
+    "G_W1_S1": {
+      "0": true,
+      "131072": true,
+      "262100": true
+    }
+  },
+  "checks": [
+    {
+      "check": "fast_host is declared and defaults to False",
+      "ok": true
+    },
+    {
+      "check": "the fast path is a separate method, not an edit of _moe_cached",
+      "ok": true
+    },
+    {
+      "check": "runtime.py on disk hashes to the measured value",
+      "ok": true
+    },
+    {
+      "check": "reference generation is 2 prompts x 64 tokens",
+      "ok": true
+    },
+    {
+      "check": "base1: generation identical to base1",
+      "ok": true
+    },
+    {
+      "check": "fast: generation identical to base1",
+      "ok": true
+    },
+    {
+      "check": "base2: generation identical to base1",
+      "ok": true
+    },
+    {
+      "check": "exactly one arm ran with fast_host on",
+      "ok": true
+    },
+    {
+      "check": "base1@0: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base1@0: at least 32 samples",
+      "ok": true,
+      "n": 32
+    },
+    {
+      "check": "fast@0: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "fast@0: at least 32 samples",
+      "ok": true,
+      "n": 32
+    },
+    {
+      "check": "base2@0: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base2@0: at least 32 samples",
+      "ok": true,
+      "n": 32
+    },
+    {
+      "check": "gain@0 reproduces",
+      "ok": true,
+      "recomputed": 2.2058999999999997
+    },
+    {
+      "check": "conclusiveness@0 reproduces",
+      "ok": true
+    },
+    {
+      "check": "gain@0 within the S14 host_gap bound",
+      "ok": true
+    },
+    {
+      "check": "base1@131072: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base1@131072: at least 32 samples",
+      "ok": true,
+      "n": 32
+    },
+    {
+      "check": "fast@131072: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "fast@131072: at least 32 samples",
+      "ok": true,
+      "n": 32
+    },
+    {
+      "check": "base2@131072: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base2@131072: at least 32 samples",
+      "ok": true,
+      "n": 32
+    },
+    {
+      "check": "gain@131072 reproduces",
+      "ok": true,
+      "recomputed": 0.43855000000000643
+    },
+    {
+      "check": "conclusiveness@131072 reproduces",
+      "ok": true
+    },
+    {
+      "check": "gain@131072 within the S14 host_gap bound",
+      "ok": true
+    },
+    {
+      "check": "base1@262100: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base1@262100: at least 32 samples",
+      "ok": true,
+      "n": 32
+    },
+    {
+      "check": "fast@262100: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "fast@262100: at least 32 samples",
+      "ok": true,
+      "n": 32
+    },
+    {
+      "check": "base2@262100: p50 reproduces from raw samples",
+      "ok": true
+    },
+    {
+      "check": "base2@262100: at least 32 samples",
+      "ok": true,
+      "n": 32
+    },
+    {
+      "check": "gain@262100 reproduces",
+      "ok": true,
+      "recomputed": 0.5112250000000031
+    },
+    {
+      "check": "conclusiveness@262100 reproduces",
+      "ok": true
+    },
+    {
+      "check": "gain@262100 within the S14 host_gap bound",
+      "ok": true
+    },
+    {
+      "check": "G-W1-C1 verdict agrees with the runner",
+      "ok": true
+    },
+    {
+      "check": "G-W1-P1 verdict agrees with the runner",
+      "ok": true,
+      "recomputed_gain_at_deep": 0.5112250000000031
+    },
+    {
+      "check": "adoption threshold is still the preregistered 1.0 ms",
+      "ok": true
+    },
+    {
+      "check": "result carries a claim boundary",
+      "ok": true
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

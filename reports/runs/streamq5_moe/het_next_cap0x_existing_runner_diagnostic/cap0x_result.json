@@ -1,0 +1,76 @@
+{
+  "kind": "het_next_cap0x_existing_runner_concurrency_diagnostic",
+  "status": "exploratory_concurrency_diagnostic_negative",
+  "positive": false,
+  "started_utc": "2026-08-13T18:39:33.153568+00:00",
+  "wall_ms": 2180.9457,
+  "bindings": {
+    "preregistration_sha256": "bb50316c07c33d7cfc8aa4ca5e087e19cd3e478560cfe5636bd44d7938b52aa5",
+    "coordinator_sha256": "7c4642e8cf1bf3aa4a8bcbdbd3ebbc568f1f65565d5c3b0361ab8bc8f717d90e",
+    "intel_runner_sha256": "6472de274fa68a9f577b1483ef1225607f8425ac8587cb348d0c328cff7126ca",
+    "nvidia_runner_sha256": "26d4daba81d5f132857f9b584dfb12f3634874a2e9ee2290f9221c486ef4059a"
+  },
+  "processes": {
+    "nvidia": {
+      "pid": 1828,
+      "start_qpc_ns": 260392852230800,
+      "command": [
+        "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv\\Scripts\\python.exe",
+        "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\scripts\\streamq5_moe\\run_het_next_cap0x_existing_runner_diagnostic.py",
+        "--role",
+        "nvidia"
+      ],
+      "end_qpc_ns": 260395031739100,
+      "exit_code": 1,
+      "final_exit_code": 1,
+      "alive_after_wait": false,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "b3c13b54ed18f31a9e18bf1f4e4bc2b96f12c55ff81d057ef699367a905e047d"
+    },
+    "intel": {
+      "pid": 19224,
+      "start_qpc_ns": 260392869887900,
+      "command": [
+        "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv\\Scripts\\python.exe",
+        "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\scripts\\streamq5_moe\\run_het_next_cap0x_existing_runner_diagnostic.py",
+        "--role",
+        "intel"
+      ],
+      "end_qpc_ns": 260395031740800,
+      "exit_code": 1,
+      "final_exit_code": 1,
+      "alive_after_wait": false,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ce51cd15628d2ae08a42a798f10927c978ced48daff550c4e4ec56e27eafaa82"
+    }
+  },
+  "monitor_samples": [
+    {
+      "qpc_ns": 260392875213200,
+      "alive": {
+        "nvidia": true,
+        "intel": true
+      },
+      "nvidia_smi_error": "TimeoutExpired: Command '['nvidia-smi', '--query-gpu=utilization.gpu,memory.used,temperature.gpu', '--format=csv,noheader,nounits']' timed out after 2 seconds"
+    },
+    {
+      "qpc_ns": 260395031706200,
+      "alive": {
+        "nvidia": false,
+        "intel": false
+      }
+    }
+  ],
+  "intel_result_sha256": null,
+  "nvidia_result_sha256": null,
+  "gates": {
+    "both_exit_zero": false,
+    "strict_process_interval_overlap": true,
+    "intel_existing_runner_correctness_retained": false,
+    "nvidia_existing_runner_correctness_retained": false,
+    "no_surviving_child": true,
+    "coordinator_error_absent": true
+  },
+  "error": null,
+  "claim_boundary": "Exploratory overlap of existing runner process lifetimes only; no proof of kernel overlap, same-process coexistence, hybrid speedup, model quality, deployment, or breakthrough."
+}

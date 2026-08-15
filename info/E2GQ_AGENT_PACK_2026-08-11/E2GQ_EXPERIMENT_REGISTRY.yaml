@@ -1,0 +1,52 @@
+project: E2GQ_MOE
+codename: EntropyExactGPTQ
+created_at: 2026-08-11
+status: proposed_new_independent_registry
+parents:
+  - project: FLEQ_MOE
+    status: p1_closed_negative
+    inherited_claim: GSQ-specific hypothesis remains falsified
+positive_precondition:
+  source_zip_sha256: a33000d365afa6a7001a645bb112f358f20d4a3d3e6040eeeda9209c8158f6d2
+  locked_experts: 16
+  locked_matrices: 48
+  gptq_code_entropy_bpp: 1.782864891374
+  bf16_group128_scale_bpp: 0.125000000000
+  ideal_exact_total_bpp: 1.907864891374
+  all_locked_experts_below_2bpp: true
+  all_locked_matrices_below_2bpp: true
+hypothesis:
+  id: E2GQ_EXACT_ENTROPY_PACK
+  statement: >-
+    The existing 2-bit GPTQ assignments for a modern Qwen3 MoE can be
+    represented losslessly below 2.0 effective bits per routed weight,
+    including scales and actual runtime metadata, and decoded directly fast
+    enough to support laptop inference.
+  novelty_claim: false
+phases:
+  - id: P0_FULL_BANK_ENTROPY_CENSUS
+    status: pending
+  - id: P1_BIT_EXACT_PACK
+    status: blocked_by_P0
+  - id: P2_THREE_LAYER_SEMANTIC_EQUIVALENCE
+    status: blocked_by_P1
+  - id: P3_FULL_MODEL_GPTQ
+    status: blocked_by_P2
+  - id: P4_ENTROPY_FUNDED_RANK8_REPAIR
+    status: conditional_on_P3_near_miss
+  - id: P5_FUSED_RUNTIME
+    status: blocked_by_quality
+  - id: P6_SECOND_FAMILY
+    status: blocked_by_runtime
+final_gates:
+  actual_routed_bpp_including_all_metadata_max: 2.0
+  relative_ce_delta_max: 0.02
+  rollout_tokens_min: 512
+  peak_vram_gib_max: 8.0
+  process_ram_gib_max: 32.0
+  batch1_tokens_per_second_min: 10.0
+  second_family_required: true
+claim_boundary:
+  - Entropy coding is prior art.
+  - Low-rank quantization-error correction is prior art.
+  - No full-model quality or runtime claim exists yet.

@@ -1,0 +1,35 @@
+{
+  "kind": "port80b_d3_mapped_host_kernel",
+  "completed_utc": "2026-08-12T21:18:33.939235+00:00",
+  "status": "mapped_host_kernel_negative",
+  "mechanism_pass": false,
+  "strong_pass": false,
+  "full_bank_pass": false,
+  "set_device_map_host": {
+    "success": false,
+    "error": "AttributeError: module 'cupy_backends.cuda.api.runtime' has no attribute 'setDeviceFlags'"
+  },
+  "inputs": {
+    "preregistration_sha256": "9f661ba95e4b093fdb5e8964d45e5fc276d4c67e2afba3b067c7076df59e0067",
+    "evaluator_sha256": "214d33d7c3d11264612492db9b3fdb91c793e9a8d69986e23fd04d6133498085",
+    "manifest_sha256": "466250b39c5f28c8b5b2f7432904100adf8c9e8c246c860a233cdf4b9aeb412c",
+    "bank_sha256_from_manifest": "4a97af22833b239badc065d9c065ca259c791a84218640946d68c4e72e034462"
+  },
+  "protocol": {
+    "experts_per_layer": 307,
+    "schedules_blocks": [
+      512,
+      1024,
+      2048,
+      4096
+    ],
+    "threads": 256,
+    "validation_warmups": 6,
+    "validation_rounds": 24,
+    "test_rounds": 120
+  },
+  "error": "CompileException: C:\\Users\\de_do\\AppData\\Local\\Temp\\tmpgis9_9_w\\503868b087c8b7e5f8a4fa59611d642a666b61b4.cubin.cu(2): catastrophic error: cannot open source file \"stdint.h\"\n  #include <stdint.h>\n                     ^\n\n1 catastrophic error detected in the compilation of \"C:\\Users\\de_do\\AppData\\Local\\Temp\\tmpgis9_9_w\\503868b087c8b7e5f8a4fa59611d642a666b61b4.cubin.cu\".\nCompilation terminated.\n",
+  "unregister_failures": [],
+  "wall_seconds": 7.723630899999989,
+  "claim_boundary": "60%-bank mapped-host byte-copy kernel only; no Q5 arithmetic, full-bank capacity, real model, quality, dense shell, tok/s or endurance claim."
+}

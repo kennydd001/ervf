@@ -1,0 +1,101 @@
+{
+  "kind": "port80b_p0_preflight_dry_run",
+  "completed_utc": "2026-08-12T19:15:13.459126+00:00",
+  "status": "safe_dry_run_complete_waiting_for_timing_go",
+  "inputs": {
+    "preregistration_sha256": "ed2eac37abc620089f4992b2a5f9742a12adc211aa90d32cbbdb934908607983",
+    "script_sha256": "0c8f152ec56acf27f4c201373b80dbfd6763563e519c96b7d7538d7b2477400d",
+    "registry_sha256": "e521eaae3fd10a47add554bd7ed54ffa6e8ca8b039a74b13e37bfa88632a18da",
+    "n4a_sha256": "f24482e9223d64dd0e9b60e9f4d611613260690846aad2d4ebed7aca0cdafdc3",
+    "n4br_sha256": "08a74ab10ab1e89bd7c04863dd2a1dbcbc541db9b548dac712ec7a2b4666a917",
+    "capacity_sha256": "b2851be9c579b4152e143a04dba76360eca5859e2f1106ecc735e095a42bed14"
+  },
+  "compile_and_contract": {
+    "compile_ok": true,
+    "constant_math_matches_n4a_n4br": true,
+    "windows": true,
+    "numpy_version": "2.2.6",
+    "psutil_version": "7.2.2",
+    "cupy_discoverable_without_import": true,
+    "nvidia_smi_discoverable_without_execution": true,
+    "pdh_available": true,
+    "pdh_smoke_error": null,
+    "pdh_smoke_samples": [
+      {
+        "utc": "2026-08-12T19:15:12.500620+00:00",
+        "monotonic_seconds": 176134.3788432,
+        "page_reads_per_sec": 30.725038557445565,
+        "pages_input_per_sec": 151.64293223513457
+      }
+    ],
+    "wpr_available_for_optional_raw_trace": true
+  },
+  "physical_contract": {
+    "layers": 48,
+    "routed_experts_per_layer": 512,
+    "shared_experts_per_layer": 1,
+    "expert_records": 24624,
+    "matrix_records": 73872,
+    "header_bytes": 64,
+    "code_bytes_per_matrix": 655360,
+    "scale_bytes_per_matrix": 16384,
+    "padding_bytes_per_matrix": 4032,
+    "matrix_bytes": 675840,
+    "expert_bytes": 2027520,
+    "bank_bytes": 49925652480,
+    "bank_gib": 46.49688720703125,
+    "pinned_windows": 8,
+    "pinned_bytes": 16220160,
+    "cache_4k_slots": 2420,
+    "cache_4k_bytes": 4906598400,
+    "cache_32k_slots": 2072,
+    "cache_32k_bytes": 4201021440
+  },
+  "disk_impact": {
+    "volume_total_bytes": 1021821579264,
+    "volume_free_before_bytes": 273006895104,
+    "bank_logical_and_minimum_allocated_bytes": 49925652480,
+    "free_after_build_bytes": 223081242624,
+    "free_after_build_gib": 207.7605972290039,
+    "sufficient_for_bank_plus_100gib_reserve": true,
+    "bank_preexists": false,
+    "partial_preexists": false
+  },
+  "ram_and_device_impact": {
+    "total_physical": 68103761920,
+    "available_physical": 44751814656,
+    "used_physical": 23351947264,
+    "swap_total": 21368033280,
+    "swap_used": 1440681984,
+    "readonly_mapping_virtual_address_bytes": 49925652480,
+    "maximum_clean_file_working_set_bytes": 49925652480,
+    "eight_pinned_host_windows_bytes": 16220160,
+    "physical_ram_left_if_entire_bank_and_pinned_resident_bytes": 18161889280,
+    "current_available_minus_bank_and_pinned_bytes": -5190057984,
+    "zero_cache_device_ring_bytes": 16220160,
+    "cache_4k_device_bytes": 4906598400,
+    "cache_32k_device_bytes": 4201021440,
+    "reference_host_accounted_plus_reserve_bytes_from_n4a": 51331641344,
+    "process_commit_gate_bytes": 62277025792
+  },
+  "planned_work": {
+    "primary_tokens": 30000,
+    "zero_cache_tokens": 10000,
+    "cache_4k_tokens": 10000,
+    "cache_32k_tokens": 10000,
+    "minimum_uninterrupted_benchmark_seconds": 3600,
+    "zero_cache_bytes_per_token": 973209600,
+    "zero_cache_primary_transfer_bytes": 9732096000000,
+    "hard_fault_measurement": "system-wide PDH Page Reads/sec + Pages Input/sec; process total page faults logged separately"
+  },
+  "safety": {
+    "physical_file_created_by_this_run": false,
+    "cupy_imported_by_this_run": false,
+    "pinned_or_device_memory_allocated_by_this_run": false,
+    "gpu_work_executed_by_this_run": false,
+    "required_acknowledgement_for_build_or_benchmark": "PORT80B_P0_49925652480",
+    "timing_go_received": false
+  },
+  "next_action": "report exact impact and wait for a separate timing-go; do not build or use CUDA yet",
+  "claim_boundary": "Compile/safety/disk/RAM dry-run only; no physical bank, CUDA work, performance or 80B claim."
+}

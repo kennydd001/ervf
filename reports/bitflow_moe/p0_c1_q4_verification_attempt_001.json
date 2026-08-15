@@ -1,0 +1,88 @@
+{
+  "checks": {
+    "all_26_repair_hashes": true,
+    "all_52_matrix_shapes": true,
+    "all_repair_dtypes_bf16": true,
+    "all_test_decomposition_controls": true,
+    "all_validation_decomposition_controls": true,
+    "historical_q4_baseline_exact": false,
+    "input_artifact_hash": true,
+    "late_explosion_formula": true,
+    "linear_branch_closed": true,
+    "preregistration_hash": true,
+    "primary_gates_fail": true,
+    "repair_parameter_accounting": true,
+    "test_logits_hash": true,
+    "test_metrics_from_raw_logits": false,
+    "test_opened_once": true,
+    "test_progression_fails": true,
+    "test_recovery_formula": false,
+    "test_validation_hash": true,
+    "validation_input_hashes": true,
+    "validation_logits_hash": true,
+    "validation_metrics_from_raw_logits": false,
+    "validation_progression_fails": true,
+    "validation_recovery_formula": false
+  },
+  "checks_passed": 18,
+  "checks_total": 23,
+  "claim_boundary": "Verified data-limited dense C1/Q4 failure. C0/C2/Q3/syndrome/runtime remain unopened.",
+  "completed_utc": "2026-08-11T16:53:32.201315+00:00",
+  "final_verdict": "verification_failed",
+  "kind": "bitflow_moe_p0_c1_q4_independent_verification",
+  "reproduced": {
+    "test": {
+      "baseline_q4": {
+        "ce": 2.4427683353424072,
+        "delta": 0.11459541320800781,
+        "kl_mean": 0.15072427690029144,
+        "kl_p95": 0.2660789489746094,
+        "relative": 0.04922117665410042,
+        "teacher_ce": 2.3281729221343994,
+        "top1": 0.9140625
+      },
+      "recovery": {
+        "value": -3.9501735157537325
+      },
+      "repaired": {
+        "ce": 2.895440101623535,
+        "delta": 0.5672671794891357,
+        "kl_mean": 0.6253408789634705,
+        "kl_p95": 1.4630576372146606,
+        "relative": 0.24365337193012238,
+        "teacher_ce": 2.3281729221343994,
+        "top1": 0.75
+      }
+    },
+    "validation": {
+      "baseline_q4": {
+        "ce": 2.0352859497070312,
+        "delta": 0.0922403335571289,
+        "kl_mean": 0.12907198071479797,
+        "kl_p95": 0.15612733364105225,
+        "relative": 0.0474720373749733,
+        "teacher_ce": 1.9430456161499023,
+        "top1": 0.9140625
+      },
+      "recovery": {
+        "value": -6.459445208382874
+      },
+      "repaired": {
+        "ce": 2.6311073303222656,
+        "delta": 0.6880617141723633,
+        "kl_mean": 0.6807848811149597,
+        "kl_p95": 2.06455659866333,
+        "relative": 0.3541150689125061,
+        "teacher_ce": 1.9430456161499023,
+        "top1": 0.71484375
+      }
+    }
+  },
+  "source_hashes": {
+    "test_logits": "4f93be769cab54d837e823dd21f1088206ce36e1878094fec3025e62f71e60e5",
+    "test_result": "557155d5444d3623153d4f8a7217cf2c1435580ceb62ec2a5308519671a817af",
+    "validation_logits": "8b3ff02c9a9132e8bfa8a07ddd3a7bc2856dcd0d5149470f4fbe1b301c933c93",
+    "validation_result": "2b59e837bcb0757c359f062066e84b2b03f86528143f5644b7604a841f0fb142"
+  },
+  "verification_pass": false
+}

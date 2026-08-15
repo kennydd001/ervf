@@ -1,0 +1,58 @@
+{
+  "kind": "streamq5_moe_n3a2_independent_verification",
+  "status": "pass",
+  "checks_passed": 12,
+  "checks_total": 12,
+  "checks": [
+    {
+      "name": "kind",
+      "pass": true
+    },
+    {
+      "name": "prereg hash",
+      "pass": true
+    },
+    {
+      "name": "script hash",
+      "pass": true
+    },
+    {
+      "name": "concat_qkv outputs exact",
+      "pass": true
+    },
+    {
+      "name": "concat_qkv KV exact",
+      "pass": true
+    },
+    {
+      "name": "head_flow outputs exact",
+      "pass": true
+    },
+    {
+      "name": "head_flow KV exact",
+      "pass": true
+    },
+    {
+      "name": "selection",
+      "pass": true
+    },
+    {
+      "name": "validation gate",
+      "pass": true
+    },
+    {
+      "name": "test outputs exact",
+      "pass": true
+    },
+    {
+      "name": "test KV exact",
+      "pass": true
+    },
+    {
+      "name": "test timing gates",
+      "pass": true
+    }
+  ],
+  "preregistration_count_erratum": "The prose says 294,912 Q/K/V FP32 outputs; all actual tensors are 48*(4096+512+512)=245,760. Scope and gate are all Q/K/V and were fully evaluated.",
+  "claim_boundary": "Physical resident 48-layer RMSNorm/QKV/QK-norm/RoPE/KV-write component flow only; no attention values, expert path, full decoder, quality, cross-GPU or SOTA claim."
+}

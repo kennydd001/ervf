@@ -1,0 +1,66 @@
+registry_id: OFFLOAD_ROOFLINE_V1
+created_at: 2026-08-11
+updated_at: 2026-08-12
+status: closed_mixed_results_no_deployable_eureka
+source_analysis: info/OFFLOAD_ROOFLINE_ANALYSE_2026-08-11.md
+evidence_class: mixed_existing_opened_traces_and_new_hardware_measurement
+proposals:
+  P_A_QWEN_WALLCLOCK:
+    status: original_q4_runtime_unexecuted_related_coretail_q2_route_closed_on_quality
+    required: full_bank_4bit_GPTQ_runtime_with_async_expert_cache
+    audit: reports/offload_roofline/remaining_proposal_audit.json
+    followup:
+      exact_q2_gptq_bank_experts: 6144
+      coretail_physical_format: verified_pass
+      coretail_microkernel: verified_pass
+      coretail_full_depth_quality: verified_negative
+      integrated_wall_clock_authorized: false
+      note: The CORETAIL Q2 route does not substitute for the registered Q4 async-cache runtime.
+  P_B_ONLINE_RESIDENCY:
+    status: negative_verified
+    preregistration: reports/offload_roofline/P_B_LFU_PREREGISTRATION.md
+    result: reports/offload_roofline/p_b_lfu_result.json
+    verification: reports/offload_roofline/p_b_lfu_verification.json
+  P_C_K3_ROOFLINE:
+    status: hardware_leg_verified_full_claim_blocked
+    preregistration: reports/offload_roofline/P_C_H2D_ROOFLINE_PREREGISTRATION.md
+    result: reports/offload_roofline/p_c_h2d_result.json
+    verification: reports/offload_roofline/p_c_h2d_verification.json
+  P_D_SPECULATIVE_DECODING:
+    status: qwen_union_measured_acceptance_blocked
+    preregistration: reports/offload_roofline/P_D_UNION_PREREGISTRATION.md
+    result: reports/offload_roofline/remaining_proposal_audit.json
+    verification: reports/offload_roofline/remaining_proposal_audit_verification.json
+  P_E_NEURON_PERMUTATION:
+    status: negative_verified
+    preregistration: reports/offload_roofline/P_E_PERMUTATION_PREREGISTRATION.md
+    result: reports/offload_roofline/p_e_permutation_result.json
+    verification: reports/offload_roofline/p_e_permutation_verification.json
+outcomes:
+  P_B:
+    all_domain_means_le_3: true
+    all_domain_p99_le_12: false
+    switches_recover_le_200: 3/20
+    resident_gib_at_4700: 5.7023071106523275
+    independent_checks: 14/14
+  P_C:
+    pinned_h2d_median_gb_s_512mib: 26.158915272090432
+    conditional_k3_ceiling_tps_at_external_27_28gb: 0.9589045187716434
+    full_k3_claim_proven: false
+    independent_checks: 15/15
+  P_D:
+    recomputed_uniform_k3_unique_experts_depth8: 120.27942703324378
+    supplied_value_118_6_correct: false
+    acceptance_measured: false
+  P_E:
+    validation_spectral_to_neuron_kl_ratio: 5.014395828875988
+    test_spectral_to_neuron_kl_ratio: 8.322015230891221
+    reconstruction_bit_exact: false
+    independent_checks: 18/18
+regression_tests_current_repository: 156/156
+final_report: reports/offload_roofline/FINAL_VERDICT.md
+claim_boundary:
+  - P-B is exploratory because HERA routes and earlier cache outcomes were already opened.
+  - P-C can measure the local H2D leg, but K3 trunk bytes and 64-token decode require a local K3 checkpoint/runtime.
+  - Algebraic projections are not substituted for missing wall-clock or quality measurements.
+  - The later CORETAIL full-bank work removes the historical 16-expert availability statement only for its exact Q2 route; the original Q4 P-A runtime remains unexecuted.

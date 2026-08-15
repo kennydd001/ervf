@@ -1,0 +1,9 @@
+# HET-NEXT-L0 PH1 NVIDIA NC19I0 compile-only implementation preregistration
+
+Status: frozen source candidate; static preflight, NVRTC compilation, payload, CUDA Driver, runtime, and device execution are closed. This fresh namespace implements the NC19 design without modifying or occupying any immutable NC19 design path. It directly binds the NC19 independent design audit SHA-256 `e8cad87b9fc8ede45df3d7cd41df6d0802d178cb65c3bf7814a36df4ab59275e`.
+
+The candidate compiles the immutable 6,173-byte N5 CUDA source SHA-256 `9f369ab3621c6d56b2a3597bca59c25be8d15e7ac3a2a150d916d6695623a781` with one NVRTC 13.3 program and the exact seven-option `sm_120`, no-FTZ, non-fast-math option vector. It retrieves one canonical build log, PTX, and CUBIN and records the exact ten-operation ledger, one program identity, Win64 loader ABI, DLL-directory/HMODULE/program ownership, cleanup, cache environment/history, invocation, toolchain, and exclusions. It never imports or calls nvcuda, cudart, CuPy, model, or scientific payload code.
+
+The import-inert stdlib contract is shared by runner and preflight for topology, environment, compile-state, transaction, failure, and terminal functions. The postcommit verifier imports no candidate runner or contract. The physical runner invokes that verifier in an isolated `.venv` `-I -B` subprocess before promotion. All positive, numerical/toolchain-negative, incidental, postcommit, verifier-negative, quarantine, and in-progress roots are create-new and initially absent.
+
+Only source parsing, AST checks, `py_compile`, hashes, and absence checks are permitted before independent source audit. A later static-preflight authorization must be a fresh immutable revision; a later compiler authorization must separately bind that PASS evidence. No call is authorized by this preregistration.

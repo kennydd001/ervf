@@ -1,0 +1,111 @@
+{
+  "created_at_utc": "2026-08-09T18:34:18.791456+00:00",
+  "git_revision": null,
+  "kind": "checkpoint_layout",
+  "payload": {
+    "config_sha256": "f346286b0f1c8b044252fd54cb4fa78b9fab6472a6e8bebb9edfe03d414ea03d",
+    "expected_moe_layout": {
+      "active_routed_bf16_mib_per_token_per_layer": 99.0,
+      "active_routed_parameters_per_token_per_layer": 51904512,
+      "expected_expert_shapes": {
+        "down_proj.weight": [
+          2048,
+          1408
+        ],
+        "gate_proj.weight": [
+          1408,
+          2048
+        ],
+        "up_proj.weight": [
+          1408,
+          2048
+        ]
+      },
+      "gate_parameters_per_layer": 131072,
+      "hidden_size": 2048,
+      "moe_intermediate_size": 1408,
+      "moe_layers": 26,
+      "per_expert_bf16_mib": 16.5,
+      "per_expert_parameters": 8650752,
+      "routed_bf16_gib_per_layer": 1.031,
+      "routed_experts": 64,
+      "routed_parameters_per_layer": 553648128,
+      "selected_experts_per_token": 6,
+      "shared_bf16_mib_per_layer": 33.0,
+      "shared_experts": 2,
+      "shared_parameters_per_layer": 17301504
+    },
+    "layers": [
+      {
+        "layer": 1,
+        "missing_shards": [
+          "model-00001-of-000004.safetensors"
+        ],
+        "required_shards": [
+          "model-00001-of-000004.safetensors"
+        ],
+        "status": "waiting_for_shards",
+        "tensor_count_from_index": 203
+      },
+      {
+        "layer": 13,
+        "missing_shards": [
+          "model-00002-of-000004.safetensors"
+        ],
+        "required_shards": [
+          "model-00002-of-000004.safetensors"
+        ],
+        "status": "waiting_for_shards",
+        "tensor_count_from_index": 203
+      },
+      {
+        "layer": 26,
+        "missing_shards": [
+          "model-00004-of-000004.safetensors"
+        ],
+        "required_shards": [
+          "model-00004-of-000004.safetensors"
+        ],
+        "status": "waiting_for_shards",
+        "tensor_count_from_index": 203
+      }
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\deepseek-v2-lite",
+    "official_code_sha256": {
+      "configuration_deepseek.py": "6de5e7445ab490a16482027b131d5bd6a003da9b58a182a11432115fac84ce59",
+      "modeling_deepseek.py": "7d8e5221095286eea991137760893fd7ba52727c0b4ebf48ec09e8bc56b45b9c",
+      "tokenization_deepseek_fast.py": "702fc7dbadc450f2fecfbc59e248ecca5845b49101e8f58f805261c920a3effa"
+    },
+    "shards": [
+      {
+        "expected": true,
+        "name": "model-00001-of-000004.safetensors",
+        "present": false,
+        "sha256": null,
+        "size_bytes": null
+      },
+      {
+        "expected": true,
+        "name": "model-00002-of-000004.safetensors",
+        "present": false,
+        "sha256": null,
+        "size_bytes": null
+      },
+      {
+        "expected": true,
+        "name": "model-00003-of-000004.safetensors",
+        "present": false,
+        "sha256": null,
+        "size_bytes": null
+      },
+      {
+        "expected": true,
+        "name": "model-00004-of-000004.safetensors",
+        "present": false,
+        "sha256": null,
+        "size_bytes": null
+      }
+    ]
+  },
+  "schema_version": 1
+}

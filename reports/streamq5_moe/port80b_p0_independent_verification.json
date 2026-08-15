@@ -1,0 +1,43 @@
+{
+  "kind": "port80b_p0_independent_verification",
+  "result_sha256": "a965008ed71c20a767b0741b73e7e527346d32ac56492c0fd6456471dadb1434",
+  "manifest_sha256": "466250b39c5f28c8b5b2f7432904100adf8c9e8c246c860a233cdf4b9aeb412c",
+  "bank_full_hash_reused_from_immediate_prerun_verification": "4a97af22833b239badc065d9c065ca259c791a84218640946d68c4e72e034462",
+  "no_gpu_work": true,
+  "checks": {
+    "input_hashes": true,
+    "file_size_exact": true,
+    "manifest_sha_matches_result": true,
+    "boundary_headers": true,
+    "physical_allocation_contract": true,
+    "all_raw_aggregates": true,
+    "primary_tokens": true,
+    "pdh_aggregates": true,
+    "gates_reconstructed": true,
+    "overall_fail_reconstructed": true
+  },
+  "aggregate_matches": {
+    "zero_cache": true,
+    "cache_4k": true,
+    "cache_32k": true,
+    "zero_cache_stability_extension": true
+  },
+  "reconstructed_gates": {
+    "bank_physical_contract": true,
+    "full_sha256_verified": true,
+    "three_scenarios_10000_tokens": true,
+    "one_hour_uninterrupted": true,
+    "pdh_available_and_sampled": true,
+    "no_system_page_reads_after_warmup": false,
+    "peak_process_commit_le_58gib": true,
+    "zero_cache_h2d_p95_le_45ms": false,
+    "no_cuda_or_runner_error": true,
+    "telemetry_gap_le_45s": true,
+    "no_thermal_or_driver_error": true
+  },
+  "checks_passed": 10,
+  "checks_total": 10,
+  "verification_pass": true,
+  "verified_experimental_verdict": "P0_fail_due_postwarm_system_page_reads_and_zero_cache_h2d_p95",
+  "claim_boundary": "CPU-only artifact and raw-array audit; no repeated GPU benchmark and no model/runtime claim."
+}

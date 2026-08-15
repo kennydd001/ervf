@@ -151,19 +151,19 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       bovenop V5. **V6 opnieuw gedraaid: 47,37 tok/s** (was 44,37), 28,7%
       van roofline. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Up-proj
       ERVF-GEMV gebatcht".
-- [ ] **`gather_down_sparse_ind` batchen/herstructureren — de resterende,
-      moeilijkere down_proj-hefboom.** V5/V6 (hierboven, DONE) dekten
-      bewust alleen `panel_scan`+`reduce_partials` (vaste grid-grootte, veilig
-      te batchen). `gather_down_sparse_ind` heeft óók een vaste grid-formule
-      (`blocks = ((inter+npanel)*32+255)//256`, zag ik pas ná V5's ontwerp —
-      dus mogelijk óók batchbaar zonder de data-afhankelijke complexiteit die
-      eerder werd aangenomen), maar leest van host-gemapt geheugen (PCIe) i.p.v.
-      device — batchen verandert daar de PCIe-toegangsefficiëntie niet
-      vanzelf. Volgens de ablatiemeting (`diag_down_ablation_timing.py`) is
-      het totale down_proj-budget in-graph 6,51 ms/token; V5 haalde daar al
-      een deel van weg (component niet apart in-graph gemeten, alleen eager:
-      2,21 ms/token). Wat er nog inzit is dus beperkt — niet verwacht dat dit
-      alleen naar 100 tok/s brengt. Nog niet gebouwd.
+- [WEERLEGD-VOOR-NU 2026-08-16] **`gather_down_sparse_ind`/
+      `gemv_down_masked_partial_ind` batchen.** Geprobeerd, niet gelukt.
+      Geïsoleerde test: gather's mirror-output is zelf wél bitexact tussen
+      referentie en batched, maar `gemv_down_masked_partial_ind` erna geeft
+      NaN's in **beide** armen (ook de ongewijzigde referentie!) met
+      tellingen die **wisselen tussen proces-runs** bij identieke code en
+      data — wijst op een race/synchronisatieprobleem, niet een simpele
+      adresseerfout. Niet verder geforceerd (geen debugtools als
+      compute-sanitizer beschikbaar), niet geïntegreerd — `moe_dev_batched.py`/
+      `graph_v6_full_stack.py` zijn ongewijzigd, V6 staat nog op 47,37 tok/s.
+      Zie `RESEARCH_NOTEBOOK.md` 2026-08-16. Wie dit oppakt: begin met
+      compute-sanitizer of losse-stream-synchronisatie tussen gather en
+      down_masked expliciet forceren.
 - [ ] **Per-laag capaciteitstuning.** Zelfde diagnose: missrate is sterk
       niet-uniform over lagen (laag 1/3/6/51 missen 25-42%, de rest 6-14%).
       Bevestig eerst stabiliteit over meerdere prompts vóór er iets aan de

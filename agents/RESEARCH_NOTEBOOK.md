@@ -11,6 +11,52 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — `gather_down_sparse_ind`/`gemv_down_masked_partial_ind` batchen: NIET gelukt, eerlijk gesloten
+
+**Poging.** Na vier geslaagde batchingen (panel_scan, reduce_partials,
+accumulate, up-proj-GEMV) leek het logisch de laatste twee down_proj-
+subkernels ook te proberen — beide bleken bij nader inzien óók een vaste
+(niet data-afhankelijke) grid-formule te hebben, dus in principe dezelfde
+veilige klasse. Nieuw bestand `pro_research/down_gather_batch_kernels.py`
+met referentie- en batched varianten van `gather_down_sparse_ind` (slot via
+`blockIdx.y`) en `gemv_down_masked_partial_ind` (slot via `blockIdx.z`,
+`blockIdx.y` blijft de bestaande chunk-dimensie).
+
+**Uitkomst: niet bitexact, en het patroon wijst op een race, geen simpele
+adresseerfout.** Geïsoleerde test
+(`verify_down_gather_batch_kernels.py`, synthetische data): de **mirror-
+data** (gather's output) is **bitexact identiek** tussen referentie en
+batched — dus `gather_down_sparse_ind_batched` zelf is aantoonbaar correct.
+Maar `gemv_down_masked_partial_ind`'s uitvoer verschilt daarna alsnog, mét
+NaN's — **ook in de referentie-arm** (318 NaN's), niet alleen de batched
+arm (2756-3799 NaN's), en de **exacte tellingen wisselen tussen
+proces-runs** bij identieke code en identieke invoerdata. Dat patroon —
+zelfde logica, zelfde data, ander resultaat, niet-reproduceerbaar tussen
+runs — wijst op een **race condition of synchronisatieprobleem**, niet op
+een simpele transcriptiefout in de adressering (die zou wél deterministisch
+verkeerd zijn, elke run hetzelfde).
+
+**Besluit: niet verder geforceerd, niet geïntegreerd.** Geen enkele wijziging
+raakte `moe_dev_batched.py` of `graph_v6_full_stack.py` — V6 blijft op zijn
+volledig geverifieerde 47,37 tok/s staan. Dit is precies de reden waarom
+elke stap in deze sessie eerst geïsoleerd bitexact getest werd vóór
+integratie: deze twee kernels faalden op die eerste, goedkope stap, dus is
+er niets stuk gemaakt. Verder debuggen vraagt gereedschap dat deze sessie
+niet heeft (compute-sanitizer/cuda-gdb) — eerlijk gesloten in plaats van
+doorgeduwd met een niet-geverifieerd resultaat.
+
+**Wat dit niet raakt.** De al bitexact geverifieerde down_proj-batching
+(`panel_scan`+`reduce_partials`, in V5/V6) gebruikt nog steeds de
+ORIGINELE, ongewijzigde `gather_down_sparse_ind`/
+`gemv_down_masked_partial_ind` per slot — dat pad is en blijft correct.
+
+**Artefacten.** `pro_research/down_gather_batch_kernels.py` ·
+`pro_research/verify_down_gather_batch_kernels.py` ·
+`pro_research/verify_down_gather_batch_kernels.json` (status: gefaald, niet
+verwijderd — een weerlegging is ook DONE).
+
+---
+
 ## 2026-08-16 — Up-proj ERVF-GEMV gebatcht: 47,37 tok/s, roofline 28,7%
 
 **Aanleiding.** Componentafbraak liet zien dat MoE 57,8% van het token is,

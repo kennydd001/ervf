@@ -1,0 +1,48 @@
+{
+  "kind": "verify_down_gather_batch_kernels",
+  "created_utc": "2026-08-15T23:36:42.793575+00:00",
+  "note": "isolated bit-exact structural test, no runtime/model load",
+  "dims": {
+    "rows": 2688,
+    "inter": 1856,
+    "top_k": 6,
+    "npanel": 116,
+    "nchunks": 8
+  },
+  "checks": [
+    {
+      "trial": 0,
+      "sparsity": 0.3,
+      "bit_exact": false,
+      "max_abs_diff": 3.401520321568254e+38,
+      "ref_nan_count": 318,
+      "batched_nan_count": 3799,
+      "ref_first_nan_index": 6662,
+      "batched_first_nan_index": 29962,
+      "mirror_mismatch": null
+    },
+    {
+      "trial": 1,
+      "sparsity": 0.5,
+      "bit_exact": false,
+      "max_abs_diff": 5.2867694829312926e+38,
+      "ref_nan_count": 224,
+      "batched_nan_count": 2780,
+      "ref_first_nan_index": 6680,
+      "batched_first_nan_index": 30214,
+      "mirror_mismatch": null
+    },
+    {
+      "trial": 2,
+      "sparsity": 0.7,
+      "bit_exact": false,
+      "max_abs_diff": 3.393517491210941e+38,
+      "ref_nan_count": 191,
+      "batched_nan_count": 2756,
+      "ref_first_nan_index": 3334,
+      "batched_first_nan_index": 3334,
+      "mirror_mismatch": null
+    }
+  ],
+  "overall_pass": false
+}

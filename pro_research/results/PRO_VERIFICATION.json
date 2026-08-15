@@ -1,0 +1,129 @@
+{
+  "kind": "pro_independent_verification",
+  "created_utc": "2026-08-15T21:30:36.732367+00:00",
+  "environment": {
+    "created_utc": "2026-08-15T21:30:36.732367+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "7cbd9d933f6430d8f9a789f4190a03d08c8c1d50",
+    "git_status": [
+      "M pro_research/EXPERIMENT_REGISTRY.yaml",
+      " M pro_research/INSTALL_AND_RUN.ps1",
+      " M pro_research/PRO_HYPOTHESES.md",
+      " M pro_research/README.md",
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/__init__.py",
+      "?? pro_research/build_report.py",
+      "?? pro_research/common.py",
+      "?? pro_research/epoch_graph.py",
+      "?? pro_research/ervf_dense.py",
+      "?? pro_research/graph_e1f22.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/",
+      "?? pro_research/run_all.py",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log",
+      "?? pro_research/verify_results.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 58, 12.19 W, 10275 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "pro_research\\verify_results.py": "c4054bc14dae1e1f9ee82a41a3c1c2872cafe25e0861cd5229dfe343ba4609f3"
+    }
+  },
+  "results": {
+    "graph": {
+      "status": "verified_gate_failed",
+      "source_status": "smoke_gate_failed",
+      "checks": [
+        {
+          "name": "graph_ids_equal_eager",
+          "passed": false,
+          "detail": {
+            "The capital of France is": 0,
+            "The history of computing began when": 0,
+            "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": 0
+          }
+        },
+        {
+          "name": "anchor_first64",
+          "passed": false,
+          "detail": {
+            "The capital of France is": "missing_or_short",
+            "The history of computing began when": "missing_or_short"
+          }
+        },
+        {
+          "name": "graph_replay_deterministic",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "control_present_or_explicitly_skipped",
+          "passed": true,
+          "detail": "skipped"
+        },
+        {
+          "name": "graph_p50_gain_ge_2_5ms",
+          "passed": true,
+          "detail": {
+            "eager_p50": 31.287,
+            "graph_p50": 25.9537,
+            "gain": 5.333299999999998
+          }
+        },
+        {
+          "name": "full_timed_samples_ge_500",
+          "passed": true,
+          "detail": 45
+        },
+        {
+          "name": "graph_extra_vram_lt_64MiB",
+          "passed": true,
+          "detail": 4194304
+        }
+      ],
+      "recomputed": {
+        "eager_p50_ms": 31.287,
+        "graph_p50_ms": 25.9537,
+        "gain_ms": 5.333299999999998
+      }
+    },
+    "dense": {
+      "status": "verified_micro_failed",
+      "source_status": "micro_gate_failed",
+      "checks": [
+        {
+          "name": "micro_all_bit_exact",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "micro_geomean_speedup_ge_1_25",
+          "passed": true,
+          "detail": 1.5089525970353848
+        },
+        {
+          "name": "micro_no_regression_gt_5pct",
+          "passed": false,
+          "detail": null
+        }
+      ],
+      "recomputed": {
+        "micro_geomean_speedup": 1.5089525970353848
+      }
+    },
+    "epoch": {
+      "status": "not_run"
+    }
+  },
+  "source_sha256": {
+    "graph": "bd317b088ddbc2387784cc8e77391cd594b952473c2b644a2f1ef754a5b35294",
+    "dense": "e3fe1f94b76723cb746595d3c58ceab5bb1cb6161503ac08466efb447e66e1b7"
+  },
+  "verified_candidates": [],
+  "all_checks_passed_count": 7,
+  "all_checks_failed_count": 3,
+  "verdict": "no_verified_breakthrough_candidate_yet"
+}

@@ -11,6 +11,63 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Diagnose device-cache hitrate onder V4 — down_proj is nooit gecached in `_moe_dev`
+
+**Vraag.** Waar gaat de resterende 24,3 ms/token na V4 nog naartoe — PCIe-
+missverkeer, of iets anders? Nodig om de volgende hefboom gericht te kiezen
+in plaats van te gokken.
+
+**Methode.** Read-only diagnostiek (`pro_research/diag_hitrate_v4.py`, geen
+PRO-poort, geen preregistratie — puur meetkundig). `_moe_dev` (het pad dat
+`device_cache=True` gebruikt, dus ook wat V4's graph capture) accumuleert per
+laag hits/misses al in een device-buffer (`dev["stats2"]`, gevuld door de
+`cache_assign`-kernel in `fused_nvfp4.py`) — nergens in de bestaande runners
+uitgelezen. Dit script sommeert die buffer over alle 23 MoE-lagen na een
+rollout van 256 tokens (prompt "The history of computing began when",
+capacity 72, top_k 6).
+
+**Uitkomst.** Hitrate **85,6%** (30.836 hits / 5.182 misses), **20,24 misses
+per token** over 138 expert-selecties per token (23 lagen × top_k 6). Sterk
+niet-uniform: laag 1/3/6 missen 42,5% / 36,5% / 25,2%, de meeste middenlagen
+zakken naar 6–10%, laag 51 (laatste MoE-laag) piekt weer naar 25,3%.
+
+**De structurele vondst.** `cache_mode` is `up_only` — de device-LRU-cache
+(`c["cap"]`, gevuld via `cache_fetch`) dekt alléén de up_proj-codes/scales.
+`_moe_dev`'s down-projectie loopt via
+`down_masked_into_indirect(..., bank["down_base_ptr"], ...)` — dat leest
+**bij elke expert-aanroep, hit of miss**, rechtstreeks uit de host-gemapte
+bank. Er bestaat wél een `cache_mode="full"` met een `c["slot_down"]`
+device-slot (zichtbaar in het oudere `_moe_cached_fast`, regel 659-660), maar
+`_moe_dev` gebruikt dat pad nergens. Dus zelfs bij 85,6% up_proj-hitrate
+bewegen **alle 138 down_proj-aanroepen per token** nog over PCIe (zij het via
+de S5-masked/sparse-gather-techniek, dus minder dan een volle rij — het exacte
+aantal bytes per aanroep is activatie-sparsity-afhankelijk en is hier niet
+geschat om geen precisie te claimen die de statische code-lezing niet
+onderbouwt).
+
+**Wat dit opent — geprioriteerde volgende hefboom.** Twee onafhankelijke,
+goed onderbouwde vervolgexperimenten, allebei niet in deze sessie gebouwd:
+
+1. **Device-cache down_proj in `_moe_dev`.** `_moe_cached_fast` bewijst het
+   patroon al (device-slot voor down_proj bij `cache_mode="full"`) — het moet
+   nog naar het `device_cache`/graph-pad worden overgezet. Als down_proj-hits
+   evenveel PCIe-verkeer schelen als up_proj-hits, is dit een tweede,
+   onafhankelijke hefboom van vergelijkbare orde als V4's ERVF-winst, zonder
+   dat er een nieuwe kernel bij hoeft (alleen bestaande device-cache-
+   infrastructuur hergebruiken).
+2. **Per-laag capaciteitstuning.** De miss-rate-ongelijkheid tussen lagen
+   (laag 1/3/6/51 vs de rest) suggereert dat een uniforme capaciteit van 72
+   per laag niet optimaal is — lagen met herhaaldelijk hoge missrate kunnen
+   baat hebben bij een grotere cap, ten koste van lagen die toch al bijna
+   nooit missen. Vereist eerst bevestiging dat dit patroon stabiel is over
+   meerdere prompts/rollouts, niet een toeval van deze ene 256-token-run.
+
+**Artefacten.** `pro_research/diag_hitrate_v4.py` ·
+`pro_research/diag_hitrate_v4.json` (niet gecommit als PRO-resultaat, puur
+diagnostisch).
+
+---
+
 ## 2026-08-16 — PRO G2 — K-token epoch-graph: technisch gesloten, geen bug
 
 **Vraag.** Kan de bestaande token-graph (`rt._graph`, een geïnstantieerde

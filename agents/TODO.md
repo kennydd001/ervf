@@ -83,6 +83,20 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open
 
+- [ ] **Device-cache down_proj in `_moe_dev` (hoogste prioriteit).**
+      Diagnose 2026-08-16 (`pro_research/diag_hitrate_v4.py`): 85,6% up_proj
+      device-cache hitrate, maar `_moe_dev`'s down-projectie leest bij élke
+      expert-aanroep — hit of miss — rechtstreeks van de host-gemapte bank via
+      `down_masked_into_indirect`. `cache_mode="full"` heeft al een
+      `c["slot_down"]` device-slot (zie `_moe_cached_fast`, regel 659-660),
+      maar dat pad is nooit naar `_moe_dev` overgezet. Als down_proj-hits
+      evenveel schelen als up_proj-hits is dit een tweede, onafhankelijke
+      hefboom van vergelijkbare orde als V4. Zie `RESEARCH_NOTEBOOK.md`
+      2026-08-16 voor de volledige onderbouwing.
+- [ ] **Per-laag capaciteitstuning.** Zelfde diagnose: missrate is sterk
+      niet-uniform over lagen (laag 1/3/6/51 missen 25-42%, de rest 6-14%).
+      Bevestig eerst stabiliteit over meerdere prompts vóór er iets aan de
+      capaciteit per laag verandert.
 - [ ] **Push V4-resultaten** — `git add -f pro_research/PRO_V4_PREREGISTRATION.md
       pro_research/graph_selective_v4.py pro_research/results/PRO_V4_GRAPH_SELECTIVE.json`
       + de bijgewerkte `agents/`-bestanden, commit, push naar `pro-research`.

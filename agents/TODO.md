@@ -109,6 +109,13 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       productiemodel, verdient eigen preregistratie + bitexact-verificatie
       i.p.v. haast). Zie `RESEARCH_NOTEBOOK.md` 2026-08-16 voor de volledige
       onderbouwing en alle vier diagnostische scripts/JSONs.
+      **Preregistratie klaar om uit te voeren:** `pro_research/PRO_V5_PREREGISTRATION.md`
+      — dekt alleen de launch-overhead-helft (batchen van de 4 down_proj-
+      subkernels over de 6 expert-slots per laag, architecturaal veilig
+      bevestigd, geen kernelrekenkunde gewijzigd), niet de PCIe-kant. BASE_A/
+      BATCHED/BASE_B/CTL-armen, bitexact-poort, controle-arm die moet falen.
+      Nog niet gebouwd — vereist nieuwe CUDA-kernels (batched varianten), dus
+      een aparte, zorgvuldige sessie i.p.v. haast.
 - [ ] **Per-laag capaciteitstuning.** Zelfde diagnose: missrate is sterk
       niet-uniform over lagen (laag 1/3/6/51 missen 25-42%, de rest 6-14%).
       Bevestig eerst stabiliteit over meerdere prompts vóór er iets aan de

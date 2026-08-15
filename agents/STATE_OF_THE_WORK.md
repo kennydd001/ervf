@@ -1,6 +1,24 @@
 # Waar we staan — Nemotron 3.5 Lightning 30B-A3B NVFP4 op 8 GiB
 
-Bijgewerkt: 2026-08-15 (na E1 fase 2.1) · lees dit vóór je iets aanraakt
+Bijgewerkt: 2026-08-16 (na PRO V3 + model-identiteitsonderzoek) · lees dit vóór je iets aanraakt
+
+## ⚠️ Modelidentiteit — lees dit eerst
+
+**Alles hieronder gemerkt vóór 2026-08-16 is gemeten op `models/nemotron_3_5_lightning`,
+wat bij nameting `NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4` blijkt te zijn (verkeerd
+gedownload, misleidend hernoemd — zie `N0R_CORRECTION_WRONG_CHECKPOINT_2026-08-14.md`).
+Het echte opdrachtdoel, `NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4`, staat in
+`models/nemotron_3_5_lightning_v35` en is dat wat `pro_research` default gebruikt.**
+Bewijs: ankerpad `config.json.max_position_embeddings = 262144` (Nano-plafond)
+vs `_v35`-pad `1048576` (Lightning-plafond); `A1_ADOPTION_PRECONDITION.json`
+registreert `model_dir: nemotron_3_5_lightning`. Volledige ketting in
+`RESEARCH_NOTEBOOK.md`, blok 2026-08-16. De kernelwinsten hieronder (ERVF,
+v4-attentie, D1) zijn zeer aannemelijk overdraagbaar naar Lightning — N2R
+adjudiceerde de tensor-vormen als "shape-identiek op 8 byte na", en V3's eigen
+bitexacte pariteit op het échte Lightning-model bevestigt dat fysiek — maar de
+tok/s-tabel hieronder is strikt genomen een Nano-tabel totdat de closed
+`treesweep200`-lijn opnieuw draait met `LS_MODEL_DIR=nemotron_3_5_lightning_v35`.
+`pro_research`'s V3-cijfers (sectie hieronder) zijn wél al op het juiste model.
 
 ## In één alinea
 
@@ -14,6 +32,8 @@ geadopteerd — opt-in via `rt.device_cache = True`.
 
 ## Hoeveel tok/s?
 
+**Nano-tabel (closed treesweep200-lijn, vóór 2026-08-16 identiteitscorrectie):**
+
 | regime | tok/s | bron |
 |---|---:|---|
 | E1-2.1-arm, contexts_max=4096 | **27,0** | E1F21 A/B (36,998 ms) |
@@ -23,8 +43,32 @@ geadopteerd — opt-in via `rt.device_cache = True`.
 | *roofline-plafond van deze machine* | *165 (ctx0) / 119 (lang)* | Y-lijn |
 | *plafond mét volledige graph-residentie (oracle)* | *~41,5 bij ctx 64* | E1 fase 1 |
 
-De runtime draait op ongeveer **17% van zijn roofline**. Dat is de kern van de
-zaak: er is nog veel hoofdruimte, maar niet oneindig veel.
+**Lightning-tabel (echte doelmodel, `nemotron_3_5_lightning_v35`):**
+
+| regime | tok/s | bron |
+|---|---:|---|
+| kale stack (vóór ERVF/D1/A1), ctx 0 | 27,743 | HANDOVER_TO_KIMI 2026-08-15 |
+| kale stack, ctx 262100 | 18,424 | HANDOVER_TO_KIMI 2026-08-15 |
+| device-cache eager (EGR), ctx ≤4096, smoke n=45 | 31,75–31,85 | PRO V3-G0S/G1B smoke, 2026-08-16 |
+| + graph-safe residency (V3-G0S), smoke | 34,96 | 28,6063 ms, gain 2,8931 ms (+10,1%) |
+| + selectieve ERVF, geen graph (V3-G1B), smoke | 35,51 | 28,158 ms, gain 3,3841 ms (+10,73%) |
+| + **beide fysiek geïntegreerd (V4), full 256×3, 765 samples** | **41,13** | **24,3152 ms, gain 6,8634 ms (+22,0%) vs zelfde-sessie EGR (31,1786 ms)** |
+
+V4 (2026-08-16) is het huidige record en het enige fysiek geïntegreerde,
+onafhankelijk gepoorte resultaat op het juiste model: selectieve ERVF-dispatch
+wordt op `rt.k` geïnstalleerd vóór `rt.setup_graph()`, zodat de CUDA-graph de
+ERVF-kernels voor de vier bevroren vormen meevangt. Alle correctheidspoorten
+groen (bitexact vs EGR over 256 tokens × 3 prompts, deterministisch, controle-
+arm wijkt af zoals vereist, dot-graph bevat beide ERVF-kernelnamen, VRAM +4 MiB).
+Zie `agents/RESEARCH_NOTEBOOK.md`, blok "PRO V4", en
+`pro_research/results/PRO_V4_GRAPH_SELECTIVE.json`.
+
+De GPU-roofline (165/119 tok/s) is hardware-eigenschap, niet modelafhankelijk,
+en blijft dus gelden voor Lightning. De runtime draait nu op **24,9%** van het
+ctx0-roofline (was 17% op de Nano-lijn). Dat is de kern van de zaak: er is nog
+veel hoofdruimte, maar niet oneindig veel. **Doel van deze sessie: 100 tok/s
+(60,6% van roofline) — nog een factor 2,4× te gaan vanaf V4, niet uitgesloten,
+ver van bewezen.**
 
 **Wat vaststaat over de doelen:** 50 en 100 tok/s zijn fysiek *niet*
 uitgesloten, maar 50+ vraagt méér dan graph-residentie alleen (plafond ~41,5

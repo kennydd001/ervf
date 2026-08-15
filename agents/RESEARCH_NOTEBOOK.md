@@ -11,6 +11,177 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — PRO G2 — K-token epoch-graph: technisch gesloten, geen bug
+
+**Vraag.** Kan de bestaande token-graph (`rt._graph`, een geïnstantieerde
+`cudaGraphExec_t` via CuPy) K keer als child in één parent-graph gevangen
+worden, zodat één host-launch K tokens vooruitbrengt?
+
+**Uitkomst.** Nee, met de huidige aanpak. `pro_research/epoch_graph.py --mode
+smoke` (ongewijzigd, al aanwezig, nooit eerder gedraaid) faalt voor k=2 én k=4
+met `cudaErrorStreamCaptureUnsupported: operation not permitted when stream is
+capturing`, bij `rt._graph.launch(stream)` binnen `stream.begin_capture()`.
+
+**Waarom.** `cudaGraphLaunch()` — het aanroepen van een reeds
+geïnstantieerde/uitvoerbare graph — is zelf geen capturable API-call. Om een
+graph als child-node in een andere capture op te nemen moet je de
+graph-**template** (`cudaGraph_t`, vóór instantiatie) doorgeven aan
+`cudaGraphAddChildGraphNode()`, niet de uitvoerbare `cudaGraphExec_t` die
+`.launch()` gebruikt. `runtime.py`'s `setup_graph()` bewaart alleen het
+geïnstantieerde object (`s.end_capture()`); de template wordt niet apart
+vastgehouden. Dit is een CUDA-API-beperking, geen CuPy-instelling of bug in
+deze pack.
+
+**Status: `technical_blocked`, poort `parent_graph_ids_exact` niet bereikt —
+eerlijke sluiting per de eigen regel van de pack** ("Unsupported nested
+capture is a valid technical closure"). Niet geforceerd, geen alternatief
+mechanisme stilletjes gesubstitueerd.
+
+**Wat dit open laat.** De K-token-amortisatie-hypothese zelf is niet weerlegd
+— alleen déze implementatiestrategie. Een diepere vervolgstap (niet in deze
+sessie gedaan) zou de graph-template apart moeten bewaren tijdens
+`setup_graph()`'s eigen capture en `cudaGraphAddChildGraphNode` rechtstreeks
+via CuPy's lage-niveau runtime-bindings aanroepen — een aparte,
+substantiëlere CUDA-engineeringtaak, geen kleine reparatie.
+
+**Artefacten.** `pro_research/results/PRO_G2_EPOCH_GRAPH.json` (status
+`technical_blocked`).
+
+---
+
+## 2026-08-16 — PRO V4 — graph-safe + selectieve ERVF fysiek geïntegreerd: 41,13 tok/s, alle poorten groen
+
+**Vraag.** V3-G0S (graph-residentie alleen, +10,1%) en V3-G1B (selectieve ERVF
+alleen, +10,73%) zijn los gemeten en mogen niet worden opgeteld (Amdahl-
+interactie onbekend). Wat levert één fysiek geïntegreerde arm echt op?
+
+**Mechanisme.** `_step_body_graph()` roept `self._attention`/`self._mamba` aan,
+die zelf via `self.k.mv_bf16`/`mv_fp8_tensor`/`mv_f32` dispatchen
+(`runtime.py:401-474`). CUDA-graph-capture legt vast welke kernel op
+capture-moment achter dat Python-attribuut zit. Dus: eerst
+`selective_ervf_v3._install_selective(rt, dense)` draaien (herbindt die drie
+attributen voor de vier bevroren winnende vormen), **dan pas** `rt.setup_graph()`
+— de ERVF-kernels worden dan mee vastgelegd in de graph, terwijl K/V/router op
+productiekernels blijven binnen dezelfde graph. Nieuwe runner:
+`pro_research/graph_selective_v4.py`, preregistratie
+`PRO_V4_PREREGISTRATION.md` (bevroren vóór meting).
+
+**Opzet.** EGR (productie, device-cache, geen graph) vs GRAPH_SELECTIVE
+(selectieve dispatch geïnstalleerd vóór capture) vs DET (twee rollouts) vs CTL
+(`bad_pick=1`-sabotage herbinnen dezelfde graph, moet falen). Structurele
+verificatie: `rt._graph.debug_dot_str()` moet `pro_gemv_bf16_ervf16` én
+`pro_gemv_fp8_tensor_ervf16` bevatten — bewijst dat de ERVF-kernels echt in de
+graph zitten, niet alleen tijdens de warmup zijn aangeroepen.
+
+**Uitkomst (full, 3 prompts × 256 tokens, 765 getimede samples).**
+
+| arm | p50 | tok/s |
+|---|---:|---:|
+| EGR (zelfde sessie) | 31,1786 ms | 32,07 |
+| **GRAPH_SELECTIVE** | **24,3152 ms** | **41,13** |
+
+Winst: **6,8634 ms / 22,0%** — meer dan de grootste losse mechanisme-winst
+(3,3841 ms) en dicht bij de naïeve som van beide losse smoke-winsten
+(2,8931 + 3,3841 = 6,2772 ms), dus nagenoeg volledig additief met slechts een
+kleine overlap-tax. GRAPH_SELECTIVE's eigen p50 (24,3152) ligt ook onder béíde
+eerder apart gemeten mechanismen (28,6063 en 28,158 ms) — dat is het eerste
+directe bewijs dat de twee winsten fysiek samen bestaan zonder elkaar op te
+eten.
+
+**Poorten.** `argmax_direct_tie` ✅ · `graph_dot_contains_ervf` ✅ (beide
+kernelnamen aangetroffen) · `graph_selective_equals_egr` ✅ (bitexact op alle
+drie prompts, 256 tokens) · `graph_selective_deterministic` ✅ ·
+`bad_pick_control_diverges` ✅ (2 van 3 prompts wijken af zoals vereist — de
+controle heeft dus onderscheidend vermogen) · `extra_vram_lt_64MiB` ✅ (4 MiB)
+· `full_speed_gain_ge_2_5ms` ✅ · `full_samples_ge_500` ✅ (765).
+
+**Wat dit betekent voor het 100 tok/s-doel.** 41,13 tok/s is 24,9% van het
+ctx0-roofline-plafond (165 tok/s, hardware-eigenschap, modelonafhankelijk) —
+op van ~17% (Nano-lijn) naar ~25%. Nog altijd een factor 2,4× te gaan tot 100.
+Dit is wél het eerste fysiek geïntegreerde, onafhankelijk gepoorte resultaat op
+het **juiste** doelmodel, en het bevestigt dat losse mechanismewinsten hier
+grotendeels blijven optellen in plaats van elkaar te kannibaliseren — een
+gunstig signaal voor het toevoegen van een derde/vierde mechanisme (K-token
+epoch-graph, MTP) op dezelfde manier.
+
+**Artefacten.** `pro_research/PRO_V4_PREREGISTRATION.md` ·
+`pro_research/graph_selective_v4.py` ·
+`pro_research/results/PRO_V4_GRAPH_SELECTIVE.json`.
+
+---
+
+## 2026-08-16 — PRO V3 anchor-onderzoek — verklaard: twee verschillende modellen, geen bug
+
+**Vraag.** De gebruiker vroeg expliciet: V3-G0S/G1B (`pro_research`) draaien
+bit-identiek EGR vs GRAPH_SAFE/SELECTIVE, maar beide wijken al bij token 1 af
+van het bevroren `V36_DETERMINISTIC_ANCHOR.json`. Komt dat door
+`nemotron_3_5_lightning_v35` versus het oudere ankerpad, of door een
+runtime/model-identiteitswijziging?
+
+**Antwoord: het ankerpad.** Twee fysiek verschillende checkpoints:
+
+| | `models/nemotron_3_5_lightning` (het ankerpad) | `models/nemotron_3_5_lightning_v35` (pro_research default) |
+|---|---|---|
+| werkelijke identiteit | **NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4**, verkeerd gedownload en misleidend hernoemd | NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4, sha `6dbbd757…` |
+| `max_position_embeddings` | 262 144 (Nano) | 1 048 576 (Lightning) |
+| quantisatie | — | MIXED_PRECISION: experts+lm_head NVFP4, Mamba in/out FP8-per-tensor, attentie BF16 |
+| bron | — | modelopt 0.44.0rc5, drieweg `quant_kind()` |
+
+Bewijsketen: `reports/lightningstream_nemotron/N0R_CORRECTION_WRONG_CHECKPOINT_2026-08-14.md`
+("De hele lijn draait op NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4") →
+`N2R_V35_LAYOUT_REPORT_2026-08-14.md` (adjudicatie van de échte Lightning-download,
+`models/nemotron_3_5_lightning_v35`) → `HANDOVER_TO_KIMI_2026-08-15.md`
+("Model staat nu in `models/nemotron_3_5_lightning_v35`. Zet
+`LS_MODEL_DIR=nemotron_3_5_lightning_v35` om ermee te draaien."). Bevestigd
+lokaal: `config.json` van het ankerpad heeft `max_position_embeddings: 262144`
+(Nano-plafond), het `_v35`-pad heeft `1048576` (Lightning-plafond).
+`A1_ADOPTION_PRECONDITION.json.environment.model_dir` = `"nemotron_3_5_lightning"`
+— A1/D1/E1-E6/NERVF-0..5 en `V36_DETERMINISTIC_ANCHOR.json` zijn dus **allemaal
+gemeten op Nano**, ondanks dat de correctie al op 2026-08-14 bekend was. De
+`scripts/treesweep200/*.py`-scripts defaulten nog steeds naar
+`nemotron_3_5_lightning` (geen `LS_MODEL_DIR` override in die lijn) — de
+"herhaal de meetketen op het juiste model"-stap uit N0R_CORRECTION is voor de
+closed-namespace-lijn **nooit uitgevoerd**.
+
+**Gevolg — geen bug, wel een scope-correctie.**
+- V3's eigen interne vergelijkingen (EGR vs GRAPH_SAFE, BASE_A/SELECTIVE/BASE_B)
+  zijn methodologisch geldig: alle armen laden hetzelfde model in hetzelfde
+  proces. De 28,61 ms / 28,16 ms resultaten staan.
+- De externe ankervergelijking in V3 is terecht `informative`, niet gating —
+  precies zoals de V3-preregistratie het al voorzag.
+- **Alles in dit bestand vóór 2026-08-16 (ERVF 1,936×, D1, A1, E1 fase 2.1,
+  "37,49 ms/token", "26,7–29,5 tok/s") is gemeten op Nemotron-3-Nano, niet op
+  Nemotron-3.5-Lightning.** `HANDOVER_TO_KIMI_2026-08-15.md` mat vóór A1/D1 al
+  een kale Lightning-baseline (27,743 tok/s @ctx0, vóór ERVF/D1/A1) die al in de
+  buurt zit van Nano's volledig-geoptimaliseerde 29,5 tok/s — Lightning's
+  kleinere `lm_head` (NVFP4 i.p.v. BF16, 704→198 MB) en FP8-Mamba bewegen
+  minder bytes per token. De kernelwinsten (ERVF, v4-attentie, D1) zijn
+  architectuur-onafhankelijk aannemelijk overdraagbaar (N2R: "shape-identiek
+  op 8 byte na"), en V3's eigen bitexacte pariteit op het echte Lightning-model
+  bevestigt dat ze *fysiek* overdragen — maar de closed-namespace tok/s-tabel
+  in `STATE_OF_THE_WORK.md` beschrijft strikt genomen Nano, niet het
+  opdrachtdoel.
+
+**Wat dit niet doet.** Geen enkele eerder gemeten winst wordt ingetrokken —
+D1/A1/E1F21's eigen interne A/B's zijn ook allemaal single-model, dus intern
+geldig. Het is puur een naamgevings-/scopefout die al één keer eerder werd
+gedocumenteerd (N0R_CORRECTION) maar niet is doorgezet naar de
+adoptiemetingen erna.
+
+**Aanbeveling voor de volgende fase.** `pro_research` blijft op
+`nemotron_3_5_lightning_v35` (correct) draaien — geen wijziging nodig. Wie ooit
+weer in de closed `treesweep200`-lijn werkt, moet `LS_MODEL_DIR=nemotron_3_5_lightning_v35`
+zetten, of nog beter: het ankerpad hernoemen zodat de mismatch niet blijft
+terugkomen (`models/nemotron_3_5_lightning` → `models/nemotron_3_nano`, zodat de
+naam niet meer liegt). Niet in deze sessie gedaan omdat schrijfrechten buiten
+`agents/`+`pro_research/` niet zijn opgeëist.
+
+**Artefacten.** `pro_research/PRO_V4_PREREGISTRATION.md` (model-identiteitsnoot
+erin opgenomen) · bronnen: `N0R_CORRECTION_WRONG_CHECKPOINT_2026-08-14.md` ·
+`N2R_V35_LAYOUT_REPORT_2026-08-14.md` · `HANDOVER_TO_KIMI_2026-08-15.md`.
+
+---
+
 ## 2026-08-15 — E1 fase 2.2 — graph-replay GEBOUWD maar ongemeten (sessie gestopt op quota)
 
 **Vraag.** Kan de hele token — embedding t/m argmax — als één CUDA-graph

@@ -75,6 +75,32 @@ Individual tracks:
 .\pro_research\INSTALL_AND_RUN.ps1 -Mode epoch
 ```
 
+## V3 and V4 (2026-08-16)
+
+G0/G1 above are the original, now-closed tracks (G0 failed parity, G1 failed
+the no-regression gate — see `results/PRO_FINAL_REPORT.md`). V3 repaired the
+identified causes and re-measured; V4 physically integrates both V3 wins into
+one CUDA-graph capture. Run directly (no PowerShell wrapper needed for V4 yet):
+
+```powershell
+$env:LS_MODEL_DIR = 'nemotron_3_5_lightning_v35'
+.\.venv-nemotron\Scripts\python.exe pro_research\graph_safe_v3.py --mode full
+.\.venv-nemotron\Scripts\python.exe pro_research\selective_ervf_v3.py --mode full
+.\.venv-nemotron\Scripts\python.exe pro_research\graph_selective_v4.py --mode full
+```
+
+Preregistrations: `PRO_V3_PREREGISTRATION.md`, `PRO_V4_PREREGISTRATION.md`.
+Current best verified result: **41.13 tok/s** (V4, full mode, 765 samples) —
+see `agents/RESEARCH_NOTEBOOK.md` for the full writeup, including why the
+external V36/A1 anchor comparison is expected to diverge (model-identity note:
+the anchor was frozen against a mislabeled Nemotron-3-Nano checkpoint, not the
+true 3.5 Lightning model this pack targets).
+
+G2 (`epoch_graph.py`) is technically blocked in its current form:
+`cudaGraphLaunch()` on an already-instantiated graph is not itself capturable;
+nesting a graph as a child node requires the pre-instantiation template plus
+`cudaGraphAddChildGraphNode`, which `setup_graph()` does not currently retain.
+
 Rebuild only the verifier/report:
 
 ```powershell

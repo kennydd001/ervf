@@ -1,0 +1,66 @@
+{
+  "kind": "pro_g2_epoch_graph",
+  "status": "technical_blocked",
+  "mode": "smoke",
+  "started_utc": "2026-08-15T22:11:41.170960+00:00",
+  "claim_boundary": "Exact parent-graph amortization experiment at context <=4096. Results apply to offline/queued single-stream throughput; per-token interactive latency still includes the chosen harvest cadence.",
+  "environment": {
+    "created_utc": "2026-08-15T22:11:43.279354+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "852ab3b4317cb8f44d77f23a51cef298cc0a4975",
+    "git_status": [
+      "M agents/RESEARCH_NOTEBOOK.md",
+      " M agents/STATE_OF_THE_WORK.md",
+      " M agents/TODO.md",
+      "?? pro_research/PRO_V4_PREREGISTRATION.md",
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/graph_selective_v4.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/PRO_V4_GRAPH_SELECTIVE.json",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 53, 10.65 W, 0 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615",
+      "pro_research\\epoch_graph.py": "972370760fa2734801e3f08f26ba2836e0fb4399d43f68f064554af47693b7a8"
+    }
+  },
+  "config": {
+    "prompt": "The capital of France is",
+    "prompt_tokens": 5,
+    "generated_tokens": 16,
+    "epoch_sizes": [
+      2,
+      4
+    ],
+    "timing_rounds": 3
+  },
+  "epochs": {
+    "2": {
+      "k": 2,
+      "status": "unsupported_or_failed",
+      "error": {
+        "type": "CUDARuntimeError",
+        "message": "cudaErrorStreamCaptureUnsupported: operation not permitted when stream is capturing",
+        "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\epoch_graph.py\", line 189, in main\n    parent, pstream, pring, extra = _build_parent_epoch(rt, k)\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\epoch_graph.py\", line 78, in _build_parent_epoch\n    rt._graph.launch(stream)\n  File \"cupy/cuda/graph.pyx\", line 44, in cupy.cuda.graph.Graph.launch\n  File \"cupy/cuda/graph.pyx\", line 63, in cupy.cuda.graph.Graph.launch\n  File \"cupy_backends/cuda/api/runtime.pyx\", line 1188, in cupy_backends.cuda.api.runtime.graphLaunch\n  File \"cupy_backends/cuda/api/runtime.pyx\", line 146, in cupy_backends.cuda.api.runtime.check_status\ncupy_backends.cuda.api.runtime.CUDARuntimeError: cudaErrorStreamCaptureUnsupported: operation not permitted when stream is capturing\n"
+      }
+    },
+    "4": {
+      "k": 4,
+      "status": "unsupported_or_failed",
+      "error": {
+        "type": "CUDARuntimeError",
+        "message": "cudaErrorStreamCaptureUnsupported: operation not permitted when stream is capturing",
+        "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\epoch_graph.py\", line 189, in main\n    parent, pstream, pring, extra = _build_parent_epoch(rt, k)\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\epoch_graph.py\", line 78, in _build_parent_epoch\n    rt._graph.launch(stream)\n  File \"cupy/cuda/graph.pyx\", line 44, in cupy.cuda.graph.Graph.launch\n  File \"cupy/cuda/graph.pyx\", line 63, in cupy.cuda.graph.Graph.launch\n  File \"cupy_backends/cuda/api/runtime.pyx\", line 1188, in cupy_backends.cuda.api.runtime.graphLaunch\n  File \"cupy_backends/cuda/api/runtime.pyx\", line 146, in cupy_backends.cuda.api.runtime.check_status\ncupy_backends.cuda.api.runtime.CUDARuntimeError: cudaErrorStreamCaptureUnsupported: operation not permitted when stream is capturing\n"
+      }
+    }
+  },
+  "best": null,
+  "completed_utc": "2026-08-15T22:12:18.551499+00:00"
+}

@@ -62,8 +62,52 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ---
 
+## Afgerond (pro_research, 2026-08-16)
+
+- [DONE 2026-08-16] **Model-identiteitsonderzoek.** Uitgezocht waarom V3's
+  eigen resultaten al bij token 1 afwijken van `V36_DETERMINISTIC_ANCHOR.json`.
+  Antwoord: geen bug. `models/nemotron_3_5_lightning` (het ankerpad, gebruikt
+  door de hele closed `treesweep200`-lijn: A1/D1/E1-E6/NERVF) is bij nameting
+  `NVIDIA-Nemotron-3-Nano-30B-A3B-NVFP4`, verkeerd gedownload en misleidend
+  hernoemd. Het echte opdrachtdoel zit in `models/nemotron_3_5_lightning_v35`
+  en is wat `pro_research` default gebruikt. Zie `RESEARCH_NOTEBOOK.md`
+  2026-08-16 en `STATE_OF_THE_WORK.md` bovenaan.
+- [DONE 2026-08-16] **PRO V4 — graph-safe + selectieve ERVF fysiek
+  geïntegreerd.** Selectieve ERVF-dispatch geïnstalleerd op `rt.k` vóór
+  `rt.setup_graph()` zodat de CUDA-graph de ERVF-kernels meevangt. Full-mode
+  (256×3, 765 samples): **31,1786 → 24,3152 ms/token (+22,0%, 41,13 tok/s)**,
+  bitexact, deterministisch, controle-arm wijkt af zoals vereist, VRAM +4 MiB.
+  Nieuw record op het juiste model. Rapport/artefacten:
+  `pro_research/PRO_V4_PREREGISTRATION.md`,
+  `pro_research/results/PRO_V4_GRAPH_SELECTIVE.json`.
+
 ## Open
 
+- [ ] **Push V4-resultaten** — `git add -f pro_research/PRO_V4_PREREGISTRATION.md
+      pro_research/graph_selective_v4.py pro_research/results/PRO_V4_GRAPH_SELECTIVE.json`
+      + de bijgewerkte `agents/`-bestanden, commit, push naar `pro-research`.
+- [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
+  `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,
+  `cudaErrorStreamCaptureUnsupported` — `cudaGraphLaunch()` op een reeds
+  geïnstantieerde graph is zelf niet capturable; je hebt de graph-**template**
+  + `cudaGraphAddChildGraphNode()` nodig, niet `.launch()` op de exec. Niet
+  opnieuw proberen met dezelfde aanpak. Open vervolgpad: `setup_graph()`
+  aanpassen om de capture-template apart te bewaren en lage-niveau
+  CuPy-runtimebindings gebruiken voor `AddChildGraphNode` — een aparte,
+  grotere CUDA-taak, niet gedaan in deze sessie. Rapport:
+  `pro_research/results/PRO_G2_EPOCH_GRAPH.json`.
+- [ ] **MTP heropenen voor het echte doelmodel.** Nano had 0 draft-gewichten
+      (S4, terecht gesloten). 3.5 Lightning heeft wél
+      `num_nextn_predict_layers: 1`, 270 MTP-tensors, BF16 (dus 3,5× groter per
+      expert dan de NVFP4-routed experts — meet eerst kosten per MTP-forward
+      vóór er gebouwd wordt, en alleen bouwen als
+      `acceptatiegraad × besparing > MTP-kosten`). Zie
+      `HANDOVER_TO_KIMI_2026-08-15.md`.
+- [ ] **Closed `treesweep200`-lijn herhalen op het juiste model** —
+      `LS_MODEL_DIR=nemotron_3_5_lightning_v35` zetten en A1/D1/E1-E6/NERVF
+      opnieuw ijken, of het ankerpad expliciet hernoemen zodat de naam niet
+      meer liegt. Niet in deze sessie gedaan (schrijfrechten buiten
+      `agents/`+`pro_research/` niet opgeëist).
 - [ ] **E1 fase 2 — de echte graph-resident token.**
   - [DONE 2026-08-15] **Fase 2.1 — device-resident routing + device-LRU
     (eager).** Alle vijf poorten PASS; p50 41,540 → **36,998 ms/token

@@ -134,14 +134,14 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       van down_proj): shared-expert-GEMV's, up-proj ERVF-GEMV, de batched
       panel_scan/reduce_partials-kernels zelf, `accumulate_indirect`,
       routing/cache-kernels — nog niet los gemeten.
-      **`accumulate_indirect` batchen is GEEN veilige mechanische kopie van
-      het V5-patroon** — het is een sequentiële accumulatie in dezelfde
-      `out`-buffer (`dst[i]=fmaf(src[i],w,dst[i])`, 6× na elkaar), dus
-      simpelweg batchen over slots geeft een race-conditie. Een veilige
-      variant heeft, net als `reduce_partials_batched`, een aparte
-      "schrijf-per-slot-dan-vaste-volgorde-optellen"-kernel nodig die de
-      `s=0..5`-volgorde expliciet bewaart (D1-les: optelvolgorde is niet
-      vrijblijvend bij FP). Nog niet gebouwd.
+      **[DONE 2026-08-16] `accumulate_indirect` batchen** — gebouwd met de
+      juiste, veilige aanpak (niet de mechanische V5-kopie): nieuwe
+      `weighted_accumulate_ind_batched`-kernel reproduceert de exacte
+      `s=0..5`-fmaf-volgorde in één launch i.p.v. een parallelle/atomic
+      reductie die de FP-optelvolgorde had kunnen veranderen (D1-les).
+      Bitexact geverifieerd (geïsoleerd + causale A/B), **−3,1552 ms/token
+      (−9,88%) eager**. V6 opnieuw gedraaid: **44,37 tok/s** (was 44,19).
+      Zie `RESEARCH_NOTEBOOK.md` 2026-08-16.
 - [ ] **`gather_down_sparse_ind` batchen/herstructureren — de resterende,
       moeilijkere down_proj-hefboom.** V5/V6 (hierboven, DONE) dekten
       bewust alleen `panel_scan`+`reduce_partials` (vaste grid-grootte, veilig

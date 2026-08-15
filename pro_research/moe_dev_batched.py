@@ -1,9 +1,10 @@
-"""V5 step 2: install a batched `_moe_dev` on a live LightningRuntime instance
-via types.MethodType (the same non-invasive pattern V3/V4 used for
-_install_selective) -- no edit to runtime.py or fused_nvfp4.py.
+"""V5 step 2 (+ later extension): install a batched `_moe_dev` on a live
+LightningRuntime instance via types.MethodType (the same non-invasive
+pattern V3/V4 used for _install_selective) -- no edit to runtime.py or
+fused_nvfp4.py.
 
-Batches only panel_scan and reduce_partials across the top_k expert slots
-per layer (verified bit-exact in isolation by
+Batches panel_scan, reduce_partials, AND weighted_accumulate_ind across the
+top_k expert slots per layer (each verified bit-exact in isolation by
 verify_down_proj_batch_kernels.py). gather_down_sparse_ind and
 gemv_down_masked_partial_ind stay per-slot, unchanged, called with the same
 arguments as the original _moe_dev -- only their panel_list/panel_masks/
@@ -11,6 +12,15 @@ panel_count/nz/nz_count inputs now come from the batched panel_scan output
 (sliced per slot) instead of a reused single-slot scratch struct, and their
 partials output goes into a batched buffer that a single reduce_partials
 call reduces directly into self.contrib.
+
+weighted_accumulate_ind is NOT batched the same mechanical way panel_scan/
+reduce_partials were: the original calls sequentially accumulate into the
+SAME `out` buffer (dst[i] = fmaf(src[i], w, dst[i]), 6x in a row), so a
+naive per-slot-parallel batch would race and, worse, could silently change
+the FP summation order (the exact class of bug D1 already found once in
+this project). The batched kernel instead runs the same s=0..top_k-1 fmaf
+sequence inside a single kernel launch, bit-identical to the original
+launches -- see weighted_accumulate_ind_batched in down_proj_batch_kernels.py.
 
 UP_CODE/UP_SCALE/DOWN_PANEL_BYTES constants and gather_ind_k's fixed-size
 grid formula are copied from runtime.py/fused_nvfp4.py verbatim (not
@@ -147,10 +157,13 @@ def install_batched_moe_dev(rt, batch_kernels) -> callable:
             (blocks_x, top_k), (256,),
             (bs["partials"], self.contrib, np.int32(hidden), np.int32(nchunks)))
 
-        for s in range(self.top_k):
-            fused2.accumulate_indirect(
-                out, self.contrib[s * self.hidden:(s + 1) * self.hidden],
-                dev["w"][s:], self.hidden)
+        # ---- ONE batched weighted-accumulate, replacing top_k sequential
+        # accumulate_indirect calls. Preserves the exact s=0..top_k-1 fmaf
+        # order into `out` (which already holds the shared-expert term) --
+        # NOT a parallel/atomic reduction, which would change the FP
+        # summation order (verified bit-exact in isolation against the
+        # sequential reference in verify_down_proj_batch_kernels.py).
+        batch_kernels.run_accumulate_batched(out, self.contrib, dev["w"], self.hidden, self.top_k)
         return None, None
 
     rt._moe_dev = types.MethodType(batched_moe_dev, rt)

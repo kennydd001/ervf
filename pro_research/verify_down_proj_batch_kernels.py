@@ -103,8 +103,33 @@ def main() -> int:
 
     results["reduce_partials"] = reduce_checks
 
+    # ---- weighted_accumulate_ind: sequential fmaf accumulation, NOT an
+    # independent per-slot write like the two kernels above -- the batched
+    # kernel must reproduce the exact s=0..top_k-1 fmaf order, starting from
+    # whatever dst already holds (the shared-expert term in the real path).
+    accumulate_checks = []
+    for trial in range(3):
+        dst_ref = cp.random.standard_normal(ROWS, dtype=cp.float32)
+        dst_batched = dst_ref.copy()
+        contrib = cp.random.standard_normal(TOP_K * ROWS, dtype=cp.float32)
+        w = cp.random.standard_normal(TOP_K, dtype=cp.float32)
+
+        for s in range(TOP_K):
+            k.run_accumulate_ref(dst_ref, contrib[s * ROWS:(s + 1) * ROWS], w[s:s + 1], ROWS)
+
+        k.run_accumulate_batched(dst_batched, contrib, w, ROWS, TOP_K)
+
+        ref_np = cp.asnumpy(dst_ref)
+        batched_np = cp.asnumpy(dst_batched)
+        ok = bool((ref_np == batched_np).all())
+        max_abs_diff = float(abs(ref_np - batched_np).max())
+        accumulate_checks.append({"trial": trial, "bit_exact": ok, "max_abs_diff": max_abs_diff})
+
+    results["weighted_accumulate"] = accumulate_checks
+
     all_panel_ok = all(c["bit_exact"] for c in panel_scan_checks)
     all_reduce_ok = all(c["bit_exact"] for c in reduce_checks)
+    all_accumulate_ok = all(c["bit_exact"] for c in accumulate_checks)
 
     payload = {
         "kind": "verify_down_proj_batch_kernels",
@@ -113,8 +138,9 @@ def main() -> int:
         "dims": {"inter": INTER, "rows": ROWS, "top_k": TOP_K, "nchunks": NCHUNKS},
         "panel_scan_batched_bit_exact_all_sparsity_levels": all_panel_ok,
         "reduce_partials_batched_bit_exact_all_trials": all_reduce_ok,
+        "weighted_accumulate_batched_bit_exact_all_trials": all_accumulate_ok,
         "results": results,
-        "overall_pass": all_panel_ok and all_reduce_ok,
+        "overall_pass": all_panel_ok and all_reduce_ok and all_accumulate_ok,
     }
     out = REPO / "pro_research" / "verify_down_proj_batch_kernels.json"
     write_json_atomic(out, payload, archive=False)

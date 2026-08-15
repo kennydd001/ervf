@@ -11,6 +11,44 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — `weighted_accumulate_ind` veilig gebatcht en geïntegreerd: 44,37 tok/s
+
+**Vervolg op de componentafbraak hierboven.** `accumulate_indirect` is
+gebouwd volgens precies het aangewezen veilige patroon: **niet** een
+mechanische kopie van `panel_scan`/`reduce_partials` (die schrijven
+onafhankelijk per slot), maar een nieuwe `weighted_accumulate_ind_batched`-
+kernel die de exacte `s=0..top_k-1`-fmaf-volgorde uit één kernel-launch
+reproduceert (`acc = fmaf(contrib[s], w[s], acc)` in een vaste lus,
+startend vanuit `dst[i]` dat al de shared-expert-term bevat) — bit-identiek
+aan `top_k` losse launches, geen parallelle/atomic reductie die de
+FP-optelvolgorde zou veranderen.
+
+**Stap 1 (geïsoleerd, `verify_down_proj_batch_kernels.py` uitgebreid):**
+bitexact tegen de sequentiële referentie, 3 trials met willekeurige
+`dst`/`contrib`/`w`. **Stap 2 (`moe_dev_batched.py` uitgebreid, causale A/B
+via `v5_batched_downproj_ab.py`, dat automatisch meelift):** full mode,
+bitexact, **−3,1552 ms/token (−9,88%)** eager t.o.v. eerder −2,2126 ms
+(−7,07%) met alleen panel_scan+reduce_partials — de accumulate-batching
+draagt dus zelf nog eens ~0,94 ms/token bij, in lijn met de verwachting dat
+dit een kleinere losse post was.
+
+**V6 opnieuw gedraaid (pakt de uitbreiding automatisch mee via dezelfde
+`install_batched_moe_dev`).** Full mode, 765 samples: **22,5354 ms/token,
+44,37 tok/s** (was 44,19 met alleen panel_scan+reduce_partials), winst 8,7972
+ms/token (28,1%) t.o.v. zelfde-sessie EGR. Alle poorten opnieuw groen:
+bitexact, deterministisch, controle-arm wijkt af, VRAM binnen budget.
+
+**Stand.** 44,37/165 = **26,9% van roofline**. Nog een factor **2,25×** te
+gaan tot 100 tok/s.
+
+**Artefacten.** `pro_research/down_proj_batch_kernels.py` (uitgebreid),
+`pro_research/verify_down_proj_batch_kernels.py` (uitgebreid),
+`pro_research/moe_dev_batched.py` (uitgebreid),
+`pro_research/results/PRO_V5_BATCHED_DOWNPROJ_AB.json` (bijgewerkt),
+`pro_research/results/PRO_V6_FULL_STACK.json` (bijgewerkt).
+
+---
+
 ## 2026-08-16 — Componentafbraak van V6: MoE is 57,8% van het token, niet alleen down_proj
 
 **Vraag.** Down_proj (V5) was de eerste hefboom, maar waar gaat de rest van

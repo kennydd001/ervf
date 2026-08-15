@@ -119,6 +119,39 @@ extern "C" __global__ void reduce_partials_batched(
     for (int c = 0; c < nchunks; c++) a += partials_s[(size_t)c * rows + row];
     out[(size_t)s * rows + row] = a;
 }
+
+extern "C" __global__ void weighted_accumulate_ind_ref(
+    float*       __restrict__ dst,
+    const float* __restrict__ src,
+    const float* __restrict__ w_ptr,
+    const int    n)
+{
+    const int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n) dst[i] = fmaf(src[i], *w_ptr, dst[i]);
+}
+
+// Batched: ONE launch replaces top_k sequential weighted_accumulate_ind
+// calls. Each thread walks s = 0..top_k-1 in the SAME fixed order the
+// sequential calls used, accumulating into a local register before a single
+// write-back -- bit-identical FP op sequence to top_k separate launches
+// each doing dst[i] = fmaf(src[i], w, dst[i]), NOT a parallel/atomic
+// reduction (which would change the summation order -- the exact class of
+// bug D1 already found once in this project).
+extern "C" __global__ void weighted_accumulate_ind_batched(
+    float*       __restrict__ dst,        // [rows], already holds the shared-expert term
+    const float* __restrict__ contrib,    // [top_k, rows]
+    const float* __restrict__ w,          // [top_k]
+    const int    rows,
+    const int    top_k)
+{
+    const int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i >= rows) return;
+    float acc = dst[i];
+    for (int s = 0; s < top_k; s++) {
+        acc = fmaf(contrib[(size_t)s * rows + i], w[s], acc);
+    }
+    dst[i] = acc;
+}
 """
 
 
@@ -132,6 +165,17 @@ class DownProjBatchKernels:
         self.panel_scan_batched = self.mod.get_function("panel_scan_batched")
         self.reduce_partials_ref = self.mod.get_function("reduce_partials_ref")
         self.reduce_partials_batched = self.mod.get_function("reduce_partials_batched")
+        self.weighted_accumulate_ind_ref = self.mod.get_function("weighted_accumulate_ind_ref")
+        self.weighted_accumulate_ind_batched = self.mod.get_function("weighted_accumulate_ind_batched")
+
+    def run_accumulate_ref(self, dst, src, w_scalar_ptr, n: int):
+        self.weighted_accumulate_ind_ref((( n + 255) // 256,), (256,), (dst, src, w_scalar_ptr, np.int32(n)))
+
+    def run_accumulate_batched(self, dst, contrib_batched, w, rows: int, top_k: int):
+        self.weighted_accumulate_ind_batched(
+            ((rows + 255) // 256,), (256,),
+            (dst, contrib_batched, w, np.int32(rows), np.int32(top_k)),
+        )
 
     def run_panel_scan_ref(self, act, inter: int):
         cp = self.cp

@@ -1,76 +1,73 @@
 {
   "kind": "pro_v5_batched_downproj_ab",
   "status": "pass",
-  "mode": "smoke",
-  "started_utc": "2026-08-15T22:56:15.574036+00:00",
+  "mode": "full",
+  "started_utc": "2026-08-15T23:13:33.511357+00:00",
   "preregistration": "pro_research/PRO_V5_PREREGISTRATION.md",
   "scope": "batches only panel_scan and reduce_partials across top_k expert slots; gather_down_sparse_ind and gemv_down_masked_partial_ind stay per-slot, unchanged",
   "config": {
-    "tokens_per_prompt": 16,
+    "tokens_per_prompt": 256,
     "capacity": 72,
     "prompt_count": 3
   },
   "environment": {
-    "created_utc": "2026-08-15T22:56:21.858013+00:00",
+    "created_utc": "2026-08-15T23:13:38.948270+00:00",
     "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
     "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
     "platform": "Windows-11-10.0.26200-SP0",
-    "git_head": "caac4a355cf138ec2236ad9a3952e62b419bec68",
+    "git_head": "33276c11e85029f2fce2493d801510529b34c968",
     "git_status": [
+      "M pro_research/down_proj_batch_kernels.py",
+      " M pro_research/moe_dev_batched.py",
+      " M pro_research/results/PRO_V5_BATCHED_DOWNPROJ_AB.json",
+      " M pro_research/verify_down_proj_batch_kernels.json",
+      " M pro_research/verify_down_proj_batch_kernels.py",
       "?? pro_research/SOURCE_MANIFEST_SHA256.json",
-      "?? pro_research/down_proj_batch_kernels.py",
-      "?? pro_research/graph_v6_full_stack.py",
       "?? pro_research/install_console.log",
-      "?? pro_research/moe_dev_batched.py",
-      "?? pro_research/results/PRO_V5_BATCHED_DOWNPROJ_AB.json",
-      "?? pro_research/results/PRO_V6_FULL_STACK.json",
       "?? pro_research/results/history/",
       "?? pro_research/results/logs/",
       "?? pro_research/smoke_console.log",
-      "?? pro_research/smoke_v2_console.log",
-      "?? pro_research/v5_batched_downproj_ab.py",
-      "?? pro_research/verify_down_proj_batch_kernels.json",
-      "?? pro_research/verify_down_proj_batch_kernels.py"
+      "?? pro_research/smoke_v2_console.log"
     ],
     "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
-    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 56, 11.85 W, 2587 MHz, 11001 MHz, P2",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 61, 12.69 W, 3637 MHz, 11001 MHz, P2",
     "source_hashes": {
       "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615",
       "src\\moe_lab\\lightningstream_nemotron\\fused_nvfp4.py": "2669431dba6f524844b096de129d9211bc9ae547fe0b87ce8bdcc144365cdcda",
-      "pro_research\\moe_dev_batched.py": "33bee9e4e64074607892d83be5b051fbe208c3b8b2294a5e4ba44a30bf0aebe9",
-      "pro_research\\down_proj_batch_kernels.py": "b4b73ae5371f06637e3b4988645e29b1933c8c0661cbc06ef05e4ded937d20c2",
+      "pro_research\\moe_dev_batched.py": "f6c3ba89f19957f035e1f969e16a60c490cbbf93fb912157879e043ef852e592",
+      "pro_research\\down_proj_batch_kernels.py": "094d08d5d7b67d306aa80d63cf3dab62f656a3932ddbb681d251894fe9b135c3",
       "pro_research\\PRO_V5_PREREGISTRATION.md": "e9259409a3b4cb64d5360b4fb083f005347ea3f4e6169bca9eb5315eac4beaa7"
     }
   },
   "arms": {
     "BASE_A": {
       "timing_ms": {
-        "count": 45,
-        "mean": 32.41472222222222,
-        "p50": 32.1546,
-        "p95": 35.57194,
-        "p99": 36.475212000000006,
-        "max": 37.0011
+        "count": 765,
+        "mean": 32.37081960784314,
+        "p50": 32.2869,
+        "p95": 34.924,
+        "p99": 36.02462,
+        "max": 39.0115
       }
     },
     "BATCHED": {
       "timing_ms": {
-        "count": 45,
-        "mean": 29.845335555555558,
-        "p50": 29.6555,
-        "p95": 31.38052,
-        "p99": 31.689816,
-        "max": 31.8487
+        "count": 765,
+        "mean": 29.005976470588234,
+        "p50": 28.7823,
+        "p95": 30.945379999999997,
+        "p99": 32.322812000000006,
+        "max": 41.6255
       }
     },
     "BASE_B": {
       "timing_ms": {
-        "count": 45,
-        "mean": 32.016317777777786,
-        "p50": 32.0802,
-        "p95": 33.69444,
-        "p99": 34.270264000000005,
-        "max": 34.3492
+        "count": 765,
+        "mean": 31.671269803921565,
+        "p50": 31.5881,
+        "p95": 33.736819999999994,
+        "p99": 34.96427600000001,
+        "max": 36.7193
       }
     }
   },
@@ -93,8 +90,8 @@
   },
   "control": {
     "The capital of France is": {
-      "identical": true,
-      "first_divergence": null
+      "identical": false,
+      "first_divergence": 43
     },
     "The history of computing began when": {
       "identical": false,
@@ -110,17 +107,17 @@
     "base_drift_le_1ms": true,
     "ctl_diverges": true,
     "candidate_gain_ge_1ms_or_3pct": true,
-    "full_samples_ge_500": null
+    "full_samples_ge_500": true
   },
   "summary": {
-    "base_a_p50_ms": 32.1546,
-    "batched_p50_ms": 29.6555,
-    "base_b_p50_ms": 32.0802,
-    "baseline_mid_p50_ms": 32.1174,
-    "gain_ms": 2.4619000000000035,
-    "gain_fraction": 0.07665315374220838,
-    "base_drift_ms": 0.07440000000000424,
-    "batched_tok_s": 33.720557738024986
+    "base_a_p50_ms": 32.2869,
+    "batched_p50_ms": 28.7823,
+    "base_b_p50_ms": 31.5881,
+    "baseline_mid_p50_ms": 31.9375,
+    "gain_ms": 3.1552000000000007,
+    "gain_fraction": 0.09879295499021529,
+    "base_drift_ms": 0.6988000000000021,
+    "batched_tok_s": 34.74357504438492
   },
-  "completed_utc": "2026-08-15T22:57:02.232973+00:00"
+  "completed_utc": "2026-08-15T23:15:30.582887+00:00"
 }

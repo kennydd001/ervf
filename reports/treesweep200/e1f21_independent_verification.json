@@ -1,0 +1,89 @@
+{
+  "kind": "treesweep200_e1f21_independent_verification",
+  "completed_utc": "2026-08-15T19:55:26.201845+00:00",
+  "verifier_sha256": "5282776e3f803bdca9d4e1a83fc69bc66b2ea0c30f381d9943cf2e4ef96bcd64",
+  "verified_files_sha256": {
+    "E1F21_DEVICE_ROUTING_AB.json": "6c504162a469b2f9681a87c28c58a68fcfe712ae51f7b019776e948ab4a07309",
+    "E1F21_INV_CTL_RERUN.json": "fd64e590e7b60a6b8072f3482e68741b1ee2aba63ffbd2496e1f451f2fb154ab"
+  },
+  "kernel_rechecks": {
+    "route_ids_exact": true,
+    "route_w_max_rel": 8.120113372116162e-08,
+    "cache_assign_exact": true,
+    "cache_fetch_bytes_exact": true,
+    "gemv_ind_bitwise": true,
+    "accumulate_ind_bitwise": true,
+    "v1_bytes_23_layers": 0,
+    "v1_analytic_bytes": 115664
+  },
+  "speed": {
+    "base_p50_ms": 41.54025,
+    "dev_p50_ms": 36.99835,
+    "gain_ms": 4.541899999999998,
+    "gate_min_gain_ms": 1.5
+  },
+  "checks": [
+    {
+      "check": "both result files cover the anchor prompts",
+      "ok": true
+    },
+    {
+      "check": "G-E1F21-C1: DEV parity with frozen A1 ids, both runs",
+      "ok": true
+    },
+    {
+      "check": "G-E1F21-S1: DEV p50 <= BASE p50 - 1.5 ms",
+      "ok": true,
+      "gain_ms": 4.541899999999998
+    },
+    {
+      "check": "G-E1F21-INV: capacity 56 tokens == capacity 72 (post-fix re-run)",
+      "ok": true
+    },
+    {
+      "check": "G-E1F21-CTL: bad_pick breaks parity (post-fix re-run, clean attribution)",
+      "ok": true
+    },
+    {
+      "check": "pre-fix CTL also failed (consistent, but attributed to stale state at the time)",
+      "ok": true
+    },
+    {
+      "check": "preregistration exists and predates this verifier",
+      "ok": true
+    },
+    {
+      "check": "route_topk ids exact vs NumPy reference",
+      "ok": true
+    },
+    {
+      "check": "route_topk weights within 1e-6 rel of reference",
+      "ok": true,
+      "max_rel": 8.120113372116162e-08
+    },
+    {
+      "check": "cache_assign exactly mirrors the Python LRU",
+      "ok": true
+    },
+    {
+      "check": "cache_fetch bytes exact (slot == bank expert)",
+      "ok": true
+    },
+    {
+      "check": "indirect GEMV bitwise == direct ERVF GEMV",
+      "ok": true
+    },
+    {
+      "check": "accumulate_indirect bitwise == accumulate_into",
+      "ok": true
+    },
+    {
+      "check": "G-E1F21-V1: 23-layer device tables < 32 MiB (pool delta AND analytic floor)",
+      "ok": true,
+      "pool_delta_bytes": 0,
+      "analytic_bytes": 115664
+    }
+  ],
+  "checks_failed": 0,
+  "verdict": "VERIFIED"
+}

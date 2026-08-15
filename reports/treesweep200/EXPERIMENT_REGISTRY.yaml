@@ -433,6 +433,34 @@ experiments:
       graph-resident token) stays unbuilt: it needs device-side routing, and V1
       closed the host-read route (6.7 vs 85.9 GB/s, 1.42x too expensive). This
       measurement sets that design's budget at 8.9 ms per token.
+  E1F21_DEVICE_ROUTING:
+    status: gate_passed
+    phase: E1_phase2.1_eager_device_resident
+    prereg: reports/treesweep200/E1F21_DEVICE_ROUTING_PREREGISTRATION_2026-08-15.md
+    result:
+    - reports/treesweep200/E1F21_DEVICE_ROUTING_AB.json
+    - reports/treesweep200/E1F21_INV_CTL_RERUN.json
+    report: reports/treesweep200/E1F21_DEVICE_ROUTING_REPORT_2026-08-15.md
+    verify: reports/treesweep200/e1f21_independent_verification.json
+    gate_outcome:
+      G_E1F21_C1_token_parity: PASS (2/2 prompts vs frozen A1 ids, both runs)
+      G_E1F21_INV_capacity_invariance: PASS (56 == 72, post-fix rerun)
+      G_E1F21_CTL_bad_pick_must_fail: PASS (clean attribution post-fix)
+      G_E1F21_S1_speed: PASS (p50 41.540 -> 36.998 ms, gain 4.542 >= 1.5 ms)
+      G_E1F21_V1_vram: PASS (analytic 115,664 B << 32 MiB)
+    measured:
+      token_ms_p50: {base: 41.54025, dev: 36.99835, gain: 4.5419}
+      budget_share_recovered: 0.51   # of the 8.925 ms E1 phase-1 budget
+      contexts_max: 4096
+    note: >
+      Device-resident router head + device LRU + bulk staging kernel (M1
+      pattern, 24.93 GB/s, DMA parity) remove every device->host sync from the
+      MoE layer; still eager. Harness bug found and fixed: enable_cache now
+      also resets _dev_cache. Remaining ~4.4 ms of the budget is pure launch
+      overhead plus non-MoE host steps -- that is E1 phase 2.2 (graph capture).
+    depends_on:
+    - E1_GRAPH_RESIDENT_TOKEN_PHASE1
+    - A1_ADOPTION_OF_PROVEN_STACK
   E6_PERSISTENT_TOKEN_FABRIC:
     status: gate_failed   # E50 endgate unmet; the three internal gates passed
     result: reports/treesweep200/E6_INTEGRATED_RUN.json

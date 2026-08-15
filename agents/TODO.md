@@ -64,17 +64,21 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open
 
-- [ ] **E1 fase 2 — de echte graph-resident token.** Dit is de enige overgebleven
-      grote hefboom. Budget staat vast op **8,9 ms per token** (E1 fase 1, gemeten
-      mét ERVF aan). Vereist device-side routing: graph-capture verbiedt
-      synchronisatie, en de lus leest nu de routes terug naar de host.
-      **De host-read-variant is al gesloten** (V1: 6,7 vs 85,9 GB/s), dus dit
-      vraagt een nieuw ontwerp, geen herhaling. Begin met een preregistratie die
-      opschrijft hoe de miss-afhandeling device-side gebeurt zónder duurder te
-      worden dan wat E2 liet zien.
+- [ ] **E1 fase 2 — de echte graph-resident token.**
+  - [DONE 2026-08-15] **Fase 2.1 — device-resident routing + device-LRU
+    (eager).** Alle vijf poorten PASS; p50 41,540 → **36,998 ms/token
+    (−4,542 ms)**, pariteit behouden, verifier 14/14. Bugfix:
+    `enable_cache` reset nu ook `_dev_cache`. Rapport:
+    `E1F21_DEVICE_ROUTING_REPORT_2026-08-15.md`.
+  - [ ] **Fase 2.2 — CUDA-graph-capture van de volledige token.** Budget dat
+    over is: ~4,4 ms launch-overhead (van de 8,925 uit fase 1). MoE-pad is
+    sync-vrij; nog capture-compatibel maken: embedding-gather uit mapped
+    host-tabel, argmax over logits, pos op device (kv_write_fp8,
+    attentie-splits/combine met vaste grid). **Preregistratie mét poorten
+    vóór de eerste meting.**
 - [ ] **Langecontext-profiel van de geadopteerde stack** — E6 mat 3 × 512 tokens
       bij `contexts_max=4096`. De stack is nooit end-to-end gemeten op 128K/262K
-      ná adoptie. NERVF-3 deed dat vóór D1.
+      ná adoptie. NERVF-3 deed dat vóór D1. Nu óók mét device_cache meten.
 - [ ] **Duurloop** — ≥10.000 causale tokens en één thermisch uur, om te toetsen of
       exactheid en winst standhouden buiten korte rollouts.
 - [ ] **Prior-art-audit + stock llama.cpp-differentieel** — nodig vóór er ooit een

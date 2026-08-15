@@ -77,6 +77,10 @@ class LightningRuntime:
     # adoption phase says otherwise.
     device_cache = False
     _bad_pick = 0  # control-arm sabotage for E1F21-CTL; must stay 0 otherwise
+    # E1 fase 2.2: opt-in graph-replay of the whole token. Requires
+    # device_cache=True (the sync-free MoE path) and setup_graph() before use;
+    # step() keeps working exactly as before while this is off.
+    graph_mode = False
 
     def __init__(self, model_dir, contexts_max: int = 4096, verbose: bool = True,
                  embed_on_host: bool = False, fp8_kv: bool = True):

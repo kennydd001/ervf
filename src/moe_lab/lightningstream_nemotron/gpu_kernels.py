@@ -1274,6 +1274,245 @@ extern "C" __global__ void kv_append(
     const int d = i - g * head_dim;
     cache[((size_t)g * max_ctx + pos) * head_dim + d] = src[i];
 }
+
+// ---------------------------------------------------------------------------
+// E1 fase 2.2: graph-capture-compatible variants. Every scalar that used to
+// arrive as a by-value launch argument is read from a device buffer instead,
+// so one captured graph replays the whole token without host input. Numerics
+// are untouched: the arithmetic bodies are verbatim copies of the kernels they
+// mirror, only the prologue (WHERE t/pos/the token id comes from) differs.
+// ---------------------------------------------------------------------------
+
+// Embedding gather straight from the mapped, pinned host table: bf16 row ->
+// f32 via a 16-bit left shift, exactly what step() did with cupy temporaries.
+extern "C" __global__ void embed_gather_bf16(
+    const unsigned short* __restrict__ table, const int* __restrict__ tok,
+    float* __restrict__ h, const int hidden)
+{
+    const int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i >= hidden) return;
+    h[i] = __uint_as_float(
+        ((unsigned int)table[(size_t)tok[0] * hidden + i]) << 16);
+}
+
+// kv_append_fp8 with the position read on device.
+extern "C" __global__ void kv_append_fp8_dp(
+    unsigned char* __restrict__ cache, const float* __restrict__ src,
+    const int* __restrict__ pos_dp, const int n_kv, const int head_dim,
+    const int max_ctx)
+{
+    const int i = blockIdx.x * blockDim.x + threadIdx.x;
+    const int total = n_kv * head_dim;
+    if (i >= total) return;
+    const int pos = pos_dp[0];
+    const int g = i / head_dim, d = i - g * head_dim;
+    cache[((size_t)g * max_ctx + pos) * head_dim + d] = e4m3_encode(src[i]);
+}
+
+// attn_decode_warp_fp8_gqa4 with t and chunk computed on device from pos_dp,
+// under a FIXED grid of (n_kv, max_splits): blocks whose split lies beyond the
+// live range write a neutral partial (m=-inf, l=0) so no slot ever holds stale
+// data, and attn_decode_combine -- which already skips l<=0 -- merges exactly
+// the same non-neutral partials in the same order as the eager variant.
+extern "C" __global__ void attn_decode_warp_fp8_gqa4_dp(
+    const float* __restrict__ q,
+    const unsigned char* __restrict__ Kc, const unsigned char* __restrict__ Vc,
+    float* __restrict__ part_acc, float* __restrict__ part_ml,
+    const int* __restrict__ pos_dp, const int head_dim, const int groups,
+    const int max_ctx, const float scale, const int max_splits,
+    const int split_threshold)
+{
+    const int t = pos_dp[0] + 1;
+    int splits = (t + split_threshold - 1) / split_threshold;
+    splits = min(max_splits, max(1, splits));
+    const int chunk = (t + splits - 1) / splits;
+
+    const int g = blockIdx.x;
+    const int s = blockIdx.y;
+    const int lane = threadIdx.x & 31;
+    const int warp = threadIdx.x >> 5;
+
+    __shared__ float qs[16 * 128];
+    for (int i = threadIdx.x; i < 16 * 128; i += blockDim.x)
+        qs[i] = q[((size_t)g * 16) * 128 + i];
+    __syncthreads();
+
+    const int j0 = s * chunk;
+    const int j1 = min(t, j0 + chunk);
+    const uchar4* __restrict__ kb =
+        reinterpret_cast<const uchar4*>(Kc + (size_t)g * max_ctx * 128);
+    const uchar4* __restrict__ vb =
+        reinterpret_cast<const uchar4*>(Vc + (size_t)g * max_ctx * 128);
+
+    float m[16], l[16], a[16][4];
+    #pragma unroll
+    for (int hh = 0; hh < 16; hh++) {
+        m[hh] = -3.0e38f; l[hh] = 0.0f;
+        a[hh][0] = a[hh][1] = a[hh][2] = a[hh][3] = 0.0f;
+    }
+
+    const int d0 = lane << 2;
+    int j = j0 + warp;
+    // pairs while both positions are in range
+    for (; j + 4 < j1; j += 8) {
+        const uchar4 k4a = kb[(size_t)j * 32 + lane];
+        const uchar4 v4a = vb[(size_t)j * 32 + lane];
+        const uchar4 k4b = kb[(size_t)(j + 4) * 32 + lane];
+        const uchar4 v4b = vb[(size_t)(j + 4) * 32 + lane];
+        float kfa[4], vfa[4], kfb[4], vfb[4];
+        e4m3x4_f32(k4a, kfa);
+        e4m3x4_f32(k4b, kfb);
+        float ca[16], pa[16], cb[16], pb[16];
+        #pragma unroll
+        for (int hh = 0; hh < 16; hh++) {
+            float partA = qs[hh * 128 + d0]     * kfa[0] + qs[hh * 128 + d0 + 1] * kfa[1]
+                        + qs[hh * 128 + d0 + 2] * kfa[2] + qs[hh * 128 + d0 + 3] * kfa[3];
+            float partB = qs[hh * 128 + d0]     * kfb[0] + qs[hh * 128 + d0 + 1] * kfb[1]
+                        + qs[hh * 128 + d0 + 2] * kfb[2] + qs[hh * 128 + d0 + 3] * kfb[3];
+            #pragma unroll
+            for (int o = 16; o > 0; o >>= 1) {
+                partA += __shfl_xor_sync(0xffffffffu, partA, o);
+                partB += __shfl_xor_sync(0xffffffffu, partB, o);
+            }
+            const float scA = partA * scale;
+            const float mA = fmaxf(m[hh], scA);
+            ca[hh] = __expf(m[hh] - mA);
+            pa[hh] = __expf(scA - mA);
+            l[hh] = l[hh] * ca[hh] + pa[hh];
+            m[hh] = mA;
+            const float scB = partB * scale;
+            const float mB = fmaxf(m[hh], scB);
+            cb[hh] = __expf(m[hh] - mB);
+            pb[hh] = __expf(scB - mB);
+            l[hh] = l[hh] * cb[hh] + pb[hh];
+            m[hh] = mB;
+        }
+        e4m3x4_f32(v4a, vfa);
+        e4m3x4_f32(v4b, vfb);
+        #pragma unroll
+        for (int hh = 0; hh < 16; hh++) {
+            a[hh][0] = a[hh][0] * ca[hh] + pa[hh] * vfa[0];
+            a[hh][1] = a[hh][1] * ca[hh] + pa[hh] * vfa[1];
+            a[hh][2] = a[hh][2] * ca[hh] + pa[hh] * vfa[2];
+            a[hh][3] = a[hh][3] * ca[hh] + pa[hh] * vfa[3];
+        }
+        #pragma unroll
+        for (int hh = 0; hh < 16; hh++) {
+            a[hh][0] = a[hh][0] * cb[hh] + pb[hh] * vfb[0];
+            a[hh][1] = a[hh][1] * cb[hh] + pb[hh] * vfb[1];
+            a[hh][2] = a[hh][2] * cb[hh] + pb[hh] * vfb[2];
+            a[hh][3] = a[hh][3] * cb[hh] + pb[hh] * vfb[3];
+        }
+    }
+    // tail: at most one position left for this warp
+    if (j < j1) {
+        const uchar4 k4 = kb[(size_t)j * 32 + lane];
+        const uchar4 v4 = vb[(size_t)j * 32 + lane];
+        float kf[4], vf[4], corrs[16], ps[16];
+        e4m3x4_f32(k4, kf);
+        #pragma unroll
+        for (int hh = 0; hh < 16; hh++) {
+            float part = qs[hh * 128 + d0]     * kf[0] + qs[hh * 128 + d0 + 1] * kf[1]
+                       + qs[hh * 128 + d0 + 2] * kf[2] + qs[hh * 128 + d0 + 3] * kf[3];
+            #pragma unroll
+            for (int o = 16; o > 0; o >>= 1)
+                part += __shfl_xor_sync(0xffffffffu, part, o);
+            const float sc = part * scale;
+            const float m_new = fmaxf(m[hh], sc);
+            corrs[hh] = __expf(m[hh] - m_new);
+            ps[hh] = __expf(sc - m_new);
+            l[hh] = l[hh] * corrs[hh] + ps[hh];
+            m[hh] = m_new;
+        }
+        e4m3x4_f32(v4, vf);
+        #pragma unroll
+        for (int hh = 0; hh < 16; hh++) {
+            a[hh][0] = a[hh][0] * corrs[hh] + ps[hh] * vf[0];
+            a[hh][1] = a[hh][1] * corrs[hh] + ps[hh] * vf[1];
+            a[hh][2] = a[hh][2] * corrs[hh] + ps[hh] * vf[2];
+            a[hh][3] = a[hh][3] * corrs[hh] + ps[hh] * vf[3];
+        }
+    }
+
+    const int nsplit4 = gridDim.y << 2;
+    #pragma unroll
+    for (int hh = 0; hh < 16; hh++) {
+        const int h = g * 16 + hh;
+        const size_t slot = ((size_t)h * nsplit4) + ((size_t)s << 2) + warp;
+        float4 out4; out4.x = a[hh][0]; out4.y = a[hh][1];
+        out4.z = a[hh][2]; out4.w = a[hh][3];
+        reinterpret_cast<float4*>(part_acc + slot * 128)[lane] = out4;
+        if (lane == 0) {
+            part_ml[slot * 2 + 0] = (j1 > j0 + warp) ? m[hh] : -3.0e38f;
+            part_ml[slot * 2 + 1] = l[hh];
+        }
+    }
+}
+
+// Two-pass argmax over the logits; low index wins ties, matching cp.argmax.
+// (NaN would be skipped here while cupy propagates it; NaN logits are a model
+// defect, not a tie, so the verifier tests ties, not NaNs.)
+extern "C" __global__ void argmax_part(
+    const float* __restrict__ x, const int n,
+    float* __restrict__ pmax, int* __restrict__ pidx)
+{
+    __shared__ float sm[256];
+    __shared__ int si[256];
+    const int tid = threadIdx.x;
+    const int chunk = (n + gridDim.x - 1) / gridDim.x;
+    const int lo = blockIdx.x * chunk;
+    const int hi = min(n, lo + chunk);
+    float bv = -3.0e38f;
+    int bi = 0x7fffffff;
+    for (int i = lo + tid; i < hi; i += blockDim.x) {
+        const float v = x[i];
+        if (v > bv || (v == bv && i < bi)) { bv = v; bi = i; }
+    }
+    sm[tid] = bv; si[tid] = bi;
+    __syncthreads();
+    for (int off = blockDim.x >> 1; off > 0; off >>= 1) {
+        if (tid < off) {
+            const float ov = sm[tid + off];
+            const int oi = si[tid + off];
+            if (ov > bv || (ov == bv && oi < bi)) { bv = ov; bi = oi; }
+            sm[tid] = bv; si[tid] = bi;
+        }
+        __syncthreads();
+    }
+    if (tid == 0) { pmax[blockIdx.x] = bv; pidx[blockIdx.x] = bi; }
+}
+
+extern "C" __global__ void argmax_final(
+    const float* __restrict__ pmax, const int* __restrict__ pidx,
+    const int nparts, int* __restrict__ tok_out)
+{
+    __shared__ float sm[256];
+    __shared__ int si[256];
+    const int tid = threadIdx.x;
+    float bv = -3.0e38f;
+    int bi = 0x7fffffff;
+    for (int i = tid; i < nparts; i += blockDim.x) {
+        const float v = pmax[i];
+        if (v > bv || (v == bv && pidx[i] < bi)) { bv = v; bi = pidx[i]; }
+    }
+    sm[tid] = bv; si[tid] = bi;
+    __syncthreads();
+    for (int off = blockDim.x >> 1; off > 0; off >>= 1) {
+        if (tid < off) {
+            const float ov = sm[tid + off];
+            const int oi = si[tid + off];
+            if (ov > bv || (ov == bv && oi < bi)) { bv = ov; bi = oi; }
+            sm[tid] = bv; si[tid] = bi;
+        }
+        __syncthreads();
+    }
+    if (tid == 0) tok_out[0] = bi;
+}
+
+extern "C" __global__ void pos_inc(int* __restrict__ pos_dp)
+{
+    pos_dp[0] += 1;
+}
 """
 
 
@@ -1292,7 +1531,11 @@ class GPUKernels:
                      "attn_decode_warp_fp8_gqa", "attn_decode_warp_fp8_gqa2",
                      "attn_decode_warp_fp8_gqa3", "attn_decode_warp_fp8_gqa4",
                      "attn_decode_warp_fp8_gqa6", "attn_decode_warp_fp8_gqa7",
-                     "gemv_fp8_tensor"):
+                     "gemv_fp8_tensor",
+                     # E1 fase 2.2: graph-capture-compatible variants
+                     "embed_gather_bf16", "kv_append_fp8_dp",
+                     "attn_decode_warp_fp8_gqa4_dp",
+                     "argmax_part", "argmax_final", "pos_inc"):
             setattr(self, name, self.mod.get_function(name))
 
     # -- thin wrappers ----------------------------------------------------
@@ -1461,6 +1704,45 @@ class GPUKernels:
         self.kv_append_fp8((blocks,), (self.block,),
                            (cache, src, np.int32(pos), np.int32(n_kv),
                             np.int32(head_dim), np.int32(max_ctx)))
+
+    # -- E1 fase 2.2 wrappers (graph-safe: scalars live on device) -----------
+    def embed_gather(self, h, table_ptr: int, tok_dev, hidden: int):
+        blocks = (hidden + self.block - 1) // self.block
+        self.embed_gather_bf16((blocks,), (self.block,),
+                               (np.uint64(table_ptr), tok_dev, h,
+                                np.int32(hidden)))
+
+    def kv_write_fp8_dp(self, cache, src, pos_dp, n_kv, head_dim, max_ctx):
+        total = n_kv * head_dim
+        blocks = (total + self.block - 1) // self.block
+        self.kv_append_fp8_dp((blocks,), (self.block,),
+                              (cache, src, pos_dp, np.int32(n_kv),
+                               np.int32(head_dim), np.int32(max_ctx)))
+
+    def attention_fp8_gqa4_dp(self, out, q, Kc, Vc, pos_dp, n_heads, head_dim,
+                              groups, max_ctx, scale, part_acc, part_ml):
+        """E1 fase 2.2: v4 numerics under a fixed grid; t/chunk on device."""
+        assert head_dim == 128 and groups == 16 and n_heads == 32
+        n_kv = n_heads // groups
+        self.attn_decode_warp_fp8_gqa4_dp(
+            (n_kv, self.MAX_SPLITS), (128,),
+            (q, Kc, Vc, part_acc, part_ml, pos_dp, np.int32(head_dim),
+             np.int32(groups), np.int32(max_ctx), np.float32(scale),
+             np.int32(self.MAX_SPLITS), np.int32(self.SPLIT_THRESHOLD)))
+        self.attn_decode_combine(
+            (n_heads,), (128,),
+            (part_acc, part_ml, out, np.int32(self.MAX_SPLITS * 4),
+             np.int32(head_dim)))
+
+    def argmax_logits(self, tok_dev, logits, vocab: int, pmax, pidx,
+                      nparts: int = 256):
+        self.argmax_part((nparts,), (256,),
+                         (logits, np.int32(vocab), pmax, pidx))
+        self.argmax_final((1,), (256,),
+                          (pmax, pidx, np.int32(nparts), tok_dev))
+
+    def pos_increment(self, pos_dp):
+        self.pos_inc((1,), (1,), (pos_dp,))
 
     def attention(self, out, q, Kc, Vc, t, n_heads, head_dim, groups, max_ctx, scale,
                   part_acc=None, part_ml=None):

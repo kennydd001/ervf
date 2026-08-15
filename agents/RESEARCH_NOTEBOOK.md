@@ -11,6 +11,45 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-15 — E1 fase 2.1 — device-resident routing werkt: −4,54 ms/token eager, alle poorten groen
+
+**Vraag.** Kan de MoE-laag zonder één device→host-sync draaien (routerkop,
+LRU, miss-staging als kernels), zodat graph-capture (fase 2.2) überhaupt kan —
+en wat levert alleen dat al op?
+
+**Opzet.** Eén variabele: `device_cache` aan/uit op de geadopteerde stack.
+BASE = default, DEV = device routing+LRU (cap 72), INV = cap 56 moet dezelfde
+tokens geven, CTL = `bad_pick`-sabotage moet falen. Pariteit tegen het
+bevroren A1/V36-anker, 2 prompts × 64 tokens, contexts_max=4096. De
+staging-kernel volgt het M1-patroon uit de microbench (bulk-read uit pinned
+host = 24,93 GB/s, 96% van DMA), NIET de M2-variant (GEMV leest zelf van host:
+7,27 GB/s — dood).
+
+**Uitkomst.** p50 41,540 → **36,998 ms/token (−4,542 ms, −10,9%)**, pariteit
+behouden. Dat is 51% van het 8,925-ms-budget uit fase 1; de rest is pure
+launch-overhead voor fase 2.2. Verifier 14/14, inclusief bitexacte spiegels
+(indirecte GEMV == directe ERVF; accumulate_ind == accumulate_into) en een
+exacte Python-LRU-spiegel van `cache_assign`.
+
+**Bug gevonden.** `enable_cache` resette `_dev_cache` niet → INV-arm draaide
+cap-56-semantiek over vuile LRU-staat en faalde terecht. Fix: `_dev_cache = {}`
+in `enable_cache`; INV+CTL opnieuw gedraaid met schone staat, beide groen.
+Ook de verifier had zelf zo'n staat-desync (verse cache-buffers tegen oude
+slot-tabellen) — zelfde les: *cache-inhoud en slot-staat zijn één invariant*.
+
+**Poorten.** C1 ✅ · INV ✅ · CTL ✅ (schone attributie) · S1 ✅ (−4,542 ≥ 1,5)
+· V1 ✅ (113 KiB analytisch).
+
+**Wat dit opent.** Fase 2.2 (graph-capture van de hele token) heeft nu een
+sync-vrij MoE-pad. Resterend capture-werk: embedding-gather, argmax,
+pos-afhankelijke kernels (kv_write_fp8, attentie-splits) op device-pos.
+
+**Artefacten.** `E1F21_DEVICE_ROUTING_AB.json` · `E1F21_INV_CTL_RERUN.json` ·
+`e1f21_independent_verification.json` · rapport
+`E1F21_DEVICE_ROUTING_REPORT_2026-08-15.md`.
+
+---
+
 ## 2026-08-15 — A1 — de bewezen stack staat nu default aan, en het anker is opnieuw bevroren
 
 **Vraag.** E6 mat dat ERVF + v4 + D1 sneller én exact is. Mag dat de default worden?

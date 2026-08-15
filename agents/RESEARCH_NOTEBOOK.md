@@ -11,6 +11,62 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Up-proj ERVF-GEMV gebatcht: 47,37 tok/s, roofline 28,7%
+
+**Aanleiding.** Componentafbraak liet zien dat MoE 57,8% van het token is,
+en down_proj (V5) daar maar 6,51 van de 12,07 ms van uitmaakt. De
+up-proj-GEMV (`gemv_nvfp4_ervf_ind`, de ERVF-kernel die de NVFP4-experts
+projecteert) wordt zes keer per laag sequentieel aangeroepen, elk naar een
+**onafhankelijke** outputregio (`bs["act"][s]`) — geen gedeelde accumulator,
+dus géén race, in tegenstelling tot `accumulate_indirect`. `x` (de
+genormaliseerde hidden state) is bovendien identiek voor alle zes slots.
+Grid-grootte is vast (niet data-afhankelijk). Dit is dus dezelfde veilige
+batch-klasse als `panel_scan`/`reduce_partials`, alleen op een grotere,
+belangrijkere kernel — de zorgvuldig met NERVF-2 tegen een referentie
+geverifieerde WIDTH-16-subwarp-butterfly-reductie.
+
+**Aanpak — extra voorzichtig gezien het gewicht van deze kernel.** Nieuw
+bestand `pro_research/up_proj_batch_kernels.py`: de referentiekernel
+(`gemv_nvfp4_ervf_ind_ref`) staat **letterlijk gekopieerd** naast de
+batched versie (`gemv_nvfp4_ervf_ind_batched`, `blockIdx.y`=slot toegevoegd,
+verder geen enkele regel rekenkunde gewijzigd) om transcriptiefouten in de
+reductie-boom te vermijden. Geïsoleerde bitexacte test
+(`verify_up_proj_batch_kernel.py`, synthetische data op echte dimensies
+1856×2688, drie trials incl. `apply_relu2` aan/uit): **bitexact.**
+
+**Causale A/B, apart van V5's eigen resultaat gehouden** (één variabele:
+up-batching aan/uit, bovenop de al geverifieerde down_proj-batching —
+`pro_research/v_up_proj_batched_ab.py`). Full mode: bitexact,
+**+1,7423 ms/token (+6,11%)** bovenop V5. Alle poorten groen.
+
+**V6 opnieuw gedraaid** (`graph_v6_full_stack.py` uitgebreid met
+`up_proj_batch_kernels.UpProjBatchKernels`, geïnstalleerd vóór
+`setup_graph()` net als de andere twee). Full mode, 765 samples:
+
+| arm | p50 | tok/s |
+|---|---:|---:|
+| EGR (zelfde sessie) | 31,0973 ms | 32,16 |
+| **V6 (nu vijf mechanismen)** | **21,1118 ms** | **47,37** |
+
+Winst 9,9855 ms/token (32,1%) t.o.v. zelfde-sessie EGR. Alle poorten groen:
+bitexact, deterministisch, controle-arm wijkt af, dot-graph bevat nu alle
+vijf kernelnamen (beide ERVF-dense, beide down_proj-batch, plus de nieuwe
+up_proj-batch), VRAM binnen budget.
+
+**Stand.** 47,37/165 = **28,7% van roofline** (was 26,9%). Nog een factor
+**2,11×** te gaan tot 100 tok/s.
+
+**Artefacten.** `pro_research/up_proj_batch_kernels.py` ·
+`pro_research/verify_up_proj_batch_kernel.py` ·
+`pro_research/verify_up_proj_batch_kernel.json` ·
+`pro_research/v_up_proj_batched_ab.py` ·
+`pro_research/results/PRO_UP_PROJ_BATCHED_AB.json` ·
+`pro_research/moe_dev_batched.py` (uitgebreid, optionele `up_kernels`-
+parameter) · `pro_research/graph_v6_full_stack.py` (uitgebreid) ·
+`pro_research/results/PRO_V6_FULL_STACK.json` (bijgewerkt).
+
+---
+
 ## 2026-08-16 — `weighted_accumulate_ind` veilig gebatcht en geïntegreerd: 44,37 tok/s
 
 **Vervolg op de componentafbraak hierboven.** `accumulate_indirect` is

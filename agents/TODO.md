@@ -140,8 +140,17 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       `s=0..5`-fmaf-volgorde in één launch i.p.v. een parallelle/atomic
       reductie die de FP-optelvolgorde had kunnen veranderen (D1-les).
       Bitexact geverifieerd (geïsoleerd + causale A/B), **−3,1552 ms/token
-      (−9,88%) eager**. V6 opnieuw gedraaid: **44,37 tok/s** (was 44,19).
+      (−9,88%) eager**. V6 opnieuw gedraaid: 44,37 tok/s (was 44,19).
       Zie `RESEARCH_NOTEBOOK.md` 2026-08-16.
+      **[DONE 2026-08-16] Up-proj ERVF-GEMV (`gemv_nvfp4_ervf_ind`)
+      batchen** — zelfde veilige klasse als panel_scan/reduce_partials
+      (onafhankelijke output per slot, geen race), referentiekernel
+      letterlijk naast de batched versie gehouden om transcriptiefouten in
+      de WIDTH-16-reductieboom te vermijden. Bitexact (geïsoleerd + causale
+      A/B, apart van V5's eigen resultaat), **+1,7423 ms/token (+6,11%)**
+      bovenop V5. **V6 opnieuw gedraaid: 47,37 tok/s** (was 44,37), 28,7%
+      van roofline. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Up-proj
+      ERVF-GEMV gebatcht".
 - [ ] **`gather_down_sparse_ind` batchen/herstructureren — de resterende,
       moeilijkere down_proj-hefboom.** V5/V6 (hierboven, DONE) dekten
       bewust alleen `panel_scan`+`reduce_partials` (vaste grid-grootte, veilig

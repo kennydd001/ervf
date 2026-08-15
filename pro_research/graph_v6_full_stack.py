@@ -45,6 +45,7 @@ from ervf_dense import DenseERVF
 from graph_e1f22 import _load_prompt_set, _new_runtime, _run_eager_timed
 from moe_dev_batched import install_batched_moe_dev
 from selective_ervf_v3 import _install_selective
+from up_proj_batch_kernels import UpProjBatchKernels
 
 OUT = result_path("PRO_V6_FULL_STACK.json")
 G0S = result_path("PRO_V3_G0S_GRAPH_SAFE.json")
@@ -106,6 +107,8 @@ def _dot_probe(rt) -> dict[str, Any]:
             "contains_fp8_ervf": "pro_gemv_fp8_tensor_ervf16" in low,
             "contains_panel_scan_batched": "panel_scan_batched" in low,
             "contains_reduce_partials_batched": "reduce_partials_batched" in low,
+            "contains_accumulate_batched": "weighted_accumulate_ind_batched" in low,
+            "contains_up_proj_batched": "gemv_nvfp4_ervf_ind_batched" in low,
         }
     except Exception as exc:
         return {"available": False, "error": f"{type(exc).__name__}: {exc}"}
@@ -165,6 +168,7 @@ def main() -> int:
         rt = _new_runtime(capacity)
         dense = DenseERVF()
         batch_kernels = DownProjBatchKernels()
+        up_kernels = UpProjBatchKernels()
 
         # EGR: production kernels, device-cache eager, no graph, no patches --
         # same-session fresh comparison point, matching V4's convention.
@@ -179,7 +183,7 @@ def main() -> int:
         rt.device_cache = True
         rt.deterministic_accum = True
         restore_selective, ervf_counters = _install_selective(rt, dense)
-        restore_moe = install_batched_moe_dev(rt, batch_kernels)
+        restore_moe = install_batched_moe_dev(rt, batch_kernels, up_kernels)
         import cupy as cp
 
         free0 = int(cp.cuda.Device(0).mem_info[0])
@@ -245,6 +249,8 @@ def main() -> int:
                 and payload["graph_dot_probe"].get("contains_fp8_ervf")
                 and payload["graph_dot_probe"].get("contains_panel_scan_batched")
                 and payload["graph_dot_probe"].get("contains_reduce_partials_batched")
+                and payload["graph_dot_probe"].get("contains_accumulate_batched")
+                and payload["graph_dot_probe"].get("contains_up_proj_batched")
             ),
             "v6_equals_egr": all(v["identical"] for v in per_prompt.values()),
             "v6_deterministic": all(v["identical"] for v in det.values()),
@@ -287,7 +293,7 @@ def main() -> int:
             "completed_utc": utc_now(),
         })
 
-        del rt, dense, batch_kernels
+        del rt, dense, batch_kernels, up_kernels
         gc.collect()
         cp.get_default_memory_pool().free_all_blocks()
         cp.get_default_pinned_memory_pool().free_all_blocks()

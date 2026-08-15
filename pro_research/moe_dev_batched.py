@@ -22,6 +22,14 @@ this project). The batched kernel instead runs the same s=0..top_k-1 fmaf
 sequence inside a single kernel launch, bit-identical to the original
 launches -- see weighted_accumulate_ind_batched in down_proj_batch_kernels.py.
 
+Optionally also batches the up-proj ERVF GEMV (gemv_nvfp4_ervf_ind, via
+up_proj_batch_kernels.UpProjBatchKernels passed as `up_kernels`) -- this one
+IS a mechanical, independent-per-slot batch like panel_scan/reduce_partials
+(each slot writes its own output region, x is identical across slots, no
+race), verified bit-exact in isolation against the reference kernel. Pass
+up_kernels=None to keep the up-proj GEMV on the unbached production path
+(useful for isolating V5's own down_proj-only contribution).
+
 UP_CODE/UP_SCALE/DOWN_PANEL_BYTES constants and gather_ind_k's fixed-size
 grid formula are copied from runtime.py/fused_nvfp4.py verbatim (not
 imported, to keep this file's dependency on internals explicit and easy to
@@ -43,7 +51,7 @@ UP_SCALE = HALF_SCALE
 DOWN_PANEL_BYTES = HALF_CODE + HALF_SCALE
 
 
-def install_batched_moe_dev(rt, batch_kernels) -> callable:
+def install_batched_moe_dev(rt, batch_kernels, up_kernels=None) -> callable:
     """Returns a `restore()` callable that puts the original _moe_dev back."""
     cp = rt.cp
     fused = rt.fused
@@ -111,13 +119,21 @@ def install_batched_moe_dev(rt, batch_kernels) -> callable:
 
         cp2.cuda.get_current_stream().wait_event(self.evt[1])
 
-        # ---- pass 1: all top_k up-proj GEMVs, into per-slot slices of one
-        # batched activation buffer (was: reused single self._act_moe).
-        for s in range(self.top_k):
-            fused2.gemv_ervf_indirect(
-                bs["act"][s * inter:(s + 1) * inter], c["codes"], c["scales"],
-                dev, s, dev["globals"], 1, self.normed,
-                self.moe_inter, self.hidden, True, UP_CODE, UP_SCALE)
+        # ---- pass 1: up-proj GEMVs into per-slot slices of one batched
+        # activation buffer (was: reused single self._act_moe). Batched into
+        # ONE launch (up_kernels) when installed, else top_k sequential
+        # calls to the production indirect ERVF GEMV (V5-only mode).
+        if up_kernels is not None:
+            up_kernels.run_batched(
+                bs["act"], c["codes"], c["scales"], dev["slots"], dev["ids"],
+                dev["globals"], 1, fused2.e2m1, fused2.e4m3, self.normed,
+                self.moe_inter, self.hidden, True, UP_CODE, UP_SCALE, self.top_k)
+        else:
+            for s in range(self.top_k):
+                fused2.gemv_ervf_indirect(
+                    bs["act"][s * inter:(s + 1) * inter], c["codes"], c["scales"],
+                    dev, s, dev["globals"], 1, self.normed,
+                    self.moe_inter, self.hidden, True, UP_CODE, UP_SCALE)
 
         # ---- ONE batched panel_scan for all top_k slots (was: top_k calls).
         batch_kernels.panel_scan_batched(

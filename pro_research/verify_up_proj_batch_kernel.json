@@ -1,0 +1,33 @@
+{
+  "kind": "verify_up_proj_batch_kernel",
+  "created_utc": "2026-08-15T23:22:16.553176+00:00",
+  "note": "isolated bit-exact structural test, no runtime/model load",
+  "dims": {
+    "rows": 1856,
+    "cols": 2688,
+    "top_k": 6,
+    "cap": 12,
+    "n_experts": 128
+  },
+  "checks": [
+    {
+      "trial": 0,
+      "apply_relu2": false,
+      "bit_exact": true,
+      "max_abs_diff": 0.0
+    },
+    {
+      "trial": 1,
+      "apply_relu2": true,
+      "bit_exact": true,
+      "max_abs_diff": 0.0
+    },
+    {
+      "trial": 2,
+      "apply_relu2": false,
+      "bit_exact": true,
+      "max_abs_diff": 0.0
+    }
+  ],
+  "overall_pass": true
+}

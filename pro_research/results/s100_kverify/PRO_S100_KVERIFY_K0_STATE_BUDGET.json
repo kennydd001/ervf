@@ -1,0 +1,75 @@
+{
+  "kind": "pro_s100_kverify_k0_state_budget",
+  "status": "measured_metadata_budget",
+  "created_utc": "2026-08-16T15:25:57.801255+00:00",
+  "claim_boundary": "config-derived byte budget only; no GPU allocation, speed or rollback correctness claim",
+  "preregistration": "pro_research\\S100_KVERIFY_PREREGISTRATION.md",
+  "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+  "metadata_hashes": {
+    "config_json_sha256": "f1d98b530846087dc08b574a219713a94f945bf6583dc7230a19ebf1e8c50933",
+    "safetensors_index_sha256": "3c3bc7efa8d658c2e909a0b9020eb0f72064e6647de348856af4dee9895bead9"
+  },
+  "architecture": {
+    "pattern": "MEMEM*EMEMEM*EMEMEM*EMEMEM*EMEMEM*EMEMEMEM*EMEMEMEME",
+    "mamba_layers": 23,
+    "attention_layers": 6,
+    "hidden": 2688,
+    "mamba_num_heads": 64,
+    "mamba_head_dim": 64,
+    "ssm_state_size": 128,
+    "n_groups": 8,
+    "conv_kernel": 4,
+    "d_inner": 4096,
+    "conv_dim": 6144,
+    "mamba_in_proj_width": 10304,
+    "num_key_value_heads": 2,
+    "attention_head_dim": 128
+  },
+  "bytes": {
+    "ssm_state_per_mamba_layer": 2097152,
+    "conv_state_per_mamba_layer": 98304,
+    "mutable_mamba_state_per_layer": 2195456,
+    "mutable_mamba_state_all_layers": 50495488,
+    "mutable_mamba_state_all_layers_mib": 48.15625,
+    "stored_in_proj_per_token_all_mamba_layers": 947968,
+    "stored_in_proj_per_token_all_mamba_layers_mib": 0.904052734375,
+    "fp8_kv_append_per_token": 3072
+  },
+  "budget_by_k": {
+    "2": {
+      "stored_mamba_in_proj_bytes": 1895936,
+      "stored_mamba_in_proj_mib": 1.80810546875,
+      "one_initial_mamba_snapshot_plus_proj_bytes": 52391424,
+      "one_initial_mamba_snapshot_plus_proj_mib": 49.96435546875,
+      "naive_k_full_mamba_snapshots_bytes": 100990976,
+      "naive_k_full_mamba_snapshots_mib": 96.3125,
+      "fp8_kv_append_bytes": 6144,
+      "fp8_kv_append_kib": 6.0
+    },
+    "4": {
+      "stored_mamba_in_proj_bytes": 3791872,
+      "stored_mamba_in_proj_mib": 3.6162109375,
+      "one_initial_mamba_snapshot_plus_proj_bytes": 54287360,
+      "one_initial_mamba_snapshot_plus_proj_mib": 51.7724609375,
+      "naive_k_full_mamba_snapshots_bytes": 201981952,
+      "naive_k_full_mamba_snapshots_mib": 192.625,
+      "fp8_kv_append_bytes": 12288,
+      "fp8_kv_append_kib": 12.0
+    },
+    "8": {
+      "stored_mamba_in_proj_bytes": 7583744,
+      "stored_mamba_in_proj_mib": 7.232421875,
+      "one_initial_mamba_snapshot_plus_proj_bytes": 58079232,
+      "one_initial_mamba_snapshot_plus_proj_mib": 55.388671875,
+      "naive_k_full_mamba_snapshots_bytes": 403963904,
+      "naive_k_full_mamba_snapshots_mib": 385.25,
+      "fp8_kv_append_bytes": 24576,
+      "fp8_kv_append_kib": 24.0
+    }
+  },
+  "interpretation": {
+    "one_snapshot_strategy": "one initial exact copy of all mutable Mamba state plus K stored in_proj outputs; partial commit would restore the initial copy and replay state-only transitions",
+    "naive_strategy": "K full Mamba state snapshots; reported only for comparison and not adopted",
+    "kv_rollback": "KV append bytes are diagnostic; rollback can ignore later positions by restoring logical position, subject to K2 exact proof"
+  }
+}

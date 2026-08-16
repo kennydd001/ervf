@@ -60,8 +60,18 @@ def _make_case(torch, m: int, n: int, k: int) -> dict[str, Any]:
 
     ash, bsh = _scale_shapes(m, n, k)
     scale_a = torch.ones(ash, dtype=torch.float8_e4m3fn, device="cuda")
-    scale_b_natural = torch.ones((bsh[1], bsh[0]), dtype=torch.float8_e4m3fn, device="cuda")
-    scale_b = scale_b_natural.t()
+    # ABI FIX 2026-08-16 (first C2b run on the target machine): the previous
+    # form built scale_b as `torch.ones((bsh[1], bsh[0])).t()`, a transposed
+    # VIEW with stride (1, sfp). Torch 2.12.1 rejects that outright --
+    #   ValueError: For Blockwise scaling both scales should be contiguous
+    # -- so all four known-value cases failed with the API contract itself
+    # fully present (G1-G7 all green). Mirroring B's transpose onto B's SCALE
+    # was the error: `b` is transposed because a GEMM wants K-major operands,
+    # but the block-scale tensor is a separate, independently laid out buffer
+    # and the blockwise path requires it contiguous in its logical (sfp,
+    # ceil(n,128)) shape. Values are synthetic all-ones, so only shape and
+    # layout are under test here and this changes nothing else.
+    scale_b = torch.ones(bsh, dtype=torch.float8_e4m3fn, device="cuda")
 
     return {
         "au8": au8,
@@ -70,7 +80,6 @@ def _make_case(torch, m: int, n: int, k: int) -> dict[str, Any]:
         "b": b,
         "scale_a": scale_a,
         "scale_b": scale_b,
-        "scale_b_natural": scale_b_natural,
         "scale_a_shape": list(ash),
         "scale_b_shape": list(bsh),
     }
@@ -138,6 +147,10 @@ def _run_shape(torch, F, ScalingType, SwizzleType, name: str,
             "scale_b_shape": c["scale_b_shape"],
             "scale_a_stride": list(c["scale_a"].stride()),
             "scale_b_stride": list(c["scale_b"].stride()),
+            # Recorded so the contiguity requirement that killed the first run
+            # cannot regress silently into a future "API rejected" result.
+            "scale_a_contiguous": bool(c["scale_a"].is_contiguous()),
+            "scale_b_contiguous": bool(c["scale_b"].is_contiguous()),
         })
 
         out1 = _call(torch, F, ScalingType, SwizzleType, c)

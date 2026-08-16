@@ -1,0 +1,863 @@
+{
+  "kind": "s100_native_nvfp4_c2b_torch212_contract",
+  "status": "native_execution_candidate",
+  "started_utc": "2026-08-16T18:34:43.147153+00:00",
+  "preregistration": "pro_research\\S100_NATIVE_NVFP4_C2B_PREREGISTRATION.md",
+  "claim_boundary": "synthetic single-level BlockWise1x16 native FP4 execution/timing only; no Lightning quality, real-scale, activation-quantization or token/s claim",
+  "environment": {
+    "created_utc": "2026-08-16T18:34:44.983676+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-fp4-c2b\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "d2478ac19052dbd7217d7acf5fd9cc0e933682e3",
+    "git_status": [
+      "M pro_research/diag_native_nvfp4_c2b_torch212.py",
+      "?? pro_research/results/native_nvfp4/C2B_TORCH212_CONTRACT.json",
+      "?? pro_research/results/native_nvfp4/C2B_TORCH212_CONTRACT_VERIFICATION.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json",
+      "?? scripts/lightningstream_nemotron/bench_current_toks.py",
+      "?? scripts/lightningstream_nemotron/chat_lightning.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 50, 10.58 W, 495 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "pro_research\\diag_native_nvfp4_c2b_torch212.py": "10cdcdc2975d1f715365f0f291a40ef66de99ae87f1f9c3530c8e3045c424c33",
+      "pro_research\\S100_NATIVE_NVFP4_C2B_PREREGISTRATION.md": "6f8f7d1207557b4ea9beda773fe4f251ddeeb8382329411a6e45b17591d0fa2d"
+    }
+  },
+  "api": {
+    "torch_version": "2.12.1+cu132",
+    "torch_cuda_version": "13.2",
+    "cuda_available": true,
+    "device_name": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU",
+    "capability": [
+      12,
+      0
+    ],
+    "F_scaled_mm_present": true,
+    "F_scaled_mm_signature": "(mat_a: torch.Tensor, mat_b: torch.Tensor, scale_a: torch.Tensor | list[torch.Tensor], scale_recipe_a: torch.nn.functional._ScalingType | list[torch.nn.functional._ScalingType], scale_b: torch.Tensor | list[torch.Tensor], scale_recipe_b: torch.nn.functional._ScalingType | list[torch.nn.functional._ScalingType], swizzle_a: torch.nn.functional._SwizzleType | list[torch.nn.functional._SwizzleType] | None = None, swizzle_b: torch.nn.functional._SwizzleType | list[torch.nn.functional._SwizzleType] | None = None, bias: torch.Tensor | None = None, output_dtype: torch.dtype | None = torch.bfloat16, contraction_dim: list[int] | tuple[int, ...] = (), use_fast_accum: bool = False) -> torch.Tensor",
+    "float4_e2m1fn_x2_present": true,
+    "ScalingType_BlockWise1x16_present": true,
+    "SwizzleType_32_4_4_present": true,
+    "torch__scaled_mm_v2_present": true,
+    "torch__scaled_mm_v2_signature_or_repr": "<built-in method _scaled_mm_v2 of type object at 0x00007FFCB4ECDF90>",
+    "aten_scaled_mm_v2_schema": "aten::_scaled_mm_v2(Tensor self, Tensor mat2, Tensor[] scale_a, int[] recipe_a, int[] swizzle_a, Tensor[] scale_b, int[] recipe_b, int[] swizzle_b, Tensor? bias, ScalarType? out_dtype, int[] contraction_dim=[], bool use_fast_accum=False) -> Tensor"
+  },
+  "gates": {
+    "G1_torch_2_12_1_cu132": true,
+    "G2_cuda_sm120_or_newer": true,
+    "G3_public_scaled_mm_present": true,
+    "G4_fp4_dtype_present": true,
+    "G5_BlockWise1x16_present": true,
+    "G6_SWIZZLE_32_4_4_present": true,
+    "G7_scaled_mm_v2_recordable": true,
+    "K1_M1_known_value_executes": true,
+    "K2_all_known_values_exact_bf16": true,
+    "K3_all_known_values_deterministic": true,
+    "K4_all_known_values_finite": true,
+    "P1_M1_QLIKE_lt_0_20ms": true,
+    "P2_M2_QLIKE_lt_0_25ms": true,
+    "P3_M2_vs_M1_QLIKE_ratio_le_1_40": true,
+    "P4_M1_MAMBA_IN_lt_0_30ms": true,
+    "P5_M2_vs_M1_MAMBA_IN_ratio_le_1_40": true,
+    "C3_real_checkpoint_open": true
+  },
+  "known_value": [
+    {
+      "name": "KNOWN_M1",
+      "M": 1,
+      "N": 128,
+      "K": 256,
+      "reps": 200,
+      "a_storage_u8_shape": [
+        1,
+        128
+      ],
+      "a_fp4_shape": [
+        1,
+        128
+      ],
+      "a_fp4_stride": [
+        128,
+        1
+      ],
+      "b_storage_u8_shape": [
+        128,
+        128
+      ],
+      "b_fp4_shape": [
+        128,
+        128
+      ],
+      "b_fp4_stride": [
+        1,
+        128
+      ],
+      "scale_a_shape": [
+        128,
+        16
+      ],
+      "scale_b_shape": [
+        16,
+        128
+      ],
+      "scale_a_stride": [
+        16,
+        1
+      ],
+      "scale_b_stride": [
+        128,
+        1
+      ],
+      "scale_a_contiguous": true,
+      "scale_b_contiguous": true,
+      "output_shape": [
+        1,
+        128
+      ],
+      "output_dtype": "torch.bfloat16",
+      "finite": true,
+      "deterministic": true,
+      "expected_bf16": 256.0,
+      "all_equal_expected": true,
+      "max_abs_error": 0.0,
+      "mean_abs_error": 0.0,
+      "event_samples_ms": [
+        0.021716001033782958,
+        0.021058239936828614,
+        0.020543200969696043,
+        0.01977952003479004,
+        0.024299519062042238,
+        0.02496880054473877,
+        0.021002240180969238
+      ],
+      "event_ms": {
+        "count": 7,
+        "min": 0.01977952003479004,
+        "p50": 0.021058239936828614,
+        "max": 0.02496880054473877
+      },
+      "b_physical_bytes": 18432,
+      "b_payload_gb_s_p50": 0.8752868262159175,
+      "status": "pass"
+    },
+    {
+      "name": "KNOWN_M2",
+      "M": 2,
+      "N": 128,
+      "K": 256,
+      "reps": 200,
+      "a_storage_u8_shape": [
+        2,
+        128
+      ],
+      "a_fp4_shape": [
+        2,
+        128
+      ],
+      "a_fp4_stride": [
+        128,
+        1
+      ],
+      "b_storage_u8_shape": [
+        128,
+        128
+      ],
+      "b_fp4_shape": [
+        128,
+        128
+      ],
+      "b_fp4_stride": [
+        1,
+        128
+      ],
+      "scale_a_shape": [
+        128,
+        16
+      ],
+      "scale_b_shape": [
+        16,
+        128
+      ],
+      "scale_a_stride": [
+        16,
+        1
+      ],
+      "scale_b_stride": [
+        128,
+        1
+      ],
+      "scale_a_contiguous": true,
+      "scale_b_contiguous": true,
+      "output_shape": [
+        2,
+        128
+      ],
+      "output_dtype": "torch.bfloat16",
+      "finite": true,
+      "deterministic": true,
+      "expected_bf16": 256.0,
+      "all_equal_expected": true,
+      "max_abs_error": 0.0,
+      "mean_abs_error": 0.0,
+      "event_samples_ms": [
+        0.020178399085998534,
+        0.023776960372924805,
+        0.021939198970794677,
+        0.020623040199279786,
+        0.022236320972442627,
+        0.02653759956359863,
+        0.021252639293670654
+      ],
+      "event_ms": {
+        "count": 7,
+        "min": 0.020178399085998534,
+        "p50": 0.021939198970794677,
+        "max": 0.02653759956359863
+      },
+      "b_physical_bytes": 18432,
+      "b_payload_gb_s_p50": 0.8401400627496274,
+      "status": "pass"
+    },
+    {
+      "name": "KNOWN_M16",
+      "M": 16,
+      "N": 128,
+      "K": 256,
+      "reps": 200,
+      "a_storage_u8_shape": [
+        16,
+        128
+      ],
+      "a_fp4_shape": [
+        16,
+        128
+      ],
+      "a_fp4_stride": [
+        128,
+        1
+      ],
+      "b_storage_u8_shape": [
+        128,
+        128
+      ],
+      "b_fp4_shape": [
+        128,
+        128
+      ],
+      "b_fp4_stride": [
+        1,
+        128
+      ],
+      "scale_a_shape": [
+        128,
+        16
+      ],
+      "scale_b_shape": [
+        16,
+        128
+      ],
+      "scale_a_stride": [
+        16,
+        1
+      ],
+      "scale_b_stride": [
+        128,
+        1
+      ],
+      "scale_a_contiguous": true,
+      "scale_b_contiguous": true,
+      "output_shape": [
+        16,
+        128
+      ],
+      "output_dtype": "torch.bfloat16",
+      "finite": true,
+      "deterministic": true,
+      "expected_bf16": 256.0,
+      "all_equal_expected": true,
+      "max_abs_error": 0.0,
+      "mean_abs_error": 0.0,
+      "event_samples_ms": [
+        0.02180351972579956,
+        0.02358448028564453,
+        0.020571999549865723,
+        0.02117840051651001,
+        0.02080656051635742,
+        0.028822720050811768,
+        0.020125439167022707
+      ],
+      "event_ms": {
+        "count": 7,
+        "min": 0.020125439167022707,
+        "p50": 0.02117840051651001,
+        "max": 0.028822720050811768
+      },
+      "b_physical_bytes": 18432,
+      "b_payload_gb_s_p50": 0.8703206828877845,
+      "status": "pass"
+    },
+    {
+      "name": "KNOWN_M128",
+      "M": 128,
+      "N": 128,
+      "K": 256,
+      "reps": 200,
+      "a_storage_u8_shape": [
+        128,
+        128
+      ],
+      "a_fp4_shape": [
+        128,
+        128
+      ],
+      "a_fp4_stride": [
+        128,
+        1
+      ],
+      "b_storage_u8_shape": [
+        128,
+        128
+      ],
+      "b_fp4_shape": [
+        128,
+        128
+      ],
+      "b_fp4_stride": [
+        1,
+        128
+      ],
+      "scale_a_shape": [
+        128,
+        16
+      ],
+      "scale_b_shape": [
+        16,
+        128
+      ],
+      "scale_a_stride": [
+        16,
+        1
+      ],
+      "scale_b_stride": [
+        128,
+        1
+      ],
+      "scale_a_contiguous": true,
+      "scale_b_contiguous": true,
+      "output_shape": [
+        128,
+        128
+      ],
+      "output_dtype": "torch.bfloat16",
+      "finite": true,
+      "deterministic": true,
+      "expected_bf16": 256.0,
+      "all_equal_expected": true,
+      "max_abs_error": 0.0,
+      "mean_abs_error": 0.0,
+      "event_samples_ms": [
+        0.019870400428771973,
+        0.021468639373779297,
+        0.020469439029693604,
+        0.020324320793151857,
+        0.019769920110702513,
+        0.034682879447937014,
+        0.04687359809875488
+      ],
+      "event_ms": {
+        "count": 7,
+        "min": 0.019769920110702513,
+        "p50": 0.020469439029693604,
+        "max": 0.04687359809875488
+      },
+      "b_physical_bytes": 18432,
+      "b_payload_gb_s_p50": 0.9004643445900969,
+      "status": "pass"
+    }
+  ],
+  "performance": [
+    {
+      "name": "M1_QLIKE",
+      "M": 1,
+      "N": 4096,
+      "K": 2688,
+      "reps": 300,
+      "a_storage_u8_shape": [
+        1,
+        1344
+      ],
+      "a_fp4_shape": [
+        1,
+        1344
+      ],
+      "a_fp4_stride": [
+        1344,
+        1
+      ],
+      "b_storage_u8_shape": [
+        4096,
+        1344
+      ],
+      "b_fp4_shape": [
+        1344,
+        4096
+      ],
+      "b_fp4_stride": [
+        1,
+        1344
+      ],
+      "scale_a_shape": [
+        128,
+        168
+      ],
+      "scale_b_shape": [
+        168,
+        4096
+      ],
+      "scale_a_stride": [
+        168,
+        1
+      ],
+      "scale_b_stride": [
+        4096,
+        1
+      ],
+      "scale_a_contiguous": true,
+      "scale_b_contiguous": true,
+      "output_shape": [
+        1,
+        4096
+      ],
+      "output_dtype": "torch.bfloat16",
+      "finite": true,
+      "deterministic": true,
+      "expected_bf16": 2688.0,
+      "all_equal_expected": true,
+      "max_abs_error": 0.0,
+      "mean_abs_error": 0.0,
+      "event_samples_ms": [
+        0.029750293095906575,
+        0.02993514696756999,
+        0.0310101318359375,
+        0.03265909194946289,
+        0.02987584114074707,
+        0.030152959823608397,
+        0.04172138532002767
+      ],
+      "event_ms": {
+        "count": 7,
+        "min": 0.029750293095906575,
+        "p50": 0.030152959823608397,
+        "max": 0.04172138532002767
+      },
+      "b_physical_bytes": 6193152,
+      "b_payload_gb_s_p50": 205.3911800443233,
+      "status": "pass"
+    },
+    {
+      "name": "M2_QLIKE",
+      "M": 2,
+      "N": 4096,
+      "K": 2688,
+      "reps": 300,
+      "a_storage_u8_shape": [
+        2,
+        1344
+      ],
+      "a_fp4_shape": [
+        2,
+        1344
+      ],
+      "a_fp4_stride": [
+        1344,
+        1
+      ],
+      "b_storage_u8_shape": [
+        4096,
+        1344
+      ],
+      "b_fp4_shape": [
+        1344,
+        4096
+      ],
+      "b_fp4_stride": [
+        1,
+        1344
+      ],
+      "scale_a_shape": [
+        128,
+        168
+      ],
+      "scale_b_shape": [
+        168,
+        4096
+      ],
+      "scale_a_stride": [
+        168,
+        1
+      ],
+      "scale_b_stride": [
+        4096,
+        1
+      ],
+      "scale_a_contiguous": true,
+      "scale_b_contiguous": true,
+      "output_shape": [
+        2,
+        4096
+      ],
+      "output_dtype": "torch.bfloat16",
+      "finite": true,
+      "deterministic": true,
+      "expected_bf16": 2688.0,
+      "all_equal_expected": true,
+      "max_abs_error": 0.0,
+      "mean_abs_error": 0.0,
+      "event_samples_ms": [
+        0.02977301279703776,
+        0.045009279251098634,
+        0.030738986333211264,
+        0.03041802724202474,
+        0.029816214243570963,
+        0.029879252115885418,
+        0.02995573361714681
+      ],
+      "event_ms": {
+        "count": 7,
+        "min": 0.02977301279703776,
+        "p50": 0.02995573361714681,
+        "max": 0.045009279251098634
+      },
+      "b_physical_bytes": 6193152,
+      "b_payload_gb_s_p50": 206.74345950436043,
+      "status": "pass"
+    },
+    {
+      "name": "M1_MAMBA_IN",
+      "M": 1,
+      "N": 10304,
+      "K": 2688,
+      "reps": 200,
+      "a_storage_u8_shape": [
+        1,
+        1344
+      ],
+      "a_fp4_shape": [
+        1,
+        1344
+      ],
+      "a_fp4_stride": [
+        1344,
+        1
+      ],
+      "b_storage_u8_shape": [
+        10304,
+        1344
+      ],
+      "b_fp4_shape": [
+        1344,
+        10304
+      ],
+      "b_fp4_stride": [
+        1,
+        1344
+      ],
+      "scale_a_shape": [
+        128,
+        168
+      ],
+      "scale_b_shape": [
+        168,
+        10368
+      ],
+      "scale_a_stride": [
+        168,
+        1
+      ],
+      "scale_b_stride": [
+        10368,
+        1
+      ],
+      "scale_a_contiguous": true,
+      "scale_b_contiguous": true,
+      "output_shape": [
+        1,
+        10304
+      ],
+      "output_dtype": "torch.bfloat16",
+      "finite": true,
+      "deterministic": true,
+      "expected_bf16": 2688.0,
+      "all_equal_expected": true,
+      "max_abs_error": 0.0,
+      "mean_abs_error": 0.0,
+      "event_samples_ms": [
+        0.04735856056213379,
+        0.047571358680725095,
+        0.04722239971160889,
+        0.04777167797088623,
+        0.04723616123199463,
+        0.047603998184204105,
+        0.04723008155822754
+      ],
+      "event_ms": {
+        "count": 7,
+        "min": 0.04722239971160889,
+        "p50": 0.04735856056213379,
+        "max": 0.04777167797088623
+      },
+      "b_physical_bytes": 15590400,
+      "b_payload_gb_s_p50": 329.19919471677366,
+      "status": "pass"
+    },
+    {
+      "name": "M2_MAMBA_IN",
+      "M": 2,
+      "N": 10304,
+      "K": 2688,
+      "reps": 200,
+      "a_storage_u8_shape": [
+        2,
+        1344
+      ],
+      "a_fp4_shape": [
+        2,
+        1344
+      ],
+      "a_fp4_stride": [
+        1344,
+        1
+      ],
+      "b_storage_u8_shape": [
+        10304,
+        1344
+      ],
+      "b_fp4_shape": [
+        1344,
+        10304
+      ],
+      "b_fp4_stride": [
+        1,
+        1344
+      ],
+      "scale_a_shape": [
+        128,
+        168
+      ],
+      "scale_b_shape": [
+        168,
+        10368
+      ],
+      "scale_a_stride": [
+        168,
+        1
+      ],
+      "scale_b_stride": [
+        10368,
+        1
+      ],
+      "scale_a_contiguous": true,
+      "scale_b_contiguous": true,
+      "output_shape": [
+        2,
+        10304
+      ],
+      "output_dtype": "torch.bfloat16",
+      "finite": true,
+      "deterministic": true,
+      "expected_bf16": 2688.0,
+      "all_equal_expected": true,
+      "max_abs_error": 0.0,
+      "mean_abs_error": 0.0,
+      "event_samples_ms": [
+        0.047223200798034666,
+        0.04785520076751709,
+        0.04736368179321289,
+        0.047455039024353024,
+        0.04808640003204346,
+        0.04587264060974121,
+        0.04566431999206543
+      ],
+      "event_ms": {
+        "count": 7,
+        "min": 0.04566431999206543,
+        "p50": 0.04736368179321289,
+        "max": 0.04808640003204346
+      },
+      "b_physical_bytes": 15590400,
+      "b_payload_gb_s_p50": 329.16359982458266,
+      "status": "pass"
+    },
+    {
+      "name": "M1_LM_HEAD",
+      "M": 1,
+      "N": 131072,
+      "K": 2688,
+      "reps": 40,
+      "a_storage_u8_shape": [
+        1,
+        1344
+      ],
+      "a_fp4_shape": [
+        1,
+        1344
+      ],
+      "a_fp4_stride": [
+        1344,
+        1
+      ],
+      "b_storage_u8_shape": [
+        131072,
+        1344
+      ],
+      "b_fp4_shape": [
+        1344,
+        131072
+      ],
+      "b_fp4_stride": [
+        1,
+        1344
+      ],
+      "scale_a_shape": [
+        128,
+        168
+      ],
+      "scale_b_shape": [
+        168,
+        131072
+      ],
+      "scale_a_stride": [
+        168,
+        1
+      ],
+      "scale_b_stride": [
+        131072,
+        1
+      ],
+      "scale_a_contiguous": true,
+      "scale_b_contiguous": true,
+      "output_shape": [
+        1,
+        131072
+      ],
+      "output_dtype": "torch.bfloat16",
+      "finite": true,
+      "deterministic": true,
+      "expected_bf16": 2688.0,
+      "all_equal_expected": true,
+      "max_abs_error": 0.0,
+      "mean_abs_error": 0.0,
+      "event_samples_ms": [
+        0.5647647857666016,
+        0.577941608428955,
+        0.5806687831878662,
+        0.5820159912109375,
+        0.5841351985931397,
+        0.585644006729126,
+        0.5850096225738526
+      ],
+      "event_ms": {
+        "count": 7,
+        "min": 0.5647647857666016,
+        "p50": 0.5820159912109375,
+        "max": 0.585644006729126
+      },
+      "b_physical_bytes": 198180864,
+      "b_payload_gb_s_p50": 340.50759256230504,
+      "status": "pass"
+    },
+    {
+      "name": "M2_LM_HEAD",
+      "M": 2,
+      "N": 131072,
+      "K": 2688,
+      "reps": 40,
+      "a_storage_u8_shape": [
+        2,
+        1344
+      ],
+      "a_fp4_shape": [
+        2,
+        1344
+      ],
+      "a_fp4_stride": [
+        1344,
+        1
+      ],
+      "b_storage_u8_shape": [
+        131072,
+        1344
+      ],
+      "b_fp4_shape": [
+        1344,
+        131072
+      ],
+      "b_fp4_stride": [
+        1,
+        1344
+      ],
+      "scale_a_shape": [
+        128,
+        168
+      ],
+      "scale_b_shape": [
+        168,
+        131072
+      ],
+      "scale_a_stride": [
+        168,
+        1
+      ],
+      "scale_b_stride": [
+        131072,
+        1
+      ],
+      "scale_a_contiguous": true,
+      "scale_b_contiguous": true,
+      "output_shape": [
+        2,
+        131072
+      ],
+      "output_dtype": "torch.bfloat16",
+      "finite": true,
+      "deterministic": true,
+      "expected_bf16": 2688.0,
+      "all_equal_expected": true,
+      "max_abs_error": 0.0,
+      "mean_abs_error": 0.0,
+      "event_samples_ms": [
+        0.5755368232727051,
+        0.5811247825622559,
+        0.5875711917877198,
+        0.5841703891754151,
+        0.5840199947357178,
+        0.5857207775115967,
+        0.5864696025848388
+      ],
+      "event_ms": {
+        "count": 7,
+        "min": 0.5755368232727051,
+        "p50": 0.5841703891754151,
+        "max": 0.5875711917877198
+      },
+      "b_physical_bytes": 198180864,
+      "b_payload_gb_s_p50": 339.2518136356448,
+      "status": "pass"
+    }
+  ],
+  "summary": {
+    "M1_QLIKE_p50_ms": 0.030152959823608397,
+    "M2_QLIKE_p50_ms": 0.02995573361714681,
+    "M1_MAMBA_IN_p50_ms": 0.04735856056213379,
+    "M2_MAMBA_IN_p50_ms": 0.04736368179321289,
+    "M1_LM_HEAD_p50_ms": 0.5820159912109375,
+    "M2_LM_HEAD_p50_ms": 0.5841703891754151,
+    "qlike_M2_over_M1": 0.9934591427304206,
+    "mamba_in_M2_over_M1": 1.0001081373888545,
+    "lm_head_M2_over_M1": 1.00370161300894
+  },
+  "completed_utc": "2026-08-16T18:34:46.036069+00:00"
+}

@@ -11,6 +11,59 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Synthese van de vier N-schalingstests: het patroon is niet "Mamba/lm_head zijn uitzonderingen", het is "duurdere kernels schalen slechter"
+
+**Waarom dit een aparte vermelding verdient.** Vier losse metingen deze
+sessie (`diag_attention_n_scaling.py`, `diag_mamba_n_scaling.py`,
+`diag_shared_expert_n_scaling.py`, `diag_lmhead_n_scaling.py`) testten elk
+één component apart. Naast elkaar gelegd (geen nieuwe GPU-run — puur
+hergebruik van de vier bestaande JSON-resultaten) ontstaat een patroon dat
+in geen van de vier losse write-ups genoemd werd:
+
+| component | ms/aanroep bij N=1 | verhouding vs. ideaal-lineair @N=8 | @N=16 |
+|---|---:|---:|---:|
+| shared-expert | 0,0378 | 0,848 | 0,912 |
+| attentie | 0,0961 | 0,958 | 0,970 |
+| Mamba in_proj | 0,1767 | 1,164 | 1,148 |
+| lm_head | 1,1537 | 1,208 | 1,194 |
+
+**Monotoon: hoe duurder de kernel per aanroep, hoe slechter (meer
+supra-lineair) de schaling bij herhaalde back-to-back-aanroepen.** De twee
+goedkope/snelle kernels (shared-expert, attentie) schalen vlak of zelfs
+iets ONDER ideaal-lineair (vaste per-launch-overhead die relatief kleiner
+wordt bij grotere N); de twee duurdere kernels (Mamba, lm_head) schalen
+merkbaar SLECHTER naarmate ze duurder zijn. Dit suggereert dat het probleem
+niet Mamba- of lm_head-specifiek is (niet de FP8-tensor-kernel, niet de
+vocab-vorm) maar een **algemene eigenschap van herhaalde back-to-back
+GPU-kernellaunches** op deze hardware — vermoedelijk klok-/stroomthrottling
+onder aanhoudende belasting of geheugencontrole-contentie die groter wordt
+naarmate de working set van de kernel groter is. **Oorzaak niet
+vastgesteld** (geen in-run klokmeting gedaan, alleen een snapshot ná afloop)
+— dit is een correlatie, geen bewezen mechanisme.
+
+**Wat dit sluit of opent.** Herkadreert de eerdere Mamba- en lm_head-
+correcties: het zijn geen twee losstaande, toevallige uitzonderingen op een
+verder betrouwbare "niet-gedeelde componenten schalen lineair"-aanname — het
+is één onderliggend patroon dat zich toevallig het sterkst manifesteert bij
+de twee duurste kernels. Voor een toekomstige batch>1-integratie betekent dit
+dat de "rest-profiteert-niet-mee"-correctie waarschijnlijk **breder van
+toepassing is** dan alleen Mamba/lm_head — elke kernel die duur genoeg is,
+verdient dezelfde check vóór hij als "triviaal lineair" wordt aangenomen.
+Opent een niet-uitgevoerde vervolgvraag: is dit klok-throttling (meetbaar
+via `nvidia-smi --query-gpu=clocks.sm --loop-ms=...` tijdens een run i.p.v.
+één snapshot erna) of geheugencontentie (meetbaar via Nsight Compute)? Geen
+van beide gedaan deze sessie — puur een analytische synthese van bestaande
+metingen, geen nieuwe GPU-tijd gebruikt.
+
+**Poorten.** N.v.t. — synthese-observatie, geen nieuwe meting, geen
+tok/s-claim.
+
+**Artefacten.** Geen nieuwe (hergebruikt `diag_attention_n_scaling.json`,
+`diag_mamba_n_scaling.json`, `diag_shared_expert_n_scaling.json`,
+`diag_lmhead_n_scaling.json`).
+
+---
+
 ## 2026-08-16 — lm_head-schaling: een NIEUW, nog nooit genoemd risico — grotere straf dan Mamba, op de duurste GEMV van het hele model
 
 **Vraag.** `BATCH_ARCHITECTURE_DESIGN.md` noemt lm_head nergens expliciet als

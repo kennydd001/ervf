@@ -362,6 +362,20 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       optimistischer dan gedacht (geen nieuw getal berekend). Read-only
       diagnostiek. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
       "lm_head-schaling".
+- [DONE 2026-08-16] **Synthese van de vier N-schalingstests — patroon
+      gevonden, geen nieuwe GPU-tijd gebruikt.** Attentie/Mamba/shared-
+      expert/lm_head se resultaten naast elkaar gelegd: verhouding-tegen-
+      ideaal-lineair correleert monotoon met ms/aanroep bij N=1
+      (shared-expert 0,0378ms, 0,85-0,91x; attentie 0,0961ms, 0,96-0,97x;
+      Mamba 0,1767ms, 1,15-1,16x; lm_head 1,1537ms, 1,19-1,21x). **Hoe
+      duurder de kernel, hoe slechter de schaling bij herhaalde back-to-
+      back-aanroepen** — geen twee losse toevalstreffers (Mamba, lm_head)
+      maar één onderliggend patroon, vermoedelijk klok-/stroomthrottling of
+      geheugencontentie (oorzaak niet vastgesteld, geen in-run klokmeting
+      gedaan). Betekent: elke voldoende dure kernel verdient dezelfde check
+      vóór hij als "triviaal lineair" wordt aangenomen. Zie
+      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Synthese van de vier
+      N-schalingstests".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,
   `cudaErrorStreamCaptureUnsupported` — `cudaGraphLaunch()` op een reeds

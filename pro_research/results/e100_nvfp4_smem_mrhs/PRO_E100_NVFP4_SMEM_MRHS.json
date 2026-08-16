@@ -1,0 +1,38 @@
+{
+  "kind": "pro_e100_nvfp4_smem_mrhs",
+  "mode": "smoke",
+  "status": "technical_failure",
+  "started_utc": "2026-08-16T15:16:11.779861+00:00",
+  "preregistration": "pro_research\\E100_NVFP4_SMEM_MRHS_PREREGISTRATION.md",
+  "claim_boundary": "exact NVFP4 shared-decode multi-RHS component; not a full-model E100 claim",
+  "environment_start": {
+    "created_utc": "2026-08-16T15:16:12.367809+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "7dc4bc33ca42f38fa0610915f7110c78a2f4c918",
+    "git_status": [
+      "M pro_research/results/e100_pairbatch/PRO_E100_PAIRBATCH.json",
+      " M pro_research/results/e100_pairbatch/PRO_E100_PAIRBATCH_VERIFICATION.json",
+      "?? pro_research/results/e100_pairbatch/E100_PAIRBATCH_smoke_20260816T151602Z.console.log",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 48, 10.92 W, 2160 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "pro_research\\e100_nvfp4_smem_mrhs.py": "966913a03ca4c363dd8226c23ea93eac0a07a583d916a589ab179008cc91ff3b",
+      "pro_research\\E100_NVFP4_SMEM_MRHS_PREREGISTRATION.md": "f508aa90a6e4906307310ab022a1b256f9c8d0a95b5a6c5f6f53f5c8068dc9b0",
+      "pro_research\\nvfp4_smem_mrhs_kernels.py": "0a33b8280144e2b6ed6f54dfbfca5b1849f6f12d8a7a45863db9dc167b284b1c",
+      "pro_research\\e100_mrhs_adopted_bench.py": "735ff26f83504be47e3472208656d861236303a28e4ab5b79b9b73eed5702113",
+      "pro_research\\e100_adopted_baseline.py": "27ad3fb500176f02cd52145102c5e813b7d550114857667bef3634c2fa9983ee"
+    }
+  },
+  "error": {
+    "type": "CUDADriverError",
+    "message": "CUDA_ERROR_INVALID_VALUE: invalid argument",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\e100_nvfp4_smem_mrhs.py\", line 91, in main\n    r = bench_case_adopted(\n        ^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\e100_mrhs_adopted_bench.py\", line 41, in bench_case_adopted\n    candidate_call(n, case, cand, X)\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\e100_nvfp4_smem_mrhs.py\", line 86, in candidate\n    return k.run(\n           ^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\nvfp4_smem_mrhs_kernels.py\", line 162, in run\n    self.kernels[n](\n  File \"cupy/_core/raw.pyx\", line 101, in cupy._core.raw.RawKernel.__call__\n  File \"cupy/cuda/function.pyx\", line 323, in cupy.cuda.function.Function.__call__\n  File \"cupy/cuda/function.pyx\", line 305, in cupy.cuda.function._launch\n  File \"cupy_backends/cuda/api/driver.pyx\", line 330, in cupy_backends.cuda.api.driver.launchKernel\n  File \"cupy_backends/cuda/api/driver.pyx\", line 64, in cupy_backends.cuda.api.driver.check_status\ncupy_backends.cuda.api.driver.CUDADriverError: CUDA_ERROR_INVALID_VALUE: invalid argument\n"
+  },
+  "completed_utc": "2026-08-16T15:16:15.571658+00:00"
+}

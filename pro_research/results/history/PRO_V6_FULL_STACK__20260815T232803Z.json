@@ -1,0 +1,162 @@
+{
+  "kind": "pro_v6_full_stack",
+  "status": "pass",
+  "mode": "full",
+  "started_utc": "2026-08-15T23:16:38.243029+00:00",
+  "mechanism_under_test": "install selective-ERVF dispatch (rt.k.mv_bf16/mv_fp8_tensor) AND batched-_moe_dev (panel_scan/reduce_partials) BEFORE setup_graph(), so both get captured into the same graph alongside device routing and graph-safe prompt staging -- three verified mechanisms in one arm",
+  "config": {
+    "tokens_per_prompt": 256,
+    "capacity": 72,
+    "prompt_count": 3,
+    "prompt_sync_excluded_from_decode_timing": true
+  },
+  "environment": {
+    "created_utc": "2026-08-15T23:16:43.662568+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "33276c11e85029f2fce2493d801510529b34c968",
+    "git_status": [
+      "M pro_research/down_proj_batch_kernels.py",
+      " M pro_research/moe_dev_batched.py",
+      " M pro_research/results/PRO_V5_BATCHED_DOWNPROJ_AB.json",
+      " M pro_research/results/PRO_V6_FULL_STACK.json",
+      " M pro_research/verify_down_proj_batch_kernels.json",
+      " M pro_research/verify_down_proj_batch_kernels.py",
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 65, 12.47 W, 3870 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615",
+      "src\\moe_lab\\lightningstream_nemotron\\fused_nvfp4.py": "2669431dba6f524844b096de129d9211bc9ae547fe0b87ce8bdcc144365cdcda",
+      "pro_research\\graph_v6_full_stack.py": "4630710a18e2db891159d8706e27bba1cbe52f18f3d1f6d4a9cfe86e0208e097",
+      "pro_research\\moe_dev_batched.py": "f6c3ba89f19957f035e1f969e16a60c490cbbf93fb912157879e043ef852e592",
+      "pro_research\\selective_ervf_v3.py": "2cfc61157f03e24ad20e70b82191d6eba19e486f530824db6afc0693984af2a6"
+    }
+  },
+  "prior_results_informative": {
+    "v4_p50_ms": 24.3152,
+    "v4_egr_p50_ms": 31.1786,
+    "v5_batched_p50_ms_eager": 28.7823,
+    "v5_base_mid_p50_ms_eager": 31.9375
+  },
+  "argmax_probe": {
+    "expected_low_index": 123,
+    "kernel": 123,
+    "cupy": 123,
+    "passed": true
+  },
+  "graph_dot_probe": {
+    "available": true,
+    "length": 120234,
+    "contains_bf16_ervf": true,
+    "contains_fp8_ervf": true,
+    "contains_panel_scan_batched": true,
+    "contains_reduce_partials_batched": true
+  },
+  "capture_dispatch_counters": {
+    "bf16_ervf": 24,
+    "bf16_prod": 24,
+    "fp8_ervf": 92,
+    "fp8_prod": 0,
+    "f32_prod": 46
+  },
+  "arms": {
+    "EGR": {
+      "timing_ms": {
+        "count": 765,
+        "mean": 31.369844183006535,
+        "p50": 31.3326,
+        "p95": 33.47092,
+        "p99": 34.867548000000006,
+        "max": 36.8715
+      }
+    },
+    "V6": {
+      "timing_ms": {
+        "count": 765,
+        "mean": 22.59823359477124,
+        "p50": 22.5354,
+        "p95": 24.76258,
+        "p99": 26.340208,
+        "max": 28.502
+      },
+      "extra_vram_bytes": 12582912
+    }
+  },
+  "per_prompt": {
+    "The capital of France is": {
+      "kind": "anchor",
+      "identical": true,
+      "first_divergence": null
+    },
+    "The history of computing began when": {
+      "kind": "anchor",
+      "identical": true,
+      "first_divergence": null
+    },
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": {
+      "kind": "code",
+      "identical": true,
+      "first_divergence": null
+    }
+  },
+  "determinism": {
+    "The capital of France is": {
+      "identical": true,
+      "first_divergence": null
+    },
+    "The history of computing began when": {
+      "identical": true,
+      "first_divergence": null
+    },
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": {
+      "identical": true,
+      "first_divergence": null
+    }
+  },
+  "control": {
+    "The capital of France is": {
+      "identical": false,
+      "first_divergence": 43
+    },
+    "The history of computing began when": {
+      "identical": false,
+      "first_divergence": 2
+    },
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": {
+      "identical": true,
+      "first_divergence": null
+    }
+  },
+  "composition_vs_v4": {
+    "v6_p50_ms": 22.5354,
+    "v4_p50_ms": 24.3152,
+    "v6_beats_v4": true,
+    "caveat": "cross-session comparison, informative only, not a gate"
+  },
+  "gates": {
+    "argmax_direct_tie": true,
+    "graph_dot_contains_all_mechanisms": true,
+    "v6_equals_egr": true,
+    "v6_deterministic": true,
+    "bad_pick_control_diverges": true,
+    "extra_vram_lt_64MiB": true,
+    "full_speed_gain_ge_2_5ms": true,
+    "full_samples_ge_500": true
+  },
+  "summary": {
+    "eager_p50_ms": 31.3326,
+    "v6_p50_ms": 22.5354,
+    "gain_ms": 8.7972,
+    "eager_tok_s": 31.915640578822057,
+    "v6_tok_s": 44.374628362487464
+  },
+  "completed_utc": "2026-08-15T23:18:40.047885+00:00"
+}

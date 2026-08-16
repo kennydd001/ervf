@@ -1,0 +1,122 @@
+{
+  "kind": "pro_v5_batched_downproj_ab",
+  "status": "pass",
+  "mode": "smoke",
+  "started_utc": "2026-08-15T23:12:36.404616+00:00",
+  "preregistration": "pro_research/PRO_V5_PREREGISTRATION.md",
+  "scope": "batches only panel_scan and reduce_partials across top_k expert slots; gather_down_sparse_ind and gemv_down_masked_partial_ind stay per-slot, unchanged",
+  "config": {
+    "tokens_per_prompt": 16,
+    "capacity": 72,
+    "prompt_count": 3
+  },
+  "environment": {
+    "created_utc": "2026-08-15T23:12:43.689303+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "33276c11e85029f2fce2493d801510529b34c968",
+    "git_status": [
+      "M pro_research/down_proj_batch_kernels.py",
+      " M pro_research/moe_dev_batched.py",
+      " M pro_research/verify_down_proj_batch_kernels.json",
+      " M pro_research/verify_down_proj_batch_kernels.py",
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 51, 10.00 W, 1215 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615",
+      "src\\moe_lab\\lightningstream_nemotron\\fused_nvfp4.py": "2669431dba6f524844b096de129d9211bc9ae547fe0b87ce8bdcc144365cdcda",
+      "pro_research\\moe_dev_batched.py": "f6c3ba89f19957f035e1f969e16a60c490cbbf93fb912157879e043ef852e592",
+      "pro_research\\down_proj_batch_kernels.py": "094d08d5d7b67d306aa80d63cf3dab62f656a3932ddbb681d251894fe9b135c3",
+      "pro_research\\PRO_V5_PREREGISTRATION.md": "e9259409a3b4cb64d5360b4fb083f005347ea3f4e6169bca9eb5315eac4beaa7"
+    }
+  },
+  "arms": {
+    "BASE_A": {
+      "timing_ms": {
+        "count": 45,
+        "mean": 34.59305111111111,
+        "p50": 33.8681,
+        "p95": 38.59242,
+        "p99": 41.000304,
+        "max": 41.2603
+      }
+    },
+    "BATCHED": {
+      "timing_ms": {
+        "count": 45,
+        "mean": 30.61790444444445,
+        "p50": 30.4057,
+        "p95": 32.67138,
+        "p99": 33.188012,
+        "max": 33.4466
+      }
+    },
+    "BASE_B": {
+      "timing_ms": {
+        "count": 45,
+        "mean": 33.12399555555557,
+        "p50": 32.9565,
+        "p95": 35.285560000000004,
+        "p99": 35.618576,
+        "max": 35.6987
+      }
+    }
+  },
+  "parity": {
+    "The capital of France is": {
+      "all_identical": true,
+      "batched_vs_base_a_first_divergence": null,
+      "base_b_vs_base_a_first_divergence": null
+    },
+    "The history of computing began when": {
+      "all_identical": true,
+      "batched_vs_base_a_first_divergence": null,
+      "base_b_vs_base_a_first_divergence": null
+    },
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": {
+      "all_identical": true,
+      "batched_vs_base_a_first_divergence": null,
+      "base_b_vs_base_a_first_divergence": null
+    }
+  },
+  "control": {
+    "The capital of France is": {
+      "identical": true,
+      "first_divergence": null
+    },
+    "The history of computing began when": {
+      "identical": false,
+      "first_divergence": 2
+    },
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": {
+      "identical": true,
+      "first_divergence": null
+    }
+  },
+  "gates": {
+    "batched_equals_base_bitexact": true,
+    "base_drift_le_1ms": true,
+    "ctl_diverges": true,
+    "candidate_gain_ge_1ms_or_3pct": true,
+    "full_samples_ge_500": null
+  },
+  "summary": {
+    "base_a_p50_ms": 33.8681,
+    "batched_p50_ms": 30.4057,
+    "base_b_p50_ms": 32.9565,
+    "baseline_mid_p50_ms": 33.4123,
+    "gain_ms": 3.0066000000000024,
+    "gain_fraction": 0.08998482594733084,
+    "base_drift_ms": 0.9116,
+    "batched_tok_s": 32.888570235186165
+  },
+  "completed_utc": "2026-08-15T23:13:23.056835+00:00"
+}

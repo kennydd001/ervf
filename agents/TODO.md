@@ -10,6 +10,32 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Afgerond
 
+- [WEERLEGD 2026-08-16] **PRO V12 async-harvest** — Kimi's bevroren prereg,
+  ongewijzigd gedraaid op de V6-stack. QUEUED-K (K=2..32) en EVENT-STREAM-K
+  (K=4,8,16) halen **43,1-44,7 tok/s** tegen SYNC **45,1** — geen enkele arm
+  sneller, geen E50. Beslissend getal: pure Python-uitgifte kost
+  **0,0128-0,0537 ms/token = 0,06-0,24% van een token**. Er is geen
+  queue-starvation; host-scheduling is meetbaar nul als E50-hefboom. Alle armen
+  bitexact (765 tokens × 8 armen). Maakt V12B/V12C overbodig vóór uitvoering.
+  Weerlegt tevens PV2-20's eigen controle-arm (18,8-19,1 ms/token reproduceert
+  niet binnen de volledige V6-rekenkunde) — open discrepantie, geen record.
+  Resultaat: `pro_research/results/v12_async/PRO_V12_ASYNC_HARVEST.json`.
+- [DONE 2026-08-16] **Drift-stabiele meetharness gevonden** — bijvangst van V12
+  en het eigenlijke resultaat: `baseline_drift_le_1ms` haalt **0,108 ms**, waar
+  PV2's hele campagne op 1,86-3,24 ms strandde. Recept: 128 tokens preheat,
+  één gevangen runtime (niet hercompileren tussen armen), `_reset_exact_state()`
+  dat state wist zonder graph-pointers te heralloceren, armen kort na elkaar in
+  één proces. **Hierdoor is PV2-11 (Q/K/V one-launch: exact op 3/3 prompts,
+  0,2387 ms onder baseline-midden, alléén op drift gesneuveld) opnieuw
+  beslisbaar.** Zie "Open — eerstvolgend".
+- [DONE 2026-08-16] **N=2 CUDA-graph multi-sequentie + echte staging-race-fix** —
+  drie bugs gevonden vóór enige tok/s-claim (4-byte pinned staging-slot dat een
+  gequeude H2D-copy te laat las → garbage==garbage "bitexact"; CACHE_ATTRS-
+  referentie-aliasing tussen graphs; `setup_graph` early-return). `runtime.py`
+  stageert prompttokens nu via een 256-slots pinned ring. Gemeten (beide
+  bitexact): private caches cap-24 → **36,86 tok/s** aggregate; gedeelde cache
+  cap-64 op één stream → **33,52**. Beide **onder** het single-stream record
+  van 47,41 — geïnterleavede batch>1 in deze vorm is netto verlies, geen winst.
 - [DONE 2026-08-15] **E0/P0** — pack ingelezen, treesweep200-namespace, identiteitsbaseline.
 - [DONE 2026-08-15] **E4 kernelfase** — 5 kandidaten; v4 bitexact **−17,8%**.
 - [DONE 2026-08-15] **E4 in-lus adoptie** (G-E4-T1) + onafhankelijke verifier 52/52.

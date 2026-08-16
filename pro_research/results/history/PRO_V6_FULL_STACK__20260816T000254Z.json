@@ -1,0 +1,171 @@
+{
+  "kind": "pro_v6_full_stack",
+  "status": "gate_failed",
+  "mode": "full",
+  "started_utc": "2026-08-15T23:58:08.464968+00:00",
+  "mechanism_under_test": "install selective-ERVF dispatch (rt.k.mv_bf16/mv_fp8_tensor) AND batched-_moe_dev (panel_scan/reduce_partials) BEFORE setup_graph(), so both get captured into the same graph alongside device routing and graph-safe prompt staging -- three verified mechanisms in one arm",
+  "config": {
+    "tokens_per_prompt": 256,
+    "capacity": 72,
+    "prompt_count": 3,
+    "prompt_sync_excluded_from_decode_timing": true
+  },
+  "environment": {
+    "created_utc": "2026-08-15T23:58:13.726837+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "f715069ab0e4d357545efa0f8032fdd210e77e92",
+    "git_status": [
+      "M pro_research/graph_v6_full_stack.py",
+      " M pro_research/moe_dev_batched.py",
+      " M pro_research/results/PRO_V6_FULL_STACK.json",
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/PRO_GATHER_BATCHED_AB.json",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log",
+      "?? pro_research/v_gather_batched_ab.py",
+      "?? pro_research/verify_down_gather_batch_real_data.json",
+      "?? pro_research/verify_down_gather_batch_real_data.py",
+      "?? pro_research/verify_down_gather_batch_real_full.json",
+      "?? pro_research/verify_down_gather_batch_real_full.py",
+      "?? pro_research/verify_gather_batch_real_full.json",
+      "?? pro_research/verify_gather_batch_real_full.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 57, 11.46 W, 8640 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615",
+      "src\\moe_lab\\lightningstream_nemotron\\fused_nvfp4.py": "2669431dba6f524844b096de129d9211bc9ae547fe0b87ce8bdcc144365cdcda",
+      "pro_research\\graph_v6_full_stack.py": "b830a7c42f0064a9f1a4c269d71d3865dda70bd72d1c681fc324519fa07ed8af",
+      "pro_research\\moe_dev_batched.py": "6eb28f35f5069aa4eac2bd776a3afd5ce56046c275de13e08a30700d0b48b404",
+      "pro_research\\selective_ervf_v3.py": "2cfc61157f03e24ad20e70b82191d6eba19e486f530824db6afc0693984af2a6"
+    }
+  },
+  "prior_results_informative": {
+    "v4_p50_ms": 24.3152,
+    "v4_egr_p50_ms": 31.1786,
+    "v5_batched_p50_ms_eager": 28.7823,
+    "v5_base_mid_p50_ms_eager": 31.9375
+  },
+  "argmax_probe": {
+    "expected_low_index": 123,
+    "kernel": 123,
+    "cupy": 123,
+    "passed": true
+  },
+  "graph_dot_probe": {
+    "available": true,
+    "length": 75931,
+    "contains_bf16_ervf": true,
+    "contains_fp8_ervf": true,
+    "contains_panel_scan_batched": true,
+    "contains_reduce_partials_batched": true,
+    "contains_accumulate_batched": true,
+    "contains_up_proj_batched": true,
+    "contains_gather_batched": true,
+    "contains_down_masked_batched": true
+  },
+  "capture_dispatch_counters": {
+    "bf16_ervf": 24,
+    "bf16_prod": 24,
+    "fp8_ervf": 92,
+    "fp8_prod": 0,
+    "f32_prod": 46
+  },
+  "arms": {
+    "EGR": {
+      "timing_ms": {
+        "count": 765,
+        "mean": 31.184678562091502,
+        "p50": 31.0881,
+        "p95": 33.46713999999999,
+        "p99": 34.606648,
+        "max": 36.2038
+      }
+    },
+    "V6": {
+      "timing_ms": {
+        "count": 765,
+        "mean": 21.200776601307187,
+        "p50": 21.1129,
+        "p95": 23.40984,
+        "p99": 25.019320000000004,
+        "max": 33.475
+      },
+      "extra_vram_bytes": 446693376
+    }
+  },
+  "per_prompt": {
+    "The capital of France is": {
+      "kind": "anchor",
+      "identical": true,
+      "first_divergence": null
+    },
+    "The history of computing began when": {
+      "kind": "anchor",
+      "identical": true,
+      "first_divergence": null
+    },
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": {
+      "kind": "code",
+      "identical": true,
+      "first_divergence": null
+    }
+  },
+  "determinism": {
+    "The capital of France is": {
+      "identical": true,
+      "first_divergence": null
+    },
+    "The history of computing began when": {
+      "identical": true,
+      "first_divergence": null
+    },
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": {
+      "identical": true,
+      "first_divergence": null
+    }
+  },
+  "control": {
+    "The capital of France is": {
+      "identical": false,
+      "first_divergence": 43
+    },
+    "The history of computing began when": {
+      "identical": false,
+      "first_divergence": 2
+    },
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": {
+      "identical": true,
+      "first_divergence": null
+    }
+  },
+  "composition_vs_v4": {
+    "v6_p50_ms": 21.1129,
+    "v4_p50_ms": 24.3152,
+    "v6_beats_v4": true,
+    "caveat": "cross-session comparison, informative only, not a gate"
+  },
+  "gates": {
+    "argmax_direct_tie": true,
+    "graph_dot_contains_all_mechanisms": true,
+    "v6_equals_egr": true,
+    "v6_deterministic": true,
+    "bad_pick_control_diverges": true,
+    "extra_vram_lt_64MiB": false,
+    "full_speed_gain_ge_2_5ms": true,
+    "full_samples_ge_500": true
+  },
+  "summary": {
+    "eager_p50_ms": 31.0881,
+    "v6_p50_ms": 21.1129,
+    "gain_ms": 9.975200000000001,
+    "eager_tok_s": 32.16664897500973,
+    "v6_tok_s": 47.36440754230826
+  },
+  "completed_utc": "2026-08-16T00:00:04.319908+00:00"
+}

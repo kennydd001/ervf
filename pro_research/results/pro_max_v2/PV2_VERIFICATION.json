@@ -1,0 +1,95 @@
+{
+  "kind": "pv2_independent_verification",
+  "candidates": {
+    "addnorm": {
+      "status": "verified",
+      "source_status": "gate_failed",
+      "expected_adopt": false,
+      "recorded_adopt": false,
+      "recomputed": {
+        "exact_micro": true,
+        "micro_speedup_ge_1_02": true,
+        "graph_candidate_present": true,
+        "extra_vram_lt_64MiB": true,
+        "causal_parity": false,
+        "base_drift_le_1ms": false,
+        "no_regression_gt_0_2pct": true,
+        "full_samples_gate": true
+      },
+      "p50_ms": 21.3962,
+      "tok_s": 46.73727110421477
+    },
+    "qkv": {
+      "status": "verified",
+      "source_status": "gate_failed",
+      "expected_adopt": false,
+      "recorded_adopt": false,
+      "recomputed": {
+        "exact_micro": true,
+        "micro_speedup_ge_1_02": true,
+        "graph_candidate_present": true,
+        "extra_vram_lt_64MiB": true,
+        "causal_parity": true,
+        "base_drift_le_1ms": false,
+        "no_regression_gt_0_2pct": true,
+        "full_samples_gate": true
+      },
+      "p50_ms": 21.4866,
+      "tok_s": 46.54063462809379
+    },
+    "lmhead_argmax": {
+      "status": "verified",
+      "source_status": "gate_failed",
+      "expected_adopt": false,
+      "recorded_adopt": false,
+      "recomputed": {
+        "exact_micro": true,
+        "micro_speedup_ge_1_02": false,
+        "graph_candidate_present": true,
+        "extra_vram_lt_64MiB": true,
+        "causal_parity": true,
+        "base_drift_le_1ms": false,
+        "no_regression_gt_0_2pct": false,
+        "full_samples_gate": true
+      },
+      "p50_ms": 22.3746,
+      "tok_s": 44.693536420762825
+    }
+  },
+  "finale": {
+    "status": "failed",
+    "gates": {
+      "causal": true,
+      "deterministic": true,
+      "control_diverges": true,
+      "drift_le_1ms": false,
+      "p50_present": true
+    },
+    "p50_ms": 21.5157,
+    "tok_s": 46.47768838569045,
+    "E50": false,
+    "E75": false,
+    "E100_single": false
+  },
+  "child_epoch": {
+    "source_status": "gate_failed",
+    "epochs": {
+      "2": {
+        "status": "verified",
+        "identical": true,
+        "speedup_recomputed": 0.963386433875124,
+        "speedup_matches": true
+      },
+      "4": {
+        "status": "verified",
+        "identical": true,
+        "speedup_recomputed": 0.9853491235572966,
+        "speedup_matches": true
+      }
+    }
+  },
+  "verdict": "verification_failed",
+  "failures": [
+    "finale"
+  ]
+}

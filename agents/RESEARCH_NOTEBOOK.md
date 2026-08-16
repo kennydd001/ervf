@@ -11,6 +11,72 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — PRO V12 async-harvest (Kimi's prereg, door Claude gedraaid): hypothese WEERLEGD — er is geen queue-starvation; maar de harness haalt als eerste in dit project de driftpoort (0,108 ms)
+
+**Vraag.** PV2-20's controle-arm mat losse gequeude child-replays op
+18,758 ms (K=2) / 19,066 ms (K=4) — beide onder de 20 ms E50-drempel —
+terwijl de V6-runner na élk token `ring_harvest()` roept, wat de graph-stream
+synchroniseert. Is het resterende E50-gat dus vooral host-synchronisatie die
+causaal niet nodig is (de graph schrijft argmax zelf naar `_tok_dev`)?
+
+**Opzet.** Kimi's bevroren `V12_ASYNC_HARVEST_PREREGISTRATION.md`, ongewijzigd
+gedraaid op de V6-stack (device-routing + graph-safe + selectieve ERVF +
+gebatchte panel_scan/reduce_partials/accumulate/up-proj + per-laag capaciteit).
+Geen enkele rekenkundige wijziging. Drie metrieken die nooit door elkaar mogen:
+SYNC (blokkerende host-round-trip per token), QUEUED-K (K replays queuen, één
+harvest), EVENT-STREAM-K (K replays queuen, per token een non-timing event
+pollen zodat elk token individueel bij de host aankomt). Full: 3 prompts ×
+256 tokens per arm, K ∈ {2,4,8,16,32} queued en {4,8,16} event-stream,
+128 tokens preheat, SYNC_A vóór en SYNC_B ná alle kandidaten.
+
+**Uitkomst (full, 765 tokens per arm).**
+
+| arm | tok/s | opmerking |
+|---|---:|---|
+| SYNC_A | 45,110 | 22,1682 ms p50 |
+| SYNC_B | 44,891 | 22,2764 ms p50 |
+| QUEUED K=2 / 4 / 8 / 16 / 32 | 44,654 / 44,502 / 44,481 / 43,130 / 44,359 | allemaal bitexact |
+| EVENT-STREAM K=4 / 8 / 16 | 44,459 / 44,567 / 44,570 | leveringsgat p50 22,6-22,8 ms |
+
+**De beslissende meting is niet de tok/s maar de issue-kost.** Pure
+Python-uitgiftetijd per token: **0,0537 ms (K=2) tot 0,0128 ms (K=32)** — dat
+is **0,06-0,24% van een token**. De host geeft een replay uit in 13-54 µs
+terwijl de GPU er 22.700 µs over doet. Er is niets te starven: de queue was
+nooit leeg.
+
+**Poorten.** `sync_a_b_token_parity` PASS · `all_queued_exact` PASS (alle K,
+alle 3 prompts, geen enkele divergentie) · `full_tokens_ge_500` PASS ·
+`baseline_drift_le_1ms` **PASS met 0,108 ms** · `queued_E50_any` FAIL ·
+`event_stream_E50_any` FAIL. Status: `gate_failed`.
+
+**Wat dit sluit.** Host-scheduling is *volledig* van de lijst E50-hefbomen af.
+Niet "klein" — meetbaar nul. Elke variant hierop (V12B rolling credit-window,
+V12C blocking-event credit) optimaliseert per constructie hetzelfde 0,05 ms en
+is daarmee overbodig geworden vóórdat hij gedraaid is; dat is de goedkoopste
+manier waarop dit resultaat waarde oplevert. Tegelijk **weerlegt dit PV2-20's
+eigen controle-arm**: de 18,8-19,1 ms/token reproduceert niet binnen de
+volledige V6-rekenkunde. Wat die arm ook mat, het was niet "dezelfde
+tokengraph, bevrijd van host-sync". Dat blijft een open, eerlijk gemelde
+discrepantie — géén nieuw record en geen bruikbaar getal.
+
+**Wat dit opent — en dit is het echte resultaat.** De harness haalt
+`drift = 0,108 ms`, waar PV2's hele campagne op 1,86-3,24 ms strandde en
+daardoor géén enkele ±0,3 ms-kandidaat kon beslissen. Het recept dat het doet:
+(1) 128 tokens preheat naar thermische steady-state, (2) één gevangen runtime
+in plaats van hercompileren tussen armen, (3) `_reset_exact_state()` dat model-
+en LRU-state wist zónder graph-gebonden pointers opnieuw te alloceren, (4) armen
+kort na elkaar in één proces. **PV2-11 (Q/K/V one-launch) was exact op alle drie
+prompts en 0,2387 ms sneller dan het baseline-midden, en sneuvelde ALLEEN op de
+driftpoort.** Die kandidaat is nu meetbaar geworden en verdient een hermeting in
+deze harness — dat is de eerstvolgende exacte kandidaat.
+
+**Artefacten.** `pro_research/results/v12_async/PRO_V12_ASYNC_HARVEST.json`
+(full, overschrijft de smoke), `pro_research/results/v12_async_full_console.log`,
+`pro_research/results/v12_async_smoke_console.log`. Runner en preregistratie
+komen van `origin/pro-v12-async` (Kimi), ongewijzigd overgenomen.
+
+---
+
 ## 2026-08-16 — PRO-MAX V2 (branch pro-max-v2) full-campagne: geen E50; QKV exact maar drift-gedood; add+norm divergeert pas bij 256 tokens; thermische drift > het hele E50-gat
 
 **Vraag.** Kan de exacte final-mile (add+next-RMSNorm, Q/K/V one-launch,

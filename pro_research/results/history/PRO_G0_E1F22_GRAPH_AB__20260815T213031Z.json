@@ -1,0 +1,493 @@
+{
+  "kind": "pro_g0_e1f22_graph_ab",
+  "status": "gate_failed",
+  "mode": "smoke",
+  "started_utc": "2026-08-15T21:22:02.850052+00:00",
+  "claim_boundary": "End-to-end A/B of the already-built E1F22 graph implementation in the registered <=4096 context regime. No long-context or 50 tok/s claim.",
+  "config": {
+    "tokens_per_prompt": 16,
+    "capacity": 72,
+    "contexts_max": 4096,
+    "prompts": [
+      {
+        "prompt": "The capital of France is",
+        "kind": "anchor",
+        "prompt_tokens": 5
+      },
+      {
+        "prompt": "The history of computing began when",
+        "kind": "anchor",
+        "prompt_tokens": 6
+      },
+      {
+        "prompt": "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n",
+        "kind": "code",
+        "prompt_tokens": 24
+      }
+    ],
+    "skip_control": true
+  },
+  "environment": {
+    "created_utc": "2026-08-15T21:22:10.201330+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "c5ad2d0db1377088b082ba9a59eae39a6529f350",
+    "git_status": [
+      "M pro_research/EXPERIMENT_REGISTRY.yaml",
+      " M pro_research/INSTALL_AND_RUN.ps1",
+      " M pro_research/PRO_HYPOTHESES.md",
+      " M pro_research/README.md",
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/__init__.py",
+      "?? pro_research/build_report.py",
+      "?? pro_research/common.py",
+      "?? pro_research/epoch_graph.py",
+      "?? pro_research/ervf_dense.py",
+      "?? pro_research/graph_e1f22.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/run_all.py",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/verify_results.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 49, 10.44 W, 952 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615",
+      "reports\\treesweep200\\E1F22_GRAPH_CAPTURE_PREREGISTRATION_2026-08-15.md": "934ecdb073d951d6a02acfe20e4aae5b0f6fb73c4bcfd9431549aa0a46a51e98"
+    }
+  },
+  "runtime_loaded_utc": "2026-08-15T21:22:50.403042+00:00",
+  "arms": {
+    "EGR": {
+      "prompts": [
+        {
+          "prompt": "The capital of France is",
+          "kind": "anchor",
+          "prompt_tokens": 5,
+          "ids": [
+            6993,
+            1046,
+            1256,
+            1010,
+            1784,
+            8961,
+            1307,
+            10787,
+            1395,
+            10874,
+            1046,
+            1256,
+            1010,
+            1784,
+            8961,
+            1307
+          ]
+        },
+        {
+          "prompt": "The history of computing began when",
+          "kind": "anchor",
+          "prompt_tokens": 6,
+          "ids": [
+            16059,
+            6990,
+            36359,
+            1408,
+            2034,
+            17296,
+            1046,
+            1531,
+            2158,
+            36359,
+            4968,
+            1486,
+            1278,
+            1715,
+            1413,
+            1374
+          ]
+        },
+        {
+          "prompt": "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n",
+          "kind": "code",
+          "prompt_tokens": 24,
+          "ids": [
+            13,
+            1975,
+            29896,
+            1010,
+            3149,
+            36598,
+            6561,
+            75178,
+            21777,
+            39318,
+            18086,
+            63369,
+            3640,
+            1293,
+            13118,
+            1293
+          ]
+        }
+      ],
+      "timing_ms": {
+        "count": 45,
+        "mean": 32.13108444444444,
+        "p50": 31.8802,
+        "p95": 35.26546,
+        "p99": 36.893952000000006,
+        "max": 37.1807
+      },
+      "raw_timing_ms": [
+        34.8005,
+        37.1807,
+        33.1241,
+        35.3817,
+        36.529,
+        33.089,
+        31.1236,
+        32.6682,
+        30.7352,
+        31.4902,
+        31.4386,
+        30.9194,
+        30.8073,
+        30.9769,
+        29.7188,
+        34.5163,
+        31.6021,
+        34.0259,
+        33.6455,
+        32.1518,
+        32.1801,
+        32.078,
+        31.3145,
+        31.8802,
+        32.8329,
+        32.0032,
+        32.0122,
+        30.8999,
+        33.3894,
+        30.8877,
+        33.2126,
+        31.3631,
+        32.0851,
+        30.8373,
+        31.9899,
+        32.3871,
+        30.7097,
+        30.7006,
+        30.8639,
+        30.8564,
+        30.8037,
+        32.7852,
+        30.635,
+        29.8727,
+        31.3936
+      ]
+    },
+    "GRAPH": {
+      "prompts": [
+        {
+          "prompt": "The capital of France is",
+          "kind": "anchor",
+          "prompt_tokens": 5,
+          "ids": [
+            1395,
+            1395,
+            1395,
+            1395,
+            1395,
+            1395,
+            1395,
+            1395,
+            1395,
+            1395,
+            1395,
+            1395,
+            1395,
+            1395,
+            1395,
+            1395
+          ]
+        },
+        {
+          "prompt": "The history of computing began when",
+          "kind": "anchor",
+          "prompt_tokens": 6,
+          "ids": [
+            2200,
+            2200,
+            2200,
+            2200,
+            2200,
+            2200,
+            2200,
+            2200,
+            2200,
+            2200,
+            2200,
+            2200,
+            2200,
+            2200,
+            2200,
+            2200
+          ]
+        },
+        {
+          "prompt": "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n",
+          "kind": "code",
+          "prompt_tokens": 24,
+          "ids": [
+            1626,
+            1626,
+            1626,
+            1626,
+            1626,
+            1626,
+            1626,
+            1626,
+            1626,
+            1626,
+            1626,
+            1626,
+            1626,
+            1626,
+            1626,
+            1626
+          ]
+        }
+      ],
+      "timing_ms": {
+        "count": 45,
+        "mean": 26.450088888888885,
+        "p50": 26.2439,
+        "p95": 28.77406,
+        "p99": 29.087224,
+        "max": 29.182
+      },
+      "raw_timing_ms": [
+        26.4088,
+        26.7402,
+        25.2188,
+        25.7078,
+        25.2859,
+        25.1249,
+        25.5953,
+        25.4651,
+        26.0567,
+        25.371,
+        25.0307,
+        25.946,
+        25.1937,
+        25.105,
+        25.367,
+        25.7625,
+        26.0108,
+        27.2778,
+        27.4542,
+        28.3433,
+        28.8364,
+        28.9666,
+        29.182,
+        28.5247,
+        27.9824,
+        27.328,
+        26.425,
+        26.9616,
+        26.1783,
+        25.8191,
+        26.5248,
+        26.5878,
+        26.174,
+        26.7801,
+        26.9651,
+        26.4656,
+        26.8492,
+        26.9982,
+        26.74,
+        26.4126,
+        26.2439,
+        25.7777,
+        25.9702,
+        25.5976,
+        25.4976
+      ],
+      "graph_extra_vram_bytes": 4194304
+    },
+    "DET": {
+      "The capital of France is": {
+        "identical": true,
+        "first_divergence": null,
+        "ids_a": [
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395
+        ],
+        "ids_b": [
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395,
+          1395
+        ]
+      },
+      "The history of computing began when": {
+        "identical": true,
+        "first_divergence": null,
+        "ids_a": [
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200
+        ],
+        "ids_b": [
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200
+        ]
+      },
+      "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": {
+        "identical": true,
+        "first_divergence": null,
+        "ids_a": [
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626
+        ],
+        "ids_b": [
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626,
+          1626
+        ]
+      }
+    }
+  },
+  "gates": {
+    "G_E1F22_PAR": {
+      "passed": false,
+      "graph_vs_eager": {
+        "The capital of France is": {
+          "identical": false,
+          "first_divergence": 0
+        },
+        "The history of computing began when": {
+          "identical": false,
+          "first_divergence": 0
+        },
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": {
+          "identical": false,
+          "first_divergence": 0
+        }
+      },
+      "anchor_first64": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "G_E1F22_CTL": {
+      "passed": null,
+      "required": "bad_pick graph diverges on at least one prompt"
+    },
+    "G_E1F22_DET": {
+      "passed": true
+    },
+    "G_E1F22_S1": {
+      "passed": true,
+      "eager_p50_ms": 31.8802,
+      "graph_p50_ms": 26.2439,
+      "gain_ms": 5.6362999999999985,
+      "required_gain_ms": 2.5,
+      "timed_samples": 45,
+      "sample_gate_ge_500": null
+    },
+    "G_E1F22_VRAM": {
+      "passed": true,
+      "extra_bytes": 4194304,
+      "limit_bytes": 67108864
+    }
+  },
+  "completed_utc": "2026-08-15T21:23:00.373747+00:00",
+  "summary": {
+    "eager_tok_s_from_p50": 31.367431822886935,
+    "graph_tok_s_from_p50": 38.104092760603415,
+    "gain_ms": 5.6362999999999985
+  }
+}

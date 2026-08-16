@@ -1,0 +1,83 @@
+registry: POST_V6_100TPS
+version: 2
+base_branch: pro-research
+base_commit: 5c699300da2d10552f5037426c1607119b2239b4
+current_verified:
+  p50_ms: 21.0923
+  tok_s: 47.41066645173831
+  result: pro_research/results/PRO_V6_FULL_STACK.json
+targets:
+  E50_ms: 20.0
+  E75_ms: 13.333333333333334
+  E100_ms: 10.0
+rules:
+- Do not add component speedups into a product claim.
+- A candidate may enter V10 only after exact micro parity and a frozen no-regression
+  gate.
+- Every GPU runner writes raw JSON under pro_research/results/pro_max_v2.
+- Technical failure is not silently converted into a negative scientific result.
+- 100 tok/s single-stream and aggregate are always labelled separately.
+experiments:
+- id: PV2-00
+  title: Post-V6 provenance and budget lock
+  runner: provenance_budget.py
+  phase: always
+  depends: []
+  gate: V6 result present; target budgets recomputed
+- id: PV2-10
+  title: Exact residual-add plus next RMSNorm
+  runner: addnorm_v7.py
+  phase: e50
+  depends:
+  - PV2-00
+  gate: bitexact micro; causal parity; no >0.2% regression
+- id: PV2-11
+  title: Exact mixed-shape Q/K/V one-launch kernel
+  runner: qkv_v8.py
+  phase: e50
+  depends:
+  - PV2-00
+  gate: Q/K/V bitexact; causal parity; no >0.2% regression
+- id: PV2-12
+  title: LM-head ERVF with exact hierarchical argmax
+  runner: lmhead_argmax_v9.py
+  phase: e50
+  depends:
+  - PV2-00
+  gate: debug logits bitexact; top-1 exact; causal parity; no >0.2% regression
+- id: PV2-13
+  title: Physical composition of adopted exact final-mile candidates
+  runner: finale_v10.py
+  phase: e50
+  depends:
+  - PV2-10
+  - PV2-11
+  - PV2-12
+  gate: all causal ids exact; control diverges; >=50 tok/s opens E50
+- id: PV2-20
+  title: Low-level CUDA child-graph epoch construction
+  runner: child_epoch_v11.py
+  phase: architecture
+  depends:
+  - PV2-00
+  gate: parent ids exact; >=1.02x queued throughput
+- id: PV2-21
+  title: CUDA conditional/device-launch/TMA capability census
+  runner: capabilities_v2.py
+  phase: architecture
+  depends:
+  - PV2-00
+  gate: informative capability result
+- id: PV2-30
+  title: Independent recomputation of all post-V6 gates
+  runner: verify.py
+  phase: always
+  depends: []
+  gate: verifier reads raw JSON only
+- id: PV2-31
+  title: Human-readable final status report
+  runner: report.py
+  phase: always
+  depends:
+  - PV2-30
+  gate: report generated

@@ -1,0 +1,114 @@
+{
+  "kind": "diag_gather_pcie_ceiling",
+  "created_utc": "2026-08-16T08:10:14.702031+00:00",
+  "note": "read-only bandwidth diagnostic; every non-reference arm copies the IDENTICAL byte set and is byte-compared against the production body (v0). Reference arms move the same byte COUNT but different bytes and are ceilings, never gather results. Sparsity is synthetic, calibrated to the S2 census (9% nonzero, non-clustered); the byte set is held fixed across arms so the comparison is unaffected.",
+  "environment": {
+    "created_utc": "2026-08-16T08:10:14.703032+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "898bbdf77f85093e927dee6d309fbe4fd2427875",
+    "git_status": [
+      "?? pro_research/diag_gather_ceiling_check.json",
+      "?? pro_research/diag_gather_ceiling_check.py",
+      "?? pro_research/diag_gather_pcie_ceiling.json",
+      "?? pro_research/diag_gather_pcie_ceiling.py",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 178 MiB, 50, 23.79 W, 2872 MHz, 11801 MHz, P1",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\fused_nvfp4.py": "2669431dba6f524844b096de129d9211bc9ae547fe0b87ce8bdcc144365cdcda"
+    }
+  },
+  "geometry": {
+    "hidden_rows": 2688,
+    "intermediate": 1856,
+    "npanel": 116,
+    "panel_stride_bytes": 24192,
+    "down_panel_bytes_per_expert": 2806272,
+    "bank_experts": 128,
+    "bank_bytes": 359202816,
+    "calls_per_token": 138,
+    "rounds_timed": 20
+  },
+  "workload": {
+    "nz_fraction_target": 0.09,
+    "nz_per_call_mean": 164.68840579710144,
+    "active_panels_per_call_mean": 90.09420289855072,
+    "all_zero_panel_fraction": 0.22332583708145937,
+    "gathered_bytes_per_token": 63964992,
+    "scale_byte_fraction": 0.5224717920702624
+  },
+  "arms": {
+    "v0_production": {
+      "ms_per_token": 3.855321502685547,
+      "gb_s": 16.59135093025138,
+      "blocks": 247,
+      "bytes_match_v0": true
+    },
+    "v1_unroll4": {
+      "ms_per_token": 4.089164733886719,
+      "gb_s": 15.642556894302906,
+      "blocks": 247,
+      "bytes_match_v0": true
+    },
+    "v2_split2": {
+      "ms_per_token": 4.171830368041992,
+      "gb_s": 15.332596571998526,
+      "blocks": 493,
+      "warps_per_column": 2,
+      "bytes_match_v0": true
+    },
+    "v2_split4": {
+      "ms_per_token": 4.059123229980469,
+      "gb_s": 15.758327199223212,
+      "blocks": 986,
+      "warps_per_column": 4,
+      "bytes_match_v0": true
+    },
+    "v2_split8": {
+      "ms_per_token": 4.700337600708008,
+      "gb_s": 13.608595261405267,
+      "blocks": 1972,
+      "warps_per_column": 8,
+      "bytes_match_v0": true
+    },
+    "v2_split16": {
+      "ms_per_token": 4.347342300415039,
+      "gb_s": 14.713585353951377,
+      "blocks": 3944,
+      "warps_per_column": 16,
+      "bytes_match_v0": true
+    },
+    "v3_no_scales_HYPOTHESIS": {
+      "ms_per_token": 2.4750511169433596,
+      "gb_s": 12.341194810441973,
+      "gathered_bytes_per_token": 30545088,
+      "is_strict_subset_of_v0_bytes": true,
+      "saving_vs_v0_ms_per_token": 1.3802703857421874,
+      "note": "HYPOTHESIS ARM, not a candidate: copies only the nonzero weight columns and skips the per-panel FP8 scale planes. Prices H-SCALE (scale planes resident in VRAM). The masked GEMV still needs those scales -- they would have to come from device memory, which this arm does not build."
+    },
+    "ref_contig_sm": {
+      "ms_per_token": 2.592241668701172,
+      "gb_s": 24.675551192744038,
+      "bytes_verified": true,
+      "note": "REFERENCE: contiguous SM-side uchar4 read of the same byte count; replicates S5's isolated 25.05 GB/s measurement on today's machine"
+    },
+    "ref_dma_contig": {
+      "ms_per_token": 2.468943977355957,
+      "gb_s": 25.90783451818191,
+      "bytes_verified": true,
+      "note": "REFERENCE: cudaMemcpyAsync of the same byte count; the copy engine's practical H2D ceiling on this link today"
+    }
+  },
+  "summary": {
+    "production_gb_s": 16.59135093025138,
+    "best_exact_variant_gb_s": 16.59135093025138,
+    "reference_ceiling_gb_s": 25.90783451818191,
+    "production_fraction_of_ceiling": 0.6403989850486231,
+    "best_speedup_vs_production": 1.0
+  }
+}

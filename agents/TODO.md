@@ -173,6 +173,37 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
   `PV2_FINAL_REPORT.md`, `PV2_VERIFICATION.json`. Zie RESEARCH_NOTEBOOK.md
   2026-08-16 bovenste blok.
 
+## Open — eerstvolgend
+
+- [ ] **H-SCALE — down_proj-blokschalen residentie in VRAM. Nu de beste
+      kandidaat die er is: gemeten winst, exact per constructie, past in het
+      VRAM-budget.** Grondslag: `diag_gather_pcie_ceiling.json` toont dat
+      **52,2% van al het down-PCIe-verkeer FP8-blokschalen zijn** (90,1 actieve
+      panelen × 2688 B tegen 164,7 kolommen × 1344 B), en hypothesearm v3 prijst
+      het weghalen daarvan op **−1,380 ms/token gemeten**. Netto na extra
+      missverkeer ≈ **−1,14 ms/token** → 21,09 → 19,95 ms ≈ **50,1 tok/s**.
+      Geen rekenkundige wijziging: dezelfde schaalbytes, andere herkomst.
+      Bouwstappen:
+      1. per laag een device-buffer `scale_planes` van `cap × 311.808 B`
+         (72 × 23 = 492,4 MiB; gemeten vrij tijdens de V12-full-run: 639 MiB);
+      2. `cache_fetch` DMA't bij een miss óók het schaalvlak naar slot `s`;
+      3. nieuwe gather-kernel zonder schaalpanelen (v3 staat al geschreven in
+         `diag_gather_pcie_ceiling.py`);
+      4. `gemv_down_masked_partial_ind` leest de schalen uit
+         `scale_planes + slot*plane_bytes + panel*2688` in plaats van uit de
+         mirror;
+      5. poort: bitexact tegen de huidige V6-stack over 3 × 256 tokens, VRAM
+         binnen budget, dan A/B in de V12-harness (drift 0,108 ms — beslisbaar).
+- [ ] **PV2-11 (Q/K/V one-launch) hermeten in de V12-harness.** Was exact op
+      3/3 prompts en 0,2387 ms onder het baseline-midden, en sneuvelde **alleen**
+      op de driftpoort (1,8577 ms). De V12-harness haalt 0,108 ms drift, dus deze
+      kandidaat is nu beslisbaar. Code staat in `pro_research/pro_max_v2/qkv_v8.py`.
+- [ ] **PV2-10 (add + next-RMSNorm) late divergentie isoleren** — micro
+      bitexact, maar causale pariteit faalt pas bij gegenereerd token 124 van
+      één prompt. Kimi's `diag_addnorm_late_divergence.py` (branch
+      `pro-v12-async`) staat klaar en is nog niet gedraaid. Niet heraanbieden
+      als kandidaat vóór de oorzaak bekend is.
+
 ## Open
 
 - [ ] **NIEUW, HOOGSTE PRIORITEIT 2026-08-16 — batch>1 cross-sequentie

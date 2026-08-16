@@ -11,6 +11,98 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Gather-PCIe-plafond gemeten: de gather zit op 64% van het linkplafond (niet 17%), concurrency-varianten helpen NIET — maar **52% van de down-bytes is schaal-metadata**, en die weghalen is gemeten −1,380 ms/token
+
+**Vraag.** N2 rapporteerde `gather_down_sparse` op **~4,3 GB/s effectief in de
+lus** tegen **25,05 GB/s** die S5 geïsoleerd mat — "6× slechter in de lus". Het
+down-pad is 6,5058 ms van een 22,53 ms-token (28,9%) en de STUB-arm zonder
+down_proj draait 16,02 ms = 62,4 tok/s. Als dat 6×-gat echt is, is dit de
+grootste onaangepakte inefficiëntie in het hele systeem. Klopt het nog?
+
+**Waarom S8/S11 dit niet beantwoorden.** Beide concludeerden "de MoE-term is
+niet transfergebonden", maar beide maten het **DMA**-pad (bulk
+`cudaMemcpyAsync` van up_proj-missers). De gather is een ánder mechanisme:
+SM-side zero-copy reads over PCIe. Die twee kunnen uiteenlopen en niets in het
+logboek scheidde ze. Dit doet dat.
+
+**Opzet.** Geïsoleerde bandbreedtemeting, géén modelload. Eén tokenlading
+gather-werk (23 lagen × 6 experts = 138 calls) op een pinned panel-major bank
+van echte afmeting (128 experts × 2.806.272 B = 359 MiB, zodat de
+"verspreid-over-een-groot-gebied"-eigenschap behouden blijft). Sparsity
+synthetisch maar gekalibreerd op de S2-census (9% nonzero, niet-geclusterd).
+**De bytesverzameling ligt vast over alle armen** en elke niet-referentiearm
+wordt byte-voor-byte vergeleken met de productie-body. Link gemeten:
+`nvidia-smi` → PCIe **Gen5 ×8**.
+
+**Eerst een eigen fout, gevonden vóór publicatie.** De eerste run rapporteerde
+de referentiearm op **97,9 GB/s** — fysiek onmogelijk over een ~31,5 GB/s-link.
+Guard-script `diag_gather_ceiling_check.py` toonde `sm_copy_bytes_correct:
+false` én een device→device-arm op 1630 GB/s: **`uchar4` is VIER bytes, geen
+zestien**, dus mijn referentiearm kopieerde een kwart van wat hij claimde
+(97,9/4 = 24,5 — precies het echte plafond). De productiekernel had het altijd
+goed (`rowhalf/4` = 336 uchar4 = 1344 B ✓). Beide referentiearmen worden nu
+byte-geverifieerd vóór hun getal telt.
+
+**Uitkomst (gecorrigeerd, alle armen byte-geverifieerd).**
+
+| arm | ms/token | GB/s | bytes == v0? |
+|---|---:|---:|---|
+| v0 productie-body | 3,855 | **16,591** | ✓ |
+| v1 unroll×4 (4 loads in flight) | 4,089 | 15,643 | ✓ |
+| v2 split×2 / ×4 / ×8 / ×16 warps per kolom | 4,17 / 4,06 / 4,70 / 4,35 | 15,3 / 15,8 / 13,6 / 14,7 | ✓ |
+| *ref: contigue SM-read, zelfde bytes-aantal* | *2,592* | *24,676* | *geverifieerd* |
+| *ref: `cudaMemcpyAsync`, zelfde bytes-aantal* | *2,469* | ***25,908*** | *geverifieerd* |
+
+**Bevinding 1 — N2's 6×-gat bestaat niet meer.** De gather draait op
+**16,591 GB/s = 64,0% van het linkplafond** (25,908 GB/s), niet op 17%. De
+V4-V6-lijn (gebatchte gather, graph-residentie) heeft dat gat grotendeels al
+gedicht. De 4,3 GB/s uit N2 is daarmee **verouderd en moet niet meer geciteerd
+worden**.
+
+**Bevinding 2 — de resterende 36% is géén concurrency-probleem.** Vier
+onafhankelijke manieren om meer PCIe-reads tegelijk in de lucht te hebben
+(unroll naar 4 loads per warp; 2, 4, 8 en 16 warps per kolom) maken het
+**allemaal langzamer**, niet sneller. De hypothese "de warps hebben te weinig
+uitstaande requests" is dus weerlegd. Wat overblijft is het verspreide
+toegangspatroon zelf, en dat is niet met een kernelvariant te repareren. Eerlijk
+negatief resultaat: hier zit geen goedkope winst.
+
+**Bevinding 3 — de echte hefboom is het bytesaantal, en die is groot.**
+Byte-boekhouding per call: 164,7 nonzero kolommen × 1344 B = 221,3 KB aan
+gewichten, plus 90,1 actieve panelen × 2688 B = 242,2 KB aan **FP8-blokschalen**.
+Dus **52,2% van al het down-PCIe-verkeer is schaal-metadata, geen gewichten**
+(63,96 MB/token totaal). Dat komt doordat een paneel zijn 2688 schaalbytes deelt
+over 16 kolommen, terwijl er bij 9% sparsity gemiddeld maar **1,8 van die 16
+kolommen** nonzero is — de schalen zijn per uitvoerrij nodig en dus onverkleinbaar
+per actief paneel, maar ze hoeven niet elke keer opnieuw over PCIe.
+
+**Hypothesearm v3 (geen kandidaat, prijskaartje).** Dezelfde kernel maar zonder
+de schaalpanelen op te halen — een strikte deelverzameling van v0's bytes,
+geverifieerd: **2,475 ms vs 3,855 ms = −1,380 ms/token**, 30,5 MB in plaats van
+64,0 MB.
+
+**Wat dit opent — H-SCALE.** Houd de down_proj-blokschaalvlakken van
+cache-residente experts in VRAM en haal alleen de nonzero gewichtkolommen nog
+over PCIe. Het is een **pure data-plaatsing**, geen rekenkundige wijziging: het
+zijn dezelfde schaalbytes, alleen van elders gelezen, dus bit-identiek per
+constructie (net als de bestaande `up_only`-cache en de panel-major repack).
+- kosten: 116 × 2688 = 311.808 B per expert; 72 slots × 23 lagen = **492,4 MiB**;
+  gemeten vrije VRAM tijdens de V12-full-run: 8151 − 7512 = **639 MiB** → past.
+- baten: −1,380 ms/token gemeten, minus +0,244 ms extra missverkeer
+  (20,24 missers/token × 311.808 B bij 25,9 GB/s) = **netto ≈ −1,14 ms/token**.
+- tegen het V6-record van 21,0923 ms → **19,95 ms ≈ 50,1 tok/s**; tegen de
+  V12-harness-baseline van 22,17 ms → 21,03 ms ≈ 47,6 tok/s.
+
+Dat is geen 100, maar het is de eerste kandidaat sinds V6 met een **gemeten**
+(niet geschatte) winst die het E50-gat alleen al overbrugt, en hij is exact.
+Bouwstappen staan in `agents/TODO.md` onder "Open — eerstvolgend".
+
+**Artefacten.** `pro_research/diag_gather_pcie_ceiling.py` + `.json`,
+`pro_research/diag_gather_ceiling_check.py` + `.json` (de guard die de
+uchar4-fout ving).
+
+---
+
 ## 2026-08-16 — PRO V12 async-harvest (Kimi's prereg, door Claude gedraaid): hypothese WEERLEGD — er is geen queue-starvation; maar de harness haalt als eerste in dit project de driftpoort (0,108 ms)
 
 **Vraag.** PV2-20's controle-arm mat losse gequeude child-replays op

@@ -148,6 +148,20 @@ gemeten (2026-08-16), en het beeld is per saldo positief maar genuanceerder:**
    interactie-effect dat pas zichtbaar werd toen beide mechanismen samen
    draaiden. Zie `agents/RESEARCH_NOTEBOOK.md` 2026-08-16 voor alle drie.
 
+**N-schaling van de niet-gedeelde componenten, viermaal gecheckt, plus de
+oorzaak gevonden (2026-08-16).** Naast attentie (bevestigd lineair) en Mamba
+(gecorrigeerd, mild supra-lineair) zijn ook shared-expert (**bevestigd
+lineair**, 0,85-0,92× ideaal) en lm_head (**nieuw risico, nooit eerder
+genoemd**: 1,19-1,24× ideaal, groter dan Mamba se straf, op de duurste GEMV
+van het model) gemeten. Patroon: hoe duurder de kernel per aanroep, hoe
+slechter de schaling — bevestigd als **reëel GPU-SM-klokverval** (36%,
+2685→~1710 MHz binnen ~1 seconde aanhoudende belasting,
+`diag_lmhead_throttle_check.py`). **Geruststellend:** `clocks.mem` bleef
+exact 9001 MHz, geen afwijking — dit project se roofline is
+geheugenbandbreedte-gebonden, dus de kern-roofline (165 tok/s ctx0) en V6's
+47,41 tok/s-record zijn **niet** bedreigd. Raakt alleen reken-zware kernels
+specifiek. Zie `agents/RESEARCH_NOTEBOOK.md` 2026-08-16.
+
 **Wat vaststaat over de doelen:** 50 en 100 tok/s zijn fysiek *niet*
 uitgesloten, maar 50+ vraagt méér dan graph-residentie alleen (plafond ~41,5
 bij ctx 64). **1000 tok/s is fysiek uitgesloten** — de gemeten streaming-

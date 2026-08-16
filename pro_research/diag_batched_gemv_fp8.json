@@ -1,0 +1,96 @@
+{
+  "kind": "diag_batched_gemv_fp8",
+  "created_utc": "2026-08-16T13:06:56.281934+00:00",
+  "note": "Correction to diag_batched_gemv_scaling, which measured the two Mamba shapes as BF16. They are FP8 tensor-scaled (38 782 608 B for 38.7M params = 1 byte/param; config quantization_config targets mixer.in_proj/out_proj at 8 bits). Those two carry 890.6 of the 1685.7 MB/token that result weighted, so the headline average needs this.",
+  "supersedes_for_shapes": [
+    "mamba_in_proj",
+    "mamba_out_proj"
+  ],
+  "rounds": 100,
+  "matrices_in_rotation": 8,
+  "shapes": {
+    "mamba_in_proj_fp8": {
+      "rows": 10304,
+      "cols": 2688,
+      "dtype": "fp8_e4m3_tensor_scaled",
+      "mb_per_token_in_model": 637.4,
+      "weight_bytes": 27697152,
+      "n1_bitexact_vs_production": true,
+      "finite_outputs": true,
+      "by_N": {
+        "1": {
+          "ms_per_batch_step": 0.2975916862487793,
+          "ms_per_token": 0.2975916862487793,
+          "weight_gb_s": 93.07098712712649,
+          "speedup_per_token_vs_N1": 1.0
+        },
+        "2": {
+          "ms_per_batch_step": 0.3118307113647461,
+          "ms_per_token": 0.15591535568237305,
+          "weight_gb_s": 88.8211166846964,
+          "speedup_per_token_vs_N1": 1.9086746455879933
+        },
+        "4": {
+          "ms_per_batch_step": 0.34143775939941406,
+          "ms_per_token": 0.08535943984985352,
+          "weight_gb_s": 81.1191827427612,
+          "speedup_per_token_vs_N1": 3.4863359784487855
+        },
+        "8": {
+          "ms_per_batch_step": 0.579997444152832,
+          "ms_per_token": 0.072499680519104,
+          "weight_gb_s": 47.75392077883307,
+          "speedup_per_token_vs_N1": 4.104731001819553
+        }
+      },
+      "speedup_at_N4": 3.4863359784487855,
+      "speedup_at_N8": 4.104731001819553
+    },
+    "mamba_out_proj_fp8": {
+      "rows": 2688,
+      "cols": 4096,
+      "dtype": "fp8_e4m3_tensor_scaled",
+      "mb_per_token_in_model": 253.2,
+      "weight_bytes": 11010048,
+      "n1_bitexact_vs_production": true,
+      "finite_outputs": true,
+      "by_N": {
+        "1": {
+          "ms_per_batch_step": 0.10626208305358886,
+          "ms_per_token": 0.10626208305358886,
+          "weight_gb_s": 103.61219810125066,
+          "speedup_per_token_vs_N1": 1.0
+        },
+        "2": {
+          "ms_per_batch_step": 0.10840607643127441,
+          "ms_per_token": 0.054203038215637205,
+          "weight_gb_s": 101.56301530735666,
+          "speedup_per_token_vs_N1": 1.9604451438837054
+        },
+        "4": {
+          "ms_per_batch_step": 0.12424768447875977,
+          "ms_per_token": 0.03106192111968994,
+          "weight_gb_s": 88.6137077418306,
+          "speedup_per_token_vs_N1": 3.4209758837559487
+        },
+        "8": {
+          "ms_per_batch_step": 0.2040559959411621,
+          "ms_per_token": 0.025506999492645264,
+          "weight_gb_s": 53.956013148345114,
+          "speedup_per_token_vs_N1": 4.165996987776969
+        }
+      },
+      "speedup_at_N4": 3.4209758837559487,
+      "speedup_at_N8": 4.165996987776969
+    }
+  },
+  "all_n1_bitexact_and_finite": true,
+  "mb_weighted_speedup_per_token": {
+    "1": 1.0,
+    "2": 1.9233931389278478,
+    "4": 3.467753925926637,
+    "8": 4.122149088103426
+  },
+  "covered_mb_per_token": 890.5999999999999,
+  "status": "measured"
+}

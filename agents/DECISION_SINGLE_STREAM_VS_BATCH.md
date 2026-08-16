@@ -13,10 +13,22 @@ naar batch. De fysica is daar niet marginaal beter maar een orde beter.**
 > ×5,10 bij N=8** — bij N=4 is dat 90% van perfecte schaling, en opvallend
 > consistent over alle zes shapes (3,48-3,68×).
 >
+> **CORRECTIE (`diag_batched_gemv_fp8.json`):** de twee Mamba-shapes zijn FP8,
+> niet BF16 (38.782.608 B voor 38,7M params = 1 byte/param). Zij dragen 890,6
+> van de 1685,7 MB/token. Gecorrigeerd MB-gewogen: **×3,52 bij N=4, ×4,64 bij
+> N=8** (was 3,61 / 5,10). Beide FP8-shapes bitexact en eindig.
+>
 > Toegepast op de in-graph componenttijden (projectie, geen meting):
-> **N=4 ≈ 11,2 ms/token ≈ 89 tok/s · N=8 ≈ 9,3 ms/token ≈ 107 tok/s.**
-> Bij N=8 komt het voor het eerst boven de 100 uit, waar single-stream op ~94
-> theoretisch maximum vastzit.
+> **N=4 ≈ 11,3 ms/token ≈ 88 tok/s · N=8 ≈ 9,5 ms/token ≈ 105 tok/s.**
+> Bij N=8 komt het boven de 100 uit, waar single-stream op ~94 theoretisch
+> maximum vastzit — maar met minder marge dan de eerste meting suggereerde.
+>
+> **Waarschuwing die daaruit volgt.** FP8 heeft de helft van BF16's bytes maar
+> kost bij N=1 evenveel per token (297,6 vs 296,2 µs op dezelfde shape): die
+> kernel is **niet bandbreedte-gebonden maar decode/reken-gebonden**, en
+> verzadigt daarom eerder onder batching. Mamba's hoofdruimte onder batching is
+> dus **kleiner dan de byte-boekhouding suggereert**. N=4 haalt 90% van perfecte
+> schaling, N=8 nog maar 58% — weeg dat mee in `N_MAX`.
 >
 > VRAM is de eerste harde randvoorwaarde: per sequentie ~48 MB Mamba-state +
 > ~12,6 MB KV bij ctx 4096, dus bij N=8 ~485 MB extra tegen ~605 MiB vrij.

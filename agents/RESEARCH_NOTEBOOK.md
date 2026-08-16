@@ -11,6 +11,57 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — ⚠️ **Correctie op mijn eigen batch-meting: de twee Mamba-shapes zijn FP8, niet BF16.** Gecorrigeerd ×3,52 bij N=4 en ×4,64 bij N=8 — en FP8 verzadigt eerder, wat een echte waarschuwing is
+
+**Wat er mis was.** `diag_batched_gemv_scaling` mat alle zes shapes als **BF16**.
+Voor de twee grootste klopt dat niet: het Mamba-laagbestand is 38.782.608 B voor
+38,7M parameters = **1 byte per parameter, dus FP8** (en `quantization_config`
+richt zich expliciet op `mixer.in_proj`/`out_proj` met 8 bits). Die twee dragen
+**890,6 van de 1685,7 MB/token** die het gewogen gemiddelde dekte — dus het
+kopgetal moest opnieuw.
+
+**Opzet.** Zelfde methode, juiste dtype: FP8 e4m3 met tensor-scale, koude
+rotatie, poort G1 = N=1 bitexact tegen de productie-`gemv_fp8_tensor`-geometrie
+**plus** een eindigheidscontrole.
+
+**Uitkomst (beide shapes bitexact en eindig).**
+
+| shape | µs/token N=1 | µs/token N=8 | ×N=4 | ×N=8 |
+|---|---:|---:|---:|---:|
+| mamba_in_proj (FP8) | 297,6 | 72,5 | 3,49 | **4,11** |
+| mamba_out_proj (FP8) | 106,3 | 25,5 | 3,42 | **4,17** |
+
+**Gecorrigeerd MB-gewogen over alle zes shapes:**
+
+| | N=2 | N=4 | N=8 |
+|---|---:|---:|---:|
+| eerder (alles als BF16) | 1,94 | 3,61 | 5,10 |
+| **gecorrigeerd** | ~1,92 | **3,52** | **4,64** |
+
+**Bij N=4 verandert er weinig (3,61 → 3,52), bij N=8 wel (5,10 → 4,64).**
+Herziene projectie: N=4 ≈ 11,3 ms ≈ **88 tok/s**, N=8 ≈ 9,5 ms ≈ **105 tok/s**.
+Nog steeds boven de 100 bij N=8, maar met minder marge.
+
+**De onderliggende vondst is belangrijker dan de correctie zelf.** FP8 heeft de
+**helft** van de bytes van BF16, maar de per-token tijd bij N=1 is vrijwel
+identiek: **297,6 µs (FP8) tegen 296,2 µs (BF16)** op dezelfde shape. Halveer de
+bytes en er verandert niets → **deze kernel is bij N=1 niet
+bandbreedte-gebonden maar decode/reken-gebonden**. En precies daarom verzadigt
+hij eerder onder batching: bij N=8 haalt FP8 4,1× waar BF16 5,1× haalt.
+
+Dat is een concrete waarschuwing voor het batchprogramma: **Mamba's
+hoofdruimte onder batching is kleiner dan de byte-boekhouding suggereert**,
+want Mamba's 892 MB/token wordt door een kernel gelezen die al niet
+bandbreedte-gebonden is. De 79%-dense-redenering uit de beslisnota blijft
+kloppen in richting, maar de winst op het grootste blok is ~4× en niet ~8× bij
+N=8. Dat hoort in B0's ontwerpkeuze voor `N_MAX` mee te wegen: **N=4 levert 90%
+van perfecte schaling, N=8 nog maar 58%** — de extra VRAM (~485 MB) en
+complexiteit van N=8 kopen steeds minder.
+
+**Artefacten.** `pro_research/diag_batched_gemv_fp8.py` + `.json`.
+
+---
+
 ## 2026-08-16 — **De batch-hypothese is GEMETEN, niet meer beredeneerd: per-token ×3,61 bij N=4 en ×5,10 bij N=8, bitexact bij N=1** — dit is het eerste resultaat van vandaag dat richting 100 wijst
 
 **Vraag.** De beslisnota (`DECISION_SINGLE_STREAM_VS_BATCH.md`) adviseert

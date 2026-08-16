@@ -2,7 +2,6 @@ param(
     [ValidateSet('smoke','full')]
     [string]$Mode = 'smoke'
 )
-
 $ErrorActionPreference = 'Stop'
 $Repo = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $Python = Join-Path $Repo '.venv-nemotron\Scripts\python.exe'
@@ -13,21 +12,24 @@ New-Item -ItemType Directory -Path $OutDir -Force | Out-Null
 if (-not (Test-Path $Python)) { throw "Python venv not found: $Python" }
 if (-not (Test-Path $Runner)) { throw "Runner not found: $Runner" }
 if (-not (Test-Path $Verifier)) { throw "Verifier not found: $Verifier" }
-
 $Stamp = (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ')
 $Log = Join-Path $OutDir ("E100_PAIRBATCH_${Mode}_${Stamp}.console.log")
+$script:LastNativeCode = 0
 
 function Invoke-NativePython {
-    param([string[]]$Arguments, [switch]$Append)
+    param([string[]]$Arguments, [switch]$Append, [switch]$AllowScientificFailure)
     $old = $ErrorActionPreference
     try {
         $ErrorActionPreference = 'Continue'
         if ($Append) { & $Python @Arguments 2>&1 | Tee-Object -FilePath $Log -Append }
         else { & $Python @Arguments 2>&1 | Tee-Object -FilePath $Log }
         $code = $LASTEXITCODE
+        $script:LastNativeCode = $code
     }
     finally { $ErrorActionPreference = $old }
-    if ($code -ne 0) { throw "Python returned native exit code $code: $($Arguments -join ' ')" }
+    if ($code -ne 0 -and -not $AllowScientificFailure) {
+        throw "Python returned native exit code $code: $($Arguments -join ' ')"
+    }
 }
 
 Write-Host "Repository : $Repo"
@@ -36,9 +38,14 @@ Write-Host "Mode       : $Mode"
 Write-Host "Log        : $Log"
 Write-Host ''
 Write-Host '=== E100 routed pair-batch experiment ===' -ForegroundColor Cyan
-Invoke-NativePython -Arguments @($Runner, '--mode', $Mode)
+Invoke-NativePython -Arguments @($Runner, '--mode', $Mode) -AllowScientificFailure
+$runnerCode = $script:LastNativeCode
 Write-Host ''
-Write-Host '=== Independent CPU verifier ===' -ForegroundColor Cyan
+Write-Host '=== Independent CPU verifier (runs even on negative runner status) ===' -ForegroundColor Cyan
 Invoke-NativePython -Arguments @($Verifier) -Append
 Write-Host ''
+if ($runnerCode -ne 0) {
+    Write-Warning "PAIRBATCH runner returned scientific/technical failure code $runnerCode after evidence was independently verified."
+    exit $runnerCode
+}
 Write-Host 'E100-PAIRBATCH run and verification completed.' -ForegroundColor Green

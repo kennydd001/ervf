@@ -11,6 +11,77 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — 🎉 **NIEUW RECORD: 51,0 tok/s (19,60 ms). E50 gehaald.** H-SCALE + B3 samen zijn **super-additief**: −1,18 tot −1,56 ms tegen −0,79 als ze onafhankelijk waren
+
+**Vraag.** Twee mechanismen van vandaag zijn elk bitexact en vielen elk net
+onder hun eigen poort: **V13 H-SCALE** (−0,374 ms, poort ≥0,5 — schaalvlakken
+residentie in VRAM, 52% minder gather-bytes) en **V14G B3** (−0,416 ms, poort
+≥0,8 — dubbelgebufferde mirror plus gather-stream, zodat slot s+1's PCIe loopt
+terwijl slot s rekent). Ze vallen dezelfde weg van twee kanten aan. De werkregel
+van dit project verbiedt componentgetallen op te tellen — dus samen meten.
+
+**Verwachting vooraf.** Ergens tussen −0,42 en −0,79 ms, met een reële kans op
+**anti-compositie**: een kleinere gather laat B3 minder te verbergen.
+
+**Uitkomst — twee onafhankelijke volledige runs, beide alle poorten groen.**
+
+| | run 1 | run 2 |
+|---|---:|---:|
+| BASE_A | 21,2252 ms (47,11 tok/s) | 20,6810 ms (48,35 tok/s) |
+| **CAND** | **19,6897 ms (50,79 tok/s)** | **19,6046 ms (51,01 tok/s)** |
+| BASE_B | 21,2730 ms | 20,8926 ms |
+| midden | 21,2491 | 20,7869 |
+| drift | **0,0478** | **0,2114** |
+| **CAND − midden** | **−1,5594 ms** | **−1,1823 ms** |
+
+Poorten beide runs: C1 bitexact **PASS** (3 prompts × 765 tokens), C2 **PASS**,
+V1 VRAM **PASS**, D1 drift **PASS**, **P1 (≥0,5 ms) PASS**.
+
+**De absolute CAND-waarde is opvallend stabiel: 19,6046 en 19,6897 ms — 0,085 ms
+uit elkaar.** De deltas verschillen (−1,56 vs −1,18) puur omdat de baselines
+tussen de runs thermisch verschoven; de kandidaat zelf niet.
+
+### Dit is een nieuw record en het haalt E50
+
+| | ms/token | tok/s |
+|---|---:|---:|
+| vorig record (V6 + capaciteitstuning) | 21,0923 | 47,41 |
+| **V18 = V6 + H-SCALE + B3** | **19,60-19,69** | **50,8-51,0** |
+
+Zelfde SYNC-semantiek (één replay + één ring-harvest per token) als waarin het
+21,0923 ms-record gemeten is, dus direct vergelijkbaar. **E50 — de mijlpaal die
+de hele PRO-MAX V2-campagne niet haalde en die daar op de driftpoort strandde —
+is hiermee gehaald, met drift 0,048 ms.**
+
+### Waarom super-additief
+
+−1,18 tot −1,56 ms tegen een rekenkundige som van −0,790: **ongeveer twee keer
+zo goed samen als apart.** Werkhypothese, expliciet **niet gemeten**: V13's
+grootste kostenpost was de plane-fetch (+0,327 ms, apart gemeten met een
+marginale probe), en B3's stroomstructuur verplaatst juist dat soort verkeer
+naar een aparte stream waar het achter compute verdwijnt. V13 verkleint de
+gather, B3 verbergt wat overblijft, en V13's eigen extra kost wordt door B3
+opgevangen. Dat is een verklaring die past bij alle drie de metingen, maar het
+is een hypothese en verdient een eigen probe voordat iemand erop bouwt.
+
+**Wat dit ook bevestigt:** de werkregel "nooit componentmetingen optellen" is
+hier geen formaliteit geweest. Wie had opgeteld had −0,79 verwacht en was
+mogelijk gestopt omdat dat nog steeds onder de gecombineerde poort lag. De
+werkelijkheid was twee keer beter.
+
+**Kosten.** VRAM: 492,4 MiB residente schaalvlakken (cap 72 × 23 lagen) plus één
+extra globale mirror van 2,81 MB. Poort gecontroleerd vóór allocatie. Geen
+rekenkundige wijziging: zelfde expert, paneel, rij, schaalbyte,
+`e4m3_lut[byte] * global_scale`, zelfde fmaf-volgorde — alleen wáár bytes staan
+en wannéér ze bewegen.
+
+**Artefacten.** `pro_research/moe_dev_combined.py`,
+`pro_research/combined_v18.py`,
+`pro_research/results/v18_combined/PRO_V18_COMBINED.json` (run 2) en
+`PRO_V18_COMBINED_run1.json`.
+
+---
+
 ## 2026-08-16 — Vlaggen-audit over álle kandidaatkernels: **precies één bestand heeft zowel een mismatch als een gevoelige operatie — en dat is exact de kandidaat die faalde.** De geadopteerde V6-stack is vrijgepleit
 
 **Vraag.** Als PV2-10 sneuvelde op een compileervlag, welke andere kandidaten

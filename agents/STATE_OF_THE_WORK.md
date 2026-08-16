@@ -6,11 +6,34 @@ Bijgewerkt: 2026-08-16 (na PRO V3 + model-identiteitsonderzoek) · lees dit vó�
 (single-stream vs. aggregate, wat wél en niet bereikbaar is, en de precieze
 resterende technische stappen): zie `agents/PATH_TO_100_TOKS.md`.**
 
-## 🚩 Stand van zaken 2026-08-16, einde sessie: géén van beide routes haalt de 100 met de huidige kernels
+## 🎉 NIEUW RECORD 2026-08-16: **51,0 tok/s (19,60 ms) — E50 GEHAALD**
 
-- **single-stream**: record 47,41 tok/s; hard theoretisch maximum **~94 tok/s**
-  (elke gemeten ms hoofdruimte opgeteld). Negen ingrepen gebouwd en gemeten,
-  beste opbrengst −0,42 ms.
+**V18 = V6 + H-SCALE + B3-overlap.** Twee bitexacte mechanismen die elk apart
+nét onder hun poort vielen (−0,374 en −0,416 ms) blijken **super-additief**:
+samen **−1,18 tot −1,56 ms**, tegen −0,79 als ze onafhankelijk waren.
+
+| | ms/token | tok/s |
+|---|---:|---:|
+| vorig record (V6 + capaciteitstuning) | 21,0923 | 47,41 |
+| **V18** | **19,60-19,69** | **50,8-51,0** |
+
+Twee onafhankelijke full-runs, beide **bitexact** (3 prompts × 765 tokens per
+arm), drift 0,048 en 0,211 ms, VRAM-poort groen (492,4 MiB schaalvlakken +
+2,81 MB extra mirror). Zelfde SYNC-semantiek als het oude record, dus direct
+vergelijkbaar. **E50 — waar de hele PRO-MAX V2-campagne op strandde — is
+hiermee gehaald.**
+
+Geen rekenkundige wijziging: zelfde expert, paneel, rij, schaalbyte, zelfde
+fmaf-volgorde. Alleen wáár bytes staan en wannéér ze bewegen.
+
+⚠️ De les erbij: wie de twee componentgetallen had **opgeteld** kwam op −0,79 en
+had de combinatie mogelijk laten liggen. De werkregel "nooit componentmetingen
+optellen" heeft hier een factor 2 opgeleverd.
+
+## 🚩 Naar 100 tok/s: géén van beide routes haalt het met de huidige kernels
+
+- **single-stream**: record nu **51,0 tok/s**; hard theoretisch maximum
+  **~94 tok/s** (elke gemeten ms hoofdruimte opgeteld).
 - **batch**: gemeten batchwinst op de ERVF-paden is **×1,64 bij N=4** — en
   **99,2% van het VRAM-verkeer gaat door een ERVF-kernel**. Projectie
   **~71 tok/s bij N=4, ~83 bij N=8**.

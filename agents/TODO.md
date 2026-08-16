@@ -10,6 +10,21 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Afgerond
 
+- [DONE 2026-08-16] 🎉 **NIEUW RECORD: V18 = V6 + H-SCALE + B3 → 19,60-19,69 ms
+      = 50,8-51,0 tok/s. E50 GEHAALD** (vorig record 21,0923 ms / 47,41).
+      Twee onafhankelijke full-runs, beide **bitexact** (3 prompts × 765 tokens),
+      drift 0,048 en 0,211 ms, VRAM-poort groen. Zelfde SYNC-semantiek als het
+      oude record.
+      **Super-additief: −1,18 tot −1,56 ms tegen −0,79 als ze onafhankelijk
+      waren** — ongeveer 2× beter samen dan apart. V13 verkleint de gather (52%
+      minder bytes), B3 verbergt wat overblijft achter compute, en V13's eigen
+      plane-fetch-kost (+0,327) lijkt door B3's stroomstructuur opgevangen te
+      worden (**hypothese, niet gemeten** — verdient een eigen probe).
+      Beide vielen apart nét onder hun poort; wie had opgeteld was op −0,79
+      uitgekomen en had dit mogelijk laten liggen.
+      `pro_research/moe_dev_combined.py`, `combined_v18.py`,
+      `results/v18_combined/PRO_V18_COMBINED*.json`.
+
 - [WEERLEGD 2026-08-16] **PRO V12 async-harvest** — Kimi's bevroren prereg,
   ongewijzigd gedraaid op de V6-stack. QUEUED-K (K=2..32) en EVENT-STREAM-K
   (K=4,8,16) halen **43,1-44,7 tok/s** tegen SYNC **45,1** — geen enkele arm

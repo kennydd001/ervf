@@ -1,0 +1,79 @@
+{
+  "kind": "pro_v18_combined",
+  "status": "adoption_candidate",
+  "mode": "full",
+  "started_utc": "2026-08-16T14:02:29.900763+00:00",
+  "opens_from": "V13 H-SCALE (-0.374) and V14G B3 (-0.416) are each bit-exact and each just under their own gate; measured together here because component numbers are never summed. Superseded note: diag_glue_marginals measured 3.53 us per in-graph kernel launch and 0.370 ms for 105 norm/add launches, almost all fixed cost. diag_add_norm_fusion has the fusion bit-exact and 1.745x faster EAGER (-0.354 ms), whose implied 6.80 us/launch matches the eager 7.75 us rather than the in-graph 3.53 -- so the expected in-graph gain is about half, ~0.18 ms. Measured here rather than assumed.",
+  "config": {
+    "tokens_per_prompt": 256,
+    "prompt_count": 3
+  },
+  "environment": {
+    "created_utc": "2026-08-16T14:02:36.127718+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "adc60f7366c844b04111a3bdc38db68835b6d149",
+    "git_status": [
+      "?? pro_research/combined_v18.py",
+      "?? pro_research/moe_dev_combined.py",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 49, 11.08 W, 2925 MHz, 11001 MHz, P2",
+    "source_hashes": {}
+  },
+  "vram": {
+    "planned_plane_mib": 492.43359375,
+    "free_before_mib": 593.0,
+    "fits": true
+  },
+  "timing_graph_sync": {
+    "BASE_A": {
+      "count": 765,
+      "mean": 21.432147712418303,
+      "p50": 21.2252,
+      "p95": 23.719479999999997,
+      "p99": 26.128800000000002,
+      "max": 28.3877
+    },
+    "CAND": {
+      "count": 765,
+      "mean": 19.890021045751634,
+      "p50": 19.6897,
+      "p95": 22.248939999999997,
+      "p99": 24.646688,
+      "max": 26.7927
+    },
+    "BASE_B": {
+      "count": 765,
+      "mean": 21.527041568627457,
+      "p50": 21.273,
+      "p95": 23.68722,
+      "p99": 26.65614,
+      "max": 36.6195
+    },
+    "baseline_midpoint_ms": 21.2491,
+    "drift_ms": 0.04779999999999873,
+    "cand_minus_midpoint_ms": -1.5594000000000001,
+    "BASE_A_tok_s": 47.11380811488231,
+    "CAND_tok_s": 50.787975438935085,
+    "v13_alone_ms": -0.374,
+    "v14g_alone_ms": -0.416,
+    "arithmetic_sum_if_independent_ms": -0.79
+  },
+  "first_divergence_cand": {
+    "The capital of France is": null,
+    "The history of computing began when": null,
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+  },
+  "gates": {
+    "G_V18_C1_cand_bitexact": true,
+    "G_V18_C2_base_a_eq_base_b": true,
+    "G_V18_D1_drift_le_1ms": true,
+    "G_V18_P1_gain_ge_0_50ms": true
+  },
+  "completed_utc": "2026-08-16T14:03:58.882887+00:00"
+}

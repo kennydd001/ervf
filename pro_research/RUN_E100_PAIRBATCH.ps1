@@ -28,7 +28,7 @@ function Invoke-NativePython {
     }
     finally { $ErrorActionPreference = $old }
     if ($code -ne 0 -and -not $AllowScientificFailure) {
-        throw "Python returned native exit code $code: $($Arguments -join ' ')"
+        throw "Python returned native exit code ${code}: $($Arguments -join ' ')"
     }
 }
 

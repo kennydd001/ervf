@@ -19,7 +19,7 @@ foreach ($s in $Scripts) {
         $code = $LASTEXITCODE
     }
     finally { $ErrorActionPreference = $old }
-    if ($code -ne 0) { throw "S100 metadata runner failed with native exit code $code: $s" }
+    if ($code -ne 0) { throw "S100 metadata runner failed with native exit code ${code}: $s" }
 }
 Write-Host ''
 Write-Host 'S100 metadata inventory completed without CUDA.' -ForegroundColor Green

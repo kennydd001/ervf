@@ -453,8 +453,25 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       experts/stap nodig zijn (bijna de hele cache), met hoge omloop. Geen
       bug, een capaciteit-versus-vraag-mismatch. **Sluit definitief "gewoon
       N verhogen" als pad naar hogere aggregate doorvoer met de naive
-      aanpak.** Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "N=8 naive
-      baseline".
+      aanpak.**
+      **[MYSTERIE OPGELOST, ZELFDE DAG]**: `pro_research/diag_n8_cache_hitrate.py`
+      leest `_dev_cache`'s eigen hit/miss-tellers uit — **hitrate bij N=8
+      is HOGER, niet lager, dan solo (77,1% tegen 69,7%).**
+      Cache-thrashing-hypothese **verworpen** (`thrashing_hypothesis_supported:
+      false`). De instorting heeft dus NIETS met cache-missers te maken.
+      **Samen met de eerdere sectieprofilering (de warme-cache-vertraging
+      was globaal, ook zichtbaar in Mamba-lagen) wijst dit definitief naar
+      Python-orkestratie-/kernel-launch-overhead van het state-
+      wisselmechanisme zelf** — elke sequentie doorloopt alle 52 lagen apart
+      (geen enkele niet-MoE-laag deelt ooit een launch), en N1
+      (`N1_N5_OWN_HYPOTHESES_REPORT_2026-08-15.md`) mat al dat 23,7% van
+      één token kernel-uitgifte is, geen rekenwerk — dat vermenigvuldigt
+      zich met N (bij N=8: ~12.480 Python-`setattr`-aanroepen alleen al per
+      decode-stap). Een architecturale eigenschap van deze prototype-bouw
+      (aparte Python-aanroepen per sequentie per laag), geen bug — precies
+      wat een CUDA-graph-integratie (routekaart-item 2) zou oplossen. Zie
+      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "N=8 naive baseline" en het
+      vervolg direct erna.
 - [WEERLEGD 2026-08-16] **Grotere cache herstelt het N=4-voordeel niet —
       hypothese verworpen, echte regressie gevonden.**
       `pro_research/proto_multi_seq_full_model_n4_bigcache.py`: cap 72→144

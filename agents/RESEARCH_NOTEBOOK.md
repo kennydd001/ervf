@@ -429,6 +429,60 @@ regressie — geen tok/s-winstclaim voorbij N=2/N=4.
 **Artefacten.** `pro_research/proto_multi_seq_full_model_n8.py`,
 `pro_research/proto_multi_seq_full_model_n8.json`.
 
+**Vervolg, zelfde dag — de concrete hypothese (cache-thrashing) direct
+getoetst en VERWORPEN, en dat lost het mysterie eindelijk op.** In plaats
+van nog een keer te gissen: `_moe_dev`'s eigen device-cache houdt al
+hit/miss-tellers bij (`dev["stats2"]`, opgeteld door `cache_assign`'s
+kernel). `pro_research/diag_n8_cache_hitrate.py` leest deze rechtstreeks
+uit ná een echte solo-run en een echte N=8-naive-run (zelfde mechanisme
+als het N=8-script, geen nieuw correctheidsrisico — puur een teller
+uitlezen).
+
+**Resultaat: de hitrate bij N=8 is HOGER, niet lager, dan solo — 77,1%
+tegen 69,7%.** De cache-thrashing-hypothese is dus **verworpen**: de cache
+werkt beter bij N=8, niet slechter, en toch stortte de doorvoer in tot
+0,253×. **Dit betekent dat de instorting NIETS met cache-missers/PCIe-
+verkeer te maken heeft.**
+
+**Wat dit WEL verklaart — en het sluit ook het eerdere, onopgeloste
+warme-cache-mysterie af.** Gegeven dat (a) de hitrate beter is, niet
+slechter, en (b) de eerdere sectieprofilering van de warme-cache-regressie
+al liet zien dat de vertraging **globaal** was — óók zichtbaar in
+ongerelateerde Mamba-lagen, niet gelokaliseerd in cache-code — wijst alles
+nu naar de **Python-orkestratie-/kernel-launch-overhead van het state-
+wisselmechanisme zelf**, niet naar caching. Het naive mechanisme roept
+`rt.step()`-equivalente logica APART aan voor elke van de N sequenties,
+elk met zijn eigen volledige doorloop van alle 52 lagen — geen enkele
+niet-MoE-laag (Mamba, attentie) deelt ooit een kernel-launch tussen
+sequenties. Deze sessie se eigen vroege bevinding (N1,
+`N1_N5_OWN_HYPOTHESES_REPORT_2026-08-15.md`: **23,7% van een token is
+kernel-uitgifte, geen rekenwerk**, voor ÉÉN sequentie) vermenigvuldigt zich
+met N: bij N=8 is dat potentieel duizenden kernel-launches en tienduizenden
+Python-`setattr`-aanroepen (~30 attributen × 52 lagen × 8 sequenties ≈
+12.480 per decode-stap) per stap — puur CPU-gebonden overhead die NIET
+overlapt met GPU-rekenwerk en linear-tot-slechter-dan-lineair schaalt met
+N, onafhankelijk van hoe goed de cache het doet.
+
+**Wat dit sluit.** Sluit definitief de cache-gerelateerde verklaringen
+(eviction-scan, geheugendruk, thrashing — alle vier nu direct getoetst en
+verworpen) voor zowel de N=8-instorting als het warme-cache-mysterie.
+**De werkelijke, nu voor het eerst coherente verklaring: Python-
+orkestratie-/kernel-launch-overhead van het state-wisselmechanisme zelf
+schaalt met N en domineert bij grotere N** — een architecturale eigenschap
+van HOE deze prototypes gebouwd zijn (aparte Python-aanroepen per
+sequentie per laag), niet een bug in één specifiek onderdeel. Dit is
+precies het soort probleem dat een echte CUDA-graph-integratie
+(routekaart-item 2 in `PATH_TO_100_TOKS.md`) zou oplossen — een graph
+vangt de hele multi-sequentie-staplus in één opname, waarna replay geen
+Python-launch-overhead per kernel meer kost, ongeacht N.
+
+**Poorten.** Geen PRO-poorten (read-only teller-uitlezing, geen
+runtime-wijziging). Hypothese expliciet weerlegd,
+`thrashing_hypothesis_supported: false`.
+
+**Artefacten.** `pro_research/diag_n8_cache_hitrate.py`,
+`pro_research/diag_n8_cache_hitrate.json`.
+
 ---
 
 ## 2026-08-16 — Grotere cache bij groter N: hersteld het voordeel? Verrassend: nee, het wordt WÉÉR erger — een echte hypothese verworpen

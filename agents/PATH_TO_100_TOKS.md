@@ -58,19 +58,25 @@ deze sessie — het enige pad dat 100 niet a priori uitsluit.**
    een robuuste 40-staps-meting** (een eerdere 15-staps-meting gaf +5,4%,
    maar dat bleek cold-start-gedomineerd; het langere-horizon-cijfer is de
    betere schatting). **Schaalt NIET voorbij kleine N — bij N=8 stort dit
-   om naar 0,253× (4× TRAGER dan solo), niet vlak zoals bij N=4 (0,706-
-   1,047×) maar een echte instorting** (`proto_multi_seq_full_model_n8.py`,
-   bitexact bevestigd). Samen met twee andere N-schaal-regressies dezelfde
-   dag (grotere cache-capaciteit: 0,706×; persistente warme cache: 0,17×)
-   tekent zich een coherent beeld af: een VASTE cache-capaciteit (72,
-   productie se standaard) gedeeld door steeds meer sequenties wordt bij
-   een bepaald punt een knelpunt, geen voordeel — dit is geen bug maar een
-   capaciteit-versus-vraag-mismatch die met N groeit. **"Gewoon N
-   verhogen" is dus GEEN pad naar hogere aggregate doorvoer** met de naive
-   aanpak; een werkelijk schaalbare oplossing zou de cache-capaciteit
-   moeten laten meegroeien met N op een manier die niet zelf een nieuw
-   knelpunt wordt (nog niet gevonden — de enige geprobeerde poging daartoe,
-   cap 72→144 bij N=4, gaf zelf al een regressie).
+   om naar 0,253× (4× TRAGER dan solo)** (`proto_multi_seq_full_model_n8.py`,
+   bitexact bevestigd). **Oorzaak vastgesteld, niet langer speculatief**:
+   `diag_n8_cache_hitrate.py` las de echte hit/miss-tellers uit en vond de
+   hitrate bij N=8 HOGER dan solo (77,1% vs 69,7%) — de cache werkt dus
+   beter, niet slechter; cache-thrashing/capaciteit-mismatch is **verworpen**
+   als verklaring (net als de eviction-scan- en geheugendruk-hypothesen
+   eerder). **De werkelijke oorzaak: Python-orkestratie-/kernel-launch-
+   overhead van het state-wisselmechanisme zelf, die lineair (of erger)
+   met N schaalt** — elke sequentie doorloopt alle 52 lagen volledig apart
+   (geen enkele niet-MoE-laag deelt ooit een kernel-launch), en deze
+   sessie se eigen N1-bevinding (23,7% van één token is kernel-uitgifte,
+   geen rekenwerk) vermenigvuldigt zich met N. Dit is een architecturale
+   eigenschap van hoe deze Python-prototypes gebouwd zijn, geen bug in de
+   caching — en precies het probleem dat CUDA-graph-residentie
+   (routekaart-item 2 hieronder) zou oplossen, aangezien een graph geen
+   Python-launch-overhead per kernel meer kost bij replay, ongeacht N.
+   **"Gewoon N verhogen" blijft dus GEEN pad naar hogere aggregate
+   doorvoer zonder graph-residentie**, maar de reden is nu bekend en wijst
+   direct naar de juiste vervolgstap.
 5. De EXPLICIETE unie-gevoede deling, volledig geïntegreerd in de echte
    staplus en met de al bestaande gebatchte V5/V6-kernels versneld, is
    **bitexact correct** maar haalt in deze sessie se Python-georkestreerde

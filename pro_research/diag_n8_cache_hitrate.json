@@ -1,0 +1,129 @@
+{
+  "kind": "diag_n8_cache_hitrate",
+  "created_utc": "2026-08-16T05:04:04.982658+00:00",
+  "note": "reads back _dev_cache's own on-device hit/miss counters (dev['stats2'], accumulated by cache_assign's kernel) after a real N=1 solo run and a real N=8 naive interleaved run, same mechanism as proto_multi_seq_full_model_n8.py, to test the cache-thrashing hypothesis for that script's 0.253x collapse directly instead of guessing",
+  "environment": {
+    "created_utc": "2026-08-16T05:04:04.983665+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "f32c35431a3b00dc60195aae68462c40d1d583f1",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/diag_n8_cache_hitrate.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 7174 MiB, 73, 57.51 W, 2647 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
+    }
+  },
+  "n_sequences_n8": 8,
+  "decode_steps": 30,
+  "solo_hits": 3463,
+  "solo_misses": 1505,
+  "solo_hit_rate": 0.697061191626409,
+  "n8_hits": 37337,
+  "n8_misses": 11101,
+  "n8_hit_rate": 0.7708204302407201,
+  "n8_hit_rate_per_layer": {
+    "1": {
+      "hits": 1204,
+      "misses": 902
+    },
+    "3": {
+      "hits": 1317,
+      "misses": 789
+    },
+    "6": {
+      "hits": 1464,
+      "misses": 642
+    },
+    "8": {
+      "hits": 1632,
+      "misses": 474
+    },
+    "10": {
+      "hits": 1638,
+      "misses": 468
+    },
+    "13": {
+      "hits": 1721,
+      "misses": 385
+    },
+    "15": {
+      "hits": 1818,
+      "misses": 288
+    },
+    "17": {
+      "hits": 1731,
+      "misses": 375
+    },
+    "20": {
+      "hits": 1738,
+      "misses": 368
+    },
+    "22": {
+      "hits": 1581,
+      "misses": 525
+    },
+    "24": {
+      "hits": 1791,
+      "misses": 315
+    },
+    "27": {
+      "hits": 1748,
+      "misses": 358
+    },
+    "29": {
+      "hits": 1647,
+      "misses": 459
+    },
+    "31": {
+      "hits": 1675,
+      "misses": 431
+    },
+    "34": {
+      "hits": 1624,
+      "misses": 482
+    },
+    "36": {
+      "hits": 1675,
+      "misses": 431
+    },
+    "38": {
+      "hits": 1661,
+      "misses": 445
+    },
+    "40": {
+      "hits": 1755,
+      "misses": 351
+    },
+    "43": {
+      "hits": 1689,
+      "misses": 417
+    },
+    "45": {
+      "hits": 1553,
+      "misses": 553
+    },
+    "47": {
+      "hits": 1590,
+      "misses": 516
+    },
+    "49": {
+      "hits": 1643,
+      "misses": 463
+    },
+    "51": {
+      "hits": 1442,
+      "misses": 664
+    }
+  },
+  "thrashing_hypothesis_supported": false
+}

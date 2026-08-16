@@ -26,6 +26,9 @@ FILES = [
     "e100_pairbatch.py",
     "verify_e100_pairbatch.py",
     "s100_mtp_inventory.py",
+    "s100_kverify_state_budget.py",
+    "s100_kverify_mamba_rollback.py",
+    "verify_s100_kverify_k1.py",
 ]
 
 

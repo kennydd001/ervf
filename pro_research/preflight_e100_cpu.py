@@ -1,4 +1,4 @@
-"""GPU-free preflight for the E100 primitive pack.
+"""GPU-free preflight for the E100/S100 research pack.
 
 Only parses/compiles Python source and runs the CPU reduction-tree mapping test.
 It intentionally never imports CuPy or constructs a runtime/GPU context.
@@ -25,6 +25,7 @@ FILES = [
     "up_proj_pair_batch_kernels.py",
     "e100_pairbatch.py",
     "verify_e100_pairbatch.py",
+    "s100_mtp_inventory.py",
 ]
 
 
@@ -40,9 +41,6 @@ def main() -> int:
             ok = False
             report["compiled"][rel] = f"FAIL: {type(exc).__name__}: {exc}"
 
-    # Import only after syntax compilation. mrhs_exact_kernels itself imports
-    # numpy only; its CPU selftest imports the pure-Python reduction helpers in
-    # ervf_dense. Neither creates a CUDA context.
     if ok:
         sys.path.insert(0, str(PRO))
         try:

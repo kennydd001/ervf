@@ -118,11 +118,21 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       batchen — alleen fetch profiteert, zoals verwacht). **Opgeteld over
       alle 23 gemeten lagen (niet geëxtrapoleerd): 367,05 ms → 214,43 ms,
       1,71× sneller** — een preciezer, minder toevallig-gunstig getal dan
-      de 2,89× van de losse laag 24. Claim-grens ongewijzigd streng: dekt
-      alleen up_proj-GEMV+fetch, opgeteld over de daadwerkelijk gemeten
-      lagen — nog steeds geen down_proj, shared expert, attentie, Mamba,
-      KV-cache, graph-capture, routing/argmax/norm-overhead. Geen
-      doorvoerclaim. **Volgende stap is architectuurontwerp** (batch-
+      de 2,89× van de losse laag 24.
+      **[DOWN_PROJ OOK GETEST 2026-08-16] `proto_batch_down_proj.py`** —
+      down_proj is architecturaal ANDERS dan up_proj (gemaskeerd/sparse,
+      niet gewoon dedupliceren op expert-id: twee sequenties met dezelfde
+      expert kunnen andere niet-nul-kolommen nodig hebben). Juiste
+      generalisatie gebouwd: unie van niet-nul-kolommen ophalen (boven-
+      verzameling), elke sequentie rekent daarna met haar EIGEN masker
+      tegen de gedeelde mirror. Echte post-ReLU2-activaties (echte
+      up_proj-GEMV gedraaid, geen synthetische data). **Bitexact, 0
+      mismatches, 1,91× sneller fetch (6,44→3,37 ms), 54,0% minder bytes
+      over PCIe** (op één laag — nog niet over alle 23 herhaald zoals
+      up_proj wel is). Claim-grens ongewijzigd streng: dekt nog steeds
+      geen shared expert, attentie, Mamba, KV-cache, graph-capture,
+      routing/argmax/norm-overhead. Geen doorvoerclaim. **Volgende stap is
+      architectuurontwerp** (batch-
       dimensie op alle buffers, per-stap expert-unie-bepaling voor de
       volledige runtime) — een meerdere-weken-taak, niet gestart deze
       sessie, maar het kernmechanisme is nu consistent bewezen correct én

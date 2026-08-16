@@ -200,6 +200,53 @@ laag.
 **Artefacten.** `pro_research/proto_batch_moe_multilayer.py` ·
 `pro_research/proto_batch_moe_multilayer.json`.
 
+### Vervolg: down_proj — architecturaal anders dan up_proj, ook getest
+
+Beide voorgaande metingen dekten alleen up_proj. down_proj is een **andere
+soort deling**, niet dezelfde truc gekopieerd: up_proj's hele gewicht wordt
+sowieso opgehaald ongeacht de activatie, dus delen is simpele deduplicatie
+op expert-id. down_proj is **gemaskeerd/sparse** (`gather_down_sparse_ind`
+haalt alleen de kolommen op die in de activatie na ReLU2 niet-nul zijn) —
+twee sequenties die dezelfde expert kiezen kunnen alsnog **andere**
+niet-nul-kolommen nodig hebben, dus simpelweg "dezelfde expert = deel de
+fetch" zou fout zijn (een sequentie zou kolommen kunnen missen die niemand
+voor haar ophaalde).
+
+**De juiste generalisatie, gebouwd en getest**
+(`pro_research/proto_batch_down_proj.py`): voor een expert die door meerdere
+sequenties gekozen is, de **unie** van niet-nul-kolommen ophalen (OR van hun
+`panel_masks`, een boven-verzameling — dus elke sequentie se eigen kolommen
+zitten er gegarandeerd in), en daarna de gemaskeerde-som voor élke sequentie
+met **haar eigen** `panel_masks`/`panel_list` draaien (niet de unie) tegen
+die gedeelde mirror — de som raakt alleen die sequentie se eigen kolommen
+aan, dus dit verandert welke bytes over PCIe gaan, nooit de berekende
+waarde.
+
+**Echte data, geen synthetische.** De post-ReLU2-activaties zijn echt
+berekend (de echte up_proj-ERVF-GEMV gedraaid per (sequentie,expert)-paar,
+met echte gewichten) — deze sessie leerde al eerder dat synthetische random
+testdata onrepresentatieve randgevallen kan raken.
+
+**Uitkomst (laag 24, N=16, 96 paren).** **Bitexact, 0 mismatches.** Fetch:
+6,44 ms (naive, apart per paar) → **3,37 ms (unie-gedeeld), 1,91× sneller.**
+Bytes over PCIe: 54,09 MB → 24,90 MB, **54,0% minder.** Kleiner dan
+up_proj's dedup-fractie op dezelfde laag (65,6%) — logisch, want
+verschillende sequenties se sparsity-patronen "verdunnen" de overlap
+gedeeltelijk (de unie van twee gedeeltelijk-overlappende kolommenverzamelingen
+is groter dan elke aparte verzameling) — maar nog altijd een reële, forse
+winst, geen synthetisch artefact.
+
+**Stand van het batch>1-mechanisme na deze sessie.** Beide helften van de
+MoE-laag (up_proj: 1,71× opgeteld over 23 lagen; down_proj: 1,91× op één
+laag, nog niet over alle 23 herhaald) zijn nu **bitexact bewezen correct en
+fysiek sneller**, met de juiste — niet de simplistische — generalisatie
+voor elk. Claim-grens ongewijzigd: dit is nog steeds geen doorvoerclaim,
+en de volledige runtime-integratie (attentie, Mamba, KV-cache, graph-
+capture, batch-dimensie op alle buffers) is niet gestart.
+
+**Artefacten.** `pro_research/proto_batch_down_proj.py` ·
+`pro_research/proto_batch_down_proj.json`.
+
 ---
 
 ## 2026-08-16 — Per-laag cachecapaciteit fysiek gemeten en geïntegreerd: 47,41 tok/s

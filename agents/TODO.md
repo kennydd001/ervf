@@ -83,9 +83,29 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open
 
-- [ ] **Down_proj-pijplijn optimaliseren in `_moe_dev` (hoogste prioriteit,
-      BIJGEWERKT 2026-08-16 — eerste versie van dit item was deels fout, zie
-      hieronder).** ~~Device-cache down_proj net als up_proj~~ — **onhaalbaar**:
+- [ ] **NIEUW, HOOGSTE PRIORITEIT 2026-08-16 — batch>1 cross-sequentie
+      expert-unie meten (nog niet gebouwd, alleen een meting nodig).**
+      Alle winst tot nu toe (V4-V6, elke kernel-batching, capaciteitstuning)
+      blijft binnen **batch=1** — en het 165 tok/s-roofline-plafond zelf is
+      ONDER die aanname berekend. Niets binnen batch=1 kan daar ooit boven
+      komen; 100 tok/s vraagt 60,6% van dat plafond, V6 zit op 28,7%.
+      Hypothese: bij **N sequenties gelijktijdig** hoeft een expert maar
+      één keer per stap van host geladen te worden, niet één keer per
+      sequentie — dat kan het aggregate-plafond zelf optillen (een ANDER,
+      hoger plafond, geen schending van het bestaande). Bevestigd: de
+      runtime heeft **nul** batch-ondersteuning (elke buffer 1D,
+      single-sequence) — dit is geen kleine uitbreiding maar een
+      meerdere-weken-herontwerp, met opzet niet gebouwd deze sessie.
+      **Eerste stap, geen bouw nodig:** meet de cross-sequentie expert-unie
+      (N onafhankelijke prompts, top-6 per stuk, tel unieke experts bij
+      N=2/4/8/16) via de al bestaande `_route_device`/`capture_routes`-
+      infrastructuur (dezelfde aanpak als de MTP-route-unie-meting eerder
+      vandaag). Bij weinig overlap is dit het niet waard; bij aanzienlijke
+      overlap is dit het enige geïdentificeerde pad dat het huidige
+      asymptotische plafond zou kunnen doorbreken. Zie `RESEARCH_NOTEBOOK.md`
+      2026-08-16, blok "Nieuwe, nog niet aangepakte hypothese".
+- [DONE 2026-08-16] **Down_proj-pijplijn optimaliseren in `_moe_dev`.**
+      ~~Device-cache down_proj net als up_proj~~ — **onhaalbaar**:
       `DOWN_PANEL_BYTES` is 2,68 MB/expert (niet ~1 kB zoals eerst aangenomen),
       vol cachen bij cap 72×23 lagen kost ~4,4 GiB, GPU had tijdens V4 al 0 MiB
       vrij. Componentmeting (`diag_component_timing_v4.py`,

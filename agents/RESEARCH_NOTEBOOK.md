@@ -11,6 +11,70 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Nieuwe, nog niet aangepakte hypothese: batch>1 zou de single-stream-roofline zelf kunnen doorbreken
+
+**Waarom dit een andere categorie is dan alles hiervoor.** Alle metingen
+deze sessie — V4 t/m V6, elke batched kernel, de capaciteitstuning — hebben
+één ding gemeen: ze verlagen **tijd per byte** binnen een architectuur die
+altijd **batch=1** aanneemt. Het 165 tok/s-roofline-plafond (Y-lijn) is zelf
+berekend ONDER die aanname (bandbreedte-gebonden bij één sequentie). Geen
+enkele hefboom die *binnen* batch=1 blijft kan boven dat plafond komen — dat
+is precies waarom 100 tok/s bij batch=1 een factor 2,1× weg blijft ondanks
+alle winst tot nu toe.
+
+**De hypothese.** Als de runtime **N sequenties gelijktijdig** zou
+verwerken (batch>1), zou het dure deel — expert-gewichten van host naar
+device halen via PCIe — maar **één keer per uniek geselecteerde expert per
+stap** hoeven te gebeuren, niet één keer per sequentie. Een expert die eenmaal
+geladen is kan tegen N verschillende activatievectoren rekenen (analoog aan
+hoe deze sessie's MoE-batching zes experts in één launch liet meerekenen in
+plaats van zes losse launches — maar nu geamortiseerd over **sequenties**
+i.p.v. over **experts binnen één sequentie**). Zolang de experts die N
+sequenties gezamenlijk selecteren niet allemaal verschillend zijn, daalt de
+PCIe-kost per nuttige token, en het aggregate tok/s-plafond zou boven de
+165 tok/s single-stream-roofline kunnen uitkomen — dat is een **ander,
+hoger plafond**, geen violatie van het bestaande.
+
+**Bevestigd: dit bestaat nul in de huidige runtime.** Geen enkele buffer
+heeft een batch-dimensie (`self.h = cp.zeros(self.hidden)`,
+`self.normed`, `self.qv`, KV-cache, SSM/conv-state — allemaal 1D, puur
+single-sequence). Dit is dus geen kleine uitbreiding maar een fundamenteel
+andere architectuur: elke state-buffer, elke kernel (attentie, Mamba, MoE-
+GEMV's), de graph-capture, en de device-LRU-cache-toewijzing zouden een
+batch-dimensie moeten krijgen, en de router/cache-logica zou de **unie** van
+experts over N sequenties moeten bepalen (dezelfde klasse berekening als
+N7-A's opeenvolgende-token-overlap, maar nu over *sequenties* i.p.v. over
+*tokens van dezelfde sequentie* — en die overlap is vermoedelijk veel lager,
+want ongerelateerde content routeert vermoedelijk breder uiteen dan
+opeenvolgende tokens van één tekst).
+
+**Niet gebouwd, met opzet.** Dit is geen middag werk zoals de kernel-
+batching hiervoor — het is een meerdere-weken-herontwerp van de hele
+runtime. Een prototype forceren binnen deze sessie zou het risico lopen iets
+half werkends achter te laten, wat tegen alles ingaat wat deze sessie
+verder heeft gedaan (isoleer, verifieer, integreer pas als het klopt).
+
+**Wat er WEL eerst gemeten zou moeten worden, vóór er gebouwd wordt** (zelfde
+discipline als S10's eigen aanpak voor MTP): de **cross-sequentie expert-
+unie** — laad N onafhankelijke prompts, laat de router voor elk zijn top-6
+bepalen op hetzelfde tijdstip, en tel hoeveel unieke experts dat samen geeft
+bij N=2, 4, 8, 16. Bij weinig overlap (unie dicht bij N×6) levert batchen
+weinig op vergeleken met de complexiteit; bij aanzienlijke overlap (unie
+duidelijk onder N×6) is er een reëel, mogelijk groot plafond-doorbrekend
+potentieel. Dit is puur leesbaar uit bestaande route-logica
+(`_route_device`/`capture_routes`, al gebruikt voor de MTP-route-unie-meting
+eerder vandaag) — geen bouw nodig voor deze eerste meting.
+
+**Waarom dit de moeite waard is om vast te leggen, ook onaangepakt.** Dit is
+de enige hypothese deze sessie die het **fundamentele plafond zelf** zou
+kunnen verleggen in plaats van dichter naar het bestaande plafond toe te
+werken. Alles binnen batch=1 nadert nu een asymptoot (V6 zit op 28,7% van
+165; zelfs een perfecte batch=1-implementatie zou nooit boven de 165 komen,
+en 100 vraagt 60,6%). Wie hier verder aan werkt: begin met de cross-
+sequentie-unie-meting, niet met code schrijven.
+
+---
+
 ## 2026-08-16 — Per-laag cachecapaciteit fysiek gemeten en geïntegreerd: 47,41 tok/s
 
 **Vervolg op de hitrate-diagnose** (−14,3% missers, hitrate 85,6%→87,7%,

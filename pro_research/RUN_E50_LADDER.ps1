@@ -10,7 +10,7 @@ $OutDir = Join-Path $Repo 'pro_research\results\v12_async'
 New-Item -ItemType Directory -Path $OutDir -Force | Out-Null
 $Stamp = (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ')
 $MasterLog = Join-Path $OutDir ("E50_LADDER_${Mode}_${Stamp}.console.log")
-$Failures = @()
+$script:Failures = @()
 
 function Run-Step([string]$Name, [string]$Script) {
     Write-Host ''
@@ -20,8 +20,8 @@ function Run-Step([string]$Name, [string]$Script) {
         if ($LASTEXITCODE -ne 0) { throw "$Name returned code $LASTEXITCODE" }
     }
     catch {
-        $Failures += "$Name :: $($_.Exception.Message)"
-        Write-Warning $Failures[-1]
+        $script:Failures += "$Name :: $($_.Exception.Message)"
+        Write-Warning $script:Failures[-1]
     }
 }
 
@@ -41,22 +41,28 @@ if ($IncludeAddNormDiagnostic) {
         if ($LASTEXITCODE -ne 0) { throw "AddNorm diagnostic returned code $LASTEXITCODE" }
     }
     catch {
-        $Failures += "AddNorm diagnostic :: $($_.Exception.Message)"
-        Write-Warning $Failures[-1]
+        $script:Failures += "AddNorm diagnostic :: $($_.Exception.Message)"
+        Write-Warning $script:Failures[-1]
     }
 }
 
 Write-Host ''
 Write-Host '=== Build conservative E50 report ===' -ForegroundColor Cyan
-& $Python (Join-Path $Repo 'pro_research\build_v12_e50_report.py') 2>&1 | Tee-Object -FilePath $MasterLog -Append
-if ($LASTEXITCODE -ne 0) { $Failures += "report builder returned code $LASTEXITCODE" }
+try {
+    & $Python (Join-Path $Repo 'pro_research\build_v12_e50_report.py') 2>&1 | Tee-Object -FilePath $MasterLog -Append
+    if ($LASTEXITCODE -ne 0) { throw "report builder returned code $LASTEXITCODE" }
+}
+catch {
+    $script:Failures += "report builder :: $($_.Exception.Message)"
+    Write-Warning $script:Failures[-1]
+}
 
 Write-Host ''
-if ($Failures.Count -eq 0) {
+if ($script:Failures.Count -eq 0) {
     Write-Host 'E50 ladder completed without technical failures.' -ForegroundColor Green
     Write-Host 'Push with: .\pro_research\PUSH_V12_RESULTS.ps1'
     exit 0
 }
-Write-Warning ("E50 ladder completed with technical failures:`n - " + ($Failures -join "`n - "))
+Write-Warning ("E50 ladder completed with technical failures:`n - " + ($script:Failures -join "`n - "))
 Write-Host 'Successful independent subarms were preserved in pro_research\results\v12_async.'
 exit 2

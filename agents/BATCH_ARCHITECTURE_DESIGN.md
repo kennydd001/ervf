@@ -110,10 +110,16 @@ niet bij nul hoeft te beginnen met nadenken.**
    deling. Bij grote N kan compute op een gegeven moment de fetch-winst
    inhalen (roofline-plafond blijft gelden, nu voor compute i.p.v. PCIe).
 3. **Continuous batching versus deze sessie se "alle N tegelijk op dezelfde
-   stap"-aanname.** De prototypes vergeleken N sequenties op identieke
-   stap-index. Een echte serving-runtime heeft sequenties op willekeurige,
-   ongelijke posities — de route-unie-berekening blijft hetzelfde mechanisme,
-   maar is nooit gemeten onder die realistischere voorwaarde.
+   stap"-aanname — gemeten, risico grotendeels gesloten (2026-08-16).**
+   `pro_research/diag_staggered_position_union.py`: N=4, vaste offsets
+   0/7/15/23 (elke sequentie op haar eigen echte generatiediepte) versus
+   lockstep, zelfde onderliggende trajectdata. Unie **89,4% (lockstep) vs
+   91,4% (staggered)** van max — slechts +1,9 procentpunt groter, geen
+   ineenstorting. Continuous batching vernietigt het routing-overlap-deel-
+   potentieel dus niet, verzwakt het licht. **Nog niet gemeten:** of dit ook
+   geldt bij grotere spreiding (N=8/16, offsets tot honderden stappen) en de
+   volledige runtime-integratie zelf (routing-unie ingebed in een staplus die
+   N onafhankelijke posities bijhoudt) blijft ongebouwd.
 4. **VRAM.** N-voudige KV-cache/SSM-state kost VRAM die er op deze 8 GiB-kaart
    al niet is (0 MiB vrij tijdens V6). Grote N (16) is voor lange contexten
    waarschijnlijk niet haalbaar zonder de cache-capaciteit fors te verlagen —

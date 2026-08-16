@@ -282,6 +282,22 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       hetzelfde per-sequentie-budget, apart van de missers-winst. Read-only
       diagnostiek, geen runtime-wijziging, geen tok/s-claim. Zie
       `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Warme-cache-dynamiek".
+- [DONE 2026-08-16] **Batch>1: overleeft de expert-unie continuous batching
+      (staggered posities), of was "alle N op dezelfde stap" een gunstige
+      aanname?** Sluit risico #3 uit `BATCH_ARCHITECTURE_DESIGN.md`.
+      `pro_research/diag_staggered_position_union.py`: N=4 sequenties,
+      MoE-laag 24, T=30 wall-clock-ticks vergeleken tussen LOCKSTEP (zelfde
+      stap-index, zoals elke eerdere meting) en STAGGERED (vaste offsets
+      0/7/15/23, elke sequentie op zijn eigen echte generatiediepte) —
+      beide views uit dezelfde onderliggende echte trajectdata, dus de
+      staggering is de enige variabele. **Resultaat: 89,4% (lockstep) vs
+      91,4% (staggered) van max-unie (24) — slechts +1,9 procentpunt groter,
+      geen ineenstorting.** Consistent met `diag_cross_sequence_union.py`'s
+      eerdere 90,3% voor N=4 (andere prompts/laag) — geen toevalstreffer.
+      Continuous batching vernietigt het deel-potentieel dus niet, verzwakt
+      het licht. Volledige runtime-integratie blijft ongebouwd. Read-only
+      diagnostiek, geen tok/s-claim. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16,
+      blok "Staggered posities".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,
   `cudaErrorStreamCaptureUnsupported` — `cudaGraphLaunch()` op een reeds

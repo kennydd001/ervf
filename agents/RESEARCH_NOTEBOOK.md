@@ -11,6 +11,57 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Staggered posities: overleeft de expert-unie continuous batching, of was "alle N op dezelfde stap" een gunstige aanname?
+
+**Vraag.** Elke batch>1-meting tot nu toe (`diag_cross_sequence_union.py`,
+`diag_batch_warm_cache.py`, beide `proto_batch_*.py`) vergeleek N sequenties
+op **dezelfde stap-index** — met opzet, als eerste isolatie. Maar een echte
+continuous-batching serving-runtime heeft sequenties op **onafhankelijke,
+willekeurige posities** (sequentie A genereert token 40, sequentie B token 5,
+tegelijk op dezelfde wall-clock-batchtick). Risico #3 in
+`BATCH_ARCHITECTURE_DESIGN.md` vroeg zich expliciet af of dat de unie-
+overlap zou vergroten (minder deling) omdat inhoudelijk-ongerelateerde
+generatiediepten misschien breder uiteen routeren.
+
+**Opzet (één variabele: lockstep vs. staggered posities, zelfde sequenties/
+lagen/T).** `pro_research/diag_staggered_position_union.py`. N=4 sequenties
+(dezelfde 4 diverse prompts), MoE-laag 24, elk **T+max_offset=53 echte**
+stappen gevangen via `_route_device`. Vaste, deterministische offsets
+`[0, 7, 15, 23]` (niet willekeurig — reproduceerbaar). Voor elke van T=30
+wall-clock-ticks: LOCKSTEP-view = elke sequentie se stap `t`; STAGGERED-view
+= sequentie `s` se stap `offset_s + t` — beide views komen uit **dezelfde**
+onderliggende echte traject-data, dus het verschil isoleert precies de
+staggering, niets anders.
+
+**Uitkomst.**
+
+| | gem. unie | % van max (N×top_k=24) |
+|---|---:|---:|
+| LOCKSTEP (zelfde stap-index) | 21,47 | 89,4% |
+| STAGGERED (offsets 0/7/15/23) | 21,93 | 91,4% |
+
+Verschil: **+1,9 procentpunt** grotere unie (dus iets minder overlap/deling)
+onder staggering — een reële maar kleine verslechtering, geen ineenstorting
+van het mechanisme. Ter vergelijking: `diag_cross_sequence_union.py` mat
+eerder voor N=4, andere prompts/laag, 90,3% — dezelfde orde van grootte als
+beide cijfers hier, een consistentiecheck dat dit geen toevalstreffer is.
+
+**Wat dit sluit of opent.** Sluit risico #3 uit `BATCH_ARCHITECTURE_DESIGN.md`
+voor de **routing-overlap-dimensie**: staggered posities (continuous batching)
+vernietigen het deel-potentieel niet, ze verzwakken het licht (~2 procentpunt).
+De volledige runtime-integratie (routing-unie ingebed in een staplus die
+zelf N onafhankelijke posities bijhoudt) blijft ongebouwd — dit sluit alleen
+de aanname dat lockstep-metingen een kunstmatig gunstig scenario waren, niet
+de bouwvraag zelf.
+
+**Poorten.** Geen PRO-poorten (read-only diagnostiek, geen runtime-wijziging,
+geen tok/s-claim).
+
+**Artefacten.** `pro_research/diag_staggered_position_union.py`,
+`pro_research/diag_staggered_position_union.json`.
+
+---
+
 ## 2026-08-16 — Warme-cache-dynamiek: houdt de fetch-deling stand over meerdere stappen, of was het een cold-cache-artefact?
 
 **Vraag.** Alle batch>1-prototypes tot nu toe (`proto_batch_moe_layer.py`,

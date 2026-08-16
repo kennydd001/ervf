@@ -190,6 +190,21 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
+- [WEERLEGD 2026-08-16] **W4A8 als milder alternatief** — alle zes
+      `ScalingType`-waarden voor de activatie geprobeerd tegen BlockWise1x16
+      voor de gewichten. **Precies één pairing werkt in de hele matrix: FP4 ×
+      FP4 met BlockWise1x16.** FP8 faalt op alle zes met `Invalid scaling
+      configuration`. Verdict `w4a4_only`. `FP4_W4A8_RECIPES.json`.
+- [ ] **NIET BOUWEN, EERST METEN — FP4-activatie-kwaliteit.** Native FP4 is
+      **niet formaatbehoudend**: de activatie moet naar 4 bits (`scaled_mm` eist
+      Float8 of Float4_x2; BF16 wordt geweigerd op dtype). Dat is een
+      substantiële kwaliteitswijziging zonder enig bewijs, plús een
+      per-aanroep quantisatiekernel die **niet** in de gemeten 2,52×/1,68× zit.
+      De "−1,275 ms/token → 54,6 tok/s" is dus geen vrije winst.
+      Goedkoopste beslissende meting: **quantiseer echte activaties naar FP4 en
+      meet de CE-afwijking op een echte generatie** tegen een vooraf
+      vastgelegde poort. Pas daarna de kernel bouwen en netto ms/token meten.
+
 - [DONE 2026-08-16] **Poort: CuPy + Torch-FP4 in één proces** — T1/T2/T3 alle
       **PASS**, zero-copy pointer-overdracht beide richtingen, FP4-GEMM over
       CuPy-eigen buffers geeft exact 256,0. `integration_feasible`: de runtime

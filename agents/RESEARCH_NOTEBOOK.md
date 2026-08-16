@@ -11,6 +11,82 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — ⚠️ **CORRECTIE op het blok hieronder: native FP4 is NIET formaatbehoudend, en W4A8 bestaat niet.** De route is W4A4 of niets
+
+Het blok hieronder ("Laatste poort GEHAALD ... volledig gedeblokkeerd") is te
+sterk. Twee metingen daarna corrigeren het.
+
+### 1. De activatie moet mee — het is geen formaatbehoudende wijziging
+
+In C2c, C2d en de poortblokken noemde ik native FP4 op de al-NVFP4-shapes
+herhaaldelijk **"formaatbehoudend — alleen de accumulatievolgorde verandert"**.
+Dat dekt de **gewichten**. Over de **activatie** zei ik niets, en ons
+productiepad is **W4A32**: NVFP4-gewichten × een FP32-activatievector.
+
+| arm | uitkomst | soort afwijzing |
+|---|---|---|
+| FP4 × FP4 | **werkt**, 256,0 | — |
+| BF16(K) × FP4 | faalt | **vorm** (B is gepakt) — zwak bewijs |
+| FP8(K) × FP4 | faalt | **vorm** |
+| BF16(K/2, vormmatchend) × FP4 | faalt | **dtype**: `Expected mat_a to be Float8 or Float4_x2 matrix got BFloat16` |
+| FP8(K/2, vormmatchend) × FP4 | faalt | `Invalid scaling configuration` |
+
+Pas de vormmatchende varianten leggen de échte reden bloot: **de kernel eist dat
+A Float8 of Float4_x2 is.** BF16 wordt botweg geweigerd.
+
+### 2. En FP8 gaat óók niet — W4A8 bestaat niet
+
+De FP8-arm faalde op *scaling configuration* en niet op dtype, wat een W4A8-pad
+leek te openen: een activatie op 8 bits is een veel mildere kwaliteitswijziging
+dan 4 bits, en dit project draait de KV-cache al op FP8. Dus alle zes
+beschikbare `ScalingType`-waarden voor A uitgeprobeerd tegen BlockWise1x16 voor B.
+
+**Eigen fout eerst:** de eerste sweep verspilde alle zes FP8-armen omdat ik A als
+`(M, K)` bouwde terwijl B **gepakt** is als `(N, K/2)` — ze stierven op **vorm**
+vóór de receptcontrole. Met de vormmatchende A bereiken ze die wél.
+
+| A-dtype | recept | uitkomst |
+|---|---|---|
+| FP8 | **alle zes** | `Invalid scaling configuration` |
+| FP4 | 128x128 / 1x128 / 1x32 / RowWise / TensorWise | `Invalid scaling configuration` |
+| **FP4** | **BlockWise1x16** | **werkt, 256,0** |
+
+**Precies één pairing werkt in de hele matrix.** Verdict: **`w4a4_only`**.
+
+### Wat dit doet met de route
+
+Adoptie vraagt onvermijdelijk dat de activatie naar **4 bits** gaat:
+
+1. een **substantiële kwaliteitswijziging** waar geen enkel bewijs voor is —
+   niet mild zoals FP8 geweest zou zijn;
+2. plus een **per-aanroep quantisatiekernel** waarvan de kost niet gemeten is en
+   die **niet** in de 2,52×/1,68× zit.
+
+De "−1,275 ms/token → 54,6 tok/s" is dus **geen vrije winst** maar een
+kwaliteitsafweging waarvan we één kant deels kennen en de andere kant helemaal
+niet. C3A's eigen claim boundary zei dit al — *"exact +1 A ... no
+real-activation quantization"*. Kimi trok die grens correct; ik stapte eroverheen.
+
+**Wat onverminderd staat:** de gewichtskant en de geometrie — FP4 executeert, is
+correct op de echte checkpoint (cosine 0,999999), M is gratis tot M=8,
+CuPy/Torch delen zero-copy pointers, en de GEMM is captureerbaar. Die zes
+resultaten zijn niet aangetast; ze gaan alleen over minder dan ik ervan maakte.
+
+**Volgende stap: niet bouwen.** De goedkoopste beslissende meting is
+**quantiseer de echte activaties naar FP4 en meet de CE-afwijking op een echte
+generatie**. Haalt die een vooraf vastgelegde poort, dán pas de quantisatiekernel
+bouwen en de netto ms/token meten. In die volgorde.
+
+**De les.** Dit is de all-ones-schalenles één laag hoger: ik verifieerde de kant
+die ik aan het testen was en droeg de andere kant stilzwijgend mee als
+"onveranderd". Een GEMM heeft **twee** operanden, en een claim over formaatbehoud
+moet ze allebei noemen.
+
+**Artefacten.** `pro_research/diag_fp4_activation_side.py` + `.json`,
+`pro_research/diag_fp4_w4a8_recipes.py` + `results/native_nvfp4/FP4_W4A8_RECIPES.json`.
+
+---
+
 ## 2026-08-16 — **Laatste poort GEHAALD: een Torch `scaled_mm` is captureerbaar in een CuPy CUDA-graph.** Daarmee is de FP4-route volledig gedeblokkeerd
 
 **Vraag.** Onze 51,0 tok/s bestaat omdat het héle token in één CUDA-graph zit.

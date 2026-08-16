@@ -1,0 +1,37 @@
+{
+  "kind": "diag_device_only_union",
+  "created_utc": "2026-08-16T04:23:38.948162+00:00",
+  "note": "verifies cache_assign+cache_fetch (unmodified production kernels) can replace the host-side Python union computation (cp.asnumpy+set+dict) in proto_multi_seq_moe_shared.py's up_proj fetch step, entirely device-side -- first step of PATH_TO_100_TOKS.md roadmap item 1",
+  "environment": {
+    "created_utc": "2026-08-16T04:23:38.949162+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "2884c6433b47dea15b89c729343494871a1a150a",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/diag_device_only_union.json",
+      "?? pro_research/diag_device_only_union.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6446 MiB, 65, 57.15 W, 2775 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\fused_nvfp4.py": "2669431dba6f524844b096de129d9211bc9ae547fe0b87ce8bdcc144365cdcda"
+    }
+  },
+  "target_layer": 24,
+  "n_sequences": 2,
+  "top_k": 6,
+  "flat_pair_count": 12,
+  "union_expert_count_host": 9,
+  "total_needed_device": 9,
+  "need_matches_expected_dedup_pattern": true,
+  "pairs_checked": 12,
+  "byte_mismatches": 0,
+  "correctness_pass": true
+}

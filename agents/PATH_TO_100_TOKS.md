@@ -88,12 +88,20 @@ blijven zelfs bij perfecte uitvoering.
 **Wat "perfecte engineering" concreet zou vereisen (niet gedaan deze
 sessie, wel nu precies afgebakend):**
 
-1. **Device-only routing-unie-berekening.** Deze sessie se
-   `shared_moe_layer`-integratie leest routing-ids terug naar de host
-   (`cp.asnumpy`) om de Python-unie te berekenen — een host-sync per
-   sequentie per laag. Een echte implementatie zou de unie **op het device**
-   moeten berekenen (een kleine nieuwe kernel: N×top_k ids in, gededupliceerde
-   lijst + telling uit, zonder host-round-trip).
+1. **Device-only routing-unie-berekening — voor de up_proj-fetch-stap
+   inmiddels geverifieerd, GEEN nieuwe kernel nodig.**
+   `pro_research/diag_device_only_union.py` (2026-08-16) bewijst dat de
+   bestaande, ongewijzigde `cache_assign`/`cache_fetch`-kernels een RUWE
+   (ongededupliceerde) N×top_k-idlijst al correct dedupliceren binnen één
+   aanroep — geen nieuwe CUDA-code, wel een echte val gevonden en vermeden
+   (`cache_fetch` leest specifiek `dev["ids"]`, niet een losse
+   `ids`-parameter — die moet dus expliciet gevuld worden vóór
+   `cache_assign`). Bitexact geverifieerd in isolatie, **nog niet
+   geïntegreerd** in de echte staplus. **Nog open**: de down_proj-
+   maskerunie (OR van sparsity-maskers over sequenties die dezelfde
+   expert kozen) heeft dit mechanisme niet — dat vraagt nog steeds
+   host-side groepering per expert, of een aparte nieuwe kernel die niet
+   gebouwd is.
 2. **Eén CUDA-graph voor de hele multi-sequentie-staplus**, met een
    actief-masker voor continuous batching (zoals `BATCH_ARCHITECTURE_DESIGN.md`
    stap 8 al aangaf) — vangt de PCIe-fetch en het rekenwerk in dezelfde

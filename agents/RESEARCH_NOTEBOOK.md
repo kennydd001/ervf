@@ -11,6 +11,67 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Routekaartstap 1 begonnen: device-only unie-berekening geverifieerd met bestaande kernels, geen nieuwe CUDA-code nodig
+
+**Vraag.** `PATH_TO_100_TOKS.md` se routekaart-item 1 noemt "device-only
+routing-unie-berekening" als eerste concrete stap om
+`proto_multi_seq_moe_shared.py`'s host-sync (`cp.asnumpy` per sequentie per
+laag, puur om de Python-unie te bouwen) weg te nemen. Is dat mogelijk met
+de **al bestaande, ongewijzigde** `cache_assign`/`cache_fetch`-kernels, of
+is er echt nieuwe CUDA-code nodig?
+
+**Bevinding uit de kernelbroncode zelf (niet aangenomen, nagelezen).**
+`cache_assign` dedupliceert al binnen één aanroep: bij een HERHAALDE id in
+dezelfde (ongededupliceerde) lijst vindt de tweede+ occurrence
+`slot_of[e]` al gezet (door de eerste, in dezelfde sequentiële lus) en zet
+`need[s]=0`, met `slots[s]` toch correct gevuld. `cache_fetch` heeft zelf
+`if (!need[s]) return;` en schrijft naar `cache_c + slots[s]*code_bytes` —
+meerdere posities die naar hetzelfde fysieke slot wijzen is dus al precies
+wat deze kernel ondersteunt, zonder enige aanpassing.
+
+**Opzet.** `pro_research/diag_device_only_union.py`. N=2 echte sequenties,
+echte `route_topk`-output per sequentie op één echte MoE-laag. Vergelijkt:
+(a) de HUIDIGE aanpak (`cp.asnumpy` + Python `set()` + `dict`, zoals
+`proto_multi_seq_moe_shared.py` nu doet) tegen (b) een NIEUWE aanpak: de
+RUWE, ongededupliceerde N×top_k-idlijst rechtstreeks in `cache_assign`
+gooien (cap=top_k=N×top_k, dus nooit eviction binnen deze ene aanroep),
+zonder enige host-side Python-unieberekening.
+
+**Een echte bug gevonden en gefixt vóór een geldige meting.** Eerste
+versie gaf **12/12 byte-mismatches** — `cache_assign` leest de `ids`-
+PARAMETER die je meegeeft, maar `cache_fetch` leest daarna specifiek
+`dev["ids"]` — als die twee niet hetzelfde array zijn, blijft `dev["ids"]`
+op nul staan (van de allocatie) en haalt `cache_fetch` voor elke positie
+**expert 0** op in plaats van de juiste expert. Productie se `_moe_dev`
+vermijdt dit door `route_topk` DIRECT in `dev["ids"]` te laten schrijven;
+deze test miste dat éérst. Gefixt door expliciet `dev_union["ids"][:] =
+...` te zetten vóórdat `cache_assign` ermee wordt aangeroepen, exact het
+productiepatroon volgend.
+
+**Uitkomst na de fix: bitexact, 0/12 mismatches, dedup-patroon exact
+zoals verwacht** (`need`==1 alleen bij eerste occurrence per expert,
+totaal-`need` == aantal unieke experts, 9 van 12 in dit geval).
+
+**Wat dit sluit of opent.** Sluit de vraag of roadmap-item 1 nieuwe
+CUDA-code vereist voor de **up_proj-fetch-stap** specifiek: **nee** — de
+bestaande, al-bitexact-geverifieerde productiekernels volstaan, mits
+correct aangeroepen (met de nu-bekende `dev["ids"]`-valkuil vermeden). Dit
+elimineert de host-sync voor DIE stap zonder één regel nieuwe kernel-code.
+**Nog niet gedaan**: dezelfde aanpak voor de down_proj-maskerunie (die
+vraagt nog steeds host-side groepering per expert om maskers te OR'en —
+een apart, groter probleem, geen simpele hergebruik van `cache_assign`).
+**Nog niet geïntegreerd** in `proto_multi_seq_moe_shared.py` zelf en dus
+nog geen nieuwe tok/s-claim — dit is de geïsoleerde mechanismecontrole,
+exact zoals dit project se eigen discipline voorschrijft vóór integratie.
+
+**Poorten.** Correctheid: bitexact, 0/12 mismatches, dedup-patroon
+correct, PASS. Geen tok/s-claim.
+
+**Artefacten.** `pro_research/diag_device_only_union.py`,
+`pro_research/diag_device_only_union.json`.
+
+---
+
 ## 2026-08-16 — Robuustheidscontrole van de N=2-naive-baseline: het cijfer krimpt bij een langere horizon — eerlijke bijstelling, geen tegenspraak
 
 **Vraag.** De N=2-naive-baseline (+5,4% aggregate) en de latere expliciete-

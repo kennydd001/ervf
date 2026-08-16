@@ -466,6 +466,25 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       onbekend**, niet wat eerst gerapporteerd werd. Correctie toegepast op
       de eerdere claim. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
       "Correctie, direct erna".
+- [DONE 2026-08-16] **`PATH_TO_100_TOKS.md` routekaart-item 1 begonnen:
+      device-only unie-berekening voor up_proj-fetch geverifieerd — geen
+      nieuwe CUDA-code nodig.** `pro_research/diag_device_only_union.py`:
+      bewijst dat de bestaande, ongewijzigde `cache_assign`/`cache_fetch`-
+      kernels een RUWE (ongededupliceerde) N×top_k-idlijst al correct
+      dedupliceren binnen één aanroep (nagelezen in de kernelbroncode, niet
+      aangenomen) — elimineert de host-sync die de huidige Python-unie
+      (`cp.asnumpy`+`set`+`dict`) nodig heeft, voor de up_proj-fetch-stap
+      specifiek. **Bug gevonden en gefixt vóór een geldige meting**:
+      `cache_fetch` leest `dev["ids"]` specifiek (niet de losse `ids`-
+      parameter die aan `cache_assign` werd gegeven) — eerste versie liet
+      dat leeg, waardoor alles expert 0 ophaalde (12/12 mismatches).
+      Gefixt door `dev["ids"]` direct te vullen, het productiepatroon
+      volgend. **Na de fix: bitexact, 0/12 mismatches, dedup-patroon
+      correct (9 van 12 uniek).** Nog niet geïntegreerd in
+      `proto_multi_seq_moe_shared.py` (geïsoleerde mechanismecontrole
+      eerst, zoals de discipline vereist) en dekt nog niet de down_proj-
+      maskerunie (apart, groter probleem). Geen nieuwe tok/s-claim. Zie
+      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Routekaartstap 1 begonnen".
 - [WEERLEGD-VOOR-DEZE-AANPAK, CORRECTHEID BEVESTIGD 2026-08-16] **Expliciete
       unie-gevoede MoE-deling geïntegreerd in de echte staplus — bitexact
       correct, maar 12× TRAGER, niet sneller.**

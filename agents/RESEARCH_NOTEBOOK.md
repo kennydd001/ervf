@@ -11,6 +11,85 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — **De reikwijdte van de correctie: ESSENTIEEL ALLE grote GEMV's zijn al ERVF.** Daarmee geldt het ×1,64-plafond voor de hele dense stroom — en batch landt naar verwachting op 70-85 tok/s, niet 100+
+
+**Wat ik in mijn vorige bericht nog fout had.** Ik schreef dat `shared_up` en
+`routed_up` "níet ERVF" zijn en dat daar de ~3,6× waarschijnlijk overeind bleef.
+Dat is onjuist. Nagekeken in de bron:
+
+- `fused.gemv_into` (fused_nvfp4.py:944) doet `if self.use_ervf:` en gaat dan
+  naar `gemv_ervf` — **ERVF is de standaard**, niet een opt-in. Dat pad bedient
+  de **shared expert up én down** en de **lm_head**.
+- `up_kernels.run_batched` (up_proj_batch_kernels.py:265) gebruikt
+  `rpb = 256 // WIDTH` met WIDTH 16 — **dezelfde ERVF-geometrie**, voor de
+  routed up-proj.
+
+**Volledige inventaris van wat ERVF bedient:**
+
+| pad | shape | dtype | ERVF? | MB/token |
+|---|---|---|---|---:|
+| Mamba in_proj | (10304, 2688) | FP8 | ✅ whitelist | 637,4 |
+| Mamba out_proj | (2688, 4096) | FP8 | ✅ whitelist | 253,2 |
+| q_proj | (4096, 2688) | BF16 | ✅ whitelist | 132,1 |
+| o_proj | (2688, 4096) | BF16 | ✅ whitelist | 132,1 |
+| shared up/down | — | NVFP4 | ✅ `gemv_into` default | 290,0 |
+| routed up | (1856, 2688) | NVFP4 | ✅ `run_batched` WIDTH 16 | 387,3 |
+| lm_head | — | NVFP4 | ✅ `gemv_into` default | 198,2 |
+| **k/v_proj** | (256, 2688) | BF16 | ❌ niet whitelisted | 16,5 |
+
+**Van de 2048 MB/token VRAM-verkeer gaat 2031 MB (99,2%) door een
+ERVF-kernel.** Alleen de K/V-projecties (16,5 MB) niet — en die zijn eerder
+vandaag gemeten als 0,75× onder ERVF, dus terecht uitgesloten.
+
+**Waarom dat de batch-verwachting halveert.** De gemeten ERVF-eigenschap is:
+**247-266 GB/s bij N=1 = 77% van het apparaatplafond**, en batching daarop geeft
+**×1,64 bij N=4**. Dat gold voor Mamba, en het geldt nu dus voor vrijwel álles.
+Mijn vorige projectie ging er nog van uit dat 677 MB/token (shared + routed) de
+volle ~3,6× zou halen; dat vervalt.
+
+**Herziene projectie (alle aannames expliciet, dit is géén meting).** Bij N=4,
+met ×1,64 op de ERVF-paden en de gemeten unie-factor ~2,5/4 op de
+routed/PCIe-posten:
+
+| post | nu | bij N=4 | bespaart |
+|---|---:|---:|---:|
+| Mamba | 5,168 | 3,152 | 2,02 |
+| attention | 2,479 | ~1,88 | ~0,60 |
+| shared_expert | 1,810 | 1,104 | 0,71 |
+| routed up_proj | 2,253 | ~1,25 | ~1,00 |
+| gather (PCIe, unie) | 3,849 | 2,406 | 1,44 |
+| down_masked + scan + reduce + accum | 2,491 | 1,557 | 0,93 |
+| rest (lm_head ERVF, norms, embed) | ~3,7 | ~3,2 | ~0,50 |
+| **totaal** | **21,24** | **~14,0** | **~7,2** |
+
+→ **~14,0 ms ≈ 71 tok/s bij N=4**; bij N=8 met ×~1,9 en unie 4/8 ruwweg
+**~12 ms ≈ 83 tok/s**.
+
+**Dus: batch landt naar verwachting op 70-85 tok/s, niet boven de 100.**
+Samen met single-stream's harde plafond van ~94 tok/s betekent dat: **met de
+huidige kerneltechnologie haalt géén van beide routes de 100.**
+
+**De diepere les, en die is opbouwend.** *Het succes van ERVF is precies wat de
+bovenkant van batching wegneemt.* Batching's klassieke winst is het amortiseren
+van gewichtslezingen — dat werkt alleen als je bandbreedte verspilde. V4-V6
+hebben dat verspillen al grotendeels gestopt (77% van het apparaatplafond). Je
+kunt niet twee keer dezelfde inefficiëntie opeten. Dat is geen tegenslag maar
+een consistent beeld: alle metingen van vandaag wijzen dezelfde kant op.
+
+**Wat het nog wél kan worden — één onbeantwoorde vraag die het verschil maakt.**
+Mijn batched ERVF-kernel leest X uit **global** omdat N kopieën in shared de
+48 KB-limiet overschrijden. Bij N=4 is dat 4 × 4 B aan X-verkeer per
+gewichtsbyte. **De ×1,64 is daarmee een ondergrens, en mogelijk een forse.** Een
+K-getegelde variant die X in shared houdt is de enige nog openstaande manier om
+de bovenkant te verleggen. **Dat getal beslist of batch richting 100 kan.** Het
+is niet gemeten en mag niet aangenomen worden.
+
+**Artefacten.** Broninventaris uit `fused_nvfp4.py:944`,
+`up_proj_batch_kernels.py:265`, `selective_ervf_v3.py:37-38`;
+metingen in `diag_ervf_batched_fp8.json` en `diag_batched_vs_ervf_baseline.json`.
+
+---
+
 ## 2026-08-16 — ⚠️⚠️ **TWEEDE, ZWAARDERE CORRECTIE: de batch-versnelling was gemeten tegen een baseline die productie niet draait. Tegen de échte ERVF-baseline is het ×1,64 bij N=4, niet ×3,5**
 
 **Wat er mis was.** `diag_batched_gemv_scaling` en `diag_batched_gemv_fp8`

@@ -184,11 +184,13 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       shared overschrijden 48 KB), dus 1,64× is een **ondergrens**. Een
       getegelde K-dimensie die X in shared houdt bepaalt de echte bovengrens.
       Dat getal beslist of batch de 100 haalt.
-- [ ] **VÓÓR B1: niet-ERVF-shapes apart meten.** `shared_up` (3712,2688) en
-      `routed_up` (1856,2688) staan **niet** op de ERVF-whitelist, dus daar is
-      de row-block-baseline wél de juiste en staat de ~3,6× bij N=4
-      waarschijnlijk overeind. Samen 677 MB/token — dat is waar de batchwinst
-      dan vandaan moet komen.
+- [WEERLEGD 2026-08-16] **"shared_up/routed_up zijn niet-ERVF"** — fout van mij.
+      `fused.gemv_into` doet `if self.use_ervf:` (ERVF is de **standaard**, niet
+      opt-in) en `up_kernels.run_batched` gebruikt dezelfde WIDTH-16-geometrie.
+      Inventaris: **2031 van 2048 MB/token (99,2%) gaat door een ERVF-kernel**;
+      alleen K/V (16,5 MB) niet. Het ×1,64-plafond geldt dus voor vrijwel de hele
+      dense stroom, en de herziene batchprojectie is **~71 tok/s bij N=4,
+      ~83 bij N=8** — niet boven de 100.
 - [ ] **Methodische regel, vastgelegd:** vergelijk een kandidaat altijd met wat
       de runtime daadwerkelijk uitvoert voor díe shape. Check
       `BF16_ERVF_SHAPES` / `FP8_ERVF_SHAPES` vóór je een baseline kiest. Drie

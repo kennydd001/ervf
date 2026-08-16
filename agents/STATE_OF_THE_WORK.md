@@ -6,6 +6,22 @@ Bijgewerkt: 2026-08-16 (na PRO V3 + model-identiteitsonderzoek) · lees dit vó�
 (single-stream vs. aggregate, wat wél en niet bereikbaar is, en de precieze
 resterende technische stappen): zie `agents/PATH_TO_100_TOKS.md`.**
 
+## 🚩 Stand van zaken 2026-08-16, einde sessie: géén van beide routes haalt de 100 met de huidige kernels
+
+- **single-stream**: record 47,41 tok/s; hard theoretisch maximum **~94 tok/s**
+  (elke gemeten ms hoofdruimte opgeteld). Negen ingrepen gebouwd en gemeten,
+  beste opbrengst −0,42 ms.
+- **batch**: gemeten batchwinst op de ERVF-paden is **×1,64 bij N=4** — en
+  **99,2% van het VRAM-verkeer gaat door een ERVF-kernel**. Projectie
+  **~71 tok/s bij N=4, ~83 bij N=8**.
+- **De reden is één samenhangend feit:** ERVF haalt bij N=1 al **247-266 GB/s =
+  77% van het apparaatplafond**. Batching amortiseert gewichtslezingen en werkt
+  alleen als je bandbreedte verspilde — V4-V6 zijn daar al mee gestopt.
+- **De enige openstaande vraag die dit kan verleggen:** een **K-getegelde**
+  batched ERVF-kernel die X in shared houdt. De gemeten ×1,64 is een
+  **ondergrens**, want mijn kandidaat leest X uit global (48 KB-limiet). Dat ene
+  getal beslist of batch richting 100 kan. Zie `DECISION_SINGLE_STREAM_VS_BATCH.md`.
+
 ## 🔎 De volledige rekening (2026-08-16, alles gemeten)
 
 Voor het eerst is elke term van het budget nagemeten in plaats van geschat, en

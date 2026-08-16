@@ -30,11 +30,30 @@ nota schreef.**
 > kopieën in shared de 48 KB-limiet overschrijden. Een getegelde versie die X
 > in shared houdt kan beter zijn; hoeveel is **niet gemeten**.
 >
-> **Wat er vóór B1 eerst moet gebeuren:** (a) een getegelde batched
-> ERVF-kernel om de echte bovengrens te bepalen; (b) de niet-ERVF-shapes
-> (shared_up, routed_up — samen 677 MB/token) apart meten tegen hún
-> productiekernel, want daar geldt de row-block-baseline wél en staat de ~3,6×
-> waarschijnlijk overeind.
+> **DERDE CORRECTIE — de reikwijdte is groter dan gedacht.** Ik schreef hier dat
+> `shared_up`/`routed_up` niet-ERVF zijn en daar ~3,6× zou blijven staan. Fout.
+> `fused.gemv_into` doet `if self.use_ervf:` — **ERVF is de standaard** — en
+> `up_kernels.run_batched` gebruikt dezelfde WIDTH-16-geometrie. Inventaris:
+> **2031 van de 2048 MB/token (99,2%) gaat door een ERVF-kernel**; alleen de
+> K/V-projecties (16,5 MB) niet.
+>
+> Daarmee geldt het gemeten ×1,64-bij-N=4 voor vrijwel de hele dense stroom.
+> Herziene projectie: **N=4 ≈ 14,0 ms ≈ 71 tok/s**, N=8 ruwweg **~83 tok/s**.
+>
+> **Conclusie zoals het er nu staat: met de huidige kerneltechnologie haalt
+> géén van beide routes de 100** — single-stream is hard begrensd op ~94, batch
+> landt naar verwachting op 70-85.
+>
+> De diepere reden is opbouwend: *het succes van ERVF is precies wat de
+> bovenkant van batching wegneemt.* Batching amortiseert gewichtslezingen, en
+> dat werkt alleen als je bandbreedte verspilde. V4-V6 zijn al op 77% van het
+> apparaatplafond. Dezelfde inefficiëntie kun je niet twee keer opeten.
+>
+> **De enige nog openstaande vraag die dit kan verleggen:** mijn batched
+> ERVF-kernel leest X uit global (N kopieën in shared overschrijden 48 KB), dus
+> ×1,64 is een **ondergrens**. Een K-getegelde variant die X in shared houdt is
+> de laatste manier om de bovenkant te verhogen. **Dat ene getal beslist of
+> batch richting 100 kan** — en het is niet gemeten.
 >
 > **Methodische regel die hieruit volgt:** vergelijk een kandidaat altijd met
 > wat de runtime daadwerkelijk uitvoert voor díe shape. Check

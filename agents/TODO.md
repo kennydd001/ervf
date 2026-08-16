@@ -185,12 +185,24 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       ~4,5 ms, niet ~11.
       **Regel erbij: som eerst op wat een component allemaal uitvoert vóór je
       zijn marginaal door bytes deelt.**
-- [ ] **HOOGSTE PRIORITEIT — `ssm_step` en `gated_norm` uitsplitsen** (samen
-      **1,011 ms = 4,9% van het token**, gemeten). Grootste ongemeten enkele post
-      die overblijft. In 4 armen (BASE_A / ssm_step / gated_norm / BASE_B), niet
-      meer — en met **eigen kladrecurrentie** voor de ssm_step-probe want die
-      schrijft `ssm[i]`. Niet bandbreedtegebonden (2,1 MB state per laag), dus
-      verwacht een reken- of latentieoorzaak.
+- [ ] **HOOGSTE PRIORITEIT — `ssm_step` optimaliseren. Slechtste efficiëntie in
+      het model (34%) en de best afgebakende kerneloefening die er nog ligt.**
+      Gemeten: **1,095 ms/token** tegen `gated_norm`'s 0,273 (4:1, ruim buiten de
+      ±0,36 ms ruis). Byteboekhouding: SSM-state = 64 heads × 64 hdim × 128 state
+      × 4 B = **2,10 MB/laag**, read-modify-write = 4,19 MB/laag = **96,5
+      MB/token**. Vloer bij 260 GB/s = **0,371 ms**; behaald **88,1 GB/s = 34%**;
+      **hoofdruimte 0,724 ms (3,4% van het token)**.
+      Ter vergelijking: attention 45,5%, down_masked 60%, Mamba-GEMV 80-86%,
+      shared_expert 90%. **Pure VRAM read-modify-write** — geen PCIe, geen
+      sparsity, geen data-afhankelijke grid, geen LRU.
+      Hypotheses om met ablatie te scheiden (zoals bij down_masked): te weinig
+      parallellisme per launch (1472 kleine head-updates per token), een
+      niet-gecoalesceerd `[head][hdim][state]`-layout tegen de leesvolgorde, of
+      een afhankelijke keten per head.
+- [DONE 2026-08-16] **`ssm_step` vs `gated_norm` uitgesplitst** — 1,095 tegen
+      0,273 ms, 4 armen, alle bitexact, drift 0,165. Som 1,368 tegen gegroepeerd
+      1,011 = 0,357 verschil, precies het vastgelegde ruisniveau: absolute
+      waarden ±0,36, de 4:1-verhouding is hard.
 - [DONE 2026-08-16] **Mamba per stage gemeten** (in-graph, alle armen bitexact,
       drift 0,397): GEMV's **4,187** · ssm+gated_norm **1,011** · conv+dt
       **0,197** (som 5,394 tegen marginaal 5,168, sluit binnen de drift).

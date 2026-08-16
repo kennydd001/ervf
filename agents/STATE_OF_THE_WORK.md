@@ -45,8 +45,20 @@ GB/s "geen gat") waren **allebei fout** — beide door aftrekken in plaats van
 meten. **Metaregel: een verschil tussen een geïsoleerde en een in-lus meting is
 een hypothese, geen getal.**
 
-**Grootste ongemeten post nu:** `ssm_step` vs `gated_norm` uitsplitsen (samen
-1,011 ms).
+**Efficiëntie per component, alles in-graph gemeten:**
+
+| component | behaald | vloer | hoofdruimte |
+|---|---:|---:|---:|
+| **`ssm_step`** | **34%** (88,1 GB/s) | 0,371 | **0,724 ms** ← slechtste |
+| attention | 45,5% | 1,128 | 1,352 |
+| down_masked | 60% | 0,257 | ~0,17 |
+| Mamba GEMV's | 80-86% (213 GB/s) | — | — |
+| shared_expert | 90% (223 GB/s) | 1,17 | 0,14 |
+
+**`ssm_step` is de slechtste en tegelijk de schoonste**: pure VRAM
+read-modify-write van 96,5 MB/token (SSM-state 2,10 MB/laag), geen PCIe, geen
+sparsity, geen data-afhankelijke grid, geen LRU. Dat is de best afgebakende
+kerneloefening die nog openstaat.
 
 ## 🔎 De volledige rekening (2026-08-16, alles gemeten)
 

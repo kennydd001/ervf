@@ -11,6 +11,66 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — `ssm_step` is de dader: **1,095 ms tegen `gated_norm`'s 0,273** — en met 88 GB/s draait hij op **34%** van het kernel-tempo, de slechtste efficiëntie in het hele model
+
+**Vraag.** De gemeten stage-splitsing zette `ssm_step + gated_norm` op 1,011 ms
+(4,9% van het token) — de grootste ongemeten enkele post die overbleef. Welke
+van de twee?
+
+**Opzet.** Vier armen (BASE_A / ssm_step / gated_norm / BASE_B), conform de
+eigen regel dat kleine kandidaten niet in een sweep horen. De `ssm_step`-probe
+krijgt **eigen kladrecurrentie** want hij schrijft `ssm[i]`; beide probes
+schrijven naar kladbuffers.
+
+**Uitkomst (poorten groen: alle armen bitexact, drift 0,1648 ms).**
+
+| | ms/token | % van token |
+|---|---:|---:|
+| **`ssm_step`** | **1,095** | 5,2% |
+| `gated_norm` | 0,273 | 1,3% |
+| som | 1,368 | (gegroepeerd gemeten: 1,011) |
+
+**Eerlijkheid over de onzekerheid:** som 1,368 tegen de eerder gegroepeerd
+gemeten 1,011 scheelt **0,357 ms** — precies het ruisniveau dat ik vanmiddag
+zelf vastlegde voor deze magnitude. De **absolute** waarden dragen dus ±0,36 ms.
+De **verhouding** 4:1 ligt daar ruim buiten en is wél hard.
+
+**De byteboekhouding maakt het scherp.** De SSM-state is
+64 heads × 64 hdim × 128 state × 4 B = **2,10 MB per laag**. `ssm_step` is een
+read-modify-write van die hele state: 4,19 MB per laag, **96,5 MB per token**
+over 23 lagen.
+
+| | |
+|---|---:|
+| vloer bij 260 GB/s (het gemeten kernel-tempo) | **0,371 ms** |
+| gemeten | **1,095 ms** |
+| behaald | **88,1 GB/s = 34%** |
+| **hoofdruimte** | **0,724 ms (3,4% van het token)** |
+
+**34% is de slechtste efficiëntie van elke component die vandaag gemeten is** —
+slechter dan attention (45,5%), down_masked (60%), Mamba's GEMV's (80-86%) en
+shared_expert (90%). En het is een **pure VRAM read-modify-write**: geen PCIe,
+geen sparsity, geen data-afhankelijke grid, geen LRU. Dat maakt het de best
+afgebakende kerneloefening die er nog ligt.
+
+**Waarom het traag kán zijn (hypotheses, niet gemeten).** De scan werkt per head
+op een [64, 128]-tegel; met 64 heads × 23 lagen zijn dat 1472 kleine
+onafhankelijke updates per token. Kandidaten: te weinig parallellisme per launch
+(zoals bij de K/V-projecties), een niet-gecoalesceerd state-layout
+(`[head][hdim][state]` versus de leesvolgorde), of een afhankelijke keten per
+head. Alle drie zijn met dezelfde ablatie-techniek te scheiden die
+`down_masked` ontleedde.
+
+**Wat dit betekent voor het totaalbeeld.** Het verandert de conclusie over 100
+tok/s niet — 0,72 ms op een token van 21,07 is 3,4% — maar het is wel de
+grootste enkele hoofdruimte die nog **in één kernel** zit, en het is er een
+zonder de complicaties (PCIe, sparsity, statefulness over sequenties) die elke
+andere post vandaag onaantrekkelijk maakten.
+
+**Artefacten.** `pro_research/diag_ssm_vs_gatednorm.py` + `.json`.
+
+---
+
 ## 2026-08-16 — Mamba per stage **gemeten** in plaats van afgeleid: GEMV's 4,187 ms · ssm+gated_norm 1,011 · conv+dt 0,197. De in-lus-GEMV draait op **213 GB/s** — tussen mijn twee eerdere claims in
 
 **Vraag.** Ik heb Mamba's 5,168 ms vandaag twee keer verschillend gesplitst,

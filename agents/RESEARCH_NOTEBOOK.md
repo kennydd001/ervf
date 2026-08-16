@@ -50,10 +50,32 @@ klein t.o.v. de ruis tussen losse volledige-graph-builds) — maar wel een
 eigen geïsoleerde A/B (die had een BASE_A/BASE_B-drift van 0,55 ms, dus de
 0,24 ms winst zit ruim binnen wat de eigen poort als betekenisvol aanmerkt).
 
-**Wat nog open staat.** De −20/+30-verdeling was een eerste gok op basis
-van één 256-token-rollout op één prompt; een grondiger optimalisatie
-(meerdere prompts, andere deltas, mogelijk continue in plaats van twee
-discrete niveaus) is niet gedaan en zou nog iets meer kunnen opleveren.
+**Vervolg: is −20/+30 wel goed gekozen?** Sweep over vijf budget-neutrale
+varianten (`diag_capacity_sweep.py`, hitrate-only, één subproces per
+kandidaat wegens hetzelfde pinned-memory-probleem als eerder bij de
+componentafbraak):
+
+| reduce/boost | missers | hitrate |
+|---|---:|---:|
+| 0 / 0 (uniform) | 5182 | 85,61% |
+| **−20 / +30 (verscheept)** | **4443** | **87,66%** |
+| −30 / +45 | 4549 | 87,37% |
+| −40 / +60 | 4960 | 86,23% |
+| −50 / +75 | 5645 | 84,33% |
+| −60 / +90 | 6865 | 80,94% |
+
+De verscheepte −20/+30-verdeling is **het laagste punt van de sweep** — elke
+agressievere verdeling (zelfde 10 lagen, grotere delta) doet het slechter,
+niet beter. LRU-hitrate is dus sterk niet-lineair: voorbij een bepaald punt
+kost het weghalen bij de "lage-miss"-lagen meer dan het geven aan de
+"hoge-miss"-lagen oplevert. **Geen makkelijke extra winst door simpelweg
+harder te trekken aan dezelfde hefboom.** Een grondigere optimalisatie zou
+andere lagen moeten kiezen (niet alleen de 10 uit deze eerste analyse) en
+over meerdere prompts moeten middelen — niet gedaan, maar de sweep laat zien
+dat het potentieel hier klein is, niet dat er nog een grote winst wacht.
+
+**Artefacten (aanvullend):** `pro_research/diag_capacity_sweep.py` ·
+`pro_research/diag_capacity_sweep.json`.
 
 **Artefacten.** `pro_research/layer_capacity.py` ·
 `pro_research/v_capacity_realloc_ab.py` ·

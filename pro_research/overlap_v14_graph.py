@@ -67,6 +67,7 @@ from ervf_dense import DenseERVF
 from graph_e1f22 import _load_prompt_set, _new_runtime
 from layer_capacity import apply_nonuniform_capacity
 from moe_dev_batched import install_batched_moe_dev
+from gather_small_grid import GatherSmallGrid
 from moe_dev_overlap import install_overlap_moe_dev
 from selective_ervf_v3 import _install_selective
 from up_proj_batch_kernels import UpProjBatchKernels
@@ -75,11 +76,16 @@ RESULT_DIR = REPO / "pro_research" / "results" / "v14_overlap"
 OUT = RESULT_DIR / "PRO_V14G_OVERLAP_GRAPH.json"
 
 
+def _out_path(gb):
+    return RESULT_DIR / (f"PRO_V14G_OVERLAP_GRAPH_gb{gb}.json" if gb else "PRO_V14G_OVERLAP_GRAPH.json")
+
+
 def _write(payload: dict[str, Any]) -> None:
     RESULT_DIR.mkdir(parents=True, exist_ok=True)
-    tmp = OUT.with_suffix(".json.tmp")
+    out = _out_path(payload.get("gather_blocks") if isinstance(payload.get("gather_blocks"), int) else 0)
+    tmp = out.with_suffix(".json.tmp")
     tmp.write_text(json.dumps(payload, indent=2, allow_nan=False) + "\n", encoding="utf-8")
-    tmp.replace(OUT)
+    tmp.replace(out)
 
 
 def _recapture(rt) -> None:
@@ -141,6 +147,10 @@ def _run(rt, prompt_ids: list[int], n: int) -> tuple[list[int], list[float]]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", choices=("smoke", "full"), default="smoke")
+    ap.add_argument("--gather-blocks", type=int, default=0,
+                    help="0 = production gather (247 blocks, worst-case sized); "
+                         "otherwise use the grid-stride gather at this many blocks, "
+                         "leaving SM room for the down_masked it overlaps with")
     args = ap.parse_args()
 
     payload: dict[str, Any] = {
@@ -149,6 +159,7 @@ def main() -> int:
         "mode": args.mode,
         "started_utc": utc_now(),
         "opens_from": "V14 eager was bit-exact but +3.65 ms/token; diag_event_op_cost priced a bare Event.record at 0.285 us but the full cross-stream wait/record round-trip at ~183 us, and V14 issues 138 of those per token. Capture turns them into static graph edges.",
+        "gather_blocks": None,
         "claim_boundary": "SYNC semantics (one replay + one ring harvest per token), the same regime the 21.0923 ms V6 record was measured in, so these numbers ARE comparable to it.",
     }
 
@@ -159,6 +170,7 @@ def main() -> int:
         prompts, _expected, n, capacity = _load_prompt_set(args.mode)
         n = min(n, 32) if args.mode == "smoke" else max(n, 256)
         preheat_n = 32 if args.mode == "smoke" else 128
+        payload["gather_blocks"] = args.gather_blocks or "production_247"
         payload["config"] = {"tokens_per_prompt": n, "prompt_count": len(prompts),
                              "capacity": capacity, "preheat_tokens": preheat_n}
         payload["environment_start"] = environment_snapshot((
@@ -191,7 +203,8 @@ def main() -> int:
 
         # ---- CAND: overlap installed, then RE-captured -------------------
         restore_v6()
-        restore_cand = install_overlap_moe_dev(rt, down, up)
+        gsmall = GatherSmallGrid() if args.gather_blocks else None
+        restore_cand = install_overlap_moe_dev(rt, down, up, gsmall, args.gather_blocks)
         capture_error = None
         try:
             _recapture(rt)

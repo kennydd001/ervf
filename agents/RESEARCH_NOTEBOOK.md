@@ -61,18 +61,39 @@ PCIe staat te wachten geeft zijn issue-slots vrij maar houdt zijn warp-slot en
 registers bezet, dus hij verdringt reken-warps. **PCIe-tijd verstoppen achter
 compute lukt alleen echt als de transfer op de copy-engine ligt.**
 
-**Wat dit opent — twee concrete richtingen, in volgorde van kansrijkheid.**
-1. **Minder SM-beslag door de gather.** De launch is op de worst case gesized:
-   `blocks = (inter + npanel)·32/256 = 247` blokken, waarvan er in de praktijk
-   maar ~31 werk hebben (164,7 kolommen + 90,1 panelen ≈ 247 warps). De rest
-   wordt wél gescheduled. Een kleine statische grid (capture vereist statisch)
-   met een grid-stride-lus over warps laat veel meer SM over voor
-   `down_masked`. Goedkoop te testen, raakt precies het mechanisme hierboven.
-2. **Transfer naar de copy-engine.** Vereist een niet-data-afhankelijk
-   kopieerpatroon; hele panelen DMA'en is 4,4× zoveel bytes (1,94 MB/expert
-   tegen 440 KB) = 10,4 ms/token bij 25,9 GB/s en dus slechter. Alleen zinvol
-   in combinatie met residentie, en `full`-cachemode is door S11 al weerlegd
-   bij gelijke bytes. Laag geprioriteerd tot 1 gemeten is.
+**Ronde 3 — de voor de hand liggende vervolgstap, en die is WEERLEGD.**
+Hypothese: de gather-launch is op de worst case gesized (`blocks =
+(inter + npanel)·32/256 = 247`, dus 1976 warps) terwijl er bij de gemeten
+sparsity maar ~255 warps werk hebben; een kleine statische grid met een
+grid-stride-lus zou veel SM vrijlaten voor `down_masked`. Gebouwd
+(`gather_small_grid.py`, identieke per-warp-body, alleen andere
+werkverdeling), bitexact, en gesweept in dezelfde graph-harness:
+
+| gather-grid | delta ms | PCIe verstopt |
+|---|---:|---:|
+| 32 blokken | −0,0512 | 2,1% |
+| 64 blokken | −0,1878 | 7,6% |
+| **247 (productie)** | **−0,4158** | **16,8%** |
+
+**Precies andersom dan de hypothese.** Minder blokken verstopt mínder, niet
+meer. Verklaring die daaruit volgt: het aantal *werkende* warps ligt met ~255
+vast door de data, maar bij 247 blokken liggen die verspreid over alle 26 SM's
+en bij 32 blokken opeengepakt op ~32. De gather is PCIe-**latency**-gebonden, en
+zijn doorvoer schaalt met het aantal SM's waarover hij uitstaande requests kan
+verdelen. Verspreiden levert meer op dan het aan contentie kost. De
+productie-geometrie zat dus al aan de goede kant van die ruil.
+
+**Wat dit sluit of opent.** Sluit: gather-grid-krimp als hefboom. Wat overblijft
+voor de resterende 83% PCIe-tijd is de transfer naar de **copy-engine** krijgen,
+en dat vereist een niet-data-afhankelijk kopieerpatroon — hele panelen DMA'en is
+4,4× zoveel bytes (1,94 MB/expert tegen 440 KB) = 10,4 ms/token bij 25,9 GB/s en
+dus slechter, en `full`-cachemode is door S11 al weerlegd bij gelijke bytes.
+**Belangrijker inzicht uit de rekening:** met 16,8% overlap zakt de seriële
+vloer van 10,69 naar ~10,27 ms = 97,4 tok/s — nog steeds net onder 100, maar
+de échte afstand zit niet daar. We staan op 22,14 ms tegen een vloer van
+~10,3 ms: **~12 ms is pure implementatie-inefficiëntie**, verdeeld als MoE
+11,00 tegen 5,19 vloer, Mamba 5,66 tegen 3,58, attention 1,92 tegen 1,13. Dát
+is waar de volgende 12 ms ligt, niet in nog meer overlap.
 
 **Artefacten.** `pro_research/moe_dev_overlap.py`, `pro_research/overlap_v14.py`,
 `pro_research/overlap_v14_graph.py`, `pro_research/diag_event_op_cost.py` +

@@ -175,20 +175,34 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
-- [ ] **HOOGSTE PRIORITEIT — gather-grid verkleinen zodat de overlap échte
-      SM-ruimte krijgt.** B3 is gebouwd, bitexact en werkt (zie hieronder), maar
-      verstopt maar **16,8%** van de 2,47 ms. Oorzaak is gemeten en structureel:
-      `gather_down_sparse_ind` is een SM-side zero-copy kernel (moet wel — de
-      selectie is data-afhankelijk), dus gather en `down_masked` **vechten om
-      dezelfde SM's**. De launch is bovendien op de worst case gesized:
-      **247 blokken waarvan er ~31 werk hebben** (164,7 kolommen + 90,1 panelen
-      ≈ 247 warps van de 1972 gelanceerd). Een kleine statische grid (capture
-      vereist statisch) met een grid-stride-lus over warps laat veel meer SM
-      over voor `down_masked`. Goedkoop, raakt precies het mechanisme, en de
-      A/B-harness staat er al (`overlap_v14_graph.py`, drift 0,32 ms).
-      Als dit werkt is het pad naar 100 open; zo niet, dan is de PCIe-tijd
-      alleen met de copy-engine te verstoppen en dat vraagt een ander
-      transferpatroon.
+- [ ] **HOOGSTE PRIORITEIT — de ~12 ms implementatie-inefficiëntie, niet meer
+      overlap.** De rekening staat er nu helemaal, met alleen gemeten getallen:
+      we zitten op **22,14 ms** tegen een vloer van **~10,3 ms** (8,22 VRAM +
+      2,47 PCIe, minus de 0,42 die B3 al verstopt). Die ~12 ms zit hier:
+
+      | component | gemeten | vloer | hoofdruimte |
+      |---|---:|---:|---:|
+      | MoE | 11,00 | 5,19 | **5,81** |
+      | Mamba | 5,66 | 3,58 | **2,08** |
+      | attention | 1,92 | 1,13 | **0,79** |
+      | rest (lm_head, norms, embed, argmax) | ~4,56 | ~0,9 | ~3,7 |
+
+      MoE is het grootste doel en is géén enkele grote GEMV maar 6 kleine
+      expert-GEMV's + gather + masked GEMV + reduce per laag — daar zit de
+      inefficiëntie, niet in de bandbreedte van één kernel (de dense GEMV haalt
+      koud 230-261 GB/s = 67-76%, dat is niet de rem). Eerstvolgende meting:
+      dezelfde marginale methode één niveau dieper, per sub-kernel binnen
+      `_moe_dev`, zodat duidelijk wordt welke van de zes stappen de 5,81 ms
+      opsoupeert.
+- [WEERLEGD 2026-08-16] **Gather-grid verkleinen om de overlap SM-ruimte te
+      geven** — precies andersom uitgekomen: 32 blokken verstopt 2,1%, 64
+      blokken 7,6%, de productie-247 **16,8%**. Het aantal wérkende warps ligt
+      met ~255 vast door de data; bij 247 blokken liggen die verspreid over alle
+      26 SM's, bij 32 opeengepakt. De gather is PCIe-**latency**-gebonden en zijn
+      doorvoer schaalt met het aantal SM's waarover hij uitstaande requests kan
+      verdelen — verspreiden levert meer op dan het aan contentie kost. De
+      productie-geometrie zat al aan de goede kant. `gather_small_grid.py`,
+      `PRO_V14G_OVERLAP_GRAPH_gb32.json` / `_gb64.json`.
 - [DEELS-DONE 2026-08-16] **B3 — PCIe-gather overlappen met VRAM-werk
       (double-buffer expert fetch). Gebouwd, bitexact, in de graph −0,416 ms.**
       Eager was **+3,65 ms** (langzamer): `diag_event_op_cost` prijsde een kale

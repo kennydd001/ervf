@@ -61,8 +61,17 @@ import numpy as np
 from moe_dev_batched import DOWN_PANEL_BYTES, UP_CODE, UP_SCALE
 
 
-def install_overlap_moe_dev(rt, batch_kernels, up_kernels) -> callable:
-    """Returns a `restore()` callable that puts the original _moe_dev back."""
+def install_overlap_moe_dev(rt, batch_kernels, up_kernels,
+                            gather_small=None, gather_blocks: int = 0) -> callable:
+    """Returns a `restore()` callable that puts the original _moe_dev back.
+
+    `gather_small` (a GatherSmallGrid) plus `gather_blocks` swaps the gather for
+    the grid-stride variant at a chosen, much smaller static grid. The
+    production launch is sized for the worst case (247 blocks) while only ~31
+    have work at the measured sparsity, and those idle blocks claim SMs that
+    `down_masked` needs -- which is the measured reason V14-G hid only 16.8% of
+    the PCIe time. Leave it None to keep the production gather.
+    """
     cp = rt.cp
     top_k = rt.top_k
     inter = rt.moe_inter
@@ -143,14 +152,21 @@ def install_overlap_moe_dev(rt, batch_kernels, up_kernels) -> callable:
         grid_dm = ((hidden + 127) // 128, nchunks)
 
         def issue_gather(s: int) -> None:
-            fused2.gather_ind_k(
-                (gblocks,), (256,),
-                (np.uint64(bank["down_base_ptr"]), dev["ids"][s:],
-                 np.uint64(DOWN_PANEL_BYTES), mirrors[s & 1],
-                 bs["plist"][s * npanel:(s + 1) * npanel],
-                 bs["pcount"][s:s + 1],
-                 bs["nz"][s * inter:(s + 1) * inter],
-                 bs["nzc"][s:s + 1], np.int32(hidden)))
+            plist_s = bs["plist"][s * npanel:(s + 1) * npanel]
+            pcount_s = bs["pcount"][s:s + 1]
+            nz_s = bs["nz"][s * inter:(s + 1) * inter]
+            nzc_s = bs["nzc"][s:s + 1]
+            if gather_small is not None:
+                gather_small.launch(gather_blocks, bank["down_base_ptr"],
+                                    dev["ids"][s:], DOWN_PANEL_BYTES,
+                                    mirrors[s & 1], plist_s, pcount_s,
+                                    nz_s, nzc_s, hidden)
+            else:
+                fused2.gather_ind_k(
+                    (gblocks,), (256,),
+                    (np.uint64(bank["down_base_ptr"]), dev["ids"][s:],
+                     np.uint64(DOWN_PANEL_BYTES), mirrors[s & 1],
+                     plist_s, pcount_s, nz_s, nzc_s, np.int32(hidden)))
 
         # panel_scan ran on `main`; the gather stream must see its results.
         main.record(g_done[top_k])

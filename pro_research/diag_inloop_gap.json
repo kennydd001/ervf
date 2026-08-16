@@ -1,0 +1,67 @@
+{
+  "kind": "diag_inloop_gap",
+  "created_utc": "2026-08-16T13:22:22.059700+00:00",
+  "note": "Reproduces the loop's ENVIRONMENT around the isolated ERVF kernel to test why in-loop throughput is 64% of isolated. The L2-flush kernel's own measured time is subtracted from the arms that use it. Arms are evidence about the gap, not the gap itself.",
+  "shape": [
+    10304,
+    2688
+  ],
+  "rounds": 100,
+  "l2_flush_mb": 64,
+  "l2_flush_ms_alone": 0.19957151412963867,
+  "pcie_chunk_mb": 8,
+  "reference": {
+    "device_stream_gb_s": 345.9,
+    "isolated_ervf_gb_s": 264.7911271413977,
+    "in_loop_mamba_gb_s": 172.6
+  },
+  "arms": {
+    "baseline_a": {
+      "gemv_ms": 0.10460000038146973,
+      "gemv_gb_s": 264.7911271413977,
+      "clocks_after": {
+        "sm_mhz": 1650,
+        "mem_mhz": 11001,
+        "temp_c": 47
+      }
+    },
+    "l2_evicted": {
+      "gemv_ms": 0.10602975845336912,
+      "gemv_gb_s": 261.22055170182193,
+      "clocks_after": {
+        "sm_mhz": 1905,
+        "mem_mhz": 11001,
+        "temp_c": 48
+      }
+    },
+    "pcie_contention": {
+      "gemv_ms": 0.11008223533630371,
+      "gemv_gb_s": 251.60419313238486,
+      "clocks_after": {
+        "sm_mhz": 1905,
+        "mem_mhz": 11001,
+        "temp_c": 48
+      }
+    },
+    "both": {
+      "gemv_ms": 0.09861505508422855,
+      "gemv_gb_s": 280.8612942145949,
+      "clocks_after": {
+        "sm_mhz": 1905,
+        "mem_mhz": 11001,
+        "temp_c": 48
+      }
+    },
+    "baseline_b": {
+      "gemv_ms": 0.10099167823791504,
+      "gemv_gb_s": 274.251824340926,
+      "clocks_after": {
+        "sm_mhz": 1905,
+        "mem_mhz": 11001,
+        "temp_c": 48
+      }
+    }
+  },
+  "baseline_drift_gb_s": 9.46069719952834,
+  "verdict": "no_arm_reproduces_in_loop_rate"
+}

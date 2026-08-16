@@ -11,6 +11,80 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — ⚠️ **VIERDE ZELFCORRECTIE, en deze trekt het "gat van een half token" weer in: de GEMV's draaien in de lus wél op 259 GB/s. Ik had 33% van Mamba's kost aan de verkeerde kernels toegeschreven**
+
+**Hoe het boven kwam.** Ik had het gat (geïsoleerd 248-267 GB/s vs "in de lus"
+172,6) als hoogste prioriteit weggeschreven. De twee toetsbare hypotheses zijn
+gemeten en **beide weerlegd** (`diag_inloop_gap.json`): dezelfde ERVF-kernel,
+alleen de omgeving veranderd, koude rotatie, klokken per arm geregistreerd.
+
+| arm | GB/s |
+|---|---:|
+| baseline_a | 264,8 |
+| L2 leeggeveegd tussen calls (64 MiB) | 261,2 |
+| PCIe-contentie op tweede stream | 251,6 |
+| beide | 280,9 |
+| baseline_b | 274,3 |
+
+baseline-drift 9,5 GB/s. **Geen enkele arm komt in de buurt van 172,6.** L2-
+verdringing en `copy_stream`-contentie zijn dus geen van beide de verklaring.
+
+**Waarom niet: het gat bestond niet.** De Mamba-marginaal van 5,168 ms omvat
+**niet alleen** de twee GEMV's maar ook `conv_step`, `ssm_step`, `gated_norm` en
+`dt_activate`. Ik had de volle 892 MB tegen de volle 5,168 ms gezet. Reken het
+met de vandaag gemeten geïsoleerde tijden:
+
+    in_proj  105,2 µs + out_proj 44,7 µs = 149,9 µs per laag
+    × 23 lagen                            =  3,448 ms  GEMV-werk
+    gemeten Mamba-marginaal               =  5,168 ms
+    → rest (conv/ssm/gated_norm/dt)       =  1,720 ms  (33% van Mamba)
+    → impliciete GEMV-snelheid in de lus  =  892 MB / 3,448 ms = **258,7 GB/s**
+
+**258,7 tegen 248-267 geïsoleerd — de GEMV's draaien in de lus gewoon op hun
+volle tempo.** Er is geen 1,55×-gat. Wat er wél is: **1,72 ms aan
+Mamba-toestandswerk (33% van Mamba, 8% van het token) dat nooit apart gemeten
+of benoemd is** — de SSM-pijplijn is niet bandbreedtegebonden (de state is
+klein) en viel daardoor buiten elke byte-gebaseerde analyse.
+
+**Herziene tokenboekhouding.** Met alle GEMV's op ~260 GB/s:
+
+| post | ms |
+|---|---:|
+| alle GEMV's (2048 MB bij ~260 GB/s) | ~7,9 |
+| PCIe-gather (gemeten in de lus) | 3,85 |
+| Mamba SSM/conv-pijplijn | 1,72 |
+| attention flash_decode + kv_write | 1,14 |
+| MoE panel_scan + reduce + accumulate | 1,12 |
+| norms, embed, argmax, lijm | ~1 |
+| **verklaard** | **~16,7** |
+| **gemeten** | **21,24** |
+| **onverklaard** | **~4,5** |
+
+Het restgat is dus **~4,5 ms, niet ~11 ms**. Nog steeds de moeite waard, maar
+een kwart van wat ik een blok geleden opschreef, en **niet meer de grootste
+post**.
+
+**De les, en die is anders dan de vorige drie.** De eerdere correcties gingen
+over een verkeerde baseline. Deze gaat over **een marginaal toeschrijven aan
+minder dan wat hij meet**: `_mamba` is niet "twee GEMV's", het is twee GEMV's
+plus een recurrentiepijplijn. Regel erbij: **voor je een marginaal door bytes
+deelt, som eerst op wat die component allemaal uitvoert.** Anders krijg je een
+plausibel ogende GB/s die een kwart te laag is en die vervolgens een
+fantoomprioriteit wordt.
+
+**Wat dit opent.** De 1,72 ms SSM/conv-pijplijn is nu een genoemde, ongemeten
+post van 8% van het token — vergelijkbaar met attention (2,48 ms) en groter dan
+het hele down_masked-pad. Die verdient een eigen marginale ontleding
+(`conv_step` / `ssm_step` / `gated_norm` / `dt_activate` apart), met dezelfde
+voorzichtigheid: `_mamba` is stateful, dus elke probe heeft eigen kladstate
+nodig — dat is vandaag al één keer misgegaan.
+
+**Artefacten.** `pro_research/diag_inloop_gap.py` + `.json`; afleiding uit
+`diag_ervf_batched_tiled.json` (geïsoleerde tijden) en
+`diag_component_marginals_graph.json` (marginaal).
+
+---
+
 ## 2026-08-16 — K-tiling WEERLEGD (×1,14 tegen ×1,64), het batchplafond staat daarmee vast — **maar de vergelijking legt een nieuw gat bloot: in de lus haalt dezelfde kernel maar 64% van zijn geïsoleerde snelheid**
 
 **Vraag.** De ×1,64 batchwinst op ERVF-paden was een ondergrens omdat mijn

@@ -175,7 +175,24 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
-- [ ] **HOOGSTE PRIORITEIT — het gat tussen geïsoleerde en in-lus kernelsnelheid.**
+- [WEERLEGD 2026-08-16] **"Het gat tussen geïsoleerde en in-lus kernelsnelheid"**
+      — bestond niet. Beide toetsbare oorzaken apart gemeten en weerlegd
+      (L2-verdringing 261,2 GB/s, PCIe-contentie 251,6 tegen baseline 264,8;
+      geen enkele arm bij 172,6). Oorzaak was mijn eigen toeschrijving: Mamba's
+      marginaal van 5,168 ms omvat óók `conv_step`/`ssm_step`/`gated_norm`/
+      `dt_activate`, niet alleen de twee GEMV's. Gecorrigeerd draaien de GEMV's
+      in de lus op **258,7 GB/s** — hun volle geïsoleerde tempo. Restgat is
+      ~4,5 ms, niet ~11.
+      **Regel erbij: som eerst op wat een component allemaal uitvoert vóór je
+      zijn marginaal door bytes deelt.**
+- [ ] **HOOGSTE PRIORITEIT — de Mamba SSM/conv-pijplijn ontleden.** Uit de
+      correctie hierboven valt **1,72 ms = 8% van het token** toe aan
+      `conv_step` + `ssm_step` + `gated_norm` + `dt_activate` — nooit apart
+      gemeten, groter dan het hele down_masked-pad, en niet bandbreedtegebonden
+      (de state is klein) waardoor het buiten elke byte-analyse viel. Marginale
+      ontleding per sub-kernel in de graph, met **eigen kladstate per probe**
+      want `_mamba` is stateful (dat is vandaag al één keer misgegaan).
+- [ ] ~~oud~~ **het gat tussen geïsoleerde en in-lus kernelsnelheid**
       Dezelfde ERVF-kernel, dezelfde shape: **geïsoleerd 248-267 GB/s, in de lus
       172,6 GB/s = 64%**. Als elke GEMV in de lus zijn geïsoleerde tempo haalde
       kostte een token 7,67 ms VRAM + 2,47 ms PCIe = **10,1 ms ≈ 99 tok/s**; we

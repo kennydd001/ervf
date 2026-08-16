@@ -20,22 +20,30 @@ resterende technische stappen): zie `agents/PATH_TO_100_TOKS.md`.**
 - **K-tiling is geprobeerd en WEERLEGD** (×1,14 bij N=4 tegen ×1,64 met X uit
   global; L1 leverde het 16× hergebruik al). Het batchplafond staat daarmee vast.
 
-### 🎯 De grootste post die nog open staat — en die is nieuw
+### 📒 Tokenboekhouding, alle GEMV's op hun gemeten tempo (~260 GB/s)
 
-| | GB/s |
+| post | ms |
 |---|---:|
-| apparaat, puur streamen | 345,9 |
-| ERVF **geïsoleerd**, koud, N=1 | **248-267** (72-77%) |
-| Mamba **in de lus** (892 MB / 5,168 ms) | **172,6** (50%) |
+| alle GEMV's (2048 MB bij ~260 GB/s) | ~7,9 |
+| PCIe-gather (in de lus gemeten) | 3,85 |
+| Mamba SSM/conv-pijplijn ⚠️ nooit apart gemeten | 1,72 |
+| attention flash_decode + kv_write | 1,14 |
+| MoE panel_scan + reduce + accumulate | 1,12 |
+| norms, embed, argmax, lijm | ~1 |
+| **verklaard** | **~16,7** |
+| **gemeten** | **21,24** |
+| **onverklaard** | **~4,5** |
 
-Dezelfde kernel, dezelfde shape — **in de lus maar 64% van zijn geïsoleerde
-snelheid**. Als elke GEMV in de lus zijn geïsoleerde tempo haalde, kostte een
-token 7,67 ms VRAM + 2,47 ms PCIe = **10,1 ms ≈ 99 tok/s**. We meten 21,24 ms.
-**Bijna de helft van het token gaat verloren tussen "wat de kernel kan" en "wat
-de kernel in de lus doet".** Hypotheses (ongemeten): L2-verdringing tussen lagen,
-bandbreedteconcurrentie met `copy_stream`, thermische throttling. Dit is
-orthogonaal aan de single-stream/batch-keuze — sluit je dit gat, dan profiteren
-beide routes. **Dit is de eerstvolgende meting.**
+⚠️ Een eerder hier genoteerd "gat van een half token" (in de lus 172,6 GB/s
+tegen 248-267 geïsoleerd) is **ingetrokken**: dat kwam doordat Mamba's volle
+marginaal aan alleen de twee GEMV's werd toegeschreven. Corrigeer je daarvoor,
+dan draaien de GEMV's in de lus op **258,7 GB/s** — hun volle geïsoleerde tempo.
+L2-verdringing en `copy_stream`-contentie zijn beide apart gemeten en weerlegd.
+
+**Grootste ongemeten post nu:** de Mamba SSM/conv-pijplijn, **1,72 ms = 8% van
+het token** — groter dan het hele down_masked-pad. Verdient een eigen marginale
+ontleding (`conv_step`/`ssm_step`/`gated_norm`/`dt_activate`), met eigen
+kladstate per probe want `_mamba` is stateful.
 
 ## 🔎 De volledige rekening (2026-08-16, alles gemeten)
 

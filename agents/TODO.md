@@ -175,9 +175,33 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
-- [ ] **H-SCALE — down_proj-blokschalen residentie in VRAM. Nu de beste
-      kandidaat die er is: gemeten winst, exact per constructie, past in het
-      VRAM-budget.** Grondslag: `diag_gather_pcie_ceiling.json` toont dat
+- [ ] **HOOGSTE PRIORITEIT — 32-lane ERVF-GEMV. Dit is de poortvoorwaarde voor
+      100 tok/s, niet zomaar een optimalisatie.** De dense GEMV haalt op een
+      **koude** werkset **209-229 GB/s** tegen 345,9 GB/s die het apparaat
+      streamt (`diag_gemv_l2_vs_dram.json`; de eerder gemeten 336 GB/s was een
+      L2-artefact — Mamba's in_proj is 27,7 MB en L2 is 32 MB). Met 229 GB/s is
+      de VRAM-vloer 2048/229 = 8,94 ms, plus 2,47 ms PCIe → **11,4 ms = 88
+      tok/s**: **100 is onbereikbaar zolang de kernel op 60-66% zit.**
+      Werkhypothese: `PRO_WIDTH = 16` geeft 16 lanes × 4 B = 64 B per instructie
+      (een halve cacheline) en 16 gelijktijdige rij-streams per blok (~2080 in
+      de lucht). Een 32-lane/8-rijen-variant adresseert beide, maar verandert de
+      reductieboom — die moet met dezelfde ERVF-techniek exact gereproduceerd
+      worden. Poorten: bitexact op elke echte checkpoint-shape, dán koude-DRAM
+      A/B met de rotatie-harness uit `diag_gemv_l2_vs_dram.py`.
+      Raakt Mamba + attention + shared expert + lm_head = 1661 van 2048 MB/token.
+- [WEERLEGD 2026-08-16] **FP8-decode-LUT als bottleneck** — de rekenkundige
+      LUT-vrije e4m3-decode is bitidentiek op alle 256 bytewaarden maar
+      **25-27% langzamer** op alle vier de echte shapes. De kernel is
+      bandbreedtegebonden met ALU over; een SMEM-lookup is goedkoper dan zes
+      ALU-ops per byte. Deur dicht. `diag_fp8_lutfree_gemv.json`.
+- [ ] **H-SCALE — down_proj-blokschalen residentie in VRAM. Gebouwd, bitexact,
+      past in VRAM, maar −0,374 ms/token tegen een eigen poort van ≥0,5 ms →
+      `gate_failed`, poort niet verruimd.** Marginale ontleding: plane-fetch
+      kost +0,327 ms, bruto gather-besparing 0,701 ms. Twee wegen om er alsnog
+      boven te komen (samen ≈ −0,54 ms): contiguë host-repack van de
+      schaalvlakken, en schaalvlakken voor alle 128 experts residentie maken
+      (875 MiB, vraagt up-capaciteit 72→68). Lagere prioriteit dan de GEMV.
+      Oude beschrijving hieronder ter referentie: Grondslag: `diag_gather_pcie_ceiling.json` toont dat
       **52,2% van al het down-PCIe-verkeer FP8-blokschalen zijn** (90,1 actieve
       panelen × 2688 B tegen 164,7 kolommen × 1344 B), en hypothesearm v3 prijst
       het weghalen daarvan op **−1,380 ms/token gemeten**. Netto na extra

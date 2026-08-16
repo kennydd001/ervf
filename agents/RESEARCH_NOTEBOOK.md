@@ -11,6 +11,89 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — De dense-GEMV-bandbreedte eindelijk eerlijk vastgepind: **209-229 GB/s koud**, niet 336 (L2-artefact) en niet 128 (E5). Het echte plafond van deze machine is daarmee ~88-117 tok/s, niet 165 — en de LUT-hypothese is weerlegd
+
+**Vraag.** De byte-boekhouding wees 1661 van de 2048 MB/token toe aan dense
+GEMV's, en E5 mat die suite op 127,9 GB/s tegen een apparaat dat 345,9 haalt.
+Als dat klopt is dát de grootste hefboom in het systeem. Klopt het?
+
+### Deel 1 — de LUT-hypothese, weerlegd
+
+**Hypothese.** `pro_gemv_fp8_tensor_ervf16` doet per gewichtsbyte één
+shared-memory-lookup `lut[q.x]` met een **data-afhankelijke** index. Zestien
+lanes × vier willekeurige lookups in een 256-entry SMEM-tabel is een
+bank-conflict-generator op de binnenste regel van de heetste lus van het model
+(~892M lookups/token alleen al voor Mamba). E4M3 heeft die tabel niet nodig:
+voor E≠0 valt de IEEE-754-layout er direct uit (exponentveld E+120, mantisse
+m<<20), en de subnormale tak is één int-naar-float plus een vermenigvuldiging.
+
+**Uitkomst.** P0: alle 256 bytewaarden **bitidentiek** tussen LUT en
+rekenkundige decode. P1 op de echte shapes: de LUT-vrije kernel is bitexact
+**maar 25-27% LANGZAMER** (speedup 0,72-0,75 op alle vier de shapes).
+**Hypothese weerlegd.** De kernel is bandbreedtegebonden met ALU over; een
+SMEM-lookup is daar goedkoper dan zes extra ALU-ops per byte. Deur dicht.
+
+### Deel 2 — en meteen een veel groter probleem in de meting zelf
+
+Diezelfde run mat de referentiekernel op **295-357 GB/s** — 85-103% van de
+345,9 GB/s die dit apparaat levert. Dat is onverenigbaar met de in-lus-marginaal
+van 152-154 GB/s uit `diag_component_marginals_v6`. Twee metingen van dezelfde
+kernel die 2,2× verschillen; die moeten verzoend worden, niet uitgekozen.
+
+**Opzet.** Eén variabele: kan de werkset in L2 blijven? Zelfde kernel, zelfde
+shape, zelfde launch-geometrie, zelfde rondes — alleen het aantal verschillende
+matrices in de rotatie verandert. Apparaat: **L2 = 32,0 MiB, 26 SM's**.
+
+| arm | werkset | ×L2 | µs/call | GB/s |
+|---|---:|---:|---:|---:|
+| mamba_in_proj, 1 matrix | 27,7 MB | 0,83 | 82,4 | **335,9** |
+| mamba_in_proj, 4 matrices | 110,8 MB | 3,30 | 119,9 | **231,0** |
+| mamba_in_proj, 12 matrices | 332,4 MB | 9,91 | 120,7 | **229,4** |
+| mamba_out_proj, 1 matrix | 11,0 MB | 0,33 | 34,0 | **324,2** |
+| mamba_out_proj, 4 matrices | 44,0 MB | 1,31 | 52,7 | **208,8** |
+| mamba_out_proj, 12 matrices | 132,1 MB | 3,94 | 52,7 | **208,9** |
+
+**Verdict: `isolated_number_was_an_L2_artifact`.** Mamba's in_proj is 27,7 MB
+en past dus in een L2 van 32 MB; 200 keer dezelfde matrix lezen meet deels
+L2-bandbreedte. Bij 3,3× L2 zakt het naar 231 GB/s en tussen 3,3× en 9,9× is
+het **vlak** — dat is de echte koude-DRAM-snelheid van deze kernel.
+
+**Wat hiermee vastligt (drie getallen die niet door elkaar mogen):**
+- **345,9 GB/s** — wat het geheugensysteem levert bij puur streamen
+  (`diag_vram_bandwidth_check`, 512 MiB, byte-geverifieerd; copy 316,1, triad
+  330,1 — het projectgetal 338,4 houdt stand);
+- **209-229 GB/s** — wat déze GEMV-kernel haalt op een koude werkset:
+  **60-66% van het apparaat**. Dit is het eerlijke kernelplafond;
+- **152-154 GB/s** — wat er in de échte lus uitkomt, en dat is nog een
+  **onderschatting van de kost**: de marginale probe roept de component direct
+  na de echte aanroep aan, dus tot 32 MB van de zojuist gelezen gewichten zit
+  nog in L2. De werkelijke in-lus-kost van Mamba ligt dus **boven** de gemeten
+  5,776 ms.
+
+**Waarom dit het 100-doel raakt.** `PATH_TO_100_TOKS.md` rekent (en mijn eigen
+correctie van vanochtend rekende) met 345,9 GB/s. Met het eerlijke kernelplafond
+van ~229 GB/s wordt de VRAM-vloer 2048/229 = **8,94 ms**, plus 2,47 ms PCIe als
+die serieel is → **11,4 ms = 88 tok/s**. **Met de kernels zoals ze nu zijn ligt
+100 tok/s dus buiten bereik**, ook bij perfecte overlap en nul overhead. 100
+tok/s vereist dat de GEMV-kernel zelf dichter bij het apparaatplafond komt — dat
+is nu een scherp geformuleerde, meetbare voorwaarde in plaats van een vaag doel.
+
+**Waarom haalt de kernel maar 60-66%?** Werkhypothese, nog niet getest: een
+blok behandelt 16 rijen tegelijk (`PRO_ROWS_PER_BLOCK = 256/PRO_WIDTH = 16`),
+dus met ~130 blokken in de lucht lopen er ~2080 gelijktijdige leesstromen door
+DRAM, elk op een eigen rij-offset. Bovendien leveren 16 lanes × 4 B = **64 B per
+instructie, precies een halve cacheline**. Een variant met 32 lanes per rij
+(volle 128 B) en 8 rijen per blok zou beide adresseren — maar verandert de
+reductieboom, dus dat moet met dezelfde ERVF-techniek exact gereproduceerd
+worden. Dat is de eerstvolgende kernelvraag; `read_only` haalde 345,9 GB/s, dus
+het apparaat kán het.
+
+**Artefacten.** `pro_research/diag_fp8_lutfree_gemv.py` + `.json`,
+`pro_research/diag_gemv_l2_vs_dram.py` + `.json`,
+`pro_research/diag_vram_bandwidth_check.py` + `.json`.
+
+---
+
 ## 2026-08-16 — PRO V13 H-SCALE gebouwd en gedraaid: bitexact, past in VRAM, **−0,374 ms/token** — maar de eigen adoptiepoort (≥0,5 ms) is NIET gehaald, en de geïsoleerde 1,380 ms bleek de lus-winst 2× te overschatten
 
 **Vraag.** `diag_gather_pcie_ceiling` mat dat 52,2% van al het

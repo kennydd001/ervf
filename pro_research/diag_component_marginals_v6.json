@@ -1,0 +1,41 @@
+{
+  "kind": "diag_component_marginals_v6",
+  "status": "technical_failure",
+  "mode": "full",
+  "started_utc": "2026-08-16T08:30:07.557321+00:00",
+  "method": "S12 marginal: the real loop with exactly one extra call of one component into a discarded scratch buffer. Residual stream, routing, cache and produced tokens are bit-identical to the base arm, so the delta is unconfounded -- unlike the stub-ablation arms of diag_v6_component_breakdown.json, whose zeroed outputs change MoE routing and therefore the PCIe workload.",
+  "caveat": "The marginal of a SECOND execution is a lower bound where L2 reuse is possible. Mamba (38.78 MB/layer), attention (46.80 MB/layer) and the MoE block all exceed L2 by a wide margin, so the bound is tight; it is still a bound.",
+  "byte_accounting_source": "safetensors headers of models/nemotron_3_5_lightning_v35, per-layer, times the layer counts in config.layers_block_type",
+  "config": {
+    "tokens_per_prompt": 256,
+    "prompt_count": 3,
+    "capacity": 72
+  },
+  "environment": {
+    "created_utc": "2026-08-16T08:30:11.851941+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "b88c9feb0a56e2cfa6f9c568857c652857e7e77a",
+    "git_status": [
+      "M pro_research/diag_component_marginals_v6.py",
+      "?? pro_research/diag_component_marginals_v6.json",
+      "?? pro_research/diag_fp8_lutfree_gemv.json",
+      "?? pro_research/diag_fp8_lutfree_gemv.py",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 54, 11.03 W, 17872 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "a047fb8f536fa4bf30f7cdc83fdcccbaa633706def8aa49cd86d8ca8ab2fda53"
+    }
+  },
+  "error": {
+    "type": "AttributeError",
+    "message": "'dict' object has no attribute 'dtype'",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\diag_component_marginals_v6.py\", line 173, in main\n    scratch_conv = cp.zeros_like(rt.conv)\n                   ^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Lib\\site-packages\\cupy\\_creation\\basic.py\", line 290, in zeros_like\n    dtype = a.dtype\n            ^^^^^^^\nAttributeError: 'dict' object has no attribute 'dtype'\n"
+  },
+  "completed_utc": "2026-08-16T08:30:40.400044+00:00"
+}

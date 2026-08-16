@@ -1,0 +1,74 @@
+{
+  "kind": "diag_fp8_lutfree_gemv",
+  "created_utc": "2026-08-16T08:30:07.055916+00:00",
+  "note": "Does the shared-memory e4m3 decode LUT cost bandwidth in the dense FP8 GEMV? Dense GEMV carries 1661 of the model's 2048 MB/token and E5 measured it at 127.9 GB/s against a device that delivers 345.9 GB/s (verified today).",
+  "P0_decode_equivalence": {
+    "all_256_bitwise_identical": true,
+    "mismatches": []
+  },
+  "P1_shapes": {
+    "mamba_in_proj": {
+      "rows": 10304,
+      "cols": 2688,
+      "weight_bytes": 27697152,
+      "bit_exact": true,
+      "ref_ms": 0.07753647804260254,
+      "ref_gb_s": 357.2144711651947,
+      "lutfree_ms": 0.10695520401000977,
+      "lutfree_gb_s": 258.9603026460299,
+      "speedup": 0.7249434822764306,
+      "smem_saved_bytes_per_block": 1024
+    },
+    "mamba_out_proj": {
+      "rows": 2688,
+      "cols": 4096,
+      "weight_bytes": 11010048,
+      "bit_exact": true,
+      "ref_ms": 0.03724384069442749,
+      "ref_gb_s": 295.62063940541316,
+      "lutfree_ms": 0.049353599548339844,
+      "lutfree_gb_s": 223.08500495928584,
+      "speedup": 0.7546327124113543,
+      "smem_saved_bytes_per_block": 1024
+    },
+    "attn_qkv_like": {
+      "rows": 4608,
+      "cols": 2688,
+      "weight_bytes": 12386304,
+      "bit_exact": true,
+      "ref_ms": 0.04106544017791748,
+      "ref_gb_s": 301.62355368251013,
+      "lutfree_ms": 0.05472559928894043,
+      "lutfree_gb_s": 226.3347347664983,
+      "speedup": 0.7503881311760519,
+      "smem_saved_bytes_per_block": 1024
+    },
+    "attn_o_like": {
+      "rows": 2688,
+      "cols": 4096,
+      "weight_bytes": 11010048,
+      "bit_exact": true,
+      "ref_ms": 0.03493920087814331,
+      "ref_gb_s": 315.12020089982894,
+      "lutfree_ms": 0.047359042167663574,
+      "lutfree_gb_s": 232.48037747515053,
+      "speedup": 0.7377514256823284,
+      "smem_saved_bytes_per_block": 1024
+    }
+  },
+  "summary": {
+    "all_shapes_bit_exact": true,
+    "min_speedup": 0.7249434822764306,
+    "max_speedup": 0.7546327124113543,
+    "ref_gb_s_range": [
+      295.62063940541316,
+      357.2144711651947
+    ],
+    "lutfree_gb_s_range": [
+      223.08500495928584,
+      258.9603026460299
+    ],
+    "device_read_gb_s_measured_today": 345.9
+  },
+  "status": "measured"
+}

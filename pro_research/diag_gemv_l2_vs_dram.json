@@ -1,0 +1,164 @@
+{
+  "kind": "diag_gemv_l2_vs_dram",
+  "created_utc": "2026-08-16T08:32:35.761970+00:00",
+  "note": "resolves the disagreement between the isolated FP8 GEMV (295-357 GB/s) and the same kernel's in-loop marginal (152-154 GB/s) by varying only whether the working set can stay resident in L2",
+  "device": {
+    "name": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU",
+    "l2_cache_bytes": 33554432,
+    "l2_cache_mib": 32.0,
+    "multiprocessor_count": 26
+  },
+  "reference_points": {
+    "device_read_gb_s_512MiB_verified": 345.9,
+    "in_loop_mamba_gb_s_marginal": 154.4,
+    "in_loop_attn_gb_s_marginal": 151.7
+  },
+  "rounds": 200,
+  "arms": {
+    "mamba_in_proj__cycle1": {
+      "shape": [
+        10304,
+        2688
+      ],
+      "matrices_in_rotation": 1,
+      "weight_bytes_per_call": 27697152,
+      "working_set_bytes": 27697152,
+      "working_set_over_l2": 0.825439453125,
+      "ms_per_call": 0.08244864463806152,
+      "gb_s": 335.9321687043708,
+      "clocks_before": {
+        "sm_mhz": 795,
+        "mem_mhz": 11001,
+        "temp_c": 53,
+        "pstate": "P2"
+      },
+      "clocks_after": {
+        "sm_mhz": 795,
+        "mem_mhz": 11001,
+        "temp_c": 53,
+        "pstate": "P2"
+      }
+    },
+    "mamba_in_proj__cycle4": {
+      "shape": [
+        10304,
+        2688
+      ],
+      "matrices_in_rotation": 4,
+      "weight_bytes_per_call": 27697152,
+      "working_set_bytes": 110788608,
+      "working_set_over_l2": 3.3017578125,
+      "ms_per_call": 0.11991215705871582,
+      "gb_s": 230.97868205671506,
+      "clocks_before": {
+        "sm_mhz": 795,
+        "mem_mhz": 11001,
+        "temp_c": 53,
+        "pstate": "P2"
+      },
+      "clocks_after": {
+        "sm_mhz": 795,
+        "mem_mhz": 11001,
+        "temp_c": 53,
+        "pstate": "P2"
+      }
+    },
+    "mamba_in_proj__cycle12": {
+      "shape": [
+        10304,
+        2688
+      ],
+      "matrices_in_rotation": 12,
+      "weight_bytes_per_call": 27697152,
+      "working_set_bytes": 332365824,
+      "working_set_over_l2": 9.9052734375,
+      "ms_per_call": 0.12074543952941895,
+      "gb_s": 229.38466337067533,
+      "clocks_before": {
+        "sm_mhz": 1732,
+        "mem_mhz": 9001,
+        "temp_c": 57,
+        "pstate": "P4"
+      },
+      "clocks_after": {
+        "sm_mhz": 1732,
+        "mem_mhz": 9001,
+        "temp_c": 57,
+        "pstate": "P4"
+      }
+    },
+    "mamba_out_proj__cycle1": {
+      "shape": [
+        2688,
+        4096
+      ],
+      "matrices_in_rotation": 1,
+      "weight_bytes_per_call": 11010048,
+      "working_set_bytes": 11010048,
+      "working_set_over_l2": 0.328125,
+      "ms_per_call": 0.03395983934402466,
+      "gb_s": 324.20789416771055,
+      "clocks_before": {
+        "sm_mhz": 1732,
+        "mem_mhz": 9001,
+        "temp_c": 57,
+        "pstate": "P4"
+      },
+      "clocks_after": {
+        "sm_mhz": 1777,
+        "mem_mhz": 9001,
+        "temp_c": 54,
+        "pstate": "P4"
+      }
+    },
+    "mamba_out_proj__cycle4": {
+      "shape": [
+        2688,
+        4096
+      ],
+      "matrices_in_rotation": 4,
+      "weight_bytes_per_call": 11010048,
+      "working_set_bytes": 44040192,
+      "working_set_over_l2": 1.3125,
+      "ms_per_call": 0.052725758552551266,
+      "gb_s": 208.8172517997326,
+      "clocks_before": {
+        "sm_mhz": 1777,
+        "mem_mhz": 9001,
+        "temp_c": 54,
+        "pstate": "P4"
+      },
+      "clocks_after": {
+        "sm_mhz": 1777,
+        "mem_mhz": 9001,
+        "temp_c": 54,
+        "pstate": "P4"
+      }
+    },
+    "mamba_out_proj__cycle12": {
+      "shape": [
+        2688,
+        4096
+      ],
+      "matrices_in_rotation": 12,
+      "weight_bytes_per_call": 11010048,
+      "working_set_bytes": 132120576,
+      "working_set_over_l2": 3.9375,
+      "ms_per_call": 0.052696638107299805,
+      "gb_s": 208.93264533463346,
+      "clocks_before": {
+        "sm_mhz": 1777,
+        "mem_mhz": 9001,
+        "temp_c": 54,
+        "pstate": "P4"
+      },
+      "clocks_after": {
+        "sm_mhz": 1777,
+        "mem_mhz": 9001,
+        "temp_c": 54,
+        "pstate": "P4"
+      }
+    }
+  },
+  "verdict": "isolated_number_was_an_L2_artifact"
+}

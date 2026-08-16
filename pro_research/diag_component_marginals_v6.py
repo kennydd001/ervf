@@ -159,9 +159,29 @@ def main() -> int:
         scratch = cp.zeros(rt.hidden, dtype=cp.float32)
         orig_mamba, orig_attn, orig_moe = rt._mamba, rt._attention, rt._moe_dev
 
+        # _mamba is STATEFUL: conv_step writes self.conv[i] and ssm_step writes
+        # self.ssm[i]. A naive second call therefore advances the recurrence
+        # twice and the token stream diverges -- which is exactly what the first
+        # run of this diagnostic showed (MARGINAL_MAMBA diverged at generated
+        # token 0/3/7 while ATTN and MOE stayed bit-exact). The probe call is
+        # given its own scratch recurrence state instead, so it performs the
+        # same work on the same weights while the real state is untouched.
+        # (_attention and _moe_dev needed no such treatment: the KV append is
+        # position-addressed and idempotent within a token, and a repeated
+        # cache_assign re-hits the ids it just installed. Both were verified
+        # bit-exact rather than assumed -- see the gate.)
+        # conv/ssm are per-layer dicts, not one stacked array.
+        scratch_conv = {j: cp.zeros_like(v) for j, v in rt.conv.items()}
+        scratch_ssm = {j: cp.zeros_like(v) for j, v in rt.ssm.items()}
+
         def probe_mamba(self, i, out):
             r = orig_mamba(i, out)
-            orig_mamba(i, scratch)
+            real_conv, real_ssm = self.conv, self.ssm
+            self.conv, self.ssm = scratch_conv, scratch_ssm
+            try:
+                orig_mamba(i, scratch)
+            finally:
+                self.conv, self.ssm = real_conv, real_ssm
             return r
 
         def probe_attn(self, i, out):

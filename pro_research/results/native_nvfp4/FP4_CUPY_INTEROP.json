@@ -1,0 +1,30 @@
+{
+  "kind": "diag_fp4_cupy_interop",
+  "tests": {
+    "T1_both_initialise": {
+      "pass": true,
+      "cupy_sum": 120.0,
+      "torch_sum": 120.0,
+      "device": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU"
+    },
+    "T2_zero_copy": {
+      "pass": true,
+      "cupy_to_torch_same_ptr": true,
+      "torch_to_cupy_same_ptr": true,
+      "torch_view_sees_cupy_mutation": true
+    },
+    "T3_fp4_gemm_over_cupy_memory": {
+      "pass": true,
+      "value": 256.0,
+      "expected": 256.0,
+      "all_elements_equal": true,
+      "note": "every operand allocated by CuPy, borrowed by Torch as a pointer view; matches C2b's pure-Torch known-value result"
+    }
+  },
+  "torch_version": "2.12.1+cu132",
+  "torch_cuda": "13.2",
+  "cupy_version": "14.1.1",
+  "cupy_cuda_runtime": 13020,
+  "verdict": "integration_feasible",
+  "what_this_means": "feasible: CuPy can keep owning the runtime while Torch executes only the FP4 GEMM on borrowed pointers, so native FP4 can be integrated without migrating the whole stack"
+}

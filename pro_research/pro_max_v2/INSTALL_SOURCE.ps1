@@ -2,16 +2,39 @@ $ErrorActionPreference = 'Stop'
 
 $Here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $Repo = Split-Path -Parent (Split-Path -Parent $Here)
-$Zip = Join-Path $Here 'PRO_MAX_V2_SOURCE.zip'
+$Zip = Join-Path $Here '.PRO_MAX_V2_SOURCE.tmp.zip'
 $ExpectedZipSha256 = 'a8cd2345299112e4146f7de2c0ced0e97006d04970807f19053329ae6ab23816'
+$ExpectedPartCount = 7
+$ExpectedBase64Characters = 57400
 $Python = Join-Path $Repo '.venv-nemotron\Scripts\python.exe'
 
-if (-not (Test-Path $Zip)) {
-    throw "Source archive ontbreekt: $Zip"
+$Parts = @(Get-ChildItem -Path $Here -Filter 'PRO_MAX_V2_SOURCE.part*.b64' -File | Sort-Object Name)
+if ($Parts.Count -ne $ExpectedPartCount) {
+    throw "Verkeerd aantal source-payloadbestanden. Verwacht $ExpectedPartCount, gevonden $($Parts.Count). Doe eerst git pull op pro-max-v2."
 }
+
+$Builder = [System.Text.StringBuilder]::new($ExpectedBase64Characters)
+foreach ($Part in $Parts) {
+    $Raw = Get-Content -Path $Part.FullName -Raw
+    $Clean = [System.Text.RegularExpressions.Regex]::Replace($Raw, '\s+', '')
+    [void]$Builder.Append($Clean)
+}
+$Base64 = $Builder.ToString()
+if ($Base64.Length -ne $ExpectedBase64Characters) {
+    throw "Base64 payload length mismatch. Verwacht $ExpectedBase64Characters, kreeg $($Base64.Length)."
+}
+
+try {
+    $Bytes = [Convert]::FromBase64String($Base64)
+}
+catch {
+    throw "Base64 payload kon niet worden gedecodeerd: $($_.Exception.Message)"
+}
+[System.IO.File]::WriteAllBytes($Zip, $Bytes)
 
 $ActualZipSha256 = (Get-FileHash -Path $Zip -Algorithm SHA256).Hash.ToLowerInvariant()
 if ($ActualZipSha256 -ne $ExpectedZipSha256) {
+    Remove-Item -Path $Zip -Force -ErrorAction SilentlyContinue
     throw "Archive SHA-256 mismatch. Verwacht $ExpectedZipSha256, kreeg $ActualZipSha256"
 }
 
@@ -26,6 +49,9 @@ try {
 finally {
     if (Test-Path $Temp) {
         Remove-Item -Path $Temp -Recurse -Force
+    }
+    if (Test-Path $Zip) {
+        Remove-Item -Path $Zip -Force
     }
 }
 
@@ -55,7 +81,7 @@ if (-not (Test-Path $Python)) {
     throw "Python venv ontbreekt: $Python"
 }
 
-$PyFiles = Get-ChildItem -Path $Here -Filter '*.py' -File | Select-Object -ExpandProperty FullName
+$PyFiles = @(Get-ChildItem -Path $Here -Filter '*.py' -File | Select-Object -ExpandProperty FullName)
 if ($PyFiles.Count -eq 0) {
     throw 'Geen Pythonbronbestanden gevonden na extractie.'
 }
@@ -65,9 +91,10 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host ''
-Write-Host 'PRO-MAX V2 source installed and verified.' -ForegroundColor Green
-Write-Host "Archive SHA-256 : $ActualZipSha256"
-Write-Host "Verified files  : $($Manifest.Count)"
+Write-Host 'PRO-MAX V2 source reconstructed, installed and verified.' -ForegroundColor Green
+Write-Host "Payload parts    : $($Parts.Count)"
+Write-Host "Archive SHA-256  : $ActualZipSha256"
+Write-Host "Verified files   : $($Manifest.Count)"
 Write-Host ''
 Write-Host 'Next commands:'
 Write-Host '  .\pro_research\pro_max_v2\RUN_POST_V6.ps1 -Mode install'

@@ -6,7 +6,7 @@ if ($Branch -ne 'pro-s100-dualrhs') { throw "Expected pro-s100-dualrhs, got '$Br
 $Py = Join-Path $Repo '.venv-nemotron\Scripts\python.exe'
 if (-not (Test-Path $Py)) { throw "Missing venv: $Py" }
 $Mode = if ($args.Count -gt 0) { $args[0] } else { 'smoke' }
-if ($Mode -notin @('smoke','full')) { throw 'Usage: .\pro_research\RUN_S100_DUALRHS_ERVF.ps1 [smoke|full]' }
+if ($Mode -notin @('smoke','full')) { throw '.\pro_research\RUN_S100_DUALRHS_ERVF.ps1 [smoke|full]' }
 
 Write-Host '=== S100 DualRHS-ERVF ==='
 git status --short
@@ -15,7 +15,11 @@ $used = (& nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | Se
 Write-Host "Preflight GPU memory.used = $used MiB"
 if ([int]$used -gt 1024) { throw "GPU already busy ($used MiB); refusing scientific timing" }
 
-& $Py 'pro_research\s100_dualrhs_ervf.py' --mode $Mode
+# Freeze Python's name hashes before process start so every synthetic activation
+# seed in this preregistered benchmark is reproducible across runs/machines.
+$env:PYTHONHASHSEED = '0'
+
+& $Py 'pro_research\s100_dualrhs_entry.py' --mode $Mode
 $rc = $LASTEXITCODE
 $Result = Join-Path $Repo 'pro_research\results\s100_dualrhs\PRO_S100_DUALRHS_ERVF.json'
 if (-not (Test-Path $Result)) { throw "No result JSON produced (runner rc=$rc)" }

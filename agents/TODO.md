@@ -175,7 +175,35 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
-- [ ] **Goedkoopste resterende winst: kernel-fusie van de glue.** Gemeten:
+- [DONE 2026-08-16] **PV2-10's onopgeloste bug gevonden en opgelost — het was een
+      COMPILEERVLAG.** Kimi's campagne liet add+next-RMSNorm open met "one prompt
+      first diverges at generated token 124 ... eerst debuggen vóór ooit
+      herindienen". Ik reproduceerde exact dezelfde handtekening (zelfde prompt,
+      **zelfde token 124**) en vond de oorzaak:
+
+      | module | vlaggen |
+      |---|---|
+      | `gpu_kernels.py:1525` | `-std=c++14`, **`--use_fast_math`** |
+      | `fused_nvfp4.py:756` | `-std=c++14` (géén fast-math) |
+
+      `--use_fast_math` verandert `rsqrtf` en zet denormal-flush aan. Een nieuwe
+      kernel zonder die vlag is enkele ulps anders dan de productie-norm die hij
+      vervangt, en dat blaast via de MoE-routing over 124 tokens op tot een ander
+      token. Met de vlag erbij: **bitexact PASS**, 765 tokens × 3 prompts.
+- [ ] **MEETREGEL 4, vastgelegd 2026-08-16: bouw elke nieuwe kernel met dezelfde
+      compileervlaggen als de module die hij vervangt.** Dit project is daarin
+      **niet uniform** (zie tabel hierboven): `gpu_kernels`-werk vervangen vraagt
+      `--use_fast_math`, `fused_nvfp4`-werk vervangen vraagt juist géén
+      fast-math. Stond nergens gedocumenteerd en heeft één campagne een
+      onverklaarde faalarm gekost.
+- [WEERLEGD 2026-08-16] **add+norm-fusie als winst** — bitexact na de vlagfix,
+      maar **+0,127 ms/token in de graph** (drift 0,121). Oorzaak: productie's
+      `add_inplace` draait op 11 blokken, de fusie doet de add binnen het ene
+      blok van de norm — 11× minder parallellisme voor dat deel, en bij een
+      launchkost van maar 3,53 µs is die ruil negatief. Geïsoleerd eager gaf hij
+      nog ×1,745 (−0,354 ms), wat opnieuw laat zien dat een eager kernelbenchmark
+      de in-graph uitkomst kan omkeren.
+- [ ] ~~oud~~ **Goedkoopste resterende winst: kernel-fusie van de glue.** Gemeten:
       **3,53 µs per kernel-launch binnen een gevangen graph** (105 launches van
       norms+adds kosten 0,370 ms terwijl `rmsnorm_bf16w` maar 10,75 KB aanraakt =
       0,03 µs echt verkeer). Vrijwel geheel vaste kost. De 52 `add_`-launches in

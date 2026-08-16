@@ -1,0 +1,27 @@
+{
+  "kind": "diag_add_norm_fusion",
+  "created_utc": "2026-08-16T13:49:39.230537+00:00",
+  "note": "Fuses add_inplace into the following rmsnorm_bf16w. The completed token map measured 3.53 us per in-graph kernel launch and 0.370 ms for the 105 norm/add launches, almost all of it fixed cost rather than work (rmsnorm touches 10.75 KB = 0.03 us of traffic). The add is elementwise so its thread mapping cannot change a value, and the reduction is reproduced line for line, so the fusion is bit-exact rather than approximately equal.",
+  "geometry": {
+    "hidden": 2688,
+    "boundaries_per_token": 52,
+    "launches_split": 104,
+    "launches_fused": 52,
+    "launches_removed": 52
+  },
+  "gates": {
+    "h_bit_exact": true,
+    "out_bit_exact": true,
+    "finite": true
+  },
+  "split_ms_per_token": 0.8284379577636719,
+  "fused_ms_per_token": 0.47475662231445315,
+  "saving_ms_per_token": 0.35368133544921876,
+  "speedup": 1.744973990515417,
+  "us_per_launch_implied": 6.801564143254207,
+  "in_graph_reference": {
+    "norms_adds_marginal_ms": 0.37,
+    "us_per_launch_measured": 3.53
+  },
+  "status": "measured"
+}

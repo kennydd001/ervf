@@ -11,6 +11,70 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — **PV2-10's onopgeloste bug gevonden en opgelost: een compileervlag.** De add+norm-fusie is nu bitexact — maar in de graph netto trager, dus alsnog niet adopteren
+
+**Aanleiding.** De complete tokenkaart wees kernel-fusie aan als goedkoopste
+resterende winst: 3,53 µs per in-graph launch, 105 norm/add-launches per token.
+`add_` schrijft precies de buffer die de volgende `norm` leest, dus die twee
+horen één kernel te zijn: 105 → 53 launches.
+
+**Geïsoleerd (eager): bitexact op `h` én `out`, ×1,745, −0,354 ms/token.**
+Ik heb dat getal meteen gehalveerd vóór ik het geloofde — de geïmpliceerde
+6,80 µs/launch matcht de **eager** 7,75 µs, niet de in-graph 3,53 — dus de
+verwachting in de graph was ~0,18 ms.
+
+**Eerste graph-run: correctheidspoort FAALT.** CAND wijkt af bij **gegenereerd
+token 124**, op één van de drie prompts, de andere twee schoon.
+
+**Dat is letterlijk PV2-10's handtekening.** Kimi's campagne rapporteerde voor
+exact dezelfde fusie (add + next-RMSNorm): "full causal parity: **FAIL** — one
+prompt first diverges at generated token 124", met als conclusie "eerst
+debuggen vóór ooit herindienen". Zelfde fusie, zelfde prompt, zelfde token.
+
+**De oorzaak: een compileervlag.**
+
+    gpu_kernels.py:1525   options=("-std=c++14", "--use_fast_math")
+    mijn RawModule        options=("-std=c++14",)
+
+`--use_fast_math` verandert `rsqrtf` naar de benaderende hardware-instructie en
+zet denormal-flush aan. Mijn fusie was dus **arithmetisch net niet identiek** aan
+de productie-`rmsnorm_bf16w` die hij verving — een verschil van enkele ulps in
+de normalisatieschaal, dat via de MoE-routing over 124 tokens opblaast tot een
+andere expertkeuze en daarmee een ander token.
+
+Met `--use_fast_math` toegevoegd: **G-V17-C1 bitexact PASS** op alle drie de
+prompts, 765 tokens per arm. **De bug is daarmee opgelost, en het verklaart
+PV2-10 volledig** — inclusief waarom PV2's micro-tests bitexact waren (die
+vergeleken tegen een referentie die dezelfde vlag deelde) terwijl alleen de
+causale run het blootlegde.
+
+**Maar de fusie is alsnog geen winst: +0,127 ms/token in de graph** (drift
+0,1212, dus goed opgelost). Reden: productie's `add_inplace` draait op
+**11 blokken** en mijn fusie doet de add binnen het **ene blok** van de norm —
+11× minder parallellisme voor dat deel. In de graph, waar een launch maar
+3,53 µs kost, is die ruil negatief. Poort P1 niet gehaald; niet adopteren.
+
+**De les die generaliseert, en die is de echte opbrengst.**
+**Elke nieuwe kernel moet met dezelfde compileervlaggen gebouwd worden als de
+module die hij vervangt of waarmee hij samenwerkt.** En dat is in dit project
+níet uniform:
+
+| module | vlaggen |
+|---|---|
+| `gpu_kernels.py` | `-std=c++14`, **`--use_fast_math`** |
+| `fused_nvfp4.py` | `-std=c++14` (géén fast-math) |
+
+Een kernel die `fused_nvfp4`-werk vervangt mag dus juist **géén** fast-math
+gebruiken, en een die `gpu_kernels`-werk vervangt moet het wél. Dit staat
+nergens gedocumenteerd en heeft nu aantoonbaar één campagne een onverklaarde
+faalarm gekost. Toegevoegd aan de meetregels in TODO.
+
+**Artefacten.** `pro_research/diag_add_norm_fusion.py` + `.json`,
+`pro_research/fused_norm_v17.py`,
+`pro_research/results/v17_fused_norm/PRO_V17_FUSED_NORM.json`.
+
+---
+
 ## 2026-08-16 — **De tokenkaart is compleet.** lm_head 1,107 (69% efficiënt) · norms+adds 0,370 voor 105 launches = **3,53 µs per kernel-launch, ín een gevangen graph**
 
 **Vraag.** Na alle eerdere attributie bleef ~2,6 ms van de 21,24 ms

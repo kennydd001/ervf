@@ -49,11 +49,17 @@ een harde ondergrens van 2,47 ms. **Er is geen post waar meer dan ~0,7 ms uit te
 halen valt zonder de rekenkunde of de numerieke precisie te wijzigen.** Dat
 verklaart waarom negen kernelingrepen vandaag samen 0,42 ms opleverden.
 
+⚠️ **Compileervlaggen zijn in dit project niet uniform en dat heeft al een bug
+gekost.** `gpu_kernels.py` bouwt met `--use_fast_math`, `fused_nvfp4.py` zonder.
+Een nieuwe kernel met de verkeerde vlag is enkele ulps anders dan wat hij
+vervangt, en dat blaast via de MoE-routing op tot een tokenafwijking rond stap
+124 — precies PV2-10's onverklaarde faalarm, nu gevonden en opgelost.
+
 **3,53 µs per kernel-launch binnen een gevangen graph** is nieuw en bruikbaar:
 `rmsnorm_bf16w` draait als één blok voor 10,75 KB (0,03 µs echt verkeer), dus dat
-is vrijwel geheel vaste kost. De 52 `add_`-launches wegfuseren scheelt ~0,18 ms,
-de norms nog eens ~0,19 — goedkoper dan elke kernelherschrijving die vandaag
-geprobeerd is.
+is vrijwel geheel vaste kost. De 52 `add_`-launches wegfuseren is **gebouwd, bitexact en gemeten: +0,127 ms,
+dus netto negatief** — de fusie doet de add binnen het ene blok van de norm en
+verliest daarmee 11× parallellisme, wat bij 3,53 µs launchkost niet loont.
 
 ## 🔎 De volledige rekening (2026-08-16, alles gemeten)
 

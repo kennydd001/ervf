@@ -13,21 +13,24 @@ New-Item -ItemType Directory -Path $OutDir -Force | Out-Null
 if (-not (Test-Path $Python)) { throw "Python venv not found: $Python" }
 if (-not (Test-Path $Runner)) { throw "Runner not found: $Runner" }
 if (-not (Test-Path $Verifier)) { throw "Verifier not found: $Verifier" }
-
 $Stamp = (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ')
 $Log = Join-Path $OutDir ("E100_MRHS_${Mode}_${Stamp}.console.log")
+$script:LastNativeCode = 0
 
 function Invoke-NativePython {
-    param([string[]]$Arguments, [switch]$Append)
+    param([string[]]$Arguments, [switch]$Append, [switch]$AllowScientificFailure)
     $old = $ErrorActionPreference
     try {
         $ErrorActionPreference = 'Continue'
         if ($Append) { & $Python @Arguments 2>&1 | Tee-Object -FilePath $Log -Append }
         else { & $Python @Arguments 2>&1 | Tee-Object -FilePath $Log }
         $code = $LASTEXITCODE
+        $script:LastNativeCode = $code
     }
     finally { $ErrorActionPreference = $old }
-    if ($code -ne 0) { throw "Python returned native exit code $code: $($Arguments -join ' ')" }
+    if ($code -ne 0 -and -not $AllowScientificFailure) {
+        throw "Python returned native exit code $code: $($Arguments -join ' ')"
+    }
 }
 
 Write-Host "Repository : $Repo"
@@ -39,9 +42,14 @@ Write-Host '=== CPU reduction-map selftest ===' -ForegroundColor Cyan
 Invoke-NativePython -Arguments @($Runner, '--selftest')
 Write-Host ''
 Write-Host '=== E100 exact MRHS32 vs adopted V6 selective baseline ===' -ForegroundColor Cyan
-Invoke-NativePython -Arguments @($Runner, '--mode', $Mode) -Append
+Invoke-NativePython -Arguments @($Runner, '--mode', $Mode) -Append -AllowScientificFailure
+$runnerCode = $script:LastNativeCode
 Write-Host ''
-Write-Host '=== Independent V3 verifier ===' -ForegroundColor Cyan
+Write-Host '=== Independent V3 verifier (runs even on negative runner status) ===' -ForegroundColor Cyan
 Invoke-NativePython -Arguments @($Verifier) -Append
 Write-Host ''
+if ($runnerCode -ne 0) {
+    Write-Warning "MRHS runner returned scientific/technical failure code $runnerCode after evidence was independently verified."
+    exit $runnerCode
+}
 Write-Host 'E100-MRHS V3 run and independent verification completed.' -ForegroundColor Green

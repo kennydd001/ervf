@@ -1,0 +1,85 @@
+{
+  "kind": "diag_cross_sequence_union",
+  "created_utc": "2026-08-16T00:27:55.751547+00:00",
+  "note": "read-only diagnostic; first no-build measurement for the batch>1 hypothesis (agents/TODO.md, RESEARCH_NOTEBOOK.md 2026-08-16)",
+  "environment": {
+    "created_utc": "2026-08-16T00:27:55.751547+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "30f92036cc584a82916ce1aa46ccd1440c063627",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/diag_cross_sequence_union.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6382 MiB, 70, 12.12 W, 1102 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
+    }
+  },
+  "n_prompts": 16,
+  "steps_per_prompt": 20,
+  "top_k": 6,
+  "n_experts": 128,
+  "moe_layer_count": 23,
+  "results": {
+    "2": {
+      "union_size_stats": {
+        "count": 13800,
+        "mean": 11.584492753623188,
+        "p50": 12.0,
+        "p95": 12.0,
+        "p99": 12.0,
+        "max": 12.0
+      },
+      "no_overlap_baseline": 12,
+      "amplification_vs_single": 1.9307487922705313,
+      "amplification_vs_no_overlap": 0.9653743961352657
+    },
+    "4": {
+      "union_size_stats": {
+        "count": 13800,
+        "mean": 21.665,
+        "p50": 22.0,
+        "p95": 24.0,
+        "p99": 24.0,
+        "max": 24.0
+      },
+      "no_overlap_baseline": 24,
+      "amplification_vs_single": 3.6108333333333333,
+      "amplification_vs_no_overlap": 0.9027083333333333
+    },
+    "8": {
+      "union_size_stats": {
+        "count": 13800,
+        "mean": 38.90340579710145,
+        "p50": 39.0,
+        "p95": 43.0,
+        "p99": 45.0,
+        "max": 48.0
+      },
+      "no_overlap_baseline": 48,
+      "amplification_vs_single": 6.483900966183575,
+      "amplification_vs_no_overlap": 0.8104876207729469
+    },
+    "16": {
+      "union_size_stats": {
+        "count": 13800,
+        "mean": 63.89782608695652,
+        "p50": 64.0,
+        "p95": 70.0,
+        "p99": 73.0,
+        "max": 75.0
+      },
+      "no_overlap_baseline": 96,
+      "amplification_vs_single": 10.64963768115942,
+      "amplification_vs_no_overlap": 0.6656023550724638
+    }
+  }
+}

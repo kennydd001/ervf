@@ -96,14 +96,20 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       runtime heeft **nul** batch-ondersteuning (elke buffer 1D,
       single-sequence) — dit is geen kleine uitbreiding maar een
       meerdere-weken-herontwerp, met opzet niet gebouwd deze sessie.
-      **Eerste stap, geen bouw nodig:** meet de cross-sequentie expert-unie
-      (N onafhankelijke prompts, top-6 per stuk, tel unieke experts bij
-      N=2/4/8/16) via de al bestaande `_route_device`/`capture_routes`-
-      infrastructuur (dezelfde aanpak als de MTP-route-unie-meting eerder
-      vandaag). Bij weinig overlap is dit het niet waard; bij aanzienlijke
-      overlap is dit het enige geïdentificeerde pad dat het huidige
-      asymptotische plafond zou kunnen doorbreken. Zie `RESEARCH_NOTEBOOK.md`
-      2026-08-16, blok "Nieuwe, nog niet aangepakte hypothese".
+      **[EERSTE METING DONE 2026-08-16] Cross-sequentie expert-unie
+      gemeten** (`diag_cross_sequence_union.py`, 16 diverse prompts, 20
+      stappen elk, `capture_routes`): bij N=16 gelijktijdige sequenties is
+      de gemiddelde unie 63,9 van de 128 experts per laag — **66,6% van de
+      no-overlap-baseline van 96**, dus 33% minder unieke PCIe-gebonden
+      expert-loads nodig voor evenveel nuttige tokens. In tegenstelling tot
+      MTP (gesloten, want de draft-kost woog niet op tegen de winst) is hier
+      **geen speculatieve/weggegooide kost** — elke sequentie is een echt
+      opgevraagde token, dus elke gedeelde expert is pure winst. **Reëel
+      potentieel bevestigd — dit is nu de meest kansrijke onaangepakte
+      richting.** Volgende stap is architectuurontwerp (batch-dimensie op
+      alle buffers, per-stap expert-unie-bepaling), geen kernels — een
+      meerdere-weken-taak, niet gestart deze sessie. Zie `RESEARCH_NOTEBOOK.md`
+      2026-08-16.
 - [DONE 2026-08-16] **Down_proj-pijplijn optimaliseren in `_moe_dev`.**
       ~~Device-cache down_proj net als up_proj~~ — **onhaalbaar**:
       `DOWN_PANEL_BYTES` is 2,68 MB/expert (niet ~1 kB zoals eerst aangenomen),

@@ -65,13 +65,48 @@ potentieel. Dit is puur leesbaar uit bestaande route-logica
 (`_route_device`/`capture_routes`, al gebruikt voor de MTP-route-unie-meting
 eerder vandaag) — geen bouw nodig voor deze eerste meting.
 
+**Deze meting is meteen ook gedaan** (`pro_research/diag_cross_sequence_union.py`):
+16 inhoudelijk uiteenlopende prompts (geschiedenis, code, recept, fictie,
+financieel verslag, biologie, recht, netwerkconfiguratie, archeologie,
+muziek, aandelenmarkt, klimaat, schaken, OOP, archeologie, ML) — bewust
+divers zodat overlap geen artefact is van gelijkaardige content — elk 20
+stappen gestapt met `capture_routes`. Unie berekend over 30 willekeurige
+deelverzamelingen per N, alle 23 MoE-lagen, alle 20 stappen.
+
+| N | gem. unie | van max N×6 | % van no-overlap | amplificatie t.o.v. 1 token |
+|---:|---:|---:|---:|---:|
+| 2 | 11,58 | 12 | 96,5% | 1,93× |
+| 4 | 21,67 | 24 | 90,3% | 3,61× |
+| 8 | 38,90 | 48 | 81,0% | 6,48× |
+| **16** | **63,90** | 96 | **66,6%** | **10,65×** |
+
+**De overlap groeit met N, en wordt bij N=16 substantieel:** 96 experts nodig
+zonder deling, maar gemiddeld maar 63,9 unieke experts om 16 sequenties elk
+één token te geven — **33% minder unieke PCIe-gebonden expert-loads** voor
+evenveel nuttige output.
+
+**Waarom dit fundamenteel anders is dan MTP (dat wél gesloten werd).**
+MTP's speculatieve drafts kostten een aparte MTP-forward (19,10 ms) die
+soms weggegooid werd (bij verwerping) — de winst moest die kost eerst
+terugverdienen, en deed dat niet. Bij batch>1 is **elke geproduceerde token
+al opgevraagd** door een echte, andere sequentie — er is geen speculatieve
+kost, geen weggegooid werk, geen "draft tax" om terug te verdienen. Elke
+gedeelde expert is pure winst.
+
 **Waarom dit de moeite waard is om vast te leggen, ook onaangepakt.** Dit is
 de enige hypothese deze sessie die het **fundamentele plafond zelf** zou
 kunnen verleggen in plaats van dichter naar het bestaande plafond toe te
-werken. Alles binnen batch=1 nadert nu een asymptoot (V6 zit op 28,7% van
-165; zelfs een perfecte batch=1-implementatie zou nooit boven de 165 komen,
-en 100 vraagt 60,6%). Wie hier verder aan werkt: begin met de cross-
-sequentie-unie-meting, niet met code schrijven.
+werken, én de eerste, goedkope meting bevestigt reëel potentieel (geen
+"weinig overlap, niet de moeite waard"-uitkomst). Alles binnen batch=1
+nadert nu een asymptoot (V6 zit op 28,7% van 165; zelfs een perfecte
+batch=1-implementatie zou nooit boven de 165 komen, en 100 vraagt 60,6%).
+Wie hier verder aan werkt: de meting is klaar, de volgende stap is
+architectuurontwerp (welke buffers krijgen een batch-dimensie, hoe wordt de
+expert-unie per stap bepaald en experts geladen/gedeeld), niet meteen
+kernels schrijven.
+
+**Artefacten.** `pro_research/diag_cross_sequence_union.py` ·
+`pro_research/diag_cross_sequence_union.json`.
 
 ---
 

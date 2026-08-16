@@ -84,15 +84,26 @@ De GPU-roofline (165/119 tok/s) is hardware-eigenschap, niet modelafhankelijk,
 en blijft dus gelden voor Lightning. De runtime draait nu op **28,7%** van het
 ctx0-roofline (was 26,9% na accumulate-batching, 24,9% bij V4, 17% op de oude
 Nano-lijn). Dat is de kern van de zaak: er is nog veel hoofdruimte, maar niet
-oneindig veel. **Doel van deze sessie: 100 tok/s (60,6% van roofline) — nog
-een factor 2,11× te gaan vanaf V6, niet uitgesloten, ver van bewezen. Er is
-nog geen geïdentificeerd pad naar 100; de resterende bekende hefboom
-(PCIe-gather-herstructurering van
-`gather_down_sparse_ind`, buiten V5's scope gehouden) levert volgens de
-ablatiemeting hooguit een paar ms/token, niet genoeg alleen. Componentafbraak
-(2026-08-16) laat zien dat MoE **57,8%** van het token is — groter dan alleen
-down_proj — dus verder zoeken binnen MoE (shared-expert-GEMV's, up-proj-
-ERVF-GEMV, routing/cache-kernels) is de meest kansrijke volgende richting.**
+oneindig veel.
+
+**Alle winst tot nu toe (V4-V6, elke kernel-batching, capaciteitstuning)
+blijft binnen batch=1 — en het 165 tok/s-plafond zelf is ONDER die aanname
+berekend.** Niets binnen batch=1 kan daar ooit boven komen; 100 tok/s vraagt
+60,6% van dat plafond, V6 zit op 28,7%. De binnen-batch=1-hefbomen zijn nu
+grotendeels uitgeput (down_proj/up_proj/accumulate/panel_scan/reduce_partials
+allemaal gebatcht; gather/down_masked geprobeerd en afgewezen op VRAM;
+capaciteitstuning geïntegreerd en bevestigd near-optimaal voor deze
+lagenkeuze). **Meest kansrijke, nog niet aangepakte richting: batch>1.**
+Een eerste, goedkope meting (`pro_research/diag_cross_sequence_union.py`,
+2026-08-16) bevestigt reëel potentieel: bij 16 gelijktijdige sequenties is
+de gemiddelde expert-unie 63,9 van 128 per laag — 66,6% van de no-overlap-
+baseline (96), dus 33% minder unieke PCIe-gebonden expert-loads voor
+evenveel nuttige tokens, zonder de speculatieve "draft tax" die MTP deed
+mislukken (elke sequentie is al echt opgevraagd, niets wordt weggegooid).
+De runtime heeft nul batch-ondersteuning (elke buffer 1D) — dit is een
+meerdere-weken-herontwerp, niet gestart deze sessie, maar wel het enige
+geïdentificeerde pad dat het huidige asymptotische plafond zelf zou kunnen
+verleggen. Zie `agents/RESEARCH_NOTEBOOK.md` 2026-08-16.
 
 **Wat vaststaat over de doelen:** 50 en 100 tok/s zijn fysiek *niet*
 uitgesloten, maar 50+ vraagt méér dan graph-residentie alleen (plafond ~41,5

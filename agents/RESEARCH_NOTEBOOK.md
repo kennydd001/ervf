@@ -11,6 +11,77 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — **C2d: M is GRATIS tot M=8 op native FP4 — acht posities voor de prijs van één gewichtslezing.** Dit heropent wat de batch-analyse gesloten had
+
+**Vraag.** C2c wees M=2 aan als de echte hefboom, niet FP4 op zich. Hoe ver gaat
+die as? Als M=4 of M=8 óók gratis is, verandert het hele plafond.
+
+**Opzet.** M ∈ {1,2,4,8,16} op dezelfde vier al-NVFP4-shapes, zelfde koude
+rotatie (≥4× L2), zelfde eventtiming. Eén variabele: M.
+
+| shape | M=1 | M2/M1 | M4/M1 | **M8/M1** | M16/M1 |
+|---|---:|---:|---:|---:|---:|
+| lm_head | 600,70 µs | 0,984 | 0,986 | **0,989** | 1,435 |
+| shared_up | 39,82 | 0,864 | 0,810 | **0,814** | 0,729 |
+| shared_down | 24,96 | 0,973 | 0,968 | **1,003** | 0,895 |
+| routed_up | 24,06 | 0,933 | 0,938 | **0,891** | 0,960 |
+
+**Acht posities kosten hetzelfde als één, op élke shape.** M=16 is nog steeds
+gratis op drie van de vier; alleen lm_head (198 MB) zakt door naar 1,435×.
+
+Per token over die vier shapes (6,302 van de 19,60 ms van het V18-record):
+
+| | ms/token | projectie |
+|---|---:|---:|
+| ERVF (nu) | 6,302 | 51,0 tok/s |
+| native M=1 | 5,411 | 53,5 |
+| native M=2 | 2,519 | 63,2 |
+| native M=4 | 1,251 | 68,7 |
+| native M=8 | **0,609** | **71,9** |
+| native M=16 | 0,327 | 73,4 |
+
+Die projectie **verzadigt rond 73** puur omdat ze niets buiten die vier shapes
+aanraakt — de overige 13,3 ms van het token blijft per constructie ongemoeid.
+
+**Waarom dit belangrijker is dan de FP4-conversie zelf.** Ons eigen gebatchte
+ERVF-plafond was gemeten op **×1,64 bij N=4**, en de verklaring daarvoor stond
+al in `DECISION_SINGLE_STREAM_VS_BATCH.md`: ERVF draait al op 77% van de
+apparaatbandbreedte, en batching betaalt alleen waar je bandbreedte verspilde.
+Native FP4 haalt ~8× op precies díe as omdat het op **Tensor Cores** draait: de
+GEMM is gewichtsbandbreedte-gebonden en de tensor cores hebben rekenruimte
+over, dus extra kolommen zijn gratis. **Dat is het mechanisme dat onze
+CUDA-core-kernels niet kunnen reproduceren, en daarom heropent de M-as wat de
+batch-analyse had afgesloten.**
+
+**De rekening als de M-deling zich uitstrekt tot al het gewichtsgebonden werk.**
+Uit de tokenkaart zijn deelbaar: Mamba in/out GEMV 4,187 + attention-projecties
+(~1,5 van 2,479) + up_proj 2,253 + shared_expert 1,810 + lm_head 1,107 ≈
+**10,86 ms**. Bij M=8 wordt dat ~1,36 ms → **−9,5 ms** → 19,60 − 9,5 ≈
+**10,1 ms ≈ 99 tok/s**. Niet deelbaar en dus overblijvend: `ssm_step` 1,095 (die
+is per-positie state), de PCIe-gather 3,849 (de routing-unie groeit met M),
+down_masked 1,372, panel_scan/reduce/accumulate 1,119, norms/adds 0,840, en het
+KV-deel van attention.
+
+**Dat is de eerste route in deze hele sessie die met gemeten invoer op ~100
+uitkomt.** Maar de voorwaarden zijn zwaar en moeten expliciet blijven:
+1. Mamba (FP8) en attention (BF16) naar FP4 is een **echte
+   quantisatiewijziging** met een ongemeten kwaliteitsprijs — geen gratis winst;
+2. er moet een **M-weg verificatiepad** zijn (speculatief/MTP) met een hoge
+   acceptatiegraad, anders betaal je M× rekenwerk voor <M geaccepteerde tokens;
+3. de **MoE-routing-unie groeit met M** — bij N=16 gemeten op 63,9 van 128
+   experts per laag, dus de PCIe-post schaalt mee;
+4. alles hierboven is **synthetisch** gemeten, op de GEMM alleen.
+
+**Wat het wél hard maakt.** De M-as is geen hypothese meer: 8 posities voor de
+prijs van 1 is gemeten, koud, op de echte shapes, op deze GPU. Dat was de
+ontbrekende schakel onder K2 (dat 1,012× haalde omdat het posities herschikte
+zonder hun gewichten fysiek te delen).
+
+**Artefacten.** `pro_research/diag_native_nvfp4_c2d_mscaling.py` +
+`results/native_nvfp4/C2D_M_SCALING.json` (branch `pro-s100-nativefp4-c2b`).
+
+---
+
 ## 2026-08-16 — **C2c: de eerlijke head-to-head. Native FP4 is NIET uniform sneller — 0,96× op de meest aangeroepen shape — maar M=2 is gratis op élke shape**
 
 **Vraag.** C2b bewees dat native FP4 draait en dat M=2 gratis is. Het bewees

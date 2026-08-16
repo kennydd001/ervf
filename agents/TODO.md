@@ -190,6 +190,23 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
+- [ ] **HOOGSTE PRIORITEIT — M-weg decode op native FP4. Eerste route in deze
+      sessie die met GEMETEN invoer op ~100 tok/s uitkomt.** C2d mat M ∈
+      {1,2,4,8,16} koud op de vier al-NVFP4-shapes: **M8/M1 = 0,989 / 0,814 /
+      1,003 / 0,891** — **acht posities kosten hetzelfde als één**, op élke
+      shape. Mechanisme: de GEMM is gewichtsbandbreedte-gebonden en Tensor Cores
+      hebben rekenruimte over. Dát is wat onze CUDA-core-ERVF niet kan (batch-
+      plafond ×1,64 bij N=4, want ERVF zit al op 77% van de bandbreedte) — de
+      M-as heropent dus wat `DECISION_SINGLE_STREAM_VS_BATCH.md` had gesloten.
+      Rekening bij M=8 over al het deelbare gewichtswerk (Mamba-GEMV 4,187 +
+      attention-proj ~1,5 + up_proj 2,253 + shared 1,810 + lm_head 1,107 =
+      10,86 ms → ~1,36): **−9,5 ms → ~10,1 ms ≈ 99 tok/s**.
+      **Vier harde voorwaarden, geen ervan gemeten:** (1) Mamba/attention naar
+      FP4 is een echte quantisatiewijziging met kwaliteitsprijs; (2) er moet een
+      M-weg verificatiepad zijn met hoge acceptatie; (3) de MoE-routing-unie
+      groeit met M (63,9/128 bij N=16); (4) C2d is synthetisch en meet alleen de
+      GEMM. Volgorde: eerst de kwaliteitspoort van FP4-Mamba, dan het
+      verificatiepad, dan pas een tok/s-claim.
 - [ ] **C3 — native FP4 als drager voor een M=2-verificatiepad, SELECTIEF.**
       C2c (2026-08-16) mat de eerlijke head-to-head tegen onze eigen
       ERVF-kernel, koud (≥4× L2), op de vier **al-NVFP4** shapes:

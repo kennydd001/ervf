@@ -30,8 +30,27 @@ resterende technische stappen): zie `agents/PATH_TO_100_TOKS.md`.**
 > uniform: routed/shared/lm_head zijn al NVFP4, maar Mamba (892 MB/token, de
 > grootste post) is FP8 en attention BF16.
 >
-> Detail: `RESEARCH_NOTEBOOK.md` blok "C2b", resultaat
-> `pro_research/results/native_nvfp4/C2B_TORCH212_CONTRACT.json`.
+> **C2c/C2d, zelfde dag — de eerlijke head-to-head en de M-as.** Native FP4 is
+> **niet uniform sneller** dan onze ERVF-kernel: lm_head 2,52×, shared_down
+> 1,68×, shared_up 1,11×, maar **routed_up 0,96× (trager)** — en dat is met 138
+> aanroepen/token de meest aangeroepen shape. De hefboom is dus niet FP4 op
+> zich maar **M**: gemeten **M8/M1 = 0,989 / 0,814 / 1,003 / 0,891**, dus
+> **acht posities voor de prijs van één gewichtslezing**, op élke shape.
+>
+> Waarom dat onze eigen batch-conclusie heropent: gebatchte ERVF haalde ×1,64
+> bij N=4 omdat ERVF al op 77% van de bandbreedte zit. Native FP4 haalt ~8× op
+> dezelfde as omdat het op **Tensor Cores** draait — rekenruimte over, dus
+> extra kolommen gratis.
+>
+> Rekening bij M=8 over al het deelbare gewichtswerk: **−9,5 ms → ~10,1 ms ≈
+> 99 tok/s**. Eerste route van de sessie die met gemeten invoer bij het doel
+> komt. Voorwaarden die nog volledig ongemeten zijn: FP4-quantisatie van
+> Mamba/attention (kwaliteitsprijs), een M-weg verificatiepad met hoge
+> acceptatie, en de met M groeiende MoE-routing-unie.
+>
+> Detail: `RESEARCH_NOTEBOOK.md` blokken "C2b", "C2c", "C2d"; resultaten
+> `pro_research/results/native_nvfp4/C2B_TORCH212_CONTRACT.json`,
+> `C2C_COLD_NVFP4_SHAPES.json`, `C2D_M_SCALING.json`.
 
 ## 🎉 NIEUW RECORD 2026-08-16: **51,0 tok/s (19,60 ms) — E50 GEHAALD**
 

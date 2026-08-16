@@ -10,7 +10,11 @@ param(
     [int]$Port = 8080,
     [ValidateSet('v18','v6')][string]$Stack = 'v18',
     [int]$Capacity = 72,
-    [switch]$NoBrowser
+    [switch]$NoBrowser,
+    # -Lan binds past loopback so a phone or another PC on the same network can
+    # chat. There is NO authentication: anyone who can reach this machine can
+    # use the GPU. Safe on a home LAN, not on an open or shared one.
+    [switch]$Lan
 )
 $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
@@ -56,5 +60,11 @@ if (-not $NoBrowser) {
     } -ArgumentList $Port | Out-Null
 }
 
+$BindHost = if ($Lan) { '0.0.0.0' } else { '127.0.0.1' }
+if ($Lan) {
+    Write-Host "  -Lan: binding 0.0.0.0. No authentication - only do this on a network you trust." -ForegroundColor Yellow
+    Write-Host ""
+}
+
 & $Py 'scripts\lightningstream_nemotron\serve_openai.py' `
-    --port $Port --stack $Stack --capacity $Capacity
+    --host $BindHost --port $Port --stack $Stack --capacity $Capacity

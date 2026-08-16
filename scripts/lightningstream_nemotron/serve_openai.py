@@ -360,10 +360,27 @@ def main() -> int:
     _RT = build_v18_runtime(args.capacity, args.stack)
 
     srv = ThreadingHTTPServer((args.host, args.port), Handler)
-    print(f"[serve] OpenAI-compatible endpoint on http://{args.host}:{args.port}/v1\n"
+    print(f"[serve] chat UI     http://127.0.0.1:{args.port}/\n"
+          f"[serve] OpenAI API  http://127.0.0.1:{args.port}/v1\n"
           f"[serve] stack={args.stack}  model=lightning  ctx={_RT.max_ctx}\n"
-          f"[serve] point any OpenAI client at it; one request at a time.",
-          flush=True)
+          f"[serve] one request at a time.", flush=True)
+    if args.host not in ("127.0.0.1", "localhost"):
+        # Bound past loopback, so report the address other devices should use.
+        # There is NO authentication here: anything that can reach this host can
+        # use the GPU. Fine on a home LAN, not fine on an open or shared network.
+        import socket
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        try:
+            s.connect(("8.8.8.8", 80))
+            lan = s.getsockname()[0]
+        except Exception:
+            lan = socket.gethostbyname(socket.gethostname())
+        finally:
+            s.close()
+        print(f"[serve] LAN        http://{lan}:{args.port}/   "
+              f"<- phone, tablet, other PC on this network\n"
+              f"[serve] WARNING: no authentication; anyone who can reach this "
+              f"host can use the GPU.", flush=True)
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

@@ -11,6 +11,63 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Grotere cache bij groter N: hersteld het voordeel? Verrassend: nee, het wordt WÉÉR erger — een echte hypothese verworpen
+
+**Vraag.** De N=4-meting hierboven liet het incidentele voordeel vlak
+blijven (zelfs licht dalen) i.p.v. groeien met N, met als aannemelijke
+verklaring: vaste cache-capaciteit (72) geeft meer eviction/contentie bij
+groter N. Expliciet als open vraag genoteerd: zou een met N meeschalende
+capaciteit dit herstellen? Dit test dat direct.
+
+**Opzet (één variabele: cache-capaciteit voor de N=4-arm).**
+`pro_research/proto_multi_seq_full_model_n4_bigcache.py` — identiek
+mechanisme, N=4, maar de N=4-arm gebruikt cap=144 (2×, overeenkomend met de
+N=4/N=2-verhouding) i.p.v. 72. De solo-N=1-controle blijft bewust op de
+standaard 72 (vergelijkbaar met alle eerdere resultaten). **Een echte bug
+gevonden en gefixt vóór meting**: de eerste versie verwisselde per ongeluk
+`rt.reset()` (nodig om h/pos/kv-cache tussen ground-truth-sequenties te
+wissen) met `rt.enable_cache()` (wist alleen de MoE-cache, niet de
+dynamische toestand) in de correctheidspoort-lus — zou sequentie 1 se
+ground truth laten starten vanaf sequentie 0 se restanttoestand. Gefixt
+vóór de eerste run. **Correctheidspoort GESLAAGD**: bitexact, 15/15
+tokens × 4 sequenties.
+
+**Uitkomst — hypothese VERWORPEN, en niet een beetje.** Solo (cap=72):
+27,013 tok/s. N=4 met cap=144: **19,071 tok/s aggregate — 0,706×, een
+ECHTE REGRESSIE**, niet een herstel of verbetering. De grotere cache maakte
+het dus **slechter**, niet beter.
+
+**Waarom, vermoedelijk.** `cache_assign`'s eigen kernel (`fused_nvfp4.py`)
+doet bij elke misser een **lineaire scan over `cap` sloten** om het
+minst-recent-gebruikte slot te vinden voor eviction (`for cix in 1..cap: if
+last_used[cix] < mnv: ...`). Een grotere `cap` maakt die scan **duurder per
+misser**, en die extra kost kan de winst van minder missers overtreffen —
+vooral als het aantal missers toch al niet dramatisch daalt. Dit is een
+reëel, niet eerder gedocumenteerd afwegingspunt: **cache-capaciteit
+vergroten is niet gratis**, zelfs los van het VRAM-kostenaspect dat elders
+deze sessie al gemeten werd (`diag_batch_vram_cost.py`) — er is ook een
+reken-/latentiekost aan een grotere LRU-structuur zelf.
+
+**Wat dit sluit of opent.** Sluit de hypothese "meeschalende cache-
+capaciteit herstelt het naive-voordeel bij groter N" — verworpen, niet
+bevestigd. Versterkt een bredere les: dit project se eerdere
+capaciteitssweep (`diag_capacity_sweep.py`, "near-optimal, alle
+agressievere splits slechter") ging over HERVERDELEN bij een VASTE totale
+capaciteit; dit is een ANDER effect (absolute capaciteit vergroten heeft
+een eigen, reële kost) dat nooit eerder apart gemeten was. Voor toekomstig
+werk aan cache-afmetingen (batch=1 of batch>1): groter is niet automatisch
+beter, en dit kost-mechanisme (lineaire eviction-scan) is nu expliciet
+bekend in plaats van impliciet aangenomen.
+
+**Poorten.** Correctheid: bitexact, PASS. Geen tok/s-claim voorbij wat
+hierboven staat — dit is een duidelijk gerapporteerde REGRESSIE, geen
+verborgen of afgezwakt negatief resultaat.
+
+**Artefacten.** `pro_research/proto_multi_seq_full_model_n4_bigcache.py`,
+`pro_research/proto_multi_seq_full_model_n4_bigcache.json`.
+
+---
+
 ## 2026-08-16 — N=4 naive baseline: groeit het incidentele voordeel mee met N, zoals losstaande diagnostiek suggereerde? Verrassend: nee, vlak tot licht lager
 
 **Vraag.** De N=2 naive baseline (hierboven/verderop) gaf +5,4% aggregate uit

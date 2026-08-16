@@ -433,6 +433,23 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       voordeel" — geldt niet zomaar. Niet gemeten: of een met N meeschalende
       cache-capaciteit dit zou herstellen. Zie `RESEARCH_NOTEBOOK.md`
       2026-08-16, blok "N=4 naive baseline".
+- [WEERLEGD 2026-08-16] **Grotere cache herstelt het N=4-voordeel niet —
+      hypothese verworpen, echte regressie gevonden.**
+      `pro_research/proto_multi_seq_full_model_n4_bigcache.py`: cap 72→144
+      (2×, matcht N=4/N=2) voor de N=4-arm, solo-controle bewust op
+      standaard 72. **Bug gevonden en gefixt vóór meting** (`rt.reset()`
+      per ongeluk verward met `rt.enable_cache()` in de correctheidspoort —
+      zou dynamische toestand laten lekken tussen ground-truth-sequenties).
+      **Bitexact, 15/15 tokens × 4 sequenties, PASS.** **Resultaat: 19,071
+      tok/s aggregate tegen solo 27,013 — 0,706×, een ECHTE REGRESSIE, geen
+      herstel.** Vermoedelijke oorzaak: `cache_assign`'s eigen kernel doet
+      een lineaire scan over `cap` sloten per misser om te evicten — een
+      grotere cache maakt die scan duurder per misser, en die kost kan de
+      winst van minder missers overtreffen. **Cache-capaciteit vergroten is
+      dus niet gratis**, los van het VRAM-kostenaspect dat al gemeten was
+      — een reken-/latentiekost aan de LRU-structuur zelf, nooit eerder
+      apart vastgesteld. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
+      "Grotere cache bij groter N".
 - [WEERLEGD-VOOR-DEZE-AANPAK, CORRECTHEID BEVESTIGD 2026-08-16] **Expliciete
       unie-gevoede MoE-deling geïntegreerd in de echte staplus — bitexact
       correct, maar 12× TRAGER, niet sneller.**

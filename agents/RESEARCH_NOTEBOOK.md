@@ -292,8 +292,15 @@ reële, afgebakende vervolgtaak.
 **Artefacten.** `pro_research/proto_multi_seq_moe_shared.py` (definitieve
 versie, gather+masked/reduce/accumulate gebatcht + numpy-gevectoriseerde
 maskerberekening), `pro_research/proto_multi_seq_moe_shared.json`
-(eindmeting, 11,12 tok/s), `pro_research/proto_multi_seq_moe_shared_profile2.json`
+(eindmeting), `pro_research/proto_multi_seq_moe_shared_profile2.json`
 (sectie-uitsplitsing na gather-batching, vóór de laatste vectorisatiestap).
+
+**Robuustheidscontrole, zelfde dag: 12 stappen is klein voor deze sessie se
+eigen maatstaf (V6's eigen record steunt op 765 samples).** `DECODE_STEPS`
+verhoogd van 12 naar 40 (80 echte tokens totaal i.p.v. 24), zelfde script,
+geen andere wijziging. **Bitexact, 40/40 tokens × 2 sequenties, PASS.
+Timing: 11,234 tok/s** — binnen ~1% van de eerdere 12-staps-meting (11,12),
+dus geen ruis-artefact, het cijfer is representatief.
 
 ---
 

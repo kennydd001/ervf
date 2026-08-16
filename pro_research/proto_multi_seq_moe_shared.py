@@ -78,7 +78,7 @@ UP_SCALE = 311_808
 DOWN_PANEL_BYTES = UP_CODE + UP_SCALE
 
 N = 2
-DECODE_STEPS = 12
+DECODE_STEPS = 40
 
 # Section-level profiling, off by default -- when enabled, adds
 # cp.cuda.Device(0).synchronize() calls at section boundaries purely to

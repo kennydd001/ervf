@@ -24,7 +24,14 @@ sluiten de metingen op elkaar aan. Record blijft **47,41 tok/s (21,09 ms)**.
 | **serieel** | | **10,69 ms = 93,6 tok/s** |
 | **volledig overlappend** | | **8,22 ms = 122 tok/s** |
 
-**Waar de 22,1 ms nu heen gaat (marginale methode, alle armen bitexact):**
+**Waar de 22,1 ms nu heen gaat (marginale methode, alle armen bitexact).**
+⚠️ **Deze tabel is EAGER gemeten en bevat ~7,75 µs launch-overhead per
+kernel-launch** (no-op controle: 138 launches = 1,070 ms, grid-onafhankelijk).
+Gather en down_masked doen 138 launches/token, dus elk ~1,07 ms daarvan is
+uitgiftetijd die de gevangen productiegraph NIET betaalt. `down_masked` doet
+in werkelijkheid **0,431 ms GPU-werk tegen een vloer van 0,257 = 60%**, niet
+15%. De hoofdruimte-kolom is dus een **bovengrens**, geen doel, tot de
+attributie in-graph is herhaald.
 
 | | gemeten | vloer | hoofdruimte |
 |---|---:|---:|---:|

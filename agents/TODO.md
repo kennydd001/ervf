@@ -175,8 +175,31 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
-- [ ] **HOOGSTE PRIORITEIT — `ncu` (Nsight Compute) beschikbaar maken op deze
-      machine.** Dit is nu geen comfort meer maar de blokkade. `down_masked`
+- [ ] **HOOGSTE PRIORITEIT — componentattributie IN DE GRAPH herhalen.**
+      ⚠️ **Alle marginalen hieronder zijn eager gemeten en bevatten ~7,75 µs
+      launch-overhead per kernel-launch** (gemeten met een no-op controle-kernel,
+      grid-onafhankelijk: 138 launches = 1,070 ms). Dat raakt de zware posten het
+      hardst — gather en down_masked doen 138 launches per token, dus elk ~1,07 ms
+      pure uitgiftetijd. **De productiestack draait in een gevangen graph en
+      betaalt dit niet.** Concreet gevolg: `down_masked` doet in werkelijkheid
+      **0,431 ms GPU-werk tegen een vloer van 0,257 = 60% efficiëntie**, niet 15%
+      — de "1,40 ms hoofdruimte" bestond niet. Herhaal de attributie met
+      `step_graph()` vóór er nóg een kernel voor herschreven wordt; de
+      hoofdruimte-tabellen in `STATE_OF_THE_WORK.md` en hieronder zijn tot die
+      tijd bovengrenzen, geen doelen.
+- [ ] **Kleine, gratis fix: `s_e4m3` wordt niet volledig geïnitialiseerd.**
+      `gemv_down_masked_partial_ind` doet `if (threadIdx.x < 256)
+      s_e4m3[threadIdx.x] = ...` maar wordt met **128 threads** gelanceerd, dus
+      `s_e4m3[128..255]` blijft ongeïnitialiseerd. Nu correct omdat
+      down_proj-blokschalen in de praktijk byte < 128 zijn (positieve E4M3),
+      maar dat is een ongedocumenteerde, ongecontroleerde aanname — een
+      benchmark met willekeurige bytes liep er meteen tegenaan. Vervang door
+      `for (int i = threadIdx.x; i < 256; i += blockDim.x)`; kost niets.
+- [WEERLEGD 2026-08-16] **`ncu` beschikbaar maken** — bleek niet nodig. De
+      ablatie-aanpak (`diag_down_masked_ablate`: elk statement in de binnenlus
+      apart uitschakelen, elke arm consumeert nog wat hij laadt zodat geen load
+      als dode code verdwijnt) plus een no-op controle-kernel lokaliseerde het
+      probleem volledig zonder profiler. Dit is nu geen comfort meer maar de blokkade. `down_masked`
       houdt 1,40 ms hoofdruimte vast en ik heb **vijf hypotheses gemeten en
       alle vijf weerlegd** (bandbreedte, instructiedoorvoer, launch/grid/
       occupancy, afhankelijke-ketenlengte, overbodige loads + sectorverlies —

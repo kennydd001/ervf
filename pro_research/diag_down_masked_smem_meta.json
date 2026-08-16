@@ -1,0 +1,45 @@
+{
+  "kind": "diag_down_masked_smem_meta",
+  "created_utc": "2026-08-16T09:09:50.619701+00:00",
+  "note": "Stages panel_list and panel_masks[p] into shared memory once per block. diag_down_masked_ablate showed 1.316 of 1.530 ms remains with ALL data access removed, and the cause is the dependent pair `p = panel_list[pi]; m = panel_masks[p]` -- a pointer-chase run ~11.5 times per thread by every thread redundantly.",
+  "geometry": {
+    "hidden": 2688,
+    "inter": 1856,
+    "active_panels": 92,
+    "nz_columns": 157,
+    "launches_per_token": 138,
+    "smem_added_bytes": 928
+  },
+  "arms": {
+    "4": {
+      "nchunks": 4,
+      "bit_exact": false,
+      "ref_ms_per_token": 2.5048202514648437,
+      "smem_ms_per_token": 2.4747828165690104,
+      "speedup": 1.0121374023994059,
+      "saved_ms_per_token": 0.030037434895833215
+    },
+    "8": {
+      "nchunks": 8,
+      "bit_exact": false,
+      "ref_ms_per_token": 1.5011605580647787,
+      "smem_ms_per_token": 1.5326229095458985,
+      "speedup": 0.9794715638888356,
+      "saved_ms_per_token": -0.031462351481119866
+    },
+    "16": {
+      "nchunks": 16,
+      "bit_exact": false,
+      "ref_ms_per_token": 1.635413360595703,
+      "smem_ms_per_token": 1.6537940979003907,
+      "speedup": 0.9888857159860328,
+      "saved_ms_per_token": -0.01838073730468759
+    }
+  },
+  "all_bit_exact": false,
+  "production_ref_ms_per_token_nchunks8": 1.5011605580647787,
+  "best": null,
+  "best_saving_vs_production_ms": null,
+  "in_loop_marginal_ms_reference": 1.655,
+  "status": "correctness_failed"
+}

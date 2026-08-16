@@ -11,6 +11,88 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — ⚠️ **ZELFCORRECTIE: de eager sub-kernelmarginalen bevatten ~7,75 µs launch-overhead per launch. `down_masked` doet in werkelijkheid 0,431 ms GPU-werk, geen 1,655 — de "1,40 ms hoofdruimte" bestond niet**
+
+**Hoe dit boven kwam.** Na vijf weerlegde hypotheses voor `down_masked` heb ik
+de binnenkant van de kernel geableerd (`diag_down_masked_ablate`, timing-only,
+elke arm consumeert nog steeds wat hij laadt zodat geen load als dode code
+verdwijnt):
+
+| arm | ms/token | verwijderd |
+|---|---:|---:|
+| full | 1,530 | — |
+| no_code_load | 1,578 | −0,048 (trager!) |
+| no_scale_load | 1,551 | −0,021 |
+| no_luts | 1,524 | 0,005 |
+| no_act | 1,507 | 0,023 |
+| **loop_only** (álle dataloads en rekenwerk weg) | **1,316** | **0,213 = 13,9%** |
+
+Met álle geheugentoegang en alle rekenwerk eruit blijft **86%** van de kernel
+over. Eerste verdenking was de pointer-chase `p = panel_list[pi];
+m = panel_masks[p]` — de tweede load kan pas starten als de eerste terug is,
+~11,5 keer per thread, en elke thread doet dezelfde chase opnieuw. Metadata in
+shared memory stagen (`diag_down_masked_smem_meta`, 928 B extra SMEM) gaf
+**0,98-1,01×**: ook weerlegd.
+
+**De echte oorzaak, gemeten met een lege controle-kernel.** 138 launches van een
+**no-op** kernel in dezelfde harness:
+
+| launches | grid | ms | µs/launch |
+|---:|---|---:|---:|
+| 138 | (21, 8) | 1,0698 | **7,75** |
+| 138 | (1, 1) | 1,0805 | 7,83 |
+| 414 | (1, 1) | 3,0737 | 7,42 |
+
+**~7,75 µs per eager kernel-launch, onafhankelijk van de gridgrootte.** De
+geïsoleerde `down_masked`-harness doet 138 launches van een kernel die ~3,1 µs
+GPU-werk doet — hij is dus **CPU-uitgifte-gebonden**, niet kernel-gebonden:
+
+    1,501 ms gemeten − 1,070 ms pure uitgifte = **0,431 ms echt GPU-werk**
+
+Tegen de bandbreedtevloer van 0,257 ms is dat **60% efficiëntie** — gewoon
+netjes. **De 15% en de 1,40 ms hoofdruimte waren een meetartefact.**
+
+**Wat hierdoor allemaal klopt dat eerst raadselachtig was.**
+- Waarom vijf structurele varianten niets deden: ik mat uitgiftetijd, niet de
+  kernel.
+- Waarom V15 (batching) **in de graph** neutraal was: daar was de
+  launch-overhead al weg, dus er viel niets te winnen.
+- Waarom `diag_event_op_cost`'s baseline 414 launches op 3,2775 ms zette: MoE
+  doet per token ~414 kernel-launches (138 gather + 138 down_masked + 23 up +
+  46 shared + 23 scan + 23 reduce + 23 accumulate) — **exact hetzelfde getal**.
+
+**Reikwijdte van de correctie.** `diag_component_marginals_v6` én
+`diag_moe_subkernel_marginals` zijn **eager** gemeten (`rt.step()`), dus elke
+marginaal daar bevat ~7,75 µs × zijn eigen launch-aantal. Dat raakt de zware
+posten het hardst: gather en down_masked (138 launches elk, ~1,07 ms elk),
+shared_expert (46, ~0,36), en up_proj/panel_scan/reduce/accumulate (23 elk,
+~0,18). **De productiestack draait in een gevangen graph en betaalt dit niet.**
+De hoofdruimte-tabellen in `STATE_OF_THE_WORK.md` en `TODO.md` overschatten
+daarmee de winst die er in de kernels zelf te halen valt; ze zijn hierbij
+gemarkeerd als eager-getallen en moeten in-graph opnieuw gemeten worden vóór ze
+nog richting geven.
+
+**Bijvangst — een latente kwetsbaarheid in productie.**
+`gemv_down_masked_partial_ind` doet `if (threadIdx.x < 256) s_e4m3[threadIdx.x]
+= e4m3_lut[threadIdx.x];` maar wordt met **128 threads** gelanceerd, dus
+`s_e4m3[128..255]` blijft **ongeïnitialiseerd**. Dat is nu correct omdat
+down_proj-blokschalen in de praktijk positieve E4M3-waarden zijn (byte < 128),
+maar dat is een **ongedocumenteerde en ongecontroleerde aanname**. Mijn
+benchmark vulde de mirror met willekeurige bytes 0-255 en liep er meteen tegenaan
+(de bitexactheidsvergelijking faalde op ongeïnitialiseerde SMEM, niet op de
+kandidaat). Een `for (i = threadIdx.x; i < 256; i += blockDim.x)` kost niets en
+haalt de aanname weg — apart genoteerd in TODO.
+
+**Wat dit opent.** De echte resterende inefficiëntie is **kleiner** dan de eager
+cijfers suggereerden, en zit dus niet in `down_masked`. Volgende stap: de
+componentattributie **in de graph** herhalen, zodat de hoofdruimte-tabel klopt
+vóór er nog een kernel voor herschreven wordt.
+
+**Artefacten.** `pro_research/diag_down_masked_ablate.py` + `.json`,
+`pro_research/diag_down_masked_smem_meta.py` + `.json`.
+
+---
+
 ## 2026-08-16 — `down_masked` ingesloten: **vijf hypotheses getest, alle vijf weerlegd**, harde vloer op ~1,5 ms die geen enkele gebruikelijke as verklaart — verdere voortgang vraagt een profiler
 
 **Vraag.** `down_masked` kost 1,655 ms/token tegen een bandbreedtevloer van

@@ -1,0 +1,77 @@
+{
+  "kind": "diag_down_masked_ablate",
+  "created_utc": "2026-08-16T09:08:31.929393+00:00",
+  "note": "TIMING ONLY. Every arm except `full` computes wrong numbers by design and may never be quoted as a correctness result. Each variant still consumes whatever it loaded so no load is eliminated as dead code. Arms do not sum to `full` -- removing a load also removes its latency from the chain -- and are read as 'which statement dominates'.",
+  "why": "ncu/nsys/compute-sanitizer are not on PATH (PV2-21) and five end-to-end hypotheses have already been refuted for this kernel, leaving a ~1.5 ms floor unexplained. This separates the inner-loop statements instead.",
+  "geometry": {
+    "hidden": 2688,
+    "inter": 1856,
+    "nchunks": 8,
+    "active_panels": 92,
+    "nz_columns": 157,
+    "launches_per_token": 138
+  },
+  "arms_ms_per_token": {
+    "full": 1.529583994547526,
+    "no_code_load": 1.577676773071289,
+    "no_scale_load": 1.5505237579345703,
+    "no_luts": 1.5243092854817708,
+    "no_act": 1.5066112518310546,
+    "loop_only": 1.3164491017659505
+  },
+  "attribution": {
+    "full": {
+      "ms_per_token": 1.529583994547526,
+      "removed_ms": 0.0,
+      "removed_fraction_of_full": 0.0
+    },
+    "no_code_load": {
+      "ms_per_token": 1.577676773071289,
+      "removed_ms": -0.048092778523763036,
+      "removed_fraction_of_full": -0.031441737554262
+    },
+    "no_scale_load": {
+      "ms_per_token": 1.5505237579345703,
+      "removed_ms": -0.020939763387044286,
+      "removed_fraction_of_full": -0.01368984211503768
+    },
+    "no_luts": {
+      "ms_per_token": 1.5243092854817708,
+      "removed_ms": 0.005274709065755223,
+      "removed_fraction_of_full": 0.003448459897957785
+    },
+    "no_act": {
+      "ms_per_token": 1.5066112518310546,
+      "removed_ms": 0.022972742716471428,
+      "removed_fraction_of_full": 0.015018948157382564
+    },
+    "loop_only": {
+      "ms_per_token": 1.3164491017659505,
+      "removed_ms": 0.2131348927815755,
+      "removed_fraction_of_full": 0.13934173836895045
+    }
+  },
+  "dominant_statement": "loop_only",
+  "ranking_by_removed_ms": [
+    [
+      "loop_only",
+      0.2131348927815755
+    ],
+    [
+      "no_act",
+      0.022972742716471428
+    ],
+    [
+      "no_luts",
+      0.005274709065755223
+    ],
+    [
+      "no_scale_load",
+      -0.020939763387044286
+    ],
+    [
+      "no_code_load",
+      -0.048092778523763036
+    ]
+  ]
+}

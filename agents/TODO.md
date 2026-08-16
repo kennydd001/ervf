@@ -190,56 +190,20 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
-- [WEERLEGD 2026-08-16] **M-weg decode op native FP4 → ~99 tok/s. INGETROKKEN.**
-      Mijn eigen projectie was fout: ik deelde `up_proj` (2,253 ms) door M,
-      terwijl dat **routed** is en dus de expert-unie volgt (gemeten **3,313×
-      over 5 posities**, `diag_mtp_route_union.json`), niet ×1. Herrekend met de
-      gemeten acceptatiegraad A+1=3,114: **52,1 tok/s bij D+1=5 en 52,7 bij
-      D+1=2** — 2 à 3,4% boven V18, binnen de drift. Structurele reden: maar
-      **40% van het token is M-vrij**; de routed MoE is 40% en volgt de unie,
-      en `ssm_step` (1,010 ms) is een recurrentie en deelt per definitie niet.
-      C2d's vrije-M is echt maar bijt alleen op die 40%.
-      `diag_mtp_native_fp4_economics.json`.
-- [ ] **HOOGSTE PRIORITEIT — native FP4 op M=1, selectief. Wat er van C2b/C2c/C2d
-      overeind blijft, en het is echt.** Formaatbehoudend (geen quantisatie-
-      wijziging, alleen andere accumulatievolgorde) op de shapes die al NVFP4
-      zijn: **lm_head 2,52×, shared_down 1,68×**, shared_up 1,11×, en
-      **routed_up 0,96× → NIET doen**. Samen **−1,275 ms/token → 51,0 → 54,6
-      tok/s**. Poort: **kwaliteit, geen bitexactheid** (Tensor-Core-accumulatie
-      ≠ ERVF-boom). C1 bewees de repack al verliesloos, C2b het contract.
-- [ ] **C3 — native FP4 als drager voor een M=2-verificatiepad, SELECTIEF.**
-      C2c (2026-08-16) mat de eerlijke head-to-head tegen onze eigen
-      ERVF-kernel, koud (≥4× L2), op de vier **al-NVFP4** shapes:
-      lm_head **2,52×**, shared_down 1,68×, shared_up 1,11×, **routed_up 0,96×
-      (trager!)** — en `routed_up` is met 138 aanroepen/token de meest
-      aangeroepen shape van het model. Native FP4 is dus **shape-afhankelijk**,
-      niet uniform: 293,6 GB/s op 198 MB, 114-192 GB/s op de kleine matrices.
-      Per token: M=1 spaart 1,275 ms (**51,0 → 54,6 tok/s**), **M=2 spaart
-      3,674 ms (→ 62,8 tok/s)**.
-      **De hefboom is dus M=2, niet FP4 op zich** — M2/M1 is 0,953-1,095 op élke
-      shape. Volgorde: lm_head en shared_down eerst, routed_up voorlopig NIET.
-      Poort: **kwaliteit, geen bitexactheid** (Tensor-Core-accumulatievolgorde
-      ≠ onze ERVF-boom). C1 bewees de repack al verliesloos.
-- [ ] **C3-oud — native FP4 met de ECHTE Lightning-gewichten. Nu de hoogste
-      prioriteit: het is de eerste hefboom van de sessie die groot genoeg is
-      voor 100.** C2b (2026-08-16) draaide op de doelmachine met **alle 17
-      poorten groen**: native Blackwell FP4 executeert (M=1/2/16/128,
-      `max_abs_error = 0.0`, deterministisch), haalt **292-303 GB/s** tegen onze
-      beste koude ERVF-kernel op 230-261, **en M=2 kost hetzelfde als M=1**
-      (0,993 / 1,0001 / 1,0037). Dat laatste is precies wat K2 miste (1,012×).
-      C1 bewees al dat de repack naar Blackwell-layout verliesloos is.
-      Bouwstappen: echte NVFP4-gewichten inladen → activatiequantisatie →
-      **KWALITEITSpoort, geen bitexactheidspoort** (de Tensor-Core-
-      accumulatievolgorde is niet onze ERVF-boom) → pas dán een tok/s-getal.
-      Let op de niet-uniforme winst: routed/shared/lm_head zijn al NVFP4, maar
-      **Mamba (892 MB/token, de grootste post) is FP8** en attention BF16 —
-      die naar FP4 brengen kost kwaliteit die nog volledig ongemeten is.
-- [DONE 2026-08-16] **C2b ABI-fix + run** — eerste run faalde alle known-value
-      cases op `ValueError: For Blockwise scaling both scales should be
-      contiguous`; `scale_b` was een getransponeerde view (stride `(1, sfp)`).
-      B's transpositie hoort niet op B's schaal gespiegeld te worden. Gefixt,
-      contiguïteit wordt nu per case weggeschreven. Resultaat:
-      `results/native_nvfp4/C2B_TORCH212_CONTRACT.json`, verifier `passed: true`.
+- [DONE 2026-08-16] **Poort: CuPy + Torch-FP4 in één proces** — T1/T2/T3 alle
+      **PASS**, zero-copy pointer-overdracht beide richtingen, FP4-GEMM over
+      CuPy-eigen buffers geeft exact 256,0. `integration_feasible`: de runtime
+      hoeft NIET gemigreerd naar een nieuwe CUDA-toolchain.
+      `results/native_nvfp4/FP4_CUPY_INTEROP.json`.
+- [ ] **VOLGENDE POORT — kan een Torch `scaled_mm` binnen een CuPy CUDA-graph
+      capture?** Onze 50 tok/s hangt volledig aan graphcapture van het hele
+      token. Torch kan alloceren, synchroniseren of een eigen stream gebruiken;
+      elk daarvan breekt een capture. **Niet getest, en het beslist of native
+      FP4 überhaupt in de recordweg past.** Vóór enige tok/s-claim.
+- [ ] **Daarna: native FP4 selectief op lm_head (2,52×) en shared_down (1,68×)**
+      — samen **−1,275 ms/token → 54,6 tok/s**, formaatbehoudend (alleen andere
+      accumulatievolgorde, geen quantisatiewijziging). `routed_up` is 0,96× en
+      hoort er NIET bij. Poort: kwaliteit, geen bitexactheid.
 
 - [ ] **STRATEGIEREGEL uit V18/V19: zoek combinaties op DEZELFDE bottleneck.**
       V18 (H-SCALE + B3) was **super-additief** (×2 hun som) omdat beide het

@@ -1,0 +1,100 @@
+{
+  "kind": "diag_ervf_batched_tiled",
+  "created_utc": "2026-08-16T13:19:48.543952+00:00",
+  "note": "K-tiled batched ERVF: X staged per tile in shared memory instead of read from global. QT=256 uchar4 groups equals the tid stride, so each virtual tid walks the identical q sequence in the identical order as the untiled reference -- the bit-exactness argument. Compared against prod_ervf16, i.e. what the runtime actually executes for these shapes.",
+  "qt_uchar4_groups": 256,
+  "rounds": 100,
+  "matrices_in_rotation": 8,
+  "prior_global_x_result": {
+    "N4_mb_weighted": 1.64,
+    "source": "diag_ervf_batched_fp8.json"
+  },
+  "shapes": {
+    "mamba_in_proj": {
+      "rows": 10304,
+      "cols": 2688,
+      "mb_per_token": 637.4,
+      "n1_bitexact_vs_production_ervf": true,
+      "finite": true,
+      "production_ervf_ms": 0.10366175651550293,
+      "production_ervf_gb_s": 267.1877549736272,
+      "by_N": {
+        "1": {
+          "ms_per_batch_step": 0.12384960174560547,
+          "ms_per_token": 0.12384960174560547,
+          "speedup_vs_production_ervf": 0.8369970920732585,
+          "smem_bytes": 5120,
+          "gb_s_per_step": 223.63537395050824
+        },
+        "2": {
+          "ms_per_batch_step": 0.17929855346679688,
+          "ms_per_token": 0.08964927673339844,
+          "speedup_vs_production_ervf": 1.1563033221536767,
+          "smem_bytes": 9216,
+          "gb_s_per_step": 154.47504435739387
+        },
+        "4": {
+          "ms_per_batch_step": 0.3626268768310547,
+          "ms_per_token": 0.09065671920776368,
+          "speedup_vs_production_ervf": 1.1434536504452009,
+          "smem_bytes": 17408,
+          "gb_s_per_step": 76.37920344471297
+        },
+        "8": {
+          "ms_per_batch_step": 0.8011164855957031,
+          "ms_per_token": 0.10013956069946289,
+          "speedup_vs_production_ervf": 1.0351728706560914,
+          "smem_bytes": 33792,
+          "gb_s_per_step": 34.57318941502576
+        }
+      }
+    },
+    "mamba_out_proj": {
+      "rows": 2688,
+      "cols": 4096,
+      "mb_per_token": 253.2,
+      "n1_bitexact_vs_production_ervf": true,
+      "finite": true,
+      "production_ervf_ms": 0.04423456192016602,
+      "production_ervf_gb_s": 248.9014816032494,
+      "by_N": {
+        "1": {
+          "ms_per_batch_step": 0.06126976013183594,
+          "ms_per_token": 0.06126976013183594,
+          "speedup_vs_production_ervf": 0.7219640133237868,
+          "smem_bytes": 5120,
+          "gb_s_per_step": 179.69791258051865
+        },
+        "2": {
+          "ms_per_batch_step": 0.06803584098815918,
+          "ms_per_token": 0.03401792049407959,
+          "speedup_vs_production_ervf": 1.3003311571577254,
+          "smem_bytes": 9216,
+          "gb_s_per_step": 161.82717579571283
+        },
+        "4": {
+          "ms_per_batch_step": 0.15862879753112794,
+          "ms_per_token": 0.039657199382781984,
+          "speedup_vs_production_ervf": 1.1154232424030275,
+          "smem_bytes": 17408,
+          "gb_s_per_step": 69.40762441220349
+        },
+        "8": {
+          "ms_per_batch_step": 0.339251823425293,
+          "ms_per_token": 0.04240647792816162,
+          "speedup_vs_production_ervf": 1.0431086023013099,
+          "smem_bytes": 33792,
+          "gb_s_per_step": 32.45390957323634
+        }
+      }
+    }
+  },
+  "all_n1_bitexact_and_finite": true,
+  "mb_weighted_speedup_vs_production_ervf": {
+    "1": 0.8042928752089354,
+    "2": 1.197250827007736,
+    "4": 1.135484529272645,
+    "8": 1.0374290207263468
+  },
+  "status": "measured"
+}

@@ -17,10 +17,25 @@ resterende technische stappen): zie `agents/PATH_TO_100_TOKS.md`.**
 - **De reden is één samenhangend feit:** ERVF haalt bij N=1 al **247-266 GB/s =
   77% van het apparaatplafond**. Batching amortiseert gewichtslezingen en werkt
   alleen als je bandbreedte verspilde — V4-V6 zijn daar al mee gestopt.
-- **De enige openstaande vraag die dit kan verleggen:** een **K-getegelde**
-  batched ERVF-kernel die X in shared houdt. De gemeten ×1,64 is een
-  **ondergrens**, want mijn kandidaat leest X uit global (48 KB-limiet). Dat ene
-  getal beslist of batch richting 100 kan. Zie `DECISION_SINGLE_STREAM_VS_BATCH.md`.
+- **K-tiling is geprobeerd en WEERLEGD** (×1,14 bij N=4 tegen ×1,64 met X uit
+  global; L1 leverde het 16× hergebruik al). Het batchplafond staat daarmee vast.
+
+### 🎯 De grootste post die nog open staat — en die is nieuw
+
+| | GB/s |
+|---|---:|
+| apparaat, puur streamen | 345,9 |
+| ERVF **geïsoleerd**, koud, N=1 | **248-267** (72-77%) |
+| Mamba **in de lus** (892 MB / 5,168 ms) | **172,6** (50%) |
+
+Dezelfde kernel, dezelfde shape — **in de lus maar 64% van zijn geïsoleerde
+snelheid**. Als elke GEMV in de lus zijn geïsoleerde tempo haalde, kostte een
+token 7,67 ms VRAM + 2,47 ms PCIe = **10,1 ms ≈ 99 tok/s**. We meten 21,24 ms.
+**Bijna de helft van het token gaat verloren tussen "wat de kernel kan" en "wat
+de kernel in de lus doet".** Hypotheses (ongemeten): L2-verdringing tussen lagen,
+bandbreedteconcurrentie met `copy_stream`, thermische throttling. Dit is
+orthogonaal aan de single-stream/batch-keuze — sluit je dit gat, dan profiteren
+beide routes. **Dit is de eerstvolgende meting.**
 
 ## 🔎 De volledige rekening (2026-08-16, alles gemeten)
 

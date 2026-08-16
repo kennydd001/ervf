@@ -11,6 +11,70 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — K-tiling WEERLEGD (×1,14 tegen ×1,64), het batchplafond staat daarmee vast — **maar de vergelijking legt een nieuw gat bloot: in de lus haalt dezelfde kernel maar 64% van zijn geïsoleerde snelheid**
+
+**Vraag.** De ×1,64 batchwinst op ERVF-paden was een ondergrens omdat mijn
+kernel X uit global las (N kopieën in shared > 48 KB). Een K-getegelde variant
+die X per tegel in shared zet was de laatste manier om die bovengrens te
+verleggen — en dat ene getal besliste of batch richting 100 kon.
+
+**Opzet.** Tegels van QT = 256 uchar4-groepen (1024 elementen). Omdat QT gelijk
+is aan de tid-stride krijgt elke virtuele tid **precies één q per tegel** en
+loopt hij q = tid, 256+tid, 512+tid … — dezelfde reeks in dezelfde volgorde als
+de ongetegelde lus. Dát is het bitexactheidsargument, en het is als poort
+gecontroleerd. Shared: N·1024·4 B + 1 KB LUT = 17 KB bij N=4, 33 KB bij N=8.
+De motivatie was geometrisch, niet hoopvol: in ERVF hangt de elementindex
+`tid = lane + 16·vi` **niet** van `sub` af, dus alle 16 rijen in een blok lopen
+dezelfde k-set — elk X-element wordt door 16 threads gebruikt.
+
+**Uitkomst — weerlegd, en duidelijk.** N=1 bitexact tegen productie-ERVF, alle
+outputs eindig.
+
+| | N=1 | N=2 | N=4 | N=8 |
+|---|---:|---:|---:|---:|
+| getegeld (X in shared) | 0,804 | 1,197 | **1,135** | 1,037 |
+| eerder: X uit global | 0,971 | 1,377 | **1,640** | — |
+
+**Getegeld is slechter, niet beter**, en verslechtert richting N=8. Verklaring
+die uit de opzet volgt: de 16× hergebruik van X werd al door L1 geleverd, dus
+stageren verwijdert geen verkeer maar voegt wel twee `__syncthreads()` per tegel
+en een kopieerlus toe; bij N=8 kost 33 KB shared per blok bovendien occupancy.
+
+**Daarmee staat het batchplafond vast: ×1,64 bij N=4 op de ERVF-paden**, en de
+projectie van **~71 tok/s bij N=4 / ~83 bij N=8** blijft staan. De laatste
+openstaande manier om die bovengrens te verleggen is dichtgemeten.
+
+### Maar de cijfers naast elkaar leggen levert iets nieuws op
+
+| | GB/s |
+|---|---:|
+| apparaat, puur streamen | 345,9 |
+| ERVF **geïsoleerd**, koud, N=1 | **248-267** (72-77%) |
+| Mamba **in de lus** (in-graph marginaal, 892 MB / 5,168 ms) | **172,6** (50%) |
+
+**Dezelfde kernel, dezelfde shape, dezelfde dtype — en in de lus haalt hij maar
+64% van zijn geïsoleerde snelheid.** Dat is een gat van ~1,55× dat noch aan de
+kernel, noch aan batching ligt, en het is nooit eerder apart benoemd.
+
+Reken het door: als élke GEMV in de lus zijn geïsoleerde tempo haalde, zou het
+token 2048 MB / 267 GB/s = 7,67 ms VRAM + 2,47 ms PCIe = **10,1 ms ≈ 99 tok/s**
+kosten. We meten 21,24 ms. **Bijna de helft van het token gaat verloren tussen
+"wat de kernel kan" en "wat de kernel in de lus doet".**
+
+Kandidaat-oorzaken, geen van alle gemeten (dus expliciet hypotheses):
+L2-verdringing tussen lagen (de werkset per token is 2 GB, dus niets blijft
+staan tussen twee aanroepen van dezelfde kernel), bandbreedteconcurrentie met de
+`copy_stream` die tegelijk expert-misses binnenhaalt, en thermische throttling
+onder aanhoudende belasting (795 MHz gezien tegen 1777 in één run).
+
+**Dat is de eerstvolgende meting, en het is een grotere post dan alles wat
+vandaag geprobeerd is.** Hij is bovendien orthogonaal aan de single-stream/batch
+keuze: sluit je dit gat, dan profiteren beide routes.
+
+**Artefacten.** `pro_research/diag_ervf_batched_tiled.py` + `.json`.
+
+---
+
 ## 2026-08-16 — **De reikwijdte van de correctie: ESSENTIEEL ALLE grote GEMV's zijn al ERVF.** Daarmee geldt het ×1,64-plafond voor de hele dense stroom — en batch landt naar verwachting op 70-85 tok/s, niet 100+
 
 **Wat ik in mijn vorige bericht nog fout had.** Ik schreef dat `shared_up` en

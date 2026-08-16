@@ -175,6 +175,27 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
+- [ ] **HOOGSTE PRIORITEIT — het gat tussen geïsoleerde en in-lus kernelsnelheid.**
+      Dezelfde ERVF-kernel, dezelfde shape: **geïsoleerd 248-267 GB/s, in de lus
+      172,6 GB/s = 64%**. Als elke GEMV in de lus zijn geïsoleerde tempo haalde
+      kostte een token 7,67 ms VRAM + 2,47 ms PCIe = **10,1 ms ≈ 99 tok/s**; we
+      meten 21,24 ms. **Bijna de helft van het token zit in dit gat** — groter dan
+      alles wat vandaag geprobeerd is, en **orthogonaal aan de
+      single-stream/batch-keuze**, dus beide routes profiteren.
+      Hypotheses om apart te toetsen: (a) L2-verdringing tussen lagen (werkset
+      2 GB/token, niets blijft staan tussen twee aanroepen van dezelfde kernel);
+      (b) bandbreedteconcurrentie met `copy_stream` die tegelijk expert-misses
+      binnenhaalt — te toetsen door de MoE-fetch tijdelijk uit te zetten en de
+      Mamba-marginaal opnieuw te meten (timing-only, tokens worden fout, dus
+      duidelijk labelen); (c) thermische throttling (795 vs 1777 MHz gezien
+      binnen één run) — te toetsen door klokken per arm te registreren.
+- [WEERLEGD 2026-08-16] **K-getegelde batched ERVF** — ×1,135 bij N=4 tegen
+      ×1,640 met X uit global, en verslechtert richting N=8 (×1,037). Het 16×
+      hergebruik van X binnen een ERVF-blok werd al door L1 geleverd, dus
+      stageren verwijdert geen verkeer maar voegt twee `__syncthreads()` per
+      tegel plus een kopieerlus toe; bij N=8 kost 33 KB shared occupancy.
+      N=1 bitexact. **Het batchplafond ligt daarmee vast op ×1,64 bij N=4.**
+
 - [ ] **VÓÓR B1: getegelde batched ERVF-kernel meten.** De eerlijke batchwinst op
       de ERVF-shapes (Mamba + q/o, 1156 MB/token) is **×1,64 bij N=4**, niet
       ×3,5 — de eerdere cijfers gebruikten de one-block-per-row-baseline terwijl

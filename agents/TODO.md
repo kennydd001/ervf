@@ -175,8 +175,29 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
-- [ ] **HOOGSTE PRIORITEIT — de ~12 ms implementatie-inefficiëntie, niet meer
-      overlap.** De rekening staat er nu helemaal, met alleen gemeten getallen:
+- [ ] **HOOGSTE PRIORITEIT — `gemv_down_masked_partial_ind` herschrijven.
+      Grootste enkelvoudige inefficiëntie in het hele model, en de best
+      afgebakende.** Gemeten: **1,655 ms/token tegen een vloer van 0,257 ms =
+      15% efficiëntie, 1,40 ms hoofdruimte** (`diag_moe_subkernel_marginals.json`,
+      alle poorten groen). Oorzaak in het toegangspatroon: elke thread doet één
+      uitvoerrij en leest `pcodes[c*rowhalf + hb]`, dus opeenvolgende kolommen
+      liggen **1344 B uit elkaar** terwijl 128 threads samen maar 64
+      aaneengesloten bytes per kolom ophalen — halve-sector-reads op een
+      gescatterde stride. Het is een **pure VRAM-kernel** (leest de al
+      gegatherde mirror), geen PCIe, geen sparsity-afhankelijke grid, dus dit is
+      een gewone kerneloefening met een bitexacte poort. Ter vergelijking:
+      `shared_expert` haalt 223 GB/s = 90% van het kernelplafond, dus de
+      GEMV-techniek zelf deugt — dit pad niet.
+- [DONE 2026-08-16] **MoE per sub-kernel toegerekend** (marginale methode, één
+      niveau dieper, alle armen bitexact, drift 0,179 ms):
+      gather **3,479** · up_proj **2,162** · down_masked **1,655** ·
+      shared_expert **1,300** · accumulate 0,315 · panel_scan 0,264 ·
+      reduce 0,218 = som **9,393 ms**; de resterende ~1,6 ms van MoE's 11,004
+      zit in router/`route_topk`/`cache_assign`/`cache_fetch` (bewust niet
+      geprobed). Prioriteit binnen MoE ligt daarmee vast op gemeten getallen:
+      **down_masked (1,40) > gather boven de PCIe-vloer (1,01) >
+      router/assign/fetch (~1,6, nog uit te splitsen) > up_proj (0,61)**.
+- [ ] **De ~12 ms implementatie-inefficiëntie, totaalbeeld.** De rekening staat er nu helemaal, met alleen gemeten getallen:
       we zitten op **22,14 ms** tegen een vloer van **~10,3 ms** (8,22 VRAM +
       2,47 PCIe, minus de 0,42 die B3 al verstopt). Die ~12 ms zit hier:
 

@@ -11,6 +11,67 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — MoE's 11 ms ontleed per sub-kernel (alle poorten groen): **gather 3,48 · up_proj 2,16 · down_masked 1,66 · shared 1,30** — en `down_masked` draait op 15% van zijn vloer
+
+**Vraag.** MoE is 11,004 ms van een 23,141 ms-token tegen een vloer van 5,19 ms:
+5,81 ms hoofdruimte, het grootste blok dat er nog is. Enkelvoudige
+kernelbandbreedte verklaart het níet (de dense GEMV haalt koud 230-261 GB/s).
+Welke van de zes stappen soupeert het op?
+
+**Opzet.** Dezelfde marginale methode, één niveau dieper: de échte lus met
+exact één sub-kernel één keer extra aangeroepen. `accumulate` schrijft naar een
+kladbuffer omdat hij **accumuleert** (`dst[i] = fmaf(src[i], w, dst[i])`) en dus
+niet idempotent is; `cache_assign` is uitgesloten omdat hij de LRU-tick
+opschuift — dezelfde soort val die de naïeve `_mamba`-probe liet divergeren.
+Elke arm is alsnog op bitexacte token-ids gepoort in plaats van op die
+redenering vertrouwd.
+
+**Uitkomst (full, alle poorten groen: G1 alle armen bitexact, G2 drift
+0,1792 ms; basis-midden 23,1157 ms).**
+
+| sub-kernel | ms/token | % van token | behaald | vloer | **hoofdruimte** |
+|---|---:|---:|---:|---:|---:|
+| **gather** | **3,479** | 15,1% | 18,4 GB/s (PCIe) | 2,47 | **1,01** |
+| **up_proj** | **2,162** | 9,4% | 179,1 GB/s | 1,56 | **0,61** |
+| **down_masked** | **1,655** | 7,2% | 38,7 GB/s | 0,26 | **1,40** |
+| shared_expert | 1,300 | 5,6% | 223,0 GB/s | 1,17 | 0,14 |
+| accumulate | 0,315 | 1,4% | — | — | ~0,3 |
+| panel_scan | 0,264 | 1,1% | — | — | ~0,26 |
+| reduce | 0,218 | 0,9% | — | — | ~0,22 |
+| **som** | **9,393** | 40,6% | | | |
+
+De 11,004 ms MoE-totaal min 9,393 ms laat **~1,6 ms** over voor
+router-GEMV + `route_topk` + `cache_assign` + `cache_fetch`, die bewust niet
+geprobed zijn.
+
+**Drie dingen die dit vaststelt.**
+1. **`down_masked` is de slechtste van allemaal: 1,655 ms tegen een vloer van
+   0,257 ms — 15% efficiëntie, 1,40 ms hoofdruimte.** Dat is de grootste
+   enkelvoudige inefficiëntie in het hele model. Oorzaak zit in het
+   toegangspatroon: elke thread doet één uitvoerrij en leest
+   `pcodes[c*rowhalf + hb]`, dus opeenvolgende kolommen liggen **1344 bytes uit
+   elkaar** terwijl 128 threads samen maar 64 aaneengesloten bytes per kolom
+   ophalen. Halve-sector-reads op een gescatterde stride.
+2. **`shared_expert` draait op 223 GB/s = 90% van het eerlijke kernelplafond
+   (249).** Daar is niets meer te halen — en dat is meteen het bewijs dat de
+   GEMV-kernel op zich prima is; het probleem zit in de MoE-specifieke paden.
+3. **De gather kost in de lus 3,479 ms**, niet de 2,47 ms die de pure
+   byte/bandbreedte-rekening voorspelde: 18,4 GB/s tegen het gemeten
+   PCIe-plafond van 25,9. Dat sluit netjes aan op de geïsoleerde meting
+   (3,855 ms voor 63,96 MB) — de twee metingen bevestigen elkaar nu, in
+   tegenstelling tot eerder vandaag.
+
+**Wat dit opent.** De prioriteitsvolgorde binnen MoE ligt nu vast op gemeten
+getallen in plaats van op vermoedens: **down_masked (1,40) > gather-boven-de-
+PCIe-vloer (1,01) > router/assign/fetch (~1,6, nog niet uitgesplitst) >
+up_proj (0,61)**. `down_masked` is bovendien puur een VRAM-kernel — geen PCIe,
+geen sparsity-afhankelijke grid — dus daar is een herschreven toegangspatroon
+een gewone, afgebakende kerneloefening met een bitexacte poort.
+
+**Artefacten.** `pro_research/diag_moe_subkernel_marginals.py` + `.json`.
+
+---
+
 ## 2026-08-16 — PRO V14 (B3, PCIe-gather overlappen): eager **+3,65 ms** (weerlegd door de scheduler, niet door het idee), in de graph **−0,416 ms** en bitexact — maar dat is pas **16,8%** van de 2,47 ms, en de reden daarvoor is structureel
 
 **Vraag.** De plafondrekening zegt: serieel 10,69 ms = 93,6 tok/s → 100

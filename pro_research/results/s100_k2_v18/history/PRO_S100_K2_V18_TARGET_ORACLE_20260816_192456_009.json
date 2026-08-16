@@ -1,0 +1,318 @@
+{
+  "kind": "s100_k2_v18_target_oracle",
+  "status": "k2_v18_below_s100_gate",
+  "mode": "smoke",
+  "started_utc": "2026-08-16T17:24:01.850603+00:00",
+  "preregistration": "pro_research\\S100_K2_V18_TARGET_ORACLE_PREREGISTRATION.md",
+  "claim_boundary": "V18 layer-major K=2 target-verification oracle only; no MTP acceptance or user-visible S100 claim",
+  "config": {
+    "blocks_per_prompt": 4,
+    "positions_per_block": 2,
+    "continuation_steps": 32,
+    "capacity": 72,
+    "prompt_count": 3
+  },
+  "environment_start": {
+    "created_utc": "2026-08-16T17:24:05.551171+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "d29e5cc565c5e48715bc194db2c70a16bd4b3754",
+    "git_status": [
+      "?? pro_research/results/s100_k2_v18/",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json",
+      "?? scripts/lightningstream_nemotron/bench_current_toks.py",
+      "?? scripts/lightningstream_nemotron/chat_lightning.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 48, 9.99 W, 2047 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "pro_research\\s100_k2_v18_target_oracle.py": "321cfe199e5c4090b025ab45687acc7f4a322003c8a2ce534ca74307609aa2c3",
+      "pro_research\\S100_K2_V18_TARGET_ORACLE_PREREGISTRATION.md": "f5455cb56963c3ee72ba9e20b095a5a0162a3ffcdf40c42a97e32a174c14fcd1",
+      "pro_research\\combined_v18.py": "5c94bdfa02ba0745d8a812f15c253b9ad4336370cd6a9d81f0bf248e9bedfb15",
+      "pro_research\\moe_dev_combined.py": "891e0e11858e55d6cea8fd50fe626e9acf23edc64561e8fef3c9cf89b554c9fe",
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "a047fb8f536fa4bf30f7cdc83fdcccbaa633706def8aa49cd86d8ca8ab2fda53"
+    }
+  },
+  "v18_stack": {
+    "planned_plane_bytes": 516354048,
+    "free_before_planes": 621805568
+  },
+  "arms": {
+    "SEQ_A": {
+      "count": 12,
+      "mean": 44.933083333333336,
+      "p50": 44.870850000000004,
+      "p95": 49.46675,
+      "p99": 50.57159,
+      "max": 50.8478
+    },
+    "K2": {
+      "count": 12,
+      "mean": 44.38995,
+      "p50": 44.2178,
+      "p95": 48.942375,
+      "p99": 50.632635,
+      "max": 51.0552
+    },
+    "SEQ_B": {
+      "count": 12,
+      "mean": 45.25499166666666,
+      "p50": 45.2759,
+      "p95": 49.865534999999994,
+      "p99": 50.889987,
+      "max": 51.1461
+    }
+  },
+  "summary": {
+    "seq_mid_p50_ms_per_2tok": 45.073375,
+    "k2_p50_ms_per_2tok": 44.2178,
+    "k2_effective_verified_tok_s": 45.2306537186382,
+    "k2_speedup_vs_seq_mid": 1.019349108277662,
+    "seq_drift_ms": 0.4050499999999957
+  },
+  "per_prompt": [
+    {
+      "prompt": "The capital of France is",
+      "kind": "anchor",
+      "prompt_tokens": 5,
+      "candidate_token_parity": true,
+      "reference_a_b_parity": true,
+      "deterministic": true,
+      "continuation_32": true,
+      "finite": true,
+      "state_compare": {
+        "pos_equal": true,
+        "groups": {
+          "conv": 0,
+          "ssm": 0,
+          "kc": 0,
+          "vc": 0,
+          "logits": 0
+        },
+        "total_byte_mismatches": 0,
+        "bitexact": true
+      },
+      "control": {
+        "wrong_second_input": 1047,
+        "outputs": [
+          1046,
+          42572
+        ],
+        "expected": [
+          1046,
+          1256
+        ],
+        "token_diverged": true,
+        "state_checksum": 1104733810339957,
+        "state_diverged": null
+      },
+      "seq_a_ids": [
+        6993,
+        1046,
+        1256,
+        1010,
+        1784,
+        8961,
+        1307,
+        10787,
+        1395
+      ],
+      "k2_ids": [
+        6993,
+        1046,
+        1256,
+        1010,
+        1784,
+        8961,
+        1307,
+        10787,
+        1395
+      ],
+      "seq_b_ids": [
+        6993,
+        1046,
+        1256,
+        1010,
+        1784,
+        8961,
+        1307,
+        10787,
+        1395
+      ]
+    },
+    {
+      "prompt": "The history of computing began when",
+      "kind": "anchor",
+      "prompt_tokens": 6,
+      "candidate_token_parity": true,
+      "reference_a_b_parity": true,
+      "deterministic": true,
+      "continuation_32": true,
+      "finite": true,
+      "state_compare": {
+        "pos_equal": true,
+        "groups": {
+          "conv": 0,
+          "ssm": 0,
+          "kc": 0,
+          "vc": 0,
+          "logits": 0
+        },
+        "total_byte_mismatches": 0,
+        "bitexact": true
+      },
+      "control": {
+        "wrong_second_input": 6991,
+        "outputs": [
+          6990,
+          1784
+        ],
+        "expected": [
+          6990,
+          36359
+        ],
+        "token_diverged": true,
+        "state_checksum": 1114333987262741,
+        "state_diverged": null
+      },
+      "seq_a_ids": [
+        16059,
+        6990,
+        36359,
+        1408,
+        2034,
+        17296,
+        1046,
+        1531,
+        2158
+      ],
+      "k2_ids": [
+        16059,
+        6990,
+        36359,
+        1408,
+        2034,
+        17296,
+        1046,
+        1531,
+        2158
+      ],
+      "seq_b_ids": [
+        16059,
+        6990,
+        36359,
+        1408,
+        2034,
+        17296,
+        1046,
+        1531,
+        2158
+      ]
+    },
+    {
+      "prompt": "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n",
+      "kind": "code",
+      "prompt_tokens": 24,
+      "candidate_token_parity": true,
+      "reference_a_b_parity": true,
+      "deterministic": true,
+      "continuation_32": true,
+      "finite": true,
+      "state_compare": {
+        "pos_equal": true,
+        "groups": {
+          "conv": 0,
+          "ssm": 0,
+          "kc": 0,
+          "vc": 0,
+          "logits": 0
+        },
+        "total_byte_mismatches": 0,
+        "bitexact": true
+      },
+      "control": {
+        "wrong_second_input": 1976,
+        "outputs": [
+          1975,
+          4990
+        ],
+        "expected": [
+          1975,
+          29896
+        ],
+        "token_diverged": true,
+        "state_checksum": 1106075522920510,
+        "state_diverged": null
+      },
+      "seq_a_ids": [
+        13,
+        1975,
+        29896,
+        1010,
+        3149,
+        36598,
+        6561,
+        75178,
+        21777
+      ],
+      "k2_ids": [
+        13,
+        1975,
+        29896,
+        1010,
+        3149,
+        36598,
+        6561,
+        75178,
+        21777
+      ],
+      "seq_b_ids": [
+        13,
+        1975,
+        29896,
+        1010,
+        3149,
+        36598,
+        6561,
+        75178,
+        21777
+      ]
+    }
+  ],
+  "gates": {
+    "G1_reference_A_B_token_parity": true,
+    "G2_candidate_token_parity": true,
+    "G3_deterministic": true,
+    "G4_state_bitexact": true,
+    "G5_continuation_32": true,
+    "G6_control_diverges": true,
+    "G7_no_nan_inf": true,
+    "D1_seq_A_B_drift_le_1ms": true,
+    "P1_K2_block_lt_19_285ms": false,
+    "P2_K2_block_lt_17_500ms": false,
+    "P3_effective_verified_ge_110tps": false,
+    "P4_speedup_vs_seq_mid_ge_1_50x": false
+  },
+  "environment_end": {
+    "created_utc": "2026-08-16T17:24:49.686048+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "d29e5cc565c5e48715bc194db2c70a16bd4b3754",
+    "git_status": [
+      "?? pro_research/results/s100_k2_v18/",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json",
+      "?? scripts/lightningstream_nemotron/bench_current_toks.py",
+      "?? scripts/lightningstream_nemotron/chat_lightning.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6944 MiB, 72, 57.79 W, 2422 MHz, 9001 MHz, P4",
+    "source_hashes": {}
+  },
+  "completed_utc": "2026-08-16T17:24:49.803128+00:00"
+}

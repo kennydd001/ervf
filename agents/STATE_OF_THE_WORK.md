@@ -239,9 +239,25 @@ een echte regressie** (19,07 tok/s tegen solo 27,01). Eerst voorgestelde
 verklaring (`cache_assign`'s lineaire eviction-scan wordt duurder bij
 grotere cap) **direct getoetst met een geïsoleerde micro-benchmark en
 WEERLEGD** — de kost per aanroep daalt licht met grotere cap, stijgt niet.
-**De regressie zelf staat vast; de oorzaak is nog onbekend.** Zie
+**De regressie zelf staat vast; de oorzaak is nog onbekend.**
+
+**N=8 (zelfde dag): geen vlakke trend meer — een INSTORTING.** 7,521 tok/s
+aggregate tegen solo 29,743 — **0,253×, 4× TRAGER dan één sequentie
+alleen** (bitexact bevestigd). Samen met de twee andere cache-gerelateerde
+regressies dezelfde dag (grotere capaciteit bij N=4: 0,706×; persistente
+warme cache + unie-deling: 0,17×, 6,5× trager) tekent zich een coherent
+beeld af: **een vaste of vergrote gedeelde cache wordt bij een bepaald
+punt een knelpunt in plaats van een voordeel, en "gewoon N verhogen" is
+géén pad naar hogere aggregate doorvoer** met het naive mechanisme. De
+achterliggende oorzaak (waarom cache-gerelateerde wijzigingen zo groot en
+consistent negatief uitpakken) is nog niet vastgesteld — sectieprofilering
+van de warme-cache-regressie liet zien dat het effect **globaal** is (ook
+zichtbaar in ongerelateerde Mamba-lagen), niet gelokaliseerd in de
+cache-code zelf, en heeft de grens bereikt van wat sync-gebaseerde
+profilering (zonder Nsight Compute/Systems) kan verklaren. Zie
 `agents/RESEARCH_NOTEBOOK.md` 2026-08-16, blokken "N=4 naive baseline",
-"Grotere cache bij groter N" en de correctie direct erna.
+"Grotere cache bij groter N", "N=8 naive baseline" en alle vervolgen
+direct erna.
 
 **Wat vaststaat over de doelen:** 50 en 100 tok/s zijn fysiek *niet*
 uitgesloten, maar 50+ vraagt méér dan graph-residentie alleen (plafond ~41,5

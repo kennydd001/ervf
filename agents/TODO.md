@@ -443,7 +443,15 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       integratie vraagt **echt CUDA-engineeringwerk** (device-only
       unie-routing-kernel, gebatchte launches over de unie, geen
       Python-host-syncs in de hete lus), niet Python-orkestratie van al
-      bewezen stukken. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
+      bewezen stukken. **Vervolg, zelfde dag**: één overduidelijke
+      inefficiëntie gevonden (numpy-data onnodig naar cupy geconverteerd en
+      dan element-voor-element teruggelezen BINNEN een lus over `npanel`
+      panelen — honderdduizenden overbodige host-syncs totaal). Gefixt
+      (puur numpy houden voor de hostzijde-berekening). **Nog steeds
+      bitexact, timing 2,655 → 9,469 tok/s aggregate (3,57× sneller)** —
+      nog steeds 3,3× trager dan de naive baseline (31,411), dus nog geen
+      nettowinst, maar bevestigt dat de overhead grotendeels vermijdbaar is,
+      niet fundamenteel. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
       "Expliciete MoE-deling geïntegreerd in de echte staplus".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,

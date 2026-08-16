@@ -88,8 +88,30 @@ over de unie in één launch) die deze overhead zou wegnemen.
 geen claim van winst — expliciet en eerlijk gerapporteerd als een 12×
 regressie, met oorzaak.
 
-**Artefacten.** `pro_research/proto_multi_seq_moe_shared.py`,
-`pro_research/proto_multi_seq_moe_shared.json`.
+**Direct vervolg, zelfde dag — één overduidelijke inefficiëntie gevonden en
+gefixt: 3,57× sneller, nog steeds bitexact.** Bij het herlezen van de eigen
+code viel een echte fout op: de unie-masker-berekening zette een numpy-array
+(`acc_mask`, al op host, kant-en-klaar) om naar een cupy-array en las hem
+dan **element-voor-element terug via `cp.asnumpy()` BINNEN een lus over
+`npanel` panelen** — een volledige host-sync per paneel-iteratie, in plaats
+van gewoon de al-aanwezige numpy-data te gebruiken. Bij `npanel` in de orde
+van honderden en tientallen unie-experts per laag × 23 lagen × 12 stappen
+liep dit op tot **honderdduizenden overbodige host-syncs** in totaal.
+Gefixt: puur numpy houden voor de hostzijde-berekening (`np.flatnonzero`
+i.p.v. een Python-lus met `cp.asnumpy()` per paneel), pas naar cupy
+converteren voor wat écht op device moet (de uiteindelijke `plist`/`nz`/
+`pcount`-buffers voor de kernel-aanroep). **Correctheidspoort opnieuw
+gedraaid: nog steeds bitexact, 12/12 tokens × 2 sequenties.** Timing: **2,655
+→ 9,469 tok/s aggregate, 3,57× sneller** — nog steeds **3,3× trager dan de
+naive baseline (31,411)**, dus nog geen netto winst, maar bevestigt dat de
+overhead grotendeels uit **vermijdbare** inefficiënties bestaat, niet uit
+iets fundamenteel onoplosbaars binnen Python-orkestratie. Toont ook hoeveel
+ruimte er zit tussen "naïef Python-prototype" en "volledig CUDA-
+geëngineerd" — waardevol voor wie dit oppakt, ook al is de conclusie
+hierboven (echte kernel-integratie nodig voor nettowinst) onveranderd.
+
+**Artefacten.** `pro_research/proto_multi_seq_moe_shared.py` (bijgewerkt),
+`pro_research/proto_multi_seq_moe_shared.json` (laatste run: 9,469 tok/s).
 
 ---
 

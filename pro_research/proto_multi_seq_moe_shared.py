@@ -167,34 +167,41 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k):
             act_by_pair[(s, e)] = act
             panel_by_pair[(s, e)] = {"masks": masks, "plist": plist, "pcount": pcount, "nz": nz, "nzc": nzc}
 
-    # union mask per expert (OR across sequences that selected it).
-    union_mask_by_expert = {}
+    # union mask per expert (OR across sequences that selected it). Stay in
+    # numpy end-to-end here -- the original version round-tripped this numpy
+    # data through a cupy array and then read it back via cp.asnumpy() INSIDE
+    # a per-panel loop (up to npanel separate host syncs per union expert,
+    # each re-fetching the WHOLE array) purely to re-derive what was already
+    # sitting in acc_mask as plain numpy. That redundant GPU round-trip was
+    # identified as a likely large contributor to the 12x slowdown found in
+    # the first version of this script and is removed here; see
+    # agents/RESEARCH_NOTEBOOK.md 2026-08-16 for the before/after comparison.
     union_plist_by_expert = {}
+    union_nz_by_expert = {}
     for e in union_experts:
         acc_mask = np.zeros(npanel, dtype=np.uint32)
         for s in range(N_):
             if e in seq_ids[s]:
                 acc_mask |= cp.asnumpy(panel_by_pair[(s, e)]["masks"])
-        plist_np = np.array([p for p in range(npanel) if acc_mask[p]], dtype=np.int32)
-        union_mask_by_expert[e] = cp.asarray(acc_mask)
-        union_plist_by_expert[e] = cp.asarray(plist_np)
+        plist_np = np.flatnonzero(acc_mask).astype(np.int32)
+        nz_list = []
+        for p in plist_np.tolist():
+            m = int(acc_mask[p])
+            for c in range(16):
+                if m & (1 << c):
+                    nz_list.append((p << 4) + c)
+        union_plist_by_expert[e] = plist_np
+        union_nz_by_expert[e] = np.array(nz_list, dtype=np.int32)
 
     blocks = ((moe_inter + npanel) * 32 + 255) // 256
     contrib_by_pair = {}
     for e in union_experts:
-        union_mask = union_mask_by_expert[e]
-        union_plist = union_plist_by_expert[e]
-        pcount_u = cp.asarray([int((union_mask.get() != 0).sum())], dtype=cp.int32)
-        nz_list = []
-        for p in range(npanel):
-            m = int(cp.asnumpy(union_mask)[p])
-            for c in range(16):
-                if m & (1 << c):
-                    nz_list.append((p << 4) + c)
-        nz_u = cp.asarray(np.array(nz_list, dtype=np.int32))
-        nzc_u = cp.asarray([len(nz_list)], dtype=cp.int32)
+        union_plist = cp.asarray(union_plist_by_expert[e])
+        nz_arr = union_nz_by_expert[e]
+        pcount_u = cp.asarray([len(union_plist_by_expert[e])], dtype=cp.int32)
+        nzc_u = cp.asarray([len(nz_arr)], dtype=cp.int32)
         nz_pad = cp.zeros(moe_inter, dtype=cp.int32)
-        nz_pad[:len(nz_list)] = nz_u
+        nz_pad[:len(nz_arr)] = cp.asarray(nz_arr)
 
         mirror = cp.zeros(DOWN_PANEL_BYTES, dtype=cp.uint8)
         id_dev = cp.asarray([e], dtype=cp.int32)

@@ -190,15 +190,21 @@ correct, maar 12× TRAGER, een belangrijke eerlijke uitkomst.**
 gevoede MoE-deling in de echte staplus, alle 23 lagen. **Correctheidspoort
 GESLAAGD** (bitexact tegen onafhankelijke `_moe_dev`-referentieruns, 12/12
 tokens × 2 sequenties) — bevestigt en passant voor het eerst dat `gemv_into`
-en productie se `gemv_ervf_indirect` bitexact gelijk zijn. **Timing: 2,655
-tok/s aggregate, tegen 31,411 (naive) en 29,798 (solo) — een 12× regressie.**
-Oorzaak: de deling is puur in Python gebouwd (host-syncs en kleine
-kernel-launches per sequentie/unie-expert per laag per stap) — exact de
-overhead die productie se `_moe_dev` zorgvuldig vermijdt. **Het mechanisme
-zelf is niet fout (bitexact bewezen); een naïeve Python-orkestratie ervan
-wel.** Bevestigt scherp waarom `BATCH_ARCHITECTURE_DESIGN.md` een echte
-integratie als meerdere-weken CUDA-engineeringwerk scoopte, niet als
-Python-samenvoeging van al bewezen stukken. Zie `agents/RESEARCH_NOTEBOOK.md`
+en productie se `gemv_ervf_indirect` bitexact gelijk zijn. **Timing eerste
+versie: 2,655 tok/s aggregate, tegen 31,411 (naive) en 29,798 (solo) — een
+12× regressie.** Oorzaak: de deling is puur in Python gebouwd (host-syncs en
+kleine kernel-launches per sequentie/unie-expert per laag per stap) — exact
+de overhead die productie se `_moe_dev` zorgvuldig vermijdt. **Eén
+overduidelijke inefficiëntie gevonden en gefixt (zelfde dag): een numpy-
+array werd onnodig naar cupy geconverteerd en dan element-voor-element
+teruggelezen BINNEN een lus over `npanel` panelen — honderdduizenden
+overbodige host-syncs. Na de fix, nog steeds bitexact: 9,469 tok/s (3,57×
+sneller), nog 3,3× trager dan naive.** Het mechanisme zelf is niet fout
+(bitexact bewezen); een naïeve Python-orkestratie ervan kost veel, en een
+groot deel daarvan is vermijdbaar (bewezen) maar niet alles (het resterende
+gat blijft). Bevestigt scherp waarom `BATCH_ARCHITECTURE_DESIGN.md` een
+echte integratie als meerdere-weken CUDA-engineeringwerk scoopte. Zie
+`agents/RESEARCH_NOTEBOOK.md`
 2026-08-16, blok "Expliciete MoE-deling geïntegreerd in de echte staplus".
 
 **Wat vaststaat over de doelen:** 50 en 100 tok/s zijn fysiek *niet*

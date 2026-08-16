@@ -1,24 +1,24 @@
 {
   "kind": "proto_multi_seq_moe_shared",
-  "created_utc": "2026-08-16T03:36:58.331079+00:00",
+  "created_utc": "2026-08-16T03:40:53.249805+00:00",
   "phase_reached": "phaseC_timing_measured",
   "environment": {
-    "created_utc": "2026-08-16T03:36:58.332079+00:00",
+    "created_utc": "2026-08-16T03:40:53.250811+00:00",
     "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
     "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
     "platform": "Windows-11-10.0.26200-SP0",
-    "git_head": "ebd571ce4eddeb8b489d1bd133e3eabddaf3ce02",
+    "git_head": "962ad4546ce9d323dbd4b2bdf9c40e6681029feb",
     "git_status": [
+      "M pro_research/proto_multi_seq_moe_shared.py",
       "?? pro_research/SOURCE_MANIFEST_SHA256.json",
       "?? pro_research/install_console.log",
-      "?? pro_research/proto_multi_seq_moe_shared.py",
       "?? pro_research/results/history/",
       "?? pro_research/results/logs/",
       "?? pro_research/smoke_console.log",
       "?? pro_research/smoke_v2_console.log"
     ],
     "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
-    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6742 MiB, 63, 26.98 W, 1785 MHz, 11801 MHz, P1",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6742 MiB, 65, 43.49 W, 2797 MHz, 11801 MHz, P1",
     "source_hashes": {
       "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
     }
@@ -27,10 +27,10 @@
   "decode_steps_per_sequence": 12,
   "phaseB_equivalence_pass": true,
   "note": "MoE layers use the union-fed shared up_proj+down_proj fetch (proto_batch_moe_layer_combined.py's mechanism, now integrated into the real per-layer step loop across all 23 MoE layers and multiple real decode steps); non-MoE layers (attention/Mamba) run per-sequence unchanged via the verified state-swap mechanism from proto_multi_seq_full_model.py. Compare aggregate_tok_s here against that script's naive baseline (31.411 tok/s aggregate, solo 29.798 tok/s) -- same configuration, only the MoE sharing differs.",
-  "total_wall_ms_for_all_real_tokens": 9039.3896484375,
+  "total_wall_ms_for_all_real_tokens": 2534.507080078125,
   "total_real_tokens_across_all_sequences": 24,
-  "ms_per_real_token_aggregate": 376.6412353515625,
-  "aggregate_tok_s": 2.6550465167909327,
+  "ms_per_real_token_aggregate": 105.60446166992188,
+  "aggregate_tok_s": 9.469296885633561,
   "tokens_by_sequence": [
     [
       6990,

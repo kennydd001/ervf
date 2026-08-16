@@ -109,6 +109,8 @@ def _dot_probe(rt) -> dict[str, Any]:
             "contains_reduce_partials_batched": "reduce_partials_batched" in low,
             "contains_accumulate_batched": "weighted_accumulate_ind_batched" in low,
             "contains_up_proj_batched": "gemv_nvfp4_ervf_ind_batched" in low,
+            "contains_gather_batched": "gather_down_sparse_ind_batched" in low,
+            "contains_down_masked_batched": "gemv_down_masked_partial_ind_batched" in low,
         }
     except Exception as exc:
         return {"available": False, "error": f"{type(exc).__name__}: {exc}"}
@@ -169,6 +171,9 @@ def main() -> int:
         dense = DenseERVF()
         batch_kernels = DownProjBatchKernels()
         up_kernels = UpProjBatchKernels()
+        # DownGatherBatchKernels (gather_down_sparse_ind + gemv_down_masked_
+        # partial_ind batching) intentionally not constructed/installed here
+        # -- see the comment at install_batched_moe_dev below.
 
         # EGR: production kernels, device-cache eager, no graph, no patches --
         # same-session fresh comparison point, matching V4's convention.
@@ -183,6 +188,12 @@ def main() -> int:
         rt.device_cache = True
         rt.deterministic_accum = True
         restore_selective, ervf_counters = _install_selective(rt, dense)
+        # gather_kernels deliberately NOT passed here: bit-exact and a real
+        # +0.68 ms/2.6% gain in isolation (v_gather_batched_ab.py), but once
+        # combined with everything else in this graph the marginal benefit
+        # vanished (47.3644 vs 47.3669 tok/s, within noise) while costing
+        # ~387 MiB (top_k x 23 layers x 2.68 MB mirrors) against a 64 MiB
+        # budget -- not worth adopting. See RESEARCH_NOTEBOOK.md 2026-08-16.
         restore_moe = install_batched_moe_dev(rt, batch_kernels, up_kernels)
         import cupy as cp
 
@@ -251,6 +262,9 @@ def main() -> int:
                 and payload["graph_dot_probe"].get("contains_reduce_partials_batched")
                 and payload["graph_dot_probe"].get("contains_accumulate_batched")
                 and payload["graph_dot_probe"].get("contains_up_proj_batched")
+                # contains_gather_batched/contains_down_masked_batched are NOT
+                # required here: gather_kernels is deliberately not installed
+                # below (see the comment there) -- probed for information only.
             ),
             "v6_equals_egr": all(v["identical"] for v in per_prompt.values()),
             "v6_deterministic": all(v["identical"] for v in det.values()),

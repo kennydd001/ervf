@@ -11,6 +11,70 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Correctie: gather/down_masked batchen bleek WÉL correct — maar niet de moeite waard om te integreren
+
+**Correctie op het eerdere "race condition"-blok.** Dat was voorbarig.
+Herbeoordeling: de referentiekernel in die test is een **letterlijke kopie**
+van de exacte kernel die V5/V6 al duizenden keren correct heeft gedraaid op
+het echte model (bitexacte causale A/B's, geen enkele NaN daar). Als
+diezelfde kernel op ECHTE data altijd correct is maar op MIJN synthetische
+data NaN geeft, ligt het probleem hoogstwaarschijnlijk bij de synthetische
+testdata (ongeconstrainde `standard_normal`-LUTs/bytepatronen die een
+combinatie raken die met échte ReLU2-sparse activaties nooit voorkomt), niet
+bij een race.
+
+**Bevestiging.** Twee nieuwe scripts testen met **echte, gevangen
+modeldata** in plaats van synthetische random data:
+`verify_down_gather_batch_real_data.py` (top_k=1, één echte laag-aanroep,
+via monkeypatchen van `fused.down_masked_ind_k` om de exacte argumenten van
+een echte `rt.step()`-aanroep te onderscheppen) en
+`verify_down_gather_batch_real_full.py`/`verify_gather_batch_real_full.py`
+(top_k=6, alle zes echte expert-aanroepen van één laag). Uitkomst in alle
+gevallen: **bitexact, nul NaN**, zowel voor `gather_down_sparse_ind_batched`
+als `gemv_down_masked_partial_ind_batched`. De kernels zijn dus wel degelijk
+correct — de eerdere "race"-diagnose was fout.
+
+**Geïntegreerd en fysiek getest.** `moe_dev_batched.py` uitgebreid met een
+optionele `gather_kernels`-parameter (`down_gather_batch_kernels.py`).
+Causale A/B apart van V5/up-proj gehouden (`v_gather_batched_ab.py`, één
+variabele: gather-batching aan/uit, bovenop de al geverifieerde stack).
+Full mode: bitexact, controle-arm wijkt af, **+0,6826 ms/token (+2,56%)**
+bovenop V5+up-proj. Alle poorten groen — in isolatie is dit dus een échte,
+kleine winst.
+
+**Maar niet geïntegreerd in V6 — twee redenen, gemeten, niet aangenomen.**
+1. **VRAM.** Gather/down_masked-batchen vereist `top_k` onafhankelijke
+   mirror-buffers i.p.v. één hergebruikte (`self.mstate["mirror"]`) — dat is
+   `top_k × 23 lagen × 2,68 MB ≈ 387 MB`, tegenover het bestaande
+   64 MiB-budget. **De VRAM-poort faalde**, en is niet verruimd.
+2. **Marginale winst verdampt bij volledige integratie.** V6 met gather-
+   batching erbij: 21,1129 ms/token (47,36 tok/s, full mode) — **binnen
+   ruis identiek** aan V6 zonder deze toevoeging (21,1118 ms/token, 47,37
+   tok/s, eerder gemeten). De +0,68 ms uit de geïsoleerde A/B is dus al
+   grotendeels aanwezig via andere weg zodra de rest van de graph-
+   residentie/batching al actief is (vergelijkbare les als de eerdere
+   ablatiecorrectie: eager-gemeten componentwinsten vertalen zich niet
+   1-op-1 naar extra winst bovenop een al sterk geoptimaliseerde graph).
+
+**Besluit.** `graph_v6_full_stack.py` draait `gather_kernels` bewust NIET
+mee (expliciet becommentarieerd in de code, niet stilzwijgend weggelaten).
+V6 blijft op zijn eerder geverifieerde configuratie: **~47,1-47,4 tok/s**,
+alle poorten groen, VRAM ruim binnen budget. `moe_dev_batched.py`'s
+uitbreiding blijft wel beschikbaar (`gather_kernels=None` is de default) —
+bruikbaar als op een GPU met meer VRAM-marge, of als de cache-capaciteit
+elders wordt teruggebracht om ruimte te maken, dit alsnog de moeite waard
+wordt.
+
+**Artefacten.** `pro_research/verify_down_gather_batch_real_data.py` ·
+`pro_research/verify_down_gather_batch_real_full.py` ·
+`pro_research/verify_gather_batch_real_full.py` ·
+`pro_research/v_gather_batched_ab.py` ·
+`pro_research/results/PRO_GATHER_BATCHED_AB.json` ·
+`pro_research/moe_dev_batched.py` (uitgebreid, optionele
+`gather_kernels`-parameter, default `None`).
+
+---
+
 ## 2026-08-16 — Per-laag cachecapaciteit herverdelen: −14,3% missers, nog niet fysiek gemeten
 
 **Vraag.** De hitrate-diagnose (eerder vandaag) liet sterk niet-uniforme

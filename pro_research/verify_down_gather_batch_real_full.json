@@ -1,0 +1,17 @@
+{
+  "kind": "verify_down_gather_batch_real_full",
+  "created_utc": "2026-08-15T23:49:27.296574+00:00",
+  "note": "top_k=6 real captured data from one real MoE layer forward pass; verifies gemv_down_masked_partial_ind_batched, the kernel that showed NaN with synthetic random test data (gather itself already matched bit-exact in the synthetic test, so it is not re-tested here)",
+  "top_k": 6,
+  "panel_counts": [
+    50,
+    60,
+    52,
+    62,
+    67,
+    38
+  ],
+  "ref_nan_count": 0,
+  "batched_nan_count": 0,
+  "bit_exact_match": true
+}

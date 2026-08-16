@@ -151,19 +151,22 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       bovenop V5. **V6 opnieuw gedraaid: 47,37 tok/s** (was 44,37), 28,7%
       van roofline. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Up-proj
       ERVF-GEMV gebatcht".
-- [WEERLEGD-VOOR-NU 2026-08-16] **`gather_down_sparse_ind`/
-      `gemv_down_masked_partial_ind` batchen.** Geprobeerd, niet gelukt.
-      Geïsoleerde test: gather's mirror-output is zelf wél bitexact tussen
-      referentie en batched, maar `gemv_down_masked_partial_ind` erna geeft
-      NaN's in **beide** armen (ook de ongewijzigde referentie!) met
-      tellingen die **wisselen tussen proces-runs** bij identieke code en
-      data — wijst op een race/synchronisatieprobleem, niet een simpele
-      adresseerfout. Niet verder geforceerd (geen debugtools als
-      compute-sanitizer beschikbaar), niet geïntegreerd — `moe_dev_batched.py`/
-      `graph_v6_full_stack.py` zijn ongewijzigd, V6 staat nog op 47,37 tok/s.
-      Zie `RESEARCH_NOTEBOOK.md` 2026-08-16. Wie dit oppakt: begin met
-      compute-sanitizer of losse-stream-synchronisatie tussen gather en
-      down_masked expliciet forceren.
+- [DONE, NIET GEADOPTEERD 2026-08-16] **`gather_down_sparse_ind`/
+      `gemv_down_masked_partial_ind` batchen.** **Correctie op een eerdere
+      "race condition"-diagnose in dit bestand: die was fout.** Vervolgtest
+      met écht gevangen modeldata (i.p.v. de synthetische random data die
+      eerst NaN gaf) bewees beide kernels **bitexact, nul NaN**
+      (`verify_down_gather_batch_real_full.py`,
+      `verify_gather_batch_real_full.py`). Geïntegreerd en fysiek getest:
+      in isolatie een echte winst (+0,6826 ms/token, +2,56%, bitexacte
+      causale A/B). Toch **niet** in V6 opgenomen: (1) vereist `top_k`
+      onafhankelijke mirror-buffers i.p.v. één hergebruikte → ~387 MB extra
+      VRAM tegen een budget van 64 MiB, VRAM-poort faalde en is niet
+      verruimd; (2) bij volledige V6-integratie verdween de winst binnen
+      ruis (47,36 vs 47,37 tok/s zonder). `moe_dev_batched.py` heeft de
+      optie (`gather_kernels=`, default `None`) klaarstaan voor als VRAM
+      ooit geen blokkade meer is. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16,
+      blok "Correctie: gather/down_masked batchen bleek WÉL correct".
 - [DEELS-DONE 2026-08-16] **Per-laag capaciteitstuning.**
       `pro_research/diag_per_layer_capacity.py`: budget-neutrale
       herverdeling (−20 op 6 laagste-miss lagen, +30 op 4 hoogste-miss

@@ -30,6 +30,21 @@ race), verified bit-exact in isolation against the reference kernel. Pass
 up_kernels=None to keep the up-proj GEMV on the unbached production path
 (useful for isolating V5's own down_proj-only contribution).
 
+Optionally also batches gather_down_sparse_ind and
+gemv_down_masked_partial_ind (via down_gather_batch_kernels.DownGatherBatchKernels
+passed as `gather_kernels`). A first attempt at this failed its own isolated
+unit test with synthetic random data (NaN in both reference and batched
+arms, non-reproducible between runs) and was NOT integrated -- but a
+follow-up using REAL captured model activations/weights (not synthetic
+random data) showed both kernels bit-exact, zero NaN, on real 6-slot data
+(verify_down_gather_batch_real_full.py, verify_gather_batch_real_full.py).
+The earlier failure was a synthetic-test-data artifact, not a kernel bug.
+Batching these requires top_k independent mirror buffers (bs["mirror_batched"])
+instead of the single shared mstate["mirror"] the per-slot path reuses
+sequentially -- budget ~top_k x 2.68 MB/layer when enabled. Pass
+gather_kernels=None to keep this pair on the unbached, mstate-mirror-reusing
+production path.
+
 UP_CODE/UP_SCALE/DOWN_PANEL_BYTES constants and gather_ind_k's fixed-size
 grid formula are copied from runtime.py/fused_nvfp4.py verbatim (not
 imported, to keep this file's dependency on internals explicit and easy to
@@ -51,7 +66,7 @@ UP_SCALE = HALF_SCALE
 DOWN_PANEL_BYTES = HALF_CODE + HALF_SCALE
 
 
-def install_batched_moe_dev(rt, batch_kernels, up_kernels=None) -> callable:
+def install_batched_moe_dev(rt, batch_kernels, up_kernels=None, gather_kernels=None) -> callable:
     """Returns a `restore()` callable that puts the original _moe_dev back."""
     cp = rt.cp
     fused = rt.fused
@@ -65,7 +80,7 @@ def install_batched_moe_dev(rt, batch_kernels, up_kernels=None) -> callable:
     batched_state: dict[str, dict] = {}
 
     def _alloc_batched(i: int) -> dict:
-        return {
+        d = {
             "act": cp.zeros(top_k * inter, dtype=cp.float32),
             "masks": cp.zeros(top_k * npanel, dtype=cp.uint32),
             "plist": cp.zeros(top_k * npanel, dtype=cp.int32),
@@ -73,14 +88,18 @@ def install_batched_moe_dev(rt, batch_kernels, up_kernels=None) -> callable:
             "nz": cp.zeros(top_k * inter, dtype=cp.int32),
             "nzc": cp.zeros(top_k, dtype=cp.int32),
             "partials": cp.zeros(top_k * nchunks * hidden, dtype=cp.float32),
-            # gather/down_masked stay per-slot, sequential -- reuse the
-            # runtime's own single-slot mstate["mirror"] (rt.mstate is
-            # allocated once at runtime init regardless of this patch) rather
-            # than allocating a duplicate ~2.68 MB/layer buffer. A fresh
-            # per-layer mirror here was the cause of the first VRAM-gate
-            # failure (23 layers x 2.68 MB ~= 61.6 MB, blowing the 64 MiB
-            # budget almost entirely on a redundant allocation).
+            # gather/down_masked stay per-slot, sequential when
+            # gather_kernels is None -- reuse the runtime's own single-slot
+            # mstate["mirror"] (rt.mstate is allocated once at runtime init
+            # regardless of this patch) rather than allocating a duplicate
+            # ~2.68 MB/layer buffer. A fresh per-layer mirror here was the
+            # cause of the first VRAM-gate failure (23 layers x 2.68 MB ~=
+            # 61.6 MB, blowing the 64 MiB budget almost entirely on a
+            # redundant allocation).
         }
+        if gather_kernels is not None:
+            d["mirror_batched"] = cp.zeros(top_k * DOWN_PANEL_BYTES, dtype=cp.uint8)
+        return d
 
     def batched_moe_dev(self, i, out):
         cp2, k, d, fused2 = self.cp, self.k, self.layer[i], self.fused
@@ -141,29 +160,43 @@ def install_batched_moe_dev(rt, batch_kernels, up_kernels=None) -> callable:
             (bs["act"], np.int32(inter), bs["masks"], bs["plist"],
              bs["pcount"], bs["nz"], bs["nzc"]))
 
-        # ---- pass 2: gather + masked-GEMV, still per-slot (unchanged
-        # kernels/grids), sourcing panel metadata from the batched buffers.
-        max_warps = inter + npanel
-        blocks = (max_warps * 32 + 255) // 256
-        grid_dm = ((hidden + 127) // 128, nchunks)
-        for s in range(self.top_k):
-            plist_s = bs["plist"][s * npanel:(s + 1) * npanel]
-            masks_s = bs["masks"][s * npanel:(s + 1) * npanel]
-            pcount_s = bs["pcount"][s:s + 1]
-            nz_s = bs["nz"][s * inter:(s + 1) * inter]
-            nzc_s = bs["nzc"][s:s + 1]
-            act_s = bs["act"][s * inter:(s + 1) * inter]
-            partials_s = bs["partials"][s * nchunks * hidden:(s + 1) * nchunks * hidden]
+        # ---- pass 2: gather + masked-GEMV, sourcing panel metadata from
+        # the batched panel_scan output. Batched into ONE gather + ONE
+        # down_masked launch (gather_kernels) when installed, else the
+        # original top_k sequential per-slot calls sharing one reused mirror.
+        if gather_kernels is not None:
+            max_warps = inter + npanel
+            blocks = (max_warps * 32 + 255) // 256
+            gather_kernels.run_gather_batched(
+                np.uint64(bank["down_base_ptr"]), dev["ids"], DOWN_PANEL_BYTES,
+                bs["mirror_batched"], bs["plist"], bs["pcount"], bs["nz"], bs["nzc"],
+                hidden, npanel, inter, DOWN_PANEL_BYTES, self.top_k, blocks)
+            gather_kernels.run_down_masked_batched(
+                bs["mirror_batched"], dev["ids"], dev["globals"], bs["act"],
+                bs["plist"], bs["masks"], bs["pcount"], fused2.e2m1, fused2.e4m3,
+                bs["partials"], hidden, inter, npanel, DOWN_PANEL_BYTES, self.top_k, nchunks)
+        else:
+            max_warps = inter + npanel
+            blocks = (max_warps * 32 + 255) // 256
+            grid_dm = ((hidden + 127) // 128, nchunks)
+            for s in range(self.top_k):
+                plist_s = bs["plist"][s * npanel:(s + 1) * npanel]
+                masks_s = bs["masks"][s * npanel:(s + 1) * npanel]
+                pcount_s = bs["pcount"][s:s + 1]
+                nz_s = bs["nz"][s * inter:(s + 1) * inter]
+                nzc_s = bs["nzc"][s:s + 1]
+                act_s = bs["act"][s * inter:(s + 1) * inter]
+                partials_s = bs["partials"][s * nchunks * hidden:(s + 1) * nchunks * hidden]
 
-            fused2.gather_ind_k((blocks,), (256,),
-                                (np.uint64(bank["down_base_ptr"]), dev["ids"][s:],
-                                 np.uint64(DOWN_PANEL_BYTES), self.mstate["mirror"],
-                                 plist_s, pcount_s, nz_s, nzc_s, np.int32(hidden)))
-            fused2.down_masked_ind_k(grid_dm, (128,),
-                                     (self.mstate["mirror"], dev["ids"][s:], dev["globals"],
-                                      act_s, plist_s, masks_s, pcount_s,
-                                      fused2.e2m1, fused2.e4m3, partials_s,
-                                      np.int32(hidden), np.int32(inter)))
+                fused2.gather_ind_k((blocks,), (256,),
+                                    (np.uint64(bank["down_base_ptr"]), dev["ids"][s:],
+                                     np.uint64(DOWN_PANEL_BYTES), self.mstate["mirror"],
+                                     plist_s, pcount_s, nz_s, nzc_s, np.int32(hidden)))
+                fused2.down_masked_ind_k(grid_dm, (128,),
+                                         (self.mstate["mirror"], dev["ids"][s:], dev["globals"],
+                                          act_s, plist_s, masks_s, pcount_s,
+                                          fused2.e2m1, fused2.e4m3, partials_s,
+                                          np.int32(hidden), np.int32(inter)))
 
         # ---- ONE batched reduce_partials for all top_k slots, writing
         # directly into self.contrib (was: top_k calls into state["partials"]

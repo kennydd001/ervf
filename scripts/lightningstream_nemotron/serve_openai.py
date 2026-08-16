@@ -48,6 +48,84 @@ _RT = None
 _TOK = None
 _STACK = "v18"
 
+# Served at "/" so the whole thing is one command and a browser -- no client to
+# install. Any OpenAI-compatible UI still works against /v1 if you prefer one.
+CHAT_HTML = r"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nemotron Lightning</title><style>
+:root{--bg:#faf9f7;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e3e0da;--card:#fff;--acc:#b4522b}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a18;--fg:#eceae5;--mut:#9a978f;--line:#33312d;--card:#232220;--acc:#e08050}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+display:flex;flex-direction:column;height:100dvh}
+header{padding:.7rem 1rem;border-bottom:1px solid var(--line);display:flex;
+gap:.75rem;align-items:baseline;flex-wrap:wrap}
+h1{font-size:1rem;margin:0;font-weight:600}
+.meta{color:var(--mut);font-size:.8rem}
+#log{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.9rem}
+.msg{max-width:min(46rem,100%);padding:.7rem .9rem;border-radius:.7rem;
+white-space:pre-wrap;word-wrap:break-word}
+.user{align-self:flex-end;background:var(--acc);color:#fff}
+.bot{align-self:flex-start;background:var(--card);border:1px solid var(--line)}
+.tps{font-size:.75rem;color:var(--mut);margin-top:.35rem}
+footer{border-top:1px solid var(--line);padding:.75rem 1rem;display:flex;gap:.5rem}
+textarea{flex:1;resize:none;padding:.6rem .7rem;border-radius:.6rem;
+border:1px solid var(--line);background:var(--card);color:var(--fg);
+font:inherit;min-height:2.7rem;max-height:9rem}
+button{padding:.6rem 1.1rem;border:0;border-radius:.6rem;background:var(--acc);
+color:#fff;font:inherit;font-weight:600;cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+</style></head><body>
+<header><h1>Nemotron 3.5 Lightning</h1>
+<span class="meta" id="hd">connecting...</span>
+<span class="meta" style="margin-left:auto"><button id="clr"
+style="background:none;color:var(--mut);padding:.2rem .5rem;font-weight:400">clear</button></span>
+</header>
+<div id="log"></div>
+<footer><textarea id="in" placeholder="Message... (Enter to send, Shift+Enter for newline)"></textarea>
+<button id="go">Send</button></footer>
+<script>
+const log=document.getElementById('log'),inp=document.getElementById('in'),
+go=document.getElementById('go'),hd=document.getElementById('hd');
+let msgs=[],busy=false;
+fetch('/v1/models').then(r=>r.json()).then(d=>{
+  hd.textContent='stack '+(d.data[0].stack||'?')+' - local, one sequence';}).catch(()=>hd.textContent='offline');
+function add(cls,txt){const d=document.createElement('div');d.className='msg '+cls;
+  d.textContent=txt;log.appendChild(d);log.scrollTop=log.scrollHeight;return d;}
+document.getElementById('clr').onclick=()=>{msgs=[];log.innerHTML='';};
+async function send(){
+  const text=inp.value.trim(); if(!text||busy) return;
+  busy=true; go.disabled=true; inp.value='';
+  add('user',text); msgs.push({role:'user',content:text});
+  const box=add('bot',''); const tps=document.createElement('div');
+  tps.className='tps'; box.after(tps);
+  let acc='';
+  try{
+    const r=await fetch('/v1/chat/completions',{method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'lightning',messages:msgs,stream:true,max_tokens:512})});
+    const rd=r.body.getReader(),dec=new TextDecoder(); let buf='';
+    for(;;){const{done,value}=await rd.read(); if(done)break;
+      buf+=dec.decode(value,{stream:true});
+      const parts=buf.split('\n\n'); buf=parts.pop();
+      for(const p of parts){
+        const line=p.trim(); if(!line.startsWith('data:'))continue;
+        const data=line.slice(5).trim(); if(data==='[DONE]')continue;
+        let j; try{j=JSON.parse(data)}catch(e){continue}
+        const c=j.choices&&j.choices[0];
+        if(c&&c.delta&&c.delta.content){acc+=c.delta.content;box.textContent=acc;
+          log.scrollTop=log.scrollHeight;}
+        if(j.x_tokens_per_second) tps.textContent=j.x_tokens_per_second+' tok/s';
+      }}
+    msgs.push({role:'assistant',content:acc});
+  }catch(e){box.textContent=acc+'\n\n[error: '+e+']';}
+  busy=false; go.disabled=false; inp.focus();
+}
+go.onclick=send;
+inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+inp.focus();
+</script></body></html>"""
+
 
 def build_v18_runtime(capacity: int = 72, stack: str = "v18"):
     """The record path. `stack='v6'` stops before H-SCALE/B3 for comparison."""
@@ -176,6 +254,14 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
+        if self.path.rstrip("/") in ("", "/chat", "/index.html"):
+            body = CHAT_HTML.encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
         if self.path.rstrip("/") in ("/v1/models", "/models"):
             return self._json(200, {"object": "list", "data": [
                 {"id": "lightning", "object": "model", "owned_by": "local",

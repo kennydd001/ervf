@@ -93,6 +93,25 @@ Daarmee werkt élke bestaande client: llama.cpp's eigen web-UI, Open WebUI,
 LM Studio, Continue, of gewoon `curl`. Getest en werkend, streaming en
 niet-streaming, met `usage` en een `x_tokens_per_second`-veld erbij.
 
+**Kant en klaar, één commando.** De server serveert op `/` ook een ingebouwde
+web-UI, dus er hoeft niets geïnstalleerd te worden:
+
+```powershell
+.\CHAT.ps1
+```
+
+Dat start de V18-stack, opent de browser en je chat. `CHAT.ps1` ruimt eerst
+achtergebleven serverprocessen op (anders faalt de volgende start met
+`cudaErrorAlreadyMapped`, zie sectie 4) en waarschuwt als de GPU al bezet is.
+Opties: `-Port`, `-Stack v6`, `-Capacity`, `-NoBrowser`.
+
+Geverifieerd op een schone GPU: `GET /` geeft de UI (200, 4185 bytes),
+`/health` meldt `stack: v18`, en een streaming-request levert 63 SSE-chunks op
+**49,04 tok/s**.
+
+Wie liever een andere UI gebruikt, richt die gewoon op
+`http://127.0.0.1:8080/v1` — llama.cpp's web-UI, Open WebUI, LM Studio.
+
 Er was al een `chat_lightning.py` (CLI). Die stond **untracked** en bouwde
 alleen de kale runtime; beide zijn nu vastgelegd.
 

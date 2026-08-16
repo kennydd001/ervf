@@ -1,0 +1,254 @@
+{
+  "kind": "diag_moe_subkernel_marginals_graph",
+  "status": "measured",
+  "mode": "full",
+  "started_utc": "2026-08-16T12:52:58.460848+00:00",
+  "method": "IN THE CAPTURED GRAPH (each arm re-captures after installing its probe). S12 marginal, one level below diag_component_marginals_v6: the real loop with exactly one _moe_dev sub-kernel called one extra time. accumulate writes to scratch because it accumulates; cache_assign is excluded because it advances the LRU tick.",
+  "opens_from": "MoE is 11.004 ms of a 23.141 ms token against a 5.19 ms floor -- 5.81 ms of headroom, the largest block left, and not explained by single-kernel bandwidth (dense GEMV gets 230-261 GB/s cold).",
+  "config": {
+    "tokens_per_prompt": 256,
+    "prompt_count": 3
+  },
+  "environment": {
+    "created_utc": "2026-08-16T12:53:03.294315+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "023dda2666aedd23ddb3634fac4c774c165f1444",
+    "git_status": [
+      "?? pro_research/diag_kv_proj_ervf.json",
+      "?? pro_research/diag_kv_proj_ervf.py",
+      "?? pro_research/diag_moe_subkernel_marginals_graph.py",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 48, 11.11 W, 4005 MHz, 11001 MHz, P2",
+    "source_hashes": {}
+  },
+  "arms": [
+    {
+      "label": "BASE_A",
+      "probe": "none",
+      "percentiles": {
+        "count": 765,
+        "mean": 21.595408496732023,
+        "p50": 21.3696,
+        "p95": 24.00614,
+        "p99": 26.262348,
+        "max": 28.8509
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    {
+      "label": "shared_expert",
+      "probe": "shared_expert",
+      "percentiles": {
+        "count": 765,
+        "mean": 23.279260653594775,
+        "p50": 23.0512,
+        "p95": 25.765079999999998,
+        "p99": 28.071812000000005,
+        "max": 36.1682
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    {
+      "label": "up_proj",
+      "probe": "up_proj",
+      "percentiles": {
+        "count": 765,
+        "mean": 23.727791372549017,
+        "p50": 23.4934,
+        "p95": 26.031339999999997,
+        "p99": 28.511036000000008,
+        "max": 32.16
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    {
+      "label": "panel_scan",
+      "probe": "panel_scan",
+      "percentiles": {
+        "count": 765,
+        "mean": 22.026326405228758,
+        "p50": 21.8263,
+        "p95": 24.27576,
+        "p99": 26.804436,
+        "max": 28.9577
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    {
+      "label": "gather",
+      "probe": "gather",
+      "percentiles": {
+        "count": 765,
+        "mean": 25.33521320261438,
+        "p50": 25.0894,
+        "p95": 27.98242,
+        "p99": 30.579332,
+        "max": 33.0211
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    {
+      "label": "down_masked",
+      "probe": "down_masked",
+      "percentiles": {
+        "count": 765,
+        "mean": 22.828730065359473,
+        "p50": 22.6129,
+        "p95": 25.187979999999996,
+        "p99": 27.56912,
+        "max": 30.0107
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    {
+      "label": "reduce",
+      "probe": "reduce",
+      "percentiles": {
+        "count": 765,
+        "mean": 21.736198562091506,
+        "p50": 21.5525,
+        "p95": 23.9895,
+        "p99": 26.518908,
+        "max": 28.7353
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    {
+      "label": "accumulate",
+      "probe": "accumulate",
+      "percentiles": {
+        "count": 765,
+        "mean": 21.669161307189544,
+        "p50": 21.4626,
+        "p95": 23.92954,
+        "p99": 26.490416,
+        "max": 28.8351
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    {
+      "label": "BASE_B",
+      "probe": "none",
+      "percentiles": {
+        "count": 765,
+        "mean": 21.31689790849673,
+        "p50": 21.112,
+        "p95": 23.567980000000002,
+        "p99": 25.957164000000002,
+        "max": 28.2579
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    }
+  ],
+  "baseline_midpoint_ms": 21.2408,
+  "drift_ms": 0.25760000000000005,
+  "marginals": {
+    "shared_expert": {
+      "marginal_ms_per_token": 1.8104000000000013,
+      "fraction_of_token": 0.08523219464426958,
+      "ids_match_base_a": true,
+      "bytes_per_token": 290000000,
+      "achieved_GB_s": 160.1855943437913
+    },
+    "up_proj": {
+      "marginal_ms_per_token": 2.252600000000001,
+      "fraction_of_token": 0.10605061956235175,
+      "ids_match_base_a": true,
+      "bytes_per_token": 387300000,
+      "achieved_GB_s": 171.93465328953198
+    },
+    "panel_scan": {
+      "marginal_ms_per_token": 0.5854999999999997,
+      "fraction_of_token": 0.027564875145945526,
+      "ids_match_base_a": true,
+      "bytes_per_token": null,
+      "achieved_GB_s": null
+    },
+    "gather": {
+      "marginal_ms_per_token": 3.848600000000001,
+      "fraction_of_token": 0.18118903242815718,
+      "ids_match_base_a": true,
+      "bytes_per_token": 64000000,
+      "achieved_GB_s": 16.629423686535358
+    },
+    "down_masked": {
+      "marginal_ms_per_token": 1.3720999999999997,
+      "fraction_of_token": 0.06459737862980677,
+      "ids_match_base_a": true,
+      "bytes_per_token": 64000000,
+      "achieved_GB_s": 46.64383062459006
+    },
+    "reduce": {
+      "marginal_ms_per_token": 0.3116999999999983,
+      "fraction_of_token": 0.014674588527738988,
+      "ids_match_base_a": true,
+      "bytes_per_token": null,
+      "achieved_GB_s": null
+    },
+    "accumulate": {
+      "marginal_ms_per_token": 0.22179999999999822,
+      "fraction_of_token": 0.010442167903280395,
+      "ids_match_base_a": true,
+      "bytes_per_token": null,
+      "achieved_GB_s": null
+    }
+  },
+  "sum_of_positive_marginals_ms": 10.4027,
+  "moe_total_marginal_ms_reference": 11.004,
+  "gates": {
+    "G1_all_arms_ids_match_base_a": true,
+    "G2_drift_le_1ms": true
+  },
+  "completed_utc": "2026-08-16T12:56:22.437213+00:00"
+}

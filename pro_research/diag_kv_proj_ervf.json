@@ -1,0 +1,73 @@
+{
+  "kind": "diag_kv_proj_ervf",
+  "created_utc": "2026-08-16T12:52:20.074154+00:00",
+  "note": "Is (256,2688) missing from BF16_ERVF_SHAPES? The production gemv_bf16 launches one block per row and each block stages the whole x vector, so at 256 rows it moves 2.75 MB of x for 1.376 MB of weights. ERVF-16 stages x rows/16 times instead of rows times. Cold rotation of 8 matrices so no L2 artifact can inflate either arm.",
+  "current_whitelist": {
+    "bf16": [
+      [
+        4096,
+        2688
+      ],
+      [
+        2688,
+        4096
+      ]
+    ]
+  },
+  "rounds": 200,
+  "matrices_in_rotation": 8,
+  "arms": {
+    "kv_proj": {
+      "rows": 256,
+      "cols": 2688,
+      "whitelisted_today": false,
+      "prod_blocks": 256,
+      "ervf_blocks": 16,
+      "x_staged_bytes_prod": 2752512,
+      "x_staged_bytes_ervf": 172032,
+      "weight_bytes": 1376256,
+      "bit_exact": true,
+      "prod_ms": 0.010830080509185791,
+      "ervf_ms": 0.014360159635543823,
+      "speedup": 0.7541754955411157,
+      "calls_per_token": 12,
+      "saving_ms_per_token": -0.04236094951629638
+    },
+    "q_proj": {
+      "rows": 4096,
+      "cols": 2688,
+      "whitelisted_today": true,
+      "prod_blocks": 4096,
+      "ervf_blocks": 256,
+      "x_staged_bytes_prod": 44040192,
+      "x_staged_bytes_ervf": 2752512,
+      "weight_bytes": 22020096,
+      "bit_exact": true,
+      "prod_ms": 0.1536571216583252,
+      "ervf_ms": 0.11100128173828125,
+      "speedup": 1.3842824087438725,
+      "calls_per_token": 6,
+      "saving_ms_per_token": 0.25593503952026375
+    },
+    "o_proj": {
+      "rows": 2688,
+      "cols": 4096,
+      "whitelisted_today": true,
+      "prod_blocks": 2688,
+      "ervf_blocks": 168,
+      "x_staged_bytes_prod": 44040192,
+      "x_staged_bytes_ervf": 2752512,
+      "weight_bytes": 22020096,
+      "bit_exact": true,
+      "prod_ms": 0.16356399536132812,
+      "ervf_ms": 0.08728943824768066,
+      "speedup": 1.8738119828108084,
+      "calls_per_token": 6,
+      "saving_ms_per_token": 0.4576473426818848
+    }
+  },
+  "all_bit_exact": true,
+  "kv_proj_speedup": 0.7541754955411157,
+  "kv_proj_saving_ms_per_token": -0.04236094951629638,
+  "status": "measured"
+}

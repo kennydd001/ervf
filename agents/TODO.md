@@ -175,6 +175,24 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
+- [ ] **BESLISSING 2026-08-16: ga naar PRO-E100-BATCH. Single-stream is
+      uitgerekend en haalt de 100 niet.** Zie `agents/DECISION_SINGLE_STREAM_VS_BATCH.md`
+      voor de volledige onderbouwing. Kort: zelfs als je **elke** gemeten ms
+      hoofdruimte pakt (~10,6 ms van 21,24) kom je op ~94 tok/s — onder het doel,
+      en dat is het theoretisch maximum. Vandaag negen ingrepen gebouwd en
+      gemeten; beste opbrengst **−0,42 ms**, trefkans ~1 op 9. Batch daarentegen:
+      **79% van al het verkeer (1661 van 2112 MB/token) is dense en wordt bij
+      batch N één keer gelezen in plaats van N keer**, de routed-unie is gemeten
+      op 66,6% bij N=16, en GEMV wordt GEMM met kleine N zodat juist de kernels
+      die nu op 157-172 GB/s bandbreedte-gebonden vastzitten dat niet meer zijn.
+      Ruwe rekening bij N=4: ~695 MB/token → ~358 tok/s theoretisch, ~160
+      aggregate bij de huidige systeemefficiëntie. **Factor 3-7, geen factor 1,1.**
+      Volgorde: **B1 dense shell eerst** (79% van het verkeer, en het makkelijkste
+      deel — geen routing/sparsity/LRU), dan B2 routed-unie, dan B3 overlap.
+      NB: de bestaande N=2-prototypes weerleggen dit niet — die interleaven
+      onafhankelijke volledige passes en delen niets; ze meten de kosten van
+      interleaven, niet de baten van batchen.
+
 - [ ] **HOOGSTE PRIORITEIT — K/V-projecties: occupancy-probleem, split-K nodig.**
       Gemeten in de graph: `kv_proj` doet 16,5 MB in 0,477 ms = **34,6 GB/s**,
       terwijl `q_proj` 132,1 MB in 1,170 ms = **112,9 GB/s** doet — **3,3×

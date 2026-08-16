@@ -126,8 +126,6 @@ def _run_one_map(rt, refk, pairk, layer: int, name: str, ids_np: np.ndarray,
         det_mismatch = int(np.count_nonzero(pp != qq))
         finite = bool(np.isfinite(rr.view(np.float32)).all() and np.isfinite(pp.view(np.float32)).all())
 
-        # Direct reference-self-check against production adopted indirect ERVF
-        # for sequence zero, first correctness batch only.
         if b == 0:
             prod = cp.empty(TOP_K * rows, dtype=cp.float32)
             dev = {"slots": slots[:TOP_K], "ids": ids[:TOP_K]}
@@ -227,6 +225,7 @@ def main() -> int:
         "claim_boundary": "routed up-projection launch-flattening primitive; not matrix-byte sharing and not a full-model E100 claim",
     }
 
+    rt = refk = pairk = None
     try:
         require_gpu_free()
         sys.path.insert(0, str(REPO / "src"))
@@ -309,23 +308,35 @@ def main() -> int:
             "environment_end": environment_snapshot(),
             "completed_utc": utc_now(),
         })
-
-        del rt, refk, pairk
-        gc.collect()
-        cp.get_default_memory_pool().free_all_blocks()
-        cp.get_default_pinned_memory_pool().free_all_blocks()
     except Exception as exc:
         payload.update({
             "status": "technical_failure",
             "error": {"type": type(exc).__name__, "message": str(exc), "traceback": traceback.format_exc()},
             "completed_utc": utc_now(),
         })
+    finally:
+        # Cleanup must never rewrite a scientifically valid result as a
+        # technical_failure.  The previous runner referenced a function-local
+        # `cp` name here after all gates had already been computed, which caused
+        # exactly that false status in the first target smoke.
+        try:
+            del rt, refk, pairk
+            gc.collect()
+            import cupy as cp
+            cp.get_default_memory_pool().free_all_blocks()
+            cp.get_default_pinned_memory_pool().free_all_blocks()
+        except Exception as cleanup_exc:
+            payload["cleanup_warning"] = {
+                "type": type(cleanup_exc).__name__,
+                "message": str(cleanup_exc),
+            }
 
     _write(payload)
     print(json.dumps({
         "status": payload.get("status"),
         "output": str(OUT),
         "gates": payload.get("gates"),
+        "cleanup_warning": payload.get("cleanup_warning"),
     }, indent=2))
     return 0 if payload.get("status") not in {"technical_failure", "correctness_failed"} else 2
 

@@ -300,6 +300,41 @@ alleen al is de grootste post), maar wel duidelijk begrensder dan een naïeve
 **Artefacten.** `pro_research/diag_attention_n_scaling.py` ·
 `pro_research/diag_attention_n_scaling.json`.
 
+### Correctie: Mamba schaalt NIET zoals attentie — mild supra-lineair, geen aanname meer
+
+Het ontwerpdocument stelde "attentie/Mamba" op één lijn — beide zonder
+deel-mogelijkheid, dus verondersteld ~lineair. Dat was voor Mamba een
+**aanname bij analogie, nooit apart gemeten.** Deze sessie se eigen regel
+("verifieer aannames, beweer ze niet") gold hier niet — hersteld.
+
+`pro_research/diag_mamba_n_scaling.py`: dezelfde opzet als de attentie-
+meting, nu op Mamba se `in_proj` (FP8-per-tensor-kernel, dus een fysiek
+andere kernel dan attentie se BF16-ERVF-pad — geen reden om aan te nemen
+dat dezelfde conclusie automatisch overdraagt). N∈{1,2,4,8,16}, 30 ronden.
+
+**Uitkomst: mild supra-lineair, niet lineair.** ms/sequentie **stijgt** met
+N: 0,177 ms (N=1) → 0,170 (N=2, nog binnen ruis) → 0,196 (N=4) → 0,206
+(N=8) → 0,203 (N=16, ratio 1,15 t.o.v. ideaal lineair). Dat is een reële
+**~15% straf** bij grotere N, geen neutrale schaling. Vermoedelijke oorzaak
+(niet onderzocht): de FP8-tensor-kernel heeft een grotere rijenvorm
+(rows=10304 tegenover attentie se 4096) en dus minder "vrije capaciteit"
+per launch — herhaalde back-to-back launches zonder batch-bewust ontwerp
+kunnen elkaar meer in de weg zitten (geheugenbank-conflicten, L2-druk,
+niet geverifieerd welke).
+
+**Gevolg voor de bovengrensrekensom.** De ~114 tok/s-rekensom nam aan dat
+"de rest" (attentie+Mamba+overig) **ongewijzigd** blijft bij batchen. Voor
+attentie klopt dat (gemeten, bevestigd). Voor Mamba is de aanname
+**optimistisch** — de rest zou bij batch>1 niet gelijk blijven maar iets
+duurder worden per sequentie, dus de werkelijke aggregate bovengrens ligt
+naar verwachting **lager** dan de eerdere rekensom suggereerde. Geen nieuw
+getal berekend (zou weer een aanname-op-aanname zijn) — de eerlijke
+conclusie is dat de eerdere bovengrens nu bevestigd te optimistisch is voor
+het Mamba-deel, niet dat er een preciezer getal klaarligt.
+
+**Artefacten.** `pro_research/diag_mamba_n_scaling.py` ·
+`pro_research/diag_mamba_n_scaling.json`.
+
 ---
 
 ## 2026-08-16 — Per-laag cachecapaciteit fysiek gemeten en geïntegreerd: 47,41 tok/s

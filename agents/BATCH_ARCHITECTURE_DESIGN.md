@@ -51,17 +51,28 @@ niet bij nul hoeft te beginnen met nadenken.**
 6. **Shared expert: triviaal.** Draait toch al voor elke stap ongeacht
    routing — wordt gewoon `[N, hidden]` in plaats van `[hidden]`, geen
    nieuwe deel-logica nodig (het gewicht was al niet expert-afhankelijk).
-7. **Attentie, Mamba, KV-cache: GEEN deel-mogelijkheid van deze soort.**
-   Dit is de belangrijkste eerlijke waarschuwing van dit document. Attentie-
-   en Mamba-gewichten zijn **niet expert-geselecteerd** — elke sequentie
-   gebruikt toch al dezelfde Q/K/V/O-, Mamba-in/out-gewichten. Er is dus
-   niets te dedupliceren; de kost schaalt al ~lineair met N (N keer zoveel
-   GEMV-werk, weliswaar misschien met launch-batching zoals deze sessie al
-   voor MoE deed, maar zonder het PCIe-amortisatie-effect dat MoE's winst
-   gaf). **Dit betekent dat de aggregate-doorvoerwinst van batch>1 kleiner
-   zal zijn dan de MoE-alleen-cijfers suggereren** — MoE is 57,8% van het
-   token (componentafbraak, eerder vandaag), de rest (attentie 14,9%, Mamba
-   ~0%, lm_head+shared 10,1%, overig) profiteert niet op dezelfde manier.
+7. **Attentie, Mamba, KV-cache: GEEN deel-mogelijkheid van deze soort — en
+   voor Mamba specifiek, fysiek gemeten in plaats van bij analogie
+   aangenomen (correctie 2026-08-16).** Attentie- en Mamba-gewichten zijn
+   **niet expert-geselecteerd** — elke sequentie gebruikt toch al dezelfde
+   Q/K/V/O-, Mamba-in/out-gewichten. Er is dus niets te dedupliceren. Voor
+   attentie is dat gemeten: `diag_attention_n_scaling.py` — 94-97% van
+   ideaal lineair, ms/sequentie nagenoeg vlak (0,091-0,096 ms) over
+   N∈{1,2,4,8,16}. **Voor Mamba bleek de eerste versie van dit document het
+   mis te hebben** door aan te nemen dat dezelfde conclusie overdraagt:
+   `diag_mamba_n_scaling.py` (Mamba se `in_proj`, een fysiek andere
+   FP8-per-tensor-kernel dan attentie se BF16-ERVF-pad) mat **mild
+   supra-lineaire** schaling, niet lineair — ms/sequentie **stijgt** van
+   0,177 ms (N=1) naar ~0,203-0,206 ms (N=8-16), een reële ~15% straf bij
+   grotere N, vermoedelijk gerelateerd aan de grotere rijenvorm
+   (rows=10304) en resourcecontentie bij herhaalde back-to-back launches
+   (oorzaak niet verder onderzocht). **Dit betekent dat de aggregate-
+   doorvoerwinst van batch>1 kleiner zal zijn dan de MoE-alleen-cijfers
+   suggereren, én iets kleiner dan de eerdere (te optimistische) rekensom
+   hieronder aannam** — MoE is 57,8% van het token (componentafbraak),
+   de rest (attentie 14,9% vlak, Mamba ~0% maar mild duurder bij N,
+   lm_head+shared 10,1%, overig) profiteert niet op dezelfde manier, en
+   Mamba wordt zelfs iets duurder per sequentie.
 8. **CUDA-graph-implicaties.** De huidige graph is gebouwd voor exact één
    token, één sequentie, vaste posities via `self._pos_dev`. Een batch>1-
    graph zou vaste `N_max`-grootte buffers nodig hebben (padding voor
@@ -74,16 +85,24 @@ niet bij nul hoeft te beginnen met nadenken.**
 
 ## Grootste onbekende risico's, in volgorde van belang
 
-1. **Attentie/Mamba/KV-cache verdunnen de aggregate winst.** Zoals hierboven:
-   57,8% van het token (MoE) kan profiteren, de rest niet op dezelfde manier.
-   Een grove, expliciet-gelabelde bovengrens (geen meting): als MoE's kost
-   naar ~0 zou gaan door perfecte deling maar de rest ongewijzigd blijft
-   (aanname, niet gemeten), zou dat token van ~21 ms naar ruw ~21×0,42 ≈
-   8,8 ms per **sequentie-equivalent** kunnen — een aggregate ~114 tok/s
-   over de hele batch, **niet** 114 tok/s per sequentie. Dit is aritmetiek
-   op een aanname (perfecte MoE-deling, nul overhead), geen voorspelling —
-   precies het soort rekensom dat de S10-preregistratie ook deed vóór de
-   MTP-meting, en die bleek daar te optimistisch. Behandel dit getal zo.
+1. **Attentie/Mamba/KV-cache verdunnen de aggregate winst — en meer dan de
+   eerste versie van dit document aannam.** Zoals hierboven: 57,8% van het
+   token (MoE) kan profiteren, de rest niet op dezelfde manier. Een grove,
+   expliciet-gelabelde bovengrens (geen meting): als MoE's kost naar ~0 zou
+   gaan door perfecte deling maar de rest ongewijzigd blijft (aanname, niet
+   gemeten), zou dat token van ~21 ms naar ruw ~21×0,42 ≈ 8,8 ms per
+   **sequentie-equivalent** kunnen — een aggregate ~114 tok/s over de hele
+   batch, **niet** 114 tok/s per sequentie. Dit is aritmetiek op een aanname
+   (perfecte MoE-deling, nul overhead, "rest ongewijzigd"), geen
+   voorspelling — precies het soort rekensom dat de S10-preregistratie ook
+   deed vóór de MTP-meting, en die bleek daar te optimistisch. **Inmiddels
+   bevestigd deels te optimistisch hier ook:** attentie blijft inderdaad
+   ~ongewijzigd (gemeten), maar Mamba wordt mild duurder per sequentie bij
+   grotere N (gemeten, ~15% straf bij N=8-16) — dus "de rest ongewijzigd"
+   klopt niet volledig, en de werkelijke aggregate bovengrens ligt iets
+   lager dan 114 tok/s. Geen nieuw getal herberekend (zou weer aanname-op-
+   aanname zijn); behandel 114 als een ruwe, nu bevestigd-optimistische
+   bovengrens.
 2. **Compute schaalt wél met N (al gemeten, geen straf, maar ook geen
    winst).** `proto_batch_moe_multilayer.py` liet zien dat GEMV-compute-tijd
    vlak blijft tussen naive/batched per PAAR — maar er zijn nog steeds N×

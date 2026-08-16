@@ -153,11 +153,19 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       — bestaande Q-GEMV N keer gedraaid tegen N echte activaties,
       N∈{1,2,4,8,16}: **94-97% van ideaal lineair, ms/sequentie nagenoeg
       constant.** Bevestigt de aanname: attentie schaalt ~lineair, geen
-      launch-overhead-speling zoals MoE had. De ~114 tok/s-bovengrensrekensom
-      gebruikte precies deze aanname — die staat nu gestaafd. Betekenis: een
-      batch>1-integratie haalt zijn winst vrijwel uitsluitend uit MoE
-      (57,8% van het token); de rest profiteert niet op dezelfde manier.
-      Zie `RESEARCH_NOTEBOOK.md` 2026-08-16.
+      launch-overhead-speling zoals MoE had.
+      **[CORRECTIE 2026-08-16] `diag_mamba_n_scaling.py`** — het
+      ontwerpdocument nam bij analogie aan dat Mamba hetzelfde zou doen als
+      attentie; dat bleek **fout**. Mamba se `in_proj` (FP8-per-tensor-
+      kernel, fysiek andere kernel) is **mild supra-lineair**: ms/sequentie
+      stijgt van 0,177 ms (N=1) naar ~0,203-0,206 ms (N=8-16) — een reële
+      ~15% straf bij grotere N, geen neutrale schaling. De ~114 tok/s-
+      bovengrensrekensom nam "rest ongewijzigd" aan — dat klopt voor
+      attentie maar niet voor Mamba, dus de werkelijke aggregate bovengrens
+      ligt iets lager dan 114. Betekenis: een batch>1-integratie haalt zijn
+      winst vrijwel uitsluitend uit MoE (57,8% van het token); de rest
+      profiteert niet alleen niet mee, Mamba wordt er zelfs iets duurder
+      van per sequentie. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16.
 - [DONE 2026-08-16] **Down_proj-pijplijn optimaliseren in `_moe_dev`.**
       ~~Device-cache down_proj net als up_proj~~ — **onhaalbaar**:
       `DOWN_PANEL_BYTES` is 2,68 MB/expert (niet ~1 kB zoals eerst aangenomen),

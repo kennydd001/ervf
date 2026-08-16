@@ -225,8 +225,13 @@ N, zoals losstaande diagnostiek suggereerde? **Verrassend: nee** — 31,215
 tok/s aggregate tegen solo 29,820 (1,047×, +4,7%), vlak tot licht lager dan
 N=2's +5,4%. Vermoedelijke oorzaak: vaste cache-capaciteit (72) geeft meer
 onderlinge eviction bij groter N, wat de grotere theoretische overlap-kans
-compenseert. Zie `agents/RESEARCH_NOTEBOOK.md` 2026-08-16, blok "N=4 naive
-baseline".
+compenseert. **Vervolghypothese getoetst en VERWORPEN**: een met N
+meeschalende cache (144 i.p.v. 72) herstelt dit niet — integendeel, **0,706×,
+een echte regressie** (19,07 tok/s tegen solo 27,01), vermoedelijk omdat
+`cache_assign`'s eigen lineaire eviction-scan duurder wordt per misser bij
+grotere capaciteit. Cache-capaciteit vergroten is dus niet gratis. Zie
+`agents/RESEARCH_NOTEBOOK.md` 2026-08-16, blok "N=4 naive baseline" en
+"Grotere cache bij groter N".
 
 **Wat vaststaat over de doelen:** 50 en 100 tok/s zijn fysiek *niet*
 uitgesloten, maar 50+ vraagt méér dan graph-residentie alleen (plafond ~41,5

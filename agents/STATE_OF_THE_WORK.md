@@ -162,6 +162,28 @@ geheugenbandbreedte-gebonden, dus de kern-roofline (165 tok/s ctx0) en V6's
 47,41 tok/s-record zijn **niet** bedreigd. Raakt alleen reken-zware kernels
 specifiek. Zie `agents/RESEARCH_NOTEBOOK.md` 2026-08-16.
 
+**EERSTE ECHTE END-TO-END N=2-METING (2026-08-16) — de belangrijkste
+mijlpaal van de batch>1-lijn tot nu toe.** Alles hiervoor was component-
+niveau (één MoE-laag, geïsoleerde kernels, read-only diagnostiek). 
+`pro_research/proto_multi_seq_full_model.py` draait voor het eerst het
+**echte, volledige 52-lagen model**, meerdere **echte** decode-stappen, voor
+N=2 sequenties, met een **echt gemeten** aggregate tok/s-getal — via een
+generiek state-wisselmechanisme (~30 dynamische buffers per sequentie
+gewisseld vóór aanroepen van de ongewijzigde productie-`rt.step()`, gewichten
+en MoE-device-cache blijven gedeeld). Een `pos`-bug (plain-int-rebinding
+i.p.v. in-place-mutatie) gevonden en gefixt vóór meting. **Correctheidspoort:
+bitexact onder volledige interleaving tegen onafhankelijke controleruns,
+15/15 tokens, beide sequenties.** Resultaat (kale eager-configuratie, geen
+graph/selectieve-ERVF/gebatchte-kernels, schoon voor een N=1-vs-N=2-
+vergelijking): **N=1 solo 29,798 tok/s vs N=2 naive (nog GEEN expliciete
+deel-logica, alleen incidenteel warm-cache-hergebruik) 31,411 tok/s
+aggregate — 1,054× (+5,4%), reëel en positief.** Bevestigt dat het
+mechanisme praktisch werkt; de expliciete unie-gevoede MoE-deling
+(`proto_batch_moe_layer_combined.py`, al bitexact bewezen op één laag) nog
+niet in deze staplus geïntegreerd — dat is de directe vervolgstap. Zie
+`agents/RESEARCH_NOTEBOOK.md` 2026-08-16, blok "EERSTE ECHTE END-TO-END
+METING".
+
 **Wat vaststaat over de doelen:** 50 en 100 tok/s zijn fysiek *niet*
 uitgesloten, maar 50+ vraagt méér dan graph-residentie alleen (plafond ~41,5
 bij ctx 64). **1000 tok/s is fysiek uitgesloten** — de gemeten streaming-

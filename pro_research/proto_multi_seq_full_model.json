@@ -1,0 +1,111 @@
+{
+  "kind": "proto_multi_seq_full_model",
+  "created_utc": "2026-08-16T03:29:56.658530+00:00",
+  "phase_reached": "phase3_naive_baseline_measured",
+  "environment": {
+    "created_utc": "2026-08-16T03:29:56.659530+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "1da41f8dafcd802dcf7dabe23b1867ebff6032ff",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/install_console.log",
+      "?? pro_research/proto_multi_seq_full_model.json",
+      "?? pro_research/proto_multi_seq_full_model.py",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6778 MiB, 70, 57.58 W, 2662 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
+    }
+  },
+  "n_sequences": 2,
+  "decode_steps_per_sequence": 15,
+  "phase2_equivalence_pass": true,
+  "phase2_ground_truth_tokens": [
+    [
+      16059,
+      6990,
+      36359,
+      1408,
+      2034,
+      17296,
+      1046,
+      1531,
+      2158,
+      36359,
+      4968,
+      1486,
+      1278,
+      1715,
+      1413
+    ],
+    [
+      13,
+      1975,
+      29896,
+      1010,
+      3149,
+      36598,
+      6561,
+      75178,
+      21777,
+      39318,
+      18086,
+      63369,
+      3640,
+      1293,
+      13118
+    ]
+  ],
+  "note": "naive baseline: N real sequences via state-swap, real production step() per sequence, MoE device-cache SHARED as an ordinary side effect of not swapping self.cache/self._dev_cache (warm-cache reuse only, NOT the explicit union-fed sharing mechanism proven separately in proto_batch_moe_layer_combined.py -- that integration is a separate follow-up)",
+  "solo_n1_same_config_ms_per_token": 33.55878702799479,
+  "solo_n1_same_config_tok_s": 29.798454847780956,
+  "total_wall_ms_for_all_real_tokens": 955.07470703125,
+  "total_real_tokens_across_all_sequences": 30,
+  "ms_per_real_token_aggregate": 31.835823567708335,
+  "aggregate_tok_s": 31.41115535689545,
+  "aggregate_speedup_vs_solo": 1.054120272925312,
+  "wall_ms_per_decode_tick_across_n_sequences": 63.67164713541667,
+  "tokens_by_sequence": [
+    [
+      6990,
+      36359,
+      1408,
+      2034,
+      17296,
+      1046,
+      1531,
+      2158,
+      36359,
+      4968,
+      1486,
+      1278,
+      1715,
+      1413,
+      1374
+    ],
+    [
+      1975,
+      29896,
+      1010,
+      3149,
+      36598,
+      6561,
+      75178,
+      21777,
+      39318,
+      18086,
+      63369,
+      3640,
+      1293,
+      13118,
+      1293
+    ]
+  ]
+}

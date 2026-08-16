@@ -11,6 +11,87 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — EERSTE ECHTE END-TO-END METING: N=2, volledig model, meerdere stappen, geverifieerd bitexact — +5,4% aggregate, nog vóór expliciete deel-logica
+
+**Waarom dit anders is dan alles hiervoor in de batch>1-lijn.** Elke
+batch>1-meting tot nu toe was óf één MoE-laag (`proto_batch_moe_layer*.py`),
+óf een geïsoleerde kernel-schalingstest, óf een read-only routing-diagnose.
+Nooit het **echte, volledige 52-lagen model**, meerdere **echte** decode-
+stappen, met een **echt gemeten** aggregate tok/s-getal. Dit sluit die
+laatste, belangrijkste kloof — precies wat via de Stop-hook herhaaldelijk
+als ontbrekend werd aangewezen.
+
+**Mechanisme (geen productie-code aangepast).** `LightningRuntime.step()`
+werkt uitsluitend via `self.X`-instantie-attributen; niets anders. Dus: vang
+alle ~30 per-sequentie DYNAMISCHE buffers die `_alloc_state()` alloceert
+(door die methode gewoon N keer echt aan te roepen en het resultaat te
+snapshotten via `getattr` — geen handmatige herimplementatie van 30
+buffervormen, dat zou transcriptierisico geven) in een per-sequentie
+dict, dan met plain `setattr` wisselen vóór een aanroep van de
+**ongewijzigde, echte** `rt.step()`. De GEWICHTEN (`rt.layer`, `rt.bank`,
+`rt.fused`, `rt.k`) en de MoE-device-cache (`rt.cache`/`rt._dev_cache`)
+blijven gewoon gedeeld (niet gewisseld) — precies het onderscheid dat
+`BATCH_ARCHITECTURE_DESIGN.md` stap 1 als het fundamentele verschil
+benoemde tussen dynamische en statische buffers.
+
+**Een echte bug gevonden en gefixt vóórdat er iets gemeten werd:** `pos` is
+een plain Python int; `step()` doet `self.pos += 1`, wat `rt.pos` REBINDT
+naar een nieuw int-object in plaats van een bestaand object in place te
+muteren (in tegenstelling tot elke `cp.ndarray`-buffer in de lijst, die wél
+correct gealiased blijft via kernel-schrijvers). Zonder een expliciete
+`state[s]["pos"] = rt.pos`-terugschrijving na elke stap zou wisselen-weg-en-
+terug de positie van een sequentie stilzwijgend resetten — de KV-cache-
+leesoffset corrumperend. Gevonden door **na te denken over welke attributen
+gereassigned in plaats van gemuteerd worden**, niet door een falende test —
+dezelfde discipline als de eerdere `bank["globals"]`-indexeringsbugs.
+
+**Correctheidspoort (verplicht vóór elke tijdclaim).** Niet alleen één
+ongebroken sequentie getest (had de `pos`-bug niet gevangen) — de
+EXACTE interleaving-patroon van fase 3 zelf: N=2 sequenties, wissel-stap-
+wissel-stap, elk vergeleken tegen zijn EIGEN onafhankelijke, ongewisselde
+`rt.reset()`-gebaseerde controlerun. **Resultaat: bitexact, 15/15 tokens
+per sequentie, beide sequenties, onder volledige interleaving.**
+`pro_research/proto_multi_seq_full_model.py`.
+
+**Uitkomst — het eerste echte getal.** Eén variabele (N), zelfde
+configuratie (device-cache eager, `contexts_max=4096`, cap=72, GEEN graph,
+GEEN selectieve ERVF, GEEN gebatchte kernels — bewust de kale E1-fase-2.1-
+laag, niet V6, om een schone controle te houden):
+
+| | ms/token | tok/s |
+|---|---:|---:|
+| N=1 (solo, zelfde configuratie/code-pad) | 33,559 | 29,798 |
+| N=2 (naive, GEEN expliciete deel-logica) | 31,836 (aggregate) | **31,411 (aggregate)** |
+
+**Aggregate speedup: 1,054× (+5,4%)** — reëel, positief, ondanks dat dit de
+"naive"-arm is (geen unie-gevoede `cache_assign`, geen gedeelde fetch zoals
+`proto_batch_moe_layer_combined.py` bewees). De winst komt uitsluitend van
+**incidenteel** warme-cache-hergebruik: `self.cache`/`self._dev_cache`
+worden niet gewisseld, dus sequentie B's stap profiteert toevallig van
+experts die sequentie A's vorige stap al warm gemaakt heeft — hetzelfde
+mechanisme als `diag_batch_warm_cache.py`, nu voor het eerst binnen een
+echte staplus gemeten in plaats van als geïsoleerde LRU-simulatie.
+
+**Wat dit sluit of opent.** Sluit de vraag of het hele idee praktisch
+haalbaar is als state-management-mechanisme: **ja**, bitexact, geen enkele
+gemiste buffer, geen enkele gemiste positie-desynchronisatie. Opent de
+directe vervolgstap (nog niet gedaan): dezelfde verificatiediscipline
+toepassen op een staplus die de **expliciete** unie-gevoede MoE-deling van
+`proto_batch_moe_layer_combined.py` integreert in plaats van alleen
+incidenteel warm-cache-hergebruik — zou de winst voorbij 5,4% moeten
+brengen, gebaseerd op wat elke eerdere geïsoleerde meting al liet zien.
+
+**Poorten.** Geen PRO-poorten (scoped integratieprototype). Correctheid:
+bitexact onder interleaving, expliciete controle-arm (solo N=1, zelfde
+configuratie). Geen tok/s-claim voorbij wat hierboven staat — dit is GEEN
+V6-vergelijkbaar getal (andere, kalere configuratie, met opzet, voor een
+schone N=1-vs-N=2-vergelijking).
+
+**Artefacten.** `pro_research/proto_multi_seq_full_model.py`,
+`pro_research/proto_multi_seq_full_model.json`.
+
+---
+
 ## 2026-08-16 — Oorzaak van de supra-lineaire straf gevonden: reëel, groot klokverval onder aanhoudende belasting (36%)
 
 **Vraag.** De synthese hierboven liet de oorzaak van de Mamba/lm_head-straf

@@ -396,6 +396,34 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       dit project tot nu toe domineerden. Zie `RESEARCH_NOTEBOOK.md`
       2026-08-16, blok "Oorzaak
       van de supra-lineaire straf gevonden".
+- [DEELS-DONE 2026-08-16] **EERSTE ECHTE END-TO-END N=2-METING — volledig
+      model, meerdere stappen, bitexact geverifieerd.** Alles hiervoor was
+      één MoE-laag of een geïsoleerde kernel-test; dit is de eerste keer
+      dat het **echte, volledige 52-lagen model** meerdere **echte**
+      decode-stappen draait voor N=2 sequenties met een **echt gemeten**
+      aggregate tok/s-getal. `pro_research/proto_multi_seq_full_model.py`:
+      per-sequentie DYNAMISCHE toestand (~30 buffers uit `_alloc_state()`,
+      generiek gevangen via `getattr`, niet handmatig herimplementeerd) per
+      sequentie gewisseld met `setattr` vóór aanroepen van de
+      **ongewijzigde, echte** `rt.step()`; gewichten en MoE-device-cache
+      blijven gedeeld. **Bug gevonden en gefixt vóór meting**: `pos` is een
+      plain Python int die `step()` REBINDT (niet muteert) — zonder
+      terugschrijven na elke stap zou wisselen-en-terug de KV-cache-
+      leesoffset corrumperen. **Correctheidspoort**: N=2 volledig
+      geïnterleaved (wissel-stap-wissel-stap, de exacte fase-3-patroon, niet
+      slechts één ongebroken sequentie) tegen onafhankelijke
+      `rt.reset()`-controleruns — **bitexact, 15/15 tokens per sequentie,
+      beide sequenties**. **Resultaat (kale E1-fase-2.1-configuratie, geen
+      graph/selectieve-ERVF/gebatchte-kernels, bewust schoon voor een
+      N=1-vs-N=2-vergelijking): N=1 solo 29,798 tok/s vs N=2 naive (GEEN
+      expliciete deel-logica, alleen incidenteel warm-cache-hergebruik)
+      31,411 tok/s aggregate — 1,054× (+5,4%), reëel en positief.** Sluit de
+      vraag of het state-managementmechanisme praktisch werkt: ja. **Nog
+      niet gedaan** (vervolgstap): dezelfde staplus uitbreiden met de
+      expliciete unie-gevoede MoE-deling uit `proto_batch_moe_layer_combined.py`
+      in plaats van alleen incidenteel hergebruik — zou de winst voorbij
+      5,4% moeten brengen. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
+      "EERSTE ECHTE END-TO-END METING".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,
   `cudaErrorStreamCaptureUnsupported` — `cudaGraphLaunch()` op een reeds

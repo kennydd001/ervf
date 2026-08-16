@@ -1,0 +1,123 @@
+{
+  "kind": "diag_glue_marginals",
+  "status": "measured",
+  "mode": "full",
+  "started_utc": "2026-08-16T13:44:18.493790+00:00",
+  "why": "~2.6 ms of the 21.24 ms token is unattributed: lm_head plus 53 norm launches and 52 add_ launches. rmsnorm_bf16w runs as a SINGLE block for a 2688-element reduction, so its cost is launch latency rather than work -- a fusion target, not a bandwidth one.",
+  "config": {
+    "tokens_per_prompt": 256,
+    "prompt_count": 3,
+    "arms": [
+      "BASE_A",
+      "lm_head",
+      "norms_adds",
+      "BASE_B"
+    ]
+  },
+  "environment": {
+    "created_utc": "2026-08-16T13:44:24.861389+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "b98d1fcb3430838ecadbf1068afcd11095c298a7",
+    "git_status": [
+      "?? pro_research/diag_glue_marginals.py",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 47, 10.35 W, 1980 MHz, 11001 MHz, P2",
+    "source_hashes": {}
+  },
+  "arms": {
+    "BASE_A": {
+      "percentiles": {
+        "count": 765,
+        "mean": 21.013171503267973,
+        "p50": 20.7706,
+        "p95": 23.174279999999996,
+        "p99": 25.595448,
+        "max": 28.0312
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "lm_head": {
+      "percentiles": {
+        "count": 765,
+        "mean": 22.162770849673198,
+        "p50": 21.9584,
+        "p95": 24.434579999999997,
+        "p99": 26.688576,
+        "max": 28.7441
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "norms_adds": {
+      "percentiles": {
+        "count": 765,
+        "mean": 21.431289019607842,
+        "p50": 21.2216,
+        "p95": 23.666019999999996,
+        "p99": 26.159912000000006,
+        "max": 28.3663
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "BASE_B": {
+      "percentiles": {
+        "count": 765,
+        "mean": 21.12377568627451,
+        "p50": 20.9318,
+        "p95": 23.277639999999998,
+        "p99": 25.600164000000003,
+        "max": 27.8033
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    }
+  },
+  "baseline_midpoint_ms": 20.8512,
+  "drift_ms": 0.16119999999999735,
+  "marginals": {
+    "lm_head": {
+      "marginal_ms_per_token": 1.1072000000000024,
+      "fraction_of_token": 0.053100061387354326,
+      "bytes_per_token": 198200000,
+      "achieved_GB_s": 179.01011560693604,
+      "floor_ms_at_260_GB_s": 0.7623076923076924
+    },
+    "norms_adds": {
+      "marginal_ms_per_token": 0.37040000000000006,
+      "fraction_of_token": 0.01776396562308165,
+      "launches_per_token": 105,
+      "us_per_launch": 3.5276190476190483
+    }
+  },
+  "sum_of_group_marginals_ms": 1.4776000000000025,
+  "unattributed_before_ms": 2.6,
+  "gates": {
+    "G1_all_arms_ids_match_base_a": true,
+    "G2_drift_le_1ms": true
+  },
+  "completed_utc": "2026-08-16T13:46:06.254106+00:00"
+}

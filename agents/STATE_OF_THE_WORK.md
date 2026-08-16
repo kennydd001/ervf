@@ -20,52 +20,40 @@ resterende technische stappen): zie `agents/PATH_TO_100_TOKS.md`.**
 - **K-tiling is geprobeerd en WEERLEGD** (×1,14 bij N=4 tegen ×1,64 met X uit
   global; L1 leverde het 16× hergebruik al). Het batchplafond staat daarmee vast.
 
-### 📒 Tokenboekhouding — Mamba nu per stage GEMETEN (niet afgeleid)
+### 📒 De volledige tokenkaart — compleet, alles in-graph gemeten
 
-| post | ms | bron |
-|---|---:|---|
-| Mamba in_proj + out_proj (GEMV) | 4,187 | gemeten, in-graph |
-| Mamba ssm_step + gated_norm | 1,011 | gemeten |
-| Mamba conv_step + dt_activate | 0,197 | gemeten |
-| MoE gather (PCIe) | 3,849 | gemeten |
-| MoE up_proj | 2,253 | gemeten |
-| MoE shared_expert | 1,810 | gemeten |
-| MoE down_masked | 1,372 | gemeten |
-| MoE panel_scan + reduce + accumulate | 1,119 | gemeten |
-| attention (q/o GEMV + flash_decode + kv_write) | 2,479 | gemeten |
-| rest (lm_head, norms, embed, argmax) | ~3,7 | rest |
-| **totaal** | **21,24** | |
+Elke regel is een eigen marginale meting in de gevangen graph met een bitexacte
+poort. Geen enkele is afgeleid door aftrekken (dat leverde vandaag twee keer een
+fout getal op).
 
-**In-lus GEMV-tempo: 213 GB/s tegen 248-267 geïsoleerd = 80-86%.** Er is dus een
-in-lus-boete van 15-20%, maar niet de 36% die eerder hier stond; L2-verdringing
-en `copy_stream`-contentie zijn beide apart gemeten en **weerlegd** als oorzaak.
+| post | ms | % | efficiëntie |
+|---|---:|---:|---|
+| Mamba in_proj + out_proj (GEMV) | 4,187 | 19,7% | 213 GB/s = 80-86% |
+| MoE gather (PCIe) | 3,849 | 18,1% | 16,6 van 25,9 GB/s |
+| attention | 2,479 | 11,7% | 45,5% |
+| MoE up_proj | 2,253 | 10,6% | 171,9 GB/s |
+| MoE shared_expert | 1,810 | 8,5% | 223 GB/s = 90% |
+| MoE down_masked | 1,372 | 6,5% | 60% |
+| MoE panel_scan + reduce + accumulate | 1,119 | 5,3% | — |
+| lm_head | 1,107 | 5,2% | 179 GB/s = 69% |
+| Mamba ssm_step | 1,095 | 5,2% | 88 GB/s = 34% |
+| norms + adds (105 launches) | 0,370 | 1,7% | **3,53 µs/launch** |
+| Mamba gated_norm | 0,273 | 1,3% | — |
+| Mamba conv_step + dt_activate | 0,197 | 0,9% | — |
+| **som** | **20,11** | **94,7%** | |
+| gemeten token | 21,24 | | |
 
-⚠️ Twee eerdere splitsingen van Mamba (172,6 GB/s "half token weg", en 258,7
-GB/s "geen gat") waren **allebei fout** — beide door aftrekken in plaats van
-meten. **Metaregel: een verschil tussen een geïsoleerde en een in-lus meting is
-een hypothese, geen getal.**
+**Wat deze kaart zegt.** De vijf grootste posten (14,6 van 21,24 ms) zijn vier
+ERVF-GEMV's die al op 69-90% van het kernelplafond draaien, plus PCIe-verkeer met
+een harde ondergrens van 2,47 ms. **Er is geen post waar meer dan ~0,7 ms uit te
+halen valt zonder de rekenkunde of de numerieke precisie te wijzigen.** Dat
+verklaart waarom negen kernelingrepen vandaag samen 0,42 ms opleverden.
 
-**Efficiëntie per component, alles in-graph gemeten:**
-
-| component | behaald | vloer | hoofdruimte |
-|---|---:|---:|---:|
-| **`ssm_step`** | **34%** (88,1 GB/s) | 0,371 | **0,724 ms** ← slechtste |
-| attention | 45,5% | 1,128 | 1,352 |
-| down_masked | 60% | 0,257 | ~0,17 |
-| Mamba GEMV's | 80-86% (213 GB/s) | — | — |
-| shared_expert | 90% (223 GB/s) | 1,17 | 0,14 |
-
-**`ssm_step` is de slechtste en tegelijk de schoonste**: pure VRAM
-read-modify-write van 96,5 MB/token (SSM-state 2,10 MB/laag), geen PCIe, geen
-sparsity, geen data-afhankelijke grid, geen LRU.
-**Drie bitexacte varianten gebouwd en gemeten, alle drie geen winst:** layout
-`[h][n][p]` ×0,685 · twee fasen ×0,945 · blok-per-(h,p) ×1,031. Die laatste
-geeft **128× meer parallellisme bij identiek verkeer** en levert 3% — dus noch
-layout noch occupancy verklaart de 34%. Gerealiseerd: 0,024 van de 0,724 ms.
-Wat overblijft valt **buiten** de bitexacte discipline: de SSM-state is het
-enige niet-gekwantiseerde buffer in het model (fp32, 48,3 MB/token); bf16 zou
-het verkeer halveren maar de state accumuleert over tijdstappen, dus dat is een
-numerieke keuze met kwaliteitspoort — **een beslissing voor de gebruiker**.
+**3,53 µs per kernel-launch binnen een gevangen graph** is nieuw en bruikbaar:
+`rmsnorm_bf16w` draait als één blok voor 10,75 KB (0,03 µs echt verkeer), dus dat
+is vrijwel geheel vaste kost. De 52 `add_`-launches wegfuseren scheelt ~0,18 ms,
+de norms nog eens ~0,19 — goedkoper dan elke kernelherschrijving die vandaag
+geprobeerd is.
 
 ## 🔎 De volledige rekening (2026-08-16, alles gemeten)
 

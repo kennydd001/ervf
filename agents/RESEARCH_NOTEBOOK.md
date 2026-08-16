@@ -11,6 +11,71 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — **De tokenkaart is compleet.** lm_head 1,107 (69% efficiënt) · norms+adds 0,370 voor 105 launches = **3,53 µs per kernel-launch, ín een gevangen graph**
+
+**Vraag.** Na alle eerdere attributie bleef ~2,6 ms van de 21,24 ms
+ongeattribueerd: `lm_head`, 53 `norm`-launches en 52 `add_`-launches. Dat is het
+enige deel van `_step_body_graph` dat nooit geprobed is.
+
+**Opzet.** Probes wikkelen `_step_body_graph` in plaats van een component, want
+deze kernels staan buiten de laag-bodies. Twee armen, niet vier.
+`argmax` en `pos_increment` zijn **bewust niet** geprobed — die schrijven
+`_tok_dev` respectievelijk de positie, dus een tweede aanroep zou de reeks
+verschuiven. Alles wat wel geprobed wordt schrijft naar kladbuffers.
+
+**Uitkomst (poorten groen: alle armen bitexact, drift 0,1612 ms).**
+
+| | ms/token | detail |
+|---|---:|---|
+| **`lm_head`** | **1,107** | 179,0 GB/s tegen een vloer van 0,762 → **0,345 ms hoofdruimte, 69% efficiënt** |
+| **norms + adds** | **0,370** | 105 launches → **3,53 µs per launch** |
+
+**Het getal dat het meest zegt: 3,53 µs per kernel-launch, binnen een gevangen
+CUDA-graph.** `rmsnorm_bf16w` draait als **één blok** voor een 2688-elements
+reductie — 10,75 KB, oftewel 0,03 µs aan echt verkeer bij 345,9 GB/s. Vrijwel
+de hele 3,53 µs is dus vaste kosten per kernel, niet werk. Dat is een
+**fusie**-doel, niet een bandbreedte-doel, en het is de eerste keer dat dit
+project een in-graph per-kernel-ondergrens heeft gemeten.
+
+Praktisch: de 52 `add_`-launches wegfuseren in de voorafgaande kernel scheelt
+~0,18 ms; hetzelfde voor de norms nog eens ~0,19. Klein maar concreet, en
+goedkoper dan alles wat vandaag aan kernelherschrijving geprobeerd is.
+
+### De volledige tokenkaart — alles in-graph, elke regel apart gemeten, elke arm bitexact
+
+| post | ms | % |
+|---|---:|---:|
+| Mamba in_proj + out_proj (GEMV) | 4,187 | 19,7% |
+| MoE gather (PCIe) | 3,849 | 18,1% |
+| attention (q/o + flash_decode + kv_write) | 2,479 | 11,7% |
+| MoE up_proj | 2,253 | 10,6% |
+| MoE shared_expert | 1,810 | 8,5% |
+| MoE down_masked | 1,372 | 6,5% |
+| MoE panel_scan + reduce + accumulate | 1,119 | 5,3% |
+| lm_head | 1,107 | 5,2% |
+| Mamba ssm_step | 1,095 | 5,2% |
+| norms + adds (105 launches) | 0,370 | 1,7% |
+| Mamba gated_norm | 0,273 | 1,3% |
+| Mamba conv_step + dt_activate | 0,197 | 0,9% |
+| **som** | **20,11** | **94,7%** |
+| gemeten token | 21,24 | |
+
+**Voor het eerst is de hele token verklaard** — 94,7% expliciet toegerekend, de
+rest binnen de gemeten drift. Elke regel is een eigen marginale meting in de
+gevangen graph met een bitexacte poort, geen enkele is afgeleid door aftrekken.
+
+**Wat de kaart zegt over 100 tok/s.** De vijf grootste posten zijn Mamba-GEMV,
+PCIe-gather, attention, up_proj en shared_expert — samen 14,6 ms van de 21,24.
+Vier daarvan zijn ERVF-GEMV's die al op 69-90% van het kernelplafond draaien;
+de vijfde is PCIe-verkeer met een harde ondergrens van 2,47 ms. **Er is geen
+enkele post waar meer dan ~0,7 ms uit te halen valt zonder de rekenkunde of de
+numerieke precisie te veranderen** — en dat is precies waarom de negen
+kernelingrepen van vandaag samen 0,42 ms opleverden.
+
+**Artefacten.** `pro_research/diag_glue_marginals.py` + `.json`.
+
+---
+
 ## 2026-08-16 — `ssm_step` afgesloten: **drie bitexacte varianten gebouwd, alle drie gemeten, geen enkele een winst.** Layout ×0,685 · twee-fasen ×0,945 · blok-per-(h,p) ×1,031 — en dat sluit occupancy óók uit
 
 **Vraag.** `ssm_step` draait op 34% van het kernel-tempo, de slechtste van het

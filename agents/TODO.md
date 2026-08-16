@@ -175,6 +175,18 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
+- [ ] **Goedkoopste resterende winst: kernel-fusie van de glue.** Gemeten:
+      **3,53 µs per kernel-launch binnen een gevangen graph** (105 launches van
+      norms+adds kosten 0,370 ms terwijl `rmsnorm_bf16w` maar 10,75 KB aanraakt =
+      0,03 µs echt verkeer). Vrijwel geheel vaste kost. De 52 `add_`-launches in
+      de voorafgaande kernel fuseren scheelt ~0,18 ms; de 53 norms nog eens
+      ~0,19. **Samen ~0,37 ms — bijna evenveel als alle negen kernelingrepen van
+      vandaag samen (0,42 ms) — en veel goedkoper te bouwen.**
+- [DONE 2026-08-16] **De tokenkaart is compleet.** 94,7% van het token expliciet
+      toegerekend, elke regel een eigen in-graph marginaal met bitexacte poort.
+      Zie de tabel in `STATE_OF_THE_WORK.md`. Laatste toevoeging: `lm_head`
+      1,107 ms (179 GB/s = 69%, hoofdruimte 0,345) en norms+adds 0,370 ms.
+
 - [WEERLEGD 2026-08-16] **"Het gat tussen geïsoleerde en in-lus kernelsnelheid"**
       — bestond niet. Beide toetsbare oorzaken apart gemeten en weerlegd
       (L2-verdringing 261,2 GB/s, PCIe-contentie 251,6 tegen baseline 264,8;

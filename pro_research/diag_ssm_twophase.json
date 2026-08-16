@@ -1,0 +1,50 @@
+{
+  "kind": "diag_ssm_twophase",
+  "created_utc": "2026-08-16T13:41:00.413352+00:00",
+  "note": "ssm_step is occupancy-limited: 64 blocks x 64 threads = ~5 warps/SM. Phase 1 gets 128x the parallelism; phase 2 keeps the sequential acc so the summation order -- and therefore bit-exactness -- is untouched. The trade is 50% more traffic (phase 2 re-reads the state), betting that read is L2-served. 23 distinct state buffers so nothing is L2-resident by accident; a single reused buffer has produced a wrong-sign result twice today.",
+  "geometry": {
+    "H": 64,
+    "P": 64,
+    "N": 128,
+    "layers": 23,
+    "fused_blocks": 64,
+    "fused_threads": 64,
+    "phase1_blocks": 2048,
+    "phase2_blocks": 16,
+    "fused_warps_total": 128,
+    "phase1_warps_total": 16384,
+    "rw_bytes_fused": 96468992,
+    "rw_bytes_twophase": 144703488
+  },
+  "gates": {
+    "y_bit_exact_twophase": true,
+    "state_bit_exact_twophase": true,
+    "y_bit_exact_block_hp": true,
+    "state_bit_exact_block_hp": true,
+    "finite": true
+  },
+  "fused": {
+    "ms_per_token": 0.8014067077636718,
+    "gb_s": 120.37457518816764
+  },
+  "twophase": {
+    "ms_per_token": 0.8649628448486328,
+    "gb_s": 167.2944553188558
+  },
+  "block_per_hp": {
+    "ms_per_token": 0.7773194885253907,
+    "gb_s": 124.10468722842127,
+    "blocks": 4096,
+    "threads": 128,
+    "warps_total": 16384
+  },
+  "speedup_twophase": 0.9265215408228509,
+  "speedup_block_per_hp": 1.0309875406365736,
+  "saving_ms_per_token_twophase": -0.063556137084961,
+  "saving_ms_per_token_block_per_hp": 0.024087219238281166,
+  "in_graph_reference": {
+    "ssm_step_ms": 1.095,
+    "headroom_ms": 0.724
+  },
+  "status": "measured"
+}

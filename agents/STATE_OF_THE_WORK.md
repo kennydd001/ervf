@@ -58,11 +58,14 @@ een hypothese, geen getal.**
 **`ssm_step` is de slechtste en tegelijk de schoonste**: pure VRAM
 read-modify-write van 96,5 MB/token (SSM-state 2,10 MB/laag), geen PCIe, geen
 sparsity, geen data-afhankelijke grid, geen LRU.
-De layout-hypothese (`[h][p][n]` → `[h][n][p]`) is **gebouwd, bitexact en
-weerlegd**: 46% trager op koude state. Wat overblijft is **occupancy** —
-64 blokken × 64 threads = ~5 warps/SM. De enige bitexacte uitweg die nog
-openstaat is een tweefasige opzet (parallel state-update, dan de sequentiële
-`acc`).
+**Drie bitexacte varianten gebouwd en gemeten, alle drie geen winst:** layout
+`[h][n][p]` ×0,685 · twee fasen ×0,945 · blok-per-(h,p) ×1,031. Die laatste
+geeft **128× meer parallellisme bij identiek verkeer** en levert 3% — dus noch
+layout noch occupancy verklaart de 34%. Gerealiseerd: 0,024 van de 0,724 ms.
+Wat overblijft valt **buiten** de bitexacte discipline: de SSM-state is het
+enige niet-gekwantiseerde buffer in het model (fp32, 48,3 MB/token); bf16 zou
+het verkeer halveren maar de state accumuleert over tijdstappen, dus dat is een
+numerieke keuze met kwaliteitspoort — **een beslissing voor de gebruiker**.
 
 ## 🔎 De volledige rekening (2026-08-16, alles gemeten)
 

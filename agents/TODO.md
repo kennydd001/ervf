@@ -202,7 +202,26 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       instructie-coalescing ≠ geheugensysteem-efficiëntie. ⚠️ Een eerste versie
       met één hergebruikte state-buffer gaf ×1,484 (warme L2) en had dus een
       regressie als winst verkocht; zie de meetregel hieronder.
-      **Wat overblijft als enige verklaring: occupancy.** De launch is
+      **[OCCUPANCY OOK WEERLEGD 2026-08-16]** Twee varianten gebouwd die het
+      parallellisme aanpakken, beide bitexact op y én state: **twee fasen**
+      (fase 1 parallel over (h,p,n), fase 2 de sequentiële acc) gaf ×0,945 —
+      de efficiëntie per byte steeg wel van 123,8 naar 167-176 GB/s (+42%) maar
+      het +50% extra verkeer at de winst op; en **blok-per-(h,p)** (4.096 blokken
+      × 128 threads = 16.384 warps tegen 128, identiek verkeer) gaf ×1,031.
+      **128× meer parallellisme bij gelijk verkeer levert 3%** — dus niet
+      occupancy-gebonden. Alle drie de bitexacte remedies zijn nu uitgeput
+      (layout ×0,685, twee fasen ×0,945, blok-per-hp ×1,031); gerealiseerd:
+      **0,024 ms van de 0,724 hoofdruimte**.
+- [ ] **BESLISSING VOOR DE GEBRUIKER — SSM-state van fp32 naar bf16?** Dat is
+      het enige dat na de drie weerlegde varianten overblijft, en het valt
+      **buiten** de bitexacte discipline van dit project. De SSM-state is 2,10 MB
+      per laag / 48,3 MB per token en is het **enige buffer in het model dat niet
+      gekwantiseerd is** (gewichten NVFP4/FP8/BF16, KV-cache FP8). In bf16
+      halveert het verkeer → ~0,39 ms in plaats van 0,78. Maar de state
+      **accumuleert over tijdstappen**, dus dit is een echte numerieke wijziging
+      met een kwaliteitspoort. Niet gebouwd; hoort expliciet gevraagd te worden
+      in plaats van binnengeslopen.
+- [ ] ~~oud~~ **occupancy als verklaring** De launch is
       `64 blokken × 64 threads = 128 warps op 26 SM's ≈ 5 warps/SM` — veel te
       weinig om DRAM-latentie te verbergen. De n-lus is elementgewijs
       onafhankelijk **behalve de `acc`-reductie**, en juist die parallelliseren

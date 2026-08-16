@@ -11,6 +11,63 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — `ssm_step` afgesloten: **drie bitexacte varianten gebouwd, alle drie gemeten, geen enkele een winst.** Layout ×0,685 · twee-fasen ×0,945 · blok-per-(h,p) ×1,031 — en dat sluit occupancy óók uit
+
+**Vraag.** `ssm_step` draait op 34% van het kernel-tempo, de slechtste van het
+model. Na de weerlegde layout-hypothese bleef **occupancy** over als enige
+verklaring: 64 blokken × 64 threads = 128 warps op 26 SM's ≈ 5 warps/SM.
+
+**Variant 2 — twee fasen.** Fase 1 volledig parallel over (h, p, n): 524.288
+elementen in plaats van 4.096, werkt de state bij met exact dezelfde `fmaf`.
+Fase 2 één thread per (h, p) die de sequentiële `acc` doet over wat fase 1 net
+schreef. De optelvolgorde blijft daarmee ongemoeid — dat is het hele punt.
+Kosten: fase 2 herleest de state, dus 6,29 MB per laag in plaats van 4,19
+(**+50% verkeer**).
+
+Uitkomst: **bitexact** (y én state), **×0,945 — 5,5% trager**. Maar de
+efficiëntie per byte ging fors omhoog: **123,8 → 167-176 GB/s (+42%)**. Het
+parallellisme hélpt dus wel; het extra verkeer eet de winst op.
+
+**Variant 3 — één blok per (h, p), N threads.** Dit haalt het parallellisme
+zónder extra verkeer: de state-update is volledig parallel en gecoalesceerd
+binnen het blok (128 aaneengesloten floats), en thread 0 doet daarna de
+sequentiële `acc` over shared memory. Verkeer identiek aan de productie-kernel.
+Parallellisme: 4.096 blokken × 128 threads = **16.384 warps** tegen 128.
+(Detail dat ertoe doet: thread 0 moet zelf `fmaf(s, C, acc)` doen — `s*C`
+parallel voorberekenen en daarna sommeren rondt twee keer in plaats van één.)
+
+Uitkomst: **bitexact** (y én state), **×1,031 — 3,1%**, 0,024 ms/token.
+
+**Wat dit uitsluit, en dat is de waarde.** Een factor **128× meer parallellisme
+bij identiek verkeer levert 3%.** `ssm_step` is dus **niet occupancy-gebonden**
+— net zomin als layout-gebonden. Alle drie de bitexacte remedies zijn gebouwd,
+geverifieerd en gemeten:
+
+| variant | bitexact | resultaat |
+|---|---|---:|
+| layout `[h][n][p]` | ✅ y + state | ×0,685 |
+| twee fasen | ✅ y + state | ×0,945 |
+| blok-per-(h,p) | ✅ y + state | **×1,031** |
+
+**Wat er dan overblijft — en het valt buiten de bitexacte discipline.** De
+SSM-state is **float32**: 2,10 MB per laag, 48,3 MB per token, en dat is het
+enige buffer in het hele model dat níet gekwantiseerd is (gewichten zijn NVFP4/
+FP8/BF16, de KV-cache is FP8). In bf16 zou het verkeer **halveren** → ~0,39 ms
+in plaats van 0,78. Maar de SSM-state **accumuleert over tijdstappen**, dus dat
+is een echte numerieke wijziging met een kwaliteitspoort, geen dataplaatsing.
+Dat is een andere soort beslissing dan alles wat deze sessie gedaan heeft en
+hoort expliciet aan de gebruiker voorgelegd te worden in plaats van
+binnengeslopen — genoteerd in TODO, niet gebouwd.
+
+**Stand van `ssm_step`:** 1,095 ms in-graph, 0,724 ms hoofdruimte, en na drie
+gebouwde en gemeten varianten is daar **0,024 ms** van gerealiseerd. De rest
+zit achter een numerieke keuze, niet achter een implementatiekeuze.
+
+**Artefacten.** `pro_research/diag_ssm_twophase.py` + `.json` (bevat beide
+varianten), `pro_research/diag_ssm_layout.py` + `.json`.
+
+---
+
 ## 2026-08-16 — De `ssm_step`-layouttranspositie: **WEERLEGD, en de warme-L2-versie van dezelfde meting had een regressie verkocht** (×1,48 warm → ×0,685 koud)
 
 **Hypothese.** `ssm_step` heeft state `[h][p][n]` terwijl thread `p` een hele

@@ -1,0 +1,257 @@
+{
+  "kind": "pro_e100_nvfp4_tiled_mrhs",
+  "runner_revision": "v5_tiled_shared_decode",
+  "mode": "smoke",
+  "status": "smoke_pass",
+  "started_utc": "2026-08-16T15:22:16.193982+00:00",
+  "preregistration": "pro_research\\E100_NVFP4_TILED_MRHS_PREREGISTRATION.md",
+  "claim_boundary": "exact tiled NVFP4 shared-decode MRHS component; not a full-model E100 claim",
+  "environment_start": {
+    "created_utc": "2026-08-16T15:22:18.265354+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "0b2933583b987c12241f3c55e8de3e0474e41a2f",
+    "git_status": [
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 47, 10.24 W, 0 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "pro_research\\e100_nvfp4_tiled_mrhs.py": "aaf67415e89718462ed70c13ed7c32f1b7b8b63f29988360f9f230106b662868",
+      "pro_research\\E100_NVFP4_TILED_MRHS_PREREGISTRATION.md": "b2c85785c3479c52274e49a7becc4f6977eea0d20f11936d1b1a95c9bec3334b",
+      "pro_research\\nvfp4_tiled_mrhs_kernels.py": "6a3556bc78d0665af5a6f8d6bf915ff8b07a6891316ef5341bfdf38591908405",
+      "pro_research\\e100_mrhs_adopted_bench.py": "735ff26f83504be47e3472208656d861236303a28e4ab5b79b9b73eed5702113",
+      "pro_research\\e100_adopted_baseline.py": "27ad3fb500176f02cd52145102c5e813b7d550114857667bef3634c2fa9983ee"
+    }
+  },
+  "config": {
+    "rhs_values": [
+      4
+    ],
+    "mandatory_cases": [
+      "shared_up_nvfp4",
+      "shared_down_nvfp4",
+      "lm_head_nvfp4"
+    ],
+    "correctness_batches": 1,
+    "timing_repeats": 2,
+    "timing_rounds_per_ABBA_arm": 2,
+    "tile_packed_vectors": 256,
+    "tile_weights_per_row": 2048,
+    "max_dynamic_smem_bytes": {
+      "4": 32768,
+      "8": 16384,
+      "16": 8192
+    }
+  },
+  "supported_cases": [
+    "lm_head_nvfp4",
+    "shared_down_nvfp4",
+    "shared_up_nvfp4"
+  ],
+  "unsupported_cases_from_collector": [],
+  "mandatory_support_pass": true,
+  "records": [
+    {
+      "name": "shared_up_nvfp4",
+      "kind": "nvfp4",
+      "n_rhs": 4,
+      "rows": 3712,
+      "cols": 2688,
+      "calls_per_token": 23,
+      "matrix_weight_bytes": 5612544,
+      "correctness_batches": [
+        {
+          "seed": 3775075788,
+          "production_vs_adopted_bit_equal": true,
+          "production_vs_adopted_mismatch_count": 0,
+          "adopted_vs_candidate_bit_equal": true,
+          "adopted_vs_candidate_mismatch_count": 0,
+          "candidate_deterministic": true,
+          "candidate_repeat_mismatch_count": 0,
+          "finite": true
+        }
+      ],
+      "production_equals_adopted": true,
+      "adopted_equals_candidate": true,
+      "candidate_deterministic": true,
+      "all_finite": true,
+      "all_exact": true,
+      "reference_name": "adopted_v6_selective_single_rhs",
+      "candidate_name": "nvfp4_tiled_shared_decode_mrhs",
+      "reference_a_ms": 0.12172799929976463,
+      "reference_b_ms": 0.12055999785661697,
+      "reference_mid_ms": 0.1211439985781908,
+      "candidate_ms": 0.23366399854421616,
+      "candidate_ms_per_rhs": 0.05841599963605404,
+      "aggregate_speedup": 0.5184538454059998,
+      "reference_drift_fraction": 0.009641430503004143,
+      "raw_reference_a_ms": [
+        0.12220799922943115,
+        0.12124799937009811
+      ],
+      "raw_candidate_a_ms": [
+        0.2343360036611557,
+        0.23401600122451782
+      ],
+      "raw_candidate_b_ms": [
+        0.2333119958639145,
+        0.2330559939146042
+      ],
+      "raw_reference_b_ms": [
+        0.12062399834394455,
+        0.1204959973692894
+      ]
+    },
+    {
+      "name": "shared_down_nvfp4",
+      "kind": "nvfp4",
+      "n_rhs": 4,
+      "rows": 2688,
+      "cols": 3712,
+      "calls_per_token": 23,
+      "matrix_weight_bytes": 5612544,
+      "correctness_batches": [
+        {
+          "seed": 3775075999,
+          "production_vs_adopted_bit_equal": true,
+          "production_vs_adopted_mismatch_count": 0,
+          "adopted_vs_candidate_bit_equal": true,
+          "adopted_vs_candidate_mismatch_count": 0,
+          "candidate_deterministic": true,
+          "candidate_repeat_mismatch_count": 0,
+          "finite": true
+        }
+      ],
+      "production_equals_adopted": true,
+      "adopted_equals_candidate": true,
+      "candidate_deterministic": true,
+      "all_finite": true,
+      "all_exact": true,
+      "reference_name": "adopted_v6_selective_single_rhs",
+      "candidate_name": "nvfp4_tiled_shared_decode_mrhs",
+      "reference_a_ms": 0.1236639991402626,
+      "reference_b_ms": 0.12727200239896774,
+      "reference_mid_ms": 0.12546800076961517,
+      "candidate_ms": 0.2115359976887703,
+      "candidate_ms_per_rhs": 0.052883999422192574,
+      "aggregate_speedup": 0.593128366521401,
+      "reference_drift_fraction": 0.02875636207298918,
+      "raw_reference_a_ms": [
+        0.12369599938392639,
+        0.12363199889659882
+      ],
+      "raw_candidate_a_ms": [
+        0.21318399906158447,
+        0.21199999749660492
+      ],
+      "raw_candidate_b_ms": [
+        0.2104479968547821,
+        0.21107199788093567
+      ],
+      "raw_reference_b_ms": [
+        0.13195200264453888,
+        0.1225920021533966
+      ]
+    },
+    {
+      "name": "lm_head_nvfp4",
+      "kind": "nvfp4",
+      "n_rhs": 4,
+      "rows": 131072,
+      "cols": 2688,
+      "calls_per_token": 1,
+      "matrix_weight_bytes": 198180864,
+      "correctness_batches": [
+        {
+          "seed": 3775075547,
+          "production_vs_adopted_bit_equal": true,
+          "production_vs_adopted_mismatch_count": 0,
+          "adopted_vs_candidate_bit_equal": true,
+          "adopted_vs_candidate_mismatch_count": 0,
+          "candidate_deterministic": true,
+          "candidate_repeat_mismatch_count": 0,
+          "finite": true
+        }
+      ],
+      "production_equals_adopted": true,
+      "adopted_equals_candidate": true,
+      "candidate_deterministic": true,
+      "all_finite": true,
+      "all_exact": true,
+      "reference_name": "adopted_v6_selective_single_rhs",
+      "candidate_name": "nvfp4_tiled_shared_decode_mrhs",
+      "reference_a_ms": 4.257887840270996,
+      "reference_b_ms": 4.156424045562744,
+      "reference_mid_ms": 4.20715594291687,
+      "candidate_ms": 8.840176105499268,
+      "candidate_ms_per_rhs": 2.210044026374817,
+      "aggregate_speedup": 0.47591313710364846,
+      "reference_drift_fraction": 0.024116955987589547,
+      "raw_reference_a_ms": [
+        4.233791828155518,
+        4.281983852386475
+      ],
+      "raw_candidate_a_ms": [
+        8.877984046936035,
+        9.519375801086426
+      ],
+      "raw_candidate_b_ms": [
+        8.8023681640625,
+        8.41483211517334
+      ],
+      "raw_reference_b_ms": [
+        4.175536155700684,
+        4.137311935424805
+      ]
+    }
+  ],
+  "summary_by_n": {
+    "4": {
+      "n_rhs": 4,
+      "case_count": 3,
+      "all_exact": true,
+      "weighted_reference_ms": 9.879231927916408,
+      "weighted_candidate_ms": 19.079776018857956,
+      "weighted_aggregate_speedup": 0.5177855294607249,
+      "min_case_speedup": 0.47591313710364846,
+      "max_reference_drift_fraction": 0.02875636207298918,
+      "shared_up_speedup": 0.5184538454059998,
+      "shared_down_speedup": 0.593128366521401,
+      "lm_head_speedup": 0.47591313710364846
+    }
+  },
+  "gates": {
+    "all_production_adopted_candidate_exact": true,
+    "all_three_nvfp4_families_supported": true,
+    "performance": {
+      "n16_weighted_ge_2_0": null,
+      "n16_lm_head_ge_2_0": null,
+      "n16_shared_up_ge_1_20": null,
+      "n16_shared_down_ge_1_20": null,
+      "n16_no_case_below_1_20": null,
+      "n16_all_ref_drift_le_7pct": null
+    },
+    "full_performance_pass": null
+  },
+  "environment_end": {
+    "created_utc": "2026-08-16T15:22:21.319264+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "0b2933583b987c12241f3c55e8de3e0474e41a2f",
+    "git_status": [
+      "?? pro_research/results/e100_nvfp4_tiled_mrhs/",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 1926 MiB, 47, 12.10 W, 1650 MHz, 11001 MHz, P2",
+    "source_hashes": {}
+  },
+  "completed_utc": "2026-08-16T15:22:21.432982+00:00"
+}

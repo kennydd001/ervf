@@ -1,0 +1,58 @@
+C:\Users\de_do\Documents\ChatGPT\New project\.venv-nemotron\Lib\site-packages\cupy\_environment.py:284: UserWarning: CUDA path could not be detected. Set CUDA_PATH environment variable if CuPy fails to load.
+  warnings.warn(
+TILED-MRHS N= 4 shared_up_nvfp4        exact=True ref=0.1211ms cand=0.2337ms speedup=0.518x drift=0.96%
+TILED-MRHS N= 4 shared_down_nvfp4      exact=True ref=0.1255ms cand=0.2115ms speedup=0.593x drift=2.88%
+TILED-MRHS N= 4 lm_head_nvfp4          exact=True ref=4.2072ms cand=8.8402ms speedup=0.476x drift=2.41%
+{
+  "status": "smoke_pass",
+  "output": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\results\\e100_nvfp4_tiled_mrhs\\PRO_E100_NVFP4_TILED_MRHS.json",
+  "summary_by_n": {
+    "4": {
+      "n_rhs": 4,
+      "case_count": 3,
+      "all_exact": true,
+      "weighted_reference_ms": 9.879231927916408,
+      "weighted_candidate_ms": 19.079776018857956,
+      "weighted_aggregate_speedup": 0.5177855294607249,
+      "min_case_speedup": 0.47591313710364846,
+      "max_reference_drift_fraction": 0.02875636207298918,
+      "shared_up_speedup": 0.5184538454059998,
+      "shared_down_speedup": 0.593128366521401,
+      "lm_head_speedup": 0.47591313710364846
+    }
+  },
+  "gates": {
+    "all_production_adopted_candidate_exact": true,
+    "all_three_nvfp4_families_supported": true,
+    "performance": {
+      "n16_weighted_ge_2_0": null,
+      "n16_lm_head_ge_2_0": null,
+      "n16_shared_up_ge_1_20": null,
+      "n16_shared_down_ge_1_20": null,
+      "n16_no_case_below_1_20": null,
+      "n16_all_ref_drift_le_7pct": null
+    },
+    "full_performance_pass": null
+  },
+  "error": null,
+  "cleanup_warning": null
+}
+{
+  "kind": "pro_e100_nvfp4_tiled_mrhs_independent_verification",
+  "source": "pro_research\\results\\e100_nvfp4_tiled_mrhs\\PRO_E100_NVFP4_TILED_MRHS.json",
+  "source_status": "smoke_pass",
+  "recomputed_status": "smoke_pass",
+  "all_exact": true,
+  "support_pass": true,
+  "n16_performance_gates": {
+    "n16_weighted_ge_2_0": null,
+    "n16_lm_head_ge_2_0": null,
+    "n16_shared_up_ge_1_20": null,
+    "n16_shared_down_ge_1_20": null,
+    "n16_no_case_below_1_20": null,
+    "n16_all_ref_drift_le_7pct": null
+  },
+  "full_performance_pass": null,
+  "errors": [],
+  "passed": true
+}

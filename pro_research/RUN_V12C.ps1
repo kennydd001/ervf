@@ -5,7 +5,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $Repo = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $Python = Join-Path $Repo '.venv-nemotron\Scripts\python.exe'
-$Runner = Join-Path $Repo 'pro_research\credit_wait_v12c.py'
+$Runner = Join-Path $Repo 'pro_research\credit_wait_v12c_blocking_entry.py'
 $Verifier = Join-Path $Repo 'pro_research\verify_v12c.py'
 $OutDir = Join-Path $Repo 'pro_research\results\v12_async'
 New-Item -ItemType Directory -Path $OutDir -Force | Out-Null
@@ -19,7 +19,7 @@ Write-Host "Python     : $Python"
 Write-Host "Mode       : $Mode"
 Write-Host "Log        : $Log"
 Write-Host ''
-Write-Host '=== V12C rolling event-wait run ==='
+Write-Host '=== V12C rolling blocking-event run ==='
 & $Python $Runner --mode $Mode 2>&1 | Tee-Object -FilePath $Log
 if ($LASTEXITCODE -ne 0) { throw "V12C returned code $LASTEXITCODE" }
 Write-Host ''

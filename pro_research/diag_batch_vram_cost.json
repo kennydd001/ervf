@@ -1,0 +1,47 @@
+{
+  "kind": "diag_batch_vram_cost",
+  "created_utc": "2026-08-16T02:58:42.247274+00:00",
+  "note": "host-side arithmetic (KV-cache + Mamba-state byte cost from config, mirrors runtime.py's own _alloc_state formulas) plus one real nvidia-smi read at the eager+device-cache operating point -- closes design-doc risk #4 with an actual number",
+  "environment": {
+    "created_utc": "2026-08-16T02:58:42.247274+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "cc1f43bd92920517d23823223e38b1c8b0b52a66",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/diag_batch_vram_cost.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6380 MiB, 52, 5.43 W, 180 MHz, 405 MHz, P8",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
+    }
+  },
+  "contexts_max": 4096,
+  "cache_capacity": 72,
+  "n_attn_layers": 6,
+  "n_mamba_layers": 23,
+  "n_moe_layers": 23,
+  "kv_dim": 256,
+  "kv_bytes_per_attn_layer": 2097152,
+  "kv_bytes_total_one_sequence": 12582912,
+  "ssm_bytes_per_mamba_layer": 2097152,
+  "conv_bytes_per_mamba_layer": 98304,
+  "mamba_bytes_total_one_sequence": 50495488,
+  "per_additional_sequence_bytes": 63078400,
+  "per_additional_sequence_mib": 60.15625,
+  "nvidia_smi_after_eager_cache_load": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6380 MiB, 52, 5.40 W, 180 MHz, 405 MHz, P8",
+  "total_vram_mib": 8151.0,
+  "used_vram_mib_eager_cache": 6380.0,
+  "free_vram_mib_eager_cache": 1771.0,
+  "max_additional_sequences_fit_eager_no_graph": 29,
+  "max_n_eager_no_graph": 30,
+  "known_full_graph_free_mib": 0,
+  "max_additional_sequences_fit_full_graph": 0.0
+}

@@ -298,6 +298,26 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       het licht. Volledige runtime-integratie blijft ongebouwd. Read-only
       diagnostiek, geen tok/s-claim. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16,
       blok "Staggered posities".
+- [DONE 2026-08-16] **Batch>1: exacte VRAM-kost per extra sequentie —
+      sluit risico #4 uit `BATCH_ARCHITECTURE_DESIGN.md` met een echt getal.**
+      `pro_research/diag_batch_vram_cost.py`: host-aritmetiek die
+      `runtime.py`'s eigen `_alloc_state`-formules natrekt voor KV-cache
+      (FP8, 6 attentielagen) en Mamba ssm+conv-state (FP32, 23 lagen).
+      **60,16 MiB per extra sequentie — en Mamba-state domineert (48,2 MiB),
+      niet KV-cache (12,0 MiB)**, tegen de gebruikelijke transformer-
+      intuïtie in (dit model heeft maar 6 van 52 lagen volledige attentie).
+      Bij het eager+device-cache-bedrijfspunt (geen graph): **1.771 MiB
+      vrij → ruimte voor 29 extra sequenties (N tot 30)**, echt gemeten via
+      nvidia-smi. Bij volledige V6-graph-capture: **0 MiB vrij** (bekend
+      feit uit de V4-preregistratie, hier hergebruikt, niet opnieuw
+      gemeten). **Herkadreert het risico:** niet batch>1 se eigen
+      VRAM-kost is het probleem (60 MiB/sequentie is klein) — de
+      graph-capture-overhead zelf eet al het budget op, vóór batch>1 er
+      iets bij vraagt. Een eager (niet-graph-resident) batch>1-integratie
+      zou ruim budget hebben; een graph-resident integratie moet eerst de
+      graph-capture-kost verlagen. Read-only diagnostiek/aritmetiek, geen
+      tok/s-claim. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "VRAM-kost
+      per extra sequentie".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,
   `cudaErrorStreamCaptureUnsupported` — `cudaGraphLaunch()` op een reeds

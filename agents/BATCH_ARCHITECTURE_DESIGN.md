@@ -120,10 +120,23 @@ niet bij nul hoeft te beginnen met nadenken.**
    geldt bij grotere spreiding (N=8/16, offsets tot honderden stappen) en de
    volledige runtime-integratie zelf (routing-unie ingebed in een staplus die
    N onafhankelijke posities bijhoudt) blijft ongebouwd.
-4. **VRAM.** N-voudige KV-cache/SSM-state kost VRAM die er op deze 8 GiB-kaart
-   al niet is (0 MiB vrij tijdens V6). Grote N (16) is voor lange contexten
-   waarschijnlijk niet haalbaar zonder de cache-capaciteit fors te verlagen —
-   een nieuwe afweging, niet gemeten.
+4. **VRAM — gemeten, en het herkadreert het risico (2026-08-16).**
+   `pro_research/diag_batch_vram_cost.py`: exacte kost per extra sequentie,
+   nagerekend uit `runtime.py`'s eigen `_alloc_state`-formules: **60,16 MiB**
+   (Mamba ssm+conv-state 48,2 MiB + KV-cache 12,0 MiB — Mamba domineert,
+   want maar 6 van 52 lagen zijn volledige attentie). Bij het eager+
+   device-cache-bedrijfspunt (geen graph-capture) is er **1.771 MiB vrij**,
+   echt gemeten — ruimte voor **29 extra sequenties (N tot 30)** zonder iets
+   te verlagen. Bij volledige V6-graph-capture blijft de eerder gemeten
+   **0 MiB vrij** staan (V4-preregistratie, niet opnieuw gemeten hier).
+   **Het probleem is dus niet batch>1's eigen VRAM-kost** (60 MiB/sequentie
+   is klein) **maar dat graph-capture zelf al het budget opeet** vóór
+   batch>1 er iets bij vraagt. Een eager (niet-graph-resident) batch>1-
+   integratie heeft ruim budget; een graph-resident integratie (V4-V6's
+   eigen winst) zou eerst de graph-capture-kost moeten verlagen
+   (`contexts_max` of cache-capaciteit omlaag) vóór er N=2 bij kan — een
+   reële afweging tussen twee al bewezen hefbomen, nu voor het eerst
+   gekwantificeerd.
 5. **Wat "tok/s" betekent verandert.** Dit hele onderzoeksdoel (100 tok/s) is
    impliciet single-stream geweest. Batch>1's winst is **aggregate**
    doorvoer, niet per-sequentie-latentie — die kan zelfs iets slechter worden

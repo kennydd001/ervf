@@ -11,6 +11,72 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — VRAM-kost per extra sequentie: eindelijk een echt getal, en het is niet wat het risico-document impliceerde
+
+**Vraag.** `BATCH_ARCHITECTURE_DESIGN.md` se risico #4 noemde VRAM als
+mogelijke blokkade voor batch>1 ("N-voudige KV-cache/SSM-state kost VRAM die
+er niet is... een nieuwe afweging, niet gemeten") maar had nooit een
+werkelijk getal — alleen de constatering dat de GPU tijdens V4 al op 0 MiB
+vrij stond. Wat kost één EXTRA sequentie nou precies, en hoeveel ruimte is
+er echt, op welk punt in de stack?
+
+**Opzet.** `pro_research/diag_batch_vram_cost.py`. Twee delen, geen kernels
+gebouwd: (1) host-side aritmetiek die exact `runtime.py`'s eigen
+`_alloc_state`-formules natrekt voor de twee buffer-klassen die volgens het
+ontwerpdocument een batch-dimensie nodig hebben zonder deel-mogelijkheid
+(KV-cache, FP8, per attentielaag; Mamba ssm+conv-state, FP32, per
+Mamba-laag) — dit levert de **exacte** bytekost per extra sequentie, geen
+schatting. (2) één echte `nvidia-smi`-meting bij het eager+device-cache-
+bedrijfspunt (`contexts_max=4096`, `cache_capacity=72`, geen graph-capture)
+— hetzelfde bedrijfspunt dat elk `diag_*`/`proto_batch_*`-script deze sessie
+gebruikt.
+
+**Uitkomst — de kost per extra sequentie.**
+
+| component | lagen | bytes/laag | totaal |
+|---|---:|---:|---:|
+| KV-cache (FP8, K+V) | 6 attentielagen | 2.097.152 B | 12.582.912 B (12,0 MiB) |
+| Mamba ssm+conv-state (FP32) | 23 Mamba-lagen | 2.195.456 B | 50.495.488 B (48,2 MiB) |
+| **totaal per extra sequentie** | | | **63.078.400 B ≈ 60,16 MiB** |
+
+**Verrassend deel: Mamba-state domineert, niet KV-cache** (48,2 MiB vs
+12,0 MiB) — het omgekeerde van de gebruikelijke transformer-intuïtie. Dit
+model heeft slechts 6 van 52 lagen volledige attentie (de rest Mamba/MoE),
+dus de KV-cache-kost is klein; elke Mamba-laag draagt zijn eigen volle
+ssm+conv-state, en er zijn er 23.
+
+**Uitkomst — hoeveel past er echt.** Bij het eager+device-cache-bedrijfspunt:
+**1.771 MiB vrij van 8.151 MiB totaal** (6.380 MiB in gebruik na model +
+cache-laden, vóór graph-capture). Tegen 60,16 MiB/sequentie: **ruimte voor
+29 extra sequenties (N tot 30)** zonder iets te verlagen. Bij het volledige
+V6-bedrijfspunt (mét graph-capture) staat er, uit een eerdere meting deze
+sessie (V4/V6-preregistratie, `RESEARCH_NOTEBOOK.md`/`TODO.md`, "0 MiB vrij
+tijdens V4"), **0 MiB vrij** — dus daar past geen enkele extra sequentie
+zonder de graph-capture-overhead of cache-capaciteit te verlagen.
+
+**Wat dit sluit of opent.** Herkadreert risico #4 fundamenteel: het probleem
+is **niet** dat N-voudige KV/Mamba-state duur is (60 MiB/sequentie is klein
+— 29 sequenties zouden passen buiten de graph om) — het probleem is dat
+**CUDA-graph-capture zelf** al het budget opeet, ver vóór batch>1 er ook nog
+iets bij zou vragen. Dat betekent: een batch>1-integratie zonder
+graph-residentie (eager-modus, zoals V1-V3 vóór graph-safe-residency) zou
+ruim VRAM-budget hebben voor realistische N; een integratie MET
+graph-residentie (V4-V6's eigen winst) zou eerst de graph-capture-kost zelf
+moeten verlagen (kleinere `contexts_max`, lagere cache-capaciteit) vóór er
+ook maar N=2 bij kan. Dat is een reële afweging tussen twee reeds bewezen
+hefbomen (graph-residentie vs. batch>1) die nooit eerder zo expliciet
+gekwantificeerd was.
+
+**Poorten.** Geen PRO-poorten (read-only diagnostiek/aritmetiek, geen
+runtime-wijziging, geen tok/s-claim). De "0 MiB vrij bij volledige graph"-
+constatering is een eerder-gemeten feit (V4-preregistratie), hier
+hergebruikt, niet in dit script opnieuw geverifieerd.
+
+**Artefacten.** `pro_research/diag_batch_vram_cost.py`,
+`pro_research/diag_batch_vram_cost.json`.
+
+---
+
 ## 2026-08-16 — Staggered posities: overleeft de expert-unie continuous batching, of was "alle N op dezelfde stap" een gunstige aanname?
 
 **Vraag.** Elke batch>1-meting tot nu toe (`diag_cross_sequence_union.py`,

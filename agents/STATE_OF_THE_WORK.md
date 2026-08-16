@@ -202,10 +202,21 @@ overbodige host-syncs. Na de fix, nog steeds bitexact: 9,469 tok/s (3,57×
 sneller), nog 3,3× trager dan naive.** Het mechanisme zelf is niet fout
 (bitexact bewezen); een naïeve Python-orkestratie ervan kost veel, en een
 groot deel daarvan is vermijdbaar (bewezen) maar niet alles (het resterende
-gat blijft). Bevestigt scherp waarom `BATCH_ARCHITECTURE_DESIGN.md` een
+gat blijft). Geprofileerd per sectie: down_proj gather+masked+reduce is
+**48,9%** van de resterende tijd — verreweg dominant, en precies waar de
+al gebouwde gebatchte kernels uit V5/V6 nog niet zijn toegepast (concrete,
+afgebakende vervolgstap). Bevestigt scherp waarom `BATCH_ARCHITECTURE_DESIGN.md` een
 echte integratie als meerdere-weken CUDA-engineeringwerk scoopte. Zie
 `agents/RESEARCH_NOTEBOOK.md`
 2026-08-16, blok "Expliciete MoE-deling geïntegreerd in de echte staplus".
+
+**N=4 naive baseline (zelfde dag)**: groeit het incidentele voordeel mee met
+N, zoals losstaande diagnostiek suggereerde? **Verrassend: nee** — 31,215
+tok/s aggregate tegen solo 29,820 (1,047×, +4,7%), vlak tot licht lager dan
+N=2's +5,4%. Vermoedelijke oorzaak: vaste cache-capaciteit (72) geeft meer
+onderlinge eviction bij groter N, wat de grotere theoretische overlap-kans
+compenseert. Zie `agents/RESEARCH_NOTEBOOK.md` 2026-08-16, blok "N=4 naive
+baseline".
 
 **Wat vaststaat over de doelen:** 50 en 100 tok/s zijn fysiek *niet*
 uitgesloten, maar 50+ vraagt méér dan graph-residentie alleen (plafond ~41,5

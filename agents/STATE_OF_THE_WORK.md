@@ -6,6 +6,33 @@ Bijgewerkt: 2026-08-16 (na PRO V3 + model-identiteitsonderzoek) · lees dit vó�
 (single-stream vs. aggregate, wat wél en niet bereikbaar is, en de precieze
 resterende technische stappen): zie `agents/PATH_TO_100_TOKS.md`.**
 
+> ## 🔓 2026-08-16 laat — C2b: native Blackwell FP4 DRAAIT op deze machine
+>
+> **Alle 17 poorten groen** op de doel-GPU (SM120, Torch 2.12.1+cu132 in een
+> geïsoleerde venv). M=1/2/16/128 executeren, `max_abs_error = 0.0`,
+> deterministisch. **292-303 GB/s** tegen onze beste koude ERVF-kernel op
+> 230-261 — **en M=2 kost hetzelfde als M=1** (0,993 / 1,0001 / 1,0037).
+>
+> Dat laatste is precies wat K2 miste: layer-major K2-scheduling gaf 1,012×,
+> want het herschikte twee posities zonder hun gewichten fysiek te delen.
+> Blackwell trekt twee targetposities gratis door één gewichtsstroom.
+>
+> **Waarom dit telt terwijl al het andere is vastgelopen:** single-stream is
+> afgesloten op ~94 tok/s theoretisch maximum en batch op 70-85, allebei onder
+> het doel, omdat ERVF al op 77% van het apparaatplafond zit — dezelfde
+> inefficiëntie kun je niet twee keer opeten. Native FP4 beweegt een **andere**
+> as: minder bytes, méér bandbreedte, én M=2 gratis. Drie onafhankelijke
+> factoren.
+>
+> **Grenzen, expliciet:** synthetische waarden, geen tok/s-claim, en de
+> Tensor-Core-accumulatievolgorde is **niet** onze ERVF-boom — C3 vraagt dus een
+> **kwaliteitspoort, geen bitexactheidspoort**. De winst is bovendien niet
+> uniform: routed/shared/lm_head zijn al NVFP4, maar Mamba (892 MB/token, de
+> grootste post) is FP8 en attention BF16.
+>
+> Detail: `RESEARCH_NOTEBOOK.md` blok "C2b", resultaat
+> `pro_research/results/native_nvfp4/C2B_TORCH212_CONTRACT.json`.
+
 ## 🎉 NIEUW RECORD 2026-08-16: **51,0 tok/s (19,60 ms) — E50 GEHAALD**
 
 **V18 = V6 + H-SCALE + B3-overlap.** Twee bitexacte mechanismen die elk apart

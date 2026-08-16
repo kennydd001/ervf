@@ -1,0 +1,1069 @@
+diff --git a/pro_research/RUN_S100_NATIVE_NVFP4_C3B.ps1 b/pro_research/RUN_S100_NATIVE_NVFP4_C3B.ps1
+new file mode 100644
+index 0000000..ea285df
+--- /dev/null
++++ b/pro_research/RUN_S100_NATIVE_NVFP4_C3B.ps1
+@@ -0,0 +1,92 @@
++$ErrorActionPreference = 'Stop'
++$Repo = Split-Path -Parent $PSScriptRoot
++Set-Location $Repo
++
++$Branch = (git branch --show-current).Trim()
++if ($Branch -ne 'pro-s100-nativefp4-c2b') { throw "Expected branch pro-s100-nativefp4-c2b, got $Branch" }
++
++Write-Host '=== S100 native NVFP4 C3B / real causal activations ==='
++git status --short
++git rev-parse HEAD
++
++$PyFP4 = Join-Path $Repo '.venv-fp4-c2b\Scripts\python.exe'
++if (-not (Test-Path $PyFP4)) { throw "Missing FP4 environment: $PyFP4" }
++
++# Runtime experiments predate the isolated FP4 venv, and local checkout names
++# differ. Select the first Python that can actually import the V18 dependencies.
++$Candidates = @(
++    (Join-Path $Repo '.venv-nemotron\Scripts\python.exe'),
++    (Join-Path $Repo '.venv\Scripts\python.exe')
++)
++try { $Candidates += (Get-Command python -ErrorAction Stop).Source } catch {}
++$PyRT = $null
++foreach ($cand in $Candidates | Select-Object -Unique) {
++    if (-not (Test-Path $cand)) { continue }
++    & $cand -c "import cupy,numpy; print('runtime-python-ok')" *> $null
++    if ($LASTEXITCODE -eq 0) { $PyRT = $cand; break }
++}
++if (-not $PyRT) { throw 'No Python environment can import cupy + numpy for the V18/V6 runtime capture.' }
++Write-Host "Runtime Python = $PyRT"
++$Index = Join-Path $Repo 'models\nemotron_3_5_lightning_v35\model.safetensors.index.json'
++if (-not (Test-Path $Index)) { throw "Missing real Lightning checkpoint: $Index" }
++
++# C3B is based on the corrected C3A-v2 implementation. A descendant commit is
++# fine, but an older checkout is not.
++git merge-base --is-ancestor e316da090240ada357e39202522c9acfcf89abe9 HEAD
++if ($LASTEXITCODE -ne 0) { throw 'Checkout is older than required C3A-v2 base e316da0. Run git fetch/pull first.' }
++
++$used = (& nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | Select-Object -First 1).Trim()
++Write-Host "GPU memory.used = $used MiB"
++if ([int]$used -gt 1024) { throw "GPU already busy ($used MiB); refusing scientific timing" }
++
++$C3A = 'pro_research\results\native_nvfp4\C3A_REAL_WEIGHT.json'
++$C3APre = 'pro_research\results\native_nvfp4\C3A_V2_LAYOUT_PREFLIGHT.json'
++if (-not (Test-Path $C3A) -or -not (Test-Path $C3APre)) {
++    Write-Host 'C3A-v2 result missing; running frozen parent first...'
++    & (Join-Path $Repo 'pro_research\RUN_S100_NATIVE_NVFP4_C3A_V2.ps1')
++    if ($LASTEXITCODE -ne 0) { throw 'C3A-v2 parent failed' }
++} else {
++    & $PyFP4 'pro_research\verify_s100_native_nvfp4_c3a_layout_v2.py'
++    if ($LASTEXITCODE -ne 0) { throw 'C3A-v2 layout parent verifier failed' }
++    & $PyFP4 'pro_research\verify_s100_native_nvfp4_c3a_real_weight.py'
++    if ($LASTEXITCODE -ne 0) { throw 'C3A real-weight parent verifier failed' }
++}
++
++# Capture is a separate process/venv so no Torch/CuPy CUDA contexts coexist.
++$env:PYTHONHASHSEED = '0'
++& $PyRT 'pro_research\capture_native_nvfp4_c3b_realact.py' --tokens 64
++if ($LASTEXITCODE -ne 0) { throw 'C3B real-activation capture failed' }
++
++$used = (& nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | Select-Object -First 1).Trim()
++Write-Host "GPU memory.used after capture process = $used MiB"
++if ([int]$used -gt 1024) { throw "GPU did not return to idle after capture ($used MiB)" }
++
++& $PyFP4 'pro_research\diag_native_nvfp4_c3b_realact.py'
++if ($LASTEXITCODE -ne 0) { throw 'C3B diagnostic technical failure' }
++
++& $PyFP4 'pro_research\verify_s100_native_nvfp4_c3b_realact.py'
++if ($LASTEXITCODE -ne 0) { throw 'Independent C3B consistency verifier failed' }
++
++Write-Host '=== C3B completed ===' -ForegroundColor Green
++$Compact = @'
++import json, pathlib
++p=pathlib.Path(r"pro_research/results/native_nvfp4/C3B_REAL_ACTIVATION.json")
++d=json.loads(p.read_text())
++print("status=", d.get("status"))
++print("summary=", json.dumps(d.get("summary"), indent=2))
++print("gates=", json.dumps(d.get("gates"), indent=2))
++for f in d.get("families", []):
++    print("\n",f["label"])
++    print(" dynamic quality=", f["quality"]["dynamic"]["metrics"])
++    print(" static  quality=", f["quality"]["static_1p10"]["metrics"])
++    print(" dynamic M8/M1=", f["prequantized_native_timing"]["dynamic"].get("M8_over_M1"))
++    print(" static  M8/M1=", f["prequantized_native_timing"]["static_1p10"].get("M8_over_M1"))
++'@
++& $PyFP4 -c $Compact
++
++Write-Host ''
++Write-Host 'Send back:'
++Write-Host '  pro_research\results\native_nvfp4\C3A_V2_LAYOUT_PREFLIGHT.json'
++Write-Host '  pro_research\results\native_nvfp4\C3A_REAL_WEIGHT.json'
++Write-Host '  pro_research\results\native_nvfp4\C3B_REAL_ACTIVATION.json'
++Write-Host '  complete console output + git rev-parse HEAD + git status --short'
+diff --git a/pro_research/S100_NATIVE_NVFP4_C3B_REALACT_PREREGISTRATION.md b/pro_research/S100_NATIVE_NVFP4_C3B_REALACT_PREREGISTRATION.md
+new file mode 100644
+index 0000000..0908736
+--- /dev/null
++++ b/pro_research/S100_NATIVE_NVFP4_C3B_REALACT_PREREGISTRATION.md
+@@ -0,0 +1,120 @@
++# S100 Native NVFP4 C3B — real-activation preregistration
++
++Date: 2026-08-16
++Parent: C3A-v2 corrected TorchAO row-block-major scale layout
++Target: NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4 on SM120 / torch 2.12.1+cu132
++
++## Claim boundary
++
++C3B asks one question only: does the native SM120 NVFP4 `scaled_mm` geometry that
++survived real checkpoint weights also survive **real causal Lightning activations**
++when A is quantized to NVFP4 semantics?
++
++This is NOT an end-to-end tok/s claim, NOT an integrated decoder, and NOT a claim
++that the reference PyTorch quantizer is fast enough for production. The
++quantizer in this phase is intentionally transparent and allocation-heavy so its
++numerics are auditable. Its timing is recorded only as an upper bound; a fused
++C3C quantizer is required before integration.
++
++The activation capture uses the V6 arithmetic stack (selective ERVF + batched
++MoE) in eager submission. V13 H-SCALE and V14G/B3, which form V18, change only
++byte placement / transfer timing and were separately proven bit-exact. Therefore
++the captured values are arithmetic-equivalent to the V18 record stack, while
++being much easier to instrument without perturbing a captured CUDA graph.
++
++## Frozen data split
++
++Capture 64 consecutive causal decode steps from the first registered anchor
++prompt.
++
++- rows 0..31: calibration only
++- rows 32..63: held-out quality and timing input
++- target MoE layer: first MoE layer in the runtime pattern
++- routed-up representative: expert 0 of that same layer
++
++Captured values per step:
++
++- target-layer `normed` (input to shared_up and routed_up)
++- exact shared-up post-ReLU2 activation (input to shared_down)
++- final `normed` (input to lm_head)
++- exact ERVF token id
++- exact ERVF top-5 ids/logits
++
++## A quantization semantics
++
++Block size K=16. FP4 E2M1 codes use round-to-nearest-even, finite saturation.
++For each 16-value block:
++
++1. `block_scale = amax(block) / 6`
++2. `scaled_block_scale = clamp(block_scale / tensor_scale, 2^-6, 448)`
++3. cast the block scale to FP8 E4M3
++4. divide A by `(tensor_scale * quantized_block_scale)`
++5. clamp to [-6, 6], round to FP4 E2M1, pack low nibble first
++6. swizzle the FP8 scale bytes in the same TorchAO `to_blocked` row-block-major
++   128x4 outer-tile order validated by C3A-v2
++
++Two arms are frozen before measurement:
++
++- DYNAMIC: `tensor_scale = amax(current MxK) / (448*6)`
++- STATIC_1P10: per-family tensor scale from the 32 calibration rows,
++  `1.10 * calibration_amax / (448*6)`. The 10% margin is frozen to protect the
++  held-out set from mild range growth; it may not be retuned after seeing C3B.
++
++If both arms pass, STATIC_1P10 is preferred for C3C because it removes the
++per-GEMM global-amax reduction. If STATIC fails and DYNAMIC passes, DYNAMIC is
++the C3C parent. No post-hoc third scale arm is allowed in C3B.
++
++## Shapes and M values
++
++- lm_head: real Lightning lm_head triple, K=2688
++- shared_up: target layer shared_experts.up_proj, K=2688
++- shared_down: target layer shared_experts.down_proj, K=3712
++- routed_up: target layer experts.0.up_proj, K=2688
++
++M values: 1, 2, 4, 8. Rows are distinct consecutive held-out decode
++activations; duplicating one row eight times is forbidden.
++
++## Frozen correctness gates
++
++All gates are fail-closed.
++
++- C3B_G1: C3A-v2 layout preflight PASS and C3A real-weight representation is
++  correctness-green.
++- C3B_G2: every capture binary matches the SHA256 in the capture manifest.
++- C3B_G3: FP4 nibble + scale-layout + native known-value preflight is exact.
++- C3B_G4: every native output used by C3B is finite.
++- C3B_G5_DYNAMIC_LOCAL: for all four families, held-out M=8 sampled-output
++  NRMSE <= 0.080, cosine >= 0.9950, normalized max absolute error <= 0.200.
++- C3B_G6_STATIC_LOCAL: same thresholds for STATIC_1P10.
++- C3B_G7_DYNAMIC_LM: over all 32 held-out lm_head rows, native top-1 equals
++  exact ERVF top-1 in >= 90% of rows AND native top-1 lies inside exact ERVF
++  top-5 in >= 97% of rows.
++- C3B_G8_STATIC_LM: same thresholds for STATIC_1P10.
++
++The reference for local matrix metrics is the original FP32 activation times an
++independently dequantized checkpoint-B sample (FP4 codes * E4M3 block scales *
++checkpoint global scale), accumulated on CPU in FP64.
++
++## Frozen performance-geometry gates
++
++These gates use PREQUANTIZED A so they answer only whether real A values disturb
++the native M geometry. B is rotated over >=4x L2 whenever memory permits, exactly
++as in C3A. Reference-quantizer and combined timings are recorded but cannot be
++promoted to a production claim.
++
++- C3B_P1: every measured cold set >= 4.0x L2.
++- C3B_P2_DYNAMIC: M8 wall-time / M1 wall-time <= 1.20 on at least 3/4 families,
++  and lm_head <= 1.20 if measured.
++- C3B_P3_STATIC: same for STATIC_1P10.
++
++C3B becomes `real_activation_native_candidate` if parent/capture/preflight are
++green and at least one arm passes both its correctness gates and its performance
++geometry gates.
++
++## What opens next
++
++A green C3B opens C3C: a fused, preallocated SM120 activation quantizer with the
++selected tensor-scale policy, timed in the actual hot path. Only after C3C may a
++native A-quantization cost be used in an integration budget. C4 then replaces
++selected real decoder GEMVs and runs end-to-end A/B; C5 is the causal M-way / expert
++union path required to amortize real weight traffic per accepted token.
+diff --git a/pro_research/capture_native_nvfp4_c3b_realact.py b/pro_research/capture_native_nvfp4_c3b_realact.py
+new file mode 100644
+index 0000000..b5026fd
+--- /dev/null
++++ b/pro_research/capture_native_nvfp4_c3b_realact.py
+@@ -0,0 +1,179 @@
++"""C3B capture: real causal activations from the arithmetic-equivalent V18 stack.
++
++Capture is deliberately eager and untimed. V18's H-SCALE/B3 mechanisms only move
++bytes / overlap transfers; V6 supplies the same arithmetic while allowing a
++non-invasive Python wrapper around the live MoE call.
++"""
++from __future__ import annotations
++
++import argparse
++import hashlib
++import json
++import subprocess
++import sys
++import traceback
++import types
++from pathlib import Path
++from typing import Any
++
++import numpy as np
++
++from common import REPO, environment_snapshot, require_gpu_free, utc_now, write_json_atomic
++from down_proj_batch_kernels import DownProjBatchKernels
++from ervf_dense import DenseERVF
++from graph_e1f22 import _load_prompt_set, _new_runtime
++from layer_capacity import apply_nonuniform_capacity
++from moe_dev_batched import install_batched_moe_dev
++from selective_ervf_v3 import _install_selective
++from up_proj_batch_kernels import UpProjBatchKernels
++
++OUT_DIR = REPO / "pro_research" / "results" / "native_nvfp4" / "c3b_capture"
++META = OUT_DIR / "C3B_REAL_ACTIVATIONS_META.json"
++PREREG = REPO / "pro_research" / "S100_NATIVE_NVFP4_C3B_REALACT_PREREGISTRATION.md"
++
++
++def _sha(path: Path) -> str:
++    h = hashlib.sha256()
++    with path.open("rb") as fh:
++        for chunk in iter(lambda: fh.read(1 << 20), b""):
++            h.update(chunk)
++    return h.hexdigest()
++
++
++def _git_head() -> str | None:
++    try:
++        return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip()
++    except Exception:
++        return None
++
++
++def _write_raw(name: str, arr: np.ndarray, dtype: str) -> dict[str, Any]:
++    OUT_DIR.mkdir(parents=True, exist_ok=True)
++    a = np.ascontiguousarray(arr.astype(np.dtype(dtype), copy=False))
++    p = OUT_DIR / name
++    a.tofile(p)
++    return {"path": str(p.relative_to(REPO)), "dtype": a.dtype.str,
++            "shape": list(a.shape), "bytes": int(p.stat().st_size), "sha256": _sha(p)}
++
++
++def main() -> int:
++    ap = argparse.ArgumentParser()
++    ap.add_argument("--tokens", type=int, default=64)
++    args = ap.parse_args()
++    payload: dict[str, Any] = {
++        "kind": "s100_native_nvfp4_c3b_real_activation_capture",
++        "status": "started", "started_utc": utc_now(),
++        "preregistration": str(PREREG.relative_to(REPO)),
++        "claim_boundary": "untimed real causal activation capture only; no kernel or tok/s claim",
++    }
++    try:
++        if args.tokens != 64:
++            raise ValueError("C3B preregistration freezes --tokens 64")
++        require_gpu_free()
++        import cupy as cp
++
++        prompts, _expected, _n, capacity = _load_prompt_set("smoke")
++        if not prompts or not prompts[0].get("prompt_ids"):
++            raise RuntimeError("registered anchor prompt unavailable")
++        prompt = prompts[0]
++
++        rt = _new_runtime(capacity)
++        dense, down, up = DenseERVF(), DownProjBatchKernels(), UpProjBatchKernels()
++        # Mirror V18's V6 parent setup exactly through the arithmetic patches.
++        rt.enable_cache(capacity)
++        apply_nonuniform_capacity(rt)
++        rt.device_cache = True
++        rt.deterministic_accum = True
++        restore_sel, _ = _install_selective(rt, dense)
++        install_batched_moe_dev(rt, down, up)
++
++        target_layer = int(rt.moe_layers[0])
++        orig_moe = rt._moe_dev
++        enabled = {"v": False}
++        moe_normed: list[np.ndarray] = []
++        shared_act: list[np.ndarray] = []
++
++        def wrapped_moe(self, i, out):
++            take = bool(enabled["v"] and int(i) == target_layer)
++            if take:
++                before = cp.asnumpy(self.normed).astype(np.float32, copy=True)
++            result = orig_moe(i, out)
++            if take:
++                moe_normed.append(before)
++                shared_act.append(cp.asnumpy(self._act_shared).astype(np.float32, copy=True))
++            return result
++
++        rt._moe_dev = types.MethodType(wrapped_moe, rt)
++
++        rt.reset()
++        nxt = None
++        for token in prompt["prompt_ids"]:
++            nxt = int(rt.step(int(token)))
++        if nxt is None:
++            raise RuntimeError("prompt produced no next token")
++
++        lm_head_in: list[np.ndarray] = []
++        token_ids: list[int] = []
++        top5_ids: list[np.ndarray] = []
++        top5_logits: list[np.ndarray] = []
++        cur = int(nxt)
++        enabled["v"] = True
++        for _ in range(args.tokens):
++            out_id = int(rt.step(cur))
++            # step()'s argmax synchronizes the work; normed/logits now correspond
++            # to out_id from the same causal step.
++            lm_head_in.append(cp.asnumpy(rt.normed).astype(np.float32, copy=True))
++            token_ids.append(out_id)
++            idx = cp.argpartition(rt.logits, -5)[-5:]
++            idx = idx[cp.argsort(-rt.logits[idx])]
++            top5_ids.append(cp.asnumpy(idx).astype(np.int32, copy=True))
++            top5_logits.append(cp.asnumpy(rt.logits[idx]).astype(np.float32, copy=True))
++            cur = out_id
++        enabled["v"] = False
++        cp.cuda.Device(0).synchronize()
++
++        if not (len(moe_normed) == len(shared_act) == len(lm_head_in) == len(token_ids) == args.tokens):
++            raise RuntimeError(f"capture count mismatch: moe={len(moe_normed)} shared={len(shared_act)} "
++                               f"lm={len(lm_head_in)} ids={len(token_ids)}")
++
++        arrays = {
++            "moe_normed": _write_raw("moe_normed.f32", np.stack(moe_normed), "<f4"),
++            "shared_act": _write_raw("shared_act.f32", np.stack(shared_act), "<f4"),
++            "lm_head_in": _write_raw("lm_head_in.f32", np.stack(lm_head_in), "<f4"),
++            "exact_token_ids": _write_raw("exact_token_ids.i32", np.asarray(token_ids), "<i4"),
++            "ervf_top5_ids": _write_raw("ervf_top5_ids.i32", np.stack(top5_ids), "<i4"),
++            "ervf_top5_logits": _write_raw("ervf_top5_logits.f32", np.stack(top5_logits), "<f4"),
++        }
++        payload.update({
++            "status": "captured",
++            "completed_utc": utc_now(),
++            "git_head": _git_head(),
++            "environment": environment_snapshot((Path(__file__), PREREG)),
++            "capture": {
++                "tokens": args.tokens, "calibration_rows": [0, 32], "heldout_rows": [32, 64],
++                "target_moe_layer": target_layer,
++                "prompt_kind": prompt.get("kind"),
++                "prompt_token_count": len(prompt["prompt_ids"]),
++                "prompt_ids_sha256": hashlib.sha256(np.asarray(prompt["prompt_ids"], dtype="<i4").tobytes()).hexdigest(),
++                "hidden": int(rt.hidden), "shared_inter": int(rt.shared_inter),
++                "moe_inter": int(rt.moe_inter), "vocab": int(rt.vocab),
++                "arithmetic_stack": "V6 parent of V18: selective ERVF + batched MoE; eager submission; H-SCALE/B3 omitted because bitexact byte-placement/scheduling only",
++            },
++            "arrays": arrays,
++        })
++        restore_sel()
++    except Exception as exc:
++        payload.update({"status": "technical_failure",
++                        "error": {"type": type(exc).__name__, "message": str(exc),
++                                  "traceback": traceback.format_exc()},
++                        "completed_utc": utc_now()})
++    OUT_DIR.mkdir(parents=True, exist_ok=True)
++    write_json_atomic(META, payload, archive=True)
++    print(json.dumps({"status": payload.get("status"), "capture": payload.get("capture"),
++                      "arrays": payload.get("arrays"), "error": (payload.get("error") or {}).get("message"),
++                      "output": str(META)}, indent=2))
++    return 0 if payload.get("status") == "captured" else 2
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/pro_research/diag_native_nvfp4_c3b_realact.py b/pro_research/diag_native_nvfp4_c3b_realact.py
+new file mode 100644
+index 0000000..ed46f8e
+--- /dev/null
++++ b/pro_research/diag_native_nvfp4_c3b_realact.py
+@@ -0,0 +1,528 @@
++"""C3B: real causal activations -> auditable NVFP4 A -> native SM120 scaled_mm.
++
++The A quantizer is intentionally written from ordinary PyTorch tensor ops. Its
++numerics are the experiment; its timing is an explicit upper bound, not a
++production implementation. C3C owns fusion/preallocation.
++"""
++from __future__ import annotations
++
++import gc
++import hashlib
++import json
++import math
++import struct
++import traceback
++from pathlib import Path
++from typing import Any
++
++from common import REPO, environment_snapshot, require_gpu_free, utc_now, write_json_atomic
++import native_nvfp4_c3a_lib as c3lib
++import native_nvfp4_c3a_layout_v2 as c3v2
++
++CAP_DIR = REPO / "pro_research" / "results" / "native_nvfp4" / "c3b_capture"
++CAP_META = CAP_DIR / "C3B_REAL_ACTIVATIONS_META.json"
++C3A = REPO / "pro_research" / "results" / "native_nvfp4" / "C3A_REAL_WEIGHT.json"
++C3A_V2 = REPO / "pro_research" / "results" / "native_nvfp4" / "C3A_V2_LAYOUT_PREFLIGHT.json"
++OUT = REPO / "pro_research" / "results" / "native_nvfp4" / "C3B_REAL_ACTIVATION.json"
++PREREG = REPO / "pro_research" / "S100_NATIVE_NVFP4_C3B_REALACT_PREREGISTRATION.md"
++
++M_VALUES = (1, 2, 4, 8)
++CAL_N = 32
++HELD_N = 32
++STATIC_MARGIN = 1.10
++NRMSE_MAX = 0.080
++COSINE_MIN = 0.9950
++NMAX_MAX = 0.200
++LM_TOP1_MIN = 0.90
++LM_TOP1_IN_TOP5_MIN = 0.97
++COLD_L2_MULTIPLE = 4.0
++M8_OVER_M1_MAX = 1.20
++E2M1 = (0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 6.0,
++        -0.0, -0.5, -1.0, -1.5, -2.0, -3.0, -4.0, -6.0)
++
++
++def ceilq(x: int, q: int) -> int:
++    return ((int(x) + q - 1) // q) * q
++
++
++def sha_bytes(raw: bytes) -> str:
++    return hashlib.sha256(raw).hexdigest()
++
++
++def sha_file(path: Path) -> str:
++    h = hashlib.sha256()
++    with path.open("rb") as fh:
++        for chunk in iter(lambda: fh.read(1 << 20), b""):
++            h.update(chunk)
++    return h.hexdigest()
++
++
++def load_raw_tensor(torch, rec: dict[str, Any]):
++    path = REPO / rec["path"]
++    raw = bytearray(path.read_bytes())
++    dt = str(rec["dtype"])
++    if dt == "<f4":
++        dtype = torch.float32
++    elif dt == "<i4":
++        dtype = torch.int32
++    else:
++        raise ValueError(f"unsupported capture dtype {dt}")
++    t = torch.frombuffer(raw, dtype=dtype).clone().reshape(tuple(int(x) for x in rec["shape"]))
++    return t
++
++
++def fp4_rne_codes(torch, x):
++    """Finite E2M1 RNE, encoded low 3 magnitude bits + sign bit."""
++    a = x.abs().clamp_(0.0, 6.0)
++    c = torch.empty_like(a, dtype=torch.uint8)
++    c.fill_(7)
++    c = torch.where(a <= 5.0, torch.full_like(c, 6), c)
++    c = torch.where(a < 3.5, torch.full_like(c, 5), c)   # tie 3.5 -> 4 (code 6)
++    c = torch.where(a <= 2.5, torch.full_like(c, 4), c)  # tie 2.5 -> 2 (code 4)
++    c = torch.where(a < 1.75, torch.full_like(c, 3), c)  # tie 1.75 -> 2
++    c = torch.where(a <= 1.25, torch.full_like(c, 2), c) # tie 1.25 -> 1
++    c = torch.where(a < 0.75, torch.full_like(c, 1), c)  # tie 0.75 -> 1
++    c = torch.where(a <= 0.25, torch.zeros_like(c), c)   # tie 0.25 -> 0
++    sign = (x < 0).to(torch.uint8) << 3
++    return c | sign
++
++
++def swizzle_a_scale(torch, sf, m: int, k: int):
++    sfk, sfp, mpad = k // 16, ceilq(k // 16, 4), ceilq(m, 128)
++    padded = torch.zeros((mpad, sfp), dtype=torch.float8_e4m3fn, device=sf.device)
++    padded[:m, :sfk] = sf
++    nrb, ncb = mpad // 128, sfp // 4
++    blocked = padded.view(nrb, 128, ncb, 4).permute(0, 2, 1, 3)
++    blocked = blocked.reshape(-1, 4, 32, 4).transpose(1, 2).reshape(-1, 32, 16).flatten().contiguous()
++    # Preserve the A-side shape contract already accepted by C2/C3A make_a.
++    return blocked.reshape(mpad, sfp).contiguous()
++
++
++def quantize_a_reference(torch, x, tensor_scale=None):
++    if x.dtype != torch.float32 or x.ndim != 2 or not x.is_cuda:
++        raise ValueError("C3B quantizer expects CUDA float32 [M,K]")
++    m, k = (int(x.shape[0]), int(x.shape[1]))
++    if k % 16:
++        raise ValueError("K must be divisible by 16")
++    sfk = k // 16
++    if tensor_scale is None:
++        g = (x.abs().amax() / float(448 * 6)).clamp_min(1.0e-12).reshape(1)
++        policy = "dynamic"
++    else:
++        g = tensor_scale.reshape(1)
++        policy = "static"
++    blocks = x.reshape(m, sfk, 16)
++    sf = ((blocks.abs().amax(dim=-1) / 6.0) / g).clamp(min=2.0 ** -6, max=448.0)
++    sfq = sf.to(torch.float8_e4m3fn)
++    denom = g * sfq.float()
++    scaled = (blocks / denom.unsqueeze(-1)).clamp(min=-6.0, max=6.0)
++    codes = fp4_rne_codes(torch, scaled)
++    packed = (codes[..., 0::2] | (codes[..., 1::2] << 4)).reshape(m, k // 2).contiguous()
++    blocked = swizzle_a_scale(torch, sfq, m, k)
++    # Do not compute diagnostic saturation here: a host .item() would serialize
++    # the CUDA stream and poison quantizer timing. Quality code computes it
++    # separately, outside timed regions.
++    return {"u8": packed, "fp4": packed.view(torch.float4_e2m1fn_x2),
++            "block": blocked, "global": g.contiguous(), "policy": policy}
++
++
++def saturation_count(x, a) -> int:
++    # Diagnostic only; intentionally synchronizes outside timed regions.
++    return int((x.abs() > (a["global"] * float(448 * 6))).sum().item())
++
++
++def native_call(torch, F, ST, SW, a, b):
++    return F.scaled_mm(
++        a["fp4"], b["fp4"],
++        scale_a=[a["block"], a["global"]],
++        scale_recipe_a=[ST.BlockWise1x16, ST.TensorWise],
++        scale_b=[b["block"], b["global"]],
++        scale_recipe_b=[ST.BlockWise1x16, ST.TensorWise],
++        swizzle_a=[SW.SWIZZLE_32_4_4, SW.NO_SWIZZLE],
++        swizzle_b=[SW.SWIZZLE_32_4_4, SW.NO_SWIZZLE],
++        output_dtype=torch.bfloat16, use_fast_accum=False)
++
++
++def event_p50_ms(torch, fn, reps: int, rounds: int = 5) -> dict[str, Any]:
++    for _ in range(min(6, reps)):
++        fn()
++    torch.cuda.synchronize()
++    vals = []
++    for _ in range(rounds):
++        st, en = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
++        st.record()
++        for _ in range(reps):
++            fn()
++        en.record(); en.synchronize()
++        vals.append(float(st.elapsed_time(en)) / reps)
++    s = sorted(vals)
++    return {"samples_ms": vals, "p50_ms": s[len(s)//2], "min_ms": s[0], "max_ms": s[-1]}
++
++
++def e4_lut(torch):
++    vals = []
++    for i in range(256):
++        v = c3lib.e4m3(i)
++        vals.append(0.0 if not math.isfinite(v) else float(v))
++    return torch.tensor(vals, dtype=torch.float32)
++
++
++def dequant_b_rows(torch, wr: bytes, sr: bytes, g: float, n: int, k: int, rows: list[int]):
++    ridx = torch.tensor(rows, dtype=torch.int64)
++    wb = torch.frombuffer(bytearray(wr), dtype=torch.uint8).reshape(n, k // 2)[ridx]
++    sb = torch.frombuffer(bytearray(sr), dtype=torch.uint8).reshape(n, k // 16)[ridx]
++    lut = torch.tensor(E2M1, dtype=torch.float32)
++    w = torch.empty((len(rows), k), dtype=torch.float32)
++    w[:, 0::2] = lut[(wb & 15).long()]
++    w[:, 1::2] = lut[(wb >> 4).long()]
++    sc = e4_lut(torch)[sb.long()] * float(g)
++    w.mul_(sc.repeat_interleave(16, dim=1))
++    return w
++
++
++def metrics(torch, actual, ref) -> dict[str, float]:
++    a, b = actual.double().reshape(-1), ref.double().reshape(-1)
++    d = a - b
++    rmse = float(torch.sqrt(torch.mean(d*d)).item())
++    rrms = float(torch.sqrt(torch.mean(b*b)).item())
++    an, bn = float(torch.linalg.vector_norm(a).item()), float(torch.linalg.vector_norm(b).item())
++    dot = float(torch.dot(a, b).item())
++    cos = dot / (an * bn) if an and bn else (1.0 if an == bn else 0.0)
++    ma = float(d.abs().max().item()); rmax = float(b.abs().max().item())
++    return {"rmse": rmse, "reference_rms": rrms,
++            "normalized_rmse": rmse / max(rrms, 1e-12), "cosine": cos,
++            "max_abs_error": ma, "reference_max_abs": rmax,
++            "normalized_max_abs_error": ma / max(rmax, 1e-12)}
++
++
++def checkpoint_spec(entries, headers, base: str, label: str) -> dict[str, Any]:
++    w, s, g = base + ".weight", base + ".weight_scale", base + ".weight_scale_2"
++    for name in (w, s, g):
++        if name not in entries:
++            raise KeyError(f"missing checkpoint tensor {name}")
++    sr = c3lib.rec(s, entries, headers); wr = c3lib.rec(w, entries, headers)
++    n, sfk = [int(x) for x in sr["shape"]]; k = sfk * 16
++    if [int(x) for x in wr["shape"]] != [n, k // 2]:
++        raise ValueError(f"{label}: weight/scale shape mismatch")
++    return {"label": label, "base": base, "weight": w, "scale": s, "global": g, "N": n, "K": k}
++
++
++def build_rotation(torch, weight_raw: bytes, scale_raw: bytes, g: float,
++                   n: int, k: int, l2: int):
++    base = c3lib.make_b(torch, weight_raw, scale_raw, g, n, k)
++    one = len(weight_raw) + int(base["block"].numel())
++    cycle = max(1, math.ceil((COLD_L2_MULTIPLE * l2) / max(one, 1)))
++    free, _ = torch.cuda.mem_get_info()
++    estimated = cycle * one + one + 128 * 1024 * 1024
++    if estimated > int(free * 0.70):
++        return [base], {"status": "not_run_memory_gate", "cycle": 1,
++                        "one_b_bytes": one, "estimated_peak_bytes": int(estimated),
++                        "free_bytes_before": int(free)}
++    bs = [base]
++    for _ in range(1, cycle):
++        u = base["u8"].clone(); block = base["block"].clone()
++        bs.append({"u8": u, "fp4": u.view(torch.float4_e2m1fn_x2).t(),
++                   "block": block, "global": base["global"]})
++    return bs, {"status": "measured", "cycle": cycle, "one_b_bytes": one,
++                "working_set_bytes": cycle * one,
++                "working_set_over_l2": (cycle * one) / max(l2, 1),
++                "free_bytes_before": int(free), "estimated_peak_bytes": int(estimated)}
++
++
++def quant_preflight(torch, F, ST, SW) -> dict[str, Any]:
++    # Witness 1: nibble order / RNE. [0.5, 6] with g=1 has sf=1 and packs
++    # low=0.5 (code 1), high=6 (code 7) => 0x71.
++    k, n = 128, 128
++    nib = torch.tensor([0.5, 6.0] * (k // 2), dtype=torch.float32, device="cuda").reshape(1, k)
++    g = torch.ones(1, dtype=torch.float32, device="cuda")
++    an = quantize_a_reference(torch, nib, g)
++    code = an["u8"].detach().cpu().flatten().tolist()
++    raw_sf = an["block"].view(torch.uint8).detach().cpu().flatten().tolist()
++    nibble_ok = all(int(x) == 0x71 for x in code) and int(raw_sf[0]) == 0x38
++    del an, nib
++
++    # Witness 2: 2 row-blocks x 2 scale-column-blocks. This is deliberately
++    # non-uniform so the legacy C3A-v1 K-major outer-tile order cannot pass by
++    # accident. Each 16-value block is a constant 6*sf, hence FP4=6 exactly.
++    m = 256
++    x = torch.empty((m, k), dtype=torch.float32, device="cuda")
++    x[:128, :64] = 3.0    # sf=.5  raw 0x30
++    x[:128, 64:] = 6.0    # sf=1   raw 0x38
++    x[128:, :64] = 12.0   # sf=2   raw 0x40
++    x[128:, 64:] = 24.0   # sf=4   raw 0x48
++    a = quantize_a_reference(torch, x, g)
++    b = c3lib.make_b(torch, bytes([0x22]) * (n * (k // 2)),
++                     bytes([0x38]) * (n * (k // 16)), 1.0, n, k)
++    out = native_call(torch, F, ST, SW, a, b); torch.cuda.synchronize()
++    expected = torch.empty((m,), dtype=torch.float32, device="cuda")
++    expected[:128] = 64.0 * (3.0 + 6.0)     # 576
++    expected[128:] = 64.0 * (12.0 + 24.0)  # 2304
++    max_abs = float((out.float()[:, 0] - expected).abs().max().item())
++    row0_spread = float((out.float()[0] - out.float()[0, 0]).abs().max().item())
++    row255_spread = float((out.float()[-1] - out.float()[-1, 0]).abs().max().item())
++    rec = {"nibble_witness_packed_all_0x71_and_sf_0x38": nibble_ok,
++           "layout_shape": [m, n, k], "native_finite": bool(torch.isfinite(out).all().item()),
++           "expected_rows_0_127": 576.0, "expected_rows_128_255": 2304.0,
++           "layout_max_abs_error": max_abs,
++           "row0_output_spread": row0_spread, "row255_output_spread": row255_spread}
++    rec["passes"] = bool(nibble_ok and rec["native_finite"] and max_abs == 0.0
++                         and row0_spread == 0.0 and row255_spread == 0.0)
++    del a, b, out, x, expected, g
++    torch.cuda.empty_cache()
++    return rec
++
++
++def family_run(torch, F, ST, SW, spec, x_all, entries, headers, l2: int):
++    label, n, k = spec["label"], int(spec["N"]), int(spec["K"])
++    if int(x_all.shape[1]) != k:
++        raise ValueError(f"{label}: captured K={x_all.shape[1]} != checkpoint K={k}")
++    wr = c3lib.tensor_raw(spec["weight"], entries, headers)
++    sr = c3lib.tensor_raw(spec["scale"], entries, headers)
++    gr = c3lib.tensor_raw(spec["global"], entries, headers)
++    wg = float(struct.unpack("<f", gr)[0])
++    cal, held = x_all[:CAL_N], x_all[CAL_N:CAL_N+HELD_N]
++    static_value = max(float(cal.abs().max().item()) * STATIC_MARGIN / float(448*6), 1e-12)
++    static_g = torch.tensor([static_value], dtype=torch.float32, device="cuda")
++
++    rows = c3lib.sample_rows(n, 64)
++    b_sample = dequant_b_rows(torch, wr, sr, wg, n, k, rows)
++    xq_cpu = held[:8].contiguous()
++    ref = xq_cpu.double() @ b_sample.double().t()
++    xq = xq_cpu.to("cuda")
++    b_one = c3lib.make_b(torch, wr, sr, wg, n, k)
++    quality = {}
++    samples = {}
++    finite_all = True
++    for arm in ("dynamic", "static_1p10"):
++        a = quantize_a_reference(torch, xq, None if arm == "dynamic" else static_g)
++        out = native_call(torch, F, ST, SW, a, b_one); torch.cuda.synchronize()
++        act = out[:, rows].float().cpu()
++        mm = metrics(torch, act, ref)
++        finite = bool(torch.isfinite(out).all().item())
++        finite_all = finite_all and finite
++        quality[arm] = {"metrics": mm, "finite": finite,
++                        "saturation_values_M8": saturation_count(xq, a),
++                        "tensor_scale": float(a["global"].detach().cpu().item())}
++        samples[arm] = {"actual": act.tolist(), "reference": ref.float().tolist(), "sampled_output_rows": rows}
++        del a, out, act
++    del b_one
++    torch.cuda.empty_cache()
++
++    bs, cold = build_rotation(torch, wr, sr, wg, n, k, l2)
++    timing = {"dynamic": {}, "static_1p10": {}}
++    quant_upper = {"dynamic": {}, "static_1p10": {}}
++    combined_upper = {"dynamic": {}, "static_1p10": {}}
++    if cold.get("status") == "measured":
++        reps = max(int(cold["cycle"]) * 3, 40)
++        cold["reps_per_round"] = reps
++        for m in M_VALUES:
++            x = held[:m].contiguous().to("cuda")
++            for arm in ("dynamic", "static_1p10"):
++                sg = None if arm == "dynamic" else static_g
++                a_pre = quantize_a_reference(torch, x, sg)
++                counter = {"i": 0}
++                def gemm_only():
++                    i = counter["i"]; counter["i"] = i + 1
++                    return native_call(torch, F, ST, SW, a_pre, bs[i % len(bs)])
++                timing[arm][f"M{m}"] = event_p50_ms(torch, gemm_only, reps)
++
++                qreps = 40
++                quant_upper[arm][f"M{m}"] = event_p50_ms(
++                    torch, lambda x=x, sg=sg: quantize_a_reference(torch, x, sg), qreps, rounds=3)
++                counter2 = {"i": 0}
++                def combined():
++                    aa = quantize_a_reference(torch, x, sg)
++                    i = counter2["i"]; counter2["i"] = i + 1
++                    return native_call(torch, F, ST, SW, aa, bs[i % len(bs)])
++                combined_upper[arm][f"M{m}"] = event_p50_ms(torch, combined, reps, rounds=3)
++                del a_pre
++            del x
++            torch.cuda.synchronize()
++        for arm in timing:
++            m1 = float(timing[arm]["M1"]["p50_ms"]); m8 = float(timing[arm]["M8"]["p50_ms"])
++            timing[arm]["M8_over_M1"] = m8 / m1 if m1 else None
++    del bs
++    torch.cuda.empty_cache(); gc.collect()
++    return {"label": label, "selected": spec,
++            "checkpoint": {"weight_sha256": sha_bytes(wr), "scale_sha256": sha_bytes(sr),
++                           "global_sha256": sha_bytes(gr), "weight_global_scale": wg},
++            "activation": {"calibration_amax": float(cal.abs().max().item()),
++                           "static_margin": STATIC_MARGIN, "static_tensor_scale": static_value,
++                           "heldout_amax": float(held.abs().max().item())},
++            "quality": quality, "quality_samples": samples, "finite_all": finite_all,
++            "cold": cold, "prequantized_native_timing": timing,
++            "reference_quantizer_timing_upper_bound": quant_upper,
++            "reference_quantizer_plus_native_upper_bound": combined_upper}
++
++
++def lm_quality(torch, F, ST, SW, spec, x_all, exact_ids, exact_top5, entries, headers):
++    n, k = int(spec["N"]), int(spec["K"])
++    wr = c3lib.tensor_raw(spec["weight"], entries, headers)
++    sr = c3lib.tensor_raw(spec["scale"], entries, headers)
++    wg = float(struct.unpack("<f", c3lib.tensor_raw(spec["global"], entries, headers))[0])
++    b = c3lib.make_b(torch, wr, sr, wg, n, k)
++    cal, held = x_all[:CAL_N], x_all[CAL_N:CAL_N+HELD_N]
++    static_value = max(float(cal.abs().max().item()) * STATIC_MARGIN / float(448*6), 1e-12)
++    static_g = torch.tensor([static_value], dtype=torch.float32, device="cuda")
++    ex = exact_ids[CAL_N:CAL_N+HELD_N].long()
++    ex5 = exact_top5[CAL_N:CAL_N+HELD_N].long()
++    rec = {}
++    for arm in ("dynamic", "static_1p10"):
++        tops = []
++        tops5 = []
++        finite = True
++        sats = 0
++        for s in range(0, HELD_N, 8):
++            x = held[s:s+8].contiguous().to("cuda")
++            a = quantize_a_reference(torch, x, None if arm == "dynamic" else static_g)
++            out = native_call(torch, F, ST, SW, a, b); torch.cuda.synchronize()
++            finite = finite and bool(torch.isfinite(out).all().item())
++            tops.extend([int(v) for v in torch.argmax(out, dim=1).cpu().tolist()])
++            tops5.extend([[int(z) for z in row] for row in torch.topk(out.float(), 5, dim=1).indices.cpu().tolist()])
++            sats += saturation_count(x, a)
++            del x, a, out
++        top = torch.tensor(tops, dtype=torch.int64)
++        eq = float((top == ex).float().mean().item())
++        in5 = float(torch.tensor([int(top[i].item()) in set(int(z) for z in ex5[i].tolist())
++                                  for i in range(HELD_N)], dtype=torch.float32).mean().item())
++        overlap = sum(len(set(tops5[i]).intersection(set(int(z) for z in ex5[i].tolist()))) / 5.0
++                      for i in range(HELD_N)) / HELD_N
++        rec[arm] = {"finite": finite, "top1_retention": eq,
++                    "native_top1_in_ervf_top5": in5, "mean_top5_overlap": overlap,
++                    "saturation_values": sats, "native_top1_ids": tops,
++                    "native_top5_ids": tops5, "exact_top1_ids": [int(x) for x in ex.tolist()],
++                    "exact_top5_ids": [[int(z) for z in row] for row in ex5.tolist()]}
++    del b
++    torch.cuda.empty_cache()
++    return rec
++
++
++def main() -> int:
++    payload: dict[str, Any] = {
++        "kind": "s100_native_nvfp4_c3b_real_activation",
++        "status": "started", "started_utc": utc_now(),
++        "preregistration": str(PREREG.relative_to(REPO)),
++        "claim_boundary": ("real causal A activations + real checkpoint B + native SM120 geometry; "
++                           "reference quantizer timing is an upper bound; no integrated or tok/s claim"),
++        "thresholds": {"normalized_rmse_max": NRMSE_MAX, "cosine_min": COSINE_MIN,
++            "normalized_max_abs_error_max": NMAX_MAX, "lm_top1_retention_min": LM_TOP1_MIN,
++            "lm_native_top1_in_ervf_top5_min": LM_TOP1_IN_TOP5_MIN,
++            "cold_working_set_over_l2_min": COLD_L2_MULTIPLE,
++            "M8_over_M1_max": M8_OVER_M1_MAX, "static_margin": STATIC_MARGIN},
++    }
++    try:
++        require_gpu_free()
++        import torch
++        import torch.nn.functional as F
++        ST, SW = F.ScalingType, F.SwizzleType
++        cap = tuple(torch.cuda.get_device_capability(0)) if torch.cuda.is_available() else (-1, -1)
++        if not (str(torch.__version__).startswith("2.12.1") and str(torch.version.cuda).startswith("13.2")
++                and torch.cuda.is_available() and cap >= (12, 0)):
++            raise RuntimeError(f"frozen SM120 environment not met: torch={torch.__version__} cuda={torch.version.cuda} cap={cap}")
++
++        pre = json.loads(C3A_V2.read_text(encoding="utf-8"))
++        c3a = json.loads(C3A.read_text(encoding="utf-8"))
++        parent_ok = pre.get("status") == "layout_v2_preflight_pass" and c3a.get("status") in {
++            "real_weight_representation_and_geometry_candidate", "real_weight_representation_green_perf_miss"}
++        capmeta = json.loads(CAP_META.read_text(encoding="utf-8"))
++        capture_ok = capmeta.get("status") == "captured"
++        hash_ok = capture_ok and all(sha_file(REPO / r["path"]) == r["sha256"]
++                                     for r in (capmeta.get("arrays") or {}).values())
++        if not (parent_ok and capture_ok and hash_ok):
++            payload.update({"status": "precondition_failed", "gates": {
++                "C3B_G1_C3A_v2_parent_green": parent_ok,
++                "C3B_G2_capture_hashes": hash_ok}, "completed_utc": utc_now()})
++            write_json_atomic(OUT, payload, archive=True); print(json.dumps(payload, indent=2)); return 0
++
++        c3v2.install(c3lib)
++        arrays = capmeta["arrays"]
++        moe = load_raw_tensor(torch, arrays["moe_normed"])
++        shared = load_raw_tensor(torch, arrays["shared_act"])
++        lm_in = load_raw_tensor(torch, arrays["lm_head_in"])
++        exact = load_raw_tensor(torch, arrays["exact_token_ids"])
++        exact5 = load_raw_tensor(torch, arrays["ervf_top5_ids"])
++        if int(moe.shape[0]) != 64 or int(shared.shape[0]) != 64 or int(lm_in.shape[0]) != 64:
++            raise RuntimeError("C3B requires exactly 64 captured rows")
++
++        entries, headers = c3lib.load_index_headers()
++        layer = int(capmeta["capture"]["target_moe_layer"])
++        p = f"backbone.layers.{layer}.mixer"
++        specs = [
++            checkpoint_spec(entries, headers, "lm_head", "lm_head"),
++            checkpoint_spec(entries, headers, f"{p}.shared_experts.up_proj", "shared_up"),
++            checkpoint_spec(entries, headers, f"{p}.shared_experts.down_proj", "shared_down"),
++            checkpoint_spec(entries, headers, f"{p}.experts.0.up_proj", "routed_up"),
++        ]
++        x_by = {"lm_head": lm_in, "shared_up": moe, "shared_down": shared, "routed_up": moe}
++        props = torch.cuda.get_device_properties(0)
++        l2 = int(getattr(props, "L2_cache_size", 0) or getattr(props, "l2_cache_size", 0) or 0)
++        if l2 <= 0:
++            raise RuntimeError("L2 cache size unavailable")
++        smoke = quant_preflight(torch, F, ST, SW)
++        fams = [family_run(torch, F, ST, SW, s, x_by[s["label"]], entries, headers, l2) for s in specs]
++        lm_spec = next(s for s in specs if s["label"] == "lm_head")
++        lm = lm_quality(torch, F, ST, SW, lm_spec, lm_in, exact, exact5, entries, headers)
++
++        finite = bool(smoke.get("passes")) and all(f["finite_all"] for f in fams) and all(v["finite"] for v in lm.values())
++        def local_ok(arm):
++            return all(f["quality"][arm]["metrics"]["normalized_rmse"] <= NRMSE_MAX
++                       and f["quality"][arm]["metrics"]["cosine"] >= COSINE_MIN
++                       and f["quality"][arm]["metrics"]["normalized_max_abs_error"] <= NMAX_MAX
++                       for f in fams)
++        def lmq_ok(arm):
++            return lm[arm]["top1_retention"] >= LM_TOP1_MIN and lm[arm]["native_top1_in_ervf_top5"] >= LM_TOP1_IN_TOP5_MIN
++        measured = [f for f in fams if f["cold"].get("status") == "measured"]
++        cold_ok = len(measured) == len(fams) and all(f["cold"]["working_set_over_l2"] >= COLD_L2_MULTIPLE for f in measured)
++        def perf_ok(arm):
++            ratios = [float(f["prequantized_native_timing"][arm]["M8_over_M1"]) for f in measured]
++            count = sum(r <= M8_OVER_M1_MAX for r in ratios)
++            lm_ratio = next(float(f["prequantized_native_timing"][arm]["M8_over_M1"]) for f in measured if f["label"] == "lm_head")
++            return count >= 3 and lm_ratio <= M8_OVER_M1_MAX, count, {f["label"]: float(f["prequantized_native_timing"][arm]["M8_over_M1"]) for f in measured}
++        pd, nd, rd = perf_ok("dynamic") if cold_ok else (False, 0, {})
++        ps, ns, rs = perf_ok("static_1p10") if cold_ok else (False, 0, {})
++        ld, ls = local_ok("dynamic"), local_ok("static_1p10")
++        md, ms = lmq_ok("dynamic"), lmq_ok("static_1p10")
++        gates = {
++            "C3B_G1_C3A_v2_parent_green": parent_ok,
++            "C3B_G2_capture_hashes": hash_ok,
++            "C3B_G3_quant_layout_native_preflight_exact": bool(smoke.get("passes")),
++            "C3B_G4_all_native_outputs_finite": finite,
++            "C3B_G5_DYNAMIC_LOCAL": ld,
++            "C3B_G6_STATIC_LOCAL": ls,
++            "C3B_G7_DYNAMIC_LM": md,
++            "C3B_G8_STATIC_LM": ms,
++            "C3B_P1_cold_rotation_ge_4x_L2": cold_ok,
++            "C3B_P2_DYNAMIC_M8_geometry": pd,
++            "C3B_P3_STATIC_M8_geometry": ps,
++        }
++        dynamic_candidate = bool(finite and ld and md and cold_ok and pd)
++        static_candidate = bool(finite and ls and ms and cold_ok and ps)
++        selected = "static_1p10" if static_candidate else "dynamic" if dynamic_candidate else None
++        payload.update({"environment": environment_snapshot((Path(__file__), PREREG, CAP_META, C3A, C3A_V2)),
++                        "api": {"torch": str(torch.__version__), "cuda": str(torch.version.cuda),
++                                "gpu": torch.cuda.get_device_name(0), "capability": list(cap), "l2_bytes": l2},
++                        "capture_manifest": capmeta, "quant_preflight": smoke,
++                        "families": fams, "lm_head_quality": lm, "gates": gates,
++                        "summary": {"dynamic_candidate": dynamic_candidate,
++                                    "static_1p10_candidate": static_candidate,
++                                    "selected_candidate_arm": selected,
++                                    "dynamic_M8_ratio_pass_count": nd,
++                                    "static_M8_ratio_pass_count": ns,
++                                    "dynamic_M8_over_M1": rd, "static_M8_over_M1": rs,
++                                    "lm_top1_retention": {k: v["top1_retention"] for k, v in lm.items()},
++                                    "lm_top1_in_ervf_top5": {k: v["native_top1_in_ervf_top5"] for k, v in lm.items()}},
++                        "status": "real_activation_native_candidate" if selected else "real_activation_gate_failed",
++                        "completed_utc": utc_now()})
++    except Exception as exc:
++        payload.update({"status": "technical_failure",
++                        "error": {"type": type(exc).__name__, "message": str(exc), "traceback": traceback.format_exc()},
++                        "completed_utc": utc_now()})
++    write_json_atomic(OUT, payload, archive=True)
++    print(json.dumps({"status": payload.get("status"), "summary": payload.get("summary"),
++                      "gates": payload.get("gates"), "error": (payload.get("error") or {}).get("message"),
++                      "output": str(OUT)}, indent=2))
++    return 0 if payload.get("status") not in {"technical_failure"} else 2
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/pro_research/verify_s100_native_nvfp4_c3b_realact.py b/pro_research/verify_s100_native_nvfp4_c3b_realact.py
+new file mode 100644
+index 0000000..2554932
+--- /dev/null
++++ b/pro_research/verify_s100_native_nvfp4_c3b_realact.py
+@@ -0,0 +1,120 @@
++"""Independent, GPU-free consistency verifier for C3B real-activation result."""
++from __future__ import annotations
++
++import hashlib
++import json
++import math
++import sys
++from pathlib import Path
++
++REPO = Path(__file__).resolve().parent.parent
++RESULT = REPO / "pro_research" / "results" / "native_nvfp4" / "C3B_REAL_ACTIVATION.json"
++MODEL_DIR = REPO / "models" / "nemotron_3_5_lightning_v35"
++INDEX = MODEL_DIR / "model.safetensors.index.json"
++
++TH = {"normalized_rmse_max": 0.080, "cosine_min": 0.9950,
++      "normalized_max_abs_error_max": 0.200, "lm_top1_retention_min": 0.90,
++      "lm_native_top1_in_ervf_top5_min": 0.97, "cold_working_set_over_l2_min": 4.0,
++      "M8_over_M1_max": 1.20, "static_margin": 1.10}
++
++
++def sha(raw: bytes) -> str:
++    return hashlib.sha256(raw).hexdigest()
++
++
++def sha_file(path: Path) -> str:
++    h = hashlib.sha256()
++    with path.open("rb") as fh:
++        for chunk in iter(lambda: fh.read(1 << 20), b""):
++            h.update(chunk)
++    return h.hexdigest()
++
++
++def headers():
++    idx = json.loads(INDEX.read_text(encoding="utf-8")); wm = idx["weight_map"]; hs = {}
++    for shard in sorted(set(wm.values())):
++        p = MODEL_DIR / shard
++        with p.open("rb") as fh:
++            n = int.from_bytes(fh.read(8), "little"); hs[shard] = json.loads(fh.read(n))
++    return wm, hs
++
++
++def raw_tensor(name, wm, hs):
++    shard = wm[name]; rec = hs[shard][name]; a, b = map(int, rec["data_offsets"])
++    p = MODEL_DIR / shard
++    with p.open("rb") as fh:
++        n = int.from_bytes(fh.read(8), "little"); fh.seek(8+n+a); raw = fh.read(b-a)
++    return raw
++
++
++def flat_metrics(actual, ref):
++    aa = [float(x) for row in actual for x in row]; bb = [float(x) for row in ref for x in row]
++    if len(aa) != len(bb) or not aa:
++        return None
++    mse = math.fsum((a-b)**2 for a,b in zip(aa,bb))/len(aa)
++    rmse = math.sqrt(mse); rrms = math.sqrt(math.fsum(b*b for b in bb)/len(bb))
++    dot = math.fsum(a*b for a,b in zip(aa,bb)); an = math.sqrt(math.fsum(a*a for a in aa)); bn = math.sqrt(math.fsum(b*b for b in bb))
++    cos = dot/(an*bn) if an and bn else (1.0 if an == bn else 0.0)
++    ma = max(abs(a-b) for a,b in zip(aa,bb)); rmax = max(abs(b) for b in bb)
++    return {"normalized_rmse": rmse/max(rrms,1e-12), "cosine": cos,
++            "normalized_max_abs_error": ma/max(rmax,1e-12)}
++
++
++def main() -> int:
++    if not RESULT.exists():
++        print(f"FAIL: missing {RESULT}"); return 2
++    d = json.loads(RESULT.read_text(encoding="utf-8")); failures = []
++    for k,v in TH.items():
++        got = (d.get("thresholds") or {}).get(k)
++        if got is None or not math.isclose(float(got), float(v), rel_tol=0.0, abs_tol=1e-12):
++            failures.append(f"threshold drift {k}: {got} != {v}")
++    cap = d.get("capture_manifest") or {}
++    if cap.get("status") != "captured": failures.append("capture manifest not captured")
++    for name, rec in (cap.get("arrays") or {}).items():
++        p = REPO / rec["path"]
++        if not p.exists() or sha_file(p) != rec.get("sha256"):
++            failures.append(f"capture hash mismatch {name}")
++    wm, hs = headers()
++    for f in d.get("families") or []:
++        c = f.get("checkpoint") or {}; s = f.get("selected") or {}; label=f.get("label")
++        for key, field in (("weight","weight_sha256"),("scale","scale_sha256"),("global","global_sha256")):
++            try: fresh = sha(raw_tensor(s[key], wm, hs))
++            except Exception as exc:
++                failures.append(f"{label} {key} reread failed: {exc}"); continue
++            if fresh != c.get(field): failures.append(f"{label} {key} checkpoint SHA mismatch")
++        for arm in ("dynamic", "static_1p10"):
++            smp = (f.get("quality_samples") or {}).get(arm) or {}
++            fresh = flat_metrics(smp.get("actual") or [], smp.get("reference") or [])
++            recm = (((f.get("quality") or {}).get(arm) or {}).get("metrics") or {})
++            if fresh is None:
++                failures.append(f"{label}/{arm}: missing quality samples"); continue
++            for key in ("normalized_rmse","cosine","normalized_max_abs_error"):
++                if not math.isclose(float(fresh[key]), float(recm.get(key, math.nan)), rel_tol=2e-5, abs_tol=2e-6):
++                    failures.append(f"{label}/{arm}: metric self-consistency failure {key}")
++    lm = d.get("lm_head_quality") or {}
++    for arm in ("dynamic", "static_1p10"):
++        r = lm.get(arm) or {}; pred = r.get("native_top1_ids") or []; exact = r.get("exact_top1_ids") or []; ex5 = r.get("exact_top5_ids") or []
++        if not pred or len(pred) != len(exact) or len(pred) != len(ex5):
++            failures.append(f"lm/{arm}: malformed token vectors"); continue
++        top1 = sum(int(a)==int(b) for a,b in zip(pred,exact))/len(pred)
++        in5 = sum(int(pred[i]) in set(int(z) for z in ex5[i]) for i in range(len(pred)))/len(pred)
++        if not math.isclose(top1, float(r.get("top1_retention", -1)), abs_tol=1e-7): failures.append(f"lm/{arm}: top1 retention mismatch")
++        if not math.isclose(in5, float(r.get("native_top1_in_ervf_top5", -1)), abs_tol=1e-7): failures.append(f"lm/{arm}: top5 containment mismatch")
++    gates = d.get("gates") or {}
++    required_base = ("C3B_G1_C3A_v2_parent_green","C3B_G2_capture_hashes","C3B_G3_quant_layout_native_preflight_exact","C3B_G4_all_native_outputs_finite","C3B_P1_cold_rotation_ge_4x_L2")
++    for k in required_base:
++        if gates.get(k) is not True: failures.append(f"required base gate not green: {k}={gates.get(k)}")
++    selected = ((d.get("summary") or {}).get("selected_candidate_arm"))
++    if d.get("status") == "real_activation_native_candidate":
++        if selected not in {"dynamic","static_1p10"}: failures.append("candidate status without selected arm")
++        if selected == "dynamic" and not all(gates.get(k) is True for k in ("C3B_G5_DYNAMIC_LOCAL","C3B_G7_DYNAMIC_LM","C3B_P2_DYNAMIC_M8_geometry")):
++            failures.append("dynamic selected but its gates are not all green")
++        if selected == "static_1p10" and not all(gates.get(k) is True for k in ("C3B_G6_STATIC_LOCAL","C3B_G8_STATIC_LM","C3B_P3_STATIC_M8_geometry")):
++            failures.append("static selected but its gates are not all green")
++    print(json.dumps({"status":"PASS" if not failures else "FAIL", "result_status":d.get("status"),
++                      "selected_candidate_arm":selected, "failures":failures}, indent=2))
++    return 0 if not failures else 1
++
++
++if __name__ == "__main__":
++    sys.exit(main())

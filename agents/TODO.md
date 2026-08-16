@@ -190,23 +190,23 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
-- [ ] **HOOGSTE PRIORITEIT — M-weg decode op native FP4. Eerste route in deze
-      sessie die met GEMETEN invoer op ~100 tok/s uitkomt.** C2d mat M ∈
-      {1,2,4,8,16} koud op de vier al-NVFP4-shapes: **M8/M1 = 0,989 / 0,814 /
-      1,003 / 0,891** — **acht posities kosten hetzelfde als één**, op élke
-      shape. Mechanisme: de GEMM is gewichtsbandbreedte-gebonden en Tensor Cores
-      hebben rekenruimte over. Dát is wat onze CUDA-core-ERVF niet kan (batch-
-      plafond ×1,64 bij N=4, want ERVF zit al op 77% van de bandbreedte) — de
-      M-as heropent dus wat `DECISION_SINGLE_STREAM_VS_BATCH.md` had gesloten.
-      Rekening bij M=8 over al het deelbare gewichtswerk (Mamba-GEMV 4,187 +
-      attention-proj ~1,5 + up_proj 2,253 + shared 1,810 + lm_head 1,107 =
-      10,86 ms → ~1,36): **−9,5 ms → ~10,1 ms ≈ 99 tok/s**.
-      **Vier harde voorwaarden, geen ervan gemeten:** (1) Mamba/attention naar
-      FP4 is een echte quantisatiewijziging met kwaliteitsprijs; (2) er moet een
-      M-weg verificatiepad zijn met hoge acceptatie; (3) de MoE-routing-unie
-      groeit met M (63,9/128 bij N=16); (4) C2d is synthetisch en meet alleen de
-      GEMM. Volgorde: eerst de kwaliteitspoort van FP4-Mamba, dan het
-      verificatiepad, dan pas een tok/s-claim.
+- [WEERLEGD 2026-08-16] **M-weg decode op native FP4 → ~99 tok/s. INGETROKKEN.**
+      Mijn eigen projectie was fout: ik deelde `up_proj` (2,253 ms) door M,
+      terwijl dat **routed** is en dus de expert-unie volgt (gemeten **3,313×
+      over 5 posities**, `diag_mtp_route_union.json`), niet ×1. Herrekend met de
+      gemeten acceptatiegraad A+1=3,114: **52,1 tok/s bij D+1=5 en 52,7 bij
+      D+1=2** — 2 à 3,4% boven V18, binnen de drift. Structurele reden: maar
+      **40% van het token is M-vrij**; de routed MoE is 40% en volgt de unie,
+      en `ssm_step` (1,010 ms) is een recurrentie en deelt per definitie niet.
+      C2d's vrije-M is echt maar bijt alleen op die 40%.
+      `diag_mtp_native_fp4_economics.json`.
+- [ ] **HOOGSTE PRIORITEIT — native FP4 op M=1, selectief. Wat er van C2b/C2c/C2d
+      overeind blijft, en het is echt.** Formaatbehoudend (geen quantisatie-
+      wijziging, alleen andere accumulatievolgorde) op de shapes die al NVFP4
+      zijn: **lm_head 2,52×, shared_down 1,68×**, shared_up 1,11×, en
+      **routed_up 0,96× → NIET doen**. Samen **−1,275 ms/token → 51,0 → 54,6
+      tok/s**. Poort: **kwaliteit, geen bitexactheid** (Tensor-Core-accumulatie
+      ≠ ERVF-boom). C1 bewees de repack al verliesloos, C2b het contract.
 - [ ] **C3 — native FP4 als drager voor een M=2-verificatiepad, SELECTIEF.**
       C2c (2026-08-16) mat de eerlijke head-to-head tegen onze eigen
       ERVF-kernel, koud (≥4× L2), op de vier **al-NVFP4** shapes:

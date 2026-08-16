@@ -42,11 +42,17 @@ resterende technische stappen): zie `agents/PATH_TO_100_TOKS.md`.**
 > dezelfde as omdat het op **Tensor Cores** draait — rekenruimte over, dus
 > extra kolommen gratis.
 >
-> Rekening bij M=8 over al het deelbare gewichtswerk: **−9,5 ms → ~10,1 ms ≈
-> 99 tok/s**. Eerste route van de sessie die met gemeten invoer bij het doel
-> komt. Voorwaarden die nog volledig ongemeten zijn: FP4-quantisatie van
-> Mamba/attention (kwaliteitsprijs), een M-weg verificatiepad met hoge
-> acceptatie, en de met M groeiende MoE-routing-unie.
+> ⚠️ **De ~99 tok/s die hier eerst stond is INGETROKKEN.** Die rekening deelde
+> `up_proj` door M, maar dat is **routed**: het volgt de expert-unie (gemeten
+> **3,313× over 5 posities**), niet ×1. Herrekend met de gemeten acceptatie
+> A+1=3,114 komt native FP4 + MTP op **52,1-52,7 tok/s**, 2-3,4% boven V18 —
+> binnen de drift. Reden: slechts **40% van het token is M-vrij**; de routed MoE
+> is óók 40% en volgt de unie, en `ssm_step` (1,010 ms) is een recurrentie die
+> per definitie niet deelt. Zie `diag_mtp_native_fp4_economics.json`.
+>
+> **Wat wél overeind blijft:** native FP4 op **M=1, selectief** — lm_head 2,52×
+> en shared_down 1,68×, formaatbehoudend, **−1,275 ms/token → 54,6 tok/s**.
+> `routed_up` is 0,96× en hoort er niet bij.
 >
 > Detail: `RESEARCH_NOTEBOOK.md` blokken "C2b", "C2c", "C2d"; resultaten
 > `pro_research/results/native_nvfp4/C2B_TORCH212_CONTRACT.json`,

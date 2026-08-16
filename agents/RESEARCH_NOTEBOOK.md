@@ -11,6 +11,70 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — ⚠️ **INTREKKING van mijn eigen 99 tok/s-projectie.** Herrekend met de al gemeten route-unie komt native FP4 + MTP op **52-53 tok/s**, niet 99 — en dat sluit de speculatieve route opnieuw
+
+**Wat ik fout deed.** Eén blok hieronder projecteerde ik ~99 tok/s door "al het
+deelbare gewichtswerk" door M te delen, en ik zette **`up_proj` (2,253 ms) in de
+deelbare kolom**. Dat is verkeerd, en de reden stond in mijn eigen bericht —
+ik noemde de groeiende routing-unie als voorwaarde 3 en paste hem vervolgens
+niet toe. **`up_proj` is routed.** De kosten daarvan delen niet door M; ze
+volgen de **expert-unie**, en die is al gemeten: **19,88 van 128 experts over 5
+posities tegen 6 voor één token = 3,313×** (`diag_mtp_route_union.json`).
+Hetzelfde geldt voor de gather, down_masked en panel_scan/reduce/accumulate.
+
+**De juiste driedeling van het 19,60 ms-token.**
+
+| klasse | ms | aandeel | schaalt met D+1 posities als |
+|---|---:|---:|---|
+| **M-vrij** (Mamba-proj, attention-proj, shared expert, lm_head) | **7,928** | 40% | ×1 — één gewichtspas voor alle posities |
+| **routed** (gather, up_proj, down_masked, panel/reduce/accum) | **7,930** | 40% | **×3,313 bij 5 posities** (gemeten unie) |
+| **strikt per positie** (ssm_step, conv/dt, gated_norm, norms/adds, attention-KV) | 2,701 | 14% | ×D+1 — `ssm_step` is een recurrentie |
+| niet-geattribueerd | 1,042 | 5% | ×D+1 (conservatief) |
+
+**Herrekening, met de gemeten acceptatiegraad A+1 = 3,114 (S10-A, 360 stappen, poort ≥1,5 gehaald):**
+
+| scenario | ronde | per token | tok/s | vs V18 |
+|---|---:|---:|---:|---:|
+| D+1=5 (D=4 drafts) | 59,81 ms / 3,114 | 19,21 ms | **52,1** | 1,020× |
+| D+1=2 (checkpoint-MTP, `num_nextn_predict_layers=1`) | 30,34 ms / 1,6 | 18,96 ms | **52,7** | 1,034× |
+
+**Dus 2-3,4% winst, niet 94%.** Dat is binnen de ruis van wat deze machine
+tussen runs drift.
+
+**Waarom de speculatieve route hier structureel niet werkt.** Slechts **40% van
+het token is M-vrij**. De andere 60% bestaat uit twee dingen die géén van beide
+over posities delen:
+1. de **routed MoE (40%)** — bij 128 experts en top-6 routeren opeenvolgende
+   tokens naar grotendeels verschillende sets, dus een gezamenlijke sweep
+   beweegt bijna evenveel expert-bytes als losse tokens genereren (3,313× voor
+   5 posities); dit was al de kern van de oorspronkelijke sluiting en het
+   **overleeft native FP4 volledig**;
+2. de **Mamba-recurrentie (`ssm_step`, 1,010 ms/token)** — die is per definitie
+   sequentieel in positie en kan door geen enkele kernel gedeeld worden.
+
+C2d's vrije-M-eigenschap is echt, maar hij bijt alleen op die 40%. De
+oorspronkelijke MTP-sluiting kwam op −6,0%; met vrije M wordt dat +2 à +3,4%.
+**De conclusie kantelt niet.**
+
+**Wat wél overeind blijft van C2b/C2c/C2d.** Native FP4 op M=1 is een echte,
+formaatbehoudende winst op lm_head (2,52×) en shared_down (1,68×): **−1,275
+ms/token → 51,0 → 54,6 tok/s**. Dat is gemeten, vraagt geen quantisatiewijziging
+van Mamba of attention, en blijft de beste openstaande kandidaat. `routed_up`
+(0,96×) hoort er niet bij.
+
+**De les.** Dit is dezelfde fout die dit project al twee keer eerder heeft
+gemaakt en zelf als werkregel heeft opgeschreven: *een component-eigenschap
+extrapoleren naar het geheel zonder te controleren welke termen er werkelijk
+onder vallen.* De vrije-M-meting was correct; de toewijzing eromheen niet. Ik had
+`up_proj` als routed moeten herkennen — het staat letterlijk in de naam van de
+kolom "MoE" in de tokenkaart.
+
+**Artefacten.** `pro_research/diag_mtp_native_fp4_economics.py` + `.json`
+(reproduceerbare rekensom over uitsluitend al gemeten grootheden; de aanname
+attention-projectie/KV = 0,60 is expliciet gemarkeerd als aanname).
+
+---
+
 ## 2026-08-16 — **C2d: M is GRATIS tot M=8 op native FP4 — acht posities voor de prijs van één gewichtslezing.** Dit heropent wat de batch-analyse gesloten had
 
 **Vraag.** C2c wees M=2 aan als de echte hefboom, niet FP4 op zich. Hoe ver gaat

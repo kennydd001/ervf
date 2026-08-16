@@ -1,0 +1,60 @@
+{
+  "kind": "diag_mtp_native_fp4_economics",
+  "created_utc": "2026-08-16T18:51:03.388643+00:00",
+  "note": "recomputes the MTP speculative-decode economics under C2d's measured free-M property, and corrects the assistant's own 99 tok/s projection from the previous turn, which wrongly counted the ROUTED up_proj among the terms that divide by M",
+  "inputs": {
+    "v18_ms_per_token": 19.6,
+    "token_map_basis_ms": 21.24,
+    "routed_union_5_positions": "19.88 of 128 experts vs 6 for one token = 3.313x (diag_mtp_route_union.json, measured)",
+    "acceptance_A_plus_1": 3.114,
+    "acceptance_source": "S10A_MTP_ACCEPTANCE_REPORT_2026-08-15.md, A=2.114 over 360 steps, gate G-S10-1 >=1.5 PASSED",
+    "free_M_source": "C2D_M_SCALING.json, M8/M1 = 0.989 / 0.814 / 1.003 / 0.891",
+    "attention_projection_fraction_ASSUMED": 0.6
+  },
+  "classification": {
+    "m_free_ms": 7.928033898305086,
+    "routed_follows_union_ms": 7.9295103578154436,
+    "strictly_per_position_ms": 2.7006290018832395,
+    "unattributed_ms": 1.041826741996232
+  },
+  "scenarios": {
+    "D+1=5 (D=4 drafts)": {
+      "positions_verified": 5,
+      "routed_union_multiplier": 3.313333333333333,
+      "accepted_tokens_per_round": 3.114,
+      "dense_m_free_ms": 7.928033898305086,
+      "routed_ms": 26.273110985561832,
+      "per_position_ms": 18.712278719397357,
+      "mtp_draft_ms": 6.896831245394253,
+      "round_total_ms": 59.81025484865853,
+      "ms_per_accepted_token": 19.206889803679683,
+      "tok_s": 52.06465024901734,
+      "vs_v18_speedup": 1.0204671448807399,
+      "routed_share_of_round": 0.4392743527350328
+    },
+    "D+1=2 (checkpoint MTP, num_nextn_predict_layers=1)": {
+      "positions_verified": 2,
+      "routed_union_multiplier": 1.6648333333333334,
+      "accepted_tokens_per_round": 1.6,
+      "dense_m_free_ms": 7.928033898305086,
+      "routed_ms": 13.201313160703078,
+      "per_position_ms": 7.484911487758943,
+      "mtp_draft_ms": 1.7242078113485633,
+      "round_total_ms": 30.33846635811567,
+      "ms_per_accepted_token": 18.961541473822294,
+      "tok_s": 52.73832833583538,
+      "vs_v18_speedup": 1.0336712353823736,
+      "routed_share_of_round": 0.4351344924583398
+    }
+  },
+  "correction": {
+    "previous_claim_tok_s": 99.0,
+    "why_wrong": "it divided moe_up_proj (2.253 ms) by M. up_proj is routed: its cost follows the expert union, which grows 3.313x over 5 positions, not 1x. The same applies to gather, down_masked and panel_scan/reduce/accumulate. Only Mamba/attention projections, the shared expert and lm_head are genuinely shared across positions."
+  },
+  "caveats": [
+    "the Mamba and attention projections only become M-free if they are moved to native FP4, which is a real quantisation change with an unmeasured quality cost",
+    "the attention projection/KV split is assumed at 0.60, not measured",
+    "the MTP chain cost is carried over as a fraction of a token from a 54.28 ms/token stack",
+    "no end-to-end run; this is arithmetic over measured components, exactly like the closure it revisits"
+  ]
+}

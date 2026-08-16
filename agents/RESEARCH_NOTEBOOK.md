@@ -110,6 +110,41 @@ Timing: geen winstclaim — eerlijk gerapporteerd als vlak/lichte regressie.
 met device-only up_proj-unie), `pro_research/proto_multi_seq_moe_shared.json`
 (laatste run, 10,898 tok/s bij 40 stappen).
 
+**Tweede poging, direct erna, zelfde dag — de gediagnosticeerde oorzaak
+gefixt, resultaat blijft vlak: de diagnose was ook fout.** De voorgestelde
+verklaring (worst-case-P-grote fetch-buffer) had een directe, kernel-vrije
+fix: `cache_assign` produceert zelf al een gepakte, gededupliceerde
+expertlijst als bijproduct (`expert_of[:filled]`, waarbij `expert_of[v]`
+gezet wordt precies wanneer slot `v` nieuw wordt toegewezen, en
+`state2[1]` het aantal bijhoudt) — geen nieuwe kernel nodig, alleen een
+al-bestaande kernel-uitvoer gebruiken die nog niet gebruikt werd. Fetch nu
+naar een `u`-grote buffer (werkelijke unie-grootte, niet P) i.p.v.
+worst-case. **Bitexact opnieuw bevestigd (40/40 tokens × 2 sequenties).**
+**Timing: 10,894 tok/s — vrijwel identiek aan de 10,898 hiervoor, geen
+verbetering.** De voorgestelde oorzaak (bufferomvang) was dus **ook fout**
+— de werkelijke resterende kost zit vermoedelijk in de verse
+`alloc_device_cache`-toewijzing zelf (9 device-arrays, elke laag, elke
+stap — 23×40=920 keer, ~8280 kleine allocaties totaal) of ergens anders
+niet-geïdentificeerd, niet in de buffergrootte.
+
+**Wat dit definitief vaststelt.** Twee onafhankelijke, elk plausibele,
+elk bitexact-geverifieerde pogingen om de device-only-unie-route sneller
+te maken dan de host-unie-route zijn **beide mislukt** (10,898 en 10,894
+tok/s, versus 11,234 voor de host-unie-versie — een consistente ~3%
+regressie in beide device-only-varianten). De **host-side-unie-versie
+(11,234 tok/s) blijft het beste geverifieerde getal** voor deze
+sessie se `proto_multi_seq_moe_shared.py` en is teruggezet als de
+canonieke staat van het bestand — de device-only-varianten se code en
+resultaten blijven hier gedocumenteerd als een reële, tweemaal-bevestigde
+negatieve uitkomst, geen verborgen mislukking.
+
+**Poorten.** Correctheid: bitexact, PASS, beide pogingen. Geen
+winstclaim — twee eerlijk gerapporteerde nulresultaten.
+
+**Artefacten.** `pro_research/proto_multi_seq_moe_shared.py`
+(teruggezet naar de host-unie-versie, 11,234 tok/s, het beste
+geverifieerde getal).
+
 ---
 
 ## 2026-08-16 — Robuustheidscontrole van de N=2-naive-baseline: het cijfer krimpt bij een langere horizon — eerlijke bijstelling, geen tegenspraak

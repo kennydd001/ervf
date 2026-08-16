@@ -131,14 +131,8 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k):
     import time
     t0 = time.perf_counter() if PROFILE else None
 
-    # routing ids/weights written DIRECTLY into slices of one flat device
-    # buffer (no separate small per-sequence array, no per-sequence host
-    # sync) -- route_topk already supports this since it just writes into
-    # whatever device array slice it's given, same as production route_topk
-    # calls write into dev["ids"] directly.
-    P = N_ * top_k
-    all_ids_dev = cp.zeros(P, dtype=cp.int32)
-    all_w_dev = cp.zeros(P, dtype=cp.float32)
+    seq_ids = []
+    seq_w_dev = []
     for s in range(N_):
         use_state(rt, states[s])
         k.norm(rt.normed, rt.h, d["norm"], hidden, rt.eps)
@@ -152,46 +146,40 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k):
                         d["sh_dn_g"], hidden, shared_inter)
         # routing: fused.route_topk, matching _moe_dev exactly (not _route_device).
         k.mv_f32(rt.rlog, d["gate_w"], rt.normed, n_experts, hidden)
-        fused.route_topk(rt.rlog, d["gate_b"], all_ids_dev[s * top_k:(s + 1) * top_k],
-                         all_w_dev[s * top_k:(s + 1) * top_k], n_experts, top_k,
+        ids_dev = cp.zeros(top_k, dtype=cp.int32)
+        w_dev = cp.zeros(top_k, dtype=cp.float32)
+        fused.route_topk(rt.rlog, d["gate_b"], ids_dev, w_dev, n_experts, top_k,
                          scaling, bad_pick=rt._bad_pick)
+        ids_host = [int(x) for x in cp.asnumpy(ids_dev)]
+        seq_ids.append(ids_host)
+        seq_w_dev.append(w_dev)
 
     t0 = _prof_mark(cp, "1_routing_and_shared_expert", t0)
 
-    # device-only union for the up_proj fetch: cache_assign already
-    # deduplicates a RAW (non-unioned) id list within one call (verified in
-    # isolation, diag_device_only_union.py, 2026-08-16) -- no host-side
-    # set()/dict needed here at all. ONE host sync for seq_ids below is
-    # still needed for the down_proj mask-union step (grouping pairs by
-    # shared expert to OR their sparsity masks), which this mechanism does
-    # NOT cover -- that part still needs host-side expert identity.
-    dev_union = fused.alloc_device_cache(n_experts, P, P, bank["globals"])
-    dev_union["ids"][:] = all_ids_dev
-    fused.cache_assign(dev_union, dev_union["ids"], P, P)
-    batched_c = cp.zeros(P * UP_CODE, dtype=cp.uint8)
-    batched_s = cp.zeros(P * UP_SCALE, dtype=cp.uint8)
+    union_experts = sorted(set(e for ids_s in seq_ids for e in ids_s))
+    u = len(union_experts)
+    expert_to_slot = {e: idx for idx, e in enumerate(union_experts)}
+
+    # shared up_proj fetch: ONE cache_fetch over the union.
+    batched_c = cp.zeros(u * UP_CODE, dtype=cp.uint8)
+    batched_s = cp.zeros(u * UP_SCALE, dtype=cp.uint8)
+    ids_dev_b = cp.asarray(union_experts, dtype=cp.int32)
+    slots_dev_b = cp.arange(u, dtype=cp.int32)
+    need_dev_b = cp.ones(u, dtype=cp.int32)
     fused.cache_fetch(bank["up_codes"].ctypes.data, bank["up_scales"].ctypes.data,
-                      batched_c, batched_s, dev_union, UP_CODE, UP_SCALE, P)
+                      batched_c, batched_s,
+                      {"ids": ids_dev_b, "slots": slots_dev_b, "need": need_dev_b},
+                      UP_CODE, UP_SCALE, u)
 
     t0 = _prof_mark(cp, "2_up_proj_shared_fetch", t0)
-
-    # single batched host sync (routing ids, for the down_proj mask-union
-    # step below, and the per-pair physical slot each position landed in)
-    # instead of the N_+u-ish separate small syncs the earlier version did.
-    all_ids_host = cp.asnumpy(all_ids_dev).tolist()
-    slots_host = cp.asnumpy(dev_union["slots"]).tolist()
-    seq_ids = [all_ids_host[s * top_k:(s + 1) * top_k] for s in range(N_)]
-    seq_w_dev = [all_w_dev[s * top_k:(s + 1) * top_k] for s in range(N_)]
 
     # per (sequence, expert): up_proj GEMV from the shared buffer + panel_scan.
     act_by_pair = {}
     panel_by_pair = {}
-    pair_idx = 0
     for s in range(N_):
         normed_s = states[s]["normed"]
         for e in seq_ids[s]:
-            slot = slots_host[pair_idx]
-            pair_idx += 1
+            slot = expert_to_slot[e]
             c_slice = batched_c[slot * UP_CODE:(slot + 1) * UP_CODE]
             s_slice = batched_s[slot * UP_SCALE:(slot + 1) * UP_SCALE]
             act = cp.zeros(moe_inter, dtype=cp.float32)
@@ -207,12 +195,6 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k):
             panel_by_pair[(s, e)] = {"masks": masks, "plist": plist, "pcount": pcount, "nz": nz, "nzc": nzc}
 
     t0 = _prof_mark(cp, "3_up_proj_gemv_and_panel_scan", t0)
-
-    # the down_proj mask-union step still needs host-side expert identity
-    # (grouping pairs by shared expert to OR their sparsity masks) -- the
-    # device-only cache_assign trick above covers up_proj fetch dedup only,
-    # not this. Recomputed here from the already-batch-synced seq_ids.
-    union_experts = sorted(set(e for ids_s in seq_ids for e in ids_s))
 
     # union mask per expert (OR across sequences that selected it). Stay in
     # numpy end-to-end here -- the original version round-tripped this numpy

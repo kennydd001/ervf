@@ -495,9 +495,19 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       een verse `dev_union`-allocatie per laag/stap — de bespaarde
       host-syncs wegen daar niet tegenop. **Les: minder host-syncs is niet
       automatisch sneller** als er een nieuwe, even grote kost tegenover
-      staat (zelfde klasse les als eerder bij gather-batching). Zie
-      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Routekaartstap 1 begonnen"
-      en het vervolg direct erna.
+      staat (zelfde klasse les als eerder bij gather-batching).
+      **[TWEEDE POGING, ZELFDE DAG]**: de gediagnosticeerde oorzaak
+      (worst-case-P-grote buffer) direct gefixt — `cache_assign` levert
+      zelf al een gepakte, gededupliceerde expertlijst
+      (`expert_of[:filled]`, geen nieuwe kernel nodig). Fetch nu naar een
+      werkelijke-`u`-grote buffer. **Bitexact opnieuw bevestigd, timing
+      10,894 tok/s — vrijwel identiek, ook geen verbetering.** De
+      voorgestelde oorzaak was dus OOK fout. **`proto_multi_seq_moe_shared.py`
+      teruggezet naar de host-unie-versie (11,234 tok/s, het beste
+      geverifieerde getal)** — beide device-only-pogingen blijven
+      gedocumenteerd als eerlijke, tweemaal-bevestigde nulresultaten, niet
+      verborgen. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
+      "Routekaartstap 1 begonnen" en beide vervolgen direct erna.
 - [WEERLEGD-VOOR-DEZE-AANPAK, CORRECTHEID BEVESTIGD 2026-08-16] **Expliciete
       unie-gevoede MoE-deling geïntegreerd in de echte staplus — bitexact
       correct, maar 12× TRAGER, niet sneller.**

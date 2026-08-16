@@ -88,27 +88,34 @@ blijven zelfs bij perfecte uitvoering.
 **Wat "perfecte engineering" concreet zou vereisen (niet gedaan deze
 sessie, wel nu precies afgebakend):**
 
-1. **Device-only routing-unie-berekening — voor de up_proj-fetch-stap
-   geverifieerd EN geïntegreerd, maar zonder gemeten tok/s-winst.**
+1. **Device-only routing-unie-berekening — mechanisme geverifieerd, TWEE
+   integratiepogingen geprobeerd, BEIDE zonder gemeten tok/s-winst.**
    `pro_research/diag_device_only_union.py` (2026-08-16) bewijst dat de
    bestaande, ongewijzigde `cache_assign`/`cache_fetch`-kernels een RUWE
    (ongededupliceerde) N×top_k-idlijst al correct dedupliceren binnen één
    aanroep — geen nieuwe CUDA-code, wel een echte val gevonden en vermeden
    (`cache_fetch` leest specifiek `dev["ids"]`, niet een losse
-   `ids`-parameter). **Geïntegreerd in `proto_multi_seq_moe_shared.py`**:
-   bitexact op 40 stappen × 2 sequenties, maar **10,898 tok/s — een kleine
-   regressie tegenover de vorige 11,234, geen winst.** Vermoedelijke
-   oorzaak: de fetch-buffer werd worst-case-P-groot i.p.v. werkelijke-
-   unie-u-groot, plus een verse `dev_union`-allocatie per laag/stap — dat
-   weegt niet op tegen de bespaarde host-syncs. **Les voor wie dit verder
-   oppakt**: minder host-syncs is niet automatisch sneller; een echte
-   winst hier vraagt waarschijnlijk óók een vaste, hergebruikte
-   `dev_union`-allocatie (niet per laag/stap opnieuw) en een fetch-buffer
-   die niet standaard worst-case-groot is. **Nog steeds open**: de
-   down_proj-maskerunie (OR van sparsity-maskers over sequenties die
-   dezelfde expert kozen) heeft dit mechanisme niet — dat vraagt nog
-   steeds host-side groepering per expert, of een aparte nieuwe kernel
-   die niet gebouwd is.
+   `ids`-parameter). **Poging 1** (worst-case-P-grote fetch-buffer):
+   bitexact, maar 10,898 tok/s tegen de host-unie-versie se 11,234 — een
+   kleine regressie. **Poging 2** (de gediagnosticeerde oorzaak — bufferomvang
+   — direct gefixt via `cache_assign`'s eigen `expert_of[:filled]`-bijproduct,
+   geen nieuwe kernel nodig): bitexact, **10,894 tok/s — vrijwel identiek,
+   ook geen verbetering.** De voorgestelde oorzaak was dus ook fout; de
+   werkelijke resterende kost (vermoedelijk de verse `alloc_device_cache`-
+   toewijzing zelf, 9 device-arrays per laag per stap, of iets nog niet
+   geïdentificeerd) is niet vastgesteld. **`proto_multi_seq_moe_shared.py`
+   is teruggezet naar de host-unie-versie (11,234 tok/s, het beste
+   geverifieerde getal)** — beide device-only-pogingen blijven
+   gedocumenteerd als eerlijke, tweemaal-bevestigde nulresultaten. **Nog
+   steeds open**: de down_proj-maskerunie (OR van sparsity-maskers over
+   sequenties die dezelfde expert kozen) heeft dit mechanisme niet — dat
+   vraagt nog steeds host-side groepering per expert, of een aparte
+   nieuwe kernel die niet gebouwd is. **Voor wie dit verder oppakt**: de
+   twee mislukte pogingen wijzen erop dat de winst van device-only-routing
+   waarschijnlijk pas zichtbaar wordt gecombineerd met CUDA-graph-
+   residentie (item 2 hieronder) — die zou de `alloc_device_cache`-
+   toewijzing zelf éénmalig buiten de hete lus plaatsen in plaats van elke
+   stap opnieuw, wat geen van beide geïsoleerde pogingen hier deed.
 2. **Eén CUDA-graph voor de hele multi-sequentie-staplus**, met een
    actief-masker voor continuous batching (zoals `BATCH_ARCHITECTURE_DESIGN.md`
    stap 8 al aangaf) — vangt de PCIe-fetch en het rekenwerk in dezelfde

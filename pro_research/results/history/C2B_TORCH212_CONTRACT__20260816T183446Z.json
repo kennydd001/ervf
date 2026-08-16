@@ -1,0 +1,265 @@
+{
+  "kind": "s100_native_nvfp4_c2b_torch212_contract",
+  "status": "native_execution_failed",
+  "started_utc": "2026-08-16T18:32:29.773329+00:00",
+  "preregistration": "pro_research\\S100_NATIVE_NVFP4_C2B_PREREGISTRATION.md",
+  "claim_boundary": "synthetic single-level BlockWise1x16 native FP4 execution/timing only; no Lightning quality, real-scale, activation-quantization or token/s claim",
+  "environment": {
+    "created_utc": "2026-08-16T18:32:31.602358+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-fp4-c2b\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "d2478ac19052dbd7217d7acf5fd9cc0e933682e3",
+    "git_status": [
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json",
+      "?? scripts/lightningstream_nemotron/bench_current_toks.py",
+      "?? scripts/lightningstream_nemotron/chat_lightning.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 55, 10.76 W, 622 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "pro_research\\diag_native_nvfp4_c2b_torch212.py": "ef8cbe9a0e26527480c1bbc8e07e092938718f3c9002f42d6f20adbcdebe2af7",
+      "pro_research\\S100_NATIVE_NVFP4_C2B_PREREGISTRATION.md": "6f8f7d1207557b4ea9beda773fe4f251ddeeb8382329411a6e45b17591d0fa2d"
+    }
+  },
+  "api": {
+    "torch_version": "2.12.1+cu132",
+    "torch_cuda_version": "13.2",
+    "cuda_available": true,
+    "device_name": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU",
+    "capability": [
+      12,
+      0
+    ],
+    "F_scaled_mm_present": true,
+    "F_scaled_mm_signature": "(mat_a: torch.Tensor, mat_b: torch.Tensor, scale_a: torch.Tensor | list[torch.Tensor], scale_recipe_a: torch.nn.functional._ScalingType | list[torch.nn.functional._ScalingType], scale_b: torch.Tensor | list[torch.Tensor], scale_recipe_b: torch.nn.functional._ScalingType | list[torch.nn.functional._ScalingType], swizzle_a: torch.nn.functional._SwizzleType | list[torch.nn.functional._SwizzleType] | None = None, swizzle_b: torch.nn.functional._SwizzleType | list[torch.nn.functional._SwizzleType] | None = None, bias: torch.Tensor | None = None, output_dtype: torch.dtype | None = torch.bfloat16, contraction_dim: list[int] | tuple[int, ...] = (), use_fast_accum: bool = False) -> torch.Tensor",
+    "float4_e2m1fn_x2_present": true,
+    "ScalingType_BlockWise1x16_present": true,
+    "SwizzleType_32_4_4_present": true,
+    "torch__scaled_mm_v2_present": true,
+    "torch__scaled_mm_v2_signature_or_repr": "<built-in method _scaled_mm_v2 of type object at 0x00007FFCB4ECDF90>",
+    "aten_scaled_mm_v2_schema": "aten::_scaled_mm_v2(Tensor self, Tensor mat2, Tensor[] scale_a, int[] recipe_a, int[] swizzle_a, Tensor[] scale_b, int[] recipe_b, int[] swizzle_b, Tensor? bias, ScalarType? out_dtype, int[] contraction_dim=[], bool use_fast_accum=False) -> Tensor"
+  },
+  "gates": {
+    "G1_torch_2_12_1_cu132": true,
+    "G2_cuda_sm120_or_newer": true,
+    "G3_public_scaled_mm_present": true,
+    "G4_fp4_dtype_present": true,
+    "G5_BlockWise1x16_present": true,
+    "G6_SWIZZLE_32_4_4_present": true,
+    "G7_scaled_mm_v2_recordable": true,
+    "K1_M1_known_value_executes": false,
+    "K2_all_known_values_exact_bf16": false,
+    "K3_all_known_values_deterministic": false,
+    "K4_all_known_values_finite": false
+  },
+  "known_value": [
+    {
+      "name": "KNOWN_M1",
+      "M": 1,
+      "N": 128,
+      "K": 256,
+      "reps": 200,
+      "a_storage_u8_shape": [
+        1,
+        128
+      ],
+      "a_fp4_shape": [
+        1,
+        128
+      ],
+      "a_fp4_stride": [
+        128,
+        1
+      ],
+      "b_storage_u8_shape": [
+        128,
+        128
+      ],
+      "b_fp4_shape": [
+        128,
+        128
+      ],
+      "b_fp4_stride": [
+        1,
+        128
+      ],
+      "scale_a_shape": [
+        128,
+        16
+      ],
+      "scale_b_shape": [
+        16,
+        128
+      ],
+      "scale_a_stride": [
+        16,
+        1
+      ],
+      "scale_b_stride": [
+        1,
+        16
+      ],
+      "status": "execution_failed",
+      "error_type": "ValueError",
+      "error": "For Blockwise scaling both scales should be contiguous",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\diag_native_nvfp4_c2b_torch212.py\", line 143, in _run_shape\n    out1 = _call(torch, F, ScalingType, SwizzleType, c)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\diag_native_nvfp4_c2b_torch212.py\", line 80, in _call\n    return F.scaled_mm(\n           ^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-fp4-c2b\\Lib\\site-packages\\torch\\nn\\functional.py\", line 6851, in scaled_mm\n    out = torch._scaled_mm_v2(\n          ^^^^^^^^^^^^^^^^^^^^\nValueError: For Blockwise scaling both scales should be contiguous\n"
+    },
+    {
+      "name": "KNOWN_M2",
+      "M": 2,
+      "N": 128,
+      "K": 256,
+      "reps": 200,
+      "a_storage_u8_shape": [
+        2,
+        128
+      ],
+      "a_fp4_shape": [
+        2,
+        128
+      ],
+      "a_fp4_stride": [
+        128,
+        1
+      ],
+      "b_storage_u8_shape": [
+        128,
+        128
+      ],
+      "b_fp4_shape": [
+        128,
+        128
+      ],
+      "b_fp4_stride": [
+        1,
+        128
+      ],
+      "scale_a_shape": [
+        128,
+        16
+      ],
+      "scale_b_shape": [
+        16,
+        128
+      ],
+      "scale_a_stride": [
+        16,
+        1
+      ],
+      "scale_b_stride": [
+        1,
+        16
+      ],
+      "status": "execution_failed",
+      "error_type": "ValueError",
+      "error": "For Blockwise scaling both scales should be contiguous",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\diag_native_nvfp4_c2b_torch212.py\", line 143, in _run_shape\n    out1 = _call(torch, F, ScalingType, SwizzleType, c)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\diag_native_nvfp4_c2b_torch212.py\", line 80, in _call\n    return F.scaled_mm(\n           ^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-fp4-c2b\\Lib\\site-packages\\torch\\nn\\functional.py\", line 6851, in scaled_mm\n    out = torch._scaled_mm_v2(\n          ^^^^^^^^^^^^^^^^^^^^\nValueError: For Blockwise scaling both scales should be contiguous\n"
+    },
+    {
+      "name": "KNOWN_M16",
+      "M": 16,
+      "N": 128,
+      "K": 256,
+      "reps": 200,
+      "a_storage_u8_shape": [
+        16,
+        128
+      ],
+      "a_fp4_shape": [
+        16,
+        128
+      ],
+      "a_fp4_stride": [
+        128,
+        1
+      ],
+      "b_storage_u8_shape": [
+        128,
+        128
+      ],
+      "b_fp4_shape": [
+        128,
+        128
+      ],
+      "b_fp4_stride": [
+        1,
+        128
+      ],
+      "scale_a_shape": [
+        128,
+        16
+      ],
+      "scale_b_shape": [
+        16,
+        128
+      ],
+      "scale_a_stride": [
+        16,
+        1
+      ],
+      "scale_b_stride": [
+        1,
+        16
+      ],
+      "status": "execution_failed",
+      "error_type": "ValueError",
+      "error": "For Blockwise scaling both scales should be contiguous",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\diag_native_nvfp4_c2b_torch212.py\", line 143, in _run_shape\n    out1 = _call(torch, F, ScalingType, SwizzleType, c)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\diag_native_nvfp4_c2b_torch212.py\", line 80, in _call\n    return F.scaled_mm(\n           ^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-fp4-c2b\\Lib\\site-packages\\torch\\nn\\functional.py\", line 6851, in scaled_mm\n    out = torch._scaled_mm_v2(\n          ^^^^^^^^^^^^^^^^^^^^\nValueError: For Blockwise scaling both scales should be contiguous\n"
+    },
+    {
+      "name": "KNOWN_M128",
+      "M": 128,
+      "N": 128,
+      "K": 256,
+      "reps": 200,
+      "a_storage_u8_shape": [
+        128,
+        128
+      ],
+      "a_fp4_shape": [
+        128,
+        128
+      ],
+      "a_fp4_stride": [
+        128,
+        1
+      ],
+      "b_storage_u8_shape": [
+        128,
+        128
+      ],
+      "b_fp4_shape": [
+        128,
+        128
+      ],
+      "b_fp4_stride": [
+        1,
+        128
+      ],
+      "scale_a_shape": [
+        128,
+        16
+      ],
+      "scale_b_shape": [
+        16,
+        128
+      ],
+      "scale_a_stride": [
+        16,
+        1
+      ],
+      "scale_b_stride": [
+        1,
+        16
+      ],
+      "status": "execution_failed",
+      "error_type": "ValueError",
+      "error": "For Blockwise scaling both scales should be contiguous",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\diag_native_nvfp4_c2b_torch212.py\", line 143, in _run_shape\n    out1 = _call(torch, F, ScalingType, SwizzleType, c)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\diag_native_nvfp4_c2b_torch212.py\", line 80, in _call\n    return F.scaled_mm(\n           ^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-fp4-c2b\\Lib\\site-packages\\torch\\nn\\functional.py\", line 6851, in scaled_mm\n    out = torch._scaled_mm_v2(\n          ^^^^^^^^^^^^^^^^^^^^\nValueError: For Blockwise scaling both scales should be contiguous\n"
+    }
+  ],
+  "completed_utc": "2026-08-16T18:32:32.281387+00:00"
+}

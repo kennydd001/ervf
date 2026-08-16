@@ -76,8 +76,42 @@ def _e4m3_round(v: np.ndarray) -> np.ndarray:
     return out
 
 
-def quant_nvfp4(x: np.ndarray) -> tuple[np.ndarray, dict]:
-    """NVFP4 round trip of one activation vector, ModelOpt/vLLM convention."""
+def _e4m3_ceil(v: np.ndarray) -> np.ndarray:
+    """Smallest e4m3 value >= v.
+
+    The block scale must be rounded UP, not to-nearest. diag_verify_nvfp4_
+    quantizer.py caught this: rounding to nearest lets the scale come out just
+    below what the block needs, so the largest elements land above 6.0 on the
+    e2m1 grid and get clipped -- 4.35% of real lm_head weights did. Clipping is
+    the quantiser's own error, not the format's, and it would have inflated the
+    activation-quality number this file exists to produce.
+    """
+    r = _e4m3_round(v)
+    lo = r < v - 1e-12
+    if np.any(lo):
+        x = np.clip(v[lo], 2.0 ** -9, E4M3_MAX)
+        e = np.clip(np.floor(np.log2(x)), -6, 8)
+        step = 2.0 ** (e - 3)
+        up = np.clip(np.ceil(x / step) * step, 0.0, E4M3_MAX)
+        # ceil can cross an exponent boundary; renormalise onto the grid
+        r[lo] = _e4m3_round(up)
+        still = r[lo] < v[lo] - 1e-12
+        if np.any(still):
+            r_lo = r[lo]
+            r_lo[still] = E4M3_MAX
+            r[lo] = r_lo
+    return r
+
+
+def quant_nvfp4(x: np.ndarray, s_g: float | None = None) -> tuple[np.ndarray, dict]:
+    """NVFP4 round trip of one activation vector, ModelOpt/vLLM convention.
+
+    ``s_g`` overrides the per-tensor global scale. The idempotence check needs
+    it: real checkpoint weights were encoded against lm_head's own
+    ``weight_scale_2``, so recomputing a global scale from a 4096-element slice
+    gives a different grid and exact round-tripping is impossible by
+    construction. Passing the source scale makes that test fair.
+    """
     n = x.size
     pad = (-n) % BLOCK
     xp = np.concatenate([x, np.zeros(pad, dtype=np.float32)]) if pad else x
@@ -86,10 +120,11 @@ def quant_nvfp4(x: np.ndarray) -> tuple[np.ndarray, dict]:
     amax = float(np.max(np.abs(xp)))
     if amax == 0.0:
         return x.copy(), {"global_scale": 0.0, "clipped_fraction": 0.0}
-    s_g = amax / (6.0 * E4M3_MAX)
+    if s_g is None:
+        s_g = amax / (6.0 * E4M3_MAX)
 
     bamax = np.max(np.abs(blocks), axis=1)
-    bs = _e4m3_round(bamax / 6.0 / s_g)
+    bs = _e4m3_ceil(bamax / 6.0 / s_g)
     eff = (bs * s_g)[:, None]
     eff = np.where(eff == 0.0, 1.0, eff)
 

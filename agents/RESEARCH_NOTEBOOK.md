@@ -11,6 +11,76 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — **Het meetinstrument geverifieerd vóór de meting: één echte bug gevonden, en twee keer dezelfde denkfout van mezelf**
+
+**Waarom.** `diag_fp4_activation_quality.py` gaat straks rapporteren "dit kost
+FP4 aan kwaliteit". Dat getal is niets waard als de quantizer erachter niet
+deugt, en die is handgeschreven. Twee keer eerder vandaag maakte een
+handgeschreven testdetail een conclusie ongeldig (all-ones schalen verborgen een
+layout-permutatie; een vormfout verborg een dtype-eis). Dus: eerst het
+instrument, dan pas de meting. GPU-vrij, want de GPU was bezet met de chatserver
+van de gebruiker.
+
+**Uitkomst: `quantizer_trustworthy`, na correcties.**
+
+| check | uitkomst |
+|---|---|
+| V1 — e2m1-raster tegen `nvfp4.E2M1_MAGNITUDES` | **PASS** |
+| V2 — handgerolde e4m3-afronding tegen de echte 256-entry `E4M3_TABLE` | **PASS**, 100% match over het hele bereik |
+| V3a — geen clipping op echte lm_head-gewichten | **PASS**, 0,0% (was **4,35%**) |
+| V3c — elk element binnen een halve rasterstap van zijn invoer | **PASS**, 0 overtredingen |
+
+### De echte bug: de blokschaal moet naar BOVEN afgerond worden
+
+Ik rondde de e4m3-blokschaal af op *dichtstbijzijnde*. Daardoor komt de schaal
+soms nét onder wat het blok nodig heeft, belanden de grootste elementen boven
+6,0 op het e2m1-raster, en worden ze geclipt: **4,35% van de echte
+lm_head-gewichten**. Clipping is fout van de quantizer, niet van het formaat, en
+had het kwaliteitscijfer waar dit instrument voor bestaat rechtstreeks
+opgeblazen. Met `ceil` op het e4m3-raster is het exact 0.
+
+### Twee keer dezelfde denkfout, en die is leerzamer dan de bug
+
+**Eerste V3** eiste dat het her-quantiseren van al-NVFP4-gewichten ze
+bit-identiek teruggeeft. Dat is **onmogelijk by construction**: de encoder
+*bewaart* een blokschaal, een re-quantizer *leidt* er een af als amax/6, en die
+vallen alleen samen als de grootste code in het blok toevallig 6 is. Bij maxcode
+4 is de afgeleide schaal 4/6 van het origineel, verschuift het raster, en
+bewegen waarden legitiem één stap — precies de 0,333 = |1,0−1,5|/1,5 die ik zag.
+Ik zat de quantizer bij te stellen om een onhaalbare test te halen.
+
+**Toen schreef ik V3b** (operator-idempotentie, `quant(quant(x)) == quant(x)`)
+— en dat is **exact dezelfde onmogelijkheid**, ná de diagnose. Ik dacht dat de
+dynamische globale schaal de boosdoener was; met de schaal vastgepind
+veranderden er nog steeds **precies 351** elementen, wat het definitief maakte:
+het is het amax-afgeleide blokschema zelf.
+
+**V3c** is wat er wél te eisen valt: elk uitvoerelement binnen een halve
+rasterstap van zijn invoer. Dat is de definitie van correcte
+round-to-nearest, en dát is wat "de quantizer voegt geen eigen fout toe boven
+het formaat" betekent. 0 overtredingen.
+
+**Werkregel die ik hieraan overhoud:** vóór je een eigenschap als poort
+opschrijft, vraag of het ontwerp die eigenschap *kán* hebben. Ik heb vandaag
+twee poorten geschreven die geen enkele correcte implementatie zou halen, en
+beide keren was mijn eerste reactie de implementatie aanpassen in plaats van de
+poort.
+
+**Bijvangst voor het ontwerp.** Onder een per-aanroep herafgeleide globale
+schaal verandert 8,6% van de elementen bij een tweede toepassing. Dat is geen
+defect, maar het betekent wel dat een **per-token dynamische globale schaal
+jitter toevoegt bovenop de formaatfout**. Een echte implementatie moet die
+schaal kalibreren en vastzetten.
+
+**Formaatfout op echte gewichten** (informatie, geen poort): gemiddelde
+relatieve fout 0,0592 op niet-nul elementen, RMS 0,000326. Dat begrenst wat een
+verse NVFP4-encodering kost.
+
+**Artefacten.** `pro_research/diag_verify_nvfp4_quantizer.py` + `.json`;
+de fix zit in `diag_fp4_activation_quality.py` (`_e4m3_ceil`).
+
+---
+
 ## 2026-08-16 — ⚠️ **CORRECTIE op het blok hieronder: native FP4 is NIET formaatbehoudend, en W4A8 bestaat niet.** De route is W4A4 of niets
 
 Het blok hieronder ("Laatste poort GEHAALD ... volledig gedeblokkeerd") is te

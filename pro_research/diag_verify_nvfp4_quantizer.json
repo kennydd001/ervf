@@ -1,0 +1,54 @@
+{
+  "kind": "diag_verify_nvfp4_quantizer",
+  "created_utc": "2026-08-16T20:44:44.122510+00:00",
+  "checks": {
+    "V1_e2m1_grid": {
+      "pass": true,
+      "project": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        3.0,
+        4.0,
+        6.0
+      ],
+      "mine": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        3.0,
+        4.0,
+        6.0
+      ]
+    },
+    "V2_e4m3_rounding": {
+      "pass": true,
+      "match_fraction": 1.0,
+      "max_relative_disagreement": 0.0,
+      "note": "hand-rolled exponent/mantissa rounding against snapping onto nvfp4.E4M3_TABLE"
+    },
+    "V3a_no_clipping": {
+      "pass": true,
+      "clipped_fraction": 0.0,
+      "note": "real lm_head weights; ceil-rounded block scales must make clipping impossible"
+    },
+    "V3c_within_half_grid_step": {
+      "pass": true,
+      "violating_elements": 0,
+      "elements": 4096,
+      "note": "every output within half a grid step of its input -- the achievable statement of 'no error beyond the format's own'"
+    }
+  },
+  "operator_non_idempotence": {
+    "changed_elements_dynamic_scale": 351,
+    "changed_elements_fixed_scale": 351,
+    "elements": 4096,
+    "note": "NOT a gate. Inherent to amax-derived block scaling, not a defect: a block whose largest code is 4 rather than 6 gets a different scale on re-encode and its grid shifts. Identical under a pinned global scale, which rules out dynamic scaling as the cause."
+  },
+  "verdict": "quantizer_trustworthy",
+  "consequence": "the activation-quality number this quantiser produces can be read as the cost of the FORMAT"
+}

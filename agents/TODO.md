@@ -418,12 +418,33 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       N=1-vs-N=2-vergelijking): N=1 solo 29,798 tok/s vs N=2 naive (GEEN
       expliciete deel-logica, alleen incidenteel warm-cache-hergebruik)
       31,411 tok/s aggregate — 1,054× (+5,4%), reëel en positief.** Sluit de
-      vraag of het state-managementmechanisme praktisch werkt: ja. **Nog
-      niet gedaan** (vervolgstap): dezelfde staplus uitbreiden met de
-      expliciete unie-gevoede MoE-deling uit `proto_batch_moe_layer_combined.py`
-      in plaats van alleen incidenteel hergebruik — zou de winst voorbij
-      5,4% moeten brengen. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
-      "EERSTE ECHTE END-TO-END METING".
+      vraag of het state-managementmechanisme praktisch werkt: ja.
+      **[VERVOLGD EN AFGEROND 2026-08-16]** zie direct hieronder.
+- [WEERLEGD-VOOR-DEZE-AANPAK, CORRECTHEID BEVESTIGD 2026-08-16] **Expliciete
+      unie-gevoede MoE-deling geïntegreerd in de echte staplus — bitexact
+      correct, maar 12× TRAGER, niet sneller.**
+      `pro_research/proto_multi_seq_moe_shared.py` integreert de al
+      bitexact-bewezen deling uit `proto_batch_moe_layer_combined.py` over
+      alle 23 MoE-lagen, meerdere echte stappen. **Correctheidspoort
+      GESLAAGD**: bitexact tegen onafhankelijke `_moe_dev`-referentieruns,
+      12/12 tokens × 2 sequenties. Bijvangst: bevestigt voor het eerst dat
+      `gemv_into` en productie se `gemv_ervf_indirect` bitexact gelijk zijn
+      (nooit eerder getoetst — eerdere prototypes vergeleken nooit tegen
+      `_moe_dev` zelf). **Timing: 2,655 tok/s aggregate — tegen 31,411
+      (naive) en 29,798 (solo) — een 12× REGRESSIE, geen winst.** Oorzaak
+      duidelijk: de deling is **puur in Python** gebouwd (host-syncs via
+      `cp.asnumpy()`/`.get()` per sequentie/unie-expert per MoE-laag per
+      stap, honderden kleine allocaties/launches over 23 lagen × 12
+      stappen) — precies de overhead die productie se `_moe_dev`
+      (device-only routing, geen host-sync, gepijplijnde copy-stream)
+      zorgvuldig vermijdt. **Het mechanisme is niet fout (bitexact bewezen)
+      — een naïeve Python-orkestratie ervan wel.** Bevestigt exact wat
+      `BATCH_ARCHITECTURE_DESIGN.md` van meet af aan zei: een echte
+      integratie vraagt **echt CUDA-engineeringwerk** (device-only
+      unie-routing-kernel, gebatchte launches over de unie, geen
+      Python-host-syncs in de hete lus), niet Python-orkestratie van al
+      bewezen stukken. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
+      "Expliciete MoE-deling geïntegreerd in de echte staplus".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,
   `cudaErrorStreamCaptureUnsupported` — `cudaGraphLaunch()` op een reeds

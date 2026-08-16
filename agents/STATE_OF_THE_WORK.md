@@ -184,6 +184,23 @@ niet in deze staplus geïntegreerd — dat is de directe vervolgstap. Zie
 `agents/RESEARCH_NOTEBOOK.md` 2026-08-16, blok "EERSTE ECHTE END-TO-END
 METING".
 
+**Vervolg, zelfde dag — de expliciete deling geïntegreerd: bitexact
+correct, maar 12× TRAGER, een belangrijke eerlijke uitkomst.**
+`pro_research/proto_multi_seq_moe_shared.py` bouwt de al bewezen unie-
+gevoede MoE-deling in de echte staplus, alle 23 lagen. **Correctheidspoort
+GESLAAGD** (bitexact tegen onafhankelijke `_moe_dev`-referentieruns, 12/12
+tokens × 2 sequenties) — bevestigt en passant voor het eerst dat `gemv_into`
+en productie se `gemv_ervf_indirect` bitexact gelijk zijn. **Timing: 2,655
+tok/s aggregate, tegen 31,411 (naive) en 29,798 (solo) — een 12× regressie.**
+Oorzaak: de deling is puur in Python gebouwd (host-syncs en kleine
+kernel-launches per sequentie/unie-expert per laag per stap) — exact de
+overhead die productie se `_moe_dev` zorgvuldig vermijdt. **Het mechanisme
+zelf is niet fout (bitexact bewezen); een naïeve Python-orkestratie ervan
+wel.** Bevestigt scherp waarom `BATCH_ARCHITECTURE_DESIGN.md` een echte
+integratie als meerdere-weken CUDA-engineeringwerk scoopte, niet als
+Python-samenvoeging van al bewezen stukken. Zie `agents/RESEARCH_NOTEBOOK.md`
+2026-08-16, blok "Expliciete MoE-deling geïntegreerd in de echte staplus".
+
 **Wat vaststaat over de doelen:** 50 en 100 tok/s zijn fysiek *niet*
 uitgesloten, maar 50+ vraagt méér dan graph-residentie alleen (plafond ~41,5
 bij ctx 64). **1000 tok/s is fysiek uitgesloten** — de gemeten streaming-

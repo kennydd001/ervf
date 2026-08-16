@@ -11,6 +11,88 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Expliciete MoE-deling geïntegreerd in de echte staplus: bitexact correct, maar 12× TRAGER — een belangrijke, eerlijke negatieve uitkomst die precies verklaart waarom dit een meerdere-weken-taak is
+
+**Vraag.** De vorige meting (hieronder, "EERSTE ECHTE END-TO-END METING")
+liet een naive N=2-staplus zien met +5,4% aggregate winst, puur uit
+incidenteel warm-cache-hergebruik — géén expliciete unie-gevoede deling.
+De voor de hand liggende vervolgstap: integreer de al bitexact-bewezen
+unie-gevoede deling (`proto_batch_moe_layer_combined.py`, één laag, +20,9%)
+in de ECHTE staplus, over alle 23 MoE-lagen, meerdere stappen.
+
+**Opzet.** `pro_research/proto_multi_seq_moe_shared.py`. Bouwt direct voort
+op de geverifieerde state-wisselinfrastructuur. Twee correctheids-
+subtiliteiten vooraf uitgedacht (niet vanzelfsprekend uit eerdere
+prototypes, die nooit tegen `_moe_dev` zelf vergeleken):
+1. `_moe_dev` routeert via `fused.route_topk` (een CUDA-kernel), niet via
+   `_route_device` (een aparte, cupy-argsort-gebaseerde berekening die
+   eerdere prototypes gebruikten voor hun EIGEN naive-vs-batched-vergelijking,
+   nooit tegen `_moe_dev`). Voor bitexactheid tegen `_moe_dev` moest dit
+   script `route_topk` gebruiken.
+2. `_moe_dev` accumuleert via `fused.accumulate_indirect` (gewicht van een
+   DEVICE-buffer-slice), niet `accumulate_into` (een host-float-variant uit
+   het oudere niet-cache-pad). Verschillende kernels zijn niet gegarandeerd
+   bit-identiek ondanks algebraïsche gelijkwaardigheid (D1-les) — dit script
+   gebruikt daarom `accumulate_indirect`, in exact dezelfde volgorde als
+   `_moe_dev` (route-volgorde, niet unie-expert-volgorde).
+
+**Correctheidspoort: GESLAAGD, bitexact.** N=2, 12 stappen, volledig
+geïnterleaved, vergeleken tegen onafhankelijke `rt.reset()`-gebaseerde
+`_moe_dev`-referentieruns — **12/12 tokens per sequentie, beide sequenties,
+exact identiek.** Dit bevestigt terzelfdertijd iets dat GEEN eerder prototype
+toetste: `gemv_into` (gebruikt in alle `proto_batch_*`-prototypes) en
+`gemv_ervf_indirect` (gebruikt door productie-`_moe_dev`) zijn **bitexact
+gelijk** voor dezelfde gewichten/invoer — een stilzwijgende aanname tot nu
+toe, nu voor het eerst getoetst en bevestigd.
+
+**Uitkomst — TIMING, en die is slecht: 12× TRAGER, geen sneller.**
+
+| | ms/token (aggregate) | tok/s (aggregate) |
+|---|---:|---:|
+| N=1 solo (zelfde kale configuratie) | 33,559 | 29,798 |
+| N=2 naive (alleen incidenteel warm-cache-hergebruik) | 31,836 | 31,411 |
+| **N=2 met expliciete unie-gevoede MoE-deling** | **376,641** | **2,655** |
+
+**Waarom, precies.** `nvidia-smi` tijdens deze meting: 26,98 W, 1785 MHz,
+`pstate P1` — een heel ander (lager-throughput) regime dan de andere
+metingen se ~55-60 W/P4. De oorzaak is duidelijk uit de code zelf: dit
+script bouwt de unie-gevoede deling **puur in Python**, met per MoE-laag,
+per stap: `cp.asnumpy()`-aanroepen (host-sync) per sequentie voor
+route-ids, `.get()`-aanroepen (host-sync) per unie-expert voor de
+maskerunie, en losse, kleine `cp.zeros()`-allocaties + kernel-launches per
+(sequentie, expert)-paar EN per unie-expert. Over 23 MoE-lagen × 12 stappen
+× tot ~12 unie-experts betekent dat **honderden host-device-syncs en
+duizenden kleine kernel-launches** — precies het soort overhead dat
+`_moe_dev`'s eigen ontwerp (device-only routing, geen host-sync, gepijplijnde
+copy-stream) zorgvuldig vermijdt. Het onderliggende deel-MECHANISME is niet
+fout — het is bitexact bewezen — maar een **naïeve Python-orkestratie**
+van dat mechanisme verliest alle PCIe-besparing (en veel meer) aan
+launch-/sync-overhead.
+
+**Wat dit sluit en opent — de belangrijkste conclusie van de hele batch>1-
+lijn tot nu toe.** Sluit definitief de vraag "is een snelle Python-prototype-
+integratie mogelijk": **nee**, niet met deze aanpak. Bevestigt precies wat
+`BATCH_ARCHITECTURE_DESIGN.md` van meet af aan zei: een echte integratie is
+**echt CUDA-engineeringwerk** (device-only routing-unie-berekening zoals
+`_moe_dev` al doet voor één sequentie, gebatchte kernel-launches over
+unie-experts in plaats van een Python-for-loop, geen host-syncs in de hete
+lus) — geen kwestie van "de al bewezen stukken aan elkaar plakken in
+Python." De correctheids-uitkomst (bitexact) is nog steeds waardevol: het
+bewijst dat de WISKUNDE van het deel-mechanisme klopt en dat integratie
+"slechts" een prestatie-engineeringprobleem is, geen correctheidsprobleem.
+**Niet gedaan, met opzet** (buiten scope van een sessie): een kernel-niveau
+herimplementatie (device-only unie-routing-kernel, gebatchte gather/GEMV
+over de unie in één launch) die deze overhead zou wegnemen.
+
+**Poorten.** Correctheid: bitexact, 12/12 tokens × 2 sequenties, PASS. Timing:
+geen claim van winst — expliciet en eerlijk gerapporteerd als een 12×
+regressie, met oorzaak.
+
+**Artefacten.** `pro_research/proto_multi_seq_moe_shared.py`,
+`pro_research/proto_multi_seq_moe_shared.json`.
+
+---
+
 ## 2026-08-16 — EERSTE ECHTE END-TO-END METING: N=2, volledig model, meerdere stappen, geverifieerd bitexact — +5,4% aggregate, nog vóór expliciete deel-logica
 
 **Waarom dit anders is dan alles hiervoor in de batch>1-lijn.** Elke

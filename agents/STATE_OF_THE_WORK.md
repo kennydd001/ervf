@@ -100,10 +100,18 @@ de gemiddelde expert-unie 63,9 van 128 per laag — 66,6% van de no-overlap-
 baseline (96), dus 33% minder unieke PCIe-gebonden expert-loads voor
 evenveel nuttige tokens, zonder de speculatieve "draft tax" die MTP deed
 mislukken (elke sequentie is al echt opgevraagd, niets wordt weggegooid).
-De runtime heeft nul batch-ondersteuning (elke buffer 1D) — dit is een
-meerdere-weken-herontwerp, niet gestart deze sessie, maar wel het enige
-geïdentificeerde pad dat het huidige asymptotische plafond zelf zou kunnen
-verleggen. Zie `agents/RESEARCH_NOTEBOOK.md` 2026-08-16.
+**Het mechanisme is daarna ook fysiek getest, niet alleen geteld**
+(`pro_research/proto_batch_moe_layer.py`): één echte laag, N=16 echte
+sequenties, cold-cache — NAIVE 96 fetches/12,60 ms vs BATCHED 33
+fetches/**4,36 ms**, **2,89× sneller, bitexact (0 mismatches)** tussen
+naive en batched output. Dit is een meting van het kernmechanisme, geen
+projectie — maar dekt niet de volledige doorvoer (23 lagen, attentie,
+Mamba, KV-cache, graph-capture, GEMV-compute-tijd apart); optellen over
+alle lagen zou een aanname zijn (werkregel 7 verbiedt dat). De runtime
+heeft nul batch-ondersteuning (elke buffer 1D) — de volledige integratie
+is een meerdere-weken-herontwerp, niet gestart deze sessie, maar het
+kernmechanisme is nu bewezen correct én fysiek sneller, niet alleen
+theorie. Zie `agents/RESEARCH_NOTEBOOK.md` 2026-08-16.
 
 **Wat vaststaat over de doelen:** 50 en 100 tok/s zijn fysiek *niet*
 uitgesloten, maar 50+ vraagt méér dan graph-residentie alleen (plafond ~41,5

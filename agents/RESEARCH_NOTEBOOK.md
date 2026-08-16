@@ -108,6 +108,54 @@ kernels schrijven.
 **Artefacten.** `pro_research/diag_cross_sequence_union.py` ·
 `pro_research/diag_cross_sequence_union.json`.
 
+### Vervolg, zelfde dag: het mechanisme fysiek getest, niet alleen geteld
+
+De unie-telling hierboven is een projectie ("minder unieke experts nodig"),
+geen meting van wat dat werkelijk kost. Om dat te onderscheiden van
+speculatie is één laag van het mechanisme **geïsoleerd gebouwd en fysiek
+getest** — niet de volledige batch>1-runtime (dat blijft een
+meerdere-weken-taak), maar precies het stuk dat het meeste belooft: het
+delen van de expert-**fetch** over sequenties.
+
+**Opzet** (`pro_research/proto_batch_moe_layer.py`, cold-cache worst case —
+bewust losgekoppeld van LRU-hitratedynamiek, die al apart bestudeerd is).
+Eén echte laag (laag 24), N=16 echte sequenties (dezelfde 16 diverse
+prompts), elk zijn eigen echte `normed`-activatie en top-6-routes gevangen
+via `_route_device`. **NAIVE**: voor elke sequentie apart, elk van zijn 6
+experts vers ophalen (96 fetches, geen deling — wat 16 losse batch=1-
+runtimes vandaag zouden doen). **BATCHED**: alleen de unieke experts in de
+unie ophalen (33 stuks — 65,6% deduplicatie, consistent met de eerdere
+tellingsmeting), dan voor elke sequentie-expert-paar dezelfde productie-
+ERVF-GEMV-kernel (`gemv_into`, ongewijzigd) draaien tegen de gedeelde
+buffer.
+
+**Correctheid: bitexact, 0 mismatches** tussen naive en batched over alle
+96 sequentie-expert-paren — het delen van de fetch verandert niets aan wat
+elke sequentie afzonderlijk berekent, zoals verwacht (routing en expert-
+wiskunde zijn onafhankelijk van hoe de gewichten geladen worden).
+
+**Timing, fysiek gemeten (`cp.cuda.Event`, dezelfde GPU, dezelfde sessie):**
+
+| | fetches | totale tijd |
+|---|---:|---:|
+| NAIVE | 96 | 12,60 ms |
+| **BATCHED** | 33 | **4,36 ms** |
+
+**2,89× sneller, 8,25 ms bespaard — voor de fetch-fase van ÉÉN laag, voor
+16 sequenties.** Dit is een reële, bitexact geverifieerde meting, geen
+projectie.
+
+**Claim-grens.** Dit bewijst het mechanisme voor één laag se fetch-fase; het
+bewijst NIET de volledige batch>1-doorvoer (attentie, Mamba, KV-cache,
+graph-capture en 22 andere lagen zijn niet meegenomen, en compute-tijd voor
+de GEMV's zelf schaalt wél met N — die is hier niet apart gemeten). Simpele
+optelling over 23 lagen zou een aanname zijn, geen meting — precies de fout
+die werkregel 7 verbiedt. Wat dit wél vaststelt: het kernmechanisme is
+**correct** en **fysiek sneller**, niet alleen theoretisch veelbelovend.
+
+**Artefacten.** `pro_research/proto_batch_moe_layer.py` ·
+`pro_research/proto_batch_moe_layer.json`.
+
 ---
 
 ## 2026-08-16 — Per-laag cachecapaciteit fysiek gemeten en geïntegreerd: 47,41 tok/s

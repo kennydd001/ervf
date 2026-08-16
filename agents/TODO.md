@@ -104,11 +104,21 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       expert-loads nodig voor evenveel nuttige tokens. In tegenstelling tot
       MTP (gesloten, want de draft-kost woog niet op tegen de winst) is hier
       **geen speculatieve/weggegooide kost** — elke sequentie is een echt
-      opgevraagde token, dus elke gedeelde expert is pure winst. **Reëel
-      potentieel bevestigd — dit is nu de meest kansrijke onaangepakte
-      richting.** Volgende stap is architectuurontwerp (batch-dimensie op
-      alle buffers, per-stap expert-unie-bepaling), geen kernels — een
-      meerdere-weken-taak, niet gestart deze sessie. Zie `RESEARCH_NOTEBOOK.md`
+      opgevraagde token, dus elke gedeelde expert is pure winst.
+      **[MECHANISME FYSIEK GETEST 2026-08-16] `proto_batch_moe_layer.py`**
+      — één echte laag, N=16 echte sequenties, cold-cache: NAIVE 96 fetches
+      / 12,60 ms vs BATCHED 33 fetches (unie) / **4,36 ms** — **2,89× sneller,
+      bitexact, 0 mismatches** tussen naive en batched output. Dit is een
+      **meting**, geen projectie: het mechanisme (delen van expert-fetch
+      over sequenties) is bewezen correct én fysiek sneller voor de
+      geïsoleerde fetch-fase van één laag. Claim-grens: dit dekt niet de
+      volledige doorvoer (attentie, Mamba, KV-cache, graph-capture, 22
+      andere lagen, GEMV-compute-tijd zelf niet apart gemeten) — optellen
+      over alle lagen zou een aanname zijn, geen meting (werkregel 7).
+      **Volgende stap is architectuurontwerp** (batch-dimensie op alle
+      buffers, per-stap expert-unie-bepaling voor de volledige runtime) —
+      een meerdere-weken-taak, niet gestart deze sessie, maar het
+      kernmechanisme is niet langer alleen theorie. Zie `RESEARCH_NOTEBOOK.md`
       2026-08-16.
 - [DONE 2026-08-16] **Down_proj-pijplijn optimaliseren in `_moe_dev`.**
       ~~Device-cache down_proj net als up_proj~~ — **onhaalbaar**:

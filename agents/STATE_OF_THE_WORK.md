@@ -47,9 +47,13 @@ attributie in-graph is herhaald.
 
 **Conclusie.** 100 tok/s = 10,0 ms ligt binnen de fysica maar vereist twee
 dingen tegelijk: de PCIe-gather grotendeels verstoppen (B3 werkt, bitexact,
-maar haalt nu 16,8%) én ~12 ms implementatie-inefficiëntie wegwerken. De
-grootste, best afgebakende brok daarvan is `gemv_down_masked_partial_ind` op
-**15% van zijn vloer**.
+maar haalt nu 16,8%) én de resterende implementatie-inefficiëntie wegwerken.
+**Hoe groot die is, staat na de launch-overhead-correctie hierboven niet meer
+vast**: de eager-tabel overschat hem, en `down_masked` — dat er de grootste
+brok van leek — blijkt op 60% van zijn vloer te draaien en dus grotendeels in
+orde. De eerstvolgende stap is daarom **meten, niet bouwen**: dezelfde
+attributie in de gevangen graph herhalen, zodat duidelijk is wat er écht
+overblijft. Elke kernel-herschrijving vóór die meting is gokwerk.
 
 ## ⚠️ Modelidentiteit — lees dit eerst
 

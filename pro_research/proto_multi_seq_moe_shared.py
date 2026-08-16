@@ -80,6 +80,26 @@ DOWN_PANEL_BYTES = UP_CODE + UP_SCALE
 N = 2
 DECODE_STEPS = 12
 
+# Section-level profiling, off by default -- when enabled, adds
+# cp.cuda.Device(0).synchronize() calls at section boundaries purely to
+# attribute wall-clock time correctly (async GPU work would otherwise bleed
+# across sections). This changes the pipeline's async overlap slightly, so
+# absolute numbers under PROFILE=True are not directly comparable to a
+# PROFILE=False timing run -- only the RELATIVE section breakdown is used.
+# Does not change any computed value, so it cannot affect correctness.
+PROFILE = False
+_profile_totals = {}
+
+
+def _prof_mark(cp, label, t0):
+    if not PROFILE:
+        return None
+    cp.cuda.Device(0).synchronize()
+    import time
+    now = time.perf_counter()
+    _profile_totals[label] = _profile_totals.get(label, 0.0) + (now - t0)
+    return now
+
 
 def snapshot_state(rt):
     rt._alloc_state()
@@ -108,6 +128,9 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k):
     npanel = moe_inter // 16
     bank = rt.bank[i]
 
+    import time
+    t0 = time.perf_counter() if PROFILE else None
+
     seq_ids = []
     seq_w_dev = []
     for s in range(N_):
@@ -131,6 +154,8 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k):
         seq_ids.append(ids_host)
         seq_w_dev.append(w_dev)
 
+    t0 = _prof_mark(cp, "1_routing_and_shared_expert", t0)
+
     union_experts = sorted(set(e for ids_s in seq_ids for e in ids_s))
     u = len(union_experts)
     expert_to_slot = {e: idx for idx, e in enumerate(union_experts)}
@@ -145,6 +170,8 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k):
                       batched_c, batched_s,
                       {"ids": ids_dev_b, "slots": slots_dev_b, "need": need_dev_b},
                       UP_CODE, UP_SCALE, u)
+
+    t0 = _prof_mark(cp, "2_up_proj_shared_fetch", t0)
 
     # per (sequence, expert): up_proj GEMV from the shared buffer + panel_scan.
     act_by_pair = {}
@@ -166,6 +193,8 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k):
             scan_k.panel_scan_ref((1,), (256,), (act, np.int32(moe_inter), masks, plist, pcount, nz, nzc))
             act_by_pair[(s, e)] = act
             panel_by_pair[(s, e)] = {"masks": masks, "plist": plist, "pcount": pcount, "nz": nz, "nzc": nzc}
+
+    t0 = _prof_mark(cp, "3_up_proj_gemv_and_panel_scan", t0)
 
     # union mask per expert (OR across sequences that selected it). Stay in
     # numpy end-to-end here -- the original version round-tripped this numpy
@@ -193,6 +222,8 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k):
         union_plist_by_expert[e] = plist_np
         union_nz_by_expert[e] = np.array(nz_list, dtype=np.int32)
 
+    t0 = _prof_mark(cp, "4_union_mask_build", t0)
+
     blocks = ((moe_inter + npanel) * 32 + 255) // 256
     contrib_by_pair = {}
     for e in union_experts:
@@ -219,12 +250,15 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k):
                                    partials, hidden, moe_inter, fused.nchunks)
             contrib_by_pair[key] = scan_k.run_reduce_partials_ref(partials, hidden, fused.nchunks)
 
+    t0 = _prof_mark(cp, "5_down_proj_gather_masked_reduce", t0)
+
     # accumulate: fused.accumulate_indirect, matching _moe_dev exactly, in
     # route order, device weight slice per sequence's own route_topk output.
     for s in range(N_):
         for si, e in enumerate(seq_ids[s]):
             fused.accumulate_indirect(states[s]["acc"], contrib_by_pair[(s, e)],
                                       seq_w_dev[s][si:], hidden)
+    _prof_mark(cp, "6_accumulate", t0)
 
 
 def multi_step(rt, states, token_ids, gk, scan_k):
@@ -397,6 +431,13 @@ def main() -> int:
         "aggregate_tok_s": aggregate_tok_s,
         "tokens_by_sequence": tokens_by_seq,
     }
+    if PROFILE and _profile_totals:
+        total_profiled = sum(_profile_totals.values())
+        payload["profile_section_seconds"] = dict(_profile_totals)
+        payload["profile_section_fraction"] = {
+            k: v / total_profiled for k, v in _profile_totals.items()
+        }
+        payload["profile_note"] = "PROFILE=True adds sync points at section boundaries, changing async overlap -- these absolute numbers are NOT the same run as the timing above; only relative fractions are meaningful."
     out = REPO / "pro_research" / "proto_multi_seq_moe_shared.json"
     write_json_atomic(out, payload, archive=False)
     print(payload)

@@ -451,7 +451,18 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       bitexact, timing 2,655 → 9,469 tok/s aggregate (3,57× sneller)** —
       nog steeds 3,3× trager dan de naive baseline (31,411), dus nog geen
       nettowinst, maar bevestigt dat de overhead grotendeels vermijdbaar is,
-      niet fundamenteel. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
+      niet fundamenteel. **Sectiegeprofileerd (zelfde dag, `PROFILE`-vlag,
+      geen correctheidsrisico)**: down_proj gather+masked+reduce is **48,9%**
+      van de resterende tijd — verreweg dominant (routing+shared 12,0%,
+      up_proj-fetch 17,0%, up_proj-GEMV+panel_scan 8,9%, unie-masker 11,4%,
+      accumuleren 1,8%). **Concrete vervolghefboom, nog niet toegepast**: de
+      al gebouwde en geverifieerde gebatchte kernels uit V5/V6
+      (`gather_down_sparse_ind_batched`, `gemv_down_masked_partial_ind_batched`,
+      `reduce_partials_batched`) toepassen op de unie-over-sequenties-
+      dimensie i.p.v. per-paar losse launches — vereist herstructurering
+      naar hun samenhangende buffervorm, een afgebakende taak, geen vage
+      "meer engineering". Schone hertiming zonder profiling: 9,692 tok/s.
+      Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
       "Expliciete MoE-deling geïntegreerd in de echte staplus".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,

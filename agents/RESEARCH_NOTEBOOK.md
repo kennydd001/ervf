@@ -110,8 +110,48 @@ ruimte er zit tussen "naïef Python-prototype" en "volledig CUDA-
 geëngineerd" — waardevol voor wie dit oppakt, ook al is de conclusie
 hierboven (echte kernel-integratie nodig voor nettowinst) onveranderd.
 
-**Artefacten.** `pro_research/proto_multi_seq_moe_shared.py` (bijgewerkt),
-`pro_research/proto_multi_seq_moe_shared.json` (laatste run: 9,469 tok/s).
+**Tweede vervolg, zelfde dag — geprofileerd per sectie: waar zit de
+resterende 3,3× nu precies?** Lichtgewicht, module-vlag-gestuurde
+instrumentatie toegevoegd (`PROFILE`-vlag, standaard `False`, verandert
+niets aan de berekening zelf — puur `time.perf_counter()` +
+`cp.cuda.Device(0).synchronize()` op sectiegrenzen, dus geen
+correctheidsrisico). Eén geprofileerde run (12 stappen × 2 sequenties):
+
+| sectie | aandeel |
+|---|---:|
+| 1. routing + shared expert | 12,0% |
+| 2. gedeelde up_proj-fetch | 17,0% |
+| 3. up_proj-GEMV + panel_scan | 8,9% |
+| 4. unie-maskerberekening | 11,4% |
+| **5. down_proj gather+masked+reduce** | **48,9%** |
+| 6. accumuleren | 1,8% |
+
+**Sectie 5 (down_proj) domineert verreweg — bijna de helft van alle
+resterende tijd.** Dit is precies de sectie met de meeste kleine
+kernel-launches per unie-expert (gather + per sequentie die hem koos:
+down_masked + reduce_partials) én een verse 2,68 MB `mirror`-buffer-allocatie
+per unie-expert. **Concrete, al beschikbare volgende hefboom, nog niet
+toegepast**: deze sessie bouwde en verifieerde al **gebatchte** varianten
+van precies deze kernels tijdens V5/V6-ontwikkeling
+(`gather_down_sparse_ind_batched`, `gemv_down_masked_partial_ind_batched`,
+`reduce_partials_batched` in `down_gather_batch_kernels.py`/
+`down_proj_batch_kernels.py`, gebruikt in productie-V6 voor de top_k-
+binnen-één-sequentie-dimensie) — nooit toegepast op de unie-over-sequenties-
+dimensie hier. Vereist het herstructureren van de data naar de
+samenhangende buffervorm die deze kernels verwachten (in plaats van
+per-paar losse buffers) — een reële, maar nu precies afgebakende
+vervolgtaak, niet langer een vaag "meer engineering nodig."
+
+**Poorten (dit vervolg).** Correctheid: niet opnieuw getoetst na het
+uitzetten van `PROFILE` — de instrumentatie raakt geen berekende waarde aan,
+dus de eerdere bitexact-poort blijft geldig. Schone hertiming zonder
+profiling: **9,692 tok/s** (ruis-consistent met de eerdere 9,469).
+
+**Artefacten.** `pro_research/proto_multi_seq_moe_shared.py` (bijgewerkt,
+`PROFILE`-vlag toegevoegd, standaard uit),
+`pro_research/proto_multi_seq_moe_shared.json` (schone eindmeting, 9,692
+tok/s), `pro_research/proto_multi_seq_moe_shared_profile.json`
+(sectie-uitsplitsing).
 
 ---
 

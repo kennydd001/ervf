@@ -1,0 +1,37 @@
+{
+  "kind": "diag_fp4_graph_capture",
+  "arms": {
+    "A_cupy_only": {
+      "pass": true,
+      "value": 3.0,
+      "expected": 3.0
+    },
+    "B_capture_cold": {
+      "pass": true,
+      "value": 2688.0,
+      "expected": 2688.0
+    },
+    "C_capture_warm": {
+      "pass": true,
+      "value": 2688.0,
+      "expected": 2688.0
+    },
+    "D_replay_recomputes": {
+      "pass": true,
+      "replay1": 2688.0,
+      "replay2": 2688.0,
+      "all_elements_equal": true,
+      "note": "output zeroed before each replay, so a matching value proves the graph re-executes the GEMM rather than replaying an empty capture"
+    }
+  },
+  "torch": "2.12.1+cu132",
+  "cupy": "14.1.1",
+  "gates": {
+    "A_cupy_only": true,
+    "B_capture_cold": true,
+    "C_capture_warm": true,
+    "D_replay_recomputes": true
+  },
+  "verdict": "fp4_is_graph_capturable",
+  "what_this_means": "native FP4 can live inside the captured token graph, so the measured -1.275 ms/token (51.0 -> 54.6) is reachable without giving up graph residency"
+}

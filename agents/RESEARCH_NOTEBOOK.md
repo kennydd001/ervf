@@ -11,6 +11,71 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — **Laatste poort GEHAALD: een Torch `scaled_mm` is captureerbaar in een CuPy CUDA-graph.** Daarmee is de FP4-route volledig gedeblokkeerd
+
+**Vraag.** Onze 51,0 tok/s bestaat omdat het héle token in één CUDA-graph zit.
+Als `F.scaled_mm` niet te vangen is, betekent FP4 adopteren dat de tokengraph
+breekt bij elke FP4-aanroep — 23× `shared_down` plus `lm_head` = **24 breuken per
+token** — en bij 3,53 µs per launch plús het verlies van graph-residentie kost
+dat plausibel méér dan de 1,275 ms die de kernel wint.
+
+**Twee concrete faalmodi, bewust apart getest in plaats van "het gaf een fout".**
+1. **Stream.** Torch heeft zijn eigen current stream. Zonder hem expliciet op de
+   CuPy-capture-stream te zetten belandt zijn werk ergens anders en zit het
+   **niet** in de graph — wat er als succes uit kan zien terwijl er niets
+   gevangen is.
+2. **Allocatie.** `F.scaled_mm` heeft geen `out=`, dus hij alloceert zijn
+   resultaat. Een `cudaMalloc` tijdens capture is illegaal. Torch' caching
+   allocator kán het blok uit cache leveren zonder `cudaMalloc` — maar alleen
+   als het al gecached is, dus na een warmup van exact dezelfde vorm.
+
+**Opzet.** `torch.cuda.ExternalStream(cupy_stream.ptr)` zet Torch op de
+capture-stream. Vier armen, waarvan de laatste de enige is die telt.
+
+| arm | uitkomst |
+|---|---|
+| A — alleen CuPy capture/replay (controle) | **PASS** (3,0) |
+| B — `scaled_mm` in capture, **zonder** warmup | **PASS** (2688,0) |
+| C — idem, mét warmup | **PASS** (2688,0) |
+| D — output op nul vóór élke replay, twee keer afspelen | **PASS** (2688,0 / 2688,0, alle elementen gelijk) |
+
+**Waarom D de enige is die telt.** Een capture die stiekem géén werk bevat
+speelt prima af en laat de waarde staan die tijdens de capture zelf berekend is
+— dat ziet er als een pass uit. Door de output vóór elke replay op nul te zetten
+bewijst een kloppende waarde dat de graph de GEMM **opnieuw uitvoert**. Beide
+replays geven exact 2688,0 (= K, met +1-codes en unit-schalen).
+
+Bijvangst: arm B slaagt ook, dus Torch' allocator had hier geen warmup nodig.
+
+**Verdict: `fp4_is_graph_capturable`.**
+
+**Wat hiermee volledig gedeblokkeerd is.** De hele keten staat nu:
+
+| stap | resultaat |
+|---|---|
+| C2b | native FP4 executeert op SM120, alle 17 poorten, M=2 gratis |
+| C2c | verslaat ERVF **2,52× op lm_head**, 1,68× op shared_down (koud, protocol-gematcht) |
+| C2d | M gratis tot **M=8** |
+| C3A-v2 | representationeel **correct op de ECHTE gewichten** (cosine 0,999999), M=8 gratis |
+| FP4_CUPY_INTEROP | CuPy en Torch delen zero-copy pointers in één proces |
+| **FP4_GRAPH_CAPTURE** | **captureerbaar in de CuPy-tokengraph** |
+
+Er is geen bekende blokkade meer tussen hier en de gemeten **−1,275 ms/token
+(51,0 → 54,6 tok/s)** op lm_head + shared_down, formaatbehoudend, zonder
+graph-residentie op te geven. Dat is het eerste volledig gedeblokkeerde,
+gemeten pad van deze sessie.
+
+**Wat het nog steeds niet is.** Geen tok/s-claim: dit zijn kernel- en
+mechanismemetingen, geen end-to-end run. De integratie zelf is nog niet
+gebouwd, en de adoptiepoort blijft **kwaliteit, geen bitexactheid** (de
+Tensor-Core-accumulatievolgorde is niet onze ERVF-boom). En `routed_up` (0,96×)
+hoort er niet bij.
+
+**Artefacten.** `pro_research/diag_fp4_graph_capture.py` +
+`results/native_nvfp4/FP4_GRAPH_CAPTURE.json`.
+
+---
+
 ## 2026-08-16 — **C3A-v2 PASS: native FP4 is representationeel CORRECT op de échte checkpoint, én M=8 blijft gratis.** Plus een les die mijn eigen C2b/C2c/C2d raakt
 
 **Vraag.** C2b/C2c/C2d bewezen dat native FP4 draait, hoe snel het is, en dat

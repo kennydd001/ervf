@@ -1,0 +1,36 @@
+{
+  "kind": "pro_e100_mrhs_v3_independent_verification",
+  "source": "pro_research\\results\\e100_mrhs\\PRO_E100_MRHS.json",
+  "source_status": "smoke_pass",
+  "recomputed_status": "smoke_pass",
+  "all_production_adopted_candidate_exact": true,
+  "family_support": {
+    "attention_q": true,
+    "attention_o": true,
+    "router": true,
+    "mamba_in": true,
+    "shared_up": true,
+    "shared_down": true,
+    "lm_head": true
+  },
+  "family_support_count": 7,
+  "support_pass": true,
+  "adopted_selected_dense_dispatch_exercised": true,
+  "n4": {
+    "weighted": 0.9429266321279658,
+    "minimum": 0.6535586737968582,
+    "max_drift": 0.19988326606703907,
+    "lm": 0.6535586737968582,
+    "mi": 1.1593690839428448,
+    "mo": 1.1432610596220647
+  },
+  "n4_performance_gates": {
+    "weighted_speedup_ge_1_75": false,
+    "lm_head_speedup_ge_1_50": false,
+    "mamba_in_speedup_ge_1_50": false,
+    "no_n4_case_regression_gt_5pct": false,
+    "all_n4_reference_drift_le_7pct": false
+  },
+  "errors": [],
+  "passed": true
+}

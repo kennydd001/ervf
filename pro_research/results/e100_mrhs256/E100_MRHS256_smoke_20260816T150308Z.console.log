@@ -1,0 +1,81 @@
+C:\Users\de_do\Documents\ChatGPT\New project\.venv-nemotron\Lib\site-packages\cupy\_environment.py:284: UserWarning: CUDA path could not be detected. Set CUDA_PATH environment variable if CuPy fails to load.
+  warnings.warn(
+MRHS256-V3 N= 4 attn_q_bf16            exact=True ref=0.1552ms cand=0.0962ms speedup=1.614x drift=1.64%
+MRHS256-V3 N= 4 attn_k_bf16            exact=True ref=0.0521ms cand=0.0124ms speedup=4.193x drift=21.02%
+MRHS256-V3 N= 4 attn_v_bf16            exact=True ref=0.0560ms cand=0.0123ms speedup=4.555x drift=34.10%
+MRHS256-V3 N= 4 attn_o_bf16            exact=True ref=0.1448ms cand=0.0826ms speedup=1.753x drift=0.16%
+MRHS256-V3 N= 4 mamba_in_fp8           exact=True ref=0.3152ms cand=0.2994ms speedup=1.053x drift=0.63%
+MRHS256-V3 N= 4 mamba_out_fp8          exact=True ref=0.1525ms cand=0.1321ms speedup=1.154x drift=8.38%
+MRHS256-V3 N= 4 router_f32             exact=True ref=0.0439ms cand=0.0110ms speedup=3.979x drift=1.13%
+MRHS256-V3 N= 4 shared_up_nvfp4        exact=True ref=0.1311ms cand=0.1853ms speedup=0.707x drift=1.63%
+MRHS256-V3 N= 4 shared_down_nvfp4      exact=True ref=0.1341ms cand=0.1808ms speedup=0.742x drift=7.57%
+MRHS256-V3 N= 4 lm_head_nvfp4          exact=True ref=4.2742ms cand=6.5274ms speedup=0.655x drift=2.11%
+{
+  "status": "smoke_pass",
+  "output": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\results\\e100_mrhs256\\PRO_E100_MRHS256.json",
+  "baseline_revision": "adopted_v6_selective_single_rhs",
+  "summary_by_n": {
+    "4": {
+      "n_rhs": 4,
+      "case_count": 10,
+      "all_exact": true,
+      "weighted_registered_reference_ms": 24.590136157348752,
+      "weighted_registered_candidate_ms": 26.34925621561706,
+      "weighted_registered_aggregate_speedup": 0.9332383410038843,
+      "min_case_speedup": 0.6548106909934249,
+      "max_reference_drift_fraction": 0.3410177748439776,
+      "lm_head_speedup": 0.6548106909934249,
+      "mamba_in_speedup": 1.0529754116217644,
+      "mamba_out_speedup": 1.153992927992698
+    }
+  },
+  "gates": {
+    "production_equals_adopted_equals_candidate": true,
+    "all_eight_frozen_families_supported": true,
+    "adopted_selected_dense_dispatch_exercised": true,
+    "performance": {
+      "n4_weighted_ge_1_50": false,
+      "n16_weighted_ge_3_0": null,
+      "n16_lm_head_ge_3_0": null,
+      "n16_mamba_in_ge_2_5": null,
+      "n16_mamba_out_ge_2_5": null,
+      "n16_no_case_below_0_95": null,
+      "n16_all_ref_drift_le_7pct": null
+    },
+    "full_performance_pass": null
+  }
+}
+{
+  "kind": "pro_e100_mrhs256_v3_independent_verification",
+  "source": "pro_research\\results\\e100_mrhs256\\PRO_E100_MRHS256.json",
+  "source_status": "smoke_pass",
+  "recomputed_status": "smoke_pass",
+  "all_production_adopted_candidate_exact": true,
+  "family_support": {
+    "attention_q": true,
+    "attention_o": true,
+    "router": true,
+    "mamba_in": true,
+    "mamba_out": true,
+    "shared_up": true,
+    "shared_down": true,
+    "lm_head": true
+  },
+  "all_eight_families": true,
+  "adopted_selected_dense_dispatch_exercised": true,
+  "n4": {
+    "weighted": 0.9332383410038843,
+    "minimum": 0.6548106909934249,
+    "max_drift": 0.3410177748439776,
+    "lm": 0.6548106909934249,
+    "mi": 1.0529754116217644,
+    "mo": 1.153992927992698
+  },
+  "n16": null,
+  "performance_gates": {
+    "n4_weighted_ge_1_50": false
+  },
+  "performance_pass": null,
+  "errors": [],
+  "passed": true
+}

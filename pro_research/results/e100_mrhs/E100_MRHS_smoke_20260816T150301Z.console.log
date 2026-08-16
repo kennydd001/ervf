@@ -1,0 +1,110 @@
+{
+  "trials": 200,
+  "mismatches": 0,
+  "examples": [],
+  "passed": true
+}
+C:\Users\de_do\Documents\ChatGPT\New project\.venv-nemotron\Lib\site-packages\cupy\_environment.py:284: UserWarning: CUDA path could not be detected. Set CUDA_PATH environment variable if CuPy fails to load.
+  warnings.warn(
+MRHS-V3 N= 2 attn_q_bf16            exact=True ref=0.0793ms cand=0.0574ms speedup=1.380x drift=21.96%
+MRHS-V3 N= 2 attn_k_bf16            exact=True ref=0.0443ms cand=0.0179ms speedup=2.475x drift=38.32%
+MRHS-V3 N= 2 attn_v_bf16            exact=True ref=0.0331ms cand=0.0180ms speedup=1.844x drift=8.23%
+MRHS-V3 N= 2 attn_o_bf16            exact=True ref=0.0689ms cand=0.0576ms speedup=1.196x drift=0.50%
+MRHS-V3 N= 2 mamba_in_fp8           exact=True ref=0.1496ms cand=0.1571ms speedup=0.952x drift=4.41%
+MRHS-V3 N= 2 router_f32             exact=True ref=0.0251ms cand=0.0274ms speedup=0.917x drift=41.82%
+MRHS-V3 N= 2 shared_up_nvfp4        exact=True ref=0.0629ms cand=0.0897ms speedup=0.701x drift=2.63%
+MRHS-V3 N= 2 shared_down_nvfp4      exact=True ref=0.0648ms cand=0.0870ms speedup=0.744x drift=3.72%
+MRHS-V3 N= 2 lm_head_nvfp4          exact=True ref=2.1491ms cand=3.4144ms speedup=0.629x drift=2.35%
+MRHS-V3 N= 2 mamba_out_fp8          exact=True ref=0.0746ms cand=0.0727ms speedup=1.026x drift=0.98%
+MRHS-V3 N= 4 attn_q_bf16            exact=True ref=0.1527ms cand=0.1047ms speedup=1.459x drift=0.28%
+MRHS-V3 N= 4 attn_k_bf16            exact=True ref=0.0516ms cand=0.0266ms speedup=1.938x drift=11.63%
+MRHS-V3 N= 4 attn_v_bf16            exact=True ref=0.0617ms cand=0.0270ms speedup=2.286x drift=19.99%
+MRHS-V3 N= 4 attn_o_bf16            exact=True ref=0.1481ms cand=0.1072ms speedup=1.382x drift=0.80%
+MRHS-V3 N= 4 mamba_in_fp8           exact=True ref=0.3569ms cand=0.3079ms speedup=1.159x drift=18.13%
+MRHS-V3 N= 4 router_f32             exact=True ref=0.0439ms cand=0.0209ms speedup=2.100x drift=14.61%
+MRHS-V3 N= 4 shared_up_nvfp4        exact=True ref=0.1380ms cand=0.1901ms speedup=0.726x drift=0.99%
+MRHS-V3 N= 4 shared_down_nvfp4      exact=True ref=0.1434ms cand=0.1876ms speedup=0.764x drift=5.23%
+MRHS-V3 N= 4 lm_head_nvfp4          exact=True ref=4.3942ms cand=6.7234ms speedup=0.654x drift=1.84%
+MRHS-V3 N= 4 mamba_out_fp8          exact=True ref=0.1472ms cand=0.1287ms speedup=1.143x drift=0.88%
+{
+  "status": "smoke_pass",
+  "output": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\results\\e100_mrhs\\PRO_E100_MRHS.json",
+  "baseline_revision": "adopted_v6_selective_single_rhs",
+  "summary_by_n": {
+    "2": {
+      "n_rhs": 2,
+      "case_count": 10,
+      "all_exact": true,
+      "weighted_registered_reference_ms": 12.173296067863703,
+      "weighted_registered_candidate_ms": 14.302376105450094,
+      "weighted_registered_aggregate_speedup": 0.8511380191732562,
+      "min_case_speedup": 0.6294177727351553,
+      "max_reference_drift_fraction": 0.4182049550613524,
+      "lm_head_speedup": 0.6294177727351553,
+      "mamba_in_speedup": 0.951837887474783,
+      "mamba_out_speedup": 1.025690398314336
+    },
+    "4": {
+      "n_rhs": 4,
+      "case_count": 10,
+      "all_exact": true,
+      "weighted_registered_reference_ms": 25.954772046767175,
+      "weighted_registered_candidate_ms": 27.525759865529835,
+      "weighted_registered_aggregate_speedup": 0.9429266321279658,
+      "min_case_speedup": 0.6535586737968582,
+      "max_reference_drift_fraction": 0.19988326606703907,
+      "lm_head_speedup": 0.6535586737968582,
+      "mamba_in_speedup": 1.1593690839428448,
+      "mamba_out_speedup": 1.1432610596220647
+    }
+  },
+  "gates": {
+    "production_equals_adopted_equals_candidate": true,
+    "at_least_six_of_seven_frozen_families_with_mandatory": true,
+    "adopted_selected_dense_dispatch_exercised": true,
+    "n4_performance": {
+      "weighted_speedup_ge_1_75": false,
+      "lm_head_speedup_ge_1_50": false,
+      "mamba_in_speedup_ge_1_50": false,
+      "no_n4_case_regression_gt_5pct": false,
+      "all_n4_reference_drift_le_7pct": false
+    },
+    "full_n4_performance_pass": null
+  }
+}
+{
+  "kind": "pro_e100_mrhs_v3_independent_verification",
+  "source": "pro_research\\results\\e100_mrhs\\PRO_E100_MRHS.json",
+  "source_status": "smoke_pass",
+  "recomputed_status": "smoke_pass",
+  "all_production_adopted_candidate_exact": true,
+  "family_support": {
+    "attention_q": true,
+    "attention_o": true,
+    "router": true,
+    "mamba_in": true,
+    "shared_up": true,
+    "shared_down": true,
+    "lm_head": true
+  },
+  "family_support_count": 7,
+  "support_pass": true,
+  "adopted_selected_dense_dispatch_exercised": true,
+  "n4": {
+    "weighted": 0.9429266321279658,
+    "minimum": 0.6535586737968582,
+    "max_drift": 0.19988326606703907,
+    "lm": 0.6535586737968582,
+    "mi": 1.1593690839428448,
+    "mo": 1.1432610596220647
+  },
+  "n4_performance_gates": {
+    "weighted_speedup_ge_1_75": false,
+    "lm_head_speedup_ge_1_50": false,
+    "mamba_in_speedup_ge_1_50": false,
+    "no_n4_case_regression_gt_5pct": false,
+    "all_n4_reference_drift_le_7pct": false
+  },
+  "errors": [],
+  "passed": true
+}

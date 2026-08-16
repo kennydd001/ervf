@@ -1,0 +1,316 @@
+{
+  "kind": "pro_e100_pairbatch",
+  "mode": "smoke",
+  "status": "technical_failure",
+  "started_utc": "2026-08-16T15:03:12.735258+00:00",
+  "preregistration": "pro_research\\E100_PAIRBATCH_PREREGISTRATION.md",
+  "claim_boundary": "routed up-projection launch-flattening primitive; not matrix-byte sharing and not a full-model E100 claim",
+  "environment_start": {
+    "created_utc": "2026-08-16T15:03:13.373321+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "539f077e388efe8f6d7bc8ca3de608e515328495",
+    "git_status": [
+      "?? pro_research/results/e100_mrhs/",
+      "?? pro_research/results/e100_mrhs256/",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 49, 11.11 W, 4155 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "pro_research\\e100_pairbatch.py": "f09ee54827d0bac9a381d9239df7620bdcc4f6727f6ccb574310739bd88c39bb",
+      "pro_research\\up_proj_pair_batch_kernels.py": "3f353b4523d43bd418600e4477f99e3d3cacca8c47931807e6dbe3a3f6a9877a",
+      "pro_research\\up_proj_batch_kernels.py": "c8ce16f205d7ab4bb02e218e1c7ce2da7edff085b67a76714bb4e8bff7f598ef",
+      "src\\moe_lab\\lightningstream_nemotron\\fused_nvfp4.py": "2669431dba6f524844b096de129d9211bc9ae547fe0b87ce8bdcc144365cdcda"
+    }
+  },
+  "config": {
+    "layer": 27,
+    "rows": 1856,
+    "cols": 2688,
+    "n_sequences": 4,
+    "top_k": 6,
+    "pairs": 24,
+    "correctness_batches": 1,
+    "timing_repeats": 2,
+    "timing_rounds_per_arm": 2
+  },
+  "records": [
+    {
+      "map": "unique24",
+      "n_sequences": 4,
+      "top_k": 6,
+      "pair_count": 24,
+      "unique_experts": 24,
+      "expert_ids": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        [
+          18,
+          19,
+          20,
+          21,
+          22,
+          23
+        ]
+      ],
+      "correctness_batches": [
+        {
+          "seed": 3774919421,
+          "bit_equal": true,
+          "mismatch_count": 0,
+          "deterministic": true,
+          "determinism_mismatch_count": 0,
+          "finite": true
+        }
+      ],
+      "all_bit_equal": true,
+      "all_deterministic": true,
+      "all_finite": true,
+      "production_reference_spot": {
+        "bit_equal": true,
+        "mismatch_count": 0
+      },
+      "reference_a_ms": 0.42104800045490265,
+      "reference_b_ms": 0.415367990732193,
+      "reference_mid_ms": 0.4182079955935478,
+      "pair_ms": 0.40007199347019196,
+      "pair_speedup": 1.0453318463160735,
+      "reference_drift_fraction": 0.013581781751083499,
+      "raw_reference_a_ms": [
+        0.41736000776290894,
+        0.42473599314689636
+      ],
+      "raw_pair_a_ms": [
+        0.3978880047798157,
+        0.3989279866218567
+      ],
+      "raw_pair_b_ms": [
+        0.40455999970436096,
+        0.4012160003185272
+      ],
+      "raw_reference_b_ms": [
+        0.4174079895019531,
+        0.41332799196243286
+      ]
+    },
+    {
+      "map": "n4_typical22",
+      "n_sequences": 4,
+      "top_k": 6,
+      "pair_count": 24,
+      "unique_experts": 22,
+      "expert_ids": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        [
+          18,
+          19,
+          20,
+          21,
+          0,
+          6
+        ]
+      ],
+      "correctness_batches": [
+        {
+          "seed": 3774919771,
+          "bit_equal": true,
+          "mismatch_count": 0,
+          "deterministic": true,
+          "determinism_mismatch_count": 0,
+          "finite": true
+        }
+      ],
+      "all_bit_equal": true,
+      "all_deterministic": true,
+      "all_finite": true,
+      "production_reference_spot": {
+        "bit_equal": true,
+        "mismatch_count": 0
+      },
+      "reference_a_ms": 0.42047999799251556,
+      "reference_b_ms": 0.41204799711704254,
+      "reference_mid_ms": 0.41626399755477905,
+      "pair_ms": 0.39665599167346954,
+      "pair_speedup": 1.0494332779358366,
+      "reference_drift_fraction": 0.02025637798369386,
+      "raw_reference_a_ms": [
+        0.4185279905796051,
+        0.422432005405426
+      ],
+      "raw_pair_a_ms": [
+        0.39476799964904785,
+        0.3964959979057312
+      ],
+      "raw_pair_b_ms": [
+        0.39711999893188477,
+        0.3968159854412079
+      ],
+      "raw_reference_b_ms": [
+        0.41182398796081543,
+        0.41227200627326965
+      ]
+    },
+    {
+      "map": "repeat6",
+      "n_sequences": 4,
+      "top_k": 6,
+      "pair_count": 24,
+      "unique_experts": 6,
+      "expert_ids": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      ],
+      "correctness_batches": [
+        {
+          "seed": 3774919351,
+          "bit_equal": true,
+          "mismatch_count": 0,
+          "deterministic": true,
+          "determinism_mismatch_count": 0,
+          "finite": true
+        }
+      ],
+      "all_bit_equal": true,
+      "all_deterministic": true,
+      "all_finite": true,
+      "production_reference_spot": {
+        "bit_equal": true,
+        "mismatch_count": 0
+      },
+      "reference_a_ms": 0.3571839928627014,
+      "reference_b_ms": 0.36155200004577637,
+      "reference_mid_ms": 0.3593679964542389,
+      "pair_ms": 0.34774400293827057,
+      "pair_speedup": 1.0334268698173115,
+      "reference_drift_fraction": 0.012154691642473965,
+      "raw_reference_a_ms": [
+        0.35740798711776733,
+        0.3569599986076355
+      ],
+      "raw_pair_a_ms": [
+        0.3479039967060089,
+        0.3475840091705322
+      ],
+      "raw_pair_b_ms": [
+        0.3479680120944977,
+        0.3467999994754791
+      ],
+      "raw_reference_b_ms": [
+        0.3606880009174347,
+        0.36241599917411804
+      ]
+    }
+  ],
+  "gates": {
+    "all_maps_exact_deterministic_finite_and_reference_spot_exact": true,
+    "full_performance": {
+      "unique24_speedup_ge_1_08": false,
+      "unique24_reference_drift_le_7pct": true,
+      "typical22_no_regression": true
+    },
+    "full_performance_pass": null
+  },
+  "environment_end": {
+    "created_utc": "2026-08-16T15:03:17.357328+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "539f077e388efe8f6d7bc8ca3de608e515328495",
+    "git_status": [
+      "?? pro_research/results/e100_mrhs/",
+      "?? pro_research/results/e100_mrhs256/",
+      "?? pro_research/results/e100_pairbatch/",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 1986 MiB, 49, 11.17 W, 1650 MHz, 11001 MHz, P2",
+    "source_hashes": {}
+  },
+  "completed_utc": "2026-08-16T15:03:17.489748+00:00",
+  "error": {
+    "type": "NameError",
+    "message": "name 'cp' is not defined",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\e100_pairbatch.py\", line 315, in main\n    cp.get_default_memory_pool().free_all_blocks()\n    ^^\nNameError: name 'cp' is not defined\n"
+  }
+}

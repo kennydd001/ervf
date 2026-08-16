@@ -1,0 +1,79 @@
+{
+  "kind": "s100_native_nvfp4_c3a_v2_layout_preflight",
+  "status": "layout_v2_preflight_pass",
+  "started_utc": "2026-08-16T20:19:02.500453+00:00",
+  "erratum": "pro_research\\S100_NATIVE_NVFP4_C3A_V2_LAYOUT_ERRATUM.md",
+  "gpu_idle_preflight": {
+    "compute_app_lines": [
+      "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+    ],
+    "ignored_wddm_gui_contexts": [
+      "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+    ],
+    "gpu_memory_used_mib": 12,
+    "gpu_utilization_percent": 0,
+    "policy": "ignore only ChatGPT.exe with [N/A] WDDM memory; block every other compute-app; require total memory <=1024 MiB and utilization <=10%"
+  },
+  "revision": "c3a_v2_torchao_to_blocked_row_block_major",
+  "legacy_commit": "8d922ac50c3ccc6c45777af21d690c60df3b9536",
+  "environment": {
+    "created_utc": "2026-08-16T20:19:04.005183+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-fp4-c2b\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "f6b168cb9706d055468d127642e1023d7a0e60d6",
+    "git_status": [
+      "?? pro_research/results/history/C2B_TORCH212_CONTRACT_VERIFICATION__20260816T183446Z.json",
+      "?? pro_research/results/history/C2B_TORCH212_CONTRACT__20260816T183446Z.json",
+      "?? pro_research/results/history/C3A_V2_LAYOUT_PREFLIGHT__20260816T200844Z.json",
+      "?? pro_research/results/native_nvfp4/C3A_REAL_WEIGHT.json",
+      "?? pro_research/results/native_nvfp4/C3A_V2_LAYOUT_PREFLIGHT.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 223 MiB, 51, 6.35 W, 180 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "pro_research\\diag_native_nvfp4_c3a_real_weight_v2.py": "1d0e4f8bf4adf252e0fbe0b9034bea87d3e46f94972cabae7209f07ba4871723",
+      "pro_research\\S100_NATIVE_NVFP4_C3A_V2_LAYOUT_ERRATUM.md": "61ac2974c7b3254ced01db390d64a808de4ae010141d999e716a76290e996657"
+    }
+  },
+  "layout_witness": {
+    "revision": "c3a_v2_torchao_to_blocked_row_block_major",
+    "rows": 256,
+    "cols": 8,
+    "n_row_blocks": 2,
+    "n_col_blocks": 2,
+    "canonical_blocked_shape": [
+      64,
+      32
+    ],
+    "input_sha256": "4ccde4d83686aaf1cf68520b0975fd55a4b3b165609dd2c8444702ea1afe4414",
+    "actual_sha256": "e6da0bbf13efe7e09acb67cac587a1f230637ce601d2a76f035146e4c07ff549",
+    "expected_row_major_sha256": "e6da0bbf13efe7e09acb67cac587a1f230637ce601d2a76f035146e4c07ff549",
+    "byte_mismatches": 0,
+    "legacy_k_major_byte_mismatches": 1024,
+    "passes": true
+  },
+  "nonuniform_native_smoke": {
+    "revision": "c3a_v2_torchao_to_blocked_row_block_major",
+    "shape": [
+      2,
+      256
+    ],
+    "dtype": "torch.bfloat16",
+    "finite": true,
+    "expected_first_128": 48.0,
+    "expected_second_128": 192.0,
+    "all_equal_expected": true,
+    "max_abs_error": 0.0,
+    "passes": true
+  },
+  "gates": {
+    "V2_G1_row_block_major_byte_witness": true,
+    "V2_G2_witness_discriminates_legacy_k_major": true,
+    "V2_G3_nonuniform_native_smoke_exact": true
+  },
+  "completed_utc": "2026-08-16T20:19:04.143259+00:00"
+}

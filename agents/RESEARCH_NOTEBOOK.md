@@ -11,6 +11,87 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — **C2b: native Blackwell FP4 DRAAIT. Alle 17 poorten groen, en M=2 is gratis.** De eerste hefboom van deze hele sessie die groot genoeg is voor 100
+
+**Vraag.** C2 (branch `pro-s100-nativefp4-c2`) was een *software*-negatief: de
+Nemotron-venv draait Torch 2.9.1+cu128, waar `F.scaled_mm`, `BlockWise1x16`,
+`SWIZZLE_32_4_4` en `_scaled_mm_v2` niet bestaan. De Tensor Cores zijn dus nooit
+bereikt. C2b bouwt een geïsoleerde Torch 2.12.1+cu132-venv (`.venv-fp4-c2b`,
+`.venv-nemotron` blijft onaangeroerd) en stelt de vraag opnieuw: **kan deze
+SM120-laptop native FP4-GEMM's fysiek uitvoeren, en wat kost M=2 tegenover M=1?**
+
+**Eerste run: alle vier known-value-cases faalden — mét het API-contract volledig
+aanwezig** (G1-G7 groen). Eén foutmelding, en die was precies genoeg:
+
+    ValueError: For Blockwise scaling both scales should be contiguous
+
+**Oorzaak, uit de opgeslagen strides.** `scale_b` werd gebouwd als
+`torch.ones((bsh[1], bsh[0])).t()` → een getransponeerde **view** met stride
+`(1, sfp)`. De fout was B's transpositie spiegelen op B's **schaal**: `b` staat
+getransponeerd omdat een GEMM K-major operanden wil, maar het blok-schaaltensor
+is een aparte buffer en het blockwise-pad eist dat die contigu is in zijn
+logische `(sfp, ceil(n,128))`-vorm. Gefixt door hem contigu te alloceren; de
+waarden zijn synthetische enen, dus er verandert verder niets. De contiguïteit
+van beide schalen wordt nu per case weggeschreven, zodat dit niet stilletjes kan
+terugvallen in een misleidend "API rejected"-resultaat.
+
+**Met die ene fix: alle 17 poorten groen.**
+
+Exactheid — M=1/2/16/128 draaien allemaal, `expected_bf16 = 256.0`,
+`max_abs_error = 0.0`, deterministisch, eindig.
+
+| shape | M=1 | M=2 | M2/M1 | GB/s (FP4-gewichtsbytes) |
+|---|---:|---:|---:|---:|
+| Q-like (4096×2688) | 0,03015 ms | 0,02996 | **0,993** | 182,6 / 183,8 |
+| Mamba-in (10304×2688) | 0,04736 | 0,04736 | **1,0001** | 292,4 / 292,4 |
+| LM-head (131072×2688) | 0,58202 | 0,58417 | **1,0037** | 302,7 / 301,6 |
+
+**Twee dingen volgen hieruit.**
+
+1. **Native FP4 haalt 292-303 GB/s** op de grote shapes, tegen de **230-261
+   GB/s** die onze beste koude ERVF-kernel haalt — en dat op **de helft van de
+   bytes** overal waar de bron FP8 is. (Q-like blijft op 182,6 GB/s steken: met
+   5,51 MB is die matrix te klein, launch-gebonden.)
+2. **M=2 kost hetzelfde als M=1, tot op 0,3% na.** Dat is precies de smoking gun
+   die het K2-resultaat miste: layer-major K2-scheduling leverde **1,012×** op,
+   omdat het twee posities herschikte zónder hun gedeelde gewichten fysiek te
+   hergebruiken. Blackwell trekt twee targetposities **gratis** door één
+   gewichtsstroom.
+
+**Grenzen, ongewijzigd t.o.v. de preregistratie — dit is geen tok/s-claim.**
+Synthetische +1-waarden en +1-BlockWise1x16-schalen. Het is een executie- en
+timingcontract, geen Lightning-kwaliteit, geen echte schalen, geen
+activatiequantisatie. **En belangrijk: de accumulatievolgorde van de Tensor Core
+is niet die van onze ERVF-boom, dus C3 heeft een KWALITEITSpoort nodig, geen
+bitexactheidspoort.** Dat is een ander soort bewijs dan alles wat deze sessie tot
+nu toe gebruikt heeft, en dat moet expliciet blijven.
+
+**Waarom dit de eerste hefboom is die groot genoeg is.** De sessie sloot
+single-stream af op ~94 tok/s theoretisch maximum en batch op 70-85, allebei
+onder het doel, omdat ERVF al op 77% van het apparaatplafond zit en je dezelfde
+inefficiëntie niet twee keer kunt opeten. Native FP4 verandert de vergelijking
+op een andere as: **minder bytes** (FP4 i.p.v. FP8/BF16 waar de kwaliteit het
+toelaat) én **meer bandbreedte** (292-303 vs 230-261) én **M=2 gratis**. Dat zijn
+drie onafhankelijke factoren, geen derde poging op dezelfde.
+
+**Wat het níet zegt.** De routed experts, shared expert en lm_head zijn al
+NVFP4 — daar is native FP4 formaatbehoudend en alleen de kernel verandert. Maar
+**Mamba (892 MB/token, de grootste post) is FP8** en attention BF16; die naar FP4
+brengen is een echte quantisatiewijziging met een kwaliteitsprijs die nog
+volledig ongemeten is. De winst is dus niet uniform over de 2048 MB/token.
+
+**Artefacten.** `pro_research/results/native_nvfp4/C2B_TORCH212_CONTRACT.json`
+(+ `_VERIFICATION.json`, onafhankelijke verifier `passed: true`),
+`pro_research/diag_native_nvfp4_c2b_torch212.py` (branch
+`pro-s100-nativefp4-c2b`, HEAD na de ABI-fix).
+
+**Volgende stap: C3.** Echte Lightning NVFP4-gewichten (C1 bewees al dat de
+repack naar Blackwell-layout verliesloos is, 10/10 poorten, 1,678%
+scale-padding) + activatiequantisatie + een kwaliteitspoort. Pas dán mag er een
+tok/s-getal aan hangen.
+
+---
+
 ## 2026-08-16 — V19 (V18 + ssm-block): **geen winst** — en dat verklaart V18's super-additiviteit scherper dan de winst zelf deed
 
 **Vraag.** V18 liet zien dat twee bitexacte mechanismen, elk onder hun eigen

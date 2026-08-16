@@ -190,6 +190,27 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
+- [ ] **C3 — native FP4 met de ECHTE Lightning-gewichten. Nu de hoogste
+      prioriteit: het is de eerste hefboom van de sessie die groot genoeg is
+      voor 100.** C2b (2026-08-16) draaide op de doelmachine met **alle 17
+      poorten groen**: native Blackwell FP4 executeert (M=1/2/16/128,
+      `max_abs_error = 0.0`, deterministisch), haalt **292-303 GB/s** tegen onze
+      beste koude ERVF-kernel op 230-261, **en M=2 kost hetzelfde als M=1**
+      (0,993 / 1,0001 / 1,0037). Dat laatste is precies wat K2 miste (1,012×).
+      C1 bewees al dat de repack naar Blackwell-layout verliesloos is.
+      Bouwstappen: echte NVFP4-gewichten inladen → activatiequantisatie →
+      **KWALITEITSpoort, geen bitexactheidspoort** (de Tensor-Core-
+      accumulatievolgorde is niet onze ERVF-boom) → pas dán een tok/s-getal.
+      Let op de niet-uniforme winst: routed/shared/lm_head zijn al NVFP4, maar
+      **Mamba (892 MB/token, de grootste post) is FP8** en attention BF16 —
+      die naar FP4 brengen kost kwaliteit die nog volledig ongemeten is.
+- [DONE 2026-08-16] **C2b ABI-fix + run** — eerste run faalde alle known-value
+      cases op `ValueError: For Blockwise scaling both scales should be
+      contiguous`; `scale_b` was een getransponeerde view (stride `(1, sfp)`).
+      B's transpositie hoort niet op B's schaal gespiegeld te worden. Gefixt,
+      contiguïteit wordt nu per case weggeschreven. Resultaat:
+      `results/native_nvfp4/C2B_TORCH212_CONTRACT.json`, verifier `passed: true`.
+
 - [ ] **STRATEGIEREGEL uit V18/V19: zoek combinaties op DEZELFDE bottleneck.**
       V18 (H-SCALE + B3) was **super-additief** (×2 hun som) omdat beide het
       down_proj-PCIe-pad van complementaire kanten aanvallen: H-SCALE verkleint

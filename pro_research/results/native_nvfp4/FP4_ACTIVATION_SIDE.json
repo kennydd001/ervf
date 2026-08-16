@@ -1,0 +1,42 @@
+{
+  "kind": "diag_fp4_activation_side",
+  "torch": "2.12.1+cu132",
+  "shape": {
+    "M": 1,
+    "N": 128,
+    "K": 256
+  },
+  "arms": {
+    "A_fp4_x_fp4": {
+      "executes": true,
+      "value": 256.0,
+      "expected": 256.0,
+      "value_correct": true
+    },
+    "B_bf16_x_fp4": {
+      "executes": false,
+      "error": "ValueError: mat_a and mat_b shapes cannot be multiplied (1x256 and 128x128)"
+    },
+    "C_fp8_x_fp4": {
+      "executes": false,
+      "error": "ValueError: mat_a and mat_b shapes cannot be multiplied (1x256 and 128x128)"
+    },
+    "B2_bf16_packedshape_x_fp4": {
+      "executes": false,
+      "error": "ValueError: Expected mat_a to be Float8 or Float4_x2 matrix got BFloat16"
+    },
+    "C2_fp8_packedshape_x_fp4": {
+      "executes": false,
+      "error": "ValueError: Invalid scaling configuration.\n- For TensorWise scaling, a and b should be float8, scales should be float and singletons.\n- For RowWise scaling, a and b should be float8, scales should be float, scale_a should be (1, 1) and scale_b should be (1, 128), and both should be contiguous.\n- For BlockWise 1x128 scaling, a and b should be float8, scales should be float, scale_a should be (1, 1)"
+    }
+  },
+  "rejection_kinds": {
+    "A_fp4_x_fp4": "executed",
+    "B_bf16_x_fp4": "shape",
+    "C_fp8_x_fp4": "shape",
+    "B2_bf16_packedshape_x_fp4": "dtype_or_other",
+    "C2_fp8_packedshape_x_fp4": "dtype_or_other"
+  },
+  "verdict": "W4A4_required_activation_must_be_quantised",
+  "consequence": "adoption is NOT format-preserving. The activation must be quantised to FP4 every call, which adds a dynamic per-16-block quantisation kernel AND is a real quality change. The measured 2.52x/1.68x kernel speedups do not include that quantisation cost, and no quality evidence exists for it yet. My earlier 'format-preserving' framing was wrong on the activation side and is corrected here."
+}

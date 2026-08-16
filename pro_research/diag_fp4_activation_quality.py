@@ -55,7 +55,7 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from common import environment_snapshot, require_gpu_free, require_model_dir, utc_now, write_json_atomic
+from common import environment_snapshot, gpu_processes, require_model_dir, run_text, utc_now, write_json_atomic
 
 E2M1 = np.array([0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 6.0], dtype=np.float32)
 E4M3_MAX = 448.0
@@ -137,12 +137,43 @@ def quant_nvfp4(x: np.ndarray, s_g: float | None = None) -> tuple[np.ndarray, di
     return deq, {"global_scale": float(s_g), "clipped_fraction": clipped}
 
 
+def _require_gpu_idle_wddm() -> dict:
+    """Block on real competing work; ignore the idle ChatGPT WDDM GUI context."""
+    raw = gpu_processes()
+    ignored, blockers = [], []
+    for line in raw:
+        (ignored if ("chatgpt.exe" in line.lower() and "[n/a]" in line.lower())
+         else blockers).append(line)
+    if blockers:
+        raise RuntimeError(
+            "Another process currently owns a CUDA context; this runner will not "
+            "kill it: " + "; ".join(blockers))
+    snap = run_text(["nvidia-smi", "--query-gpu=memory.used,utilization.gpu",
+                     "--format=csv,noheader,nounits"])
+    if snap.startswith("ERROR") or snap.startswith("rc="):
+        raise RuntimeError(f"Unable to query GPU idle state: {snap}")
+    parts = [x.strip() for x in snap.splitlines()[0].split(",")]
+    used, util = int(parts[0]), int(parts[1])
+    if used > 1024:
+        raise RuntimeError(f"GPU memory already busy: {used} MiB")
+    if util > 10:
+        raise RuntimeError(f"GPU utilization already busy: {util}%")
+    return {"compute_app_lines": raw, "ignored_wddm_gui_contexts": ignored,
+            "gpu_memory_used_mib": used, "gpu_utilization_percent": util}
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--tokens", type=int, default=128)
     args = ap.parse_args()
 
-    require_gpu_free()
+    # Same narrow exception Kimi established for C3A-v2 (commit 555be02) rather
+    # than a new one: on this Windows/WDDM box the ChatGPT/Codex GUI shows up in
+    # --query-compute-apps with used_memory=[N/A], and common.require_gpu_free
+    # reads that 0 MiB graphics context as competing compute, which blocks every
+    # run. Only ChatGPT.exe with non-numeric memory is ignored; any other
+    # compute app still blocks, and total memory/utilisation are gated too.
+    preflight = _require_gpu_idle_wddm()
     import cupy as cp
     from moe_lab.lightningstream_nemotron.runtime import LightningRuntime
 
@@ -210,6 +241,7 @@ def main() -> int:
         "created_utc": utc_now(),
         "note": "isolates ONLY the activation quantisation: identical production NVFP4 lm_head kernel, identical weights, only the input vector differs. No kernel, layout or accumulation-order change is mixed in.",
         "environment": environment_snapshot(),
+        "gpu_idle_preflight": preflight,
         "tokens": args.tokens,
         "quantisation": "NVFP4 per-16 block e4m3 scales with a per-tensor global scale, ModelOpt/vLLM convention; e2m1 grid {0,.5,1,1.5,2,3,4,6}",
         "summary": {

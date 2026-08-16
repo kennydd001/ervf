@@ -11,6 +11,74 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — **De FP4-activatiepoort is gedraaid: 97,7% top-1-overeenkomst, referentietoken zakt nooit onder rang 2.** Klein maar niet nul — en het meet minder dan het lijkt
+
+**Wat gemeten is.** Echte generatie op de productiestack, 128 tokens. Per stap
+`rt.normed` gevangen (de vector die lm_head in gaat) en de logits **twee keer
+door dezelfde productie-NVFP4-lm_head-kernel** berekend: één keer met de echte
+activatie, één keer met de NVFP4-round-trip ervan. Zelfde gewichten, zelfde
+kernel, zelfde accumulatievolgorde — alleen de invoer verschilt, dus de delta
+**is** de activatiequantisatie.
+
+De quantizer erachter is eerst apart gecertificeerd
+(`diag_verify_nvfp4_quantizer.json`, verdict `quantizer_trustworthy`), zodat dit
+cijfer de kost van het **formaat** is en niet van mijn implementatie.
+
+**Uitkomst.**
+
+| grootheid | waarde |
+|---|---:|
+| top-1-overeenkomst | **97,66%** (3 van 128 tokens wijken af) |
+| **slechtste rang van het referentietoken onder de kandidaat** | **1** |
+| gemiddelde rang van het referentietoken | 0,023 |
+| max \|logit\|-afwijking | 1,341 |
+| geclipte fractie | 6,1e-5 |
+| gemiddelde CE-delta | −0,0123 |
+
+**Het sterkste signaal is `worst_ref_rank = 1`.** Zelfs waar de top-1 kantelt,
+staat het referentietoken nog steeds op plek twee — nooit lager, over 128
+tokens. De verdeling raakt dus niet door elkaar; er kantelen alleen een paar
+bijna-gelijke koppen.
+
+**Wat ik NIET zeg: dat FP4 de kwaliteit verbetert.** De CE-delta is negatief
+(−4,4%), maar dat is geen kwaliteitsuitspraak. De metriek is de CE van de
+kandidaatverdeling tegen het **argmax van de referentie**, en er is hier geen
+grondwaarheid. Een negatieve delta betekent alleen dat de kandidaat dat ene
+token gemiddeld iets scherper kiest. Bij een effect van deze orde over 128
+tokens kan het teken beide kanten op vallen. Ruis, geen winst.
+
+**Wat dit meet is minder dan het lijkt — vier grenzen, expliciet.**
+1. **Alleen lm_head.** `shared_down` (23 aanroepen per laag) en de rest van het
+   FP4-oppervlak zitten er niet in.
+2. **Eén prompt, 128 tokens.** Geen benchmark.
+3. **Op de referentietrajectorie.** Ik voed telkens het referentietoken terug,
+   dus dit is de *momentane* afwijking. In een echte generatie **stapelt** die:
+   bij 2,34% per token diverge't een run van 128 tokens vrijwel zeker
+   (1 − 0,9766¹²⁸ ≈ 95%). Divergeren is niet hetzelfde als slechter zijn, maar
+   het betekent wel dat deze meting geen uitspraak doet over een volledige
+   generatie.
+4. **Geen kwaliteitsbenchmark.** Voor een adoptiebesluit is een echte
+   CE/perplexity-meting tegen een corpus nodig, niet een zelfvergelijking.
+
+**Waar de FP4-route nu staat.** De snelheidskant is gemeten en groen; de
+kwaliteitskant is nu voor het eerst niet meer nul, en het eerste cijfer is
+**bemoedigend maar smal**. Wat er nog tussen zit vóór een adoptiebesluit:
+de per-aanroep quantisatiekernel (kost nog steeds ongemeten, en die vreet aan
+de −1,275 ms/token), hetzelfde meten voor `shared_down`, en een echte
+trajectorie- en corpusmeting.
+
+**Bijvangst.** `require_gpu_free()` blokkeerde de run op de idle
+WDDM-GUI-context van de ChatGPT-app (0 MiB, maar wél een CUDA-context). In
+plaats van een eigen uitzondering te verzinnen heb ik Kimi's bestaande beleid
+uit C3A-v2 (commit 555be02) overgenomen: alléén `ChatGPT.exe` met
+niet-numerieke `[N/A]`-memory wordt genegeerd, elk ander compute-proces blijft
+blokkeren, plus een harde grens op totaal geheugen (≤1024 MiB) en utilisatie
+(≤10%).
+
+**Artefacten.** `pro_research/diag_fp4_activation_quality.py` + `.json`.
+
+---
+
 ## 2026-08-16 — **Het meetinstrument geverifieerd vóór de meting: één echte bug gevonden, en twee keer dezelfde denkfout van mezelf**
 
 **Waarom.** `diag_fp4_activation_quality.py` gaat straks rapporteren "dit kost

@@ -190,6 +190,21 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
+- [DONE 2026-08-16] **FP4-activatiepoort gedraaid** — 128 tokens, echte
+      generatie, alleen de activatie verschilt. **97,66% top-1-overeenkomst**,
+      en het referentietoken zakt **nooit onder rang 2** (worst_ref_rank = 1).
+      Max logit-afwijking 1,341, clipping 6,1e-5. CE-delta −0,0123, maar dat is
+      **geen** kwaliteitswinst — het is een zelfvergelijking zonder
+      grondwaarheid. Klein effect, niet nul. `diag_fp4_activation_quality.json`.
+- [ ] **Vervolg vóór enig adoptiebesluit, in deze volgorde:**
+      (a) de **per-aanroep quantisatiekernel** meten — die is nog steeds
+      ongemeten en vreet aan de −1,275 ms/token;
+      (b) hetzelfde meten voor **shared_down** (23 aanroepen/laag);
+      (c) een **trajectoriemeting** — 2,34% per token stapelt tot ~95%
+      divergentie over 128 tokens, en deze meting draait op de
+      referentietrajectorie;
+      (d) een echte **corpus-CE/perplexity**, geen zelfvergelijking.
+
 - [ ] **GEBLOKKEERD OP GPU (niet op kennis) — FP4-activatie-kwaliteit meten.**
       `diag_fp4_activation_quality.py` staat klaar en is de poort vóór er ook
       maar iets gebouwd wordt. Methode: draai een echte generatie, vang per stap

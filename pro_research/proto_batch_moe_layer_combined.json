@@ -1,0 +1,44 @@
+{
+  "kind": "proto_batch_moe_layer_combined",
+  "created_utc": "2026-08-16T03:04:31.815385+00:00",
+  "note": "composes up_proj shared-fetch and down_proj union-mask shared-fetch into ONE pipeline for N sequences on one real MoE layer, previously only measured separately; not a production integration",
+  "environment": {
+    "created_utc": "2026-08-16T03:04:31.816385+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "ccc6ef9e028c750cc0d586e3dd251334e69786ff",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/install_console.log",
+      "?? pro_research/proto_batch_moe_layer_combined.json",
+      "?? pro_research/proto_batch_moe_layer_combined.py",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6458 MiB, 68, 54.64 W, 2685 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
+    }
+  },
+  "target_layer": 24,
+  "n_sequences": 8,
+  "top_k": 6,
+  "pair_count": 48,
+  "union_expert_count": 22,
+  "correctness_mismatches": 0,
+  "correctness_pass": true,
+  "naive_up_ms": 7.650528013706207,
+  "naive_down_ms": 7.931295961141586,
+  "naive_total_ms": 15.581823974847794,
+  "batched_up_fetch_ms": 2.5908799171447754,
+  "batched_up_gemv_ms": 1.4503359999507666,
+  "batched_down_fetch_ms": 1.8120639845728874,
+  "batched_down_gemv_ms": 7.036767929792404,
+  "batched_total_ms": 12.890047831460834,
+  "combined_speedup": 1.208825923579362,
+  "ms_saved": 2.69177614338696
+}

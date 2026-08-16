@@ -103,12 +103,22 @@ niet bij nul hoeft te beginnen met nadenken.**
    lager dan 114 tok/s. Geen nieuw getal herberekend (zou weer aanname-op-
    aanname zijn); behandel 114 als een ruwe, nu bevestigd-optimistische
    bovengrens.
-2. **Compute schaalt wél met N (al gemeten, geen straf, maar ook geen
-   winst).** `proto_batch_moe_multilayer.py` liet zien dat GEMV-compute-tijd
-   vlak blijft tussen naive/batched per PAAR — maar er zijn nog steeds N×
-   top_k paren te berekenen, dus totale compute schaalt met N ongeacht
-   deling. Bij grote N kan compute op een gegeven moment de fetch-winst
-   inhalen (roofline-plafond blijft gelden, nu voor compute i.p.v. PCIe).
+2. **Compute schaalt wél met N, én de twee deel-mechanismen samen zijn
+   minder dan de som der delen (bijgewerkt 2026-08-16).**
+   `proto_batch_moe_multilayer.py` liet zien dat GEMV-compute-tijd vlak
+   blijft tussen naive/batched per PAAR in isolatie — maar
+   `proto_batch_moe_layer_combined.py` (up_proj- én down_proj-deling
+   **tegelijk** in één laag, N=8, eerste zo'n meting) vond dat down_proj se
+   `down_masked`-GEMV zelf **langzamer** wordt in de gecombineerde meting
+   (7,037 ms) ondanks gelijke FLOP's per sequentie — vermoedelijk
+   geheugenlocaliteit die verslechtert door de grotere unie-mirror. Netto
+   bleef de gecombineerde winst positief en bitexact (**1,209×, +20,9%**,
+   0/48 mismatches) maar **kleiner dan de afzonderlijke up_proj/down_proj-
+   cijfers deden vermoeden**. Les: de twee mechanismen apart bewijzen
+   volstaat niet om hun gecombineerde winst te voorspellen — moet samen
+   gemeten worden. Bij grote N kan compute (en dit locatie-effect) op een
+   gegeven moment de fetch-winst verder inhalen (roofline-plafond blijft
+   gelden, nu voor compute i.p.v. PCIe).
 3. **Continuous batching versus deze sessie se "alle N tegelijk op dezelfde
    stap"-aanname — gemeten, risico grotendeels gesloten (2026-08-16).**
    `pro_research/diag_staggered_position_union.py`: N=4, vaste offsets

@@ -318,6 +318,26 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       graph-capture-kost verlagen. Read-only diagnostiek/aritmetiek, geen
       tok/s-claim. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "VRAM-kost
       per extra sequentie".
+- [DONE 2026-08-16] **Batch>1: eerste gecombineerde meting (up_proj +
+      down_proj-deling tegelijk, één laag).** `proto_batch_moe_layer.py` en
+      `proto_batch_down_proj.py` bewezen elk apart, maar down_proj se meting
+      deed zijn eigen up_proj-stap nog naïef. `pro_research/proto_batch_moe_layer_combined.py`
+      combineert beide echt, N=8. **Methodologiebug gevonden en gefixt
+      vóórdat er iets gerapporteerd werd**: eerste versie timede de
+      NAIVE-arm alleen als GEMV (fetch buiten het venster) tegen BATCHED se
+      fetch+GEMV — oneerlijk, gaf een vals "0,888× verlies". Gefixt (beide
+      armen dezelfde productie-`cache_fetch` incl. in het getimede venster).
+      **Resultaat na fix, bitexact 0/48 mismatches: 15,582 → 12,890 ms,
+      1,209× (+20,9%), 2,692 ms bespaard** — reëel maar **kleiner dan de
+      losse metingen deden vermoeden**. Opmerkelijk: down_proj se
+      masked-GEMV werd zelf LANGZAMER in de gecombineerde meting (7,037 ms)
+      ondanks gelijke FLOP's per sequentie en een snellere fetch — vermoedelijk
+      slechtere geheugenlocaliteit door de grotere unie-mirror, een reëel
+      interactie-effect tussen de twee mechanismen dat pas zichtbaar wordt
+      als ze samen draaien. **Les: twee apart bewezen winsten optellen is
+      geen vervanging voor ze samen meten** (werkregel 6 in de praktijk).
+      Read-only prototype, geen tok/s-claim. Zie `RESEARCH_NOTEBOOK.md`
+      2026-08-16, blok "Eerste gecombineerde meting".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,
   `cudaErrorStreamCaptureUnsupported` — `cudaGraphLaunch()` op een reeds

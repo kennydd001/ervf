@@ -11,6 +11,79 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Eerste gecombineerde meting: up_proj- en down_proj-deling tegelijk in één laag — en het geheel is minder dan de som der delen
+
+**Vraag.** `proto_batch_moe_layer.py` (up_proj-deling) en
+`proto_batch_down_proj.py` (down_proj-unie-van-maskers-deling) bewezen elk
+apart correct en sneller — maar down_proj se meting deed zijn eigen
+up_proj-stap nog **naïef** (elke (sequentie, expert)-paar haalde zijn eigen
+up_proj-gewichten opnieuw op, met opzet, om het down_proj-mechanisme te
+isoleren). Delen die elk apart winnen, hoeven niet automatisch samen te
+winnen — een eerste **gecombineerde** meting was nog niet gedaan, dezelfde
+soort stap als V4 (2 mechanismen samen) en V6 (5 mechanismen samen) al
+namen voor batch=1.
+
+**Opzet (één laag, N=8, echte productiekernels voor beide stadia tegelijk).**
+`pro_research/proto_batch_moe_layer_combined.py`. NAIVE: per
+(sequentie, expert)-paar een eigen `cache_fetch` (up_proj) + GEMV, dan
+`panel_scan` + eigen `gather_down_sparse_ind`-fetch + `down_masked` +
+`reduce_partials`. BATCHED: één gedeelde `cache_fetch` over de unie-experts
+voor up_proj (zoals `proto_batch_moe_layer.py`), dan per-sequentie GEMV op de
+gedeelde buffer, dan de **unie van nonzero-maskers** per expert (OR over de
+sequenties die hem kozen, zoals `proto_batch_down_proj.py`) voor **één**
+gedeelde down_proj-`gather`, met daarna elke sequentie se eigen
+`down_masked`-aanroep (eigen maskers/plist, niet de unie) tegen die gedeelde
+mirror. **Belangrijke methodologiecorrectie tijdens het bouwen**: de eerste
+versie mat de NAIVE up_proj-arm alleen als GEMV-tijd (de host→device-fetch
+zelf viel buiten het getimede venster), terwijl de BATCHED-arm fetch+GEMV
+samen mat — een oneerlijke vergelijking die de batched-arm kunstmatig
+trager deed lijken (0,888×, "verlies"). Gecorrigeerd door de NAIVE-arm
+dezelfde productie-`cache_fetch`-kernel te laten gebruiken als de
+BATCHED-arm, beide getimed inclusief fetch — exact dezelfde discipline als
+elders deze sessie (eerlijke armen, één variabele).
+
+**Uitkomst (na correctie, bitexact: 0/48 mismatches).**
+
+| stadium | NAIVE (ms) | BATCHED (ms) |
+|---|---:|---:|
+| up_proj (fetch+GEMV) | 7,651 | 4,041 (fetch 2,591 + GEMV 1,450) |
+| down_proj (fetch+masked-GEMV+reduce) | 7,931 | 8,849 (fetch 1,812 + GEMV 7,037) |
+| **totaal** | **15,582** | **12,890** |
+
+**Gecombineerde winst: 1,209× (+20,9%), 2,692 ms bespaard** — reëel, maar
+**kleiner dan de afzonderlijke metingen deden vermoeden** (up_proj alleen
+eerder tot 2,89× bij N=16; down_proj alleen +2,56%/1,91×-fetch bij ander N).
+**Opmerkelijk: down_proj se GEMV-stadium werd LANGZAMER in de gecombineerde
+meting** (7,037 ms batched vs. impliciet minder in de naive-som), ondanks
+dat de fetch zelf sneller werd (1,812 vs. een groter naïef equivalent) en de
+FLOP's per sequentie **identiek** blijven (elke sequentie rekent nog steeds
+alleen over haar eigen maskers/plist, niet de unie). Meest aannemelijke
+verklaring: de gedeelde mirror-buffer is groter (unie-grootte in plaats van
+één sequentie se eigen subset), wat de geheugenlocaliteit voor de
+`down_masked`-kernel verslechtert zelfs als het rekenwerk gelijk blijft — een
+reëel, niet eerder gedocumenteerd interactie-effect tussen de twee
+deel-mechanismen, dat pas zichtbaar wordt als ze **samen** draaien.
+
+**Wat dit sluit of opent.** Bevestigt dat het combineren van twee apart
+bewezen mechanismen **niet gratis** is — precies de reden waarom deze sessie
+`proto_batch_moe_layer_combined.py` bouwde in plaats van de twee losse
+cijfers simpelweg te vermenigvuldigen (wat de werkregel toch al verbiedt).
+Het netto-effect blijft positief en bitexact, maar een toekomstige
+volledige-integratieschatting moet met dit gecombineerde getal rekenen
+(1,209×), niet met de afzonderlijke up_proj/down_proj-cijfers los. Opent een
+kleine, scherp afgebakende vervolgvraag (niet gedaan): is de
+mirror-locatie-straf te verzachten door de mirror te sorteren op
+paneel-volgorde in plaats van unie-invoegvolgorde? Puur een
+prestatie-optimalisatie, geen correctheidsvraag.
+
+**Poorten.** Geen PRO-poorten (scoped feasibility-prototype, geen
+runtime-wijziging, geen tok/s-claim). Correctheid: bitexact, 0/48 mismatches.
+
+**Artefacten.** `pro_research/proto_batch_moe_layer_combined.py`,
+`pro_research/proto_batch_moe_layer_combined.json`.
+
+---
+
 ## 2026-08-16 — VRAM-kost per extra sequentie: eindelijk een echt getal, en het is niet wat het risico-document impliceerde
 
 **Vraag.** `BATCH_ARCHITECTURE_DESIGN.md` se risico #4 noemde VRAM als

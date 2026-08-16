@@ -190,6 +190,22 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
+- [ ] **STRATEGIEREGEL uit V18/V19: zoek combinaties op DEZELFDE bottleneck.**
+      V18 (H-SCALE + B3) was **super-additief** (×2 hun som) omdat beide het
+      down_proj-PCIe-pad van complementaire kanten aanvallen: H-SCALE verkleint
+      de transfer, B3 verbergt wat overblijft, en B3's stroomstructuur vangt
+      H-SCALE's eigen plane-fetch-kost op. V19 voegde een **disjunct** mechanisme
+      toe (ssm-blok, Mamba) en leverde **niets** op — binnen de ruis.
+      **Super-additiviteit is dus geen eigenschap van stapelen maar van
+      complementariteit op één knelpunt.** Disjuncte mechanismen tellen hooguit
+      op, en onder de ruisvloer tellen ze niet eens zichtbaar op.
+      Kandidaten om zo te combineren: alles wat het **gather-pad** raakt (nu nog
+      3,85 ms met 1,38 ms hoofdruimte) of het **attention**-pad (2,48 ms, 45,5%).
+- [WEERLEGD 2026-08-16] **V19 = V18 + ssm-blok** — bitexact, alle poorten groen,
+      maar CAND 19,7418 ms tegen V18's 19,6046/19,6897: de traagste van de drie.
+      De ssm-blokvariant (×1,031 = 0,024 ms in isolatie) zit onder de ruisvloer
+      van de integratiemeting. **Niet adopteren.**
+
 - [DONE 2026-08-16] **PV2-10's onopgeloste bug gevonden en opgelost — het was een
       COMPILEERVLAG.** Kimi's campagne liet add+next-RMSNorm open met "one prompt
       first diverges at generated token 124 ... eerst debuggen vóór ooit

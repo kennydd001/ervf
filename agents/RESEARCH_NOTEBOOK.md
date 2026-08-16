@@ -11,6 +11,61 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — V19 (V18 + ssm-block): **geen winst** — en dat verklaart V18's super-additiviteit scherper dan de winst zelf deed
+
+**Vraag.** V18 liet zien dat twee bitexacte mechanismen, elk onder hun eigen
+poort, samen ~2× hun rekenkundige som opleverden. Is dat een algemene
+eigenschap van stapelen, of iets specifieks? Test: voeg een **derde** bitexact
+mechanisme toe dat bewust **disjunct** is — de blok-per-(h,p) `ssm_step` zit in
+Mamba, niet in het down_proj-pad, dus er is geen gedeelde resource om over te
+vechten. Alleen ×1,031 (−0,024 ms) in isolatie.
+
+**Vooraf opgeschreven verwachting:** hooguit additief, ~−0,02 ms, "want
+disjunctheid snijdt twee kanten op — geen contentie, maar ook geen gedeelde
+bottleneck om twee keer te verlichten".
+
+**Uitkomst.** Alle poorten groen, bitexact, drift 0,0889 ms.
+CAND **19,7418 ms = 50,654 tok/s**, delta −1,6200 ms.
+
+**Naast de twee V18-runs gelegd:**
+
+| run | CAND p50 | delta | midden |
+|---|---:|---:|---:|
+| V18 run 2 | **19,6046** | −1,1823 | 20,787 |
+| V18 run 1 | **19,6897** | −1,5594 | 21,249 |
+| V19 | **19,7418** | −1,6200 | 21,362 |
+
+**De delta van V19 is de grootste (−1,62), maar zijn absolute CAND is de
+traagste van de drie.** Dat verschil komt volledig uit de baselines: die
+verschoven thermisch tussen de runs (midden 20,79 → 21,36). De drie
+CAND-waarden liggen 0,137 ms uit elkaar — de ruisbreedte van deze harness.
+
+**Conclusie: V19 ≈ V18 binnen de ruis. De ssm-blokvariant levert in de
+geïntegreerde stack niets op**, ondanks ×1,031 in isolatie. Zijn 0,024 ms zit
+onder de ruisvloer van de integratiemeting. **Niet adopteren** — extra
+complexiteit zonder meetbare winst.
+
+**Waarom dit het V18-resultaat scherper maakt.** Super-additiviteit is dus
+**geen algemene eigenschap van stapelen**. V18's ×2 kwam doordat H-SCALE en B3
+**dezelfde bottleneck** (het down_proj-PCIe-pad) op complementaire manieren
+aanvallen: H-SCALE verkleint de transfer, B3 verbergt wat overblijft, en B3's
+stroomstructuur vangt bovendien H-SCALE's eigen plane-fetch-kost op. Twee
+mechanismen op verschillende bottlenecks tellen gewoon op — en als één van de
+twee onder de ruis ligt, telt hij niet eens zichtbaar op.
+
+**Praktische regel die hieruit volgt en die ik in TODO zet:** zoek combinaties
+van mechanismen die **dezelfde** bottleneck van verschillende kanten aanvallen;
+disjuncte mechanismen stapelen hooguit additief en zijn dus alleen de
+complexiteit waard als ze elk apart al boven de ruis uitkomen.
+
+**Het record blijft V18: 19,60-19,69 ms = 50,8-51,0 tok/s.**
+
+**Artefacten.** `pro_research/ssm_block_install.py`,
+`pro_research/combined_v19.py`,
+`pro_research/results/v19_combined_ssm/PRO_V19_COMBINED_SSM.json`.
+
+---
+
 ## 2026-08-16 — 🎉 **NIEUW RECORD: 51,0 tok/s (19,60 ms). E50 gehaald.** H-SCALE + B3 samen zijn **super-additief**: −1,18 tot −1,56 ms tegen −0,79 als ze onafhankelijk waren
 
 **Vraag.** Twee mechanismen van vandaag zijn elk bitexact en vielen elk net

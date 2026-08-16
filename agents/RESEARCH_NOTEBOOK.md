@@ -11,6 +11,80 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Warme-cache-dynamiek: houdt de fetch-deling stand over meerdere stappen, of was het een cold-cache-artefact?
+
+**Vraag.** Alle batch>1-prototypes tot nu toe (`proto_batch_moe_layer.py`,
+`proto_batch_moe_multilayer.py`, `proto_batch_down_proj.py`) maten een
+**enkele cold-cache-snapshot** — met opzet, om het deel-effect te isoleren
+van LRU-hitrate-dynamiek. Dat laat een open vraag: zodra de device-LRU-cache
+al warm is (het normale geval in een lopende serving-runtime, niet de eerste
+stap), profiteert elke sequentie al individueel van temporele lokaliteit
+(dezelfde experts blijven vaak meerdere stappen relevant) — verdwijnt het
+cross-sequentie-deel-voordeel dan grotendeels, omdat er toch al weinig
+missers overblijven?
+
+**Opzet (één variabele: gedeelde vs. onafhankelijke cache, zelfde stappen).**
+`pro_research/diag_batch_warm_cache.py`. N=4 sequenties (uiteenlopende
+prompts, zelfde 8 als elders), T=40 opeenvolgende **echte** stappen per
+sequentie op MoE-laag 24, top_k=6 routes gevangen via `_route_device`
+(identieke vangmethode als de cold-cache-scripts). Gebruikt de **echte**
+productie-kernel `cache_assign`/`alloc_device_cache` (geen herimplementatie)
+— dus de LRU-semantiek (tick-gebaseerde eviction, hit/miss-telling via
+`need[]`) is exact wat productie zou doen.
+
+- **GEDEELD**: één cache (cap=72, zelfde budget als productie-default),
+  gevoed per stap met de **unie** van alle 4 sequenties se ids (24 ids/stap,
+  ongededupliceerd — `cache_assign`'s kernel dedupliceert zelf correct
+  binnen één aanroep omdat het sequentieel over de lijst loopt).
+- **NAIVE**: 4 **onafhankelijke** caches, elk cap=72 (exact wat 4 losse
+  batch=1-runtime-instanties vandaag zouden hebben — geen gereduceerd
+  per-sequentie-aandeel), elk over dezelfde 40 stappen gevoed met zijn eigen
+  sequentie se ids.
+
+**Uitkomst (getallen, geen extrapolatie).**
+
+| | totaal missers (960 aanroepen) | hitrate | laatste kwart (stap 30-40) |
+|---|---:|---:|---:|
+| GEDEELD | 142 | 85,2% | 18 missers |
+| NAIVE (4×) | 196 | 79,6% | 25 missers |
+
+Missers-reductie: **27,6%** over de volle 40 stappen, **28,0%** in het
+laatste kwart (stap 30-40, het meest representatieve "warm steady-state"-
+venster). Het voordeel **verdwijnt niet** naarmate de cache warmt — het
+blijft nagenoeg constant procentueel, ook al dalen de absolute missers voor
+beide armen sterk (cold start ~22-24 missers/stap → steady state ~1-3
+missers/stap).
+
+**Waarom kleiner dan de cold-cache-unie-cijfers hierboven (bijv. 90,3% van
+no-overlap bij N=4 daar).** Dat eerdere cijfer was de unie-fractie van een
+**enkele cold-cache-stap** — hier concurreert cross-sequentie-deling met
+**temporele lokaliteit binnen elke sequentie zelf**, die de NAIVE-arm ook al
+gratis krijgt zodra de cache warm is. Het gedeelde voordeel is dus reëel maar
+kleiner dan de cold-cache-metingen deden vermoeden — een eerlijke correctie
+van wat je zou verwachten als je cold-cache-cijfers naïef zou extrapoleren
+naar een lopende runtime.
+
+**Wat dit sluit of opent.** Sluit de vraag of het fetch-deel-mechanisme een
+cold-cache-artefact is: **nee**, het houdt stand (27,6% minder missers,
+stabiel in steady state) onder de echte productie-LRU-kernel. Opent geen
+nieuwe bouwstap — dit blijft een geïsoleerde, read-only diagnostiek zoals de
+rest van de batch>1-lijn (zie `BATCH_ARCHITECTURE_DESIGN.md`), maar bevestigt
+dat de eerdere aanname ("het deel-voordeel is niet slechts een cold-start-
+fenomeen") correct was, met een realistischer (lager, maar nog steeds
+substantieel) getal dan de cold-cache-scripts alleen suggereerden. Ook
+relevant: GEDEELD gebruikt 1×72-slot cache tegen NAIVE se 4×72-slot cache —
+dus naast minder missers ook ~4× minder VRAM voor hetzelfde budget per
+sequentie, een tweede, apart voordeel dat de cold-cache-scripts niet maten.
+
+**Poorten.** Geen PRO-poorten (read-only diagnostiek, geen runtime-wijziging,
+geen tok/s-claim). Geen VRAM- of correctheids-claim gedaan buiten wat direct
+uit de echte kernel-aanroepen volgt.
+
+**Artefacten.** `pro_research/diag_batch_warm_cache.py`,
+`pro_research/diag_batch_warm_cache.json`.
+
+---
+
 ## 2026-08-16 — Nieuwe, nog niet aangepakte hypothese: batch>1 zou de single-stream-roofline zelf kunnen doorbreken
 
 **Waarom dit een andere categorie is dan alles hiervoor.** Alle metingen

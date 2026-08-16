@@ -119,6 +119,20 @@ het kernmechanisme is nu consistent bewezen correct én fysiek sneller over
 de hele MoE-stack, niet alleen theorie of één gunstige laag. Zie
 `agents/RESEARCH_NOTEBOOK.md` 2026-08-16.
 
+**Houdt dat stand onder een warme, evoluerende cache, of was het cold-cache-
+alleen?** Alle bovenstaande metingen waren één cold-cache-snapshot, met
+opzet. `pro_research/diag_batch_warm_cache.py` (2026-08-16) test dit expliciet:
+N=4 sequenties, T=40 opeenvolgende **echte** stappen, met de **echte**
+productie-`cache_assign`-kernel (niet herïmplementeerd) — gedeelde cache
+(unie-gevoed) tegen 4 onafhankelijke caches, zelfde budget elk. **27,6%
+minder missers over de volle 40 stappen, 28,0% minder in het laatste kwart
+(warm steady-state)** — het voordeel verdwijnt dus niet zodra de cache warmt,
+al is het kleiner dan de cold-cache-unie-cijfers alleen deden vermoeden
+(cross-sequentie-deling concurreert met temporele lokaliteit die elke
+sequentie toch al gratis krijgt). Bijvangst: 1×72-slot gedeelde cache tegen
+4×72-slot naive — ~4× minder VRAM voor hetzelfde budget per sequentie. Zie
+`agents/RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Warme-cache-dynamiek".
+
 **Wat vaststaat over de doelen:** 50 en 100 tok/s zijn fysiek *niet*
 uitgesloten, maar 50+ vraagt méér dan graph-residentie alleen (plafond ~41,5
 bij ctx 64). **1000 tok/s is fysiek uitgesloten** — de gemeten streaming-

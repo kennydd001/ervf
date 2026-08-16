@@ -263,6 +263,25 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Per-laag cachecapaciteit
       fysiek gemeten en geïntegreerd".
       Zie `RESEARCH_NOTEBOOK.md` 2026-08-16.
+- [DONE 2026-08-16] **Batch>1: houdt fetch-deling stand onder een warme,
+      evoluerende cache, of was het cold-cache-artefact?** Alle eerdere
+      `proto_batch_*`-prototypes maten met opzet één cold-cache-snapshot.
+      `pro_research/diag_batch_warm_cache.py`: N=4 sequenties, T=40
+      opeenvolgende **echte** stappen op MoE-laag 24, echte productie-
+      `cache_assign`/`alloc_device_cache`-kernels (geen herimplementatie).
+      GEDEELD (1 cache cap=72, gevoed met de unie van 4 sequenties se ids/stap)
+      vs NAIVE (4 onafhankelijke caches, elk cap=72 — wat 4 losse
+      batch=1-instanties vandaag hebben). **Resultaat: 142 vs 196 missers over
+      960 aanroepen — 27,6% minder missers, 28,0% in het laatste kwart
+      (stap 30-40, "warm steady-state").** Het voordeel verdwijnt dus **niet**
+      naarmate de cache warmt, al is het kleiner dan de eerdere cold-cache-
+      unie-cijfers (bijv. 90,3% van no-overlap bij N=4) deden vermoeden —
+      cross-sequentie-deling concurreert met temporele lokaliteit die de
+      NAIVE-arm ook al gratis krijgt zodra warm. Bijvangst: GEDEELD gebruikt
+      1×72-slot cache tegen NAIVE se 4×72-slot — ~4× minder VRAM voor
+      hetzelfde per-sequentie-budget, apart van de missers-winst. Read-only
+      diagnostiek, geen runtime-wijziging, geen tok/s-claim. Zie
+      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Warme-cache-dynamiek".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,
   `cudaErrorStreamCaptureUnsupported` — `cudaGraphLaunch()` op een reeds

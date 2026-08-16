@@ -272,6 +272,34 @@ nodig) en checken of de kost echt lineair schaalt.
 
 **Artefacten.** `agents/BATCH_ARCHITECTURE_DESIGN.md`.
 
+### De aanbevolen meting gedaan: attentie schaalt inderdaad ~lineair met N
+
+Het ontwerpdocument beval als eerstvolgende, geen-bouw-nodig-meting aan: klopt
+de aanname dat attentie ~lineair schaalt met N (geen deel-mogelijkheid, dus
+geen MoE-achtige winst te verwachten)? `pro_research/diag_attention_n_scaling.py`
+— de bestaande, ongewijzigde productie-Q-projectie-GEMV (`rt.k.mv_bf16`, al
+ERVF-gedispatcht zoals in V4/V6) N keer na elkaar gedraaid tegen N echte
+gevangen activaties, N ∈ {1,2,4,8,16}, 30 ronden per N.
+
+**Uitkomst: vrijwel perfect lineair.** ms/sequentie blijft nagenoeg constant
+(0,091-0,096 ms) over de hele N-reeks; gemeten tijd is 94-97% van het ideale
+lineaire model (N×N=1-kost) — dus **geen noemenswaardige launch-overhead-
+speling** zoals MoE's `panel_scan`/`reduce_partials` die wél hadden. Dit
+bevestigt het ontwerpdocument se belangrijkste waarschuwing rechtstreeks:
+attentie heeft geen vergelijkbare batch>1-hefboom, en de conservatieve
+aanname in de grove ~114 tok/s-bovengrensrekensom (attentie/Mamba/rest
+blijven ongewijzigd bij batchen) was de juiste aanname, niet te pessimistisch.
+
+**Wat dit betekent voor de prioriteit.** Een batch>1-integratie zou zijn
+winst vrijwel uitsluitend uit MoE moeten halen (57,8% van het token) — de
+overige 42,2% (attentie, Mamba, lm_head+shared, overhead) profiteert niet
+op dezelfde manier. Dat maakt de zaak niet minder de moeite waard (MoE
+alleen al is de grootste post), maar wel duidelijk begrensder dan een naïeve
+"batch alles en alles wordt N× goedkoper"-aanname zou suggereren.
+
+**Artefacten.** `pro_research/diag_attention_n_scaling.py` ·
+`pro_research/diag_attention_n_scaling.json`.
+
 ---
 
 ## 2026-08-16 — Per-laag cachecapaciteit fysiek gemeten en geïntegreerd: 47,41 tok/s

@@ -124,3 +124,12 @@ deel-mechanisme nodig omdat er niets te delen valt) en meet of dat werkelijk
 ~lineair schaalt zoals aangenomen. Als dat klopt, is de grove bovengrens in
 risico 1 een redelijk uitgangspunt voor een preregistratie met een harde
 poort; zo niet, dan moet de hele rekensom over.
+
+**Gedaan, zelfde dag.** `pro_research/diag_attention_n_scaling.py`: de
+bestaande Q-projectie-GEMV N keer gedraaid tegen N echte activaties,
+N ∈ {1,2,4,8,16}. Resultaat: 94-97% van het ideale lineaire model, ms/
+sequentie nagenoeg constant (0,091-0,096 ms) over de hele reeks. **Bevestigt
+de aanname: attentie schaalt ~lineair, geen launch-overhead-speling zoals
+MoE had.** De grove ~114 tok/s-bovengrensrekensom hierboven gebruikte precies
+deze aanname (attentie/Mamba/rest ongewijzigd) — die aanname staat nu
+gestaafd, niet weerlegd. Zie `agents/RESEARCH_NOTEBOOK.md` 2026-08-16.

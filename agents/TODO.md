@@ -149,10 +149,14 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       aggregate bij aanname van perfecte MoE-deling en ongewijzigde rest —
       niet gemeten, waarschijnlijk optimistisch, zelfde soort rekensom als
       S10's MTP-voorcalculatie die achteraf te optimistisch bleek).
-      **Aanbevolen eerstvolgende meting** (geen bouw): batch de attentie-
-      GEMV's voor N=2 sequenties (geen deel-mechanisme nodig, gewoon een
-      batch-dimensie) en meet of de kost werkelijk ~lineair schaalt zoals
-      aangenomen — dat bepaalt of de bovengrens-rekensom houdbaar is.
+      **[AANBEVOLEN METING GEDAAN 2026-08-16] `diag_attention_n_scaling.py`**
+      — bestaande Q-GEMV N keer gedraaid tegen N echte activaties,
+      N∈{1,2,4,8,16}: **94-97% van ideaal lineair, ms/sequentie nagenoeg
+      constant.** Bevestigt de aanname: attentie schaalt ~lineair, geen
+      launch-overhead-speling zoals MoE had. De ~114 tok/s-bovengrensrekensom
+      gebruikte precies deze aanname — die staat nu gestaafd. Betekenis: een
+      batch>1-integratie haalt zijn winst vrijwel uitsluitend uit MoE
+      (57,8% van het token); de rest profiteert niet op dezelfde manier.
       Zie `RESEARCH_NOTEBOOK.md` 2026-08-16.
 - [DONE 2026-08-16] **Down_proj-pijplijn optimaliseren in `_moe_dev`.**
       ~~Device-cache down_proj net als up_proj~~ — **onhaalbaar**:

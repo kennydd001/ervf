@@ -102,37 +102,47 @@ KV-slots, geen parallelle decode.
 
 ---
 
-## 3. Open discrepantie — NIET opgelost, eerlijk gemeld
+## 3. De app haalt nu 48-49 tok/s — opgelost, met de oorzaak
 
-Op een schone GPU, 300 tokens:
+Eerst gemeten: de server deed 24,7-24,9 tok/s waar de kale runtime 38,7 haalde.
+Slechter dan kaal is een fout, geen ruis. `scripts/.../bench_stacks.py` strookt
+de HTTP-laag weg en timet de drie stacks door dezelfde decodelus, één stack per
+proces:
 
-| weg | tok/s |
+| stack | sync tok/s | queued tok/s | graph extra VRAM |
+|---|---:|---:|---:|
+| bare (runtime + graph) | 35,99 | 35,98 | 6 MiB |
+| v6 (+ selectieve ERVF + gebatchte MoE) | 46,35 | 46,64 | 0 MiB |
+| **v18 (+ H-SCALE + B3)** | **50,10** | **50,29** | **524 MiB** |
+
+**De V18-stack was dus nooit stuk — mijn serverbouw wel.** Het verschil was één
+ontbrekende regel: `cp.get_default_memory_pool().free_all_blocks()` vóór het
+installeren van H-SCALE.
+
+Die regel is **dragend, geen opruiming**. H-SCALE heeft 492,4 MiB aaneengesloten
+nodig voor de schaalvlakken tegen ~607 MiB vrij. CuPy's pool houdt élk blok vast
+dat hij ooit heeft aangevraagd, dus zonder teruggave heeft de driver veel minder
+beschikbaar en zakt de allocatie weg in pool-thrash in plaats van netjes te
+falen. Het symptoom was zichtbaar en werd eerst over het hoofd gezien:
+`setup_graph` meldde **0 MiB** extra graph-VRAM in de server tegen **524 MiB** in
+de bench.
+
+Na de fix, drie warme runs van 200 tokens over de HTTP-API:
+
+| | tok/s |
 |---|---:|
-| `bench_current_toks.py` (kale runtime + graph, géén V18) | **38,69** |
-| `serve_openai.py --stack v18`, warme cache, 3x200 tokens | **24,7-24,9** |
-| gepubliceerd V18-record (drift-gecontroleerde harness) | 51,0 |
+| V18-stack kaal (bench_stacks) | 50,10 |
+| **via de OpenAI-server, echte chat** | **48,08 / 49,12 / 48,95** |
 
-**De server draait dus niet alleen onder het record, maar ónder de kale
-runtime.** Dat is een echt probleem in mijn serverbouw, geen meetruis, en het
-is niet opgelost.
+Het resterende verschil van ~1-2 tok/s is echte app-overhead: per-token
+`tok.decode` plus SSE/HTTP. Dat is eerlijk en klein.
 
-Twee hypotheses zijn al goedkoop weerlegd:
-- **tokenizer per token**: `tok.decode([id])` kost **0,003 ms** — verwaarloosbaar;
-- **`embed_on_host`**: default `False` parkeert de 704,6 MB embeddingtabel in
-  VRAM; op `True` gezet (zoals het record) bleef het ~23,8 — maar **die meting
-  was besmet**, want een vorige serverinstantie hield nog 7839 MiB vast. Moet
-  over.
+De server logt nu de VRAM-rekening en valt expliciet terug op v6 als de
+schaalvlakken niet passen, in plaats van stilletjes traag te worden.
 
-Volgende verdachten, in volgorde: de `install_combined_moe_dev` + `setup_graph`
-volgorde in mijn `build_v18_runtime()` tegen die in `pro_research/combined_v18.py`;
-en `graph_extra_vram_bytes` dat bij de server **0** rapporteert tegen 6 MiB bij
-de bench — dat verschil is een signaal dat de capture niet hetzelfde doet.
-
-**Tot dat opgelost is: gebruik de server om te chatten en te testen, niet om
-tok/s te claimen.** Het gepubliceerde record blijft 51,0 uit de
-drift-gecontroleerde harness.
-
----
+**Methodische les, dezelfde als eerder deze sessie:** vergelijk een kandidaat
+altijd met wat er werkelijk draait, en let op de secundaire meter — die 0 MiB
+tegen 524 MiB stond er van meet af aan en wees direct naar de oorzaak.
 
 ## 4. Bijvangst: `cudaErrorAlreadyMapped` verklaard
 

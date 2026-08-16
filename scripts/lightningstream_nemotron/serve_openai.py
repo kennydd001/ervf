@@ -83,9 +83,33 @@ def build_v18_runtime(capacity: int = 72, stack: str = "v18"):
         # H-SCALE (resident down_proj scale planes) + B3 (PCIe/compute overlap),
         # fused. Must be installed BEFORE setup_graph: the capture binds the
         # _moe_dev that is live at capture time.
+        #
+        # free_all_blocks() first is LOAD-BEARING, not tidiness. H-SCALE needs a
+        # contiguous 492.4 MiB for the scale planes against ~607 MiB free. CuPy's
+        # pool holds every block it has ever grown into, so without returning the
+        # unused ones the driver has far less than that available and the
+        # allocation degrades into pool thrash instead of failing cleanly.
+        # Omitting this one call is what made this server measure 24.8 tok/s
+        # where the same stack benchmarks at 50.1 (scripts/.../bench_stacks.py),
+        # and it showed up as setup_graph reporting 0 MiB of extra graph VRAM
+        # instead of 524 MiB.
+        import cupy as cp
+
         from moe_dev_combined import install_combined_moe_dev
+        from moe_dev_scale_resident import planned_plane_bytes
         from scale_resident_kernels import ScaleResidentKernels
-        install_combined_moe_dev(rt, down, up, ScaleResidentKernels())
+
+        cp.get_default_memory_pool().free_all_blocks()
+        planned = planned_plane_bytes(rt)
+        free_b = int(cp.cuda.Device(0).mem_info[0])
+        print(f"[runtime] H-SCALE planes {planned / 2**20:.1f} MiB, "
+              f"free {free_b / 2**20:.1f} MiB", flush=True)
+        if planned > free_b:
+            print("[runtime] WARNING: scale planes do not fit; falling back to v6",
+                  flush=True)
+            stack = "v6"
+        else:
+            install_combined_moe_dev(rt, down, up, ScaleResidentKernels())
 
     rt.setup_graph()
     print(f"[runtime] {stack} ready in {time.perf_counter() - t0:.1f}s "

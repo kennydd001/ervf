@@ -11,6 +11,69 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — `down_masked` ingesloten: **vijf hypotheses getest, alle vijf weerlegd**, harde vloer op ~1,5 ms die geen enkele gebruikelijke as verklaart — verdere voortgang vraagt een profiler
+
+**Vraag.** `down_masked` kost 1,655 ms/token tegen een bandbreedtevloer van
+0,257 ms (15% efficiëntie, 1,40 ms hoofdruimte) — de slechtste kernel in het
+model. Waardoor?
+
+**Meting 1 — `nchunks`-sweep (kettinglengte).** `nchunks` is `gridDim.y` en de
+paneellus stride't ermee, dus het verandert de afhankelijke-load-keten per
+thread zónder het totale werk te veranderen. Geïsoleerd, één tokenlading
+(138 launches):
+
+| nchunks | blokken | afh. loads/thread | ms/token |
+|---:|---:|---:|---:|
+| 2 | 42 | 124,5 | 4,004 |
+| 4 | 84 | 62,2 | 2,535 |
+| **8** | **168** | **31,1** | **1,549** ← productie |
+| 16 | 336 | 15,6 | 1,772 |
+| 32 | 672 | 7,8 | 1,603 |
+| 64 | 1344 | 3,9 | 1,613 |
+
+Onder 8 is hij ketting-gebonden (elke halvering van de keten halveert de tijd);
+**vanaf 8 is hij vlak**. De productiewaarde zit precies op de knik. Meer
+parallellisme — van 168 naar 1344 blokken — levert **niets**.
+
+**Meting 2 — één thread per BYTE in plaats van per rij.** In de referentie
+berekenen rij 2k en 2k+1 allebei `hb = k`, dus **twee threads laden dezelfde
+byte** en houden elk één nibble; 32 threads van een warp raken maar 16 unieke
+adressen. De kandidaat geeft één thread de byte plus beide rijen (twee
+accumulatoren), wat het aantal global loads halveert en de bruikbare bytes per
+request verdubbelt. **Bitexact op elke `nchunks`** — de herindeling is
+aantoonbaar correct, alleen de thread→rij-afbeelding verandert.
+
+Resultaat: **geen winst.** Beste kandidaat 1,589 ms tegen productie 1,492 ms =
+**0,939×**. Het halveren van de load-instructies levert niets op.
+
+**Wat daarmee is uitgesloten voor `down_masked` — vijf assen, alle vijf
+gemeten en weerlegd:**
+1. bandbreedte — 63,2 MB nuttig / 1,492 ms = 42,4 GB/s; zelfs mét
+   sectorverlies meegerekend (92,4 MB opgehaald) is het 61,9 GB/s tegen een
+   kernelplafond van 249;
+2. instructiedoorvoer — ~60M FMA's/token × ~8 ondersteunende instructies ≈
+   0,08 ms, een orde eronder;
+3. launch-overhead / gridgrootte / occupancy — V15 gaf 6× de blokken in één
+   launch, neutraal;
+4. afhankelijke-ketenlengte — vlak vanaf `nchunks = 8` tot 64;
+5. overbodige load-instructies en sectorverlies — byte-per-thread halveert
+   beide, bitexact, en levert niets.
+
+**Eerlijke stand.** Er is een harde vloer rond **~1,5 ms** die geen van de
+gebruikelijke assen verklaart. Ik kan dit niet verder dichtnagelen met
+end-to-end timing alleen; wat nu nodig is, is een **profiler**. De
+capability-census van PV2-21 stelde vast dat `nsys`, `ncu` en
+`compute-sanitizer` **niet op PATH staan** op deze machine. **Het beschikbaar
+maken van `ncu` is daarmee de hoogst renderende deblokkerende actie die er nu
+is** — niet nóg een blinde kernelvariant. Dat is een eerlijke grens, geen
+conclusie dat er niets te halen valt: de 1,40 ms hoofdruimte staat gewoon nog
+open.
+
+**Artefacten.** `pro_research/diag_down_masked_chain.py` + `.json`,
+`pro_research/diag_down_masked_byterow.py` + `.json`.
+
+---
+
 ## 2026-08-16 — PRO V15: gebatchte gather + down_masked (VRAM-blokkade weggenomen) is bitexact maar **neutraal (+0,035 ms)** — en dat sluit occupancy/launch-overhead uit als verklaring voor down_masked's 15%
 
 **Vraag.** `down_masked` draait op 1,655 ms tegen een vloer van 0,257 ms en de

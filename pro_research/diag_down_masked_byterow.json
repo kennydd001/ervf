@@ -1,0 +1,55 @@
+{
+  "kind": "diag_down_masked_byterow",
+  "created_utc": "2026-08-16T09:05:54.947143+00:00",
+  "note": "TIMING + bit-exactness of partials only; the reduce step is not run. Rows 2k and 2k+1 load the SAME weight byte in the reference, so 32 threads of a warp touch only 16 distinct addresses. The candidate gives one thread the byte and both its rows.",
+  "geometry": {
+    "hidden": 2688,
+    "inter": 1856,
+    "active_panels": 92,
+    "nz_columns": 157,
+    "launches_per_token": 138
+  },
+  "arms": {
+    "8": {
+      "nchunks": 8,
+      "ref_blocks": 168,
+      "cand_blocks": 88,
+      "bit_exact": true,
+      "ref_ms_per_token": 1.491757837931315,
+      "cand_ms_per_token": 1.743011220296224,
+      "speedup": 0.8558509667412189
+    },
+    "16": {
+      "nchunks": 16,
+      "ref_blocks": 336,
+      "cand_blocks": 176,
+      "bit_exact": true,
+      "ref_ms_per_token": 1.6126805623372396,
+      "cand_ms_per_token": 1.591484832763672,
+      "speedup": 1.0133182102255793
+    },
+    "32": {
+      "nchunks": 32,
+      "ref_blocks": 672,
+      "cand_blocks": 352,
+      "bit_exact": true,
+      "ref_ms_per_token": 1.7101407368977866,
+      "cand_ms_per_token": 1.5890421549479166,
+      "speedup": 1.0762085395738537
+    }
+  },
+  "all_bit_exact": true,
+  "production_ref_ms_per_token_nchunks8": 1.491757837931315,
+  "best_candidate": {
+    "nchunks": 32,
+    "ref_blocks": 672,
+    "cand_blocks": 352,
+    "bit_exact": true,
+    "ref_ms_per_token": 1.7101407368977866,
+    "cand_ms_per_token": 1.5890421549479166,
+    "speedup": 1.0762085395738537
+  },
+  "best_speedup_vs_production": 0.9387780137149413,
+  "in_loop_marginal_ms_reference": 1.655,
+  "status": "measured"
+}

@@ -1,0 +1,85 @@
+{
+  "kind": "diag_down_masked_chain",
+  "created_utc": "2026-08-16T09:04:24.138219+00:00",
+  "note": "TIMING ONLY. The reduce step is not run and no output is correct by construction; these numbers may never be reported as a correctness result. nchunks is gridDim.y and the panel loop strides by it, so it changes the dependent-load chain length per thread without changing total work.",
+  "geometry": {
+    "hidden": 2688,
+    "inter": 1856,
+    "npanel": 116,
+    "active_panels": 92,
+    "nz_columns": 157,
+    "launches_per_token": 138
+  },
+  "production_nchunks": 8,
+  "production_ms_per_token": 1.5493247985839844,
+  "in_loop_marginal_ms_reference": 1.655,
+  "bandwidth_floor_ms_reference": 0.26,
+  "arms": {
+    "1": {
+      "nchunks": 1,
+      "blocks_per_launch": 21,
+      "panels_per_thread": 92.0,
+      "dependent_loads_per_thread": 248.99999999999997,
+      "ms_per_token": 7.353667195638021,
+      "partials_bytes": 10752
+    },
+    "2": {
+      "nchunks": 2,
+      "blocks_per_launch": 42,
+      "panels_per_thread": 46.0,
+      "dependent_loads_per_thread": 124.49999999999999,
+      "ms_per_token": 4.003775024414063,
+      "partials_bytes": 21504
+    },
+    "4": {
+      "nchunks": 4,
+      "blocks_per_launch": 84,
+      "panels_per_thread": 23.0,
+      "dependent_loads_per_thread": 62.24999999999999,
+      "ms_per_token": 2.535320536295573,
+      "partials_bytes": 43008
+    },
+    "8": {
+      "nchunks": 8,
+      "blocks_per_launch": 168,
+      "panels_per_thread": 11.5,
+      "dependent_loads_per_thread": 31.124999999999996,
+      "ms_per_token": 1.5493247985839844,
+      "partials_bytes": 86016
+    },
+    "16": {
+      "nchunks": 16,
+      "blocks_per_launch": 336,
+      "panels_per_thread": 5.75,
+      "dependent_loads_per_thread": 15.562499999999998,
+      "ms_per_token": 1.7717109680175782,
+      "partials_bytes": 172032
+    },
+    "32": {
+      "nchunks": 32,
+      "blocks_per_launch": 672,
+      "panels_per_thread": 2.875,
+      "dependent_loads_per_thread": 7.781249999999999,
+      "ms_per_token": 1.602731704711914,
+      "partials_bytes": 344064
+    },
+    "64": {
+      "nchunks": 64,
+      "blocks_per_launch": 1344,
+      "panels_per_thread": 1.4375,
+      "dependent_loads_per_thread": 3.8906249999999996,
+      "ms_per_token": 1.6134068806966146,
+      "partials_bytes": 688128
+    }
+  },
+  "best": {
+    "nchunks": 8,
+    "blocks_per_launch": 168,
+    "panels_per_thread": 11.5,
+    "dependent_loads_per_thread": 31.124999999999996,
+    "ms_per_token": 1.5493247985839844,
+    "partials_bytes": 86016
+  },
+  "speedup_best_over_production": 1.0,
+  "verdict": "flat_not_chain_limited"
+}

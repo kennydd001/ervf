@@ -175,19 +175,26 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
-- [ ] **HOOGSTE PRIORITEIT — `gemv_down_masked_partial_ind` herschrijven.
-      Grootste enkelvoudige inefficiëntie in het hele model, en de best
-      afgebakende.** Gemeten: **1,655 ms/token tegen een vloer van 0,257 ms =
-      15% efficiëntie, 1,40 ms hoofdruimte** (`diag_moe_subkernel_marginals.json`,
-      alle poorten groen). Oorzaak in het toegangspatroon: elke thread doet één
-      uitvoerrij en leest `pcodes[c*rowhalf + hb]`, dus opeenvolgende kolommen
-      liggen **1344 B uit elkaar** terwijl 128 threads samen maar 64
-      aaneengesloten bytes per kolom ophalen — halve-sector-reads op een
-      gescatterde stride. Het is een **pure VRAM-kernel** (leest de al
-      gegatherde mirror), geen PCIe, geen sparsity-afhankelijke grid, dus dit is
-      een gewone kerneloefening met een bitexacte poort. Ter vergelijking:
-      `shared_expert` haalt 223 GB/s = 90% van het kernelplafond, dus de
-      GEMV-techniek zelf deugt — dit pad niet.
+- [ ] **HOOGSTE PRIORITEIT — `ncu` (Nsight Compute) beschikbaar maken op deze
+      machine.** Dit is nu geen comfort meer maar de blokkade. `down_masked`
+      houdt 1,40 ms hoofdruimte vast en ik heb **vijf hypotheses gemeten en
+      alle vijf weerlegd** (bandbreedte, instructiedoorvoer, launch/grid/
+      occupancy, afhankelijke-ketenlengte, overbodige loads + sectorverlies —
+      zie het blok in RESEARCH_NOTEBOOK). Er blijft een harde vloer rond
+      **~1,5 ms** die geen enkele as verklaart, en die is met end-to-end timing
+      niet verder dicht te nagelen. PV2-21 stelde vast dat `nsys`, `ncu` en
+      `compute-sanitizer` **niet op PATH staan**. Nóg een blinde kernelvariant
+      bouwen heeft een slechte verwachtingswaarde; één profiler-run lost het
+      vermoedelijk in minuten op.
+- [DEELS-DONE 2026-08-16] **`gemv_down_masked_partial_ind` — grootste
+      enkelvoudige inefficiëntie (1,655 ms tegen 0,257 vloer, 15%).** Twee
+      gerichte kernelvarianten gebouwd en gemeten, beide **bitexact**, beide
+      **geen winst**: (a) `nchunks`-sweep 2→64 — ketting-gebonden onder 8, vlak
+      erboven, productie zit op de knik; (b) één thread per byte in plaats van
+      per rij (halveert de global loads, want rij 2k en 2k+1 laden nu dezelfde
+      byte) — 0,939×. De hoofdruimte staat nog open; zie de ncu-taak hierboven.
+      Ter vergelijking: `shared_expert` haalt 223 GB/s = 90% van het
+      kernelplafond, dus de GEMV-techniek zelf deugt — dit pad niet.
 - [DONE 2026-08-16] **MoE per sub-kernel toegerekend** (marginale methode, één
       niveau dieper, alle armen bitexact, drift 0,179 ms):
       gather **3,479** · up_proj **2,162** · down_masked **1,655** ·

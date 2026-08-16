@@ -531,10 +531,19 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       (tegen ~12-13% in de niet-warme versie). Aannemelijke maar NIET
       geverifieerde kandidaat: de grote permanente `codes`/`scales`-
       buffer-reservering (~190 MB/laag × 23) maakt CuPy se geheugenpool
-      trager voor kleine tijdelijke allocaties — bewust NIET als
-      vaststaand gerapporteerd zonder toetsing. Zie
-      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Derde poging" en het
-      vervolg direct erna.
+      trager voor kleine tijdelijke allocaties.
+      **[DIRECT GETOETST EN WEERLEGD, ZELFDE DAG]**:
+      `pro_research/diag_alloc_pressure.py` — losstaande micro-benchmark,
+      kleine allocaties met/zonder een ~4,33 GiB permanente reservering.
+      **Kleine allocaties worden juist SNELLER met de reservering (0,0363
+      → 0,0197 ms, 0,54×), het tegenovergestelde van de aanname.** Drie
+      op elkaar volgende, elk getoetste verklaringen voor de 6,5×-
+      regressie zijn nu weerlegd (eviction-scan tweemaal, geheugendruk
+      eenmaal). **De werkelijke oorzaak blijft onbekend** — eerlijk als
+      open vraag gelaten, geen vierde ongeverifieerde gok. Verder
+      onderzoek zou Nsight Compute/Systems vereisen. Zie
+      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Derde poging" en beide
+      vervolgen direct erna.
 - [WEERLEGD-VOOR-DEZE-AANPAK, CORRECTHEID BEVESTIGD 2026-08-16] **Expliciete
       unie-gevoede MoE-deling geïntegreerd in de echte staplus — bitexact
       correct, maar 12× TRAGER, niet sneller.**

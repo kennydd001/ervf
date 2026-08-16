@@ -250,6 +250,35 @@ extra profilerings-syncs).
 **Artefacten (bijgewerkt).** `pro_research/proto_multi_seq_moe_shared_warmcache.py`
 (nu met `PROFILE`-vlag, standaard uit).
 
+**Directe toetsing van de kandidaat-verklaring, zelfde dag: OOK weerlegd.**
+`pro_research/diag_alloc_pressure.py` — een losstaande, modelvrije
+micro-benchmark: kleine allocaties (`cp.zeros`, dezelfde ordegrootte als
+sectie 1 se buffers) getimed, eerst zonder, dan MET een permanente ~4,33
+GiB VRAM-reservering (matcht de werkelijke 23-lagen-`codes`/`scales`-
+belasting van het warme-cache-script). **Resultaat: kleine allocaties
+worden juist SNELLER met de grote reservering aanwezig (0,0363 → 0,0197
+ms/ronde, verhouding 0,54×) — het tegenovergestelde van de aanname.**
+Geheugenpool-druk van de grote persistente buffer is dus **ook** geen
+verklaring.
+
+**Balans van deze deelinvestigatie.** Drie op elkaar volgende, elk
+aannemelijke, elk direct getoetste verklaringen voor de 6,5×-regressie
+zijn stuk voor stuk weerlegd: (1) `cache_assign`'s eviction-scan (losstaand
+én in context, tweemaal), (2) geheugenpool-druk van de grote persistente
+reservering. **De werkelijke oorzaak van waarom sectie 1 (routing + shared
+expert, ongewijzigde code) 54,1% van de tijd inneemt in het warme-cache-
+script blijft onbekend.** Dit wordt hier eerlijk als open vraag gelaten in
+plaats van een vierde ongeverifieerde gok te rapporteren — verder
+onderzoek zou serieuzere profileringsgereedschappen vereisen (Nsight
+Compute/Systems) die niet beschikbaar zijn binnen dit script-gebaseerde
+onderzoekskader.
+
+**Poorten.** Geen PRO-poorten (read-only micro-benchmark). Hypothese
+expliciet weerlegd, `hypothesis_supported_gt_2x: false`.
+
+**Artefacten.** `pro_research/diag_alloc_pressure.py`,
+`pro_research/diag_alloc_pressure.json`.
+
 ---
 
 ## 2026-08-16 — Robuustheidscontrole van de N=2-naive-baseline: het cijfer krimpt bij een langere horizon — eerlijke bijstelling, geen tegenspraak

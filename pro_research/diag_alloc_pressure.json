@@ -1,0 +1,52 @@
+{
+  "kind": "diag_alloc_pressure",
+  "created_utc": "2026-08-16T04:46:55.553890+00:00",
+  "note": "tests whether a large persistent VRAM reservation (matching proto_multi_seq_moe_shared_warmcache.py's ~4.4 GiB of persistent codes/scales buffers) slows down small, short-lived allocations via CuPy memory-pool pressure -- the candidate (unverified) explanation proposed for that script's unexplained 54% routing/shared-expert section cost",
+  "environment": {
+    "created_utc": "2026-08-16T04:46:55.553890+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "470db0476360002a4b91c996634eae12aa7b36b2",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/diag_alloc_pressure.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 4556 MiB, 50, 10.50 W, 825 MHz, 11001 MHz, P2",
+    "source_hashes": {}
+  },
+  "rounds": 2000,
+  "small_alloc_sizes": [
+    6,
+    2688,
+    3712
+  ],
+  "per_layer_reserved_bytes": 202051584,
+  "n_layers_simulated": 23,
+  "total_reserved_bytes": 4647186432,
+  "total_reserved_gib": 4.328029632568359,
+  "baseline_small_alloc_stats_ms": {
+    "count": 2000,
+    "mean": 0.38585069999999994,
+    "p50": 0.0363,
+    "p95": 0.0689,
+    "p99": 0.09171999999999998,
+    "max": 697.5382
+  },
+  "pressured_small_alloc_stats_ms": {
+    "count": 2000,
+    "mean": 0.030557699999999997,
+    "p50": 0.0197,
+    "p95": 0.0689,
+    "p99": 0.09870799999999999,
+    "max": 0.3552
+  },
+  "ratio_pressured_over_baseline": 0.5426997245179063,
+  "hypothesis_supported_gt_2x": false
+}

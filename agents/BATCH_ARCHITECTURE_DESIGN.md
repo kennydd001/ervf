@@ -48,9 +48,16 @@ niet bij nul hoeft te beginnen met nadenken.**
    bewezen (`proto_batch_down_proj.py`). Vereist per-laag een unie-
    maskerberekening (OR over de sequenties die een gegeven expert kozen) —
    een extra kleine kernel, niet gebouwd.
-6. **Shared expert: triviaal.** Draait toch al voor elke stap ongeacht
-   routing — wordt gewoon `[N, hidden]` in plaats van `[hidden]`, geen
-   nieuwe deel-logica nodig (het gewicht was al niet expert-afhankelijk).
+6. **Shared expert: triviaal — nu ook fysiek bevestigd (2026-08-16), in
+   tegenstelling tot de Mamba-aanname die fout bleek.** Draait toch al voor
+   elke stap ongeacht routing — wordt gewoon `[N, hidden]` in plaats van
+   `[hidden]`, geen nieuwe deel-logica nodig (het gewicht was al niet
+   expert-afhankelijk). `pro_research/diag_shared_expert_n_scaling.py`: N
+   sequentiële aanroepen van de bestaande GEMV tegen N echte activaties,
+   N∈{1,2,4,8,16} — ms/sequentie blijft vlak (0,0378→0,0345 ms), verhouding
+   tegen ideaal-lineair 0,85-0,92 (iets efficiënter dan lineair). Zelfde
+   discipline als de Mamba-check, dit keer bevestigt de meting de
+   oorspronkelijke aanname in plaats van hem te corrigeren.
 7. **Attentie, Mamba, KV-cache: GEEN deel-mogelijkheid van deze soort — en
    voor Mamba specifiek, fysiek gemeten in plaats van bij analogie
    aangenomen (correctie 2026-08-16).** Attentie- en Mamba-gewichten zijn

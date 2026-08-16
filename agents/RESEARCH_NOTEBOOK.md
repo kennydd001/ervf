@@ -11,6 +11,42 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Shared-expert-schaling: bevestigt de "triviaal"-aanname dit keer wél (in tegenstelling tot Mamba)
+
+**Vraag.** `BATCH_ARCHITECTURE_DESIGN.md` stap 6 stelt dat de shared expert
+"triviaal" is voor batch>1 (niet expert-geselecteerd, dus niets te
+dedupliceren, gewoon `[N, hidden]` i.p.v. `[hidden]`) — maar dat was, net als
+de oorspronkelijke Mamba-aanname, een claim bij analogie (met attentie),
+nooit fysiek gemeten voor de shared expert specifiek. `diag_mamba_n_scaling.py`
+bewees eerder dat zo'n analogie fout kan zijn (Mamba bleek mild
+supra-lineair). Zelfde discipline hier toegepast.
+
+**Opzet.** `pro_research/diag_shared_expert_n_scaling.py` — identieke
+methode als `diag_mamba_n_scaling.py`/`diag_attention_n_scaling.py`: de
+bestaande, ongewijzigde shared-expert-up_proj-GEMV (`fused.gemv_into`, geen
+nieuwe kernel) N keer sequentieel gedraaid tegen N echte gevangen
+`normed`-activaties, N ∈ {1,2,4,8,16}, 30 herhalingen, MoE-laag 24.
+
+**Uitkomst.** ms/sequentie blijft nagenoeg vlak: 0,0378 (N=1) → 0,0347 (N=2)
+→ 0,0327 (N=4) → 0,0321 (N=8) → 0,0345 (N=16) ms. Verhouding
+gemeten/ideaal-lineair: 0,92 / 0,87 / 0,85 / 0,91 — **iets ONDER 1,0**, dus
+zelfs licht efficiënter dan perfect lineair (vaste per-launch-overhead die
+relatief kleiner wordt bij grotere N), geen straf zoals bij Mamba.
+
+**Wat dit sluit of opent.** Bevestigt (in tegenstelling tot de Mamba-
+correctie) de oorspronkelijke aanname: de shared expert schaalt inderdaad
+~lineair, geen verborgen kost. Dit is het derde stuk van de token-tijd
+(naast attentie) dat nu fysiek bevestigd is te schalen zoals aangenomen;
+Mamba blijft de enige uitzondering. Geen wijziging nodig aan
+`BATCH_ARCHITECTURE_DESIGN.md`'s claim voor dit onderdeel.
+
+**Poorten.** Geen PRO-poorten (read-only diagnostiek).
+
+**Artefacten.** `pro_research/diag_shared_expert_n_scaling.py`,
+`pro_research/diag_shared_expert_n_scaling.json`.
+
+---
+
 ## 2026-08-16 — Eerste gecombineerde meting: up_proj- en down_proj-deling tegelijk in één laag — en het geheel is minder dan de som der delen
 
 **Vraag.** `proto_batch_moe_layer.py` (up_proj-deling) en

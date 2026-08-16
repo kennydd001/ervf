@@ -338,6 +338,15 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       geen vervanging voor ze samen meten** (werkregel 6 in de praktijk).
       Read-only prototype, geen tok/s-claim. Zie `RESEARCH_NOTEBOOK.md`
       2026-08-16, blok "Eerste gecombineerde meting".
+- [DONE 2026-08-16] **Shared-expert N-schaling — "triviaal"-aanname
+      geverifieerd, dit keer bevestigd (niet gecorrigeerd zoals Mamba).**
+      `pro_research/diag_shared_expert_n_scaling.py`: bestaande shared-
+      expert-GEMV N keer gedraaid tegen N echte activaties, N∈{1,2,4,8,16}.
+      **ms/sequentie nagenoeg vlak (0,0378→0,0345), verhouding tegen ideaal-
+      lineair 0,85-0,92 (iets efficiënter dan lineair, geen straf).**
+      Bevestigt `BATCH_ARCHITECTURE_DESIGN.md` stap 6's aanname. Read-only
+      diagnostiek. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Shared-
+      expert-schaling".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,
   `cudaErrorStreamCaptureUnsupported` — `cudaGraphLaunch()` op een reeds

@@ -1,0 +1,69 @@
+{
+  "kind": "diag_ervf_batched_fp8",
+  "created_utc": "2026-08-16T13:12:29.813799+00:00",
+  "note": "Batching built ON the ERVF-16 geometry (N accumulator sets) instead of on the slow one-block-per-row geometry. The earlier batch numbers used row-block as their N=1 baseline, but production routes these shapes to ERVF, which is 3.4-3.7x faster -- so those speedups were largely recovering ground ERVF already held. This measures batching against what production actually runs.",
+  "shapes": {
+    "mamba_in_proj": {
+      "rows": 10304,
+      "cols": 2688,
+      "mb_per_token": 637.4,
+      "n1_bitexact_vs_production_ervf": true,
+      "production_ervf_ms": 0.10399456024169922,
+      "production_ervf_gb_s": 266.3326998607196,
+      "by_N": {
+        "1": {
+          "ms_per_token": 0.09915807723999023,
+          "speedup_vs_production_ervf": 1.0487754819005146,
+          "smem_bytes": 1024,
+          "gb_s_per_step": 279.3232056422913
+        },
+        "2": {
+          "ms_per_token": 0.07978159904479981,
+          "speedup_vs_production_ervf": 1.3034905477803609,
+          "smem_bytes": 1024,
+          "gb_s_per_step": 173.5810784166359
+        },
+        "4": {
+          "ms_per_token": 0.065103440284729,
+          "speedup_vs_production_ervf": 1.5973742675791085,
+          "smem_bytes": 1024,
+          "gb_s_per_step": 106.35825034309588
+        }
+      }
+    },
+    "mamba_out_proj": {
+      "rows": 2688,
+      "cols": 4096,
+      "mb_per_token": 253.2,
+      "n1_bitexact_vs_production_ervf": true,
+      "production_ervf_ms": 0.04448063850402832,
+      "production_ervf_gb_s": 247.52450437515395,
+      "by_N": {
+        "1": {
+          "ms_per_token": 0.05727359771728516,
+          "speedup_vs_production_ervf": 0.776634265645304,
+          "smem_bytes": 1024,
+          "gb_s_per_step": 192.23601168461553
+        },
+        "2": {
+          "ms_per_token": 0.028480160236358642,
+          "speedup_vs_production_ervf": 1.5618113850090978,
+          "smem_bytes": 1024,
+          "gb_s_per_step": 193.29329450092484
+        },
+        "4": {
+          "ms_per_token": 0.025474479198455812,
+          "speedup_vs_production_ervf": 1.7460862755037052,
+          "smem_bytes": 1024,
+          "gb_s_per_step": 108.04978498507829
+        }
+      }
+    }
+  },
+  "all_n1_bitexact_vs_production_ervf": true,
+  "mb_weighted_speedup_vs_production_ervf": {
+    "1": 0.971404994638198,
+    "2": 1.3769318637317602,
+    "4": 1.6396534955226387
+  }
+}

@@ -175,6 +175,25 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
+- [ ] **VÓÓR B1: getegelde batched ERVF-kernel meten.** De eerlijke batchwinst op
+      de ERVF-shapes (Mamba + q/o, 1156 MB/token) is **×1,64 bij N=4**, niet
+      ×3,5 — de eerdere cijfers gebruikten de one-block-per-row-baseline terwijl
+      productie ERVF-16 draait (3,4-3,7× sneller). ERVF zit bij N=1 al op
+      247-266 GB/s = 77% van het apparaatplafond, dus er is weinig terug te
+      winnen. **Maar** mijn batched kernel leest X uit global (N kopieën in
+      shared overschrijden 48 KB), dus 1,64× is een **ondergrens**. Een
+      getegelde K-dimensie die X in shared houdt bepaalt de echte bovengrens.
+      Dat getal beslist of batch de 100 haalt.
+- [ ] **VÓÓR B1: niet-ERVF-shapes apart meten.** `shared_up` (3712,2688) en
+      `routed_up` (1856,2688) staan **niet** op de ERVF-whitelist, dus daar is
+      de row-block-baseline wél de juiste en staat de ~3,6× bij N=4
+      waarschijnlijk overeind. Samen 677 MB/token — dat is waar de batchwinst
+      dan vandaan moet komen.
+- [ ] **Methodische regel, vastgelegd:** vergelijk een kandidaat altijd met wat
+      de runtime daadwerkelijk uitvoert voor díe shape. Check
+      `BF16_ERVF_SHAPES` / `FP8_ERVF_SHAPES` vóór je een baseline kiest. Drie
+      kopgetallen zijn vandaag gesneuveld op deze fout.
+
 - [DONE 2026-08-16] **Batch-kernelschaling GEMETEN vóór de bouw** —
       `diag_batched_gemv_scaling.json`: per-token **×3,61 bij N=4, ×5,10 bij
       N=8**, MB-gewogen over 1686 MB/token, **N=1 bitexact** tegen de

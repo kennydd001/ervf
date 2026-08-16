@@ -11,6 +11,85 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — ⚠️⚠️ **TWEEDE, ZWAARDERE CORRECTIE: de batch-versnelling was gemeten tegen een baseline die productie niet draait. Tegen de échte ERVF-baseline is het ×1,64 bij N=4, niet ×3,5**
+
+**Wat er mis was.** `diag_batched_gemv_scaling` en `diag_batched_gemv_fp8`
+vergeleken hun batched kernel met de **one-block-per-row**-geometrie. Maar
+productie draait die niet voor deze shapes: `(10304, 2688)` en `(2688, 4096)`
+staan in `FP8_ERVF_SHAPES`, dus `_install_selective` routeert ze naar
+**ERVF-16**. Gemeten verschil:
+
+| shape | row-block | ERVF-16 | ERVF sneller |
+|---|---:|---:|---:|
+| mamba_in_proj | 77,9 GB/s | **266,3 GB/s** | **3,38×** |
+| mamba_out_proj | 66,8 GB/s | **247,5 GB/s** | **3,69×** |
+
+**Vrijwel de hele "batch-winst" die ik rapporteerde was het terugwinnen van
+terrein dat ERVF al had.** Het waarschuwingssignaal stond al in de data en ik
+had het moeten zien: de geïsoleerde FP8 N=1-meting gaf 93 GB/s terwijl de
+in-lus Mamba-marginaal ~170 GB/s impliceerde — de lus kán niet sneller zijn dan
+de geïsoleerde kernel tenzij het een ándere kernel is. Dat was precies het geval.
+
+**De eerlijke meting.** Batching gebouwd **op** de ERVF-16-geometrie (N
+accumulatorsets), vergeleken met wat productie draait. N=1 bitexact tegen
+productie-ERVF:
+
+| | N=1 | N=2 | N=4 |
+|---|---:|---:|---:|
+| mamba_in_proj | 1,049 | 1,303 | **1,597** |
+| mamba_out_proj | 0,777 | 1,562 | **1,746** |
+| **MB-gewogen** | 0,971 | 1,377 | **1,640** |
+
+**×1,64 bij N=4 op 890 MB/token — niet ×3,5.**
+
+**Waarom, en dit is de kern.** ERVF haalt bij N=1 al **247-266 GB/s = 77% van
+het apparaatplafond (345,9)**. Er is dus nauwelijks bandbreedte-hoofdruimte
+over om met batching terug te winnen. Batching helpt wanneer je
+bandbreedte-gebonden bent mét een matige kernel; ERVF is dat niet. Bij N=4 doet
+de kernel 4× zoveel FMA's op dezelfde bytes en wordt **rekengebonden**: de
+batched stap haalt nog maar ~105 GB/s aan gewichtsverkeer.
+
+**Een eerlijke beperking van deze meting zelf.** Mijn batched ERVF-kernel leest
+X uit **global** in plaats van shared memory, omdat N kopieën van X stageren de
+48 KB dynamische-shared-limiet overschrijdt bij N=4, cols=4096. Dat betekent
+N × 4 B aan X-verkeer per gewichtsbyte. **De 1,64× is daarmee een ondergrens**;
+een echte implementatie zou de K-dimensie tegelen zodat X in shared blijft. Hoe
+veel dat scheelt is niet gemeten en mag niet aangenomen worden.
+
+**Herziene projectie, en dit verandert het advies niet maar wel de verwachting.**
+De componenten splitsen nu in twee groepen:
+- **al ERVF, weinig batchwinst (~1,6×)**: Mamba 892 MB + q/o_proj 264 MB
+- **niet ERVF, wél veel batchwinst (~3,6×)**: shared_up 290 MB, routed_up 387 MB,
+  plus de MoE-gather/down-pijplijn die daarnaast nog unie-deling krijgt
+
+Doorgerekend op de in-graph componenttijden komt N=4 daarmee op **~13,0 ms ≈
+77 tok/s** in plaats van de eerder geprojecteerde 88. **De 100 wordt bij N=4 dus
+niet gehaald, en bij N=8 is de marge onduidelijk.**
+
+**Wat dit betekent voor de beslissing.** Het advies "ga naar batch" blijft staan
+— single-stream zit hard op ~94 tok/s theoretisch maximum en batch is het enige
+pad met structurele hoofdruimte — maar **de verwachte opbrengst is fors lager
+dan ik twee blokken geleden schreef, en het is niet meer vanzelfsprekend dat
+batch de 100 haalt.** Wat er nu eerst moet gebeuren, vóór B1:
+1. een **getegelde** batched ERVF-kernel die X in shared houdt, om de echte
+   bovengrens van de dense-batchwinst te bepalen (de 1,64× is een ondergrens);
+2. de niet-ERVF-shapes (shared_up, routed_up) apart meten tegen hún
+   productiekernel — die zijn níet ERVF, dus daar geldt de row-block-baseline
+   wél en staat de ~3,6× waarschijnlijk overeind.
+
+**De les, en die is duur betaald.** Drie keer op rij heb ik in dit blok een
+kopgetal moeten corrigeren: verkeerde dtype, verkeerde baseline, en een
+kernel-handicap in mijn eigen kandidaat. Telkens was het signaal al aanwezig in
+eerder gemeten data. **Regel voor de rest van dit project: vergelijk een
+kandidaat altijd met wat de runtime daadwerkelijk uitvoert voor díe shape —
+niet met een referentie-implementatie die ernaast staat.** Dat betekent
+concreet: check `BF16_ERVF_SHAPES` / `FP8_ERVF_SHAPES` vóór je een baseline kiest.
+
+**Artefacten.** `pro_research/diag_batched_vs_ervf_baseline.py` + `.json`,
+`pro_research/diag_ervf_batched_fp8.json`.
+
+---
+
 ## 2026-08-16 — ⚠️ **Correctie op mijn eigen batch-meting: de twee Mamba-shapes zijn FP8, niet BF16.** Gecorrigeerd ×3,52 bij N=4 en ×4,64 bij N=8 — en FP8 verzadigt eerder, wat een echte waarschuwing is
 
 **Wat er mis was.** `diag_batched_gemv_scaling` mat alle zes shapes als **BF16**.

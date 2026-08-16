@@ -1,0 +1,101 @@
+{
+  "kind": "diag_batched_vs_ervf_baseline",
+  "created_utc": "2026-08-16T13:10:07.752187+00:00",
+  "note": "The earlier batch measurements used the one-block-per-row FP8 kernel as the N=1 baseline, but production routes these shapes to ERVF-16 via FP8_ERVF_SHAPES. Speedup against a baseline the runtime does not run overstates the batch win. Reported both ways; speedup_vs_ervf_PRODUCTION is the honest one.",
+  "rounds": 100,
+  "matrices_in_rotation": 8,
+  "shapes": {
+    "mamba_in_proj": {
+      "rows": 10304,
+      "cols": 2688,
+      "mb_per_token_in_model": 637.4,
+      "ervf_bitexact_vs_rowblock": false,
+      "batched_n1_bitexact_vs_rowblock": true,
+      "finite": true,
+      "rowblock_ms": 0.3556118392944336,
+      "ervf_ms": 0.10522879600524902,
+      "ervf_speedup_over_rowblock": 3.3794156428122104,
+      "rowblock_gb_s": 77.88591081487525,
+      "ervf_gb_s": 263.2088653624661,
+      "by_N": {
+        "1": {
+          "ms_per_batch_step": 0.30099967956542967,
+          "ms_per_token": 0.30099967956542967,
+          "speedup_vs_rowblock": 1.1814359397586423,
+          "speedup_vs_ervf_PRODUCTION": 0.3495977010911567
+        },
+        "2": {
+          "ms_per_batch_step": 0.30311199188232424,
+          "ms_per_token": 0.15155599594116212,
+          "speedup_vs_rowblock": 2.3464056112467575,
+          "speedup_vs_ervf_PRODUCTION": 0.6943228827851952
+        },
+        "4": {
+          "ms_per_batch_step": 0.33472606658935544,
+          "ms_per_token": 0.08368151664733886,
+          "speedup_vs_rowblock": 4.249586450411715,
+          "speedup_vs_ervf_PRODUCTION": 1.2574915013636454
+        },
+        "8": {
+          "ms_per_batch_step": 0.565437126159668,
+          "ms_per_token": 0.0706796407699585,
+          "speedup_vs_rowblock": 5.031319279788727,
+          "speedup_vs_ervf_PRODUCTION": 1.4888133960349046
+        }
+      }
+    },
+    "mamba_out_proj": {
+      "rows": 2688,
+      "cols": 4096,
+      "mb_per_token_in_model": 253.2,
+      "ervf_bitexact_vs_rowblock": false,
+      "batched_n1_bitexact_vs_rowblock": true,
+      "finite": true,
+      "rowblock_ms": 0.16473279953002928,
+      "ervf_ms": 0.04469183921813965,
+      "ervf_speedup_over_rowblock": 3.6859704682542374,
+      "rowblock_gb_s": 66.83579731183387,
+      "ervf_gb_s": 246.35477511364556,
+      "by_N": {
+        "1": {
+          "ms_per_batch_step": 0.10653663635253906,
+          "ms_per_token": 0.10653663635253906,
+          "speedup_vs_rowblock": 1.5462549332317386,
+          "speedup_vs_ervf_PRODUCTION": 0.4194973743140382
+        },
+        "2": {
+          "ms_per_batch_step": 0.11187392234802246,
+          "ms_per_token": 0.05593696117401123,
+          "speedup_vs_rowblock": 2.94497227008044,
+          "speedup_vs_ervf_PRODUCTION": 0.7989679503523663
+        },
+        "4": {
+          "ms_per_batch_step": 0.12670592308044434,
+          "ms_per_token": 0.031676480770111086,
+          "speedup_vs_rowblock": 5.200476679387499,
+          "speedup_vs_ervf_PRODUCTION": 1.4108839786365863
+        },
+        "8": {
+          "ms_per_batch_step": 0.20346368789672853,
+          "ms_per_token": 0.025432960987091066,
+          "speedup_vs_rowblock": 6.477138057721326,
+          "speedup_vs_ervf_PRODUCTION": 1.7572408985655958
+        }
+      }
+    }
+  },
+  "all_bitexact_and_finite": false,
+  "mb_weighted_speedup_vs_rowblock": {
+    "1": 1.2851549709144787,
+    "2": 2.5165797388199542,
+    "4": 4.519927126334316,
+    "8": 5.442369487033881
+  },
+  "mb_weighted_speedup_vs_ervf_PRODUCTION": {
+    "1": 0.369470368124655,
+    "2": 0.724073759843367,
+    "4": 1.3011013994610052,
+    "8": 1.5651280643941805
+  },
+  "status": "correctness_failed"
+}

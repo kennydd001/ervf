@@ -4,7 +4,41 @@ Datum: 2026-08-16 · alle getallen gemeten, geen schattingen · schrijver: Claud
 (sessie 2026-08-16, in-graph attributie)
 
 **Kort antwoord: single-stream is NIET veelbelovend genoeg voor 100 tok/s. Ga
-naar batch. De fysica is daar niet marginaal beter maar een orde beter.**
+naar batch — maar met een fors lagere verwachting dan de eerste versie van deze
+nota schreef.**
+
+> ### ⚠️ STATUS 2026-08-16, na twee correcties op mijn eigen metingen
+>
+> De oorspronkelijke claim hieronder ("een orde beter", ×3,61 bij N=4) is
+> **niet houdbaar**. Twee fouten, allebei gecorrigeerd:
+> 1. de twee Mamba-shapes zijn **FP8**, niet BF16 (890 van 1686 MB/token);
+> 2. veel belangrijker: de baseline was de **one-block-per-row**-kernel, maar
+>    productie routeert deze shapes naar **ERVF-16**, dat **3,4-3,7× sneller**
+>    is. Vrijwel de hele gemeten "batchwinst" was terrein terugwinnen dat ERVF
+>    al had.
+>
+> **Eerlijke meting, batching gebouwd op de ERVF-geometrie, N=1 bitexact tegen
+> productie-ERVF: ×1,38 bij N=2 en ×1,64 bij N=4** op 890 MB/token — niet ×3,5.
+> Reden: ERVF haalt bij N=1 al **247-266 GB/s = 77% van het apparaatplafond**,
+> dus er is nauwelijks bandbreedte over om terug te winnen, en bij N=4 wordt de
+> kernel rekengebonden.
+>
+> Herziene projectie: **N=4 ≈ 13,0 ms ≈ 77 tok/s** (was 88). **Batch haalt de
+> 100 bij N=4 dus niet, en bij N=8 is de marge onduidelijk.**
+>
+> Ondergrens-voorbehoud: mijn batched ERVF-kernel leest X uit global omdat N
+> kopieën in shared de 48 KB-limiet overschrijden. Een getegelde versie die X
+> in shared houdt kan beter zijn; hoeveel is **niet gemeten**.
+>
+> **Wat er vóór B1 eerst moet gebeuren:** (a) een getegelde batched
+> ERVF-kernel om de echte bovengrens te bepalen; (b) de niet-ERVF-shapes
+> (shared_up, routed_up — samen 677 MB/token) apart meten tegen hún
+> productiekernel, want daar geldt de row-block-baseline wél en staat de ~3,6×
+> waarschijnlijk overeind.
+>
+> **Methodische regel die hieruit volgt:** vergelijk een kandidaat altijd met
+> wat de runtime daadwerkelijk uitvoert voor díe shape. Check
+> `BF16_ERVF_SHAPES` / `FP8_ERVF_SHAPES` vóór je een baseline kiest.
 
 > **UPDATE dezelfde dag — de kernclaim is nu GEMETEN, niet meer beredeneerd.**
 > `diag_batched_gemv_scaling.json`: Y[N,rows] = W·X[N,cols] op de zes echte

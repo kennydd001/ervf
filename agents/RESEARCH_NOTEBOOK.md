@@ -279,6 +279,53 @@ expliciet weerlegd, `hypothesis_supported_gt_2x: false`.
 **Artefacten.** `pro_research/diag_alloc_pressure.py`,
 `pro_research/diag_alloc_pressure.json`.
 
+**Vierde ronde, fijnere profilering: het mysterie verplaatst zich, en dat
+IS de bevinding.** Sectie 1 verder opgesplitst in zijn zeven losse
+kernel-aanroepen (`use_state`, `norm`, `acc.fill`, twee shared-expert-
+GEMV's, `mv_f32`, `route_topk`) — **elk daalt naar bijna niets** (samen nog
+geen 2% van de tijd). Het "mysterie" verplaatste zich niet weg, het
+verplaatste zich naar de sync-grens zelf: `use_state()` (triviale Python
+`setattr`-lus, geen GPU-werk) ving alsnog 52,6% op — een teken dat de
+`cp.cuda.Device(0).synchronize()` in `_prof_mark` daar **wachtend werk uit
+eerdere, nog niet gesynchroniseerde aanroepen** opving, niet de kost van
+`use_state()` zelf.
+
+**Dus ook `multi_step`'s Mamba/attentie-lagen geprofileerd** (nooit eerder
+gedaan in beide MoE-scripts — die lagen liggen BUITEN `shared_moe_layer`).
+**Resultaat: het "mysterie" verschijnt OOK daar, en in de triviale
+MoE-add-back-stap** (`for s: use_state(); k.add_(...)` — twee bijna-gratis
+operaties): `M_mamba_layer` 27,0% (31,58 s), `E_moe_layer_addback` 35,9%
+(41,93 s) — de GROOTSTE losse post nu, ondanks dat de code erin triviaal
+is. **Dit is de belangrijkste bevinding van deze hele deelinvestigatie**:
+de vertraging is NIET gelokaliseerd in de MoE-cache-code — hij verschijnt
+overal, ook in Mamba-verwerking die he-le-maal niets met de cache te maken
+heeft. Dat wijst op een **globaal, doorlopend effect** (vermoedelijk
+werkelijk méér totaal GPU-/PCIe-werk over de hele stap, of een
+systeembrede contentie die alleen zichtbaar wordt bij dit soort
+ongelijk verdeelde, sync-gebaseerde profilering) in plaats van een bug in
+één specifieke sectie.
+
+**Eerlijke grens van dit onderzoeksinstrumentarium.** Sync-gebaseerde
+sectieprofilering (het enige gereedschap beschikbaar zonder Nsight
+Compute/Systems) blijkt zijn eigen grens te hebben zodra het werk zo
+ongelijk verdeeld en asynchroon opgestapeld raakt: elke sync-grens kan
+wachtend werk van willekeurig welke eerdere, nog niet gesynchroniseerde
+aanroep opvangen, wat sectie-toewijzing onbetrouwbaar maakt bij grote,
+onregelmatige vertragingen zoals deze. Dit is zelf een waardevolle,
+eerlijke conclusie: verder verfijnen van DEZE profileringsaanpak zal het
+mysterie niet oplossen — dat vraagt echt Nsight Compute/Systems (buiten
+bereik van dit script-gebaseerde kader), of een volledig herontwerp naar
+CUDA-graph-residentie (routekaart-item 2) die het hele probleem van
+"waar precies gaat tijd verloren binnen een asynchrone stapel" irrelevant
+maakt door alles in één opname te vangen.
+
+**Poorten.** Correctheid: bitexact bevestigd bij elke stap in deze hele
+investigatie. Geen tok/s-winstclaim.
+
+**Artefacten (definitief bijgewerkt).** `pro_research/proto_multi_seq_moe_shared_warmcache.py`
+(fijnkorrelige `PROFILE`-instrumentatie in zowel `shared_moe_layer` als
+`multi_step`, standaard uit).
+
 ---
 
 ## 2026-08-16 — Robuustheidscontrole van de N=2-naive-baseline: het cijfer krimpt bij een langere horizon — eerlijke bijstelling, geen tegenspraak

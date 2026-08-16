@@ -540,10 +540,22 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       op elkaar volgende, elk getoetste verklaringen voor de 6,5×-
       regressie zijn nu weerlegd (eviction-scan tweemaal, geheugendruk
       eenmaal). **De werkelijke oorzaak blijft onbekend** — eerlijk als
-      open vraag gelaten, geen vierde ongeverifieerde gok. Verder
-      onderzoek zou Nsight Compute/Systems vereisen. Zie
-      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Derde poging" en beide
-      vervolgen direct erna.
+      open vraag gelaten, geen vierde ongeverifieerde gok.
+      **[NOG FIJNER GEPROFILEERD, ZELFDE DAG]**: sectie 1 opgesplitst in 7
+      losse kernels (allemaal <2% samen) én, voor het eerst, ook Mamba/
+      attentie-lagen geprofileerd (lagen buiten `shared_moe_layer`, nooit
+      eerder gemeten). **Belangrijkste bevinding: de vertraging is NIET
+      gelokaliseerd in de MoE-cache-code — hij verschijnt OOK in Mamba-
+      verwerking (27,0%) en de triviale MoE-add-back-stap (35,9%, de
+      grootste losse post), code die niets met de cache-wijziging te maken
+      heeft.** Wijst op een globaal, doorlopend effect (mogelijk
+      werkelijk meer totaal PCIe-werk, of systeembrede contentie), niet
+      een bug in één sectie. **Eerlijke grens bereikt**: sync-gebaseerde
+      profilering (het enige beschikbare gereedschap) kan bij zo'n ongelijk
+      verdeelde vertraging geen betrouwbare sectie-toewijzing meer geven —
+      verder onderzoek vraagt echt Nsight Compute/Systems, buiten bereik
+      hier. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Derde poging" en
+      alle vervolgen direct erna.
 - [WEERLEGD-VOOR-DEZE-AANPAK, CORRECTHEID BEVESTIGD 2026-08-16] **Expliciete
       unie-gevoede MoE-deling geïntegreerd in de echte staplus — bitexact
       correct, maar 12× TRAGER, niet sneller.**

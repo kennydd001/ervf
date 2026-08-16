@@ -1,15 +1,16 @@
 {
   "kind": "proto_multi_seq_moe_shared_warmcache",
-  "created_utc": "2026-08-16T04:44:40.382234+00:00",
+  "created_utc": "2026-08-16T04:54:39.219362+00:00",
   "phase_reached": "phaseC_timing_measured",
   "environment": {
-    "created_utc": "2026-08-16T04:44:40.383473+00:00",
+    "created_utc": "2026-08-16T04:54:39.220683+00:00",
     "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
     "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
     "platform": "Windows-11-10.0.26200-SP0",
-    "git_head": "680b69dbe378cb2fa48293f2d46d9e62fc2cbaf5",
+    "git_head": "1e93c3b1dd841e65dd59f4380e5513b7646979a2",
     "git_status": [
-      "M pro_research/proto_multi_seq_moe_shared_warmcache.py",
+      "M pro_research/proto_multi_seq_moe_shared_warmcache.json",
+      " M pro_research/proto_multi_seq_moe_shared_warmcache.py",
       "?? pro_research/SOURCE_MANIFEST_SHA256.json",
       "?? pro_research/install_console.log",
       "?? pro_research/results/history/",
@@ -18,7 +19,7 @@
       "?? pro_research/smoke_v2_console.log"
     ],
     "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
-    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 7814 MiB, 75, 37.41 W, 2827 MHz, 9001 MHz, P4",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 7814 MiB, 76, 37.29 W, 2835 MHz, 9001 MHz, P4",
     "source_hashes": {
       "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
     }
@@ -28,10 +29,10 @@
   "cache_cap": 72,
   "phaseB_equivalence_pass": true,
   "note": "same shared_moe_layer pipeline as proto_multi_seq_moe_shared.py (11.234 tok/s, fresh per-call cache) but with ONE persistent per-layer device-cache (cap=72) built once and reused/evolving across all real decode steps, combining within-step union-sharing with cross-step warm-cache reuse for the first time",
-  "total_wall_ms_for_all_real_tokens": 46839.88671875,
+  "total_wall_ms_for_all_real_tokens": 56137.66015625,
   "total_real_tokens_across_all_sequences": 80,
-  "ms_per_real_token_aggregate": 585.498583984375,
-  "aggregate_tok_s": 1.7079460605948904,
+  "ms_per_real_token_aggregate": 701.720751953125,
+  "aggregate_tok_s": 1.425068301338764,
   "tokens_by_sequence": [
     [
       6990,
@@ -119,28 +120,48 @@
     ]
   ],
   "profile_section_seconds": {
-    "1_routing_and_shared_expert": 35.140876000456046,
-    "2a_ids_copy": 0.1571023998549208,
-    "2b_cache_assign": 0.1012834005523473,
-    "2c_cache_fetch": 1.8240497995866463,
-    "2d_host_sync": 0.2767613996984437,
-    "3_up_proj_gemv_and_panel_scan": 9.381659000820946,
-    "4_union_mask_build": 1.568970299558714,
-    "5a_down_proj_gather_batched": 7.239332699507941,
-    "5b_down_proj_masked_reduce_batched": 9.181397300679237,
-    "6_accumulate": 0.13145620137220249
+    "0_embed": 0.35169710021000355,
+    "M_mamba_layer": 31.577509500435553,
+    "1a_use_state": 0.16936520114541054,
+    "1b_norm": 0.12021390005247667,
+    "1c_acc_fill": 0.08042849943740293,
+    "1d_shared_up_gemv": 0.7573726988048293,
+    "1e_shared_down_gemv": 0.6083769981050864,
+    "1f_mv_f32_gate": 0.36598920269170776,
+    "1g_route_topk": 0.14179969870019704,
+    "2a_ids_copy": 0.059596601116936654,
+    "2b_cache_assign": 0.05662219930673018,
+    "2c_cache_fetch": 1.6247323996503837,
+    "2d_host_sync": 0.25757590093417093,
+    "3_up_proj_gemv_and_panel_scan": 9.242847399611492,
+    "4_union_mask_build": 1.5703338002203964,
+    "5a_down_proj_gather_batched": 9.920982399082277,
+    "5b_down_proj_masked_reduce_batched": 16.564895901130512,
+    "6_accumulate": 0.19788389949826524,
+    "E_moe_layer_addback": 41.92812919965945,
+    "S_attention_layer": 1.3425869996426627
   },
   "profile_section_fraction": {
-    "1_routing_and_shared_expert": 0.5406048378808207,
-    "2a_ids_copy": 0.0024168525964792433,
-    "2b_cache_assign": 0.0015581369210861265,
-    "2c_cache_fetch": 0.02806105761789448,
-    "2d_host_sync": 0.004257678482850128,
-    "3_up_proj_gemv_and_panel_scan": 0.1443268017315826,
-    "4_union_mask_build": 0.02413693199969613,
-    "5a_down_proj_gather_batched": 0.11136940013481805,
-    "5b_down_proj_masked_reduce_batched": 0.14124598940529226,
-    "6_accumulate": 0.002022313229480272
+    "0_embed": 0.0030075277039065327,
+    "M_mamba_layer": 0.2700341702738622,
+    "1a_use_state": 0.001448321678564799,
+    "1b_norm": 0.001028005731598554,
+    "1c_acc_fill": 0.000687782014970222,
+    "1d_shared_up_gemv": 0.006476650994500274,
+    "1e_shared_down_gemv": 0.005202518517007937,
+    "1f_mv_f32_gate": 0.0031297462099309794,
+    "1g_route_topk": 0.0012125960719943164,
+    "2a_ids_copy": 0.0005096386316828547,
+    "2b_cache_assign": 0.0004842031195862119,
+    "2c_cache_fetch": 0.013893852694450171,
+    "2d_host_sync": 0.00220265295748995,
+    "3_up_proj_gemv_and_panel_scan": 0.07903994545509005,
+    "4_union_mask_build": 0.013428664625678181,
+    "5a_down_proj_gather_batched": 0.08483899752768094,
+    "5b_down_proj_masked_reduce_batched": 0.14165423401338792,
+    "6_accumulate": 0.001692198512705169,
+    "E_moe_layer_addback": 0.3585471988982908,
+    "S_attention_layer": 0.01148109436762199
   },
   "profile_note": "PROFILE=True adds sync points at section boundaries, changing async overlap -- absolute numbers are NOT the same run as a PROFILE=False timing; only relative fractions are meaningful."
 }

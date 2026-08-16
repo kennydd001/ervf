@@ -134,18 +134,23 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k, layer_cache):
     all_w_dev = cp.zeros(P, dtype=cp.float32)
     for s in range(N_):
         use_state(rt, states[s])
+        t0 = _prof_mark(cp, "1a_use_state", t0)
         k.norm(rt.normed, rt.h, d["norm"], hidden, rt.eps)
+        t0 = _prof_mark(cp, "1b_norm", t0)
         rt.acc.fill(0)
+        t0 = _prof_mark(cp, "1c_acc_fill", t0)
         fused.gemv_into(rt._act_shared, d["sh_up_c"], d["sh_up_s"], rt.normed,
                         d["sh_up_g"], shared_inter, hidden, apply_relu2=True)
+        t0 = _prof_mark(cp, "1d_shared_up_gemv", t0)
         fused.gemv_into(rt.acc, d["sh_dn_c"], d["sh_dn_s"], rt._act_shared,
                         d["sh_dn_g"], hidden, shared_inter)
+        t0 = _prof_mark(cp, "1e_shared_down_gemv", t0)
         k.mv_f32(rt.rlog, d["gate_w"], rt.normed, n_experts, hidden)
+        t0 = _prof_mark(cp, "1f_mv_f32_gate", t0)
         fused.route_topk(rt.rlog, d["gate_b"], all_ids_dev[s * top_k:(s + 1) * top_k],
                          all_w_dev[s * top_k:(s + 1) * top_k], n_experts, top_k,
                          scaling, bad_pick=rt._bad_pick)
-
-    t0 = _prof_mark(cp, "1_routing_and_shared_expert", t0)
+        t0 = _prof_mark(cp, "1g_route_topk", t0)
 
     # persistent, evolving cache: cache_assign carries slot_of/expert_of/
     # last_used/state2 across calls (that IS its production-intended
@@ -282,6 +287,8 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k, layer_cache):
 def multi_step(rt, states, token_ids, gk, scan_k, layer_caches):
     cp, k = rt.cp, rt.k
     N_ = len(states)
+    import time
+    t0 = time.perf_counter() if PROFILE else None
     for s in range(N_):
         use_state(rt, states[s])
         tid = token_ids[s]
@@ -290,6 +297,7 @@ def multi_step(rt, states, token_ids, gk, scan_k, layer_caches):
         else:
             row = rt.embed[tid * rt.hidden:(tid + 1) * rt.hidden]
         rt.h[:] = (row.astype(cp.uint32) << cp.uint32(16)).view(cp.float32)
+    t0 = _prof_mark(cp, "0_embed", t0)
 
     for i, ch in enumerate(rt.pattern):
         d = rt.layer[i]
@@ -299,17 +307,20 @@ def multi_step(rt, states, token_ids, gk, scan_k, layer_caches):
                 k.norm(rt.normed, rt.h, d["norm"], rt.hidden, rt.eps)
                 rt._mamba(i, rt.acc)
                 k.add_(rt.h, rt.acc, rt.hidden)
+            t0 = _prof_mark(cp, "M_mamba_layer", t0)
         elif ch == "*":
             for s in range(N_):
                 use_state(rt, states[s])
                 k.norm(rt.normed, rt.h, d["norm"], rt.hidden, rt.eps)
                 rt._attention(i, rt.acc)
                 k.add_(rt.h, rt.acc, rt.hidden)
+            t0 = _prof_mark(cp, "S_attention_layer", t0)
         else:
             shared_moe_layer(rt, states, i, d, gk, scan_k, layer_caches[i])
             for s in range(N_):
                 use_state(rt, states[s])
                 k.add_(rt.h, rt.acc, rt.hidden)
+            t0 = _prof_mark(cp, "E_moe_layer_addback", t0)
 
     next_tokens = []
     for s in range(N_):

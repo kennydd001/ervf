@@ -8,6 +8,7 @@ Dit is het startpunt. Drie bestanden, elk met één taak:
 | [`TODO.md`](TODO.md) | De enige actieve takenlijst. Afvinken doe je hier. |
 | [`RESEARCH_NOTEBOOK.md`](RESEARCH_NOTEBOOK.md) | Chronologisch logboek. Elke fase schrijft hier één blok bij, nieuwste bovenaan. |
 | [`BATCH_ARCHITECTURE_DESIGN.md`](BATCH_ARCHITECTURE_DESIGN.md) | Ontwerpnotitie voor batch>1 (2026-08-16) — de meest kansrijke, nog niet gebouwde richting boven het batch=1-plafond. Geen code, wel de stappen, risico's en aanbevolen volgende meting. |
+| [`PATH_TO_100_TOKS.md`](PATH_TO_100_TOKS.md) | **Als het doel 100 tok/s is, lees dit.** Eerlijke plafondanalyse (single-stream vs. aggregate) en de precieze resterende technische stappen, geen vage "meer engineering nodig". |
 
 Voor een agent die nieuw begint staat de volledige startprompt in
 [`AGENT_HANDOFF_PROMPT.md`](AGENT_HANDOFF_PROMPT.md).

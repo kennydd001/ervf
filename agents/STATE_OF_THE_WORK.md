@@ -2,6 +2,10 @@
 
 Bijgewerkt: 2026-08-16 (na PRO V3 + model-identiteitsonderzoek) · lees dit vóór je iets aanraakt
 
+**Voor een eerlijke plafondanalyse en concrete routekaart naar 100 tok/s
+(single-stream vs. aggregate, wat wél en niet bereikbaar is, en de precieze
+resterende technische stappen): zie `agents/PATH_TO_100_TOKS.md`.**
+
 ## ⚠️ Modelidentiteit — lees dit eerst
 
 **Alles hieronder gemerkt vóór 2026-08-16 is gemeten op `models/nemotron_3_5_lightning`,

@@ -11,6 +11,63 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Eerste **onbevangen** componentattributie van het hele project (alle poorten groen): MoE 47,6%, Mamba 24,5%, attention 8,3% van een token
+
+**Vraag.** Waar gaat een token echt heen? De enige bestaande attributie
+(`diag_v6_component_breakdown`) stubt componenten naar nul en is daarmee
+onbruikbaar: dat verandert de residual stream → de MoE-routing → welke experts
+de LRU missen → het PCIe-verkeer. Andere werklast, geen attributie. (Die arm gaf
+Mamba een NEGATIEVE bovengrens van −0,429 ms, "gratis".)
+
+**Opzet.** S12's marginale methode: de échte lus, met exact één extra aanroep
+van één component naar een weggegooide kladbuffer. Residual stream, routing,
+cache en geproduceerde tokens blijven bit-identiek — en dát is de poort.
+Armen BASE_A → MARGINAL_MAMBA → MARGINAL_ATTN → MARGINAL_MOE → BASE_B, eager,
+3 prompts × 192 tokens per arm, preheat 128.
+
+**Een echte bug die de eerste run ving.** MARGINAL_MAMBA divergeerde (bij
+gegenereerd token 0 / 3 / 7), ATTN en MOE niet. Oorzaak: `_mamba` is
+**stateful** — `conv_step` schrijft `self.conv[i]`, `ssm_step` schrijft
+`self.ssm[i]` — dus een tweede aanroep laat de recurrentie twee keer
+voortlopen. De probe krijgt nu zijn eigen kladrecurrentie-state (`conv`/`ssm`
+zijn per-laag dicts, geen gestapelde array — ook dat kostte een correctie).
+`_attention` en `_moe_dev` bleken wél idempotent binnen een token (de KV-append
+is positie-geadresseerd; een herhaalde `cache_assign` her-hit de ids die hij net
+installeerde) — **geverifieerd, niet aangenomen**: hun ids matchten al in de
+eerste run.
+
+**Uitkomst (alle poorten groen: G1 alle armen bitexact, G2 drift 0,0397 ms).**
+
+| component | marginaal ms/token | % van token | bytes/token | GB/s behaald |
+|---|---:|---:|---:|---:|
+| **MoE** | **11,004** | **47,6%** | 741 MB (677 VRAM + 64 PCIe) | 67,4 |
+| **Mamba** | **5,662** | **24,5%** | 892 MB | 157,5 |
+| **attention** | **1,917** | **8,3%** | 281 MB | 146,5 |
+| som | 18,58 | 80,3% | | |
+| rest (lm_head, norms, embed, argmax, lijm) | ~4,56 | 19,7% | | |
+
+basis-midden 23,141 ms. **Alle drie zijn ondergrenzen**: de probe draait direct
+na de echte aanroep, dus tot 32 MB (L2) van de zojuist gelezen gewichten is nog
+warm. De echte kosten liggen hoger.
+
+**Hoofdruimte, met het eerlijke kernelplafond van 249 GB/s en 25,9 GB/s PCIe:**
+
+| component | vloer | gemeten | **hoofdruimte** |
+|---|---:|---:|---:|
+| MoE | 2,72 VRAM + 2,47 PCIe = 5,19 | 11,00 | **5,81 ms** |
+| Mamba | 3,58 | 5,66 | **2,08 ms** |
+| attention | 1,13 | 1,92 | **0,79 ms** |
+
+**Wat dit sluit of opent.** Sluit: "Mamba is gratis" (het is 24,5%) en alle vier
+de stub-bovengrenzen uit `diag_v6_component_breakdown`. Opent: **MoE blijft met
+afstand het grootste doel (5,8 ms hoofdruimte)**, en van die 5,8 is 2,47 ms
+zuivere PCIe-tijd die alleen door **overlap** verdwijnt, niet door een snellere
+kernel. Dat sluit precies aan op de plafondrekening hieronder.
+
+**Artefacten.** `pro_research/diag_component_marginals_v6.py` + `.json`.
+
+---
+
 ## 2026-08-16 — De dense-GEMV-bandbreedte eindelijk eerlijk vastgepind: **209-229 GB/s koud**, niet 336 (L2-artefact) en niet 128 (E5). Het echte plafond van deze machine is daarmee ~88-117 tok/s, niet 165 — en de LUT-hypothese is weerlegd
 
 **Vraag.** De byte-boekhouding wees 1661 van de 2048 MB/token toe aan dense
@@ -62,31 +119,40 @@ het **vlak** — dat is de echte koude-DRAM-snelheid van deze kernel.
 - **345,9 GB/s** — wat het geheugensysteem levert bij puur streamen
   (`diag_vram_bandwidth_check`, 512 MiB, byte-geverifieerd; copy 316,1, triad
   330,1 — het projectgetal 338,4 houdt stand);
-- **209-229 GB/s** — wat déze GEMV-kernel haalt op een koude werkset:
-  **60-66% van het apparaat**. Dit is het eerlijke kernelplafond;
-- **152-154 GB/s** — wat er in de échte lus uitkomt, en dat is nog een
+- **~230-261 GB/s** — wat déze GEMV-kernel haalt op een koude werkset:
+  **67-76% van het apparaat**. Dit is het eerlijke kernelplafond.
+  ⚠️ **Zelfcorrectie:** dit blok schreef eerst 209-229 GB/s op basis van
+  `diag_gemv_l2_vs_dram` alleen. Die run liep deels op een **zwaar
+  gethrottelde SM-klok** — de eigen klokregistratie in dat bestand toont
+  795 MHz bij twee armen tegen 1732-1777 MHz bij de andere. De herhaling in
+  `diag_gemv_width32` (koud, 4-9,9× L2, koelere klok) geeft voor dezelfde
+  w16-kernel 230,5 / 234,8 / 248,2 / 261,2 GB/s. De hogere reeks is de
+  eerlijke; 209-229 is throttle-besmet en moet niet geciteerd worden.
+- **146-158 GB/s** — wat er in de échte lus uitkomt, en dat is nog een
   **onderschatting van de kost**: de marginale probe roept de component direct
   na de echte aanroep aan, dus tot 32 MB van de zojuist gelezen gewichten zit
-  nog in L2. De werkelijke in-lus-kost van Mamba ligt dus **boven** de gemeten
-  5,776 ms.
+  nog in L2. De werkelijke in-lus-kost ligt dus **boven** de gemeten waarden.
 
-**Waarom dit het 100-doel raakt.** `PATH_TO_100_TOKS.md` rekent (en mijn eigen
-correctie van vanochtend rekende) met 345,9 GB/s. Met het eerlijke kernelplafond
-van ~229 GB/s wordt de VRAM-vloer 2048/229 = **8,94 ms**, plus 2,47 ms PCIe als
-die serieel is → **11,4 ms = 88 tok/s**. **Met de kernels zoals ze nu zijn ligt
-100 tok/s dus buiten bereik**, ook bij perfecte overlap en nul overhead. 100
-tok/s vereist dat de GEMV-kernel zelf dichter bij het apparaatplafond komt — dat
-is nu een scherp geformuleerde, meetbare voorwaarde in plaats van een vaag doel.
+**Waarom dit het 100-doel raakt.** Met het eerlijke kernelplafond van
+249 GB/s wordt de VRAM-vloer 2048/249 = **8,22 ms**; plus 2,47 ms PCIe als die
+serieel is → **10,69 ms = 93,6 tok/s**, bij volledige overlap **8,22 ms =
+122 tok/s**. **Dat is de scherpste uitspraak die dit project tot nu toe heeft:
+100 tok/s is onbereikbaar zolang de down_proj-PCIe-gather serieel achter het
+VRAM-werk aan loopt, en bereikbaar zodra een substantieel deel ervan eronder
+verstopt wordt.** Overlap is daarmee geen "nice to have" meer maar de
+poortvoorwaarde — precies B3 (double-buffer expert fetch) uit
+`POST_V6_100TPS_PLAN.md`.
 
-**Waarom haalt de kernel maar 60-66%?** Werkhypothese, nog niet getest: een
-blok behandelt 16 rijen tegelijk (`PRO_ROWS_PER_BLOCK = 256/PRO_WIDTH = 16`),
-dus met ~130 blokken in de lucht lopen er ~2080 gelijktijdige leesstromen door
-DRAM, elk op een eigen rij-offset. Bovendien leveren 16 lanes × 4 B = **64 B per
-instructie, precies een halve cacheline**. Een variant met 32 lanes per rij
-(volle 128 B) en 8 rijen per blok zou beide adresseren — maar verandert de
-reductieboom, dus dat moet met dezelfde ERVF-techniek exact gereproduceerd
-worden. Dat is de eerstvolgende kernelvraag; `read_only` haalde 345,9 GB/s, dus
-het apparaat kán het.
+**En de kernelgeometrie-hypothese is óók weerlegd.** Werkhypothese was dat
+`PRO_WIDTH = 16` zorgt voor 16 lanes × 4 B = 64 B per instructie (een halve
+cacheline) en 16 gelijktijdige rij-streams per blok. Een 32-lane-variant
+(volle 128 B, 8 rijen per blok) is gebouwd en is **bitexact op alle vier de
+echte shapes** — de ERVF-afbeelding is bij width 32 zelfs directer dan bij 16,
+want virtuele tid `t = lane + 32·vj` valt exact in referentiewarp `vj` op
+positie `lane`, dus `acc[vj]` ís die warp en een gewone 32-brede
+shuffle-reductie reproduceert de 16/8/4/2/1-boom letterlijk. Maar de snelheid is
+**neutraal**: 0,954 / 1,033 / 1,068 / 0,982× — ruis rond 1,0. De cacheline-breedte
+was niet de rem. `diag_gemv_width32.json`.
 
 **Artefacten.** `pro_research/diag_fp8_lutfree_gemv.py` + `.json`,
 `pro_research/diag_gemv_l2_vs_dram.py` + `.json`,

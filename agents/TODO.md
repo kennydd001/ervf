@@ -175,20 +175,30 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
-- [ ] **HOOGSTE PRIORITEIT — 32-lane ERVF-GEMV. Dit is de poortvoorwaarde voor
-      100 tok/s, niet zomaar een optimalisatie.** De dense GEMV haalt op een
-      **koude** werkset **209-229 GB/s** tegen 345,9 GB/s die het apparaat
-      streamt (`diag_gemv_l2_vs_dram.json`; de eerder gemeten 336 GB/s was een
-      L2-artefact — Mamba's in_proj is 27,7 MB en L2 is 32 MB). Met 229 GB/s is
-      de VRAM-vloer 2048/229 = 8,94 ms, plus 2,47 ms PCIe → **11,4 ms = 88
-      tok/s**: **100 is onbereikbaar zolang de kernel op 60-66% zit.**
-      Werkhypothese: `PRO_WIDTH = 16` geeft 16 lanes × 4 B = 64 B per instructie
-      (een halve cacheline) en 16 gelijktijdige rij-streams per blok (~2080 in
-      de lucht). Een 32-lane/8-rijen-variant adresseert beide, maar verandert de
-      reductieboom — die moet met dezelfde ERVF-techniek exact gereproduceerd
-      worden. Poorten: bitexact op elke echte checkpoint-shape, dán koude-DRAM
-      A/B met de rotatie-harness uit `diag_gemv_l2_vs_dram.py`.
-      Raakt Mamba + attention + shared expert + lm_head = 1661 van 2048 MB/token.
+- [ ] **HOOGSTE PRIORITEIT — PCIe-gather overlappen met VRAM-werk (B3
+      double-buffer expert fetch). Dit is nu aantoonbaar DE poortvoorwaarde voor
+      100 tok/s.** De rekening, met alleen gemeten getallen: het eerlijke
+      kernelplafond is **249 GB/s** koud (`diag_gemv_width32.json`), dus de
+      VRAM-vloer is 2048/249 = **8,22 ms**; de sparse down_proj rijdt over PCIe
+      (25,9 GB/s gemeten) en kost daar **2,47 ms**.
+      - serieel: 8,22 + 2,47 = 10,69 ms = **93,6 tok/s** → **100 onbereikbaar**
+      - volledige overlap: 8,22 ms = **122 tok/s** → 100 haalbaar met 82%
+        efficiëntie
+      **100 tok/s staat of valt dus met het verstoppen van de PCIe-gather onder
+      het VRAM-werk.** Concreet: de gather van expert-slot s+1 moet lopen
+      terwijl de up-GEMV/masked-GEMV van slot s rekent (aparte stream +
+      double-buffered mirror, ~2,7 MB extra per buffer), en de MoE-marginaal
+      bevestigt de prijs: van MoE's 5,81 ms hoofdruimte is 2,47 ms zuivere
+      PCIe-tijd die géén snellere kernel ooit weghaalt.
+- [WEERLEGD 2026-08-16] **32-lane ERVF-GEMV (cacheline-breedte-hypothese)** —
+      gebouwd en **bitexact op alle vier de echte shapes** (bij width 32 valt
+      virtuele tid `lane + 32·vj` exact in referentiewarp `vj`, dus een gewone
+      32-brede shuffle-reductie reproduceert de boom letterlijk), maar de
+      snelheid is **neutraal**: 0,954 / 1,033 / 1,068 / 0,982×. 64 B versus
+      128 B per instructie was niet de rem. `diag_gemv_width32.json`.
+      Bijvangst: dezelfde run corrigeert het koude-GEMV-plafond van 209-229 naar
+      **230-261 GB/s** — de eerdere meting liep deels op 795 MHz SM-klok
+      (throttle), zichtbaar in haar eigen klokregistratie.
 - [WEERLEGD 2026-08-16] **FP8-decode-LUT als bottleneck** — de rekenkundige
       LUT-vrije e4m3-decode is bitidentiek op alle 256 bytewaarden maar
       **25-27% langzamer** op alle vier de echte shapes. De kernel is

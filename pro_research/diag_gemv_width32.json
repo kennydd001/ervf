@@ -1,0 +1,84 @@
+{
+  "kind": "diag_gemv_width32",
+  "created_utc": "2026-08-16T08:37:18.436275+00:00",
+  "note": "32 lanes per row (one full cacheline per instruction, 8 row streams per block) against the production 16 (half a cacheline, 16 streams). Cold working set ~10x L2 so the L2 artifact that inflated the earlier isolated figure cannot recur.",
+  "device": {
+    "l2_cache_mib": 32.0,
+    "read_gb_s_measured": 345.9
+  },
+  "rounds": 200,
+  "matrices_in_rotation": 12,
+  "arms": {
+    "mamba_in_proj": {
+      "rows": 10304,
+      "cols": 2688,
+      "weight_bytes": 27697152,
+      "working_set_bytes": 332365824,
+      "working_set_over_l2": 9.9052734375,
+      "bit_exact_w32_vs_w16": true,
+      "w16_ms": 0.10602080345153808,
+      "w16_gb_s": 261.24261558402844,
+      "w32_ms": 0.11110272407531738,
+      "w32_gb_s": 249.29318547782762,
+      "speedup": 0.9542592617231039,
+      "w16_frac_of_device": 0.7552547429431294,
+      "w32_frac_of_device": 0.7207088334137833
+    },
+    "mamba_out_proj": {
+      "rows": 2688,
+      "cols": 4096,
+      "weight_bytes": 11010048,
+      "working_set_bytes": 132120576,
+      "working_set_over_l2": 3.9375,
+      "bit_exact_w32_vs_w16": true,
+      "w16_ms": 0.0468942403793335,
+      "w16_gb_s": 234.78465395618556,
+      "w32_ms": 0.04539055824279785,
+      "w32_gb_s": 242.56251577930243,
+      "speedup": 1.0331276414026973,
+      "w16_frac_of_device": 0.6787645387574026,
+      "w32_frac_of_device": 0.701250406994225
+    },
+    "attn_qkv_like": {
+      "rows": 4608,
+      "cols": 2688,
+      "weight_bytes": 12386304,
+      "working_set_bytes": 148635648,
+      "working_set_over_l2": 4.4296875,
+      "bit_exact_w32_vs_w16": true,
+      "w16_ms": 0.05373136043548584,
+      "w16_gb_s": 230.52280641343495,
+      "w32_ms": 0.05028848171234131,
+      "w32_gb_s": 246.30499029284226,
+      "speedup": 1.0684625704716715,
+      "w16_frac_of_device": 0.6664434993160884,
+      "w32_frac_of_device": 0.7120699343534035
+    },
+    "attn_o_like": {
+      "rows": 2688,
+      "cols": 4096,
+      "weight_bytes": 11010048,
+      "working_set_bytes": 132120576,
+      "working_set_over_l2": 3.9375,
+      "bit_exact_w32_vs_w16": true,
+      "w16_ms": 0.04435423851013184,
+      "w16_gb_s": 248.22989571751916,
+      "w32_ms": 0.045170559883117675,
+      "w32_gb_s": 243.74389045629172,
+      "speedup": 0.9819280218111501,
+      "w16_frac_of_device": 0.7176348531873928,
+      "w32_frac_of_device": 0.7046657717730319
+    }
+  },
+  "summary": {
+    "all_shapes_bit_exact": true,
+    "min_speedup": 0.9542592617231039,
+    "max_speedup": 1.0684625704716715,
+    "best_w32_gb_s": 249.29318547782762,
+    "best_w32_frac_of_device": 0.7207088334137833,
+    "implied_machine_floor_ms_serial": 10.685226565758459,
+    "implied_machine_floor_tok_s_serial": 93.58715922829082,
+    "note": "the implied floor assumes ALL 2048 MB/token move at the best measured GEMV rate and the 2.47 ms of down_proj PCIe stays serial; it is a floor, not a prediction of the runner"
+  },
+  "status": "measured"
+}

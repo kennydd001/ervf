@@ -1,8 +1,8 @@
 {
   "kind": "diag_component_marginals_v6",
-  "status": "technical_failure",
+  "status": "measured",
   "mode": "full",
-  "started_utc": "2026-08-16T08:30:07.557321+00:00",
+  "started_utc": "2026-08-16T08:33:21.226504+00:00",
   "method": "S12 marginal: the real loop with exactly one extra call of one component into a discarded scratch buffer. Residual stream, routing, cache and produced tokens are bit-identical to the base arm, so the delta is unconfounded -- unlike the stub-ablation arms of diag_v6_component_breakdown.json, whose zeroed outputs change MoE routing and therefore the PCIe workload.",
   "caveat": "The marginal of a SECOND execution is a lower bound where L2 reuse is possible. Mamba (38.78 MB/layer), attention (46.80 MB/layer) and the MoE block all exceed L2 by a wide margin, so the bound is tight; it is still a bound.",
   "byte_accounting_source": "safetensors headers of models/nemotron_3_5_lightning_v35, per-layer, times the layer counts in config.layers_block_type",
@@ -12,7 +12,7 @@
     "capacity": 72
   },
   "environment": {
-    "created_utc": "2026-08-16T08:30:11.851941+00:00",
+    "created_utc": "2026-08-16T08:33:26.831767+00:00",
     "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
     "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
     "platform": "Windows-11-10.0.26200-SP0",
@@ -22,20 +22,136 @@
       "?? pro_research/diag_component_marginals_v6.json",
       "?? pro_research/diag_fp8_lutfree_gemv.json",
       "?? pro_research/diag_fp8_lutfree_gemv.py",
+      "?? pro_research/diag_gemv_l2_vs_dram.json",
+      "?? pro_research/diag_gemv_l2_vs_dram.py",
       "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
       "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
       "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
     ],
     "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
-    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 54, 11.03 W, 17872 MHz, 11001 MHz, P2",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 52, 11.26 W, 2287 MHz, 11001 MHz, P2",
     "source_hashes": {
       "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "a047fb8f536fa4bf30f7cdc83fdcccbaa633706def8aa49cd86d8ca8ab2fda53"
     }
   },
-  "error": {
-    "type": "AttributeError",
-    "message": "'dict' object has no attribute 'dtype'",
-    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\diag_component_marginals_v6.py\", line 173, in main\n    scratch_conv = cp.zeros_like(rt.conv)\n                   ^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Lib\\site-packages\\cupy\\_creation\\basic.py\", line 290, in zeros_like\n    dtype = a.dtype\n            ^^^^^^^\nAttributeError: 'dict' object has no attribute 'dtype'\n"
+  "arms": {
+    "BASE_A": {
+      "percentiles": {
+        "count": 765,
+        "mean": 23.389878039215684,
+        "p50": 23.1607,
+        "p95": 25.5447,
+        "p99": 27.89106,
+        "max": 31.4238
+      },
+      "tok_s": 43.17658792696248,
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "MARGINAL_MAMBA": {
+      "percentiles": {
+        "count": 765,
+        "mean": 29.050892679738563,
+        "p50": 28.8027,
+        "p95": 31.467599999999997,
+        "p99": 33.496628,
+        "max": 38.4132
+      },
+      "tok_s": 34.71896731903606,
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "MARGINAL_ATTN": {
+      "percentiles": {
+        "count": 765,
+        "mean": 25.304418300653595,
+        "p50": 25.0577,
+        "p95": 27.61996,
+        "p99": 29.738524,
+        "max": 31.7521
+      },
+      "tok_s": 39.90789258391632,
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "MARGINAL_MOE": {
+      "percentiles": {
+        "count": 765,
+        "mean": 34.388554771241836,
+        "p50": 34.1449,
+        "p95": 37.251639999999995,
+        "p99": 39.480388,
+        "max": 41.8779
+      },
+      "tok_s": 29.28695061341518,
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "BASE_B": {
+      "percentiles": {
+        "count": 765,
+        "mean": 23.322976470588237,
+        "p50": 23.121,
+        "p95": 25.729979999999998,
+        "p99": 28.120656,
+        "max": 29.8042
+      },
+      "tok_s": 43.25072444963453,
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    }
   },
-  "completed_utc": "2026-08-16T08:30:40.400044+00:00"
+  "baseline_midpoint_ms": 23.14085,
+  "drift_ms": 0.039699999999999847,
+  "marginals": {
+    "mamba": {
+      "marginal_ms_per_token": 5.661850000000001,
+      "fraction_of_base_token": 0.24466905926100385,
+      "bytes_per_token": 892000000,
+      "roofline_ms_at_338_4_GB_s": 2.6359338061465722,
+      "achieved_GB_s": 157.54567853263507,
+      "efficiency_vs_device_bw": 0.46556051575837787
+    },
+    "attn": {
+      "marginal_ms_per_token": 1.9168500000000002,
+      "fraction_of_base_token": 0.08283403591484324,
+      "bytes_per_token": 280800000,
+      "roofline_ms_at_338_4_GB_s": 0.8297872340425532,
+      "achieved_GB_s": 146.4903357070193,
+      "efficiency_vs_device_bw": 0.4328910629640051
+    },
+    "moe": {
+      "marginal_ms_per_token": 11.00405,
+      "fraction_of_base_token": 0.4755248834852652,
+      "bytes_per_token": 741300000,
+      "roofline_ms_at_338_4_GB_s": 2.1906028368794326,
+      "achieved_GB_s": 67.36610611547567,
+      "efficiency_vs_device_bw": 0.1990724175989234
+    }
+  },
+  "gates": {
+    "G1_all_arms_ids_match_base_a": true,
+    "G2_drift_le_1ms": true
+  },
+  "completed_utc": "2026-08-16T08:35:48.539130+00:00"
 }

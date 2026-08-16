@@ -11,6 +11,65 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Vlaggen-audit over álle kandidaatkernels: **precies één bestand heeft zowel een mismatch als een gevoelige operatie — en dat is exact de kandidaat die faalde.** De geadopteerde V6-stack is vrijgepleit
+
+**Vraag.** Als PV2-10 sneuvelde op een compileervlag, welke andere kandidaten
+lopen dan hetzelfde risico? En — belangrijker — staat er iets mis in de
+**geadopteerde** V6-stack?
+
+**Opzet.** Elke `RawModule(...)` in `pro_research/` en `pro_max_v2/` opgezocht,
+de vlaggen naast de module gelegd die de kernel vervangt, en per bestand geteld
+hoeveel **fast-math-gevoelige** operaties erin staan (`rsqrtf`, `__expf`,
+`__logf`, deling door een float, `__fdividef`). Alleen waar béíde fout zijn —
+mismatch én een gevoelige operatie — kan het verschil maken.
+
+| bestand | eigen vlaggen | vervangt (vlaggen) | gevoelige ops | verdict |
+|---|---|---|---:|---|
+| `ervf_dense.py` | fast-math | gpu_kernels (fast-math) | 0 | ✅ match |
+| `up_proj_batch_kernels.py` | fast-math | fused_nvfp4 (géén) | **0** | ⚠️ mismatch, **onschadelijk** |
+| `down_proj_batch_kernels.py` | géén | fused_nvfp4 (géén) | 0 | ✅ match |
+| `scale_resident_kernels.py` | géén | fused_nvfp4 (géén) | 0 | ✅ match |
+| `gather_small_grid.py`, `moe_dev_overlap` | géén | fused_nvfp4 (géén) | 0 | ✅ match |
+| `pro_max_v2/qkv_v8.py` | **fast-math** | gpu_kernels (fast-math) | 0 | ✅ match |
+| **`pro_max_v2/addnorm_v7.py`** | **géén** | gpu_kernels `rmsnorm` (**fast-math**) | **1** | ❌ **mismatch + gevoelig** |
+
+**Precies één bestand in de hele codebase heeft beide problemen, en dat is
+`addnorm_v7.py` — PV2-10, de enige kandidaat die op causale pariteit faalde.**
+Alle andere matchen óf hebben nul gevoelige operaties, waardoor de vlag daar
+geen verschil maakt.
+
+**Een natuurlijk experiment binnen Kimi's eigen pakket.** `qkv_v8.py` gebruikt
+wél `--use_fast_math` en haalde causale pariteit op alle drie de prompts;
+`addnorm_v7.py` gebruikt hem niet en faalde bij token 124. Zelfde campagne,
+zelfde harness, zelfde prompts — het enige verschil is de vlag. Dat is zo dicht
+bij een gecontroleerd experiment als je achteraf kunt krijgen.
+
+**De geadopteerde V6-stack is vrijgepleit.** `up_proj_batch_kernels.py` heeft
+technisch een mismatch (fast-math terwijl `fused_nvfp4` het niet gebruikt), maar
+**nul gevoelige operaties** — alleen `fmaf`, LUT-lookups en shuffles — dus de
+vlag is daar een no-op. Dat verklaart ook waarom zijn bitexacte poorten tijdens
+de V6-bouw gewoon slaagden: het was geen geluk, er viel niets te verschillen.
+Wel opgeruimd zodra iemand die kernel aanraakt.
+
+**Eén kanttekening bij mijn eigen diagnostiek van vandaag.**
+`ssm_decode_step` bevat **twee** `__expf`-aanroepen en is dus zeer
+fast-math-gevoelig, terwijl mijn `diag_ssm_*`-scripts zonder de vlag compileren.
+Binnen elk script delen alle armen dezelfde vlag, dus de **A/B-vergelijkingen**
+(×0,685, ×0,945, ×1,031) blijven geldig. Maar de **absolute** ssm-tijden daarin
+wijken licht af van productie, en wie een van die varianten ooit integreert moet
+`--use_fast_math` toevoegen — anders herhaalt hij PV2-10 letterlijk.
+
+**Wat dit opent.** **PV2-10 is weer een geldige kandidaat**: zijn
+correctheidsfalen is verklaard en met één vlag opgelost. Of hij ook snelheid
+oplevert is een aparte vraag — mijn eigen versie van dezelfde fusie werd
++0,127 ms trager omdat de add zijn parallellisme verliest, dus de verwachting is
+laag. Maar hij hoort niet langer op de lijst "eerst debuggen".
+
+**Artefacten.** Audit reproduceerbaar met een grep op `RawModule(` in
+`pro_research/` en `pro_research/pro_max_v2/`.
+
+---
+
 ## 2026-08-16 — **PV2-10's onopgeloste bug gevonden en opgelost: een compileervlag.** De add+norm-fusie is nu bitexact — maar in de graph netto trager, dus alsnog niet adopteren
 
 **Aanleiding.** De complete tokenkaart wees kernel-fusie aan als goedkoopste

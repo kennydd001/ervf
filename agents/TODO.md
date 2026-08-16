@@ -190,6 +190,28 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       kernel zonder die vlag is enkele ulps anders dan de productie-norm die hij
       vervangt, en dat blaast via de MoE-routing over 124 tokens op tot een ander
       token. Met de vlag erbij: **bitexact PASS**, 765 tokens × 3 prompts.
+- [DONE 2026-08-16] **Vlaggen-audit over alle kandidaatkernels — geadopteerde
+      V6-stack vrijgepleit.** Elke `RawModule` in `pro_research/` en
+      `pro_max_v2/` nagelopen, vlaggen naast de vervangen module gelegd én
+      geteld hoeveel fast-math-**gevoelige** ops erin staan (`rsqrtf`, `__expf`,
+      `__logf`, float-deling). Alleen bij mismatch **én** een gevoelige op kan
+      het verschil maken. Resultaat: **precies één bestand heeft beide —
+      `pro_max_v2/addnorm_v7.py`, oftewel PV2-10, de enige kandidaat die op
+      causale pariteit faalde.** `up_proj_batch_kernels.py` heeft technisch een
+      mismatch maar **nul** gevoelige ops, dus de vlag is daar een no-op — dat
+      verklaart waarom zijn bitexacte poorten tijdens de V6-bouw slaagden.
+      Natuurlijk experiment binnen Kimi's eigen pakket: `qkv_v8.py` **mét** de
+      vlag haalde pariteit, `addnorm_v7.py` **zonder** faalde bij token 124.
+- [ ] **PV2-10 opnieuw indienen — hij staat niet langer op "eerst debuggen".**
+      Correctheidsfalen verklaard en met één vlag opgelost. Verwachting voor
+      snelheid is wel **laag**: mijn eigen versie van dezelfde fusie werd
+      +0,127 ms trager omdat de add zijn 11-blok-parallellisme verliest binnen
+      het ene blok van de norm.
+- [ ] ⚠️ **Bij integratie van een `diag_ssm_*`-variant: `--use_fast_math`
+      toevoegen.** `ssm_decode_step` bevat twee `__expf`-aanroepen en is dus zeer
+      gevoelig; mijn diagnostiek compileerde zonder de vlag. De A/B-verhoudingen
+      daarin blijven geldig (alle armen delen de vlag), maar de absolute tijden
+      wijken af en integreren zónder de vlag herhaalt PV2-10 letterlijk.
 - [ ] **MEETREGEL 4, vastgelegd 2026-08-16: bouw elke nieuwe kernel met dezelfde
       compileervlaggen als de module die hij vervangt.** Dit project is daarin
       **niet uniform** (zie tabel hierboven): `gpu_kernels`-werk vervangen vraagt

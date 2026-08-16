@@ -133,6 +133,21 @@ sequentie toch al gratis krijgt). Bijvangst: 1×72-slot gedeelde cache tegen
 4×72-slot naive — ~4× minder VRAM voor hetzelfde budget per sequentie. Zie
 `agents/RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Warme-cache-dynamiek".
 
+**Drie resterende risico's uit `BATCH_ARCHITECTURE_DESIGN.md` zijn nu ook
+gemeten (2026-08-16), en het beeld is per saldo positief maar genuanceerder:**
+1. **Staggered posities (continuous batching)** — unie krimpt licht
+   (89,4%→91,4% van max), geen ineenstorting.
+2. **VRAM per extra sequentie** — 60,16 MiB (Mamba-state domineert, niet
+   KV-cache); ruim budget (N tot 30) buiten graph-capture om, 0 MiB binnen
+   V6's volledige graph — het echte knelpunt is graph-capture zelf, niet
+   batch>1's eigen kost.
+3. **Eerste gecombineerde meting (up_proj + down_proj-deling tegelijk, één
+   laag, N=8)** — bitexact, maar **1,209× (+20,9%), kleiner dan de
+   afzonderlijke cijfers deden vermoeden**: down_proj se GEMV werd zelf
+   trager door een grotere gedeelde mirror (geheugenlocaliteit), een
+   interactie-effect dat pas zichtbaar werd toen beide mechanismen samen
+   draaiden. Zie `agents/RESEARCH_NOTEBOOK.md` 2026-08-16 voor alle drie.
+
 **Wat vaststaat over de doelen:** 50 en 100 tok/s zijn fysiek *niet*
 uitgesloten, maar 50+ vraagt méér dan graph-residentie alleen (plafond ~41,5
 bij ctx 64). **1000 tok/s is fysiek uitgesloten** — de gemeten streaming-

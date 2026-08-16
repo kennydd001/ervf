@@ -66,6 +66,38 @@ verborgen of afgezwakt negatief resultaat.
 **Artefacten.** `pro_research/proto_multi_seq_full_model_n4_bigcache.py`,
 `pro_research/proto_multi_seq_full_model_n4_bigcache.json`.
 
+**Correctie, direct erna, zelfde dag: de VOORGESTELDE verklaring
+(lineaire eviction-scan) is getoetst en WEERLEGD — de regressie zelf
+blijft staan, maar de oorzaak is onbekend, niet wat hierboven beweerd
+werd.** `pro_research/diag_cache_assign_scan_cost.py`: geïsoleerde
+micro-benchmark van `fused.cache_assign` zelf, cap ∈ {72,144,288,576}, elke
+aanroep een gegarandeerde volle-cache-eviction (worst case voor de
+lineaire scan), 200 herhalingen per cap. **Resultaat: de kost per aanroep
+STIJGT NIET met cap — hij daalt licht** (0,1012 → 0,0902 → 0,0882 → 0,0695
+ms/aanroep van cap 72 naar 576). Dit weerspreekt de eerder voorgestelde
+verklaring rechtstreeks: de lineaire scan is in de praktijk **niet** de
+dominante kost bij deze cap-groottes (vermoedelijk simpel genoeg om
+vast-overhead-gedomineerd te blijven, of de daling weerspiegelt iets
+anders zoals GPU-klokgedrag tussen opeenvolgende, zeer korte aanroepen —
+niet verder onderzocht).
+
+**Wat dit betekent voor de eerdere claim.** De REGRESSIE zelf
+(0,706×, binnen dezelfde run gemeten, bitexact gepoort) blijft een
+geldige, betrouwbare meting — die staat niet ter discussie. Maar de
+VERKLARING ervoor die ik voorstelde (lineaire eviction-scan) is nu
+**expliciet weerlegd door een gerichte test**, niet bevestigd zoals eerst
+gerapporteerd. **De werkelijke oorzaak van de bigcache-regressie is dus
+nog onbekend** — mogelijk cache_fetch-gedrag, geheugenlay-out-effecten, of
+iets anders, niet verder onderzocht. Dit is exact de reden waarom dit
+project bij elke claim een aparte toetsing eist in plaats van op de eerste
+plausibele verklaring te vertrouwen: de intuïtieve, uit de kernelbroncode
+afgeleide verklaring bleek fout bij directe meting.
+
+**Poorten.** Geen PRO-poorten (read-only micro-benchmark).
+
+**Artefacten.** `pro_research/diag_cache_assign_scan_cost.py`,
+`pro_research/diag_cache_assign_scan_cost.json`.
+
 ---
 
 ## 2026-08-16 — N=4 naive baseline: groeit het incidentele voordeel mee met N, zoals losstaande diagnostiek suggereerde? Verrassend: nee, vlak tot licht lager

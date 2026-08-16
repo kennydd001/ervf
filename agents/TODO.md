@@ -442,14 +442,23 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       zou dynamische toestand laten lekken tussen ground-truth-sequenties).
       **Bitexact, 15/15 tokens × 4 sequenties, PASS.** **Resultaat: 19,071
       tok/s aggregate tegen solo 27,013 — 0,706×, een ECHTE REGRESSIE, geen
-      herstel.** Vermoedelijke oorzaak: `cache_assign`'s eigen kernel doet
-      een lineaire scan over `cap` sloten per misser om te evicten — een
-      grotere cache maakt die scan duurder per misser, en die kost kan de
-      winst van minder missers overtreffen. **Cache-capaciteit vergroten is
-      dus niet gratis**, los van het VRAM-kostenaspect dat al gemeten was
-      — een reken-/latentiekost aan de LRU-structuur zelf, nooit eerder
-      apart vastgesteld. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
+      herstel.** Eerst voorgestelde verklaring (`cache_assign`'s lineaire
+      eviction-scan wordt duurder bij grotere cap) **direct getoetst en
+      WEERLEGD** (zie volgende item) — de regressie zelf staat vast, de
+      oorzaak is open. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
       "Grotere cache bij groter N".
+- [WEERLEGD 2026-08-16] **Verklaring voor de bigcache-regressie getoetst en
+      verworpen — geïsoleerde `cache_assign`-micro-benchmark.**
+      `pro_research/diag_cache_assign_scan_cost.py`: cap ∈ {72,144,288,576},
+      elke aanroep een gegarandeerde volle-cache-eviction (worst case voor
+      de lineaire scan), 200 herhalingen per cap. **Kost per aanroep STIJGT
+      NIET met cap — daalt licht** (0,1012→0,0695 ms van cap 72 naar 576).
+      **De eerder voorgestelde verklaring (lineaire scan wordt duurder) is
+      dus fout** — de regressie in `proto_multi_seq_full_model_n4_bigcache.py`
+      blijft een geldige meting, maar de werkelijke oorzaak is **nog
+      onbekend**, niet wat eerst gerapporteerd werd. Correctie toegepast op
+      de eerdere claim. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
+      "Correctie, direct erna".
 - [WEERLEGD-VOOR-DEZE-AANPAK, CORRECTHEID BEVESTIGD 2026-08-16] **Expliciete
       unie-gevoede MoE-deling geïntegreerd in de echte staplus — bitexact
       correct, maar 12× TRAGER, niet sneller.**

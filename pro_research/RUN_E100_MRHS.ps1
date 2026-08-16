@@ -6,8 +6,8 @@ param(
 $ErrorActionPreference = 'Stop'
 $Repo = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $Python = Join-Path $Repo '.venv-nemotron\Scripts\python.exe'
-$Runner = Join-Path $Repo 'pro_research\e100_mrhs_v2.py'
-$Verifier = Join-Path $Repo 'pro_research\verify_e100_mrhs_v2.py'
+$Runner = Join-Path $Repo 'pro_research\e100_mrhs_v3.py'
+$Verifier = Join-Path $Repo 'pro_research\verify_e100_mrhs_v3.py'
 $OutDir = Join-Path $Repo 'pro_research\results\e100_mrhs'
 New-Item -ItemType Directory -Path $OutDir -Force | Out-Null
 if (-not (Test-Path $Python)) { throw "Python venv not found: $Python" }
@@ -21,9 +21,6 @@ function Invoke-NativePython {
     param([string[]]$Arguments, [switch]$Append)
     $old = $ErrorActionPreference
     try {
-        # Windows PowerShell 5.1 promotes native stderr (including harmless
-        # CuPy warnings) to ErrorRecord under Stop. Native exit code is the
-        # fail-closed authority for these Python programs.
         $ErrorActionPreference = 'Continue'
         if ($Append) { & $Python @Arguments 2>&1 | Tee-Object -FilePath $Log -Append }
         else { & $Python @Arguments 2>&1 | Tee-Object -FilePath $Log }
@@ -41,10 +38,10 @@ Write-Host ''
 Write-Host '=== CPU reduction-map selftest ===' -ForegroundColor Cyan
 Invoke-NativePython -Arguments @($Runner, '--selftest')
 Write-Host ''
-Write-Host '=== E100 exact multi-RHS real-checkpoint experiment (audited v2 gates) ===' -ForegroundColor Cyan
+Write-Host '=== E100 exact MRHS32 vs adopted V6 selective baseline ===' -ForegroundColor Cyan
 Invoke-NativePython -Arguments @($Runner, '--mode', $Mode) -Append
 Write-Host ''
-Write-Host '=== Independent CPU verifier (audited family semantics) ===' -ForegroundColor Cyan
+Write-Host '=== Independent V3 verifier ===' -ForegroundColor Cyan
 Invoke-NativePython -Arguments @($Verifier) -Append
 Write-Host ''
-Write-Host 'E100-MRHS run and independent verification completed.' -ForegroundColor Green
+Write-Host 'E100-MRHS V3 run and independent verification completed.' -ForegroundColor Green

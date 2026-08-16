@@ -11,6 +11,67 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — **C2c: de eerlijke head-to-head. Native FP4 is NIET uniform sneller — 0,96× op de meest aangeroepen shape — maar M=2 is gratis op élke shape**
+
+**Vraag.** C2b bewees dat native FP4 draait en dat M=2 gratis is. Het bewees
+**niet** dat het sneller is dan onze ERVF-kernel. Dat is de vraag die telt.
+
+**Twee redenen waarom C2b die vraag niet kon beantwoorden — allebei eerst gefixt.**
+1. **Verkeerde shapes.** C2b timede Q-like (BF16 in het checkpoint) en Mamba-in
+   (FP8). Die naar FP4 brengen is een **quantisatiewijziging** met een ongemeten
+   kwaliteitsprijs — een andere claim. De **formaatbehoudende** shapes zijn
+   `lm_head`, `shared_up`, `shared_down`, `routed_up`: die zijn al NVFP4, dus
+   alleen de accumulatievolgorde verandert.
+2. **L2.** C2b herleest **één** matrix per shape. De kleine NVFP4-shapes zijn
+   2,8-5,6 MB tegen een L2 van 32 MiB — dat waren dus L2-residente snelheden.
+   Precies het artefact dat vandaag al één keer een spookwinst van 1,46×
+   opleverde.
+
+**Opzet.** Zelfde koude-rotatieprotocol als
+`diag_nvfp4_ervf_reference_rates.py` (werkset ≥4× L2, CUDA-events, p50 over 7
+rondes), M=1 én M=2.
+
+| shape | ERVF | native M=1 | M=1 speedup | M2/M1 | per token @M=2 |
+|---|---:|---:|---:|---:|---:|
+| lm_head 131072×2688 | 1512,26 µs | 599,95 (293,6 GB/s) | **2,52×** | 0,983 | **5,13×** |
+| shared_down 2688×3712 | 43,62 | 25,96 (192,2) | 1,68× | 0,953 | 3,53× |
+| shared_up 3712×2688 | 39,14 | 35,26 (141,5) | 1,11× | 0,976 | 2,27× |
+| **routed_up 1856×2688** | 20,92 | 21,88 (114,0) | **0,96×** | 1,095 | 1,75× |
+
+**Zelfcorrectie — mijn eigen projectie van twintig minuten eerder was fout.**
+Ik nam aan dat lm_head's 2,52× overdraagbaar was naar de andere drie en kwam op
+63,6 tok/s bij M=1. Dat klopt niet. Native FP4 is sterk **shape-afhankelijk**:
+293,6 GB/s op de matrix van 198 MB, maar 114-192 GB/s op de kleine — en op
+**`routed_up`, met 138 aanroepen per token veruit de meest aangeroepen shape van
+het model, is het 0,96×, dus lichtjes TRAGER dan onze eigen ERVF-kernel.**
+
+**Per token over alle vier de al-NVFP4-shapes:**
+
+| | ms/token | token | tok/s |
+|---|---:|---:|---:|
+| ERVF (huidig) | 6,302 | 19,60 | 51,0 |
+| native M=1 | 5,027 (−1,275) | 18,33 | **54,6** |
+| native M=2, per token | 2,629 (−3,674) | 15,93 | **62,8** |
+
+**Wat dit betekent.** Native FP4 op M=1 is ongeveer **+3,6 tok/s** waard, niet
++12. De echte hefboom is **M=2 — gratis op élke shape (0,953-1,095) op koude
+data**, wat C2b's bevinding bevestigt op precies de shapes die ertoe doen. Dat
+is exact wat layer-major K2-scheduling niet kon leveren (1,012×), en het is nu
+**gemeten** in plaats van gehoopt. De volgorde is daarmee duidelijk: niet "zet
+alles op native FP4", maar **native FP4 als drager voor een M=2-verificatiepad**,
+en selectief — lm_head en shared_down eerst, `routed_up` voorlopig niet.
+
+**Voorbehouden.** Synthetische waarden; niet bitexact tegen de ERVF-reductieboom
+(dus een **kwaliteits**poort, geen exactheidspoort); `routed_up`'s rotatie haalde
+maar 1,8× L2 tegen het doel van 4× doordat het matrixaantal op 24 gecapt is.
+
+**Artefacten.** `pro_research/diag_native_nvfp4_c2c_cold.py` +
+`results/native_nvfp4/C2C_COLD_NVFP4_SHAPES.json` (branch
+`pro-s100-nativefp4-c2b`), `pro_research/diag_nvfp4_ervf_reference_rates.py` +
+`.json` (de ERVF-referentiekant, branch `pro-research`).
+
+---
+
 ## 2026-08-16 — **C2b: native Blackwell FP4 DRAAIT. Alle 17 poorten groen, en M=2 is gratis.** De eerste hefboom van deze hele sessie die groot genoeg is voor 100
 
 **Vraag.** C2 (branch `pro-s100-nativefp4-c2`) was een *software*-negatief: de

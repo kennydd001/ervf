@@ -190,7 +190,20 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
-- [ ] **C3 — native FP4 met de ECHTE Lightning-gewichten. Nu de hoogste
+- [ ] **C3 — native FP4 als drager voor een M=2-verificatiepad, SELECTIEF.**
+      C2c (2026-08-16) mat de eerlijke head-to-head tegen onze eigen
+      ERVF-kernel, koud (≥4× L2), op de vier **al-NVFP4** shapes:
+      lm_head **2,52×**, shared_down 1,68×, shared_up 1,11×, **routed_up 0,96×
+      (trager!)** — en `routed_up` is met 138 aanroepen/token de meest
+      aangeroepen shape van het model. Native FP4 is dus **shape-afhankelijk**,
+      niet uniform: 293,6 GB/s op 198 MB, 114-192 GB/s op de kleine matrices.
+      Per token: M=1 spaart 1,275 ms (**51,0 → 54,6 tok/s**), **M=2 spaart
+      3,674 ms (→ 62,8 tok/s)**.
+      **De hefboom is dus M=2, niet FP4 op zich** — M2/M1 is 0,953-1,095 op élke
+      shape. Volgorde: lm_head en shared_down eerst, routed_up voorlopig NIET.
+      Poort: **kwaliteit, geen bitexactheid** (Tensor-Core-accumulatievolgorde
+      ≠ onze ERVF-boom). C1 bewees de repack al verliesloos.
+- [ ] **C3-oud — native FP4 met de ECHTE Lightning-gewichten. Nu de hoogste
       prioriteit: het is de eerste hefboom van de sessie die groot genoeg is
       voor 100.** C2b (2026-08-16) draaide op de doelmachine met **alle 17
       poorten groen**: native Blackwell FP4 executeert (M=1/2/16/128,

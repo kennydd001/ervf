@@ -1,0 +1,98 @@
+{
+  "kind": "diag_nvfp4_ervf_reference_rates",
+  "created_utc": "2026-08-16T18:40:01.559975+00:00",
+  "note": "our production NVFP4 ERVF GEMV on the already-NVFP4 shapes, measured under C2b's protocol with a cold rotation (>=4x the 32 MiB L2) so the earlier 1.46x L2 artifact cannot recur. Only these shapes permit a format-preserving comparison against native FP4; Mamba (FP8) and attention (BF16) would require a real quantisation change and belong in a different column.",
+  "device_l2_mib": 32.0,
+  "rounds": 200,
+  "arms": {
+    "lm_head": {
+      "rows": 131072,
+      "cols": 2688,
+      "nvfp4_weight_bytes": 198180864,
+      "matrices_in_rotation": 2,
+      "working_set_bytes": 396361728,
+      "working_set_over_l2": 11.8125,
+      "ervf_p50_ms": 1.5122630310058593,
+      "ervf_gb_s": 131.04920237862518,
+      "event_samples_ms": [
+        1.286635284423828,
+        1.3149810791015626,
+        1.3370895385742188,
+        1.5122630310058593,
+        1.6293235778808595,
+        1.843870849609375,
+        1.8543423461914061
+      ],
+      "c2b_native_fp4_M1_ms": 0.5820159912109375,
+      "c2b_native_fp4_M2_ms": 0.5841703891754151,
+      "native_speedup_M1": 2.5983186954355975,
+      "native_speedup_per_token_at_M2": 5.1774723917126035,
+      "comparison_note": "format-preserving: this shape is NVFP4 in the checkpoint, so native FP4 changes the accumulation order only, not the quantisation"
+    },
+    "shared_up": {
+      "rows": 3712,
+      "cols": 2688,
+      "nvfp4_weight_bytes": 5612544,
+      "matrices_in_rotation": 24,
+      "working_set_bytes": 134701056,
+      "working_set_over_l2": 4.014404296875,
+      "ervf_p50_ms": 0.03913887977600097,
+      "ervf_gb_s": 143.40073175629,
+      "event_samples_ms": [
+        0.035179519653320314,
+        0.035346879959106445,
+        0.03801584005355835,
+        0.03913887977600097,
+        0.039636640548706054,
+        0.042777118682861326,
+        0.0436243200302124
+      ]
+    },
+    "shared_down": {
+      "rows": 2688,
+      "cols": 3712,
+      "nvfp4_weight_bytes": 5612544,
+      "matrices_in_rotation": 24,
+      "working_set_bytes": 134701056,
+      "working_set_over_l2": 4.014404296875,
+      "ervf_p50_ms": 0.043616957664489746,
+      "ervf_gb_s": 128.67802571588777,
+      "event_samples_ms": [
+        0.04075071811676025,
+        0.040760159492492676,
+        0.04086895942687988,
+        0.043616957664489746,
+        0.045549597740173337,
+        0.04598879814147949,
+        0.0467142391204834
+      ]
+    },
+    "routed_up": {
+      "rows": 1856,
+      "cols": 2688,
+      "nvfp4_weight_bytes": 2806272,
+      "matrices_in_rotation": 24,
+      "working_set_bytes": 67350528,
+      "working_set_over_l2": 2.0072021484375,
+      "ervf_p50_ms": 0.020918560028076173,
+      "ervf_gb_s": 134.15225504210224,
+      "event_samples_ms": [
+        0.020639679431915282,
+        0.02073375940322876,
+        0.020904479026794435,
+        0.020918560028076173,
+        0.02135024070739746,
+        0.021700000762939452,
+        0.02255664110183716
+      ]
+    }
+  },
+  "ervf_ms_per_token_by_shape": {
+    "lm_head": 1.5122630310058593,
+    "shared_up": 0.9001942348480224,
+    "shared_down": 1.0031900262832643,
+    "routed_up": 2.886761283874512
+  },
+  "ervf_ms_per_token_total_nvfp4_shapes": 6.302408576011658,
+  "claim_boundary": "kernel-level rates only; no tok/s claim, and native FP4 is not bit-exact against the ERVF reduction tree"
+}

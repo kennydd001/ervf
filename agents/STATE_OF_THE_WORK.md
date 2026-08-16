@@ -24,36 +24,33 @@ sluiten de metingen op elkaar aan. Record blijft **47,41 tok/s (21,09 ms)**.
 | **serieel** | | **10,69 ms = 93,6 tok/s** |
 | **volledig overlappend** | | **8,22 ms = 122 tok/s** |
 
-**Waar de 22,1 ms nu heen gaat (marginale methode, alle armen bitexact).**
-⚠️ **Deze tabel is EAGER gemeten en bevat ~7,75 µs launch-overhead per
-kernel-launch** (no-op controle: 138 launches = 1,070 ms, grid-onafhankelijk).
-Gather en down_masked doen 138 launches/token, dus elk ~1,07 ms daarvan is
-uitgiftetijd die de gevangen productiegraph NIET betaalt. `down_masked` doet
-in werkelijkheid **0,431 ms GPU-werk tegen een vloer van 0,257 = 60%**, niet
-15%. De hoofdruimte-kolom is dus een **bovengrens**, geen doel, tot de
-attributie in-graph is herhaald.
+**Waar de token heen gaat — GEMETEN IN DE GEVANGEN GRAPH** (marginale methode,
+alle armen bitexact, drift 0,378 ms). Basis-midden **20,7722 ms = 48,14 tok/s**.
 
-| | gemeten | vloer | hoofdruimte |
-|---|---:|---:|---:|
-| MoE totaal | 11,00 | 5,19 | **5,81** |
-| ├ gather | 3,48 | 2,47 | 1,01 |
-| ├ up_proj | 2,16 | 1,56 | 0,61 |
-| ├ **down_masked** | **1,66** | **0,26** | **1,40** ← slechtste pad |
-| ├ shared_expert | 1,30 | 1,17 | 0,14 (90% efficiënt) |
-| └ router/assign/fetch + rest | ~2,4 | | ~1,6 |
-| Mamba | 5,66 | 3,58 | 2,08 |
-| attention | 1,92 | 1,13 | 0,79 |
-| rest (lm_head, norms, embed, argmax) | ~4,56 | ~0,9 | ~3,7 |
+| component | gemeten | vloer | **hoofdruimte** | efficiëntie |
+|---|---:|---:|---:|---:|
+| **MoE** | 9,408 | 5,19 (2,72 VRAM + 2,47 PCIe) | **4,22** | — |
+| rest (lm_head, norms, embed, argmax) | ~3,72 | ~0,9 | ~2,8 | — |
+| **Mamba** | 5,168 | 3,582 | **1,586** | 69,3% |
+| **attention** | 2,479 | 1,128 | **1,352** | **45,5%** ← minst efficiënt |
+| som van de drie marginalen | 17,056 (82% van het token) | | | |
 
-**Conclusie.** 100 tok/s = 10,0 ms ligt binnen de fysica maar vereist twee
-dingen tegelijk: de PCIe-gather grotendeels verstoppen (B3 werkt, bitexact,
-maar haalt nu 16,8%) én de resterende implementatie-inefficiëntie wegwerken.
-**Hoe groot die is, staat na de launch-overhead-correctie hierboven niet meer
-vast**: de eager-tabel overschat hem, en `down_masked` — dat er de grootste
-brok van leek — blijkt op 60% van zijn vloer te draaien en dus grotendeels in
-orde. De eerstvolgende stap is daarom **meten, niet bouwen**: dezelfde
-attributie in de gevangen graph herhalen, zodat duidelijk is wat er écht
-overblijft. Elke kernel-herschrijving vóór die meting is gokwerk.
+Totale hoofdruimte ~10 ms van de 20,77 ms → vloer rond **10,7 ms ≈ 93 tok/s**
+bij seriële PCIe, wat de plafondrekening hierboven langs een tweede
+onafhankelijke weg bevestigt.
+
+De eerdere **eager** tabel is vervallen: die bevatte ~7,75 µs CPU-uitgiftetijd
+per kernel-launch (MoE doet er ~414 per token) en wees `down_masked` ten
+onrechte aan als slechtste pad — dat draait op 60% van zijn vloer en is prima.
+Zie het correctieblok in `RESEARCH_NOTEBOOK.md`.
+
+**Conclusie.** 100 tok/s = 10,0 ms ligt binnen de fysica maar vraagt twee dingen
+tegelijk: de PCIe-gather grotendeels verstoppen (B3 werkt en is bitexact, maar
+haalt nu 16,8%) én ~10 ms kernel-inefficiëntie wegwerken. De grootste post is
+MoE (4,22 ms); het minst efficiënte pad is **attention op 45,5%** — waar
+PV2-11 (Q/K/V one-launch) al een exacte kandidaat klaar heeft liggen die
+uitsluitend op de driftpoort sneuvelde, en die poort haalt de huidige harness
+ruim.
 
 ## ⚠️ Modelidentiteit — lees dit eerst
 

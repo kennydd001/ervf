@@ -11,6 +11,66 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Componentattributie **in de gevangen graph**: MoE 9,41 · Mamba 5,17 · attention 2,48 ms — en attention blijkt met **45,5%** het minst efficiënte pad, niet down_masked
+
+**Vraag.** De eager marginalen bevatten ~7,75 µs uitgiftetijd per kernel-launch,
+die de productiegraph niet betaalt. Hoe ziet de hoofdruimtetabel eruit in het
+regime waarin productie écht draait?
+
+**Opzet.** Dezelfde marginale probes, maar elke arm **hercapture't de graph** na
+het installeren van zijn probe (`_recapture` doet alleen de capture opnieuw en
+hergebruikt alle buffers van `setup_graph()`; `setup_graph()` zelf zou
+early-returnen én per aanroep 0,656 GiB pinned embedding heralloceren).
+SYNC-semantiek: één replay plus één ring-harvest per token — hetzelfde regime
+als het 21,0923 ms V6-record. Full: 3 prompts × 192 tokens per arm.
+
+**Uitkomst (alle poorten groen: G1 alle armen bitexact, G2 drift 0,3777 ms).**
+
+Basis-midden **20,7722 ms = 48,14 tok/s**. Dat is de V6-stack, gemeten in een
+drift-gecontroleerde harness met preheat — geen nieuw mechanisme en dus geen
+nieuw record, maar wel de best gecontroleerde meting van dezelfde stack tot nu
+toe (het record staat op 21,0923 ms; het verschil is meetregime en thermische
+toestand, niet code).
+
+| component | **graph** | eager | verschil | voorspelde launch-overhead | launches |
+|---|---:|---:|---:|---:|---:|
+| MoE | **9,408** | 11,004 | 1,596 | 3,209 | 414 |
+| Mamba | **5,168** | 5,662 | 0,494 | 0,357 | 46 |
+| attention | **2,479** | 1,917 | **−0,562** | 0,186 | 24 |
+| som | 17,056 (82%) | | | | |
+
+**Wat dit over de launch-overhead-correctie zegt.** Mamba klopt netjes
+(0,494 gemeten tegen 0,357 voorspeld). MoE realiseert maar de **helft** van de
+voorspelde 3,209 ms — bevestiging dat die 7,75 µs *CPU-uitgiftetijd* is die in
+eager mode deels overlapt met GPU-werk zolang er genoeg GPU-werk is. De
+correctie van vanmiddag was dus terecht maar de naïeve vermenigvuldiging
+overschatte hem ~2×. Attention wordt in de graph juist **duurder**; dat is nog
+onverklaard en verdient een eigen meting vóór er iets op gebouwd wordt.
+
+**De eerlijke hoofdruimtetabel (graph, vloer bij 249 GB/s VRAM / 25,9 GB/s PCIe).**
+
+| component | gemeten | vloer | **hoofdruimte** | efficiëntie |
+|---|---:|---:|---:|---:|
+| **MoE** | 9,408 | 5,19 (2,72 VRAM + 2,47 PCIe) | **4,22** | — |
+| rest (lm_head, norms, embed, argmax) | ~3,72 | ~0,9 | ~2,8 | — |
+| **Mamba** | 5,168 | 3,582 | **1,586** | 69,3% |
+| **attention** | 2,479 | 1,128 | **1,352** | **45,5%** |
+
+**Twee dingen die dit omgooit.**
+1. **Attention is het minst efficiënte pad (45,5%), niet down_masked.** Mamba
+   zit op 69,3%, shared_expert (eerder gemeten) op 90%. Attention is bovendien
+   de kleinste van de drie in absolute zin, dus het is een goede, kleine
+   testcase voor een kernelvraag — en PV2-11 (Q/K/V one-launch) is precies een
+   exacte kandidaat op dat pad die alleen op de driftpoort sneuvelde. Die is nu
+   dubbel gemotiveerd.
+2. **De totale hoofdruimte is ~10 ms van de 20,77 ms**, dus een vloer rond
+   **10,7 ms ≈ 93 tok/s** bij seriële PCIe. Dat is consistent met de eerdere
+   plafondrekening en bevestigt hem langs een tweede, onafhankelijke weg.
+
+**Artefacten.** `pro_research/diag_component_marginals_graph.py` + `.json`.
+
+---
+
 ## 2026-08-16 — ⚠️ **ZELFCORRECTIE: de eager sub-kernelmarginalen bevatten ~7,75 µs launch-overhead per launch. `down_masked` doet in werkelijkheid 0,431 ms GPU-werk, geen 1,655 — de "1,40 ms hoofdruimte" bestond niet**
 
 **Hoe dit boven kwam.** Na vijf weerlegde hypotheses voor `down_masked` heb ik

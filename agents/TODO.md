@@ -195,10 +195,27 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       Ter vergelijking: attention 45,5%, down_masked 60%, Mamba-GEMV 80-86%,
       shared_expert 90%. **Pure VRAM read-modify-write** — geen PCIe, geen
       sparsity, geen data-afhankelijke grid, geen LRU.
-      Hypotheses om met ablatie te scheiden (zoals bij down_masked): te weinig
-      parallellisme per launch (1472 kleine head-updates per token), een
-      niet-gecoalesceerd `[head][hdim][state]`-layout tegen de leesvolgorde, of
-      een afhankelijke keten per head.
+      **[LAYOUT-HYPOTHESE WEERLEGD 2026-08-16]** Transponeren naar `[h][n][p]`
+      is bitexact (y én state) maar **46% TRAGER** op koude state (×0,685).
+      Mijn coalescing-analyse was fout: in `[h][p][n]` streamt elke thread een
+      aaneengesloten 512 B-rij, wat de prefetcher prima bedient —
+      instructie-coalescing ≠ geheugensysteem-efficiëntie. ⚠️ Een eerste versie
+      met één hergebruikte state-buffer gaf ×1,484 (warme L2) en had dus een
+      regressie als winst verkocht; zie de meetregel hieronder.
+      **Wat overblijft als enige verklaring: occupancy.** De launch is
+      `64 blokken × 64 threads = 128 warps op 26 SM's ≈ 5 warps/SM` — veel te
+      weinig om DRAM-latentie te verbergen. De n-lus is elementgewijs
+      onafhankelijk **behalve de `acc`-reductie**, en juist die parallelliseren
+      breekt bitexactheid. Enige bitexacte uitweg die nog openstaat:
+      **twee fasen** — fase 1 volledig parallel over (p, n) die de state bijwerkt
+      en `s` wegschrijft (524.288 parallelle elementen i.p.v. 4096), fase 2 één
+      thread per p die de sequentiële `acc` over de net geschreven `s` doet.
+- [ ] **MEETREGEL, vastgelegd 2026-08-16: elke kernelmeting rouleert over
+      evenveel losse buffers als de echte lus aanraakt, of hij telt niet.**
+      Twee keer vandaag gaf een enkele hergebruikte buffer een L2-getal in plaats
+      van een DRAM-getal: een GEMV op 336 GB/s (echt: 230-261), en de
+      SSM-transpositie op ×1,484 terwijl hij koud ×0,685 is — dat laatste zou een
+      regressie van 46% als winst van 48% hebben gerapporteerd.
 - [DONE 2026-08-16] **`ssm_step` vs `gated_norm` uitgesplitst** — 1,095 tegen
       0,273 ms, 4 armen, alle bitexact, drift 0,165. Som 1,368 tegen gegroepeerd
       1,011 = 0,357 verschil, precies het vastgelegde ruisniveau: absolute

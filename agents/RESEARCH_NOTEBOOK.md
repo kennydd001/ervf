@@ -11,6 +11,69 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — De `ssm_step`-layouttranspositie: **WEERLEGD, en de warme-L2-versie van dezelfde meting had een regressie verkocht** (×1,48 warm → ×0,685 koud)
+
+**Hypothese.** `ssm_step` heeft state `[h][p][n]` terwijl thread `p` een hele
+n-rij bezit, dus bij elke innerlijke stap liggen aangrenzende threads
+`N·4 = 512 B` uit elkaar. Een warp-instructie zou dan 32 sectoren ophalen en er
+4 bytes van elk gebruiken — ~12,5% benutting. Transponeren naar `[h][n][p]` maakt
+de 64 threads van een stap 64 aaneengesloten floats lezen. Rekenkundig
+identiek, dus bitexact — anders dan de acc-reductie parallelliseren, wat de
+optelvolgorde zou breken.
+
+**Poorten: beide groen.** `y` bitexact **en** de state bitexact modulo de
+transpositie. De transformatie zelf klopt dus.
+
+**Eerste meting (één state-buffer, 23× hergebruikt): ×1,484 vóór transponeren.**
+0,713 → 0,480 ms/token, 135 → 201 GB/s. Overtuigend.
+
+**Maar die opzet was fout, en ik ving het net op tijd.** Eén state van 2,10 MB
+past ruim in 32 MiB L2; de échte lus raakt **23 verschillende** states
+(48,3 MB) en heeft ze dus allemaal koud. Precies het artefact dat vanochtend een
+GEMV-meting op 336 GB/s zette. Met 23 losse buffers:
+
+| layout | ms/token | GB/s |
+|---|---:|---:|
+| **`[h][p][n]` (productie)** | **0,799** | **120,8** |
+| `[h][n][p]` (transponeerd) | 1,165 | 82,8 |
+| | **×0,685 — 46% TRAGER** | |
+
+**Het teken klapt volledig om. De hypothese is weerlegd en de productielayout is
+de betere.**
+
+**Waarom mijn analyse fout was.** Ik keek naar coalescing *per instructie* en
+vergat dat in `[h][p][n]` elke thread een **aaneengesloten 512 B-rij** streamt.
+Per blok leest dat 64 threads × 512 B = 32 KB aaneengesloten; de
+prefetcher/L1 bedient dat prima. Instructie-niveau-coalescing is niet hetzelfde
+als geheugensysteem-efficiëntie, en bij een per-thread streaming-patroon wint de
+tweede.
+
+**Wat er dan wél overblijft voor `ssm_step`'s 34%.** De launch is
+`(H,) × min(256, P)` = **64 blokken × 64 threads = 4096 threads = 128 warps op
+26 SM's ≈ 5 warps/SM**. Dat is bij lange na niet genoeg om DRAM-latentie te
+verbergen, en het is nu de enige overgebleven verklaring. Het lastige: de
+n-lus is elementgewijs onafhankelijk (`s[n]` hangt alleen van `s[n]` en `Bv[n]`
+af) **behalve de `acc`-reductie**, en juist die parallelliseren breekt de
+bitexactheid.
+
+Eén bitexacte uitweg die nog niet geprobeerd is: **twee fasen** — fase 1
+volledig parallel over (p, n) die de state bijwerkt en `s` wegschrijft, fase 2
+één thread per p die de sequentiële `acc` over de zojuist geschreven `s` doet.
+Fase 1 krijgt dan 524.288 parallelle elementen in plaats van 4096, en fase 2
+leest data die net geschreven is (dus L1/L2-warm). Grotere ingreep, maar de
+enige die de occupancy aanpakt zonder de optelvolgorde te raken.
+
+**De methodische les, en het is dezelfde als vanochtend maar nu duurder
+voorkomen.** Een geïsoleerd kernelbenchmark met één hergebruikte buffer meet L2,
+niet DRAM. Als ik dit niet had nagemeten had ik een **regressie van 46%** als
+winst van 48% gerapporteerd — een verschil van bijna een factor 2 in de
+verkeerde richting. **Regel: elke kernelmeting rouleert over evenveel losse
+buffers als de echte lus aanraakt, of hij telt niet.**
+
+**Artefacten.** `pro_research/diag_ssm_layout.py` + `.json`.
+
+---
+
 ## 2026-08-16 — `ssm_step` is de dader: **1,095 ms tegen `gated_norm`'s 0,273** — en met 88 GB/s draait hij op **34%** van het kernel-tempo, de slechtste efficiëntie in het hele model
 
 **Vraag.** De gemeten stage-splitsing zette `ssm_step + gated_norm` op 1,011 ms

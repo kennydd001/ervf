@@ -57,8 +57,12 @@ een hypothese, geen getal.**
 
 **`ssm_step` is de slechtste en tegelijk de schoonste**: pure VRAM
 read-modify-write van 96,5 MB/token (SSM-state 2,10 MB/laag), geen PCIe, geen
-sparsity, geen data-afhankelijke grid, geen LRU. Dat is de best afgebakende
-kerneloefening die nog openstaat.
+sparsity, geen data-afhankelijke grid, geen LRU.
+De layout-hypothese (`[h][p][n]` → `[h][n][p]`) is **gebouwd, bitexact en
+weerlegd**: 46% trager op koude state. Wat overblijft is **occupancy** —
+64 blokken × 64 threads = ~5 warps/SM. De enige bitexacte uitweg die nog
+openstaat is een tweefasige opzet (parallel state-update, dan de sequentiële
+`acc`).
 
 ## 🔎 De volledige rekening (2026-08-16, alles gemeten)
 

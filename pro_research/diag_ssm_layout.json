@@ -1,0 +1,40 @@
+{
+  "kind": "diag_ssm_layout",
+  "created_utc": "2026-08-16T13:36:38.199584+00:00",
+  "note": "ssm_step's state is [h][p][n] while thread p owns a whole n-row, so adjacent threads are N*4 = 512 B apart and each warp instruction uses ~4 of every 32 bytes fetched. Transposing to [h][n][p] makes the 64 threads of a step read 64 consecutive floats. Arithmetic, accumulation order and rounding are untouched -- only the address changes -- which is what keeps it bit-exact, unlike parallelising the acc reduction.",
+  "geometry": {
+    "H": 64,
+    "P": 64,
+    "N": 128,
+    "heads_per_group": 8,
+    "layers_per_token": 23,
+    "blocks": 64,
+    "threads": 64,
+    "state_bytes_per_layer": 2097152,
+    "distinct_state_buffers": 23,
+    "total_state_bytes": 48234496,
+    "rw_bytes_per_token": 96468992
+  },
+  "gates": {
+    "y_bit_exact": true,
+    "state_bit_exact_modulo_transpose": true,
+    "finite": true
+  },
+  "layout_pn": {
+    "ms_per_token": 0.7987290954589844,
+    "gb_s": 120.77811181344875
+  },
+  "layout_np": {
+    "ms_per_token": 1.165315170288086,
+    "gb_s": 82.78360606611788
+  },
+  "speedup": 0.6854189457273819,
+  "saving_ms_per_token": -0.36658607482910155,
+  "in_graph_reference": {
+    "ssm_step_ms": 1.095,
+    "achieved_gb_s": 88.1,
+    "kernel_rate_gb_s": 260.0,
+    "headroom_ms": 0.724
+  },
+  "status": "measured"
+}

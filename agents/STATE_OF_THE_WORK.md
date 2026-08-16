@@ -6,6 +6,44 @@ Bijgewerkt: 2026-08-16 (na PRO V3 + model-identiteitsonderzoek) · lees dit vó�
 (single-stream vs. aggregate, wat wél en niet bereikbaar is, en de precieze
 resterende technische stappen): zie `agents/PATH_TO_100_TOKS.md`.**
 
+## 🔎 De volledige rekening (2026-08-16, alles gemeten)
+
+Voor het eerst is elke term van het budget nagemeten in plaats van geschat, en
+sluiten de metingen op elkaar aan. Record blijft **47,41 tok/s (21,09 ms)**.
+
+**De machinevloer, uit drie onafhankelijke metingen:**
+- apparaat streamt **345,9 GB/s** (512 MiB, byte-geverifieerd)
+- de dense-GEMV-kernel haalt koud **230-261 GB/s** (67-76%); de eerder gemeten
+  336 was een **L2-artefact** (L2 = 32 MiB, Mamba's in_proj is 27,7 MB)
+- PCIe Gen5 ×8 levert **25,9 GB/s** (byte-geverifieerd)
+
+| | MB/token | vloer |
+|---|---:|---:|
+| VRAM (Mamba 892 + routed-up 387 + shared/gate 290 + attn 281 + lm_head 198) | 2048 | 8,22 ms |
+| PCIe (routed down_proj, sparse) | ~64 | 2,47 ms |
+| **serieel** | | **10,69 ms = 93,6 tok/s** |
+| **volledig overlappend** | | **8,22 ms = 122 tok/s** |
+
+**Waar de 22,1 ms nu heen gaat (marginale methode, alle armen bitexact):**
+
+| | gemeten | vloer | hoofdruimte |
+|---|---:|---:|---:|
+| MoE totaal | 11,00 | 5,19 | **5,81** |
+| ├ gather | 3,48 | 2,47 | 1,01 |
+| ├ up_proj | 2,16 | 1,56 | 0,61 |
+| ├ **down_masked** | **1,66** | **0,26** | **1,40** ← slechtste pad |
+| ├ shared_expert | 1,30 | 1,17 | 0,14 (90% efficiënt) |
+| └ router/assign/fetch + rest | ~2,4 | | ~1,6 |
+| Mamba | 5,66 | 3,58 | 2,08 |
+| attention | 1,92 | 1,13 | 0,79 |
+| rest (lm_head, norms, embed, argmax) | ~4,56 | ~0,9 | ~3,7 |
+
+**Conclusie.** 100 tok/s = 10,0 ms ligt binnen de fysica maar vereist twee
+dingen tegelijk: de PCIe-gather grotendeels verstoppen (B3 werkt, bitexact,
+maar haalt nu 16,8%) én ~12 ms implementatie-inefficiëntie wegwerken. De
+grootste, best afgebakende brok daarvan is `gemv_down_masked_partial_ind` op
+**15% van zijn vloer**.
+
 ## ⚠️ Modelidentiteit — lees dit eerst
 
 **Alles hieronder gemerkt vóór 2026-08-16 is gemeten op `models/nemotron_3_5_lightning`,

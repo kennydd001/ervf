@@ -6,8 +6,8 @@ param(
 $ErrorActionPreference = 'Stop'
 $Repo = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $Python = Join-Path $Repo '.venv-nemotron\Scripts\python.exe'
-$Runner = Join-Path $Repo 'pro_research\e100_mrhs256.py'
-$Verifier = Join-Path $Repo 'pro_research\verify_e100_mrhs256.py'
+$Runner = Join-Path $Repo 'pro_research\e100_mrhs256_v2.py'
+$Verifier = Join-Path $Repo 'pro_research\verify_e100_mrhs256_v2.py'
 $OutDir = Join-Path $Repo 'pro_research\results\e100_mrhs256'
 New-Item -ItemType Directory -Path $OutDir -Force | Out-Null
 if (-not (Test-Path $Python)) { throw "Python venv not found: $Python" }
@@ -34,10 +34,10 @@ Write-Host "Branch     : pro-e100-batch"
 Write-Host "Mode       : $Mode"
 Write-Host "Log        : $Log"
 Write-Host ''
-Write-Host '=== E100 full-warp MRHS through N16 ===' -ForegroundColor Cyan
+Write-Host '=== E100 full-warp MRHS through N16 (audited v2 gates) ===' -ForegroundColor Cyan
 Invoke-NativePython -Arguments @($Runner, '--mode', $Mode)
 Write-Host ''
-Write-Host '=== Independent CPU verifier ===' -ForegroundColor Cyan
+Write-Host '=== Independent CPU verifier (explicit eight-family semantics) ===' -ForegroundColor Cyan
 Invoke-NativePython -Arguments @($Verifier) -Append
 Write-Host ''
 Write-Host 'E100-MRHS256 run and verification completed.' -ForegroundColor Green

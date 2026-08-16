@@ -1,0 +1,157 @@
+{
+  "kind": "diag_fp4_w4a8_recipes",
+  "torch": "2.12.1+cu132",
+  "available_scaling_types": [
+    "BlockWise128x128",
+    "BlockWise1x128",
+    "BlockWise1x16",
+    "BlockWise1x32",
+    "RowWise",
+    "TensorWise",
+    "name",
+    "value"
+  ],
+  "available_swizzle_types": [
+    "NO_SWIZZLE",
+    "SWIZZLE_32_4_4",
+    "name",
+    "value"
+  ],
+  "shape": {
+    "M": 1,
+    "N": 128,
+    "K": 256
+  },
+  "expected_value_fp4_arm": 256.0,
+  "expected_value_fp8_arm_packed_width": 128.0,
+  "results": [
+    {
+      "a_dtype": "fp8",
+      "scale_recipe_a": "BlockWise128x128",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "ValueError: Invalid scaling configuration.\n- For TensorWise scaling, a and b should be float8, scales should be float and singletons.\n- For RowWise scaling, a and b should be float8, scales should be float, scale_a shoul"
+    },
+    {
+      "a_dtype": "fp8",
+      "scale_recipe_a": "BlockWise1x128",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "ValueError: Invalid scaling configuration.\n- For TensorWise scaling, a and b should be float8, scales should be float and singletons.\n- For RowWise scaling, a and b should be float8, scales should be float, scale_a shoul"
+    },
+    {
+      "a_dtype": "fp8",
+      "scale_recipe_a": "BlockWise1x16",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "ValueError: Invalid scaling configuration.\n- For TensorWise scaling, a and b should be float8, scales should be float and singletons.\n- For RowWise scaling, a and b should be float8, scales should be float, scale_a shoul"
+    },
+    {
+      "a_dtype": "fp8",
+      "scale_recipe_a": "BlockWise1x32",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "ValueError: Invalid scaling configuration.\n- For TensorWise scaling, a and b should be float8, scales should be float and singletons.\n- For RowWise scaling, a and b should be float8, scales should be float, scale_a shoul"
+    },
+    {
+      "a_dtype": "fp8",
+      "scale_recipe_a": "RowWise",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "ValueError: Invalid scaling configuration.\n- For TensorWise scaling, a and b should be float8, scales should be float and singletons.\n- For RowWise scaling, a and b should be float8, scales should be float, scale_a shoul"
+    },
+    {
+      "a_dtype": "fp8",
+      "scale_recipe_a": "TensorWise",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "ValueError: Invalid scaling configuration.\n- For TensorWise scaling, a and b should be float8, scales should be float and singletons.\n- For RowWise scaling, a and b should be float8, scales should be float, scale_a shoul"
+    },
+    {
+      "a_dtype": "fp8",
+      "scale_recipe_a": "name",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "AttributeError: 'property' object has no attribute 'value'"
+    },
+    {
+      "a_dtype": "fp8",
+      "scale_recipe_a": "value",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "AttributeError: 'property' object has no attribute 'value'"
+    },
+    {
+      "a_dtype": "fp4",
+      "scale_recipe_a": "BlockWise128x128",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "ValueError: Invalid scaling configuration.\n- For TensorWise scaling, a and b should be float8, scales should be float and singletons.\n- For RowWise scaling, a and b should be float8, scales should be float, scale_a shoul"
+    },
+    {
+      "a_dtype": "fp4",
+      "scale_recipe_a": "BlockWise1x128",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "ValueError: Invalid scaling configuration.\n- For TensorWise scaling, a and b should be float8, scales should be float and singletons.\n- For RowWise scaling, a and b should be float8, scales should be float, scale_a shoul"
+    },
+    {
+      "a_dtype": "fp4",
+      "scale_recipe_a": "BlockWise1x16",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": true,
+      "value": 256.0,
+      "expected": 256.0,
+      "value_correct": true
+    },
+    {
+      "a_dtype": "fp4",
+      "scale_recipe_a": "BlockWise1x32",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "ValueError: Invalid scaling configuration.\n- For TensorWise scaling, a and b should be float8, scales should be float and singletons.\n- For RowWise scaling, a and b should be float8, scales should be float, scale_a shoul"
+    },
+    {
+      "a_dtype": "fp4",
+      "scale_recipe_a": "RowWise",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "ValueError: Invalid scaling configuration.\n- For TensorWise scaling, a and b should be float8, scales should be float and singletons.\n- For RowWise scaling, a and b should be float8, scales should be float, scale_a shoul"
+    },
+    {
+      "a_dtype": "fp4",
+      "scale_recipe_a": "TensorWise",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "ValueError: Invalid scaling configuration.\n- For TensorWise scaling, a and b should be float8, scales should be float and singletons.\n- For RowWise scaling, a and b should be float8, scales should be float, scale_a shoul"
+    },
+    {
+      "a_dtype": "fp4",
+      "scale_recipe_a": "name",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "AttributeError: 'property' object has no attribute 'value'"
+    },
+    {
+      "a_dtype": "fp4",
+      "scale_recipe_a": "value",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": false,
+      "error": "AttributeError: 'property' object has no attribute 'value'"
+    }
+  ],
+  "usable_pairings": [
+    {
+      "a_dtype": "fp4",
+      "scale_recipe_a": "BlockWise1x16",
+      "scale_recipe_b": "BlockWise1x16",
+      "executes": true,
+      "value": 256.0,
+      "expected": 256.0,
+      "value_correct": true
+    }
+  ],
+  "w4a8_pairings": [],
+  "verdict": "w4a4_only",
+  "consequence": "no FP8-activation pairing produced a correct result, so the path really is W4A4: the activation must go to 4 bits, which is a substantial quality change with no evidence behind it yet."
+}

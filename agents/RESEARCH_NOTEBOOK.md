@@ -11,6 +11,59 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — PRO V16: **PV2-11 (Q/K/V one-launch) is nu beslist — en het is negatief.** Bitexact, maar **+2,628 ms/token**, bij een drift van 0,0416 ms
+
+**Vraag.** PV2-11 was de enige exacte kandidaat die de PRO-MAX V2-campagne
+expliciet als *onbeslist* achterliet: micro bitexact, causale pariteit PASS op
+alle drie prompts, kandidaat 0,2387 ms ónder het baseline-midden — en uitsluitend
+gesneuveld op de driftpoort (1,8577 ms tegen een grens van 1,0). Kimi's eigen
+verdict: "correctheid overleeft; performance is **onopgelost, niet negatief**.
+Alleen hermeten onder een steady-state/interleaved harness." Bovendien zit hij
+op precies het pad dat de in-graph-attributie zojuist als **minst efficiënt**
+aanwees (attention, 45,5%). Dubbel gemotiveerd dus.
+
+**Opzet.** Kimi's `pro_max_v2/qkv_v8.py` ongewijzigd geïnstalleerd in de
+drift-stabiele graph-harness (V12-recept: preheat naar steady state, één
+gevangen runtime, hercapture per arm zonder heralloceren, armen kort na elkaar
+in één proces). SYNC-semantiek, dus vergelijkbaar met het 21,0923 ms-record.
+
+**Uitkomst.**
+
+| arm | p50 ms | tok/s |
+|---|---:|---:|
+| BASE_A | 23,6136 | 42,348 |
+| **CAND (PV2-11)** | **26,2623** | **38,077** |
+| BASE_B | 23,6552 | 42,274 |
+
+midden 23,6344 · **drift 0,0416 ms** · **CAND − midden = +2,6279 ms**.
+Poorten: C1 bitexact **PASS** · C2 **PASS** · D1 **PASS** · P1 **FAIL**.
+
+**Wat dit beslist.** De 0,2387 ms "winst" die PV2 rapporteerde was
+**driftruis**. Bij een drift van 0,0416 ms — 45× kleiner dan PV2's 1,8577 —
+is de kandidaat **2,6 ms trager**, wat ruim buiten elke ruismarge valt.
+**PV2-11 is hiermee gesloten, negatief.** Dat is precies waarvoor de kandidaat
+openstond, en het antwoord is er nu.
+
+**Waarom hij verliest, en dat is de bruikbare les.** De kandidaat vervangt
+`_attention` in zijn geheel en berekent Q/K/V met een eigen **BF16**-kernel in
+één launch. Maar de V6-stack draait Q en O al via **selectieve ERVF** — dat wás
+V3-G1B's hele winst (−3,3841 ms). De fusie gooit die ERVF-winst op Q dus weg om
+twee kernel-launches te besparen, en twee launches zijn ~15 µs waard terwijl de
+weggegooide ERVF-winst een veelvoud daarvan is. **Fusie die een snellere kernel
+door een langzamere vervangt is netto verlies, hoe elegant de fusie ook is.**
+Dat generaliseert naar de andere final-mile-fusiekandidaten: check eerst of het
+pad al geoptimaliseerd is vóór je het fuseert.
+
+**Wat dit ook bevestigt.** De harness detecteert een effect van 2,6 ms bij
+0,04 ms drift, en gaf eerder dezelfde dag betrouwbaar −0,42 (B3) en +0,04 (V15).
+Het meetprobleem dat de hele PRO-MAX V2-campagne onbeslisbaar maakte is
+daadwerkelijk opgelost.
+
+**Artefacten.** `pro_research/qkv_v16.py`,
+`pro_research/results/v16_qkv/PRO_V16_QKV_GRAPH.json`.
+
+---
+
 ## 2026-08-16 — Componentattributie **in de gevangen graph**: MoE 9,41 · Mamba 5,17 · attention 2,48 ms — en attention blijkt met **45,5%** het minst efficiënte pad, niet down_masked
 
 **Vraag.** De eager marginalen bevatten ~7,75 µs uitgiftetijd per kernel-launch,

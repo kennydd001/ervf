@@ -314,10 +314,16 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
          mirror;
       5. poort: bitexact tegen de huidige V6-stack over 3 × 256 tokens, VRAM
          binnen budget, dan A/B in de V12-harness (drift 0,108 ms — beslisbaar).
-- [ ] **PV2-11 (Q/K/V one-launch) hermeten in de V12-harness.** Was exact op
-      3/3 prompts en 0,2387 ms onder het baseline-midden, en sneuvelde **alleen**
-      op de driftpoort (1,8577 ms). De V12-harness haalt 0,108 ms drift, dus deze
-      kandidaat is nu beslisbaar. Code staat in `pro_research/pro_max_v2/qkv_v8.py`.
+- [WEERLEGD 2026-08-16] **PV2-11 (Q/K/V one-launch)** — hermeten in de
+      drift-stabiele graph-harness en daarmee **gesloten, negatief**. Bitexact,
+      maar **+2,6279 ms/token** bij een drift van **0,0416 ms** (45× kleiner dan
+      PV2's 1,8577). De 0,2387 ms "winst" die PV2 rapporteerde was driftruis.
+      Oorzaak: de kandidaat berekent Q/K/V met een eigen **BF16**-kernel, terwijl
+      de V6-stack Q en O al via **selectieve ERVF** draait (V3-G1B's hele winst,
+      −3,3841 ms). De fusie gooit die ERVF-winst weg om twee launches (~15 µs) te
+      besparen. **Les die generaliseert: check of een pad al geoptimaliseerd is
+      vóór je het fuseert** — dat geldt ook voor de andere final-mile-kandidaten.
+      `pro_research/qkv_v16.py`, `PRO_V16_QKV_GRAPH.json`.
 - [ ] **PV2-10 (add + next-RMSNorm) late divergentie isoleren** — micro
       bitexact, maar causale pariteit faalt pas bij gegenereerd token 124 van
       één prompt. Kimi's `diag_addnorm_late_divergence.py` (branch

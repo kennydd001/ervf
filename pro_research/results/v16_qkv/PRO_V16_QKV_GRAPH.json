@@ -1,0 +1,109 @@
+{
+  "kind": "pro_v16_qkv_graph",
+  "status": "gate_failed",
+  "mode": "smoke",
+  "started_utc": "2026-08-16T09:19:29.650328+00:00",
+  "opens_from": "The in-graph attribution puts attention at 2.479 ms against a 1.128 ms floor -- 45.5% efficiency, the LEAST efficient path in the model (Mamba 69.3%, shared_expert 90%, down_masked 60%). PV2-11 (Q/K/V one-launch) is an exact candidate on exactly that path: causal parity PASSED on all three prompts and it sat 0.2387 ms under the baseline midpoint, failing ONLY the drift gate at 1.8577 ms. This harness reaches 0.04-0.38 ms drift, so it is decidable now.",
+  "claim_boundary": "SYNC semantics (one replay + one ring harvest per token), the same regime the 21.0923 ms V6 record was measured in, so these numbers ARE comparable to it.",
+  "config": {
+    "tokens_per_prompt": 16,
+    "prompt_count": 3,
+    "capacity": 72,
+    "preheat_tokens": 32
+  },
+  "environment_start": {
+    "created_utc": "2026-08-16T09:19:35.300536+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "30a83781fa20ac16bf11d47da79a2775a4f877ce",
+    "git_status": [
+      "?? pro_research/qkv_v16.py",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 50, 11.34 W, 2182 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "pro_research\\moe_dev_overlap.py": "a1ddeb82708adb57eae1be6fe34be567c991844fbe7b31df7b1983022a41e9f1",
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "a047fb8f536fa4bf30f7cdc83fdcccbaa633706def8aa49cd86d8ca8ab2fda53"
+    }
+  },
+  "selective_capture_counters": {
+    "bf16_ervf": 0,
+    "bf16_prod": 0,
+    "fp8_ervf": 0,
+    "fp8_prod": 0,
+    "f32_prod": 0
+  },
+  "capture_error": null,
+  "timing_graph_sync": {
+    "BASE_A": {
+      "count": 45,
+      "mean": 23.82009555555555,
+      "p50": 23.6136,
+      "p95": 27.10536,
+      "p99": 28.245700000000003,
+      "max": 28.5834
+    },
+    "CAND": {
+      "count": 45,
+      "mean": 26.266171111111113,
+      "p50": 26.2623,
+      "p95": 29.41904,
+      "p99": 30.503476000000003,
+      "max": 31.1897
+    },
+    "BASE_B": {
+      "count": 45,
+      "mean": 23.896340000000006,
+      "p50": 23.6552,
+      "p95": 26.96302,
+      "p99": 28.188660000000002,
+      "max": 28.4036
+    },
+    "baseline_midpoint_ms": 23.6344,
+    "drift_ms": 0.04159999999999897,
+    "cand_minus_midpoint_ms": 2.6279000000000003,
+    "BASE_A_tok_s": 42.34847714876173,
+    "CAND_tok_s": 38.07739611534405,
+    "BASE_B_tok_s": 42.274003179005035,
+    "v6_record_ms_for_reference": 21.0923,
+    "attention_marginal_in_graph_ms": 2.479,
+    "pv2_reported_gain_ms": 0.2387
+  },
+  "first_divergence_cand_vs_base_a": {
+    "The capital of France is": null,
+    "The history of computing began when": null,
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+  },
+  "first_divergence_base_b_vs_base_a": {
+    "The capital of France is": null,
+    "The history of computing began when": null,
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+  },
+  "gates": {
+    "G_V16_C1_cand_bitexact_vs_base_a": true,
+    "G_V16_C2_base_a_eq_base_b": true,
+    "G_V16_D1_drift_le_1ms": true,
+    "G_V16_P1_gain_ge_0_2ms": false
+  },
+  "environment_end": {
+    "created_utc": "2026-08-16T09:20:12.507468+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "30a83781fa20ac16bf11d47da79a2775a4f877ce",
+    "git_status": [
+      "?? pro_research/qkv_v16.py",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 7514 MiB, 70, 59.06 W, 2565 MHz, 9001 MHz, P4",
+    "source_hashes": {}
+  },
+  "completed_utc": "2026-08-16T09:20:12.640051+00:00"
+}

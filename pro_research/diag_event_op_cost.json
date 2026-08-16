@@ -1,0 +1,18 @@
+{
+  "kind": "diag_event_op_cost",
+  "created_utc": "2026-08-16T08:43:58.390173+00:00",
+  "note": "prices the cross-stream event machinery V14 adds, to test whether the +3.65 ms/token regression is the API cost rather than a failure of the overlap idea",
+  "n_ops_per_arm": 414,
+  "repeats": 50,
+  "arms": {
+    "baseline_launches_ms": 3.277532,
+    "record_only_ms": 3.3954880000000003,
+    "full_pattern_ms": 82.1794
+  },
+  "derived": {
+    "us_per_event_record": 0.2849178743961362,
+    "us_per_full_slot_pattern": 182.66747826086956,
+    "v14_regression_ms_measured": 3.6518,
+    "predicted_regression_ms_from_event_cost": 25.208111999999996
+  }
+}

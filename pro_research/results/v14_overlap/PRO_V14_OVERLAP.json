@@ -1,0 +1,109 @@
+{
+  "kind": "pro_v14_overlap",
+  "status": "gate_failed",
+  "mode": "smoke",
+  "started_utc": "2026-08-16T08:42:11.959789+00:00",
+  "opens_from": "measured floors: VRAM 2048MB/249GB/s = 8.22 ms, PCIe gather 64MB/25.9GB/s = 2.47 ms; serial 10.69 ms = 93.6 tok/s vs overlapped 8.22 ms = 122 tok/s",
+  "claim_boundary": "eager (non-graph) single-sequence A/B; absolute ms/token only, not comparable to the 21.0923 ms V6 graph record",
+  "config": {
+    "tokens_per_prompt": 16,
+    "prompt_count": 3,
+    "capacity": 72,
+    "preheat_tokens": 32
+  },
+  "environment_start": {
+    "created_utc": "2026-08-16T08:42:17.670643+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "8ee284ae0785165dffacd2208fae6fa4ae4e7c7e",
+    "git_status": [
+      "?? pro_research/moe_dev_overlap.py",
+      "?? pro_research/overlap_v14.py",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 50, 11.57 W, 1897 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "pro_research\\moe_dev_overlap.py": "4ea1823feac197def2abed5cc0795c705325b9c426a64c840ad7e1fe4d23a376",
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "a047fb8f536fa4bf30f7cdc83fdcccbaa633706def8aa49cd86d8ca8ab2fda53"
+    }
+  },
+  "selective_capture_counters": {
+    "bf16_ervf": 0,
+    "bf16_prod": 0,
+    "fp8_ervf": 0,
+    "fp8_prod": 0,
+    "f32_prod": 0
+  },
+  "timing_eager": {
+    "BASE_A": {
+      "count": 45,
+      "mean": 24.83504,
+      "p50": 24.5034,
+      "p95": 27.934720000000002,
+      "p99": 29.282704000000003,
+      "max": 29.7088
+    },
+    "CAND": {
+      "count": 45,
+      "mean": 28.56799555555555,
+      "p50": 28.129,
+      "p95": 31.563760000000002,
+      "p99": 33.517952,
+      "max": 33.7596
+    },
+    "BASE_B": {
+      "count": 45,
+      "mean": 24.96433111111111,
+      "p50": 24.4509,
+      "p95": 27.9102,
+      "p99": 29.32866,
+      "max": 29.3731
+    },
+    "baseline_midpoint_ms": 24.47715,
+    "drift_ms": 0.05249999999999844,
+    "cand_minus_midpoint_ms": 3.6518499999999996,
+    "BASE_A_tok_s": 40.81066301003126,
+    "CAND_tok_s": 35.55049948451776,
+    "BASE_B_tok_s": 40.89829004249332,
+    "pcie_gather_ms_in_play": 2.47,
+    "fraction_of_pcie_time_hidden": 0.0
+  },
+  "first_divergence_cand_vs_base_a": {
+    "The capital of France is": null,
+    "The history of computing began when": null,
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+  },
+  "first_divergence_base_b_vs_base_a": {
+    "The capital of France is": null,
+    "The history of computing began when": null,
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+  },
+  "gates": {
+    "G_V14_C1_cand_bitexact_vs_base_a": true,
+    "G_V14_C2_base_a_eq_base_b": true,
+    "G_V14_D1_drift_le_1ms": true,
+    "G_V14_P1_gain_ge_0_8ms": false
+  },
+  "environment_end": {
+    "created_utc": "2026-08-16T08:42:53.972334+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "8ee284ae0785165dffacd2208fae6fa4ae4e7c7e",
+    "git_status": [
+      "?? pro_research/moe_dev_overlap.py",
+      "?? pro_research/overlap_v14.py",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 7500 MiB, 70, 53.55 W, 2527 MHz, 9001 MHz, P4",
+    "source_hashes": {}
+  },
+  "completed_utc": "2026-08-16T08:42:54.064285+00:00"
+}

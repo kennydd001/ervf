@@ -175,9 +175,30 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
-- [ ] **HOOGSTE PRIORITEIT — PCIe-gather overlappen met VRAM-werk (B3
-      double-buffer expert fetch). Dit is nu aantoonbaar DE poortvoorwaarde voor
-      100 tok/s.** De rekening, met alleen gemeten getallen: het eerlijke
+- [ ] **HOOGSTE PRIORITEIT — gather-grid verkleinen zodat de overlap échte
+      SM-ruimte krijgt.** B3 is gebouwd, bitexact en werkt (zie hieronder), maar
+      verstopt maar **16,8%** van de 2,47 ms. Oorzaak is gemeten en structureel:
+      `gather_down_sparse_ind` is een SM-side zero-copy kernel (moet wel — de
+      selectie is data-afhankelijk), dus gather en `down_masked` **vechten om
+      dezelfde SM's**. De launch is bovendien op de worst case gesized:
+      **247 blokken waarvan er ~31 werk hebben** (164,7 kolommen + 90,1 panelen
+      ≈ 247 warps van de 1972 gelanceerd). Een kleine statische grid (capture
+      vereist statisch) met een grid-stride-lus over warps laat veel meer SM
+      over voor `down_masked`. Goedkoop, raakt precies het mechanisme, en de
+      A/B-harness staat er al (`overlap_v14_graph.py`, drift 0,32 ms).
+      Als dit werkt is het pad naar 100 open; zo niet, dan is de PCIe-tijd
+      alleen met de copy-engine te verstoppen en dat vraagt een ander
+      transferpatroon.
+- [DEELS-DONE 2026-08-16] **B3 — PCIe-gather overlappen met VRAM-werk
+      (double-buffer expert fetch). Gebouwd, bitexact, in de graph −0,416 ms.**
+      Eager was **+3,65 ms** (langzamer): `diag_event_op_cost` prijsde een kale
+      `Event.record` op 0,285 µs maar het volledige cross-stream
+      wait/record-patroon op ~183 µs per iteratie, en V14 doet er 138 per token
+      — de eager-uitslag prijsde de scheduler, niet het idee. In de graph zijn
+      fork/join statische randen en klapt het teken om: **−0,4158 ms, alle
+      correctheidspoorten groen, capture accepteerde de multi-stream-topologie**.
+      Eigen poort was ≥0,8 ms → `gate_failed`, niet verruimd.
+      Oorspronkelijke onderbouwing: De rekening, met alleen gemeten getallen: het eerlijke
       kernelplafond is **249 GB/s** koud (`diag_gemv_width32.json`), dus de
       VRAM-vloer is 2048/249 = **8,22 ms**; de sparse down_proj rijdt over PCIe
       (25,9 GB/s gemeten) en kost daar **2,47 ms**.

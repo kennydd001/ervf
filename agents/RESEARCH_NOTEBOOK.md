@@ -11,6 +11,76 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — PRO V14 (B3, PCIe-gather overlappen): eager **+3,65 ms** (weerlegd door de scheduler, niet door het idee), in de graph **−0,416 ms** en bitexact — maar dat is pas **16,8%** van de 2,47 ms, en de reden daarvoor is structureel
+
+**Vraag.** De plafondrekening zegt: serieel 10,69 ms = 93,6 tok/s → 100
+onbereikbaar; overlappend 8,22 ms = 122 tok/s → 100 haalbaar. Kan de
+down_proj-PCIe-gather onder het VRAM-werk verstopt worden?
+
+**Opzet.** `moe_dev_overlap.py`: twee mirrors in ping-pong plus een eigen
+gather-stream, zodat de gather van slot s+1 loopt terwijl slot s rekent. De
+edge die makkelijk vergeten wordt en stil zou corrumperen — `gather_stream`
+moet op `m_done[s-1]` wachten voordat hij `mirror[(s+1)&1]` overschrijft, want
+slot s-1 leest daar nog uit — zit erin. Kost: één extra mirror van 2,81 MB
+(`mstate["mirror"]` is globale scratch, niet per laag, dus 5,6 MB totaal).
+Niets aan de rekenkunde verandert; alleen wannéér de gather draait.
+
+**Ronde 1 — eager: +3,6518 ms/token. Bitexact, maar veel trager.**
+Alle correctheidspoorten groen (inclusief de ping-pong-hazard), drift
+0,0525 ms. Maar de kandidaat is 3,65 ms **langzamer**.
+
+**De diagnose, gemeten in plaats van geraden** (`diag_event_op_cost.py`): een
+kale `Event.record` kost **0,285 µs** — gratis. Maar het volledige
+cross-stream `wait_event`/`record`-heen-en-weer-patroon kost **~183 µs per
+iteratie** in eager mode. V14 doet 23 lagen × 6 slots = **138** van die
+fork/join-hops per token. Dat is de hele regressie. **De eager-uitslag prijst
+de scheduler, niet het idee.**
+
+**Ronde 2 — in de graph: −0,4158 ms/token, bitexact.**
+Binnen een gevangen CUDA-graph zijn fork/join statische graafranden, één keer
+opgelost bij capture; tijdens replay wordt er geen dependency-API aangeroepen.
+Capture accepteerde de multi-stream-topologie zonder klacht (`capture_error:
+null`) — de fork/join-vorm was al capture-legaal.
+
+| arm (graph, SYNC-semantiek) | p50 ms | tok/s |
+|---|---:|---:|
+| BASE_A (V6) | 22,3962 | 44,650 |
+| **CAND (B3 overlap)** | **22,1405** | **45,166** |
+| BASE_B (V6) | 22,7164 | 44,021 |
+
+midden 22,5563 · drift 0,3202 · **CAND − midden = −0,4158 ms**. Poorten:
+C1 bitexact **PASS** · C2 **PASS** · D1 **PASS** · **P1 (≥0,8 ms) FAIL**.
+Poort niet verruimd. **Het teken is wel omgeklapt: van +3,65 naar −0,42.**
+
+**Waarom maar 16,8% van de 2,47 ms?** Structureel, en het is een echte les:
+`gather_down_sparse_ind` is een **SM-side zero-copy kernel**, geen DMA-kopie.
+Hij moet dat zijn, want de selectie is data-afhankelijk (alleen de nonzero
+kolommen) en dat kan een copy-engine niet. Gevolg: gather en `down_masked`
+overlappen wel in de tijd, maar **vechten om dezelfde SM's**. Een warp die op
+PCIe staat te wachten geeft zijn issue-slots vrij maar houdt zijn warp-slot en
+registers bezet, dus hij verdringt reken-warps. **PCIe-tijd verstoppen achter
+compute lukt alleen echt als de transfer op de copy-engine ligt.**
+
+**Wat dit opent — twee concrete richtingen, in volgorde van kansrijkheid.**
+1. **Minder SM-beslag door de gather.** De launch is op de worst case gesized:
+   `blocks = (inter + npanel)·32/256 = 247` blokken, waarvan er in de praktijk
+   maar ~31 werk hebben (164,7 kolommen + 90,1 panelen ≈ 247 warps). De rest
+   wordt wél gescheduled. Een kleine statische grid (capture vereist statisch)
+   met een grid-stride-lus over warps laat veel meer SM over voor
+   `down_masked`. Goedkoop te testen, raakt precies het mechanisme hierboven.
+2. **Transfer naar de copy-engine.** Vereist een niet-data-afhankelijk
+   kopieerpatroon; hele panelen DMA'en is 4,4× zoveel bytes (1,94 MB/expert
+   tegen 440 KB) = 10,4 ms/token bij 25,9 GB/s en dus slechter. Alleen zinvol
+   in combinatie met residentie, en `full`-cachemode is door S11 al weerlegd
+   bij gelijke bytes. Laag geprioriteerd tot 1 gemeten is.
+
+**Artefacten.** `pro_research/moe_dev_overlap.py`, `pro_research/overlap_v14.py`,
+`pro_research/overlap_v14_graph.py`, `pro_research/diag_event_op_cost.py` +
+`.json`, `pro_research/results/v14_overlap/PRO_V14_OVERLAP.json` en
+`PRO_V14G_OVERLAP_GRAPH.json`.
+
+---
+
 ## 2026-08-16 — Eerste **onbevangen** componentattributie van het hele project (alle poorten groen): MoE 47,6%, Mamba 24,5%, attention 8,3% van een token
 
 **Vraag.** Waar gaat een token echt heen? De enige bestaande attributie

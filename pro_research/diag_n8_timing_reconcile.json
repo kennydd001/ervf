@@ -1,0 +1,40 @@
+{
+  "kind": "diag_n8_timing_reconcile",
+  "created_utc": "2026-08-16T05:20:43.641977+00:00",
+  "note": "measures cp.cuda.Event() (Method A, matching proto_multi_seq_full_model_n8.py exactly) and time.perf_counter()+synchronize() (Method B, matching diag_n8_dispatch_vs_exec.py) on the IDENTICAL loop, back to back in the same run, to resolve why the two scripts disagreed by ~4x on N=8's aggregate tok/s",
+  "environment": {
+    "created_utc": "2026-08-16T05:20:43.641977+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "24da7ce44af6b9c208dd7425f188d889af20cbda",
+    "git_status": [
+      "M pro_research/proto_multi_seq_full_model_n8.json",
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/diag_n8_dispatch_vs_exec.json",
+      "?? pro_research/diag_n8_dispatch_vs_exec.py",
+      "?? pro_research/diag_n8_timing_reconcile.json",
+      "?? pro_research/diag_n8_timing_reconcile.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 7092 MiB, 79, 57.81 W, 1980 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
+    }
+  },
+  "n_sequences": 8,
+  "decode_steps": 30,
+  "phase3a_replica_solo_tok_s": 30.189806616206187,
+  "method_a_event_ms": 7873.85400390625,
+  "method_a_aggregate_tok_s": 30.480626117900464,
+  "method_a_speedup_vs_solo": 1.009633036255958,
+  "method_b_perfcounter_ms": 7919.694799988065,
+  "method_b_aggregate_tok_s": 30.304198086062822,
+  "ratio_b_over_a": 1.0058219006929863,
+  "methods_agree_within_20pct": true
+}

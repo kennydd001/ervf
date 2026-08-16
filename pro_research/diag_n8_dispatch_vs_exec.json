@@ -1,0 +1,47 @@
+{
+  "kind": "diag_n8_dispatch_vs_exec",
+  "created_utc": "2026-08-16T05:09:23.551128+00:00",
+  "note": "empirically tests whether Python-dispatch/kernel-launch-issuance time (measured WITHOUT synchronize() until the end, so it captures CPU-side queueing cost, not GPU execution) is a large and/or N-scaling fraction of total wall time -- the concrete follow-up to diag_n8_cache_hitrate.py's finding that ruled out caching as the cause of proto_multi_seq_full_model_n8.py's 0.253x collapse",
+  "environment": {
+    "created_utc": "2026-08-16T05:09:23.551128+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "24da7ce44af6b9c208dd7425f188d889af20cbda",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/diag_n8_dispatch_vs_exec.json",
+      "?? pro_research/diag_n8_dispatch_vs_exec.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 7074 MiB, 75, 56.60 W, 2595 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
+    }
+  },
+  "result_n1": {
+    "n_sequences": 1,
+    "measure_steps": 30,
+    "dispatch_only_ms": 956.084200006444,
+    "total_wall_ms_incl_sync": 956.0996000072919,
+    "gpu_exec_tail_ms": 0.015400000847876072,
+    "dispatch_fraction_of_total": 0.9999838928906071,
+    "ms_per_step_total": 31.86998666690973
+  },
+  "result_n8": {
+    "n_sequences": 8,
+    "measure_steps": 30,
+    "dispatch_only_ms": 7779.9680000171065,
+    "total_wall_ms_incl_sync": 7779.990900016855,
+    "gpu_exec_tail_ms": 0.022899999748915434,
+    "dispatch_fraction_of_total": 0.9999970565518593,
+    "ms_per_step_total": 259.33303000056185
+  },
+  "dispatch_fraction_grew_with_n": false,
+  "ms_per_step_ratio_n8_over_n1": 8.137218026194677
+}

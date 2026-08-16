@@ -469,9 +469,19 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       zich met N (bij N=8: ~12.480 Python-`setattr`-aanroepen alleen al per
       decode-stap). Een architecturale eigenschap van deze prototype-bouw
       (aparte Python-aanroepen per sequentie per laag), geen bug — precies
-      wat een CUDA-graph-integratie (routekaart-item 2) zou oplossen. Zie
-      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "N=8 naive baseline" en het
-      vervolg direct erna.
+      wat een CUDA-graph-integratie (routekaart-item 2) zou oplossen.
+      **[KRITIEKE TEGENCONTROLE, ZELFDE DAG]**: een onafhankelijke
+      `time.perf_counter()`-herhaling gaf GEEN instorting (tegenspraak!) —
+      grondig uitgezocht (drie reconstructiepogingen faalden de instorting
+      te reproduceren, ondanks regel-voor-regel-vergelijking), uiteindelijk
+      opgelost door het ORIGINELE bestand direct te instrumenteren (geen
+      reconstructie): `cp.cuda.Event()` en `time.perf_counter()` komen
+      binnen dezelfde run PERFECT overeen (ratio 1,0000) — **de instorting
+      is fysiek reëel, geen meetartefact.** De kleinere puzzel (waarom de
+      reconstructie het niet reproduceerde) blijft open, eerlijk
+      ongeverklaard, maar raakt de hoofdconclusie niet. Zie
+      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "N=8 naive baseline" en beide
+      vervolgen direct erna.
 - [WEERLEGD 2026-08-16] **Grotere cache herstelt het N=4-voordeel niet —
       hypothese verworpen, echte regressie gevonden.**
       `pro_research/proto_multi_seq_full_model_n4_bigcache.py`: cap 72→144

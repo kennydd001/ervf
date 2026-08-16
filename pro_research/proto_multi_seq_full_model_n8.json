@@ -1,24 +1,29 @@
 {
   "kind": "proto_multi_seq_full_model_n8",
-  "created_utc": "2026-08-16T04:59:30.991705+00:00",
+  "created_utc": "2026-08-16T05:23:13.055400+00:00",
   "phase_reached": "phase3_naive_baseline_measured",
   "environment": {
-    "created_utc": "2026-08-16T04:59:30.991705+00:00",
+    "created_utc": "2026-08-16T05:23:13.056403+00:00",
     "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
     "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
     "platform": "Windows-11-10.0.26200-SP0",
-    "git_head": "ab15394d613da5b0490d6bfaa305900480f4536a",
+    "git_head": "24da7ce44af6b9c208dd7425f188d889af20cbda",
     "git_status": [
+      "M pro_research/proto_multi_seq_full_model_n8.json",
       "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/diag_n8_dispatch_vs_exec.json",
+      "?? pro_research/diag_n8_dispatch_vs_exec.py",
+      "?? pro_research/diag_n8_instrumented_original.py",
+      "?? pro_research/diag_n8_timing_reconcile.json",
+      "?? pro_research/diag_n8_timing_reconcile.py",
       "?? pro_research/install_console.log",
-      "?? pro_research/proto_multi_seq_full_model_n8.py",
       "?? pro_research/results/history/",
       "?? pro_research/results/logs/",
       "?? pro_research/smoke_console.log",
       "?? pro_research/smoke_v2_console.log"
     ],
     "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
-    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 7844 MiB, 77, 44.38 W, 2835 MHz, 9001 MHz, P4",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 7844 MiB, 76, 39.90 W, 2700 MHz, 9001 MHz, P4",
     "source_hashes": {
       "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
     }
@@ -27,13 +32,13 @@
   "decode_steps_per_sequence": 30,
   "phase2_equivalence_pass": true,
   "note": "N=8 extension of the verified naive baseline (N=2: +2.05% robust; N=4: +4.7% at 15 steps, flat vs N=2) -- tests whether the flat-to-declining trend continues, worsens, or reverses at N=8; the naive (no explicit sharing) mechanism remains the best-performing batch>1 approach measured this session in absolute tok/s",
-  "solo_n1_same_config_ms_per_token": 33.621734619140625,
-  "solo_n1_same_config_tok_s": 29.74266531241689,
-  "total_wall_ms_for_all_real_tokens": 31908.72265625,
+  "solo_n1_same_config_ms_per_token": 32.926560465494795,
+  "solo_n1_same_config_tok_s": 30.37061830518084,
+  "total_wall_ms_for_all_real_tokens": 32478.27734375,
   "total_real_tokens_across_all_sequences": 240,
-  "ms_per_real_token_aggregate": 132.95301106770833,
-  "aggregate_tok_s": 7.521454324120082,
-  "aggregate_speedup_vs_solo": 0.25288434123555315,
+  "ms_per_real_token_aggregate": 135.32615559895834,
+  "aggregate_tok_s": 7.389554484674191,
+  "aggregate_speedup_vs_solo": 0.243312612552693,
   "tokens_by_sequence": [
     [
       6990,

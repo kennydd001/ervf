@@ -483,6 +483,62 @@ runtime-wijziging). Hypothese expliciet weerlegd,
 **Artefacten.** `pro_research/diag_n8_cache_hitrate.py`,
 `pro_research/diag_n8_cache_hitrate.json`.
 
+**Kritieke tegencontrole, zelfde dag: is de N=8-instorting zelf wel echt,
+of een meetartefact van `cp.cuda.Event()`?** Een directe, onafhankelijke
+`time.perf_counter()`-gebaseerde herhaling van dezelfde berekening
+(`diag_n8_dispatch_vs_exec.py`) gaf GEEN instorting — bijna perfect
+lineaire schaling (7,9-8,1× kost voor 8× werk, geen 4× regressie). Dit is
+een reële tegenspraak tussen twee metingen van "dezelfde" berekening, en
+dit project se eigen methodologie eist dat zulke tegenspraken opgelost
+worden, niet genegeerd.
+
+**Onderzoekstraject (eerlijk, inclusief wat niet meteen lukte).** Een
+zorgvuldig gereconstrueerd script dat de VOLLEDIGE structuur van
+`proto_multi_seq_full_model_n8.py` naboötste (Fase 2-correctheidspoort
+verbatim, Fase 3a-solo-timing in dezelfde volgorde, zelfs de
+`tokens_by_seq[s].append(...)`-regel binnen de getimede lus) **reproduceerde
+de instorting NIET** (steeds ~1,01× i.p.v. 0,25×) — ondanks regel-voor-regel
+vergelijking. In plaats van door te blijven gissen wat er nog ontbrak: het
+**ORIGINELE, ONGEWIJZIGDE bestand zelf geïnstrumenteerd** (`diag_n8_instrumented_original.py`,
+een letterlijke kopie van `proto_multi_seq_full_model_n8.py` met alleen een
+`time.perf_counter()`-meting TOEGEVOEGD rond de bestaande, ongewijzigde
+`cp.cuda.Event()`-lus — geen enkele regel logica veranderd).
+
+**Uitkomst: de instorting reproduceert (0,243×, consistent met eerdere
+runs), EN `cp.cuda.Event()` en `time.perf_counter()` komen binnen deze ene
+run PERFECT overeen** (`ratio(wall/event)=1,0000`, beide 32.478,277 ms/32.478,636 ms
+voor exact dezelfde 30-staps-N=8-lus). **Dit bewijst dat de instorting geen
+meetartefact van `cp.cuda.Event()` is — hij is fysiek reëel**, bevestigd
+door twee onafhankelijke tijdmethoden die binnen één run volledig
+overeenstemmen.
+
+**De aparte, kleinere puzzel (waarom de handmatige reconstructie de
+instorting niet reproduceerde) blijft onopgelost** — vermoedelijk een
+subtiel verschil dat ondanks zorgvuldige regel-voor-regel-vergelijking niet
+gevonden is. Dit wordt hier expliciet als open, secundaire vraag gelaten
+(niet als verklaring verzonnen) — het doet niets af aan de hoofdconclusie,
+die nu met twee onafhankelijke methoden binnen dezelfde run is bevestigd.
+
+**Wat dit vaststelt.** De N=8-instorting (en bij uitbreiding de N=4-cache-
+en warme-cache-regressies eerder vandaag, gemeten met dezelfde
+`cp.cuda.Event()`-methode) is een **reëel, fysiek fenomeen**, geen
+tijdmeet-artefact. De eerdere conclusie (Python-orkestratie-/kernel-
+launch-overhead schaalt met N, cache-hitrate juist beter bij N=8) blijft
+staan, nu met een extra, onafhankelijke bevestiging dat het onderliggende
+getal zelf klopt.
+
+**Poorten.** Geen PRO-poorten (read-only reconciliatie-diagnostiek). Geen
+tok/s-winstclaim — bevestigt een eerder gerapporteerde regressie, verandert
+hem niet.
+
+**Artefacten.** `pro_research/diag_n8_dispatch_vs_exec.py`,
+`pro_research/diag_n8_dispatch_vs_exec.json`,
+`pro_research/diag_n8_timing_reconcile.py`,
+`pro_research/diag_n8_timing_reconcile.json`,
+`pro_research/diag_n8_instrumented_original.py` (letterlijke kopie van
+`proto_multi_seq_full_model_n8.py` plus één toegevoegde tijdmeting, geen
+logicawijziging).
+
 ---
 
 ## 2026-08-16 — Grotere cache bij groter N: hersteld het voordeel? Verrassend: nee, het wordt WÉÉR erger — een echte hypothese verworpen

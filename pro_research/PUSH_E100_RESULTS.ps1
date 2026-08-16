@@ -6,7 +6,8 @@ if ($branch -ne 'pro-e100-batch') { throw "Refusing to push E100 results from br
 $Paths = @(
     'pro_research/results/e100_mrhs',
     'pro_research/results/e100_mrhs256',
-    'pro_research/results/e100_pairbatch'
+    'pro_research/results/e100_pairbatch',
+    'pro_research/results/e100_nvfp4_smem_mrhs'
 ) | Where-Object { Test-Path $_ }
 if ($Paths.Count -eq 0) { throw 'No E100 primitive result directories found.' }
 foreach ($Path in $Paths) { git add -f $Path }

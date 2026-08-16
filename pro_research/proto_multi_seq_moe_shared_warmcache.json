@@ -1,24 +1,24 @@
 {
   "kind": "proto_multi_seq_moe_shared_warmcache",
-  "created_utc": "2026-08-16T04:39:25.734155+00:00",
+  "created_utc": "2026-08-16T04:44:40.382234+00:00",
   "phase_reached": "phaseC_timing_measured",
   "environment": {
-    "created_utc": "2026-08-16T04:39:25.735013+00:00",
+    "created_utc": "2026-08-16T04:44:40.383473+00:00",
     "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
     "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
     "platform": "Windows-11-10.0.26200-SP0",
-    "git_head": "17888bde919076b59414b2740f015a7433ac6a3a",
+    "git_head": "680b69dbe378cb2fa48293f2d46d9e62fc2cbaf5",
     "git_status": [
+      "M pro_research/proto_multi_seq_moe_shared_warmcache.py",
       "?? pro_research/SOURCE_MANIFEST_SHA256.json",
       "?? pro_research/install_console.log",
-      "?? pro_research/proto_multi_seq_moe_shared_warmcache.py",
       "?? pro_research/results/history/",
       "?? pro_research/results/logs/",
       "?? pro_research/smoke_console.log",
       "?? pro_research/smoke_v2_console.log"
     ],
     "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
-    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 7814 MiB, 74, 36.77 W, 2850 MHz, 9001 MHz, P4",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 7814 MiB, 75, 37.41 W, 2827 MHz, 9001 MHz, P4",
     "source_hashes": {
       "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
     }
@@ -28,10 +28,10 @@
   "cache_cap": 72,
   "phaseB_equivalence_pass": true,
   "note": "same shared_moe_layer pipeline as proto_multi_seq_moe_shared.py (11.234 tok/s, fresh per-call cache) but with ONE persistent per-layer device-cache (cap=72) built once and reused/evolving across all real decode steps, combining within-step union-sharing with cross-step warm-cache reuse for the first time",
-  "total_wall_ms_for_all_real_tokens": 46381.5546875,
+  "total_wall_ms_for_all_real_tokens": 46839.88671875,
   "total_real_tokens_across_all_sequences": 80,
-  "ms_per_real_token_aggregate": 579.76943359375,
-  "aggregate_tok_s": 1.7248235972038317,
+  "ms_per_real_token_aggregate": 585.498583984375,
+  "aggregate_tok_s": 1.7079460605948904,
   "tokens_by_sequence": [
     [
       6990,
@@ -117,5 +117,30 @@
       1987,
       18246
     ]
-  ]
+  ],
+  "profile_section_seconds": {
+    "1_routing_and_shared_expert": 35.140876000456046,
+    "2a_ids_copy": 0.1571023998549208,
+    "2b_cache_assign": 0.1012834005523473,
+    "2c_cache_fetch": 1.8240497995866463,
+    "2d_host_sync": 0.2767613996984437,
+    "3_up_proj_gemv_and_panel_scan": 9.381659000820946,
+    "4_union_mask_build": 1.568970299558714,
+    "5a_down_proj_gather_batched": 7.239332699507941,
+    "5b_down_proj_masked_reduce_batched": 9.181397300679237,
+    "6_accumulate": 0.13145620137220249
+  },
+  "profile_section_fraction": {
+    "1_routing_and_shared_expert": 0.5406048378808207,
+    "2a_ids_copy": 0.0024168525964792433,
+    "2b_cache_assign": 0.0015581369210861265,
+    "2c_cache_fetch": 0.02806105761789448,
+    "2d_host_sync": 0.004257678482850128,
+    "3_up_proj_gemv_and_panel_scan": 0.1443268017315826,
+    "4_union_mask_build": 0.02413693199969613,
+    "5a_down_proj_gather_batched": 0.11136940013481805,
+    "5b_down_proj_masked_reduce_batched": 0.14124598940529226,
+    "6_accumulate": 0.002022313229480272
+  },
+  "profile_note": "PROFILE=True adds sync points at section boundaries, changing async overlap -- absolute numbers are NOT the same run as a PROFILE=False timing; only relative fractions are meaningful."
 }

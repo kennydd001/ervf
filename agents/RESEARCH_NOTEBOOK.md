@@ -194,6 +194,62 @@ regressie, oorzaak onbekend.
 **Artefacten.** `pro_research/proto_multi_seq_moe_shared_warmcache.py`,
 `pro_research/proto_multi_seq_moe_shared_warmcache.json`.
 
+**Vervolg, zelfde dag — de belofte ingelost (sectiegeprofileerd meten in
+plaats van gissen), en een verrassend, nog niet verklaard resultaat.**
+Dezelfde `PROFILE`-instrumentatie als het andere script toegevoegd en
+gedraaid (40 stappen × 2 sequenties, bitexact opnieuw bevestigd).
+
+| sectie | aandeel |
+|---|---:|
+| **1. routing + shared expert** | **54,1%** |
+| 2a. ids-kopie | 0,2% |
+| 2b. cache_assign | 0,2% |
+| 2c. cache_fetch | 2,8% |
+| 2d. host-sync | 0,4% |
+| 3. up_proj-GEMV + panel_scan | 14,4% |
+| 4. unie-maskerberekening | 2,4% |
+| 5a. down_proj gather (gebatcht) | 11,1% |
+| 5b. down_proj masked+reduce+accumulate (gebatcht) | 14,1% |
+| 6. accumuleren | 0,2% |
+
+**`cache_assign`/`cache_fetch` zijn definitief onschuldig bevonden** (2b+2c
+samen slechts ~3%) — dit sluit de eviction-scan-hypothese een DERDE keer
+uit, nu ook in de geïntegreerde context, niet alleen de losstaande
+micro-benchmark. **Maar sectie 1 (routing + shared expert) — code die
+LETTERLIJK IDENTIEK is aan de niet-warme versie, en die de persistente
+cache-buffers helemaal niet aanraakt — domineert onverwacht met 54,1%**,
+tegenover ~12-13% in de niet-warme versie. Dit is het enige structurele
+verschil tussen de twee scripts dat dit zou kunnen verklaren: de
+persistente `codes`/`scales`-buffers zijn nu **cap-groot (72 sloten)** per
+laag i.p.v. `u`-groot, een permanente reservering van orde ~190 MB per
+laag × 23 lagen (de hogere VRAM-bezetting in `nvidia-smi`, 7814 MiB tegen
+6810 MiB, bevestigt een reëel groter permanent geheugenbeslag). Een
+**aannemelijke maar NIET geverifieerde** kandidaat-verklaring: een grote
+permanente VRAM-reservering kan CuPy se geheugenpool-allocator trager
+maken voor de vele kleine, tijdelijke allocaties die sectie 1 en
+verderop nog steeds doet (`cp.zeros(top_k)`-achtige buffers) — maar dit is
+**expliciet niet getoetst**, en wordt hier bewust NIET als vaststaand
+gerapporteerd, na twee eerdere keren dit sessie waarin een aannemelijk
+klinkende verklaring bij toetsing bleek te kloppen noch te falen zoals
+verwacht.
+
+**Wat dit sluit en opent.** Sluit definitief de eviction-scan als oorzaak
+(nu drie onafhankelijke bevestigingen: de losstaande micro-benchmark, en
+nu twee keer binnen de geïntegreerde context). Opent een precieze,
+overdraagbare vervolgvraag: is de grote persistente buffer-allocatie de
+oorzaak van sectie 1 se trager worden? Dat zou getoetst moeten worden met
+een geïsoleerde micro-benchmark (kleine allocaties timen met en zonder een
+grote, gelijktijdig actieve permanente VRAM-reservering) — niet gedaan
+hier, met opzet, om niet een derde ongeverifieerde verklaring te
+rapporteren.
+
+**Poorten.** Correctheid: bitexact opnieuw bevestigd. Geen nieuwe
+tok/s-claim (zelfde 1,7-tok/s-orde als hiervoor, binnen ruis van de
+extra profilerings-syncs).
+
+**Artefacten (bijgewerkt).** `pro_research/proto_multi_seq_moe_shared_warmcache.py`
+(nu met `PROFILE`-vlag, standaard uit).
+
 ---
 
 ## 2026-08-16 — Robuustheidscontrole van de N=2-naive-baseline: het cijfer krimpt bij een langere horizon — eerlijke bijstelling, geen tegenspraak

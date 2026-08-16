@@ -522,9 +522,19 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       verklaring (eviction-scan duurder bij cap=72) is al tweemaal deze
       sessie getoetst en weerlegd (`diag_cache_assign_scan_cost.py`), dus
       bewust NIET herhaald zonder nieuwe toetsing. Een derde eerlijk
-      nulresultaat, ditmaal sterk negatief — vervolgvraag (niet gedaan):
-      sectiegeprofileerd meten om de echte oorzaak vast te stellen. Zie
-      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Derde poging".
+      nulresultaat, ditmaal sterk negatief.
+      **[SECTIEGEPROFILEERD, ZELFDE DAG]**: `cache_assign`/`cache_fetch`
+      **definitief onschuldig bevonden** (samen ~3% van de tijd) — de
+      eviction-scan-hypothese nu een DERDE keer uitgesloten. Verrassing:
+      "routing + shared expert" (code identiek aan de snelle versie, raakt
+      de persistente cache niet aan) domineert onverwacht met **54,1%**
+      (tegen ~12-13% in de niet-warme versie). Aannemelijke maar NIET
+      geverifieerde kandidaat: de grote permanente `codes`/`scales`-
+      buffer-reservering (~190 MB/laag × 23) maakt CuPy se geheugenpool
+      trager voor kleine tijdelijke allocaties — bewust NIET als
+      vaststaand gerapporteerd zonder toetsing. Zie
+      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Derde poging" en het
+      vervolg direct erna.
 - [WEERLEGD-VOOR-DEZE-AANPAK, CORRECTHEID BEVESTIGD 2026-08-16] **Expliciete
       unie-gevoede MoE-deling geïntegreerd in de echte staplus — bitexact
       correct, maar 12× TRAGER, niet sneller.**

@@ -67,6 +67,23 @@ N = 2
 DECODE_STEPS = 40
 CACHE_CAP = 72  # matches production's own default (A1 adoption precedent)
 
+# Root-cause profiling for the 6.5x regression found in the first version of
+# this script (1.725 vs 11.234 tok/s) -- off by default, adds sync points at
+# section boundaries (changes async overlap, so only relative fractions are
+# meaningful), does not change any computed value.
+PROFILE = False
+_profile_totals = {}
+
+
+def _prof_mark(cp, label, t0):
+    if not PROFILE:
+        return None
+    cp.cuda.Device(0).synchronize()
+    import time
+    now = time.perf_counter()
+    _profile_totals[label] = _profile_totals.get(label, 0.0) + (now - t0)
+    return now
+
 
 def snapshot_state(rt):
     rt._alloc_state()
@@ -109,6 +126,9 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k, layer_cache):
     npanel = moe_inter // 16
     bank = rt.bank[i]
 
+    import time
+    t0 = time.perf_counter() if PROFILE else None
+
     P = N_ * top_k
     all_ids_dev = cp.zeros(P, dtype=cp.int32)
     all_w_dev = cp.zeros(P, dtype=cp.float32)
@@ -125,6 +145,8 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k, layer_cache):
                          all_w_dev[s * top_k:(s + 1) * top_k], n_experts, top_k,
                          scaling, bad_pick=rt._bad_pick)
 
+    t0 = _prof_mark(cp, "1_routing_and_shared_expert", t0)
+
     # persistent, evolving cache: cache_assign carries slot_of/expert_of/
     # last_used/state2 across calls (that IS its production-intended
     # semantics -- a real LRU, not a one-shot union), so experts still
@@ -134,14 +156,24 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k, layer_cache):
     codes = layer_cache["codes"]
     scales = layer_cache["scales"]
     dev["ids"][:P] = all_ids_dev
+
+    t0 = _prof_mark(cp, "2a_ids_copy", t0)
+
     fused.cache_assign(dev, dev["ids"][:P], CACHE_CAP, P)
+
+    t0 = _prof_mark(cp, "2b_cache_assign", t0)
+
     fused.cache_fetch(bank["up_codes"].ctypes.data, bank["up_scales"].ctypes.data,
                       codes, scales, dev, UP_CODE, UP_SCALE, P)
+
+    t0 = _prof_mark(cp, "2c_cache_fetch", t0)
 
     all_ids_host = cp.asnumpy(all_ids_dev).tolist()
     slots_host = cp.asnumpy(dev["slots"][:P]).tolist()
     seq_ids = [all_ids_host[s * top_k:(s + 1) * top_k] for s in range(N_)]
     seq_w_dev = [all_w_dev[s * top_k:(s + 1) * top_k] for s in range(N_)]
+
+    t0 = _prof_mark(cp, "2d_host_sync", t0)
 
     act_by_pair = {}
     panel_by_pair = {}
@@ -165,6 +197,8 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k, layer_cache):
             act_by_pair[(s, e)] = act
             panel_by_pair[(s, e)] = {"masks": masks, "plist": plist, "pcount": pcount, "nz": nz, "nzc": nzc}
 
+    t0 = _prof_mark(cp, "3_up_proj_gemv_and_panel_scan", t0)
+
     union_experts = sorted(set(e for ids_s in seq_ids for e in ids_s))
 
     bit_shifts = np.arange(16, dtype=np.uint32)
@@ -180,6 +214,8 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k, layer_cache):
         idx_matrix = (plist_np[:, None].astype(np.int64) << 4) + bit_shifts[None, :]
         union_plist_by_expert[e] = plist_np
         union_nz_by_expert[e] = idx_matrix[bits].astype(np.int32)
+
+    t0 = _prof_mark(cp, "4_union_mask_build", t0)
 
     blocks = ((moe_inter + npanel) * 32 + 255) // 256
     u = len(union_experts)
@@ -205,6 +241,8 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k, layer_cache):
         e: mirror_batched_by_union[ui * DOWN_PANEL_BYTES:(ui + 1) * DOWN_PANEL_BYTES]
         for ui, e in enumerate(union_experts)
     }
+
+    t0 = _prof_mark(cp, "5a_down_proj_gather_batched", t0)
 
     pairs = [(s, e) for s in range(N_) for e in seq_ids[s]]
     Ppairs = len(pairs)
@@ -232,10 +270,13 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k, layer_cache):
                                hidden, moe_inter, npanel, DOWN_PANEL_BYTES, Ppairs, fused.nchunks)
     contrib_batched = scan_k.run_reduce_partials_batched(partials_batched, hidden, fused.nchunks, Ppairs)
 
+    t0 = _prof_mark(cp, "5b_down_proj_masked_reduce_batched", t0)
+
     for s in range(N_):
         start = s * top_k
         contrib_s = contrib_batched[start * hidden:(start + top_k) * hidden]
         scan_k.run_accumulate_batched(states[s]["acc"], contrib_s, seq_w_dev[s], hidden, top_k)
+    _prof_mark(cp, "6_accumulate", t0)
 
 
 def multi_step(rt, states, token_ids, gk, scan_k, layer_caches):
@@ -407,6 +448,13 @@ def main() -> int:
         "aggregate_tok_s": aggregate_tok_s,
         "tokens_by_sequence": tokens_by_seq,
     }
+    if PROFILE and _profile_totals:
+        total_profiled = sum(_profile_totals.values())
+        payload["profile_section_seconds"] = dict(_profile_totals)
+        payload["profile_section_fraction"] = {
+            k: v / total_profiled for k, v in _profile_totals.items()
+        }
+        payload["profile_note"] = "PROFILE=True adds sync points at section boundaries, changing async overlap -- absolute numbers are NOT the same run as a PROFILE=False timing; only relative fractions are meaningful."
     out = REPO / "pro_research" / "proto_multi_seq_moe_shared_warmcache.json"
     write_json_atomic(out, payload, archive=False)
     print(payload)

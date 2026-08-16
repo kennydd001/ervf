@@ -11,6 +11,71 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Mamba per stage **gemeten** in plaats van afgeleid: GEMV's 4,187 ms · ssm+gated_norm 1,011 · conv+dt 0,197. De in-lus-GEMV draait op **213 GB/s** — tussen mijn twee eerdere claims in
+
+**Vraag.** Ik heb Mamba's 5,168 ms vandaag twee keer verschillend gesplitst,
+beide keren door **aftrekken** van een geïsoleerd getal:
+- eerst: alles aan de GEMV's → 172,6 GB/s in de lus, "een gat van een half token";
+- toen gecorrigeerd: GEMV's 3,448 ms (geïsoleerd tempo) → 258,7 GB/s, "geen gat".
+
+Een geïsoleerd getal van een in-lus getal aftrekken is precies de beweging die
+vandaag al één fantoomprioriteit opleverde. Dus: meten.
+
+**Opzet.** Marginale probes in de gevangen graph, **bewust gegroepeerd in drie
+armen** in plaats van zes — mijn eigen regel van vanmiddag na een 7-armige
+sweep met 0,39 ms drift tussen tussenliggende armen. `conv_step` en `ssm_step`
+muteren `conv[i]`/`ssm[i]`, dus die probes krijgen **eigen kladrecurrentie**;
+alle probes schrijven naar kladbuffers zodat niets stroomafwaarts verandert.
+
+**Uitkomst (alle poorten groen: G1 alle armen bitexact, G2 drift 0,3969 ms;
+basis-midden 20,774 ms).**
+
+| groep | ms/token | % van token |
+|---|---:|---:|
+| **in_proj + out_proj (GEMV)** | **4,187** | 20,2% |
+| **ssm_step + gated_norm** | **1,011** | 4,9% |
+| conv_step + dt_activate | 0,197 | 0,9% |
+| som | 5,394 | (Mamba-marginaal was 5,168 — sluit binnen de drift) |
+
+**Beide eerdere splitsingen waren fout, en de waarheid ligt ertussenin.**
+
+| bewering | GEMV-deel | in-lus GB/s |
+|---|---:|---:|
+| eerste claim (alles = GEMV) | 5,168 | 172,6 |
+| gecorrigeerde claim (geïsoleerd tempo) | 3,448 | 258,7 |
+| **gemeten** | **4,187** | **213,0** |
+
+**De in-lus GEMV haalt 213 GB/s tegen 248-267 geïsoleerd = 80-86%.** Er ís dus
+een in-lus-boete, maar hij is ~15-20%, niet de 36% die ik eerst opschreef en
+niet nul zoals mijn correctie beweerde. En dat is nog een **bovengrens op de
+efficiëntie**: de probe draait direct na de echte aanroep, dus in_proj (27,7 MB)
+zit deels nog in L2 (32 MiB) — de échte eerste aanroep is dus mogelijk trager
+dan 213 GB/s, wat de boete alleen maar groter maakt.
+
+**De niet-GEMV-post is 1,208 ms (5,8% van het token), en zit vrijwel volledig in
+`ssm_step + gated_norm` (1,011).** `conv_step + dt_activate` is met 0,197 ms
+verwaarloosbaar. De SSM-scan is dus de enige echte post daar — en die is niet
+bandbreedtegebonden (de state is 48 MB over 23 lagen, maar per laag maar
+2,1 MB), dus het is een reken-/latentiepost.
+
+**Wat dit sluit of opent.** Sluit: het afleiden-door-aftrekken van Mamba's
+splitsing, in beide richtingen. Opent: (a) `ssm_step` vs `gated_norm` uitsplitsen
+in een 3-armige A/B — 1 ms is de moeite waard en het is de grootste ongemeten
+post die overblijft; (b) de in-lus-boete van 15-20% op de GEMV's is reëel maar
+klein, en de twee voor de hand liggende oorzaken (L2-verdringing,
+`copy_stream`-contentie) zijn vandaag al apart gemeten en **weerlegd** — dus de
+oorzaak daarvan is nog open, maar de post is nu ~1,1 ms in plaats van ~11 en
+verdient navenante prioriteit.
+
+**Metaregel die ik hieraan overhoud.** Vandaag zijn er vier kopgetallen
+gesneuveld en drie daarvan kwamen uit een aftreksom tussen twee meetregimes.
+**Een marginaal is alleen te vertrouwen als hij zélf gemeten is; een verschil
+tussen een geïsoleerde en een in-lus meting is een hypothese, geen getal.**
+
+**Artefacten.** `pro_research/diag_mamba_stage_marginals.py` + `.json`.
+
+---
+
 ## 2026-08-16 — ⚠️ **VIERDE ZELFCORRECTIE, en deze trekt het "gat van een half token" weer in: de GEMV's draaien in de lus wél op 259 GB/s. Ik had 33% van Mamba's kost aan de verkeerde kernels toegeschreven**
 
 **Hoe het boven kwam.** Ik had het gat (geïsoleerd 248-267 GB/s vs "in de lus"

@@ -185,7 +185,18 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       ~4,5 ms, niet ~11.
       **Regel erbij: som eerst op wat een component allemaal uitvoert vóór je
       zijn marginaal door bytes deelt.**
-- [ ] **HOOGSTE PRIORITEIT — de Mamba SSM/conv-pijplijn ontleden.** Uit de
+- [ ] **HOOGSTE PRIORITEIT — `ssm_step` en `gated_norm` uitsplitsen** (samen
+      **1,011 ms = 4,9% van het token**, gemeten). Grootste ongemeten enkele post
+      die overblijft. In 4 armen (BASE_A / ssm_step / gated_norm / BASE_B), niet
+      meer — en met **eigen kladrecurrentie** voor de ssm_step-probe want die
+      schrijft `ssm[i]`. Niet bandbreedtegebonden (2,1 MB state per laag), dus
+      verwacht een reken- of latentieoorzaak.
+- [DONE 2026-08-16] **Mamba per stage gemeten** (in-graph, alle armen bitexact,
+      drift 0,397): GEMV's **4,187** · ssm+gated_norm **1,011** · conv+dt
+      **0,197** (som 5,394 tegen marginaal 5,168, sluit binnen de drift).
+      In-lus GEMV = **213 GB/s** tegen 248-267 geïsoleerd = **80-86%**. Daarmee
+      zijn **beide** eerdere afleidingen weerlegd: 172,6 GB/s (te pessimistisch)
+      én 258,7 (te optimistisch). ~~oude taak:~~ Uit de
       correctie hierboven valt **1,72 ms = 8% van het token** toe aan
       `conv_step` + `ssm_step` + `gated_norm` + `dt_activate` — nooit apart
       gemeten, groter dan het hele down_masked-pad, en niet bandbreedtegebonden

@@ -1,0 +1,150 @@
+{
+  "kind": "diag_mamba_stage_marginals",
+  "status": "measured",
+  "mode": "full",
+  "started_utc": "2026-08-16T13:25:58.287000+00:00",
+  "why": "Mamba's 5.168 ms in-graph marginal was split 3.448 GEMV / 1.720 other BY SUBTRACTION (isolated GEMV times minus the in-loop marginal). Subtracting an isolated number from an in-loop one is exactly what produced a phantom priority earlier today, so the split is measured here. The 1.720 ms is 8% of the token and larger than the whole down_masked path.",
+  "derivation_under_test": {
+    "gemvs_ms": 3.448,
+    "other_ms": 1.72,
+    "mamba_total_ms": 5.168
+  },
+  "config": {
+    "tokens_per_prompt": 256,
+    "prompt_count": 3,
+    "arms": [
+      "BASE_A",
+      "gemvs",
+      "conv_dt",
+      "ssm_gn",
+      "BASE_B"
+    ]
+  },
+  "environment": {
+    "created_utc": "2026-08-16T13:26:04.810733+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "7a4868b861201c275c4f4cffdad1ef8859576af7",
+    "git_status": [
+      "?? pro_research/diag_mamba_stage_marginals.py",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 47, 11.02 W, 21142 MHz, 11001 MHz, P2",
+    "source_hashes": {}
+  },
+  "arms": {
+    "BASE_A": {
+      "percentiles": {
+        "count": 765,
+        "mean": 20.79223098039216,
+        "p50": 20.5758,
+        "p95": 23.023059999999997,
+        "p99": 25.265236,
+        "max": 27.6957
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "gemvs": {
+      "percentiles": {
+        "count": 765,
+        "mean": 25.186536993464056,
+        "p50": 24.9612,
+        "p95": 27.60266,
+        "p99": 29.598752,
+        "max": 31.8808
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "conv_dt": {
+      "percentiles": {
+        "count": 765,
+        "mean": 21.174299738562095,
+        "p50": 20.9709,
+        "p95": 23.381,
+        "p99": 25.818728000000004,
+        "max": 30.885
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "ssm_gn": {
+      "percentiles": {
+        "count": 765,
+        "mean": 22.002763398692814,
+        "p50": 21.7852,
+        "p95": 24.183459999999997,
+        "p99": 26.449464000000003,
+        "max": 28.6701
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "BASE_B": {
+      "percentiles": {
+        "count": 765,
+        "mean": 21.17598758169935,
+        "p50": 20.9727,
+        "p95": 23.33164,
+        "p99": 25.723292,
+        "max": 28.022
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    }
+  },
+  "baseline_midpoint_ms": 20.774250000000002,
+  "drift_ms": 0.3968999999999987,
+  "marginals": {
+    "gemvs": {
+      "marginal_ms_per_token": 4.1869499999999995,
+      "fraction_of_token": 0.20154518213653919
+    },
+    "conv_dt": {
+      "marginal_ms_per_token": 0.19664999999999822,
+      "fraction_of_token": 0.009466045705621054
+    },
+    "ssm_gn": {
+      "marginal_ms_per_token": 1.0109499999999976,
+      "fraction_of_token": 0.04866360999795408
+    }
+  },
+  "sum_of_group_marginals_ms": 5.394549999999995,
+  "mamba_total_marginal_reference_ms": 5.168,
+  "derivation_check": {
+    "gemvs_derived_ms": 3.448,
+    "gemvs_measured_ms": 4.1869499999999995,
+    "abs_difference_ms": 0.7389499999999996,
+    "note": "if measured and derived agree, the 1.720 ms non-GEMV split is real; if not, the subtraction was wrong and the split must be discarded"
+  },
+  "gates": {
+    "G1_all_arms_ids_match_base_a": true,
+    "G2_drift_le_1ms": true
+  },
+  "completed_utc": "2026-08-16T13:28:06.159969+00:00"
+}

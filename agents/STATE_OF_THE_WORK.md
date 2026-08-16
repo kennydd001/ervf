@@ -20,30 +20,33 @@ resterende technische stappen): zie `agents/PATH_TO_100_TOKS.md`.**
 - **K-tiling is geprobeerd en WEERLEGD** (×1,14 bij N=4 tegen ×1,64 met X uit
   global; L1 leverde het 16× hergebruik al). Het batchplafond staat daarmee vast.
 
-### 📒 Tokenboekhouding, alle GEMV's op hun gemeten tempo (~260 GB/s)
+### 📒 Tokenboekhouding — Mamba nu per stage GEMETEN (niet afgeleid)
 
-| post | ms |
-|---|---:|
-| alle GEMV's (2048 MB bij ~260 GB/s) | ~7,9 |
-| PCIe-gather (in de lus gemeten) | 3,85 |
-| Mamba SSM/conv-pijplijn ⚠️ nooit apart gemeten | 1,72 |
-| attention flash_decode + kv_write | 1,14 |
-| MoE panel_scan + reduce + accumulate | 1,12 |
-| norms, embed, argmax, lijm | ~1 |
-| **verklaard** | **~16,7** |
-| **gemeten** | **21,24** |
-| **onverklaard** | **~4,5** |
+| post | ms | bron |
+|---|---:|---|
+| Mamba in_proj + out_proj (GEMV) | 4,187 | gemeten, in-graph |
+| Mamba ssm_step + gated_norm | 1,011 | gemeten |
+| Mamba conv_step + dt_activate | 0,197 | gemeten |
+| MoE gather (PCIe) | 3,849 | gemeten |
+| MoE up_proj | 2,253 | gemeten |
+| MoE shared_expert | 1,810 | gemeten |
+| MoE down_masked | 1,372 | gemeten |
+| MoE panel_scan + reduce + accumulate | 1,119 | gemeten |
+| attention (q/o GEMV + flash_decode + kv_write) | 2,479 | gemeten |
+| rest (lm_head, norms, embed, argmax) | ~3,7 | rest |
+| **totaal** | **21,24** | |
 
-⚠️ Een eerder hier genoteerd "gat van een half token" (in de lus 172,6 GB/s
-tegen 248-267 geïsoleerd) is **ingetrokken**: dat kwam doordat Mamba's volle
-marginaal aan alleen de twee GEMV's werd toegeschreven. Corrigeer je daarvoor,
-dan draaien de GEMV's in de lus op **258,7 GB/s** — hun volle geïsoleerde tempo.
-L2-verdringing en `copy_stream`-contentie zijn beide apart gemeten en weerlegd.
+**In-lus GEMV-tempo: 213 GB/s tegen 248-267 geïsoleerd = 80-86%.** Er is dus een
+in-lus-boete van 15-20%, maar niet de 36% die eerder hier stond; L2-verdringing
+en `copy_stream`-contentie zijn beide apart gemeten en **weerlegd** als oorzaak.
 
-**Grootste ongemeten post nu:** de Mamba SSM/conv-pijplijn, **1,72 ms = 8% van
-het token** — groter dan het hele down_masked-pad. Verdient een eigen marginale
-ontleding (`conv_step`/`ssm_step`/`gated_norm`/`dt_activate`), met eigen
-kladstate per probe want `_mamba` is stateful.
+⚠️ Twee eerdere splitsingen van Mamba (172,6 GB/s "half token weg", en 258,7
+GB/s "geen gat") waren **allebei fout** — beide door aftrekken in plaats van
+meten. **Metaregel: een verschil tussen een geïsoleerde en een in-lus meting is
+een hypothese, geen getal.**
+
+**Grootste ongemeten post nu:** `ssm_step` vs `gated_norm` uitsplitsen (samen
+1,011 ms).
 
 ## 🔎 De volledige rekening (2026-08-16, alles gemeten)
 

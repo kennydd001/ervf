@@ -145,6 +145,55 @@ winstclaim — twee eerlijk gerapporteerde nulresultaten.
 (teruggezet naar de host-unie-versie, 11,234 tok/s, het beste
 geverifieerde getal).
 
+**Derde poging, een ander idee: combineer de twee apart-bewezen
+mechanismen (unie-deling BINNEN een stap + warme cache OVER stappen) —
+bitexact, maar een grote, onverklaarde REGRESSIE, niet de verwachte
+winst.** Twee bevindingen deze sessie stonden nooit samen getest: (1)
+unie-gevoede deling binnen één stap (bitexact, 11,234 tok/s met een VERSE
+cache per aanroep) en (2) een warme, evoluerende cache over meerdere
+stappen vermindert missers met 27,6% (`diag_batch_warm_cache.py`, losstaand
+van een echte GEMV/down_proj-pijplijn). `pro_research/proto_multi_seq_moe_shared_warmcache.py`
+combineert ze: **één persistente cache per laag (cap=72, productie se
+eigen standaard), gebouwd vóór de decode-lus, hergebruikt en evoluerend
+over alle 40 echte stappen** — in plaats van `fused.alloc_device_cache`
+vers per aanroep zoals in beide eerdere pogingen.
+
+**Correctheidspoort GESLAAGD**: bitexact, 40/40 tokens × 2 sequenties,
+PASS — de eviction-dynamiek van een echte, over stappen evoluerende LRU
+verandert dus niets aan de berekende waarden, zoals verwacht (cache-status
+beïnvloedt alleen welke bytes wanneer over PCIe gaan, nooit het resultaat).
+
+**Timing: 1,725 tok/s — een REGRESSIE van ~6,5× tegenover de 11,234-
+baseline, veel groter en in de tegenovergestelde richting van wat verwacht
+werd** (een warme cache zou minder missers moeten geven, dus minder PCIe-
+verkeer, dus sneller — niet 6,5× trager). **De oorzaak is NIET vastgesteld.**
+Een snelle redenering (cap=72 maakt `cache_assign`'s eviction-scan duurder)
+is al **tweemaal deze sessie direct getoetst en weerlegd**
+(`diag_cache_assign_scan_cost.py`: vlak-tot-dalend tot cap=576, geen
+stijgende kost) — dus die verklaring wordt hier NIET herhaald zonder
+nieuwe toetsing. Andere kandidaten (grotere `codes`/`scales`-buffers, 72×
+i.p.v. ~9-12× UP_CODE/UP_SCALE, met slechtere geheugenlocaliteit; méér
+werkelijke fetches dan verwacht als de routing-diversiteit over 40 stappen
+de 72-cap sneller vult dan gedacht) zijn **niet getoetst en dus expliciet
+niet als verklaring geclaimd** — precies om niet een derde keer een
+ongeverifieerde uitleg te geven die later weerlegd moet worden.
+
+**Wat dit sluit of opent.** Sluit NIET de vraag of warme cache + unie-
+deling ooit kan samenwerken — bitexact bewijst dat het mechanisme correct
+is. Sluit WEL dat de simpele combinatie ("gewoon de cache persistent maken")
+in deze vorm een reële, grote regressie geeft, geen winst — een derde
+eerlijk nulresultaat (in dit geval fors negatief) voor deze
+optimalisatieronde. Opent een precieze vervolgvraag voor wie dit oppakt:
+sectiegeprofileerd meten (zoals eerder voor de andere twee versies) om de
+ECHTE oorzaak vast te stellen vóór er nog een keer geraden wordt.
+
+**Poorten.** Correctheid: bitexact, 40/40 tokens × 2 sequenties, PASS.
+Timing: expliciet GEEN winstclaim — een grote, eerlijk gerapporteerde
+regressie, oorzaak onbekend.
+
+**Artefacten.** `pro_research/proto_multi_seq_moe_shared_warmcache.py`,
+`pro_research/proto_multi_seq_moe_shared_warmcache.json`.
+
 ---
 
 ## 2026-08-16 — Robuustheidscontrole van de N=2-naive-baseline: het cijfer krimpt bij een langere horizon — eerlijke bijstelling, geen tegenspraak

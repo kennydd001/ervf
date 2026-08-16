@@ -508,6 +508,23 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       gedocumenteerd als eerlijke, tweemaal-bevestigde nulresultaten, niet
       verborgen. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
       "Routekaartstap 1 begonnen" en beide vervolgen direct erna.
+- [WEERLEGD 2026-08-16] **Derde poging — unie-deling + warme persistente
+      cache over stappen gecombineerd. Bitexact, maar 6,5× REGRESSIE, geen
+      winst, oorzaak onbekend.** `pro_research/proto_multi_seq_moe_shared_warmcache.py`:
+      één persistente per-laag-cache (cap=72) i.p.v. een verse cache per
+      aanroep, gebouwd vóór de decode-lus en hergebruikt over 40 echte
+      stappen — combineert `diag_batch_warm_cache.py`'s eerder bewezen
+      27,6%-missersreductie met de unie-deling-pijplijn, voor het eerst
+      samen. **Bitexact, 40/40 tokens × 2 sequenties, PASS.** **Timing:
+      1,725 tok/s — 6,5× TRAGER dan de 11,234-baseline, tegenovergesteld
+      aan wat verwacht werd** (minder missers zou sneller moeten zijn, niet
+      trager). **Oorzaak NIET vastgesteld** — de voor de hand liggende
+      verklaring (eviction-scan duurder bij cap=72) is al tweemaal deze
+      sessie getoetst en weerlegd (`diag_cache_assign_scan_cost.py`), dus
+      bewust NIET herhaald zonder nieuwe toetsing. Een derde eerlijk
+      nulresultaat, ditmaal sterk negatief — vervolgvraag (niet gedaan):
+      sectiegeprofileerd meten om de echte oorzaak vast te stellen. Zie
+      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Derde poging".
 - [WEERLEGD-VOOR-DEZE-AANPAK, CORRECTHEID BEVESTIGD 2026-08-16] **Expliciete
       unie-gevoede MoE-deling geïntegreerd in de echte staplus — bitexact
       correct, maar 12× TRAGER, niet sneller.**

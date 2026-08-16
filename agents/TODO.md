@@ -492,7 +492,13 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       verklaard (gather+up_proj-fetch ≈49% van de tijd, beide bandbreedte-
       gebonden, waarschijnlijk dicht bij hun vloer) i.p.v. vaag. Volgende
       hefboom zou PCIe-overlap met rekenwerk zijn (zoals graph-residentie
-      voor batch=1 al doet), niet verdere kernel-batching. Zie
+      voor batch=1 al doet), niet verdere kernel-batching.
+      **[LAATSTE STAP, ZELFDE DAG]** unie-nz-lijstberekening gevectoriseerd
+      met numpy-bit-trucs i.p.v. een geneste Python-lus (puur CPU-overhead,
+      geen GPU-semantiekwijziging). Bitexact bevestigd. **Eindstand: 11,12
+      tok/s, 4,19× sneller dan de eerste werkende versie**, nog 2,82× trager
+      dan naive — het PCIe-gebonden gat blijft de grens van wat
+      launch-batching/Python-vectorisatie kunnen oplossen. Zie
       `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
       "Expliciete MoE-deling geïntegreerd in de echte staplus".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**

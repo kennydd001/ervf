@@ -267,11 +267,33 @@ verkleinen — een wezenlijk ander soort hefboom, niet gedaan hier.
 **Poorten (dit hele derde vervolg).** Correctheid: bitexact bij elke stap,
 12/12 tokens × 2 sequenties, telkens opnieuw getoetst na elke wijziging.
 
+**Vierde, kleine vervolgstap, zelfde dag — pure Python/numpy-vectorisatie
+van de unie-nz-lijstberekening.** De unie-maskerberekening bouwde de
+platte "nz"-indexlijst via een geneste Python-lus (`for p in plist: for c
+in range(16): if bit gezet: append(...)`) — puur CPU-overhead, geen
+GPU-semantiek. Vervangen door numpy-bitvectorisatie (`(mask[:,None] >>
+np.arange(16)) & 1` + booleaanse indexering, exact dezelfde rij-major-
+volgorde als de geneste lus, dus geen wijziging aan WAT berekend wordt).
+**Bitexact bevestigd (Phase B opnieuw PASS), timing 10,72 → 11,12 tok/s**
+— een kleine maar reële verdere winst, puur uit minder CPU-side Python-
+overhead.
+
+**Eindstand van deze hele optimalisatieronde: 2,655 → 11,12 tok/s, 4,19×
+sneller dan de eerste werkende versie, bitexact geverifieerd bij elke
+stap.** Nog steeds 2,82× trager dan de naive baseline (31,411) — het
+resterende gat blijft, zoals hierboven vastgesteld, grotendeels
+PCIe-bandbreedte-gebonden (gather+up_proj-fetch) en dus niet verder te
+sluiten met dezelfde klasse optimalisatie (launch-batching,
+Python-vectorisatie). Een volgende, wezenlijk ander soort hefboom
+(stream-overlap van PCIe-transfers met rekenwerk, CUDA-graph-residentie
+voor de multi-sequentie-lus) is niet in deze sessie geprobeerd — een
+reële, afgebakende vervolgtaak.
+
 **Artefacten.** `pro_research/proto_multi_seq_moe_shared.py` (definitieve
-versie, gather+masked/reduce/accumulate allemaal gebatcht),
-`pro_research/proto_multi_seq_moe_shared.json` (eindmeting, 10,72 tok/s),
-`pro_research/proto_multi_seq_moe_shared_profile2.json` (sectie-
-uitsplitsing na gather-batching).
+versie, gather+masked/reduce/accumulate gebatcht + numpy-gevectoriseerde
+maskerberekening), `pro_research/proto_multi_seq_moe_shared.json`
+(eindmeting, 11,12 tok/s), `pro_research/proto_multi_seq_moe_shared_profile2.json`
+(sectie-uitsplitsing na gather-batching, vóór de laatste vectorisatiestap).
 
 ---
 

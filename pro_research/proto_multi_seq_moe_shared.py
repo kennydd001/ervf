@@ -205,6 +205,12 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k):
     # identified as a likely large contributor to the 12x slowdown found in
     # the first version of this script and is removed here; see
     # agents/RESEARCH_NOTEBOOK.md 2026-08-16 for the before/after comparison.
+    # nz_list construction vectorized with numpy bit tricks instead of a
+    # nested Python for-p-for-c loop (pure CPU-side overhead, no GPU
+    # semantics -- correctness re-verified by Phase B below exactly as
+    # before, since this only changes HOW the same nz indices are computed,
+    # not what routing/masks/fetches happen).
+    bit_shifts = np.arange(16, dtype=np.uint32)
     union_plist_by_expert = {}
     union_nz_by_expert = {}
     for e in union_experts:
@@ -213,14 +219,10 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k):
             if e in seq_ids[s]:
                 acc_mask |= cp.asnumpy(panel_by_pair[(s, e)]["masks"])
         plist_np = np.flatnonzero(acc_mask).astype(np.int32)
-        nz_list = []
-        for p in plist_np.tolist():
-            m = int(acc_mask[p])
-            for c in range(16):
-                if m & (1 << c):
-                    nz_list.append((p << 4) + c)
+        bits = ((acc_mask[plist_np][:, None] >> bit_shifts) & 1).astype(bool)
+        idx_matrix = (plist_np[:, None].astype(np.int64) << 4) + bit_shifts[None, :]
         union_plist_by_expert[e] = plist_np
-        union_nz_by_expert[e] = np.array(nz_list, dtype=np.int32)
+        union_nz_by_expert[e] = idx_matrix[bits].astype(np.int32)
 
     t0 = _prof_mark(cp, "4_union_mask_build", t0)
 

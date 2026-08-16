@@ -79,7 +79,18 @@ niet bij nul hoeft te beginnen met nadenken.**
    hieronder aannam** — MoE is 57,8% van het token (componentafbraak),
    de rest (attentie 14,9% vlak, Mamba ~0% maar mild duurder bij N,
    lm_head+shared 10,1%, overig) profiteert niet op dezelfde manier, en
-   Mamba wordt zelfs iets duurder per sequentie.
+   Mamba wordt zelfs iets duurder per sequentie. **lm_head: een TWEEDE,
+   nog groter, nooit eerder genoemd voorbeeld van hetzelfde patroon
+   (2026-08-16).** lm_head stond nergens op deze lijst — het is niet
+   expert-geselecteerd, dus leek "triviaal" zoals attentie/shared-expert,
+   maar `diag_lmhead_n_scaling.py` mat een **grotere** straf dan Mamba:
+   ms/sequentie stijgt van 1,154 ms (N=1) naar ~1,38-1,43 ms (N=2-16),
+   verhouding tegen ideaal-lineair **1,19-1,24** — en dit op de **duurste**
+   GEMV van het hele model (output=vocab). "lm_head+shared" (10,1% van het
+   token) blijkt dus twee tegengestelde componenten te verbergen: shared-
+   expert gedraagt zich netjes (bevestigd), lm_head niet. De rest-van-het-
+   token-profiteert-niet-mee-conclusie is hiermee sterker, niet zwakker,
+   dan de Mamba-correctie alleen al aangaf.
 8. **CUDA-graph-implicaties.** De huidige graph is gebouwd voor exact één
    token, één sequentie, vaste posities via `self._pos_dev`. Een batch>1-
    graph zou vaste `N_max`-grootte buffers nodig hebben (padding voor

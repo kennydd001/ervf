@@ -11,6 +11,56 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — lm_head-schaling: een NIEUW, nog nooit genoemd risico — grotere straf dan Mamba, op de duurste GEMV van het hele model
+
+**Vraag.** `BATCH_ARCHITECTURE_DESIGN.md` noemt lm_head nergens expliciet als
+risico-item (alleen attentie en Mamba worden apart behandeld in stap 7). Maar
+lm_head is, net als attentie/Mamba/shared-expert, **niet expert-geselecteerd**
+(hetzelfde gewicht voor elke sequentie) — dus zou volgens dezelfde redenering
+~lineair moeten schalen. Gegeven dat de Mamba-aanname eerder al fout bleek en
+lm_head de **grootste enkele GEMV van het hele model** is (output=vocab,
+131.072 — de duurste stap per token, 1,15 ms bij N=1, tegenover Mamba se
+0,177 ms en shared-expert se 0,038 ms), verdiende dit een check, ook al stond
+het niet op de risicolijst.
+
+**Opzet.** `pro_research/diag_lmhead_n_scaling.py` — zelfde methode als de
+Mamba/shared-expert-schalingstests: de bestaande lm_head-GEMV (`fused.
+gemv_into`, geen nieuwe kernel) N keer sequentieel gedraaid tegen N echte
+gevangen post-`norm_f`-activaties (gevangen door `fused.gemv_into` tijdelijk
+te wrappen en de aanroep met `rows == rt.vocab` te herkennen — lm_head se
+eigen unieke signatuur, anders dan elke andere `gemv_into`-aanroep in het
+model), N ∈ {1,2,4,8,16}, 30 herhalingen.
+
+**Uitkomst — een reële, grotere straf dan Mamba.** ms/sequentie: 1,1537
+(N=1) → 1,4333 (N=2) → 1,4222 (N=4) → 1,3934 (N=8) → 1,3776 (N=16) ms.
+Verhouding gemeten/ideaal-lineair: **1,242 / 1,233 / 1,208 / 1,194** —
+stabiliseert rond **+19 à +24% boven ideaal-lineair**, consistent over alle
+vier N-waarden (lage spreiding in de percentielen, geen ruis-artefact).
+**Groter dan Mamba se ~15% straf bij N=8-16**, en dit op de **duurste**
+GEMV in het model — in absolute tijd betekent dit ~0,22-0,28 ms extra per
+sequentie bij grotere N, wat zwaarder weegt dan Mamba se eigen absolute
+straf (Mamba se GEMV is 6,5× goedkoper per aanroep).
+
+**Wat dit sluit of opent.** Een **nieuw** risico, niet eerder benoemd: lm_head
+hoort net als Mamba bij "niet-gedeeld en toch duurder per sequentie bij
+grotere N", niet bij "vlak zoals attentie/shared-expert" — de aanname dat
+alleen Mamba een uitzondering was, klopt dus niet meer. Dit maakt de
+al-eerder-gecorrigeerde ~114 tok/s-bovengrensrekensom in dit document nóg
+iets optimistischer dan de Mamba-correctie alleen al aangaf (geen nieuw
+getal herberekend — zou weer aanname-op-aanname zijn — maar de richting is
+eenduidig: nog iets lager dan wat de Mamba-correctie alleen impliceerde).
+Praktisch: "lm_head+shared-expert" (10,1% van het token) bestaat dus uit één
+component die zich netjes gedraagt (shared-expert, net bevestigd) en één die
+dat niet doet (lm_head, hier ontdekt) — de eerdere gecombineerde 10,1%-cijfer
+verhulde dat onderscheid.
+
+**Poorten.** Geen PRO-poorten (read-only diagnostiek).
+
+**Artefacten.** `pro_research/diag_lmhead_n_scaling.py`,
+`pro_research/diag_lmhead_n_scaling.json`.
+
+---
+
 ## 2026-08-16 — Shared-expert-schaling: bevestigt de "triviaal"-aanname dit keer wél (in tegenstelling tot Mamba)
 
 **Vraag.** `BATCH_ARCHITECTURE_DESIGN.md` stap 6 stelt dat de shared expert

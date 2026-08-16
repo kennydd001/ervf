@@ -1,0 +1,110 @@
+{
+  "kind": "diag_lmhead_n_scaling",
+  "created_utc": "2026-08-16T03:11:10.051824+00:00",
+  "note": "read-only diagnostic testing whether lm_head's GEMV (unbatched, N sequential calls to the existing production kernel) scales linearly with N -- the biggest single GEMV in the model (output=vocab), never named as a risk in agents/BATCH_ARCHITECTURE_DESIGN.md, checked anyway",
+  "environment": {
+    "created_utc": "2026-08-16T03:11:10.053395+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "a20065e082cb958614d3e8be0eb180343a9ecb32",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/diag_lmhead_n_scaling.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6396 MiB, 71, 60.50 W, 1537 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
+    }
+  },
+  "vocab": 131072,
+  "hidden": 2688,
+  "rounds": 30,
+  "n_values": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "results_by_n": {
+    "1": {
+      "count": 30,
+      "mean": 1.156713333333333,
+      "p50": 1.15365,
+      "p95": 1.259835,
+      "p99": 1.272081,
+      "max": 1.2753
+    },
+    "2": {
+      "count": 30,
+      "mean": 2.8766533333333326,
+      "p50": 2.86665,
+      "p95": 2.9541649999999997,
+      "p99": 2.977306,
+      "max": 2.9856
+    },
+    "4": {
+      "count": 30,
+      "mean": 5.680326666666667,
+      "p50": 5.68875,
+      "p95": 5.750465,
+      "p99": 5.778031,
+      "max": 5.7885
+    },
+    "8": {
+      "count": 30,
+      "mean": 11.151083333333332,
+      "p50": 11.1473,
+      "p95": 11.237235,
+      "p99": 11.340029,
+      "max": 11.3806
+    },
+    "16": {
+      "count": 30,
+      "mean": 21.928406666666667,
+      "p50": 22.041400000000003,
+      "p95": 22.22902,
+      "p99": 22.24118,
+      "max": 22.2435
+    }
+  },
+  "scaling_vs_ideal_linear": {
+    "1": {
+      "measured_p50_ms": 1.15365,
+      "ideal_linear_ms": 1.15365,
+      "ratio_measured_over_ideal": 1.0,
+      "ms_per_sequence": 1.15365
+    },
+    "2": {
+      "measured_p50_ms": 2.86665,
+      "ideal_linear_ms": 2.3073,
+      "ratio_measured_over_ideal": 1.2424262124561174,
+      "ms_per_sequence": 1.433325
+    },
+    "4": {
+      "measured_p50_ms": 5.68875,
+      "ideal_linear_ms": 4.6146,
+      "ratio_measured_over_ideal": 1.2327720712521126,
+      "ms_per_sequence": 1.4221875
+    },
+    "8": {
+      "measured_p50_ms": 11.1473,
+      "ideal_linear_ms": 9.2292,
+      "ratio_measured_over_ideal": 1.2078294976812725,
+      "ms_per_sequence": 1.3934125
+    },
+    "16": {
+      "measured_p50_ms": 22.041400000000003,
+      "ideal_linear_ms": 18.4584,
+      "ratio_measured_over_ideal": 1.1941121657348417,
+      "ms_per_sequence": 1.3775875000000002
+    }
+  }
+}

@@ -347,6 +347,21 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       Bevestigt `BATCH_ARCHITECTURE_DESIGN.md` stap 6's aanname. Read-only
       diagnostiek. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Shared-
       expert-schaling".
+- [DONE 2026-08-16] **NIEUW risico gevonden — lm_head N-schaling, nooit
+      eerder genoemd in `BATCH_ARCHITECTURE_DESIGN.md`.**
+      `pro_research/diag_lmhead_n_scaling.py`: lm_head is de duurste GEMV
+      van het model (output=vocab, 1,15 ms/aanroep bij N=1), niet
+      expert-geselecteerd dus in theorie "triviaal" net als attentie/shared-
+      expert — maar bleek dat NIET te zijn. **ms/sequentie stijgt van 1,154
+      (N=1) naar ~1,38-1,43 (N=2-16), verhouding tegen ideaal-lineair
+      1,19-1,24 — een grotere straf dan Mamba se eigen ~15% bij N=8-16, op
+      de duurste GEMV in het model.** Consistent over N=2/4/8/16, geen
+      ruis. Betekent: lm_head hoort bij "duurder per sequentie bij grotere
+      N" net als Mamba, niet bij "vlak" zoals attentie/shared-expert —
+      maakt de al-gecorrigeerde ~114 tok/s-bovengrens nóg iets
+      optimistischer dan gedacht (geen nieuw getal berekend). Read-only
+      diagnostiek. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
+      "lm_head-schaling".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,
   `cudaErrorStreamCaptureUnsupported` — `cudaGraphLaunch()` op een reeds

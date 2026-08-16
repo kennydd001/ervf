@@ -371,6 +371,66 @@ resultaat).
 
 ---
 
+## 2026-08-16 — N=8 naive baseline: de dalende trend wordt geen "vlak" meer, maar een INSTORTING — 4× TRAGER dan solo
+
+**Vraag.** N=2 gaf +2,05% (robuust), N=4 gaf +4,7% (15 stappen, vlak tot
+licht lager dan N=2). Zet die dalende trend door bij N=8, wordt hij erger,
+of keert hij om? Dit test het direct, op precies hetzelfde geverifieerde,
+tot nu toe best-presterende mechanisme (het naive pad, geen expliciete
+deel-logica — dat blijft in absolute tok/s beter dan elke "slimme"
+unie-gevoede variant die deze sessie geprobeerd is).
+
+**Opzet.** `pro_research/proto_multi_seq_full_model_n8.py` — identiek
+mechanisme als N=2/N=4, nu N=8, 8 diverse prompts, 30 stappen.
+**Correctheidspoort GESLAAGD**: bitexact, 30/30 tokens × 8 sequenties.
+
+**Uitkomst — geen vlakke trend meer, een instorting.**
+
+| N | solo tok/s | naive aggregate tok/s | speedup |
+|---:|---:|---:|---:|
+| 2 | 29,798 (robuust: 31,020) | 31,411 (robuust: 31,656) | 1,054× / **1,021×** |
+| 4 | 29,820 | 31,215 | 1,047× |
+| 8 | 29,743 | **7,521** | **0,253× — 4× TRAGER dan solo** |
+
+**Dit is geen geleidelijke verslechtering meer zoals N=2→N=4 — het is een
+instorting.** Bij N=8 is de aggregate doorvoer over alle 8 sequenties
+samen LAGER dan wat één enkele sequentie alleen al haalt.
+
+**Waarschijnlijk verband met vandaag se andere N-schaal-bevindingen.** Deze
+sessie vond al twee andere gevallen waar het vergroten van "hoeveel er
+tegelijk door één vaste cache-capaciteit (72) moet" een REGRESSIE gaf in
+plaats van een verbetering (grotere cache-capaciteit bij N=4: 0,706×;
+persistente warme cache gecombineerd met unie-deling: 0,17× (6,5× trager)).
+Bij N=8 met cap=72 en top_k=6 kunnen tot 48 experts per stap nodig zijn
+(8×6) — bijna twee derde van de hele cache-capaciteit, elke stap opnieuw,
+met waarschijnlijk hoge omloop (verschillende sequenties routeren naar
+andere experts). Dit past bij een coherent, opkomend beeld: **het naive
+gedeelde-cache-mechanisme (zonder expliciete unie-logica) schaalt niet
+goed voorbij kleine N** — de cache verandert van incidenteel voordeel (bij
+N=2, weinig contentie) naar een reëel knelpunt (bij N=8, veel contentie),
+niet door een bug maar door een fundamentele capaciteit-versus-vraag-
+mismatch.
+
+**Wat dit sluit of opent.** Sluit definitief de vraag of "gewoon N
+verhogen" met de naive aanpak een pad naar hogere aggregate doorvoer is:
+**nee, integendeel** — bevestigt dat de vroege positieve resultaten bij
+N=2 een klein-N-fenomeen zijn, geen schaalbaar patroon. Versterkt de
+conclusie in `PATH_TO_100_TOKS.md` dat een echte batch>1-winst een
+ECHTE, doordachte architectuur vereist (expliciete deling, juiste
+cache-dimensionering voor grotere N, niet zomaar "meer sequenties door
+dezelfde cache duwen"). Bevestigt ook waarom de eerdere cache-capaciteit-
+en warme-cache-experimenten regressies vonden: dat waren geen
+geïsoleerde bugs, maar vroege signalen van hetzelfde onderliggende
+schaalprobleem.
+
+**Poorten.** Correctheid: bitexact, PASS. Eerlijk gerapporteerde, forse
+regressie — geen tok/s-winstclaim voorbij N=2/N=4.
+
+**Artefacten.** `pro_research/proto_multi_seq_full_model_n8.py`,
+`pro_research/proto_multi_seq_full_model_n8.json`.
+
+---
+
 ## 2026-08-16 — Grotere cache bij groter N: hersteld het voordeel? Verrassend: nee, het wordt WÉÉR erger — een echte hypothese verworpen
 
 **Vraag.** De N=4-meting hierboven liet het incidentele voordeel vlak

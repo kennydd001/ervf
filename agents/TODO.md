@@ -440,6 +440,21 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       voordeel" — geldt niet zomaar. Niet gemeten: of een met N meeschalende
       cache-capaciteit dit zou herstellen. Zie `RESEARCH_NOTEBOOK.md`
       2026-08-16, blok "N=4 naive baseline".
+- [WEERLEGD 2026-08-16] **N=8 naive baseline — de dalende trend wordt een
+      INSTORTING, niet een vlakke lijn.** `pro_research/proto_multi_seq_full_model_n8.py`,
+      zelfde geverifieerde mechanisme, N=8, 30 stappen. **Bitexact, 30/30
+      tokens × 8 sequenties.** **Resultaat: 7,521 tok/s aggregate tegen
+      solo 29,743 — 0,253×, 4× TRAGER dan één sequentie alleen.** Geen
+      geleidelijke verslechtering meer zoals N=2→N=4, een echte instorting.
+      Sluit aan bij twee andere N-schaal-regressies dezelfde dag (grotere
+      cache-capaciteit: 0,706×; persistente warme cache + unie-deling:
+      0,17×) — een coherent beeld: het naive gedeelde-cache-mechanisme
+      (cap=72 vast) schaalt niet voorbij kleine N; bij N=8 kunnen tot 48
+      experts/stap nodig zijn (bijna de hele cache), met hoge omloop. Geen
+      bug, een capaciteit-versus-vraag-mismatch. **Sluit definitief "gewoon
+      N verhogen" als pad naar hogere aggregate doorvoer met de naive
+      aanpak.** Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "N=8 naive
+      baseline".
 - [WEERLEGD 2026-08-16] **Grotere cache herstelt het N=4-voordeel niet —
       hypothese verworpen, echte regressie gevonden.**
       `pro_research/proto_multi_seq_full_model_n4_bigcache.py`: cap 72→144

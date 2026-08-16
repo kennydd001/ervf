@@ -57,7 +57,20 @@ deze sessie — het enige pad dat 100 niet a priori uitsluit.**
    winst zonder enige nieuwe code in de hete lus — **+2,05% aggregate bij
    een robuuste 40-staps-meting** (een eerdere 15-staps-meting gaf +5,4%,
    maar dat bleek cold-start-gedomineerd; het langere-horizon-cijfer is de
-   betere schatting).
+   betere schatting). **Schaalt NIET voorbij kleine N — bij N=8 stort dit
+   om naar 0,253× (4× TRAGER dan solo), niet vlak zoals bij N=4 (0,706-
+   1,047×) maar een echte instorting** (`proto_multi_seq_full_model_n8.py`,
+   bitexact bevestigd). Samen met twee andere N-schaal-regressies dezelfde
+   dag (grotere cache-capaciteit: 0,706×; persistente warme cache: 0,17×)
+   tekent zich een coherent beeld af: een VASTE cache-capaciteit (72,
+   productie se standaard) gedeeld door steeds meer sequenties wordt bij
+   een bepaald punt een knelpunt, geen voordeel — dit is geen bug maar een
+   capaciteit-versus-vraag-mismatch die met N groeit. **"Gewoon N
+   verhogen" is dus GEEN pad naar hogere aggregate doorvoer** met de naive
+   aanpak; een werkelijk schaalbare oplossing zou de cache-capaciteit
+   moeten laten meegroeien met N op een manier die niet zelf een nieuw
+   knelpunt wordt (nog niet gevonden — de enige geprobeerde poging daartoe,
+   cap 72→144 bij N=4, gaf zelf al een regressie).
 5. De EXPLICIETE unie-gevoede deling, volledig geïntegreerd in de echte
    staplus en met de al bestaande gebatchte V5/V6-kernels versneld, is
    **bitexact correct** maar haalt in deze sessie se Python-georkestreerde

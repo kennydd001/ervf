@@ -156,6 +156,50 @@ die werkregel 7 verbiedt. Wat dit wél vaststelt: het kernmechanisme is
 **Artefacten.** `pro_research/proto_batch_moe_layer.py` ·
 `pro_research/proto_batch_moe_layer.json`.
 
+### Vervolg: alle 23 lagen, en compute apart van fetch gemeten
+
+Eén laag bewijst niet dat het patroon overal geldt, en de vorige meting
+mat fetch+compute samen — als compute evenredig duurder zou worden bij
+batchen, zou dat de fetch-winst deels opeten. Beide vragen nu apart
+beantwoord (`pro_research/proto_batch_moe_multilayer.py`, zelfde opzet,
+alle 23 MoE-lagen, N=16, cold-cache, fetch en compute elk apart getimed
+met eigen `cp.cuda.Event`-paren).
+
+**Correctheid: bitexact op alle 23 lagen, 0 mismatches totaal** — niet
+alleen laag 24.
+
+**Fetch-winst is overal aanwezig maar wisselt per laag** (1,42× tot 3,15×),
+consistent met de eerder gemeten niet-uniforme missrate/lokaliteit per
+laag (laag 24, 27, 13, 20 met hoge dedup — 60-66% — versus laag 1, 47, 51
+met lagere dedup — 31-41%).
+
+**Compute-tijd blijft vlak tussen naive en batched** (soms licht lager,
+soms licht hoger in batched, binnen ruis — geen systematische straf voor
+het batchen). Bevestigt de aanname uit de vorige meting: alleen de fetch
+profiteert, compute schaalt gewoon met het aantal (sequentie,expert)-paren
+ongeacht hoe de gewichten geladen zijn — logisch, want de GEMV zelf raakt
+niet aan hoeveel keer een gewicht is opgehaald.
+
+**Opgeteld over alle 23 gemeten lagen (niet geëxtrapoleerd):**
+
+| | fetch+compute totaal |
+|---|---:|
+| NAIVE | 367,05 ms |
+| **BATCHED** | **214,43 ms** |
+| **Versnelling** | **1,71×** |
+
+Dit is een preciezer, minder toevallig-gunstig getal dan de 2,89× van de
+losse laag 24 (die zat aan de gunstige kant van de spreiding). **Claim-
+grens, ongewijzigd streng:** dit dekt alleen de up_proj-GEMV+fetch,
+opgeteld over de 23 daadwerkelijk gemeten lagen — nog steeds geen
+down_proj, shared expert, attentie, Mamba, KV-cache, graph-capture of
+routing/argmax/norm-overhead. Geen doorvoerclaim, wel een steviger
+bevestiging dat het mechanisme consistent werkt, niet toevallig op één
+laag.
+
+**Artefacten.** `pro_research/proto_batch_moe_multilayer.py` ·
+`pro_research/proto_batch_moe_multilayer.json`.
+
 ---
 
 ## 2026-08-16 — Per-laag cachecapaciteit fysiek gemeten en geïntegreerd: 47,41 tok/s

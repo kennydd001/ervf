@@ -100,18 +100,24 @@ de gemiddelde expert-unie 63,9 van 128 per laag — 66,6% van de no-overlap-
 baseline (96), dus 33% minder unieke PCIe-gebonden expert-loads voor
 evenveel nuttige tokens, zonder de speculatieve "draft tax" die MTP deed
 mislukken (elke sequentie is al echt opgevraagd, niets wordt weggegooid).
-**Het mechanisme is daarna ook fysiek getest, niet alleen geteld**
-(`pro_research/proto_batch_moe_layer.py`): één echte laag, N=16 echte
-sequenties, cold-cache — NAIVE 96 fetches/12,60 ms vs BATCHED 33
-fetches/**4,36 ms**, **2,89× sneller, bitexact (0 mismatches)** tussen
-naive en batched output. Dit is een meting van het kernmechanisme, geen
-projectie — maar dekt niet de volledige doorvoer (23 lagen, attentie,
-Mamba, KV-cache, graph-capture, GEMV-compute-tijd apart); optellen over
-alle lagen zou een aanname zijn (werkregel 7 verbiedt dat). De runtime
-heeft nul batch-ondersteuning (elke buffer 1D) — de volledige integratie
-is een meerdere-weken-herontwerp, niet gestart deze sessie, maar het
-kernmechanisme is nu bewezen correct én fysiek sneller, niet alleen
-theorie. Zie `agents/RESEARCH_NOTEBOOK.md` 2026-08-16.
+**Het mechanisme is daarna ook fysiek getest, niet alleen geteld** — eerst
+op één laag (`proto_batch_moe_layer.py`: 2,89× sneller, bitexact), daarna
+**op alle 23 MoE-lagen met fetch en compute apart gemeten**
+(`proto_batch_moe_multilayer.py`): **bitexact op alle 23 lagen, 0
+mismatches totaal**; fetch-winst wisselt per laag (1,42×-3,15×, consistent
+met de eerder gemeten niet-uniforme lokaliteit per laag); compute-tijd
+blijft vlak tussen naive/batched (geen straf voor batchen). **Opgeteld
+over alle 23 daadwerkelijk gemeten lagen: 367,05 ms → 214,43 ms, 1,71×
+sneller** — een preciezer, minder toevallig-gunstig getal dan de losse
+laag. Dit is een meting van het kernmechanisme, geen projectie — maar dekt
+nog steeds niet de volledige doorvoer (down_proj, shared expert, attentie,
+Mamba, KV-cache, graph-capture, routing/argmax/norm-overhead); een
+tok/s-claim optellen zou een aanname zijn (werkregel 7 verbiedt dat). De
+runtime heeft nul batch-ondersteuning (elke buffer 1D) — de volledige
+integratie is een meerdere-weken-herontwerp, niet gestart deze sessie, maar
+het kernmechanisme is nu consistent bewezen correct én fysiek sneller over
+de hele MoE-stack, niet alleen theorie of één gunstige laag. Zie
+`agents/RESEARCH_NOTEBOOK.md` 2026-08-16.
 
 **Wat vaststaat over de doelen:** 50 en 100 tok/s zijn fysiek *niet*
 uitgesloten, maar 50+ vraagt méér dan graph-residentie alleen (plafond ~41,5

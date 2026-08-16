@@ -107,19 +107,27 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       opgevraagde token, dus elke gedeelde expert is pure winst.
       **[MECHANISME FYSIEK GETEST 2026-08-16] `proto_batch_moe_layer.py`**
       — één echte laag, N=16 echte sequenties, cold-cache: NAIVE 96 fetches
-      / 12,60 ms vs BATCHED 33 fetches (unie) / **4,36 ms** — **2,89× sneller,
-      bitexact, 0 mismatches** tussen naive en batched output. Dit is een
-      **meting**, geen projectie: het mechanisme (delen van expert-fetch
-      over sequenties) is bewezen correct én fysiek sneller voor de
-      geïsoleerde fetch-fase van één laag. Claim-grens: dit dekt niet de
-      volledige doorvoer (attentie, Mamba, KV-cache, graph-capture, 22
-      andere lagen, GEMV-compute-tijd zelf niet apart gemeten) — optellen
-      over alle lagen zou een aanname zijn, geen meting (werkregel 7).
-      **Volgende stap is architectuurontwerp** (batch-dimensie op alle
-      buffers, per-stap expert-unie-bepaling voor de volledige runtime) —
-      een meerdere-weken-taak, niet gestart deze sessie, maar het
-      kernmechanisme is niet langer alleen theorie. Zie `RESEARCH_NOTEBOOK.md`
-      2026-08-16.
+      / 12,60 ms vs BATCHED 33 fetches (unie) / 4,36 ms — 2,89× sneller,
+      bitexact, 0 mismatches tussen naive en batched output.
+      **[UITGEBREID NAAR ALLE 23 LAGEN + COMPUTE APART GEMETEN 2026-08-16]
+      `proto_batch_moe_multilayer.py`** — zelfde opzet over alle 23 MoE-
+      lagen, fetch en compute apart getimed. **Bitexact op alle 23 lagen, 0
+      mismatches totaal.** Fetch-winst wisselt per laag (1,42×-3,15×,
+      consistent met eerder gemeten niet-uniforme lokaliteit per laag).
+      Compute-tijd blijft vlak tussen naive/batched (geen straf voor
+      batchen — alleen fetch profiteert, zoals verwacht). **Opgeteld over
+      alle 23 gemeten lagen (niet geëxtrapoleerd): 367,05 ms → 214,43 ms,
+      1,71× sneller** — een preciezer, minder toevallig-gunstig getal dan
+      de 2,89× van de losse laag 24. Claim-grens ongewijzigd streng: dekt
+      alleen up_proj-GEMV+fetch, opgeteld over de daadwerkelijk gemeten
+      lagen — nog steeds geen down_proj, shared expert, attentie, Mamba,
+      KV-cache, graph-capture, routing/argmax/norm-overhead. Geen
+      doorvoerclaim. **Volgende stap is architectuurontwerp** (batch-
+      dimensie op alle buffers, per-stap expert-unie-bepaling voor de
+      volledige runtime) — een meerdere-weken-taak, niet gestart deze
+      sessie, maar het kernmechanisme is nu consistent bewezen correct én
+      fysiek sneller over de hele MoE-stack, niet toevallig op één laag.
+      Zie `RESEARCH_NOTEBOOK.md` 2026-08-16.
 - [DONE 2026-08-16] **Down_proj-pijplijn optimaliseren in `_moe_dev`.**
       ~~Device-cache down_proj net als up_proj~~ — **onhaalbaar**:
       `DOWN_PANEL_BYTES` is 2,68 MB/expert (niet ~1 kB zoals eerst aangenomen),

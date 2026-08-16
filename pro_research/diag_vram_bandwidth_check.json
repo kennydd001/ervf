@@ -1,0 +1,29 @@
+{
+  "kind": "diag_vram_bandwidth_check",
+  "created_utc": "2026-08-16T08:25:06.622260+00:00",
+  "note": "independent anchor for the 338.4 GB/s figure the whole roofline divides by; 512 MiB buffers so no L2 reuse, every arm byte- or value-verified",
+  "buffer_bytes": 536870912,
+  "rounds": 20,
+  "grid": 2048,
+  "block": 256,
+  "arms": {
+    "read_only": {
+      "ms": 1.5519871711730957,
+      "gb_s": 345.924838795025
+    },
+    "copy": {
+      "ms": 3.3970111846923827,
+      "gb_s": 316.08427691922157,
+      "bytes_verified": true
+    },
+    "triad": {
+      "ms": 4.879585647583008,
+      "gb_s": 330.07161925680725,
+      "values_verified": true
+    }
+  },
+  "best_observed_gb_s": 345.924838795025,
+  "project_roofline_gb_s": 338.4,
+  "ratio_best_over_project": 1.0222365212618942,
+  "verdict": "consistent_with_338_4"
+}

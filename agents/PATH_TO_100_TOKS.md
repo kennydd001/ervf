@@ -5,6 +5,50 @@ geen nieuwe meting · doel: één plek die het doel (100 tok/s) confronteert met
 alle fysieke feiten die deze sessie verzameld heeft, en een concrete,
 afgebakende routekaart geeft voor wie dit oppakt.
 
+---
+
+## ⚠️ CORRECTIE 2026-08-16 (later dezelfde dag) — Route 1 is NIET uitgesloten
+
+Alles onder "Route 1" hieronder rekent met **één** bus en één roofline van
+165 tok/s. Een exacte byte-boekhouding uit de safetensors-headers (zie
+`RESEARCH_NOTEBOOK.md`, blok "Exacte byte-boekhouding per token") laat zien dat
+dat de situatie verkeerd voorstelt. Er zijn **twee** bussen:
+
+| | MB/token | bus | vloer |
+|---|---:|---|---:|
+| Mamba 892 + routed-up 387 + shared/gate 290 + attention 281 + lm_head 198 | **2048** | VRAM, 338,4 GB/s | **6,05 ms** |
+| routed down_proj, sparse | **~64** | PCIe Gen5 ×8, 25,9 GB/s gemeten | **2,47 ms** |
+
+De VRAM-som reproduceert het bestaande 165 tok/s-getal exact (2048/338,4 =
+6,05 ms), dus de boekhouding is gevalideerd tegen een onafhankelijk eerder
+resultaat. Maar de down_proj-PCIe-tijd staat **náást** die 6,05 ms, niet erin.
+
+- volledig serieel: 6,05 + 2,47 = **8,52 ms = 117 tok/s**
+- met perfecte overlap tussen beide bussen: **6,05 ms = 165 tok/s**
+
+**100 tok/s = 10,0 ms/token ligt daarmee binnen de fysica van deze machine**:
+het vraagt 85% van de seriële vloer, of 60% van het VRAM-roofline mét overlap.
+Zwaar en niet gegarandeerd, maar de conclusie "fysiek zeer onwaarschijnlijk,
+mogelijk uitgesloten" hieronder is **te sterk en wordt hierbij ingetrokken**.
+
+Wat de correctie óók oplevert: de grootste post is **Mamba met 892 MB/token =
+43,6% van alle VRAM-bytes** — meer dan alle routed experts samen — en dat is
+precies de component waar geen enkele optimalisatie van deze sessie naartoe
+ging. De enige meting die er ooit van gedaan is (`diag_v6_component_breakdown`,
+"Mamba ≈ 0 ms") is structureel onbruikbaar: die arm stubt de Mamba-output naar
+nul, wat de residual stream verandert, wat de MoE-routing verandert, wat het
+PCIe-verkeer verandert — een andere werklast, geen attributie. Alle vier de
+stub-bovengrenzen in dat bestand vallen onder dezelfde twijfel.
+
+**Herziene rangorde van hefbomen (single-stream):**
+1. dense-GEMV-bandbreedte (E5 mat de suite op 127,9 GB/s tegen 338,4 =
+   **37,8%**) — raakt Mamba, attention, shared expert en lm_head tegelijk,
+   samen 1661 van de 2048 MB/token;
+2. overlap tussen de PCIe-gather en het VRAM-werk (tot 2,47 ms te verbergen);
+3. H-SCALE en verwante byte-reducties op het down-pad.
+
+---
+
 ## De twee routes, en waarom ze apart beoordeeld moeten worden
 
 "100 tok/s" is nooit gespecificeerd als per-sequentie of aggregate. Dat

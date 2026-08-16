@@ -11,6 +11,145 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — PRO V13 H-SCALE gebouwd en gedraaid: bitexact, past in VRAM, **−0,374 ms/token** — maar de eigen adoptiepoort (≥0,5 ms) is NIET gehaald, en de geïsoleerde 1,380 ms bleek de lus-winst 2× te overschatten
+
+**Vraag.** `diag_gather_pcie_ceiling` mat dat 52,2% van al het
+down_proj-PCIe-verkeer FP8-blokschalen zijn en prijsde het weghalen daarvan op
+−1,380 ms/token. Levert dat in de échte lus ook op?
+
+**Opzet.** Nieuwe kernels (`scale_resident_kernels.py`) en een H-SCALE-variant
+van het V6-`_moe_dev` (`moe_dev_scale_resident.py`, zelfde niet-invasieve
+`types.MethodType`-patroon; runtime.py en fused_nvfp4.py onaangeraakt).
+Drie wijzigingen, alle drie **dataplaatsing, geen rekenkunde**: per laag een
+`planes`-buffer van `cap × 311.808 B`; de copy-stream stageert bij een miss óók
+het schaalvlak (zelfde `need[]/slots[]/ids[]`-contract, zelfde wide-uint4
+patroon als `cache_fetch`, dus graph-capturebaar); de gather laat zijn
+paneelschaal-tak vallen en de masked GEMV leest de schaalbyte uit het residente
+vlak. Dezelfde expert, hetzelfde paneel, dezelfde rij, dezelfde byte, dezelfde
+`e4m3_lut[byte] * global_scale`, dezelfde fmaf-volgorde. Armen
+BASE_A → CAND → CAND_PROBE → BASE_B, eager, 3 prompts × 256 tokens per arm.
+
+**Uitkomst (full, 765 tokens per arm; twee onafhankelijke full-runs).**
+
+| arm | p50 ms | tok/s |
+|---|---:|---:|
+| BASE_A (V6) | 22,6799 | 44,092 |
+| **CAND (H-SCALE)** | **22,4256** | **44,592** |
+| CAND_PROBE (H-SCALE + 1× extra plane-fetch per laag) | 22,7530 | 43,954 |
+| BASE_B (V6) | 22,9193 | 43,631 |
+
+midden 22,7996 · drift **0,2394 ms** · **CAND − midden = −0,3740 ms/token**
+(eerste full-run onafhankelijk: −0,3757 ms — repliceert).
+
+**Poorten.** G-V13-C1 CAND bitexact vs BASE_A **PASS** · G-V13-C2
+BASE_A == BASE_B **PASS** · G-V13-C3 probe bitexact **PASS** · G-V13-V1 VRAM
+**PASS** (492,4 MiB gepland, 605 MiB vrij vóór, 207 MiB over na) · G-V13-D1
+drift ≤1 ms **PASS** (0,239) · **G-V13-P1 winst ≥0,5 ms FAIL** (−0,374).
+Status: `gate_failed`. De poort wordt **niet** verruimd.
+
+**De marginale ontleding, en waarom die het waard was.** CAND_PROBE roept
+`fetch_planes` één extra keer per MoE-laag aan. Die aanroep is idempotent
+(dezelfde bytes van dezelfde experts naar dezelfde slots), dus de tokens blijven
+bit-identiek — gecontroleerd als poort — en het verschil is de eigen kost van de
+fetch:
+
+- plane-fetch: **+0,3274 ms/token**
+- bruto gather-besparing: **0,7014 ms/token**
+- netto: 0,7014 − 0,3274 = **0,3740** ✓ (sluit exact)
+
+**Twee lessen, allebei bruikbaar.**
+1. **De geïsoleerde 1,380 ms overschat de lus-winst met een factor 2.** In het
+   losse benchmark liepen 138 gathers rug-aan-rug, puur PCIe-gebonden; in de
+   echte lus is de helft daarvan al verstopt achter ander werk. Dit is S8's les
+   voor de derde keer: nooit een component apart timen en de winst overzetten.
+   Het getal 1,380 blijft geldig als *byte*-uitspraak, niet als winstvoorspelling.
+2. **De plane-fetch is duurder dan nodig** (0,327 ms tegen ~0,24 ms verwacht),
+   omdat hij een *strided* gather doet: 116 blokjes van 2688 B met bronstride
+   24192. Eén keer bij het laden een contiguë schaalvlak-bank op de host
+   repacken maakt er één aaneengesloten kopie van.
+
+**Wat dit sluit of opent.** Het mechanisme werkt en is exact — dat is nu bewezen
+en herbruikbaar. Twee wegen om alsnog boven de poort te komen, beide gemeten in
+plaats van geschat: (a) contiguë host-repack van de schaalvlakken (~−0,09 ms),
+(b) schaalvlakken voor **alle 128** experts residentie maken zodat de fetch
+verdwijnt (875 MiB nodig tegen 605 vrij → up-capaciteit 72→68, kost ~+0,16 ms
+aan extra up-missers) → samen ongeveer −0,54 ms. Dat haalt de poort net, en is
+het aanleggen waard, maar het is geen doorbraak. **De veel grotere hefboom die
+de byte-boekhouding blootlegt (dense-GEMV op 37,8% van de bandbreedte, over
+1661 van de 2048 MB/token) heeft voorrang.**
+
+**Artefacten.** `pro_research/scale_resident_kernels.py`,
+`pro_research/moe_dev_scale_resident.py`, `pro_research/scale_resident_v13.py`,
+`pro_research/results/v13_scale_resident/PRO_V13_SCALE_RESIDENT.json`.
+
+---
+
+## 2026-08-16 — Exacte byte-boekhouding per token uit de safetensors-headers: het 165 tok/s-roofline gereproduceerd, en **Mamba blijkt 43,6% van alle bytes** — de enige component die nooit gemeten of geoptimaliseerd is
+
+**Vraag.** Waar gaan de 6,05 ms van het roofline heen? Het project citeert
+"165 tok/s (ctx0)" al sinds de Y-lijn, maar nergens staat de **verdeling** over
+componenten. Zonder die verdeling is niet te zeggen welke component nog winst
+kán opleveren.
+
+**Opzet.** Geen meting, een telling: per blocktype één representatieve laag uit
+`model.safetensors.index.json` + de safetensors-headers (`data_offsets`, dus
+echte bytes op schijf inclusief scales, niet geschat), maal het aantal lagen uit
+`config.layers_block_type` (23 mamba, 23 moe, 6 attention, 52 totaal). Voor MoE
+alleen de **actieve** experts (top_k=6 van 128) plus shared+gate.
+
+**Uitkomst.**
+
+| component | MB/token | roofline-ms bij 338,4 GB/s | aandeel |
+|---|---:|---:|---:|
+| **Mamba** (23 × 38,78 MB) | **892,0** | **2,64** | **43,6%** |
+| routed up (23 × 6 × 2,806 MB, uit VRAM-cache) | 387,3 | 1,14 | 18,9% |
+| shared expert + gate (23 × 12,61 MB) | 290,0 | 0,86 | 14,2% |
+| attention (6 × 46,80 MB) | 280,8 | 0,83 | 13,7% |
+| lm_head (NVFP4) | 198,2 | 0,59 | 9,7% |
+| **subtotaal VRAM** | **2048** | **6,05** | 100% |
+| routed down, sparse over PCIe | ~64 | (2,47 ms op de PCIe-bus) | apart |
+
+**Validatie.** 2048 MB / 338,4 GB/s = **6,05 ms = 165,3 tok/s** — dat
+reproduceert het roofline-getal van de Y-lijn exact. De boekhouding klopt dus
+met een onafhankelijk eerder resultaat, en mag als basis dienen.
+
+**Wat dit voor het eerst zichtbaar maakt.** Er zijn **twee bussen**, niet één.
+De VRAM-vloer is 6,05 ms; de sparse down_proj rijdt over PCIe (25,9 GB/s
+gemeten) en kost daar ~2,47 ms. Als die volledig serieel is, is de echte vloer
+**8,52 ms = 117 tok/s**; bij perfecte overlap tussen beide bussen **6,05 ms =
+165 tok/s**. **100 tok/s = 10,0 ms/token ligt dus binnen de fysica** — het
+vraagt 85% van de seriële vloer, of 60% van het VRAM-roofline mét overlap. Zwaar,
+maar niet onmogelijk. Dat is een scherpere en optimistischere uitspraak dan
+`PATH_TO_100_TOKS.md` nu doet, en die moet daar bijgewerkt worden.
+
+**De vondst die eruit springt.** **Mamba is met 43,6% veruit de grootste
+byteconsument van het model** — groter dan alle routed experts samen — en is de
+enige component waar geen enkele optimalisatie van deze sessie naartoe ging
+(ERVF/V4/V5/V6 zitten allemaal op MoE en de dense GEMV's; `_install_selective`
+raakt Mamba's projecties zijdelings via `mv_bf16`/`mv_fp8_tensor`).
+
+**Waarom niemand dat zag.** `diag_v6_component_breakdown.json` mat de
+Mamba-arm op **21,288 ms tegen 20,859 ms real** — een NEGATIEVE bovengrens van
+−0,429 ms, gelezen als "Mamba is gratis". Die arm is structureel onbruikbaar:
+hij stubt `rt._mamba → out.fill(0)`, en dat verandert de residual stream →
+verandert de MoE-routing → verandert welke experts de LRU missen → verandert het
+PCIe-verkeer. Het is niet dezelfde werklast. Het bestand waarschuwt zelf dat de
+STUB-armen verkeerde tokens geven "by design", maar rekent niet af met het feit
+dat ze óók een andere *cache*-werklast geven. **Alle vier de stub-bovengrenzen in
+dat bestand staan onder dezelfde twijfel** en moeten niet meer als attributie
+geciteerd worden.
+
+**Wat dit opent.** Een onbevangen meting van Mamba's echte in-lus-kost via
+S12's marginale methode (de échte lus, één extra aanroep van één component naar
+een weggegooide kladbuffer — residual stream, routing, cache en geproduceerde
+tokens blijven bit-identiek, en dát wordt als poort gecontroleerd).
+Gebouwd als `pro_research/diag_component_marginals_v6.py`.
+
+**Artefacten.** Telling reproduceerbaar uit `models/.../model.safetensors.index.json`
++ headers; runner `pro_research/diag_component_marginals_v6.py`.
+
+---
+
 ## 2026-08-16 — Gather-PCIe-plafond gemeten: de gather zit op 64% van het linkplafond (niet 17%), concurrency-varianten helpen NIET — maar **52% van de down-bytes is schaal-metadata**, en die weghalen is gemeten −1,380 ms/token
 
 **Vraag.** N2 rapporteerde `gather_down_sparse` op **~4,3 GB/s effectief in de

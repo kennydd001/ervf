@@ -247,6 +247,31 @@ capture, batch-dimensie op alle buffers) is niet gestart.
 **Artefacten.** `pro_research/proto_batch_down_proj.py` ·
 `pro_research/proto_batch_down_proj.json`.
 
+### Architectuurontwerp: de brug tussen "mechanisme bewezen" en "runtime gebouwd"
+
+Met beide helften van MoE's PCIe-kost fysiek bewezen deelbaar, is verdere
+geïsoleerde prototyping van hetzelfde soort (nog een laag, nog een variant)
+aan afnemende meeropbrengst toe. De echte volgende stap — al aangewezen in
+`TODO.md` — is architectuurontwerp, geen code: `agents/BATCH_ARCHITECTURE_DESIGN.md`
+zet dit uiteen (welke buffers een batch-dimensie nodig hebben, hoe de
+routing-unie in de staplus zou komen, `cache_assign` voor N×top_k, graph-
+implicaties voor continuous batching).
+
+**De belangrijkste eerlijke waarschuwing daarin:** attentie, Mamba en
+KV-cache hebben **geen** deel-mogelijkheid van dit soort — ze zijn niet
+expert-geselecteerd, elke sequentie gebruikt toch al dezelfde gewichten, dus
+er is niets te dedupliceren en de kost schaalt ~lineair met N. Aangezien MoE
+"maar" 57,8% van het token is (componentafbraak, eerder vandaag), zal de
+**aggregate** doorvoerwinst van batch>1 kleiner zijn dan de MoE-cijfers
+alleen suggereren. Het document geeft een expliciet-als-rekensom-niet-
+meting gelabelde grove bovengrens (~114 tok/s aggregate bij aanname van
+volledige MoE-deling en ongewijzigde rest) — bewust net zo behandeld als
+S10's MTP-voorcalculatie, die achteraf te optimistisch bleek. Aanbevolen
+eerstvolgende meting: attentie-GEMV's voor N=2 batchen (geen deel-mechanisme
+nodig) en checken of de kost echt lineair schaalt.
+
+**Artefacten.** `agents/BATCH_ARCHITECTURE_DESIGN.md`.
+
 ---
 
 ## 2026-08-16 — Per-laag cachecapaciteit fysiek gemeten en geïntegreerd: 47,41 tok/s

@@ -137,6 +137,22 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       volledige runtime) — een meerdere-weken-taak, niet gestart deze
       sessie, maar het kernmechanisme is nu consistent bewezen correct én
       fysiek sneller over de hele MoE-stack, niet toevallig op één laag.
+      **[ARCHITECTUURONTWERP DONE 2026-08-16] `agents/BATCH_ARCHITECTURE_DESIGN.md`**
+      — de stappen die een echte batch>1-integratie nodig heeft (routing-
+      unie in de staplus, `cache_assign` voor N×top_k, batch-dimensie op
+      alle buffers, graph met actief-masker voor continuous batching), plus
+      de belangrijkste eerlijke waarschuwing: **attentie/Mamba/KV-cache
+      hebben geen deel-mogelijkheid** (geen expert-selectie, dus geen PCIe-
+      amortisatie zoals bij MoE) — de aggregate-winst zal dus kleiner zijn
+      dan de MoE-alleen-cijfers suggereren. Bevat een expliciet-als-
+      **rekensom-niet-meting** gelabelde grove bovengrens (~114 tok/s
+      aggregate bij aanname van perfecte MoE-deling en ongewijzigde rest —
+      niet gemeten, waarschijnlijk optimistisch, zelfde soort rekensom als
+      S10's MTP-voorcalculatie die achteraf te optimistisch bleek).
+      **Aanbevolen eerstvolgende meting** (geen bouw): batch de attentie-
+      GEMV's voor N=2 sequenties (geen deel-mechanisme nodig, gewoon een
+      batch-dimensie) en meet of de kost werkelijk ~lineair schaalt zoals
+      aangenomen — dat bepaalt of de bovengrens-rekensom houdbaar is.
       Zie `RESEARCH_NOTEBOOK.md` 2026-08-16.
 - [DONE 2026-08-16] **Down_proj-pijplijn optimaliseren in `_moe_dev`.**
       ~~Device-cache down_proj net als up_proj~~ — **onhaalbaar**:

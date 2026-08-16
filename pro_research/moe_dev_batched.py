@@ -79,6 +79,16 @@ def install_batched_moe_dev(rt, batch_kernels, up_kernels=None, gather_kernels=N
     orig_moe_dev = rt._moe_dev
     batched_state: dict[str, dict] = {}
 
+    # V15 fix: ONE global batched mirror, not one per layer. It is transient
+    # scratch consumed inside the layer that fills it, exactly like the
+    # runtime's own mstate["mirror"], so a per-layer copy was pure waste --
+    # 23 x 6 x 2.806 MB = 387 MB, which is what got the gather_kernels path
+    # rejected on VRAM in the first place. Globally it is 16.8 MB. This is the
+    # same bug class the VRAM gate already caught once (a redundant per-layer
+    # mirror costing 61.6 MB during the V6 build).
+    shared_mirror_batched = (cp.zeros(top_k * DOWN_PANEL_BYTES, dtype=cp.uint8)
+                             if gather_kernels is not None else None)
+
     def _alloc_batched(i: int) -> dict:
         d = {
             "act": cp.zeros(top_k * inter, dtype=cp.float32),
@@ -98,7 +108,7 @@ def install_batched_moe_dev(rt, batch_kernels, up_kernels=None, gather_kernels=N
             # redundant allocation).
         }
         if gather_kernels is not None:
-            d["mirror_batched"] = cp.zeros(top_k * DOWN_PANEL_BYTES, dtype=cp.uint8)
+            d["mirror_batched"] = shared_mirror_batched
         return d
 
     def batched_moe_dev(self, i, out):

@@ -11,6 +11,58 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — PRO V15: gebatchte gather + down_masked (VRAM-blokkade weggenomen) is bitexact maar **neutraal (+0,035 ms)** — en dat sluit occupancy/launch-overhead uit als verklaring voor down_masked's 15%
+
+**Vraag.** `down_masked` draait op 1,655 ms tegen een vloer van 0,257 ms en de
+gather op 3,479 ms. Beide worden **zes keer per laag** gelanceerd met kleine
+grids — `down_masked` draait `(hidden/128, nchunks) = (21, 8) = 168` blokken van
+128 threads, dus ~6,5 blokken per SM gedurende ~12 µs, 138 keer per token. Is
+dat het probleem?
+
+**De blokkade die eerst weg moest.** De gebatchte kernels bestáán al
+(`down_gather_batch_kernels.py`) en zijn destijds bitexact geverifieerd op echte
+gevangen activaties. Ze zijn nooit geadopteerd omdat ze `top_k` onafhankelijke
+mirrors nodig hebben en de eerste implementatie die **per laag** alloceerde:
+23 × 6 × 2,806 MB = **387 MB**, terecht afgewezen door de VRAM-poort. Maar die
+mirror is transiënte kladruimte die binnen dezelfde laag geconsumeerd wordt,
+precies zoals de runtime's eigen `mstate["mirror"]` — één globale kopie volstaat:
+**16,8 MB**. Gefixt in `moe_dev_batched.py`. Dit is dezelfde bugklasse die de
+VRAM-poort tijdens de V6-bouw al één keer ving (een overbodige per-laag mirror
+van 61,6 MB). Er was dus geen nieuwe rekenkunde nodig — alleen een
+sizing-fout die een al geverifieerd kernelpad buiten de stack hield.
+
+**Uitkomst (graph, SYNC-semantiek).** BASE_A 23,4471 · CAND 23,5807 ·
+BASE_B 23,6434 ms; midden 23,5453, drift 0,1963. **CAND − midden = +0,0355 ms.**
+Alle correctheidspoorten groen (bitexact, BASE_A == BASE_B), P1 FAIL.
+**Neutraal — geen winst, geen verlies.**
+
+**Wat dit uitsluit, en dat is de waarde.** Eén launch van
+`(21, 8, 6) = 1008` blokken in plaats van zes launches van 168 verandert
+**niets**. Dus down_masked's 15%-efficiëntie is **niet** te verklaren door
+launch-overhead, gridgrootte of occupancy — die zijn met een factor 6 verbeterd
+zonder effect. Hetzelfde geldt voor de gather (consistent met de eerdere
+bevinding dat gather-batching "maar bescheiden" hielp omdat hij
+PCIe-gebonden is).
+
+**Wat er dan wél overblijft voor down_masked (nog niet gemeten).** De rekening
+sluit langs geen van de gebruikelijke assen: bandbreedte zou 64 MB / 249 GB/s =
+0,26 ms zijn, instructies ~60M FMA's/token met ~8 ondersteunende instructies =
+~0,08 ms. Beide een orde onder de gemeten 1,655 ms. Wat overblijft is
+**geheugenlatentie in een afhankelijke keten** (elke thread doorloopt ~11
+panelen × ~1,8 kolommen = ~20 afhankelijke byte-loads, elk 1344 B verderop) en
+**shared-memory bankconflicten** op `s_e4m3[pbase[row]]`, waar de index een
+gewichtsbyte is en dus willekeurig over 256 entries loopt. Dat laatste is
+verdacht: de LUT-vrije test van vanochtend liet zien dat de LUT in de *dense*
+GEMV goedkoop is, maar die kernel was bandbreedtegebonden met ALU over — hier is
+er geen bandbreedtedruk, dus de SMEM-doorvoer kan wél de rem zijn. Dat is de
+eerstvolgende meting, en die is goedkoop.
+
+**Artefacten.** `pro_research/batched_gather_v15.py`,
+`pro_research/results/v15_batched_gather/PRO_V15_BATCHED_GATHER_GRAPH.json`,
+mirror-fix in `pro_research/moe_dev_batched.py`.
+
+---
+
 ## 2026-08-16 — MoE's 11 ms ontleed per sub-kernel (alle poorten groen): **gather 3,48 · up_proj 2,16 · down_masked 1,66 · shared 1,30** — en `down_masked` draait op 15% van zijn vloer
 
 **Vraag.** MoE is 11,004 ms van een 23,141 ms-token tegen een vloer van 5,19 ms:

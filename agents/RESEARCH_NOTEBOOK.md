@@ -11,6 +11,74 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — **C3A-v2 PASS: native FP4 is representationeel CORRECT op de échte checkpoint, én M=8 blijft gratis.** Plus een les die mijn eigen C2b/C2c/C2d raakt
+
+**Vraag.** C2b/C2c/C2d bewezen dat native FP4 draait, hoe snel het is, en dat
+M=8 gratis is — allemaal op **synthetische** waarden. Klopt het ook op de echte
+Lightning-gewichten?
+
+**C3A-v1 (Kimi): NEE.** Alle vier de echte gewichtsfamilies draaiden eindig en
+M8/M1 bleef ≤1,03, maar de dequant-referentiepoorten faalden hard: cosine
+**0,907 / 0,903 / 0,990 / 0,906**, genormaliseerde RMSE **0,446 / 0,551 / 0,141
+/ 0,436**. Cosine 0,90 is geen kwaliteitsverschil — dat is fout.
+
+**Oorzaak (Kimi's erratum, exact).** C1 en C3A-v1 zetten de buitenste
+128-rij × 4-schaalkolom-tegels in **K-block-major** volgorde
+(`k_block * n_row_blocks + row_block`), terwijl TorchAO's `to_blocked()`
+**row-block-major** is (`row_block * n_col_blocks + k_block`). De binnenste
+32×16-interleave klopte al. **C1 bewees dat zijn eigen permutatie verliesloos
+rondreist; niet dat de buitenste volgorde de native ABI is.**
+
+**C3A-v2, door mij gedraaid** — die was nooit uitgevoerd: de eerste poging
+strandde in preflight omdat de ChatGPT-desktopapp een CUDA-context vasthield, en
+de vervolgcommit die een idle WDDM-context tolereert was juist de fix.
+
+| | cosine | NRMSE |
+|---|---:|---:|
+| lm_head | **0,9999994** | 0,00109 |
+| shared_up | **0,9999990** | 0,00145 |
+| shared_down | **0,9999980** | 0,00198 |
+| routed_up | **0,9999988** | 0,00157 |
+
+Alle correctheidspoorten groen, en de geometrie houdt stand op echte gewichten:
+**M8/M1 = 1,033 / 1,007 / 0,920 / 1,095**. Status:
+`real_weight_representation_and_geometry_candidate`.
+
+**Daarmee is native FP4 op de échte checkpoint tegelijk correct én M=8-vrij** —
+de combinatie die tot nu toe ontbrak.
+
+**De les, en die raakt mijn eigen werk.** Het erratum stelt het scherp:
+*"synthetic all-one scale tests were invariant to this mistake"*. Mijn C2b, C2c
+én C2d gebruikten alle drie **enen** als schalen. Deze fout is per constructie
+onzichtbaar onder enen — mijn 256,0-known-value-check kón hem niet vangen.
+
+- **De timings blijven staan.** Tensor-core-doorvoer hangt niet van waarden af,
+  dus de 292-303 GB/s, de head-to-head tegen ERVF en de M-schalingscurve zijn
+  onaangetast — en C3A-v2 bevestigt die curve nu onafhankelijk op echte
+  gewichten.
+- **De correctheidsdekking was leeg.** Wat ik als "exact 256,0" presenteerde zei
+  niets over de schaal-layout. Dat had ik als beperking moeten benoemen in plaats
+  van als bewijs.
+
+**Werkregel die hieruit volgt en breder geldt:** een synthetische verificatie met
+uniforme of symmetrische invoer bewijst alleen wat **niet-invariant** is onder die
+symmetrie. Layout- en permutatievragen vragen invoer die de permutatie kán
+onderscheiden — C3A-v2 doet dat met een niet-uniforme 256×8 byte-witness over
+2×2 blokken.
+
+**Nog open.** G9 (onafhankelijke herverificatie van de checkpoint-hashes) staat
+op `null`. En de poort die beslist of dit de recordweg in kan: **kan een Torch
+`scaled_mm` binnen een CuPy CUDA-graphcapture?** Onze 50 tok/s hangt volledig aan
+graphcapture van het hele token. (De voorwaarde daarvóór is al gehaald: CuPy en
+Torch-FP4 delen zero-copy pointers in één proces — `FP4_CUPY_INTEROP.json`,
+branch `pro-s100-nativefp4-c2b`.)
+
+**Artefacten.** `results/native_nvfp4/C3A_REAL_WEIGHT.json`,
+`C3A_V2_LAYOUT_PREFLIGHT.json`, `S100_NATIVE_NVFP4_C3A_V2_LAYOUT_ERRATUM.md`
+(branch `pro-s100-nativefp4-c2b`).
+
+---
+
 ## 2026-08-16 — ⚠️ **INTREKKING van mijn eigen 99 tok/s-projectie.** Herrekend met de al gemeten route-unie komt native FP4 + MTP op **52-53 tok/s**, niet 99 — en dat sluit de speculatieve route opnieuw
 
 **Wat ik fout deed.** Eén blok hieronder projecteerde ik ~99 tok/s door "al het

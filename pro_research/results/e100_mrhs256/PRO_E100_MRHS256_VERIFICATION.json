@@ -1,8 +1,8 @@
 {
   "kind": "pro_e100_mrhs256_v3_independent_verification",
   "source": "pro_research\\results\\e100_mrhs256\\PRO_E100_MRHS256.json",
-  "source_status": "smoke_pass",
-  "recomputed_status": "smoke_pass",
+  "source_status": "micro_null",
+  "recomputed_status": "micro_null",
   "all_production_adopted_candidate_exact": true,
   "family_support": {
     "attention_q": true,
@@ -17,18 +17,31 @@
   "all_eight_families": true,
   "adopted_selected_dense_dispatch_exercised": true,
   "n4": {
-    "weighted": 0.9332383410038843,
-    "minimum": 0.6548106909934249,
-    "max_drift": 0.3410177748439776,
-    "lm": 0.6548106909934249,
-    "mi": 1.0529754116217644,
-    "mo": 1.153992927992698
+    "weighted": 0.9726000931984427,
+    "minimum": 0.7091498159071309,
+    "max_drift": 0.3561032260112828,
+    "lm": 0.8045720160314908,
+    "mi": 1.0339153745908003,
+    "mo": 1.201400622141963
   },
-  "n16": null,
+  "n16": {
+    "weighted": 1.0362693305038817,
+    "minimum": 0.6904937450808815,
+    "max_drift": 0.22090317714833166,
+    "lm": 0.8629303521760202,
+    "mi": 1.13404275910692,
+    "mo": 1.269776207794036
+  },
   "performance_gates": {
-    "n4_weighted_ge_1_50": false
+    "n4_weighted_ge_1_50": false,
+    "n16_weighted_ge_3_0": false,
+    "n16_lm_head_ge_3_0": false,
+    "n16_mamba_in_ge_2_5": false,
+    "n16_mamba_out_ge_2_5": false,
+    "n16_no_case_below_0_95": false,
+    "n16_all_ref_drift_le_7pct": false
   },
-  "performance_pass": null,
+  "performance_pass": false,
   "errors": [],
   "passed": true
 }

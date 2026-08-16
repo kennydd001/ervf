@@ -7,12 +7,16 @@ throttling under sustained load, or memory-controller contention that grows
 with kernel working-set size.
 
 This tests the throttling hypothesis directly: poll nvidia-smi clocks.sm/
-power.draw/temperature.gpu at ~5 Hz while running a SUSTAINED lm_head
-workload (repeated N=16 batches for several seconds, not just the few dozen
-rounds the original scaling test used), and check whether clocks.sm actually
-drops over the course of the run. If it does not drop, throttling is ruled
-out as the explanation and memory contention becomes the more likely
-candidate (not tested here -- would need Nsight Compute).
+clocks.mem/power.draw/temperature.gpu at ~5 Hz while running a SUSTAINED
+lm_head workload (repeated N=16 batches for several seconds, not just the
+few dozen rounds the original scaling test used), and check whether either
+clock actually drops over the course of the run. clocks.mem matters
+specifically because this codebase's whole roofline framework treats the
+workload as memory-bandwidth-bound (HBM streaming), not compute-bound -- if
+clocks.sm throttles but clocks.mem does not, the SM throttle explains the
+per-kernel timing penalties without necessarily lowering the token/s
+roofline itself; if clocks.mem ALSO throttles, the roofline ceiling itself
+would need re-examination.
 
 Not a gated PRO experiment -- a root-cause diagnostic, read-only.
 """
@@ -102,7 +106,7 @@ def main() -> int:
 
     # ---- start nvidia-smi polling in the background at ~5 Hz.
     smi = subprocess.Popen(
-        ["nvidia-smi", "--query-gpu=clocks.sm,power.draw,temperature.gpu,pstate",
+        ["nvidia-smi", "--query-gpu=clocks.sm,clocks.mem,power.draw,temperature.gpu,pstate",
          "--format=csv,noheader", "-lms", "200"],
         stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True,
     )
@@ -132,9 +136,10 @@ def main() -> int:
         try:
             samples.append({
                 "clocks_sm_mhz": float(parts[0].split()[0]),
-                "power_draw_w": float(parts[1].split()[0]),
-                "temperature_c": float(parts[2].split()[0]),
-                "pstate": parts[3],
+                "clocks_mem_mhz": float(parts[1].split()[0]),
+                "power_draw_w": float(parts[2].split()[0]),
+                "temperature_c": float(parts[3].split()[0]),
+                "pstate": parts[4],
             })
         except (ValueError, IndexError):
             continue
@@ -142,15 +147,20 @@ def main() -> int:
     if len(samples) < 4:
         print(f"too few nvidia-smi samples captured ({len(samples)}), inconclusive")
         clocks_first_half_mean = clocks_second_half_mean = None
+        mem_first_half_mean = mem_second_half_mean = None
         throttle_detected = None
+        mem_throttle_detected = None
     else:
         half = len(samples) // 2
         first = samples[:half]
         second = samples[half:]
         clocks_first_half_mean = sum(s["clocks_sm_mhz"] for s in first) / len(first)
         clocks_second_half_mean = sum(s["clocks_sm_mhz"] for s in second) / len(second)
+        mem_first_half_mean = sum(s["clocks_mem_mhz"] for s in first) / len(first)
+        mem_second_half_mean = sum(s["clocks_mem_mhz"] for s in second) / len(second)
         # a real throttle shows a clear downward step, not just sample noise.
         throttle_detected = (clocks_first_half_mean - clocks_second_half_mean) > 50.0
+        mem_throttle_detected = (mem_first_half_mean - mem_second_half_mean) > 50.0
 
     payload = {
         "kind": "diag_lmhead_throttle_check",
@@ -166,6 +176,9 @@ def main() -> int:
         "clocks_sm_first_half_mean_mhz": clocks_first_half_mean,
         "clocks_sm_second_half_mean_mhz": clocks_second_half_mean,
         "throttle_detected_gt_50mhz_drop": throttle_detected,
+        "clocks_mem_first_half_mean_mhz": mem_first_half_mean,
+        "clocks_mem_second_half_mean_mhz": mem_second_half_mean,
+        "mem_throttle_detected_gt_50mhz_drop": mem_throttle_detected,
     }
     out_path = REPO / "pro_research" / "diag_lmhead_throttle_check.json"
     write_json_atomic(out_path, payload, archive=False)

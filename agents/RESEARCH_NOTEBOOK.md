@@ -46,14 +46,28 @@ regel-voor-regel reconstructie van elke eerdere meting. Geheugencontentie
 als aanvullende factor is hiermee niet uitgesloten, maar throttling alleen
 al is aannemelijk voldoende om de waargenomen orde van grootte te verklaren.
 
-**Wat dit opent.** Praktisch relevant voor een toekomstige batch>1-
-integratie: als aanhoudende belasting de klok structureel naar ~1710-1717
-MHz duwt (tegenover een piek van 2685 MHz), dan geldt dat **voor de hele
-runtime**, niet alleen voor lm_head/Mamba — een langlopende batch>1-serving-
-sessie zou op het duurzame klokniveau draaien, niet het piekniveau, wat ook
-de single-stream-roofline-aannames (165/119 tok/s, gebaseerd op een
-kortlopende meting) zou kunnen beïnvloeden. Niet verder onderzocht: hoe de
-bestaande roofline-metingen zich verhouden tot dit duurzame klokniveau.
+**Belangrijke vervolgcorrectie, zelfde dag: het raakt de roofline NIET.**
+Script uitgebreid om ook `clocks.mem` te pollen (niet alleen `clocks.sm`) —
+cruciaal, want dit hele onderzoeksproject definieert de roofline als
+**geheugenbandbreedte-gebonden** (338,4 GB/s streaming-leesbandbreedte, N5).
+Herhaalde meting: `clocks.sm` daalt opnieuw substantieel (eerste-helft-
+gemiddelde 1827,7 → tweede-helft-gemiddelde 1702,6 MHz), maar **`clocks.mem`
+blijft exact 9001 MHz, geen enkele afwijking, alle 31 samples** — geen
+geheugenklok-throttling. **Dit betekent dat de kern-roofline (338,4 GB/s /
+165 tok/s ctx0) niet bedreigd wordt door dit fenomeen** — de SM-klok-daling
+verklaart de reken-gebonden kernel-tijdstraffen (Mamba se in_proj, lm_head se
+GEMV — beide doen echt rekenwerk, niet puur streamen) zonder de
+geheugenbandbreedte-gebonden plafondaanname aan te tasten. Geruststellend
+voor het hele sessie-kader: V6's eigen 47,41 tok/s-record en de
+165 tok/s-roofline zelf blijven staan zoals gemeten.
+
+**Wat dit wél opent.** Reken-gebonden kernels (lm_head, Mamba, en
+vermoedelijk andere zwaar-compute-onderdelen) ondervinden een reële
+duurzame-klok-straf die niet in eerdere kortlopende metingen zichtbaar was.
+Voor toekomstig werk aan zulke kernels specifiek (niet de PCIe/HBM-
+streaming-hefbomen die dit hele project tot nu toe domineerden) is dit
+relevant; voor de PCIe-streaming-gedreven hefbomen (device-cache-fetch,
+batch>1-deling) niet, want die zijn bandbreedte- niet compute-gebonden.
 
 **Poorten.** Geen PRO-poorten (read-only root-cause-diagnostiek).
 

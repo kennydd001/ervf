@@ -386,10 +386,15 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       klok-afbouw, geen pstate-crisis). Groot genoeg om de eerder gemeten
       15-24%-tijdstraffen voor Mamba/lm_head volledig te verklaren
       (ondersteunend bewijs, geen exacte reconstructie — de oorspronkelijke
-      vier schalingstests deden geen gelijktijdige klokmeting). **Versterkt
-      de motivatie voor de al bestaande, nog niet uitgevoerde "Duurloop"-
-      taak hieronder** — dit is nu fysiek bevestigd relevant, niet
-      hypothetisch. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Oorzaak
+      vier schalingstests deden geen gelijktijdige klokmeting). **Belangrijke
+      geruststellende correctie, zelfde dag: `clocks.mem` ook gepold —
+      blijft exact 9001 MHz, geen afwijking.** Dit project se roofline is
+      geheugenbandbreedte-gebonden (338,4 GB/s), niet reken-gebonden — dus
+      deze SM-klok-throttling bedreigt de kern-roofline (165 tok/s ctx0) en
+      V6's 47,41 tok/s-record NIET. Raakt alleen reken-zware kernels
+      specifiek (lm_head, Mamba), niet de PCIe/HBM-streaming-hefbomen die
+      dit project tot nu toe domineerden. Zie `RESEARCH_NOTEBOOK.md`
+      2026-08-16, blok "Oorzaak
       van de supra-lineaire straf gevonden".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,
@@ -454,16 +459,16 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       bij `contexts_max=4096`. De stack is nooit end-to-end gemeten op 128K/262K
       ná adoptie. NERVF-3 deed dat vóór D1. Nu óók mét device_cache meten.
 - [ ] **Duurloop** — ≥10.000 causale tokens en één thermisch uur, om te toetsen of
-      exactheid en winst standhouden buiten korte rollouts. **Motivatie nu
-      fysiek versterkt (2026-08-16):** `diag_lmhead_throttle_check.py` mat
-      een reëel 36% SM-klokverval binnen ~1 seconde aanhoudende belasting —
-      dus elke kortlopende meting in dit document (elke `diag_*`/
-      `proto_batch_*`-timing, 30 rondes of minder) kan een mix van
-      boost- en duurzame klok bevatten, terwijl V6's eigen 47,41 tok/s-
-      record (765 samples, volle 256×3-rollout) waarschijnlijk al op het
-      duurzame niveau gemeten is. Niet geverifieerd welke exacte cijfers
-      hierdoor geraakt zijn — de Duurloop-taak zou dit in één keer
-      oplossen.
+      exactheid en winst standhouden buiten korte rollouts. **Context
+      2026-08-16:** `diag_lmhead_throttle_check.py` mat een reëel 36%
+      SM-klokverval binnen ~1 seconde aanhoudende belasting, maar
+      `clocks.mem` bleef exact 9001 MHz — de kern-roofline (geheugen-
+      bandbreedte-gebonden) en V6's 47,41 tok/s-record zijn dus **niet**
+      bedreigd. Relevant blijft: reken-zware kernels (lm_head, Mamba)
+      kunnen in kortlopende metingen (30 rondes) een mix van boost- en
+      duurzame klok bevatten — de Duurloop-taak zou dat voor die specifieke
+      kernels kunnen bevestigen, maar is geen kritieke blokkade meer voor
+      de hoofd-tok/s-cijfers.
 - [ ] **Prior-art-audit + stock llama.cpp-differentieel** — nodig vóór er ooit een
       nieuwheidsclaim over ERVF wordt gedaan. Nu wordt die claim expliciet
       **niet** gemaakt.

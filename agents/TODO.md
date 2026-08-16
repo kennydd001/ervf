@@ -420,6 +420,19 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       31,411 tok/s aggregate — 1,054× (+5,4%), reëel en positief.** Sluit de
       vraag of het state-managementmechanisme praktisch werkt: ja.
       **[VERVOLGD EN AFGEROND 2026-08-16]** zie direct hieronder.
+- [DONE 2026-08-16] **N=4 naive baseline — groeit het incidentele voordeel
+      mee met N? Verrassend: nee.** `pro_research/proto_multi_seq_full_model_n4.py`,
+      zelfde geverifieerde mechanisme als N=2, nu N=4. **Bitexact, 15/15
+      tokens × 4 sequenties.** N=4 naive aggregate: **31,215 tok/s (1,047×,
+      +4,7%)** tegen solo 29,820 — **vlak tot licht LAGER dan N=2's +5,4%**,
+      ondanks dat losstaande diagnostiek (`diag_batch_warm_cache.py`,
+      `diag_cross_sequence_union.py`) groei met N suggereerde. Meest
+      aannemelijke verklaring: vaste cache-capaciteit (72) bij groter N geeft
+      meer onderlinge eviction/contentie, wat de grotere theoretische
+      overlap-kans compenseert. Nuanceert "meer N = meer incidenteel
+      voordeel" — geldt niet zomaar. Niet gemeten: of een met N meeschalende
+      cache-capaciteit dit zou herstellen. Zie `RESEARCH_NOTEBOOK.md`
+      2026-08-16, blok "N=4 naive baseline".
 - [WEERLEGD-VOOR-DEZE-AANPAK, CORRECTHEID BEVESTIGD 2026-08-16] **Expliciete
       unie-gevoede MoE-deling geïntegreerd in de echte staplus — bitexact
       correct, maar 12× TRAGER, niet sneller.**

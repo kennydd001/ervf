@@ -11,6 +11,56 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — N=4 naive baseline: groeit het incidentele voordeel mee met N, zoals losstaande diagnostiek suggereerde? Verrassend: nee, vlak tot licht lager
+
+**Vraag.** De N=2 naive baseline (hierboven/verderop) gaf +5,4% aggregate uit
+puur incidenteel warm-cache-hergebruik. Losstaande diagnostiek eerder deze
+sessie (`diag_batch_warm_cache.py`, N=4: 27,6% minder missers;
+`diag_cross_sequence_union.py`: overlap groeit met N) suggereerde dat een
+groter N meer deel-kans zou moeten geven. Klopt dat ook in de ECHTE,
+geverifieerde eindtotmeting, niet alleen in geïsoleerde routing-tellingen?
+
+**Opzet.** `pro_research/proto_multi_seq_full_model_n4.py` — identieke
+mechanisme en correctheidsdiscipline als de N=2-versie (letterlijk
+hergebruikt, niet herschreven), nu N=4, 4 diverse prompts, 15 stappen.
+**Correctheidspoort GESLAAGD**: bitexact, 15/15 tokens × 4 sequenties.
+
+**Uitkomst — verrassend vlak, niet groeiend.**
+
+| N | solo tok/s (zelfde config) | naive aggregate tok/s | speedup |
+|---:|---:|---:|---:|
+| 2 | 29,798 | 31,411 | 1,054× (+5,4%) |
+| 4 | 29,820 | 31,215 | 1,047× (+4,7%) |
+
+**Geen groei — zelfs een lichte daling** (binnen ruis-orde, maar zeker geen
+duidelijke stijging zoals de losstaande metingen deden vermoeden). Meest
+aannemelijke verklaring: de cache-capaciteit (72 sloten) is **vast**,
+onafhankelijk van N — bij N=4 concurreren vier sequenties se werksets om
+dezelfde 72 sloten, wat meer eviction/contentie geeft dan bij N=2, en dat
+compenseert (mogelijk volledig) de grotere ruwe overlap-kans die de
+unie-tellingen alleen voorspelden. Bovendien schaalt de reken-kost ook mee
+met N (geen deel voor compute, alleen voor fetch) — bij een vast
+cache-budget kan het netto-effect dus vlak blijven ondanks een grotere
+theoretische overlap-kans.
+
+**Wat dit sluit of opent.** Nuanceert de eerdere aanname dat "meer N =
+meer voordeel" voor het INCIDENTELE (niet-expliciete) deel-mechanisme.
+Sluit niet uit dat de EXPLICIETE unie-gevoede deling (hierboven, wel
+bitexact bewezen maar nog niet snel genoeg) wél zou schalen met N — dat is
+een apart mechanisme met een andere dynamiek (garandeert deling i.p.v.
+incidenteel hergebruik onder cache-druk). Opent een niet-gedane vervolgvraag:
+zou een GROTERE cache-capaciteit (die met N meeschaalt) het naive-voordeel
+alsnog laten groeien? Niet gemeten — cache=72 bleef vast in beide runs, met
+opzet (één variabele: N).
+
+**Poorten.** Correctheid: bitexact, PASS. Geen tok/s-claim voorbij wat
+hierboven staat.
+
+**Artefacten.** `pro_research/proto_multi_seq_full_model_n4.py`,
+`pro_research/proto_multi_seq_full_model_n4.json`.
+
+---
+
 ## 2026-08-16 — Expliciete MoE-deling geïntegreerd in de echte staplus: bitexact correct, maar 12× TRAGER — een belangrijke, eerlijke negatieve uitkomst die precies verklaart waarom dit een meerdere-weken-taak is
 
 **Vraag.** De vorige meting (hieronder, "EERSTE ECHTE END-TO-END METING")

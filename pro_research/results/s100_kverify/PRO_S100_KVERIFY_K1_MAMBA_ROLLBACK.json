@@ -1,0 +1,117 @@
+{
+  "kind": "pro_s100_kverify_k1_mamba_rollback",
+  "status": "rollback_exact",
+  "started_utc": "2026-08-16T15:27:57.688234+00:00",
+  "preregistration": "pro_research\\S100_KVERIFY_PREREGISTRATION.md",
+  "k": 4,
+  "claim_boundary": "single-layer persistent-state rollback correctness only; no verifier throughput or MTP acceptance claim",
+  "environment_start": {
+    "created_utc": "2026-08-16T15:27:59.940660+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "02e5980ec613a29a374ba238c8bd48de6367df00",
+    "git_status": [
+      "?? pro_research/results/s100_kverify/S100_K1_20260816T152757Z.console.log",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 51, 11.52 W, 847 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "pro_research\\s100_kverify_mamba_rollback.py": "3128630929d7ecae448c941177a8f2f81205ae31f4ffeb1ad80dbfd71a9b4ed4",
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615",
+      "src\\moe_lab\\lightningstream_nemotron\\gpu_kernels.py": "59dc136d9fb3e07935b85990cc52f7023c340783d3b656c21b1f5fd129ecbfaa"
+    }
+  },
+  "config": {
+    "capacity": 72,
+    "layer": 25,
+    "layer_kind": "M",
+    "prompt_kind": "anchor",
+    "prompt_ids": [
+      1784,
+      8961,
+      1307,
+      5498,
+      1395
+    ],
+    "mamba_in_proj_width": 10304,
+    "conv_state_bytes": 98304,
+    "ssm_state_bytes": 2097152,
+    "one_layer_snapshot_bytes": 2195456,
+    "stored_proj_bytes": 164864
+  },
+  "input_tokens": [
+    6993,
+    1046,
+    1256,
+    1010
+  ],
+  "output_tokens": [
+    1046,
+    1256,
+    1010,
+    1784
+  ],
+  "prefix_results": [
+    {
+      "accepted_prefix": 0,
+      "conv_mismatch_count": 0,
+      "ssm_mismatch_count": 0,
+      "bit_exact": true
+    },
+    {
+      "accepted_prefix": 1,
+      "conv_mismatch_count": 0,
+      "ssm_mismatch_count": 0,
+      "bit_exact": true
+    },
+    {
+      "accepted_prefix": 2,
+      "conv_mismatch_count": 0,
+      "ssm_mismatch_count": 0,
+      "bit_exact": true
+    },
+    {
+      "accepted_prefix": 3,
+      "conv_mismatch_count": 0,
+      "ssm_mismatch_count": 0,
+      "bit_exact": true
+    },
+    {
+      "accepted_prefix": 4,
+      "conv_mismatch_count": 0,
+      "ssm_mismatch_count": 0,
+      "bit_exact": true
+    }
+  ],
+  "sabotage": {
+    "kind": "omit_transition_index_1",
+    "conv_mismatch_count": 12288,
+    "ssm_mismatch_count": 524288,
+    "diverged": true
+  },
+  "gates": {
+    "all_prefix_states_bit_exact": true,
+    "sabotage_diverged": true
+  },
+  "environment_end": {
+    "created_utc": "2026-08-16T15:28:36.036543+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "02e5980ec613a29a374ba238c8bd48de6367df00",
+    "git_status": [
+      "?? pro_research/results/s100_kverify/S100_K1_20260816T152757Z.console.log",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6396 MiB, 56, 9.22 W, 180 MHz, 9001 MHz, P4",
+    "source_hashes": {}
+  },
+  "completed_utc": "2026-08-16T15:28:36.145495+00:00"
+}

@@ -175,6 +175,20 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
+- [DONE 2026-08-16] **Batch-kernelschaling GEMETEN vóór de bouw** —
+      `diag_batched_gemv_scaling.json`: per-token **×3,61 bij N=4, ×5,10 bij
+      N=8**, MB-gewogen over 1686 MB/token, **N=1 bitexact** tegen de
+      productiekernel, alle outputs eindig, koude rotatie. Consistent over alle
+      zes echte shapes (3,48-3,68× bij N=4). Projectie op de in-graph
+      componenttijden: N=4 ≈ 89 tok/s, **N=8 ≈ 107 tok/s**. Het batchprogramma
+      rust dus niet op een denkfout. Twee eigen bugs onderweg gevonden: runtime-N
+      dwong dynamische indexering van een lokale array (crash bij N≥4, opgelost
+      met compile-time N per kernel) en willekeurige uint16 als bf16 gaf
+      NaN-patronen waarop een bitsvergelijking triviaal slaagt.
+- [ ] **Hermeet `diag_kv_proj_ervf` met echte bf16-waarden.** Die gebruikte
+      willekeurige uint16, dus NaN/Inf-patronen. De bitexactheid blijft geldig
+      (identieke bits), maar de conclusie "ERVF is 0,75× op de K/V-shape"
+      verdient bevestiging met eindige waarden vóór hij zwaar geciteerd wordt.
 - [ ] **BESLISSING 2026-08-16: ga naar PRO-E100-BATCH. Single-stream is
       uitgerekend en haalt de 100 niet.** Zie `agents/DECISION_SINGLE_STREAM_VS_BATCH.md`
       voor de volledige onderbouwing. Kort: zelfs als je **elke** gemeten ms

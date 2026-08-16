@@ -1,0 +1,247 @@
+{
+  "kind": "diag_batched_gemv_scaling",
+  "created_utc": "2026-08-16T13:03:00.079595+00:00",
+  "note": "Prices the physical claim the batch decision rests on: that at N>1 the weight matrix is read once for N tokens, so bandwidth-bound GEMVs stop being bandwidth-bound. Isolated, cold rotation of 6 distinct matrices per shape so no L2 artifact can inflate it. Per-token time is always ms_per_batch_step / N.",
+  "decision_doc": "agents/DECISION_SINGLE_STREAM_VS_BATCH.md",
+  "rounds": 100,
+  "matrices_in_rotation": 6,
+  "shapes": {
+    "mamba_in_proj": {
+      "rows": 10304,
+      "cols": 2688,
+      "component": "Mamba",
+      "mb_per_token_in_model": 637.4,
+      "weight_bytes": 55394304,
+      "n1_bitexact_vs_production": true,
+      "finite_outputs": true,
+      "production_ms": 0.37084224700927737,
+      "by_N": {
+        "1": {
+          "ms_per_batch_step": 0.29623008728027345,
+          "ms_per_token": 0.29623008728027345,
+          "weight_gb_s": 186.99756162036823,
+          "speedup_per_token_vs_N1": 1.0
+        },
+        "2": {
+          "ms_per_batch_step": 0.30475807189941406,
+          "ms_per_token": 0.15237903594970703,
+          "weight_gb_s": 181.7648459801353,
+          "speedup_per_token_vs_N1": 1.9440343970810048
+        },
+        "4": {
+          "ms_per_batch_step": 0.3222918319702148,
+          "ms_per_token": 0.0805729579925537,
+          "weight_gb_s": 171.87622677672877,
+          "speedup_per_token_vs_N1": 3.676544769619232
+        },
+        "8": {
+          "ms_per_batch_step": 0.466841926574707,
+          "ms_per_token": 0.05835524082183838,
+          "weight_gb_s": 118.65751734518953,
+          "speedup_per_token_vs_N1": 5.076323619067558
+        }
+      },
+      "speedup_at_N4": 3.676544769619232,
+      "speedup_at_N8": 5.076323619067558
+    },
+    "mamba_out_proj": {
+      "rows": 2688,
+      "cols": 4096,
+      "component": "Mamba",
+      "mb_per_token_in_model": 253.2,
+      "weight_bytes": 22020096,
+      "n1_bitexact_vs_production": true,
+      "finite_outputs": true,
+      "production_ms": 0.16306047439575194,
+      "by_N": {
+        "1": {
+          "ms_per_batch_step": 0.10564384460449219,
+          "ms_per_token": 0.10564384460449219,
+          "weight_gb_s": 208.4370942996111,
+          "speedup_per_token_vs_N1": 1.0
+        },
+        "2": {
+          "ms_per_batch_step": 0.10816160202026368,
+          "ms_per_token": 0.05408080101013184,
+          "weight_gb_s": 203.5851502631647,
+          "speedup_per_token_vs_N1": 1.9534445243275929
+        },
+        "4": {
+          "ms_per_batch_step": 0.11966143608093262,
+          "ms_per_token": 0.029915359020233154,
+          "weight_gb_s": 184.01998773528655,
+          "speedup_per_token_vs_N1": 3.531424929015237
+        },
+        "8": {
+          "ms_per_batch_step": 0.1770457649230957,
+          "ms_per_token": 0.022130720615386963,
+          "weight_gb_s": 124.3751637299259,
+          "speedup_per_token_vs_N1": 4.773628768827371
+        }
+      },
+      "speedup_at_N4": 3.531424929015237,
+      "speedup_at_N8": 4.773628768827371
+    },
+    "q_proj": {
+      "rows": 4096,
+      "cols": 2688,
+      "component": "attention",
+      "mb_per_token_in_model": 132.1,
+      "weight_bytes": 22020096,
+      "n1_bitexact_vs_production": true,
+      "finite_outputs": true,
+      "production_ms": 0.1450614356994629,
+      "by_N": {
+        "1": {
+          "ms_per_batch_step": 0.10940992355346679,
+          "ms_per_token": 0.10940992355346679,
+          "weight_gb_s": 201.2623287250461,
+          "speedup_per_token_vs_N1": 1.0
+        },
+        "2": {
+          "ms_per_batch_step": 0.11418335914611816,
+          "ms_per_token": 0.05709167957305908,
+          "weight_gb_s": 192.84855660815973,
+          "speedup_per_token_vs_N1": 1.9163899953837775
+        },
+        "4": {
+          "ms_per_batch_step": 0.1258297634124756,
+          "ms_per_token": 0.0314574408531189,
+          "weight_gb_s": 174.99910516256114,
+          "speedup_per_token_vs_N1": 3.4780300172643948
+        },
+        "8": {
+          "ms_per_batch_step": 0.1765190315246582,
+          "ms_per_token": 0.022064878940582275,
+          "weight_gb_s": 124.74629964715153,
+          "speedup_per_token_vs_N1": 4.958555351610714
+        }
+      },
+      "speedup_at_N4": 3.4780300172643948,
+      "speedup_at_N8": 4.958555351610714
+    },
+    "o_proj": {
+      "rows": 2688,
+      "cols": 4096,
+      "component": "attention",
+      "mb_per_token_in_model": 132.1,
+      "weight_bytes": 22020096,
+      "n1_bitexact_vs_production": true,
+      "finite_outputs": true,
+      "production_ms": 0.18375616073608397,
+      "by_N": {
+        "1": {
+          "ms_per_batch_step": 0.11574463844299317,
+          "ms_per_token": 0.11574463844299317,
+          "weight_gb_s": 190.2472226464761,
+          "speedup_per_token_vs_N1": 1.0
+        },
+        "2": {
+          "ms_per_batch_step": 0.11990880012512208,
+          "ms_per_token": 0.05995440006256104,
+          "weight_gb_s": 183.6403664870513,
+          "speedup_per_token_vs_N1": 1.9305445192048674
+        },
+        "4": {
+          "ms_per_batch_step": 0.12659104347229003,
+          "ms_per_token": 0.03164776086807251,
+          "weight_gb_s": 173.94671373271407,
+          "speedup_per_token_vs_N1": 3.657277332367639
+        },
+        "8": {
+          "ms_per_batch_step": 0.1754889678955078,
+          "ms_per_token": 0.021936120986938475,
+          "weight_gb_s": 125.47852018316914,
+          "speedup_per_token_vs_N1": 5.276440557193841
+        }
+      },
+      "speedup_at_N4": 3.657277332367639,
+      "speedup_at_N8": 5.276440557193841
+    },
+    "shared_up": {
+      "rows": 3712,
+      "cols": 2688,
+      "component": "shared expert",
+      "mb_per_token_in_model": 143.6,
+      "weight_bytes": 19955712,
+      "n1_bitexact_vs_production": true,
+      "finite_outputs": true,
+      "production_ms": 0.13855456352233886,
+      "by_N": {
+        "1": {
+          "ms_per_batch_step": 0.1061843204498291,
+          "ms_per_token": 0.1061843204498291,
+          "weight_gb_s": 187.93463964793983,
+          "speedup_per_token_vs_N1": 1.0
+        },
+        "2": {
+          "ms_per_batch_step": 0.11023008346557617,
+          "ms_per_token": 0.055115041732788084,
+          "weight_gb_s": 181.036894580888,
+          "speedup_per_token_vs_N1": 1.9265942129670885
+        },
+        "4": {
+          "ms_per_batch_step": 0.11667584419250489,
+          "ms_per_token": 0.029168961048126222,
+          "weight_gb_s": 171.03550557624277,
+          "speedup_per_token_vs_N1": 3.640318908672623
+        },
+        "8": {
+          "ms_per_batch_step": 0.1585980796813965,
+          "ms_per_token": 0.019824759960174562,
+          "weight_gb_s": 125.82568490166152,
+          "speedup_per_token_vs_N1": 5.356146589574855
+        }
+      },
+      "speedup_at_N4": 3.640318908672623,
+      "speedup_at_N8": 5.356146589574855
+    },
+    "routed_up": {
+      "rows": 1856,
+      "cols": 2688,
+      "component": "routed experts",
+      "mb_per_token_in_model": 387.3,
+      "weight_bytes": 9977856,
+      "n1_bitexact_vs_production": true,
+      "finite_outputs": true,
+      "production_ms": 0.06739808082580566,
+      "by_N": {
+        "1": {
+          "ms_per_batch_step": 0.05120319843292236,
+          "ms_per_token": 0.05120319843292236,
+          "weight_gb_s": 194.86782672514633,
+          "speedup_per_token_vs_N1": 1.0
+        },
+        "2": {
+          "ms_per_batch_step": 0.05309887886047363,
+          "ms_per_token": 0.026549439430236816,
+          "weight_gb_s": 187.9108601561724,
+          "speedup_per_token_vs_N1": 1.928598099687472
+        },
+        "4": {
+          "ms_per_batch_step": 0.057241601943969725,
+          "ms_per_token": 0.014310400485992431,
+          "weight_gb_s": 174.31126420547608,
+          "speedup_per_token_vs_N1": 3.5780409138823206
+        },
+        "8": {
+          "ms_per_batch_step": 0.07808159828186036,
+          "ms_per_token": 0.009760199785232545,
+          "weight_gb_s": 127.78754814907549,
+          "speedup_per_token_vs_N1": 5.246121960576487
+        }
+      },
+      "speedup_at_N4": 3.5780409138823206,
+      "speedup_at_N8": 5.246121960576487
+    }
+  },
+  "all_n1_bitexact": true,
+  "mb_weighted_speedup_per_token": {
+    "1": 1.0,
+    "2": 1.9371920867457855,
+    "4": 3.611962727828415,
+    "8": 5.100160244532275
+  },
+  "covered_mb_per_token": 1685.7,
+  "status": "measured"
+}

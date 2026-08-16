@@ -11,6 +11,84 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — **De batch-hypothese is GEMETEN, niet meer beredeneerd: per-token ×3,61 bij N=4 en ×5,10 bij N=8, bitexact bij N=1** — dit is het eerste resultaat van vandaag dat richting 100 wijst
+
+**Vraag.** De beslisnota (`DECISION_SINGLE_STREAM_VS_BATCH.md`) adviseert
+single-stream los te laten, en steunt op één fysieke claim: *bij N>1 wordt een
+GEMV een GEMM met kleine N, de gewichtsmatrix wordt één keer gelezen voor N
+tokens, en de kernels die nu op 157-172 GB/s vastzitten houden op
+bandbreedte-gebonden te zijn.* Dat was **rekenwerk, geen meting**. Vóór iemand
+weken in een runtime-herschrijving stopt (elke buffer is 1D en single-sequence)
+moet dat op déze hardware met déze shapes gecontroleerd worden.
+
+**Opzet.** Y[N, rows] = W[rows, cols] · X[N, cols] voor N ∈ {1,2,4,8} op de zes
+echte shapes, koude rotatie van 6 matrices per shape (geen L2-artefact). De
+kernel is de productie-`gemv_bf16`-geometrie met N accumulatoren per thread:
+`w[k]` wordt **één keer** geladen en N keer gebruikt — precies de deling waar
+het batchprogramma op rust. Per-token tijd is altijd ms_per_batch_step / N.
+
+**Twee eigen bugs eerst gevonden en gefixt.**
+1. `float acc[MAXN]` met N als **runtime**-argument dwingt dynamische indexering
+   van een lokale array; dat crashte met `cudaErrorIllegalAddress` bij N≥4.
+   Opgelost door per N een aparte kernel te genereren met N als
+   **compile-time**-constante (zoals een echte implementatie het ook zou doen
+   met een vaste `N_MAX`).
+2. Willekeurige `uint16` als bf16 levert **NaN/Inf**-exponentpatronen. Een
+   bitsgewijze outputvergelijking slaagt daar triviaal op (NaN-bits == NaN-bits).
+   Nu echte bf16 (getrunceerde float32) en een expliciete `finite`-controle.
+   ⚠️ **Diezelfde zwakte zit in `diag_kv_proj_ervf.py` van vandaag** — die
+   gebruikte ook willekeurige uint16. De bitexactheid daar is nog steeds geldig
+   (identieke bits), maar de conclusie "ERVF is 0,75× op de K/V-shape" verdient
+   een hermeting met echte waarden vóór hij zwaar geciteerd wordt.
+
+**Uitkomst — poort G1: N=1 bitexact tegen de productiekernel op alle zes de
+shapes, alle outputs eindig.**
+
+| shape | µs/token N=1 | µs/token N=8 | ×N=4 | ×N=8 |
+|---|---:|---:|---:|---:|
+| mamba_in_proj | 296,2 | 58,4 | 3,68 | 5,08 |
+| mamba_out_proj | 105,6 | 22,1 | 3,53 | 4,77 |
+| q_proj | 109,4 | 22,1 | 3,48 | 4,96 |
+| o_proj | 115,7 | 21,9 | 3,66 | 5,28 |
+| shared_up | 106,2 | 19,8 | 3,64 | 5,36 |
+| routed_up | 51,2 | 9,8 | 3,58 | 5,25 |
+| **MB-gewogen (1686 MB/token gedekt)** | **1,00** | | **3,61** | **5,10** |
+
+**De claim houdt stand, en opvallend consistent over alle zes de shapes.** Bij
+N=4 is 3,61 van de ideale 4 = **90% van perfecte schaling**; bij N=8 is 5,10 van
+8 = 64% — daar begint iets anders te knellen (x-verkeer of rekenwerk), maar het
+blijft flink stijgen.
+
+**Wat dat voor het doel betekent — projectie, uitdrukkelijk geen meting.**
+Toegepast op de in-graph componenttijden (21,24 ms/token), met de gemeten
+unie-factor voor het routed deel:
+- N=4: dense (Mamba 5,168 + attention 2,479 + shared 1,810 = 9,457) → ~2,63;
+  routed-posten via unie ~2,5/4 → totaal ≈ **11,2 ms/token ≈ 89 tok/s**
+- N=8: dense → ~1,85; routed-unie ~4/8 → totaal ≈ **9,3 ms/token ≈ 107 tok/s**
+
+**Bij N=8 komt de projectie voor het eerst boven de 100 uit.** Dat is een
+projectie met stapelende aannames (kernel-schaling toegepast op
+componenttijden, geen orkestratiekost, unie-factor geëxtrapoleerd) en géén
+resultaat — maar het is de eerste keer deze sessie dat een pad naar 100 niet
+door de rekensom wordt uitgesloten. Single-stream werd op ~94 tok/s
+theoretisch maximum vastgepind; dit ligt erboven met marge over.
+
+**VRAM-controle, want dat is de eerste plek waar dit stukloopt.** Per sequentie:
+Mamba-state 23 × 64 × 64 × 128 × 4 B ≈ 48 MB, KV bij ctx 4096 ≈ 12,6 MB. Bij
+N=8 dus ~485 MB extra tegen ~605 MiB gemeten vrij. **Het past, maar krap** — en
+dat is een harde randvoorwaarde voor de B0-ontwerpkeuze `N_MAX`.
+
+**Wat dit sluit of opent.** Sluit: de twijfel of het batchprogramma op een
+denkfout rust. Opent: B1 (dense shell) mag gebouwd worden op een gemeten
+fundament in plaats van op een redenering — en de volgorde uit de beslisnota
+(dense eerst, 79% van het verkeer en het makkelijkste deel) wordt door deze
+cijfers bevestigd: de dense shapes schalen 3,5-3,7× bij N=4, net zo goed als de
+routed shape.
+
+**Artefacten.** `pro_research/diag_batched_gemv_scaling.py` + `.json`.
+
+---
+
 ## 2026-08-16 — Attention per stage ontleed: **de K/V-projecties draaien op ~35 GB/s, 3,3× slechter per byte dan Q** — plus een eerlijke meetgrens die ik hier moet vastleggen
 
 **Vraag.** Attention is in de graph 2,479 ms tegen een vloer van 1,128 (45,5%,

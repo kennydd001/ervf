@@ -6,6 +6,22 @@ Datum: 2026-08-16 · alle getallen gemeten, geen schattingen · schrijver: Claud
 **Kort antwoord: single-stream is NIET veelbelovend genoeg voor 100 tok/s. Ga
 naar batch. De fysica is daar niet marginaal beter maar een orde beter.**
 
+> **UPDATE dezelfde dag — de kernclaim is nu GEMETEN, niet meer beredeneerd.**
+> `diag_batched_gemv_scaling.json`: Y[N,rows] = W·X[N,cols] op de zes echte
+> shapes, koude rotatie, **N=1 bitexact tegen de productiekernel**, alle outputs
+> eindig. MB-gewogen per-token-versnelling: **×1,94 bij N=2, ×3,61 bij N=4,
+> ×5,10 bij N=8** — bij N=4 is dat 90% van perfecte schaling, en opvallend
+> consistent over alle zes shapes (3,48-3,68×).
+>
+> Toegepast op de in-graph componenttijden (projectie, geen meting):
+> **N=4 ≈ 11,2 ms/token ≈ 89 tok/s · N=8 ≈ 9,3 ms/token ≈ 107 tok/s.**
+> Bij N=8 komt het voor het eerst boven de 100 uit, waar single-stream op ~94
+> theoretisch maximum vastzit.
+>
+> VRAM is de eerste harde randvoorwaarde: per sequentie ~48 MB Mamba-state +
+> ~12,6 MB KV bij ctx 4096, dus bij N=8 ~485 MB extra tegen ~605 MiB vrij.
+> Het past, maar krap — dat bepaalt `N_MAX` in B0.
+
 ---
 
 ## 1. Wat single-stream nog kan opleveren — volledig uitgerekend

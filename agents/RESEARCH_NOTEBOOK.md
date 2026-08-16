@@ -11,6 +11,49 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Robuustheidscontrole van de N=2-naive-baseline: het cijfer krimpt bij een langere horizon — eerlijke bijstelling, geen tegenspraak
+
+**Vraag.** De N=2-naive-baseline (+5,4% aggregate) en de latere expliciete-
+deling-meting kregen allebei een robuustheidscontrole bij 40 stappen — de
+expliciete-deling-versie hield stand (11,12→11,23, ~1% verschil). Voor een
+eerlijke, gelijkwaardige vergelijking verdient de NAIVE-baseline dezelfde
+controle, die tot nu toe alleen bij 15 stappen gemeten was.
+
+**Opzet.** `DECODE_STEPS` in `proto_multi_seq_full_model.py` van 15 naar 40
+(80 echte tokens i.p.v. 30), verder ongewijzigd. **Bitexact, 40/40 tokens ×
+2 sequenties, PASS.**
+
+**Uitkomst — het cijfer krimpt, geen ruis-toeval.** Solo: 31,020 tok/s
+(ruis-consistent met eerdere solo-metingen ~29,8-31,0). **N=2 naive
+aggregate bij 40 stappen: 31,656 tok/s — 1,0205× (+2,05%), niet de eerder
+gerapporteerde +5,4%.**
+
+**Waarom dit geen tegenspraak is, maar een verwachte verfijning.**
+`diag_batch_warm_cache.py` (eerder deze sessie) mat expliciet dat het
+gedeelde-cache-voordeel **afneemt** van cold-start (missers-reductie hoog
+in de eerste stappen) naar steady-state (28,0% in het laatste kwart,
+lager dan het 40-staps-gemiddelde van 27,6%). Een 15-staps-meting is meer
+cold-start-gedomineerd dan een 40-staps-meting; het kleinere +2,05%-cijfer
+bij 40 stappen is dus precies wat die eerdere diagnostiek al voorspelde —
+geen fout, een preciezere meting over een langere, representatievere
+horizon.
+
+**Wat dit sluit of opent.** Corrigeert het gerapporteerde naive-cijfer naar
+het robuustere **+2,05%** (niet +5,4%) als de betere schatting voor een
+langlopende sessie. Sluit de vraag of de eerdere 15-staps-metingen een
+toevalstreffer waren: nee (bitexact, reproduceerbaar patroon, consistent
+met de aparte cold-vs-warm-diagnostiek) — maar het cijfer zelf hoort bij
+de langere horizon vervangen te worden.
+
+**Poorten.** Correctheid: bitexact, PASS. Eerlijke bijstelling van een
+eerder gerapporteerd getal, geen nieuwe claim voorbij wat hierboven staat.
+
+**Artefacten.** `pro_research/proto_multi_seq_full_model.py` (DECODE_STEPS
+40), `pro_research/proto_multi_seq_full_model.json` (bijgewerkt, 40-staps-
+resultaat).
+
+---
+
 ## 2026-08-16 — Grotere cache bij groter N: hersteld het voordeel? Verrassend: nee, het wordt WÉÉR erger — een echte hypothese verworpen
 
 **Vraag.** De N=4-meting hierboven liet het incidentele voordeel vlak

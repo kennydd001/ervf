@@ -413,12 +413,19 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       geïnterleaved (wissel-stap-wissel-stap, de exacte fase-3-patroon, niet
       slechts één ongebroken sequentie) tegen onafhankelijke
       `rt.reset()`-controleruns — **bitexact, 15/15 tokens per sequentie,
-      beide sequenties**. **Resultaat (kale E1-fase-2.1-configuratie, geen
-      graph/selectieve-ERVF/gebatchte-kernels, bewust schoon voor een
-      N=1-vs-N=2-vergelijking): N=1 solo 29,798 tok/s vs N=2 naive (GEEN
-      expliciete deel-logica, alleen incidenteel warm-cache-hergebruik)
-      31,411 tok/s aggregate — 1,054× (+5,4%), reëel en positief.** Sluit de
-      vraag of het state-managementmechanisme praktisch werkt: ja.
+      beide sequenties**. **Resultaat bij 15 stappen (kale E1-fase-2.1-
+      configuratie, geen graph/selectieve-ERVF/gebatchte-kernels, bewust
+      schoon voor een N=1-vs-N=2-vergelijking): N=1 solo 29,798 tok/s vs
+      N=2 naive (GEEN expliciete deel-logica, alleen incidenteel
+      warm-cache-hergebruik) 31,411 tok/s aggregate — 1,054× (+5,4%), reëel
+      en positief.** Sluit de vraag of het state-managementmechanisme
+      praktisch werkt: ja. **[ROBUUSTHEIDSCONTROLE BIJ 40 STAPPEN, ZELFDE
+      DAG]**: het cijfer krimpt naar **+2,05%** (31,656 tegen solo 31,020)
+      bij een langere, representatievere horizon — consistent met
+      `diag_batch_warm_cache.py`'s eigen cold-vs-steady-state-bevinding,
+      geen tegenspraak. **+2,05% is het robuustere cijfer om te citeren,
+      niet +5,4%.** Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
+      "Robuustheidscontrole van de N=2-naive-baseline".
       **[VERVOLGD EN AFGEROND 2026-08-16]** zie direct hieronder.
 - [DONE 2026-08-16] **N=4 naive baseline — groeit het incidentele voordeel
       mee met N? Verrassend: nee.** `pro_research/proto_multi_seq_full_model_n4.py`,

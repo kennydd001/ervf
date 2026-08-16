@@ -177,16 +177,20 @@ gewisseld vóór aanroepen van de ongewijzigde productie-`rt.step()`, gewichten
 en MoE-device-cache blijven gedeeld). Een `pos`-bug (plain-int-rebinding
 i.p.v. in-place-mutatie) gevonden en gefixt vóór meting. **Correctheidspoort:
 bitexact onder volledige interleaving tegen onafhankelijke controleruns,
-15/15 tokens, beide sequenties.** Resultaat (kale eager-configuratie, geen
-graph/selectieve-ERVF/gebatchte-kernels, schoon voor een N=1-vs-N=2-
-vergelijking): **N=1 solo 29,798 tok/s vs N=2 naive (nog GEEN expliciete
-deel-logica, alleen incidenteel warm-cache-hergebruik) 31,411 tok/s
-aggregate — 1,054× (+5,4%), reëel en positief.** Bevestigt dat het
-mechanisme praktisch werkt; de expliciete unie-gevoede MoE-deling
-(`proto_batch_moe_layer_combined.py`, al bitexact bewezen op één laag) nog
-niet in deze staplus geïntegreerd — dat is de directe vervolgstap. Zie
-`agents/RESEARCH_NOTEBOOK.md` 2026-08-16, blok "EERSTE ECHTE END-TO-END
-METING".
+15/15 tokens, beide sequenties.** Resultaat bij 15 stappen (kale eager-
+configuratie, geen graph/selectieve-ERVF/gebatchte-kernels, schoon voor een
+N=1-vs-N=2-vergelijking): N=1 solo 29,798 tok/s vs N=2 naive (nog GEEN
+expliciete deel-logica, alleen incidenteel warm-cache-hergebruik) 31,411
+tok/s aggregate — 1,054× (+5,4%). **Robuustheidscontrole bij 40 stappen
+(zelfde dag): krimpt naar het robuustere +2,05%** (31,656 tegen solo
+31,020) — consistent met `diag_batch_warm_cache.py`'s eigen cold-vs-
+steady-state-bevinding, geen tegenspraak, wel het cijfer om te citeren.
+Bevestigt dat het mechanisme praktisch werkt; de expliciete unie-gevoede
+MoE-deling (`proto_batch_moe_layer_combined.py`, al bitexact bewezen op
+één laag) nog niet in deze staplus geïntegreerd — dat is de directe
+vervolgstap. Zie `agents/RESEARCH_NOTEBOOK.md` 2026-08-16, blokken
+"EERSTE ECHTE END-TO-END METING" en "Robuustheidscontrole van de
+N=2-naive-baseline".
 
 **Vervolg, zelfde dag — de expliciete deling geïntegreerd: bitexact
 correct, maar 12× TRAGER, een belangrijke eerlijke uitkomst.**

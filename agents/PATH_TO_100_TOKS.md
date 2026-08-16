@@ -54,7 +54,10 @@ deze sessie — het enige pad dat 100 niet a priori uitsluit.**
 4. **Eerste echte end-to-end meting** (volledig 52-lagen model, meerdere
    echte stappen, N=2, bitexact tegen onafhankelijke `_moe_dev`-referentie):
    naive (alleen incidenteel warm-cache-hergebruik) geeft al een reële
-   **+5,4% aggregate** winst zonder enige nieuwe code in de hete lus.
+   winst zonder enige nieuwe code in de hete lus — **+2,05% aggregate bij
+   een robuuste 40-staps-meting** (een eerdere 15-staps-meting gaf +5,4%,
+   maar dat bleek cold-start-gedomineerd; het langere-horizon-cijfer is de
+   betere schatting).
 5. De EXPLICIETE unie-gevoede deling, volledig geïntegreerd in de echte
    staplus en met de al bestaande gebatchte V5/V6-kernels versneld, is
    **bitexact correct** maar haalt in deze sessie se Python-georkestreerde

@@ -67,7 +67,7 @@ STATE_ATTRS = [
 ]
 
 N = 2
-DECODE_STEPS = 15
+DECODE_STEPS = 40
 
 
 def snapshot_state(rt):

@@ -190,6 +190,24 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
+- [ ] **GEBLOKKEERD OP GPU (niet op kennis) — FP4-activatie-kwaliteit meten.**
+      `diag_fp4_activation_quality.py` staat klaar en is de poort vóór er ook
+      maar iets gebouwd wordt. Methode: draai een echte generatie, vang per stap
+      `rt.normed` (de vector die lm_head in gaat), en bereken de logits **twee
+      keer door dezelfde productie-NVFP4-lm_head-kernel** — één keer met de
+      echte activatie, één keer met de NVFP4-round-trip ervan. Alleen de
+      activatie verschilt, dus de delta ís de quantisatie, zonder kernel-,
+      layout- of accumulatiewijziging ertussen. Rapporteert top-1-overeenkomst,
+      rang van het referentietoken, CE-delta en max logit-afwijking.
+      Kon niet draaien: de GPU was bezet door de eigen chatserver van de
+      gebruiker (PID 6796, `serve_openai.py --stack v18`) plus de idle
+      CUDA-context van de ChatGPT-desktopapp. `require_gpu_free()` weigerde
+      terecht in plaats van te concurreren. **Draai zodra de GPU vrij is.**
+- [ ] **Upstream melden: de Mamba-2-assertie die `nemotron_h_moe` blokkeert.**
+      Kant-en-klare tekst met de volledige rekensom staat in
+      `agents/LLAMA_CPP_ISSUE_DRAFT.md`. Plakken onder ggml-org/llama.cpp
+      issue #20570.
+
 - [WEERLEGD 2026-08-16] **W4A8 als milder alternatief** — alle zes
       `ScalingType`-waarden voor de activatie geprobeerd tegen BlockWise1x16
       voor de gewichten. **Precies één pairing werkt in de hele matrix: FP4 ×

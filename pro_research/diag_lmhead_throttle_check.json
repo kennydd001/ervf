@@ -1,0 +1,222 @@
+{
+  "kind": "diag_lmhead_throttle_check",
+  "created_utc": "2026-08-16T03:15:18.026433+00:00",
+  "note": "root-cause follow-up to the N-scaling synthesis: polls nvidia-smi clocks.sm during a sustained lm_head workload to test whether clock throttling explains the supra-linear penalty found for Mamba/lm_head",
+  "environment": {
+    "created_utc": "2026-08-16T03:15:18.026433+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "681e117b760ffd54436c4cfd89c4f0e76f8f2831",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/diag_lmhead_throttle_check.py",
+      "?? pro_research/install_console.log",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6392 MiB, 73, 60.04 W, 1710 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
+    }
+  },
+  "n_per_batch": 16,
+  "sustain_seconds_requested": 6.0,
+  "sustain_seconds_actual": 6.020607600046787,
+  "batches_run": 272,
+  "nvidia_smi_sample_count": 31,
+  "nvidia_smi_samples": [
+    {
+      "clocks_sm_mhz": 2685.0,
+      "power_draw_w": 54.78,
+      "temperature_c": 70.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 2685.0,
+      "power_draw_w": 54.78,
+      "temperature_c": 70.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 2685.0,
+      "power_draw_w": 54.78,
+      "temperature_c": 70.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1642.0,
+      "power_draw_w": 56.2,
+      "temperature_c": 69.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1642.0,
+      "power_draw_w": 56.2,
+      "temperature_c": 69.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1665.0,
+      "power_draw_w": 56.61,
+      "temperature_c": 70.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1665.0,
+      "power_draw_w": 56.61,
+      "temperature_c": 70.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1665.0,
+      "power_draw_w": 56.61,
+      "temperature_c": 70.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1710.0,
+      "power_draw_w": 58.62,
+      "temperature_c": 71.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1710.0,
+      "power_draw_w": 58.62,
+      "temperature_c": 71.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1710.0,
+      "power_draw_w": 59.29,
+      "temperature_c": 71.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1710.0,
+      "power_draw_w": 59.29,
+      "temperature_c": 71.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1710.0,
+      "power_draw_w": 59.29,
+      "temperature_c": 71.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1717.0,
+      "power_draw_w": 59.99,
+      "temperature_c": 71.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1717.0,
+      "power_draw_w": 59.99,
+      "temperature_c": 71.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1717.0,
+      "power_draw_w": 60.03,
+      "temperature_c": 71.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1717.0,
+      "power_draw_w": 60.03,
+      "temperature_c": 71.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1717.0,
+      "power_draw_w": 59.97,
+      "temperature_c": 71.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1717.0,
+      "power_draw_w": 59.97,
+      "temperature_c": 72.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1717.0,
+      "power_draw_w": 59.97,
+      "temperature_c": 72.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1717.0,
+      "power_draw_w": 60.05,
+      "temperature_c": 72.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1717.0,
+      "power_draw_w": 60.05,
+      "temperature_c": 72.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1717.0,
+      "power_draw_w": 60.01,
+      "temperature_c": 72.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1717.0,
+      "power_draw_w": 60.01,
+      "temperature_c": 72.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1717.0,
+      "power_draw_w": 60.01,
+      "temperature_c": 72.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1710.0,
+      "power_draw_w": 60.06,
+      "temperature_c": 72.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1710.0,
+      "power_draw_w": 60.06,
+      "temperature_c": 72.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1710.0,
+      "power_draw_w": 59.98,
+      "temperature_c": 73.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1710.0,
+      "power_draw_w": 59.98,
+      "temperature_c": 73.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1710.0,
+      "power_draw_w": 59.98,
+      "temperature_c": 73.0,
+      "pstate": "P4"
+    },
+    {
+      "clocks_sm_mhz": 1710.0,
+      "power_draw_w": 60.04,
+      "temperature_c": 73.0,
+      "pstate": "P4"
+    }
+  ],
+  "clocks_sm_first_half_mean_mhz": 1887.8666666666666,
+  "clocks_sm_second_half_mean_mhz": 1714.375,
+  "throttle_detected_gt_50mhz_drop": true
+}

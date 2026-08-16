@@ -376,6 +376,21 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       vóór hij als "triviaal lineair" wordt aangenomen. Zie
       `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Synthese van de vier
       N-schalingstests".
+- [DONE 2026-08-16] **Oorzaak van de N-schalingsstraf gevonden: reëel
+      GPU-klokverval (36%) onder aanhoudende belasting, fysiek bevestigd.**
+      `pro_research/diag_lmhead_throttle_check.py`: nvidia-smi gepold
+      (5 Hz) tijdens 6 seconden aanhoudend lm_head-werk (272 batches N=16).
+      **SM-klok daalt van piek 2685 MHz naar een stabiel niveau van
+      ~1710-1717 MHz binnen ~1 seconde — een daling van 36%**, temperatuur
+      steeg gestaag, stroom bleef vlak, `pstate` bleef P4 (dus boost-
+      klok-afbouw, geen pstate-crisis). Groot genoeg om de eerder gemeten
+      15-24%-tijdstraffen voor Mamba/lm_head volledig te verklaren
+      (ondersteunend bewijs, geen exacte reconstructie — de oorspronkelijke
+      vier schalingstests deden geen gelijktijdige klokmeting). **Versterkt
+      de motivatie voor de al bestaande, nog niet uitgevoerde "Duurloop"-
+      taak hieronder** — dit is nu fysiek bevestigd relevant, niet
+      hypothetisch. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Oorzaak
+      van de supra-lineaire straf gevonden".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,
   `cudaErrorStreamCaptureUnsupported` — `cudaGraphLaunch()` op een reeds
@@ -439,7 +454,16 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       bij `contexts_max=4096`. De stack is nooit end-to-end gemeten op 128K/262K
       ná adoptie. NERVF-3 deed dat vóór D1. Nu óók mét device_cache meten.
 - [ ] **Duurloop** — ≥10.000 causale tokens en één thermisch uur, om te toetsen of
-      exactheid en winst standhouden buiten korte rollouts.
+      exactheid en winst standhouden buiten korte rollouts. **Motivatie nu
+      fysiek versterkt (2026-08-16):** `diag_lmhead_throttle_check.py` mat
+      een reëel 36% SM-klokverval binnen ~1 seconde aanhoudende belasting —
+      dus elke kortlopende meting in dit document (elke `diag_*`/
+      `proto_batch_*`-timing, 30 rondes of minder) kan een mix van
+      boost- en duurzame klok bevatten, terwijl V6's eigen 47,41 tok/s-
+      record (765 samples, volle 256×3-rollout) waarschijnlijk al op het
+      duurzame niveau gemeten is. Niet geverifieerd welke exacte cijfers
+      hierdoor geraakt zijn — de Duurloop-taak zou dit in één keer
+      oplossen.
 - [ ] **Prior-art-audit + stock llama.cpp-differentieel** — nodig vóór er ooit een
       nieuwheidsclaim over ERVF wordt gedaan. Nu wordt die claim expliciet
       **niet** gemaakt.

@@ -11,6 +11,57 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Oorzaak van de supra-lineaire straf gevonden: reëel, groot klokverval onder aanhoudende belasting (36%)
+
+**Vraag.** De synthese hierboven liet de oorzaak van de Mamba/lm_head-straf
+expliciet open ("vermoedelijk klok-/stroomthrottling of geheugencontentie,
+oorzaak niet vastgesteld"). Is er echt klokverval op deze hardware onder
+aanhoudende belasting, groot genoeg om de gemeten straffen te verklaren?
+
+**Opzet.** `pro_research/diag_lmhead_throttle_check.py`. `nvidia-smi
+--query-gpu=clocks.sm,power.draw,temperature.gpu,pstate -lms 200` als
+achtergrondproces gestart, dan **6 seconden aanhoudend** lm_head-werk
+gedraaid (272 opeenvolgende batches van N=16, geen pauzes) — veel langer dan
+één enkele schalingstest-ronde, met opzet, om het klokgedrag ondubbelzinnig
+zichtbaar te maken. 31 nvidia-smi-samples gevangen tijdens de run.
+
+**Uitkomst — reëel en groot.** SM-klok: **2685 MHz** (eerste ~0,6 s) →
+daalt binnen ~1 seconde naar **~1642-1665 MHz** → stabiliseert op
+**~1710-1717 MHz** voor de resterende ~5 seconden. Eerste-helft-gemiddelde
+1887,9 MHz vs. tweede-helft-gemiddelde 1714,4 MHz — **een daling van ~174
+MHz tussen de twee helften, en ~970 MHz (36%) tussen de piek en het
+stabiele niveau.** Temperatuur steeg gestaag (70°C→73°C) terwijl
+stroomverbruik nagenoeg vlak bleef (~55-60 W) en `pstate` steeds `P4` bleef
+— consistent met een boost-klok die afbouwt naar een houdbaar duurzaam
+niveau, niet met een pstate-overgang of een stroomlimiet-crisis.
+
+**Wat dit vaststelt, en wat niet.** Bevestigt **direct en fysiek gemeten**
+dat klokverval onder aanhoudende belasting een reëel, groot fenomeen is op
+deze hardware — groot genoeg (36%) om de eerder gemeten 15-24%-tijdstraffen
+voor Mamba/lm_head volledig te kunnen verklaren. **Niet vastgesteld:** of de
+klokstaat exact hetzelfde was tijdens de oorspronkelijke vier
+schalingstests zelf (die deden geen gelijktijdige nvidia-smi-polling) — dit
+is dus sterk ondersteunend bewijs voor het throttling-mechanisme, geen
+regel-voor-regel reconstructie van elke eerdere meting. Geheugencontentie
+als aanvullende factor is hiermee niet uitgesloten, maar throttling alleen
+al is aannemelijk voldoende om de waargenomen orde van grootte te verklaren.
+
+**Wat dit opent.** Praktisch relevant voor een toekomstige batch>1-
+integratie: als aanhoudende belasting de klok structureel naar ~1710-1717
+MHz duwt (tegenover een piek van 2685 MHz), dan geldt dat **voor de hele
+runtime**, niet alleen voor lm_head/Mamba — een langlopende batch>1-serving-
+sessie zou op het duurzame klokniveau draaien, niet het piekniveau, wat ook
+de single-stream-roofline-aannames (165/119 tok/s, gebaseerd op een
+kortlopende meting) zou kunnen beïnvloeden. Niet verder onderzocht: hoe de
+bestaande roofline-metingen zich verhouden tot dit duurzame klokniveau.
+
+**Poorten.** Geen PRO-poorten (read-only root-cause-diagnostiek).
+
+**Artefacten.** `pro_research/diag_lmhead_throttle_check.py`,
+`pro_research/diag_lmhead_throttle_check.json`.
+
+---
+
 ## 2026-08-16 — Synthese van de vier N-schalingstests: het patroon is niet "Mamba/lm_head zijn uitzonderingen", het is "duurdere kernels schalen slechter"
 
 **Waarom dit een aparte vermelding verdient.** Vier losse metingen deze

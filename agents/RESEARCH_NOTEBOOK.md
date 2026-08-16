@@ -11,6 +11,62 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Attention per stage ontleed: **de K/V-projecties draaien op ~35 GB/s, 3,3× slechter per byte dan Q** — plus een eerlijke meetgrens die ik hier moet vastleggen
+
+**Vraag.** Attention is in de graph 2,479 ms tegen een vloer van 1,128 (45,5%,
+het minst efficiënte pad). PV2-11's fusie van Q/K/V werd 2,628 ms trager, dus
+het zit niet in het aantal launches. Welke van de vijf stages dan wel?
+
+**Opzet.** Marginale probes per stage in de gevangen graph, zelfde methode die
+`down_masked` lokaliseerde. Alle stages zijn idempotent (projecties
+overschrijven `qv`/`kv_`/`vv`, de KV-writes adresseren dezelfde device-positie
+met dezelfde bytes, flash-decode overschrijft `ctx`, O-proj overschrijft `out`)
+— en dat is als poort gecontroleerd, niet aangenomen.
+
+**Uitkomst (twee runs, beide alle poorten groen).**
+
+| stage | run 1 (5 armen) | run 2 (7 armen) | bytes/token | GB/s (run 2) |
+|---|---:|---:|---:|---:|
+| qkv_proj | 1,008 | 1,386 | 148,6 MB | 107,2 |
+| — q_proj alleen | — | 1,170 | 132,1 MB | **112,9** |
+| — kv_proj alleen | — | 0,477 | 16,5 MB | **34,6** |
+| flash_decode | 0,616 | 0,819 | (KV, ~0,6 MB) | — |
+| kv_write | 0,131 | 0,322 | — | — |
+| o_proj | 0,394 | 0,005 | 132,1 MB | — |
+| basis-midden | 20,786 | 21,268 | | |
+| drift | 0,336 | 0,423 | | |
+
+**⚠️ Meetgrens die ik hier expliciet vastleg.** De twee runs verschillen op
+`o_proj` met **0,39 ms** op dezelfde probe, en `q_proj + kv_proj` (1,647) telt
+niet op tot `qkv_proj` (1,386) — een gat van 0,26 ms. De driftpoort vergelijkt
+alleen de **eerste en laatste** arm; tussenliggende armen kunnen op een ander
+thermisch punt zitten, en bij 7 armen duurt de run twee keer zo lang. **Stage-
+marginalen van deze orde (~0,1-0,5 ms) zijn in een run met veel armen dus niet
+betrouwbaar opgelost.** Dat is geen reden om de meting weg te gooien, wel om er
+alleen conclusies uit te trekken die groter zijn dan die ruis — en om kleine
+kandidaten voortaan in een **3-armige** A/B te meten, niet in een sweep.
+
+**Wat wél ruim boven de ruis uitkomt.** `kv_proj` doet **16,5 MB in 0,477 ms =
+34,6 GB/s**, terwijl `q_proj` **132,1 MB in 1,170 ms = 112,9 GB/s** doet. Dat is
+**3,3× slechter per byte**, veel groter dan het 0,3 ms ruisniveau, en het heeft
+een voor de hand liggende verklaring: K en V hebben elk maar **256 rijen**, dus
+bij de ERVF-16-geometrie (16 rijen per blok) leveren ze **16 blokken** op een
+GPU met **26 SM's**. Ze vullen het apparaat niet eens half. Q heeft 4096 rijen =
+256 blokken en draait daarom 3,3× efficiënter per byte.
+
+**Wat dit opent.** De K/V-projecties zijn een **occupancy**-probleem, niet een
+bandbreedte- of latentieprobleem — een derde soort dan alles wat vandaag langskwam.
+De voor de hand liggende ingreep is split-K: de reductie over de 2688 kolommen
+verdelen over meerdere blokken (16 rijen × 4 splits = 64 blokken). Dat verandert
+de optelvolgorde en is dus **niet vanzelf bitexact** — precies waar de
+ERVF-techniek voor bestaat, dus het is te doen maar het is echt werk, geen
+parameterwissel. Verwachte winst is klein in absolute zin (0,3-0,4 ms) en moet
+in een 3-armige A/B gemeten worden gezien de ruis hierboven.
+
+**Artefacten.** `pro_research/diag_attention_stage_marginals.py` + `.json`.
+
+---
+
 ## 2026-08-16 — PRO V16: **PV2-11 (Q/K/V one-launch) is nu beslist — en het is negatief.** Bitexact, maar **+2,628 ms/token**, bij een drift van 0,0416 ms
 
 **Vraag.** PV2-11 was de enige exacte kandidaat die de PRO-MAX V2-campagne

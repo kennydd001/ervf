@@ -175,7 +175,24 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
-- [ ] **HOOGSTE PRIORITEIT — componentattributie IN DE GRAPH herhalen.**
+- [ ] **HOOGSTE PRIORITEIT — K/V-projecties: occupancy-probleem, split-K nodig.**
+      Gemeten in de graph: `kv_proj` doet 16,5 MB in 0,477 ms = **34,6 GB/s**,
+      terwijl `q_proj` 132,1 MB in 1,170 ms = **112,9 GB/s** doet — **3,3×
+      slechter per byte**. Oorzaak ligt voor de hand: K en V hebben elk maar
+      **256 rijen**, dus bij ERVF-16 (16 rijen/blok) zijn dat **16 blokken op
+      26 SM's**. Split-K (de reductie over de 2688 kolommen over meerdere blokken
+      verdelen) lost dat op maar verandert de optelvolgorde — dus **niet vanzelf
+      bitexact**; dat is precies waar de ERVF-techniek voor bestaat. Verwachte
+      winst 0,3-0,4 ms; **meet in een 3-armige A/B**, niet in een sweep (zie de
+      meetgrens hieronder).
+- [ ] **Meetregel, vastgelegd 2026-08-16: kleine kandidaten in 3 armen meten,
+      niet in een sweep.** De driftpoort vergelijkt alleen de eerste en laatste
+      arm; tussenliggende armen kunnen op een ander thermisch punt zitten. In
+      een 7-armige run verschilde dezelfde `o_proj`-probe **0,39 ms** tussen
+      twee runs en telde `q_proj + kv_proj` niet op tot `qkv_proj` (gat
+      0,26 ms). Stage-marginalen van ~0,1-0,5 ms zijn zo niet betrouwbaar
+      opgelost. Alleen conclusies trekken die groter zijn dan die ruis.
+- [DONE 2026-08-16] **Componentattributie IN DE GRAPH herhaald.**
       ⚠️ **Alle marginalen hieronder zijn eager gemeten en bevatten ~7,75 µs
       launch-overhead per kernel-launch** (gemeten met een no-op controle-kernel,
       grid-onafhankelijk: 138 launches = 1,070 ms). Dat raakt de zware posten het

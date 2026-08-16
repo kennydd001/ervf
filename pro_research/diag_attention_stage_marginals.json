@@ -1,0 +1,206 @@
+{
+  "kind": "diag_attention_stage_marginals",
+  "status": "measured",
+  "mode": "full",
+  "started_utc": "2026-08-16T09:25:37.578637+00:00",
+  "why": "attention is 2.479 ms against a 1.128 ms floor in-graph -- 45.5%, the least efficient path (Mamba 69.3%, down_masked 60%, shared_expert 90%). PV2-11's fusion of the Q/K/V projections came out 2.628 ms SLOWER, so the projections are probably not where it sits.",
+  "config": {
+    "tokens_per_prompt": 256,
+    "prompt_count": 3
+  },
+  "environment": {
+    "created_utc": "2026-08-16T09:25:41.851886+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "2db64b6f08fb2f26daa18ff94d3be7a6fb12cbb7",
+    "git_status": [
+      "?? pro_research/diag_attention_stage_marginals.json",
+      "?? pro_research/diag_attention_stage_marginals.py",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_085543.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_090926.json",
+      "?? reports/lightningstream_nemotron/manifest_verify_20260816_093217.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 60, 12.39 W, 1597 MHz, 11001 MHz, P2",
+    "source_hashes": {}
+  },
+  "arms": {
+    "BASE_A": {
+      "percentiles": {
+        "count": 765,
+        "mean": 21.66714039215686,
+        "p50": 21.48,
+        "p95": 24.00976,
+        "p99": 26.413316000000002,
+        "max": 28.5167
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "qkv_proj": {
+      "percentiles": {
+        "count": 765,
+        "mean": 22.875399738562095,
+        "p50": 22.6548,
+        "p95": 25.21644,
+        "p99": 27.979952,
+        "max": 31.8221
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "q_proj": {
+      "percentiles": {
+        "count": 765,
+        "mean": 22.621154771241834,
+        "p50": 22.4388,
+        "p95": 24.80348,
+        "p99": 27.288776000000002,
+        "max": 29.6149
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "kv_proj": {
+      "percentiles": {
+        "count": 765,
+        "mean": 21.94972549019608,
+        "p50": 21.7451,
+        "p95": 24.23792,
+        "p99": 26.663672000000002,
+        "max": 28.9313
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "kv_write": {
+      "percentiles": {
+        "count": 765,
+        "mean": 21.796276078431372,
+        "p50": 21.5906,
+        "p95": 24.071059999999996,
+        "p99": 26.469464000000002,
+        "max": 28.6896
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "flash_decode": {
+      "percentiles": {
+        "count": 765,
+        "mean": 22.28954797385621,
+        "p50": 22.0879,
+        "p95": 24.59834,
+        "p99": 26.901208000000004,
+        "max": 29.0241
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "o_proj": {
+      "percentiles": {
+        "count": 765,
+        "mean": 21.48513346405229,
+        "p50": 21.2738,
+        "p95": 23.649879999999996,
+        "p99": 25.9194,
+        "max": 28.7925
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    },
+    "BASE_B": {
+      "percentiles": {
+        "count": 765,
+        "mean": 21.243374379084965,
+        "p50": 21.0569,
+        "p95": 23.419939999999997,
+        "p99": 25.772236,
+        "max": 27.9803
+      },
+      "ids_match_base_a": true,
+      "first_divergence": {
+        "The capital of France is": null,
+        "The history of computing began when": null,
+        "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": null
+      }
+    }
+  },
+  "baseline_midpoint_ms": 21.26845,
+  "drift_ms": 0.4231000000000016,
+  "marginals": {
+    "qkv_proj": {
+      "marginal_ms_per_token": 1.3863500000000002,
+      "bytes_per_token": 148635648,
+      "floor_ms_at_249_GB_s": 0.596930313253012,
+      "achieved_GB_s": 107.21365311789951
+    },
+    "q_proj": {
+      "marginal_ms_per_token": 1.1703499999999991,
+      "bytes_per_token": 132120576,
+      "floor_ms_at_249_GB_s": 0.5306047228915662,
+      "achieved_GB_s": 112.88979877814339
+    },
+    "kv_proj": {
+      "marginal_ms_per_token": 0.47664999999999935,
+      "bytes_per_token": 16515072,
+      "floor_ms_at_249_GB_s": 0.06632559036144578,
+      "achieved_GB_s": 34.648215671876684
+    },
+    "kv_write": {
+      "marginal_ms_per_token": 0.32214999999999705,
+      "bytes_per_token": null,
+      "floor_ms_at_249_GB_s": null,
+      "achieved_GB_s": null
+    },
+    "flash_decode": {
+      "marginal_ms_per_token": 0.8194499999999998,
+      "bytes_per_token": null,
+      "floor_ms_at_249_GB_s": null,
+      "achieved_GB_s": null
+    },
+    "o_proj": {
+      "marginal_ms_per_token": 0.005349999999999966,
+      "bytes_per_token": 132120576,
+      "floor_ms_at_249_GB_s": 0.5306047228915662,
+      "achieved_GB_s": 24695.434766355298
+    }
+  },
+  "sum_of_stage_marginals_ms": 4.1802999999999955,
+  "attention_total_marginal_in_graph_ms": 2.479,
+  "attention_floor_ms": 1.128,
+  "gates": {
+    "G1_all_arms_ids_match_base_a": true,
+    "G2_drift_le_1ms": true
+  },
+  "completed_utc": "2026-08-16T09:28:37.559837+00:00"
+}

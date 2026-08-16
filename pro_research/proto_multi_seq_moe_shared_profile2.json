@@ -1,9 +1,9 @@
 {
   "kind": "proto_multi_seq_moe_shared",
-  "created_utc": "2026-08-16T03:57:30.322591+00:00",
+  "created_utc": "2026-08-16T03:56:16.035671+00:00",
   "phase_reached": "phaseC_timing_measured",
   "environment": {
-    "created_utc": "2026-08-16T03:57:30.322591+00:00",
+    "created_utc": "2026-08-16T03:56:16.035671+00:00",
     "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
     "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
     "platform": "Windows-11-10.0.26200-SP0",
@@ -13,14 +13,13 @@
       " M pro_research/proto_multi_seq_moe_shared.py",
       "?? pro_research/SOURCE_MANIFEST_SHA256.json",
       "?? pro_research/install_console.log",
-      "?? pro_research/proto_multi_seq_moe_shared_profile2.json",
       "?? pro_research/results/history/",
       "?? pro_research/results/logs/",
       "?? pro_research/smoke_console.log",
       "?? pro_research/smoke_v2_console.log"
     ],
     "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
-    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6810 MiB, 72, 46.83 W, 2745 MHz, 11801 MHz, P1",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6810 MiB, 71, 47.79 W, 2737 MHz, 11801 MHz, P1",
     "source_hashes": {
       "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615"
     }
@@ -29,10 +28,10 @@
   "decode_steps_per_sequence": 12,
   "phaseB_equivalence_pass": true,
   "note": "MoE layers use the union-fed shared up_proj+down_proj fetch (proto_batch_moe_layer_combined.py's mechanism, now integrated into the real per-layer step loop across all 23 MoE layers and multiple real decode steps); non-MoE layers (attention/Mamba) run per-sequence unchanged via the verified state-swap mechanism from proto_multi_seq_full_model.py. Compare aggregate_tok_s here against that script's naive baseline (31.411 tok/s aggregate, solo 29.798 tok/s) -- same configuration, only the MoE sharing differs.",
-  "total_wall_ms_for_all_real_tokens": 2238.39404296875,
+  "total_wall_ms_for_all_real_tokens": 2359.033203125,
   "total_real_tokens_across_all_sequences": 24,
-  "ms_per_real_token_aggregate": 93.26641845703125,
-  "aggregate_tok_s": 10.721972780167492,
+  "ms_per_real_token_aggregate": 98.29305013020833,
+  "aggregate_tok_s": 10.173659263552253,
   "tokens_by_sequence": [
     [
       6990,
@@ -62,5 +61,24 @@
       63369,
       3640
     ]
-  ]
+  ],
+  "profile_section_seconds": {
+    "1_routing_and_shared_expert": 0.5860108993365429,
+    "2_up_proj_shared_fetch": 0.7904426011955366,
+    "3_up_proj_gemv_and_panel_scan": 0.4475928987376392,
+    "4_union_mask_build": 0.570487100572791,
+    "5a_down_proj_gather_batched": 1.3491100996616296,
+    "5b_down_proj_masked_reduce_batched": 0.5852183006354608,
+    "6_accumulate": 0.016291500127408653
+  },
+  "profile_section_fraction": {
+    "1_routing_and_shared_expert": 0.13486541103486305,
+    "2_up_proj_shared_fetch": 0.18191362384282314,
+    "3_up_proj_gemv_and_panel_scan": 0.10300968861309585,
+    "4_union_mask_build": 0.13129274113492395,
+    "5a_down_proj_gather_batched": 0.31048618434937814,
+    "5b_down_proj_masked_reduce_batched": 0.13468300120301835,
+    "6_accumulate": 0.0037493498218975525
+  },
+  "profile_note": "PROFILE=True adds sync points at section boundaries, changing async overlap -- these absolute numbers are NOT the same run as the timing above; only relative fractions are meaningful."
 }

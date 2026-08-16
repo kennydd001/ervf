@@ -197,11 +197,81 @@ uitzetten van `PROFILE` — de instrumentatie raakt geen berekende waarde aan,
 dus de eerdere bitexact-poort blijft geldig. Schone hertiming zonder
 profiling: **9,692 tok/s** (ruis-consistent met de eerdere 9,469).
 
-**Artefacten.** `pro_research/proto_multi_seq_moe_shared.py` (bijgewerkt,
-`PROFILE`-vlag toegevoegd, standaard uit),
+**Artefacten (dit deel).** `pro_research/proto_multi_seq_moe_shared.py`
+(bijgewerkt, `PROFILE`-vlag toegevoegd, standaard uit),
 `pro_research/proto_multi_seq_moe_shared.json` (schone eindmeting, 9,692
 tok/s), `pro_research/proto_multi_seq_moe_shared_profile.json`
 (sectie-uitsplitsing).
+
+**Derde vervolg, zelfde dag — de al gebouwde gebatchte V5/V6-kernels
+toegepast op de unie-dimensie: nog eens sneller, en een fysiek onderscheid
+gevonden tussen wat batching wél en niet oplost.** De profiling wees
+`down_proj gather+masked+reduce` aan als 48,9% van de resterende tijd. Deze
+sessie had al **gebatchte, bitexact-geverifieerde varianten** van precies
+deze kernels gebouwd tijdens V5/V6-ontwikkeling
+(`gather_down_sparse_ind_batched`, `gemv_down_masked_partial_ind_batched`,
+`reduce_partials_batched`, `weighted_accumulate_ind_batched`), maar nooit
+toegepast op de unie-over-sequenties-dimensie hier — alleen op de
+top_k-binnen-één-sequentie-dimensie in productie.
+
+**Stap 1 — down_masked+reduce+accumulate batchen over alle (sequentie,
+expert)-paren.** Vereist per paar een EIGEN mirror-slot (de gebatchte
+kernel indexeert `bank + s*mirror_bytes` direct, geen indirectie) — dus een
+gedeelde unie-expert se al-gegathered mirror wordt **apparaat-naar-
+apparaat gekopieerd** (goedkoop, VRAM-bandbreedte) in elk paar-slot dat hem
+nodig heeft, in plaats van opnieuw van host gehaald (het dure deel, dat
+gededupliceerd blijft). **Correctheidspoort GESLAAGD**: bitexact, 12/12
+tokens × 2 sequenties. **Timing nauwelijks veranderd (9,469 → 9,789
+tok/s)** — verrassend weinig, gegeven hoeveel launches wegvielen.
+
+**Herprofilering verklaart waarom**: de vroegere gecombineerde 48,9%
+sectie splitste in `5a_gather` (37,4%!) en `5b_masked+reduce+accumulate`
+(12,3%, sterk gekrompen dankzij het batchen). **Het batchen van
+masked/reduce/accumulate werkte dus wél goed** — maar gather (nog
+ongebatcht) bleek de nieuwe dominante kost, ongeveer gelijk in omvang aan
+wat er bij masked/reduce bespaard werd, dus het totaal bleef vlak.
+
+**Stap 2 — gather ook batchen over de unie-experts** (`gather_down_sparse_ind_batched`,
+natuurlijk passend op de unie-dimensie, geen duplicatie nodig zoals bij
+masked). **Correctheidspoort GESLAAGD**, nog steeds bitexact. **Timing:
+9,789 → 10,17 → schone hermeting 10,72 tok/s** — een reële maar
+**bescheiden** verbetering (~4-10%), duidelijk minder dramatisch dan de
+masked/reduce-batching gaf.
+
+**Het fysieke onderscheid, en waarom dit de belangrijkste les van deze hele
+optimalisatieronde is.** Gather batchen hielp weinig omdat gather
+fundamenteel **PCIe-bandbreedte-gebonden** is (leest van host-gemapte
+`down_base`-geheugen — hetzelfde soort trage strided-host-lezen dat E2/
+NERVF-4 eerder al identificeerden en waarvoor die eerdere sporen werden
+**weerlegd**) — hetzelfde aantal bytes moet over de bus, of dat nu in 1 of
+in u aparte launches gebeurt. Masked/reduce/accumulate zijn daarentegen
+**reken-/VRAM-gebonden, kleine kernels** waarvoor launch-overhead wél de
+dominante kost was — batching hielp daar wél substantieel. **Launch-
+overhead-batching is dus geen universele oplossing: het lost precies één
+klasse van inefficiëntie op (te veel kleine launches), niet de andere
+(bandbreedte-gebonden data-beweging).**
+
+**Cumulatieve balans van deze hele optimalisatieronde.** 2,655 → 9,469
+(sync-fix, 3,57×) → 9,789 (masked/reduce/accumulate-batching, marginaal
+op zichzelf maar noodzakelijk om gather als nieuwe bottleneck te
+onthullen) → 10,72 tok/s (gather-batching erbij), **4,04× totaal sneller
+dan de eerste werkende versie, nog steeds bitexact op elke stap.** Nog
+steeds **2,93× trager dan de naive baseline (31,411)** — en dat resterende
+gat is nu fysiek verklaard (gather + up_proj-fetch, samen ~49% van de
+tijd, zijn beide bandbreedte-gebonden en waarschijnlijk dicht bij hun
+fysieke vloer) in plaats van een vage "meer engineering nodig". Een
+volgende stap zou PCIe-transfers moeten OVERLAPPEN met rekenwerk (zoals
+V4-V6's eigen graph-residentie al doet voor batch=1) in plaats van ze te
+verkleinen — een wezenlijk ander soort hefboom, niet gedaan hier.
+
+**Poorten (dit hele derde vervolg).** Correctheid: bitexact bij elke stap,
+12/12 tokens × 2 sequenties, telkens opnieuw getoetst na elke wijziging.
+
+**Artefacten.** `pro_research/proto_multi_seq_moe_shared.py` (definitieve
+versie, gather+masked/reduce/accumulate allemaal gebatcht),
+`pro_research/proto_multi_seq_moe_shared.json` (eindmeting, 10,72 tok/s),
+`pro_research/proto_multi_seq_moe_shared_profile2.json` (sectie-
+uitsplitsing na gather-batching).
 
 ---
 

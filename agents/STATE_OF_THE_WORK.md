@@ -202,12 +202,21 @@ overbodige host-syncs. Na de fix, nog steeds bitexact: 9,469 tok/s (3,57×
 sneller), nog 3,3× trager dan naive.** Het mechanisme zelf is niet fout
 (bitexact bewezen); een naïeve Python-orkestratie ervan kost veel, en een
 groot deel daarvan is vermijdbaar (bewezen) maar niet alles (het resterende
-gat blijft). Geprofileerd per sectie: down_proj gather+masked+reduce is
-**48,9%** van de resterende tijd — verreweg dominant, en precies waar de
-al gebouwde gebatchte kernels uit V5/V6 nog niet zijn toegepast (concrete,
-afgebakende vervolgstap). Bevestigt scherp waarom `BATCH_ARCHITECTURE_DESIGN.md` een
-echte integratie als meerdere-weken CUDA-engineeringwerk scoopte. Zie
-`agents/RESEARCH_NOTEBOOK.md`
+gat blijft). Geprofileerd per sectie: down_proj gather+masked+reduce was
+**48,9%** van de resterende tijd. **Vervolg, zelfde dag: de al gebouwde
+gebatchte V5/V6-kernels daadwerkelijk toegepast op de unie-dimensie —
+bitexact bij elke stap, eindresultaat 10,72 tok/s (4,04× sneller dan de
+eerste werkende versie).** Belangrijke fysieke les onderweg:
+masked/reduce/accumulate batchen hielp sterk (reken-gebonden, launch-
+overhead was de kost); gather batchen hielp nauwelijks (PCIe-bandbreedte-
+gebonden — zelfde bytes over de bus ongeacht launch-aantal, zelfde klasse
+beperking als de eerder weerlegde E2/NERVF-4-sporen). **Nog steeds 2,93×
+trager dan de naive baseline (31,411)**, maar dat resterende gat is nu
+fysiek verklaard (gather+up_proj-fetch ≈49%, beide bandbreedte-gebonden,
+dicht bij hun vloer) — de volgende hefboom zou PCIe-overlap met rekenwerk
+zijn, geen verdere kernel-batching. Bevestigt scherp waarom
+`BATCH_ARCHITECTURE_DESIGN.md` een echte integratie als meerdere-weken
+CUDA-engineeringwerk scoopte. Zie `agents/RESEARCH_NOTEBOOK.md`
 2026-08-16, blok "Expliciete MoE-deling geïntegreerd in de echte staplus".
 
 **N=4 naive baseline (zelfde dag)**: groeit het incidentele voordeel mee met

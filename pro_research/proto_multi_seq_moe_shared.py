@@ -224,40 +224,89 @@ def shared_moe_layer(rt, states, i, d, gk, scan_k):
 
     t0 = _prof_mark(cp, "4_union_mask_build", t0)
 
+    # down_proj gather: batched over the u UNIQUE union experts in ONE launch
+    # (gather_down_sparse_ind_batched's slot dimension IS the union-expert
+    # dimension already -- no per-pair duplication needed here, unlike
+    # down_masked below). A first version of this script left gather as u
+    # separate small launches; re-profiling after batching down_masked+
+    # reduce showed gather alone had become the new dominant cost (37.4% of
+    # total), which this closes -- see agents/RESEARCH_NOTEBOOK.md 2026-08-16.
     blocks = ((moe_inter + npanel) * 32 + 255) // 256
-    contrib_by_pair = {}
-    for e in union_experts:
-        union_plist = cp.asarray(union_plist_by_expert[e])
-        nz_arr = union_nz_by_expert[e]
-        pcount_u = cp.asarray([len(union_plist_by_expert[e])], dtype=cp.int32)
-        nzc_u = cp.asarray([len(nz_arr)], dtype=cp.int32)
-        nz_pad = cp.zeros(moe_inter, dtype=cp.int32)
-        nz_pad[:len(nz_arr)] = cp.asarray(nz_arr)
+    u = len(union_experts)
+    union_ids_dev = cp.asarray(union_experts, dtype=cp.int32)
+    union_plist_pad = cp.zeros(u * npanel, dtype=cp.int32)
+    union_pcount_dev = cp.zeros(u, dtype=cp.int32)
+    union_nz_pad = cp.zeros(u * moe_inter, dtype=cp.int32)
+    union_nzc_dev = cp.zeros(u, dtype=cp.int32)
+    for ui, e in enumerate(union_experts):
+        plist_e = union_plist_by_expert[e]
+        nz_e = union_nz_by_expert[e]
+        union_plist_pad[ui * npanel:ui * npanel + len(plist_e)] = cp.asarray(plist_e)
+        union_pcount_dev[ui] = len(plist_e)
+        union_nz_pad[ui * moe_inter:ui * moe_inter + len(nz_e)] = cp.asarray(nz_e)
+        union_nzc_dev[ui] = len(nz_e)
 
-        mirror = cp.zeros(DOWN_PANEL_BYTES, dtype=cp.uint8)
-        id_dev = cp.asarray([e], dtype=cp.int32)
-        gk.run_gather_ref(np.uint64(bank["down_base_ptr"]), id_dev, DOWN_PANEL_BYTES, mirror,
-                          union_plist, pcount_u, nz_pad, nzc_u, hidden, blocks)
+    mirror_batched_by_union = cp.zeros(u * DOWN_PANEL_BYTES, dtype=cp.uint8)
+    gk.run_gather_batched(np.uint64(bank["down_base_ptr"]), union_ids_dev, DOWN_PANEL_BYTES,
+                          mirror_batched_by_union, union_plist_pad, union_pcount_dev,
+                          union_nz_pad, union_nzc_dev, hidden, npanel, moe_inter,
+                          DOWN_PANEL_BYTES, u, blocks)
+    mirror_by_expert = {
+        e: mirror_batched_by_union[ui * DOWN_PANEL_BYTES:(ui + 1) * DOWN_PANEL_BYTES]
+        for ui, e in enumerate(union_experts)
+    }
 
-        for s in range(N_):
-            if e not in seq_ids[s]:
-                continue
-            key = (s, e)
-            p = panel_by_pair[key]
-            partials = cp.zeros(fused.nchunks * hidden, dtype=cp.float32)
-            gk.run_down_masked_ref(mirror, id_dev, cp.asarray(bank["globals"]), act_by_pair[key],
-                                   p["plist"], p["masks"], p["pcount"], fused.e2m1, fused.e4m3,
-                                   partials, hidden, moe_inter, fused.nchunks)
-            contrib_by_pair[key] = scan_k.run_reduce_partials_ref(partials, hidden, fused.nchunks)
+    t0 = _prof_mark(cp, "5a_down_proj_gather_batched", t0)
 
-    t0 = _prof_mark(cp, "5_down_proj_gather_masked_reduce", t0)
+    # Batched down_masked + reduce_partials over ALL (sequence, expert)
+    # pairs in ONE launch each, using the already-verified V5/V6 batched
+    # kernels. gemv_down_masked_partial_ind_batched expects a CONTIGUOUS
+    # [pairs, mirror_bytes] bank with no indirection (slot s reads
+    # bank + s*mirror_bytes directly) -- so a pair that shares a union
+    # expert with another pair gets the SAME already-on-device mirror data
+    # copied (VRAM-to-VRAM, cheap) into its own slot rather than re-fetched
+    # from host (the expensive part, which stays deduplicated above).
+    # `pairs` is built in (sequence, route-slot) order, which also means
+    # each sequence's own top_k pairs land in a CONTIGUOUS run of slots --
+    # used below to batch that sequence's own accumulate too.
+    pairs = [(s, e) for s in range(N_) for e in seq_ids[s]]
+    P = len(pairs)
+    globals_dev = cp.asarray(bank["globals"])
 
-    # accumulate: fused.accumulate_indirect, matching _moe_dev exactly, in
-    # route order, device weight slice per sequence's own route_topk output.
+    bank_batched = cp.zeros(P * DOWN_PANEL_BYTES, dtype=cp.uint8)
+    ids_batched = cp.zeros(P, dtype=cp.int32)
+    act_batched = cp.zeros(P * moe_inter, dtype=cp.float32)
+    masks_batched = cp.zeros(P * npanel, dtype=cp.uint32)
+    plist_batched = cp.zeros(P * npanel, dtype=cp.int32)
+    pcount_batched = cp.zeros(P, dtype=cp.int32)
+    for pi, (s, e) in enumerate(pairs):
+        bank_batched[pi * DOWN_PANEL_BYTES:(pi + 1) * DOWN_PANEL_BYTES] = mirror_by_expert[e]
+        ids_batched[pi] = e
+        p = panel_by_pair[(s, e)]
+        act_batched[pi * moe_inter:(pi + 1) * moe_inter] = act_by_pair[(s, e)]
+        masks_batched[pi * npanel:(pi + 1) * npanel] = p["masks"]
+        plist_batched[pi * npanel:(pi + 1) * npanel] = p["plist"]
+        pcount_batched[pi] = p["pcount"]
+
+    partials_batched = cp.zeros(P * fused.nchunks * hidden, dtype=cp.float32)
+    gk.run_down_masked_batched(bank_batched, ids_batched, globals_dev, act_batched,
+                               plist_batched, masks_batched, pcount_batched,
+                               fused.e2m1, fused.e4m3, partials_batched,
+                               hidden, moe_inter, npanel, DOWN_PANEL_BYTES, P, fused.nchunks)
+    contrib_batched = scan_k.run_reduce_partials_batched(partials_batched, hidden, fused.nchunks, P)
+
+    t0 = _prof_mark(cp, "5b_down_proj_masked_reduce_batched", t0)
+
+    # accumulate: batched per sequence (its own top_k contributions are a
+    # CONTIGUOUS slice of contrib_batched thanks to the (sequence, slot)
+    # pair order above), using the same weighted_accumulate_ind_batched
+    # kernel V6 already uses in production for exactly this per-sequence
+    # top_k reduction -- same fixed s=0..top_k-1 fmaf order as sequential
+    # accumulate_indirect calls, not a parallel/atomic reduction (D1 lesson).
     for s in range(N_):
-        for si, e in enumerate(seq_ids[s]):
-            fused.accumulate_indirect(states[s]["acc"], contrib_by_pair[(s, e)],
-                                      seq_w_dev[s][si:], hidden)
+        start = s * top_k
+        contrib_s = contrib_batched[start * hidden:(start + top_k) * hidden]
+        scan_k.run_accumulate_batched(states[s]["acc"], contrib_s, seq_w_dev[s], hidden, top_k)
     _prof_mark(cp, "6_accumulate", t0)
 
 

@@ -475,7 +475,25 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       dimensie i.p.v. per-paar losse launches — vereist herstructurering
       naar hun samenhangende buffervorm, een afgebakende taak, geen vage
       "meer engineering". Schone hertiming zonder profiling: 9,692 tok/s.
-      Zie `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
+      **[VOLTOOID, ZELFDE DAG]** de al gebouwde gebatchte V5/V6-kernels
+      (`gather_down_sparse_ind_batched`, `gemv_down_masked_partial_ind_batched`,
+      `reduce_partials_batched`, `weighted_accumulate_ind_batched`)
+      daadwerkelijk toegepast op de unie-dimensie. **Bitexact bij elke
+      stap.** masked/reduce/accumulate batchen: nauwelijks effect op
+      zichzelf (9,469→9,789) maar onthulde gather als nieuwe dominante
+      kost (37,4% na herprofilering). Gather óók batchen: 10,17 → schoon
+      **10,72 tok/s — 4,04× sneller dan de eerste werkende versie.**
+      **Belangrijke fysieke les**: masked/reduce/accumulate zijn reken-
+      gebonden (launch-batching hielp sterk); gather is
+      PCIe-bandbreedte-gebonden (batching hielp nauwelijks — zelfde
+      bytes over de bus, ongeacht launch-aantal, zelfde klasse
+      beperking als de eerder weerlegde E2/NERVF-4-sporen). **Nog steeds
+      2,93× trager dan de naive baseline (31,411)** — dat gat is nu fysiek
+      verklaard (gather+up_proj-fetch ≈49% van de tijd, beide bandbreedte-
+      gebonden, waarschijnlijk dicht bij hun vloer) i.p.v. vaag. Volgende
+      hefboom zou PCIe-overlap met rekenwerk zijn (zoals graph-residentie
+      voor batch=1 al doet), niet verdere kernel-batching. Zie
+      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok
       "Expliciete MoE-deling geïntegreerd in de echte staplus".
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,

@@ -833,10 +833,14 @@ class LightningRuntime:
         return int(cp.argmax(self.logits))
 
     # ----------------------------------------------------- E1 fase 2.2 ------
-    # Graph-replay of the whole token. STATUS: built per the frozen
-    # preregistration (E1F22_GRAPH_CAPTURE_PREREGISTRATION_2026-08-15.md) but
-    # NOT YET RUN -- the A/B, gates and verifier are still open. Treat every
-    # method below as unmeasured until the E1F22 report says otherwise.
+    # Graph-replay of the whole token. Built per the frozen preregistration
+    # (E1F22_GRAPH_CAPTURE_PREREGISTRATION_2026-08-15.md). STATUS 2026-08-16:
+    # PROVEN IN PRODUCTION by the pro_research line -- V4-V6 ran this exact
+    # machinery (setup_graph/step_graph/_step_body_graph) bit-exact on the
+    # real Lightning checkpoint up to the 47.41 tok/s record
+    # (pro_research/results/PRO_V4_GRAPH_SELECTIVE.json). The treesweep200
+    # line's own gated A/B (E1F22) was never run on the Nano checkpoint; treat
+    # that specific report as superseded by the V4-V6 evidence.
 
     def setup_graph(self):
         """Allocate device token/pos state, pin the embedding table, capture
@@ -868,8 +872,16 @@ class LightningRuntime:
         else:
             self._embed_pinned = None
             self._embed_tbl_ptr = int(self.embed.data.ptr)
-        self._stage_mem = cp.cuda.alloc_pinned_memory(4)
+        # Staging is a 256-slot pinned ring, not one slot: a 4-byte async H2D
+        # copy reads the pinned source at GPU-execution time, so a single slot
+        # would be overwritten by the host before the copy runs when prompt
+        # tokens are fed back-to-back (this race produced degenerate output in
+        # the first multi-seq graph prototypes; V4's driver dodged it with a
+        # sync per prompt token). 256 slots let the host run well ahead;
+        # callers feeding >256 prompt tokens without any sync must sync.
+        self._stage_mem = cp.cuda.alloc_pinned_memory(4 * 256)
         self._stage_np = np.frombuffer(self._stage_mem, dtype=np.int32)
+        self._stage_i = 0
         self._ring_size = 8192
         self._ring_mem = cp.cuda.alloc_pinned_memory(4 * self._ring_size)
         self._ring_np = np.frombuffer(self._ring_mem, dtype=np.int32)
@@ -928,9 +940,11 @@ class LightningRuntime:
         s = self._graph_stream
         rt = self.cp.cuda.runtime
         if token_id is not None:
-            self._stage_np[0] = token_id
-            rt.memcpyAsync(self._tok_dev.data.ptr, self._stage_mem.ptr, 4,
-                           rt.memcpyHostToDevice, s.ptr)
+            j = self._stage_i % 256
+            self._stage_np[j] = token_id
+            rt.memcpyAsync(self._tok_dev.data.ptr, self._stage_mem.ptr + 4 * j,
+                           4, rt.memcpyHostToDevice, s.ptr)
+            self._stage_i += 1
         g.launch(s)
         rt.memcpyAsync(self._ring_mem.ptr + 4 * self._ring_i,
                        self._tok_dev.data.ptr, 4,

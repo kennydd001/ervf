@@ -80,6 +80,72 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
   Nieuw record op het juiste model. Rapport/artefacten:
   `pro_research/PRO_V4_PREREGISTRATION.md`,
   `pro_research/results/PRO_V4_GRAPH_SELECTIVE.json`.
+- [DONE 2026-08-16] **Multi-seq graph N=2 met PRIVATE caches — EERSTE RUN
+  ONGELDIG (23,59 tok/s), HERMETING GELDIG: 36,86 tok/s bitexact.** Claude's
+  ongedraaide prototype `proto_multi_seq_graph_n2.py` afgemaakt en gedraaid.
+  Zijn open vraag beantwoord: V4-V6 gebruikten runtime.py's eigen
+  `setup_graph/step_graph/_step_body_graph` — het "NOT YET RUN"-commentaar
+  was stale (inmiddels bijgewerkt). **VRAM-fix vóór de run**: 2× cap-72
+  (8,66 GiB) past niet in 8151 MiB → cap 24 per sequentie (numeriek
+  invariant, E1F21-INV). De eerste run rapporteerde "fase 2 PASS, 23,59
+  tok/s" maar was **ongeldig**: staging-race corrupteerde de prompts
+  (garbage==garbage-vergelijking). Drie echte bugs gevonden en gefixt:
+  (1) staging-race in `step_graph` → 256-slot pinned ring in runtime.py;
+  (2) **CuPy-pool-aliasing**: `cache`/`_dev_cache` zaten niet in de state-
+  snapshot, de pool gaf sequentie 1's cache exact dezelfde adressen als
+  sequentie 0's vrijgekomen buffers → beide graphs schreven in gedeeld
+  geheugen (fix: `CACHE_ATTRS` in de snapshot — refs vasthouden is
+  correctheid bij pointer-gebonden graphs); (3) `setup_graph()` early-return
+  bij `_graph is not None` → sequentie 1 kreeg nooit een eigen graph (fix:
+  `rt._graph = None` vóór tweede capture). **Geldige hermeting, beide armen
+  fase 2 écht bitexact (20/20 × 2, coherente prompts): private cap-24×2 =
+  36,86 tok/s aggregate (27,13 ms/token); gedeelde cap-64 één-stream =
+  33,52 tok/s (29,84 ms/token).** Beide boven naïef-eager N=2 (31,66) en
+  ver boven expliciete-deling (11,23); ver onder solo V6 (47,41) — scaling
+  0,78× solo voor 2× werk. Verrassing: shared < private ondanks grotere
+  cache; werkhypothese LRU-thrash bij afwisselende werkingssets + enkele
+  stream, nog NIET gemeten. Volgende stap: expert-unie-fetch ín de graph-
+  loop (mechanisme elders bitexact bewezen, 1,71× over 23 lagen) of N=4
+  met hetzelfde patroon. Zie RESEARCH_NOTEBOOK.md 2026-08-16 (bovenste
+  twee blokken).
+- [DONE 2026-08-16] **Hitrate-vervolgmeting: thrash-hypothese WEERLEGD —
+  delen werkt juist; de enkele stream is de boosdoener.**
+  `diag_n2_graph_cache_hitrates.py` las de device-tellers van
+  `cache_assign` uit (integriteitsasserts: beide N=2-armen én de solo-armen
+  reproduceerden de gated tokens exact). Solo: cap72 63,4% / cap64 62,9% /
+  cap24 55,1%. Private N=2: 55,1% + 49,5%. **Shared N=2: 71,1% — hoger
+  dan solo cap-64; cross-sequentie-lokaliteit is reëel.** Shared had ~1936
+  missers minder (~209 ms gewonnen) maar was 108 ms trager → de enkele
+  gedeelde stream serialiseert de cross-sequentie-PCIe/compute-overlap die
+  private (eigen streams + eigen copy_streams) wél heeft (~317 ms verloren).
+  "Gedeelde cache + twee streams" racet op de LRU-tabellen → structureel
+  niet oplosbaar met losse per-sequentie-graphs → argument voor de
+  gebatchte-graph-route (Path B, POST_V6_100TPS_PLAN.md).
+- [DONE 2026-08-16] **PRO-MAX V2 (branch pro-max-v2, kennydd001/ervf) —
+  post-V6 final-mile naar 50 tok/s: geen E50; thermische drift > het hele
+  E50-gat.** Payload gereconstrueerd uit 7 base64-delen, zip-SHA256 + 19/19
+  bestandsmanifest geverifieerd vóór uitvoering; `-Mode install` PASS;
+  smoke en full gedraaid. **Full (≥500 samples/arm, definitief):**
+  PV2-10 add+norm micro-bitexact maar **causal_parity FALSE bij 256 tokens**
+  (smoke was true — D1-les: korte runs zien de fout niet) → terecht
+  afgewezen, eerst debuggen vóór herindiening. PV2-11 Q/K/V one-launch:
+  alle exactheidspoorten groen, +0,24 ms binnen regressiegrens, afgewezen
+  ALLEEN op drift-poort (1,86 ms > 1,0) → **hermeten onder thermisch
+  stabiele condities verdienen**. PV2-12 LM-head+argmax: exact maar echt
+  trager (22,37 ms) → weg. PV2-13 finale met lege selectie: 46,48 tok/s,
+  E50 false. PV2-20 child-graphs: bit-identiek mechanisme dat WERKT
+  (cudaGraphAddChildGraphNode), geen speedup; nevenmeting: pure gequeue-de
+  replay ~19,2-19,5 ms/token → ~1,6 ms/token Python/launch-overhead in de
+  productie-21,09 ms. PV2-21: child-graph/conditional/TMA-symbolen
+  aanwezig, mapped-host→SMEM TMA onbewezen. **Systematisch**: baseline
+  drift 1,9-3,2 ms binnen één arm (base_a ~20,6-20,8 ms ≈ 48+ tok/s koud!)
+  — thermische throttling is groter dan het hele E50-gat (1,09 ms) → Path
+  A is zonder thermisch gestabiliseerde meting niet beslisbaar; poort niet
+  verruimen, omgeving verbeteren (vaste clocks / steady-state / kortere
+  A/B-interleave). Onafhankelijke verifier bevestigde elke status.
+  Artefacten: `pro_research/results/pro_max_v2/PV2_*.json`,
+  `PV2_FINAL_REPORT.md`, `PV2_VERIFICATION.json`. Zie RESEARCH_NOTEBOOK.md
+  2026-08-16 bovenste blok.
 
 ## Open
 

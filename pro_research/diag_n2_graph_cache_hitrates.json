@@ -1,0 +1,40 @@
+{
+  "kind": "diag_n2_graph_cache_hitrates",
+  "created_utc": "2026-08-16T07:13:47.779196+00:00",
+  "decode_steps": 20,
+  "note": "device-side cache_assign counters (stats2: hits/misses) per configuration; explains why shared cap-64 one-stream N=2 (33.52 tok/s) was slower than private cap-24x2 (36.86 tok/s) despite the bigger cache. Integrity: both N=2 arms reproduced the gated prototypes' tokens exactly.",
+  "results": {
+    "solo_cap72": {
+      "hits": 2361,
+      "misses": 1365,
+      "hit_rate": 0.6336553945249598
+    },
+    "solo_cap64": {
+      "hits": 2344,
+      "misses": 1382,
+      "hit_rate": 0.629092860976919
+    },
+    "solo_cap24": {
+      "hits": 2053,
+      "misses": 1673,
+      "hit_rate": 0.5509930220075148
+    },
+    "private_n2": {
+      "seq0": {
+        "hits": 2053,
+        "misses": 1673,
+        "hit_rate": 0.5509930220075148
+      },
+      "seq1": {
+        "hits": 3074,
+        "misses": 3136,
+        "hit_rate": 0.49500805152979066
+      }
+    },
+    "shared_n2": {
+      "hits": 7063,
+      "misses": 2873,
+      "hit_rate": 0.7108494363929146
+    }
+  }
+}

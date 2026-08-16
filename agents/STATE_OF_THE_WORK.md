@@ -62,6 +62,23 @@ geadopteerd — opt-in via `rt.device_cache = True`.
 | + alle vijf geïntegreerd (V6), full 256×3, 765 samples | 47,37 | 21,1118 ms, gain 9,9855 ms (+32,1%) vs zelfde-sessie EGR (31,0973 ms) |
 | + **per-laag cachecapaciteit erbij (budget-neutraal, geen VRAM-kost), full 256×3, 765 samples** | **47,41** | **21,0923 ms, gain 10,3366 ms (+32,9%) vs zelfde-sessie EGR (31,4289 ms)** |
 
+**Multi-sequentie-tabel (aggregate tok/s, Lightning, 2026-08-16):**
+
+| opzet | aggregate tok/s | bron |
+|---|---:|---|
+| N=2 naïef-eager (gedeelde cap-72, geen graph) | 31,66 | proto_multi_seq_naive, robuust 40 stappen |
+| N=2 expliciete deling, Python-orkestratie | 11,23 | proto_multi_seq_moe_shared |
+| N=2 graph, private caches cap-24×2 — **bitexact PASS** | **36,86** | proto_multi_seq_graph_n2 (27,13 ms/token, 40 tokens) |
+| N=2 graph, gedeelde cache cap-64, één stream — **bitexact PASS** | 33,52 | proto_multi_seq_graph_n2_shared (29,84 ms/token) |
+
+NB: een eerdere N=2-graph-meting (23,59 tok/s "bitexact") is **ongeldig**
+(staging-race → garbage==garbage-vergelijking + CuPy-pool-aliasing tussen de
+graphs); zie het correctieblok bovenaan RESEARCH_NOTEBOOK.md 2026-08-16 voor
+de drie bugfixes (staging-ring, CACHE_ATTRS-referenties, setup_graph
+early-return). Verrassing die nog een meting verdient: shared < private
+ondanks grotere cache (werkhypothese: LRU-thrash bij afwisselende
+werkingssets; niet gemeten).
+
 V6 (2026-08-16) is het huidige record: device-resident routing + graph-safe
 residency + selectieve ERVF (V4) + batched `panel_scan`/`reduce_partials`/
 `weighted_accumulate_ind`/up-proj ERVF-GEMV in `_moe_dev` (V5, tweemaal
@@ -314,26 +331,18 @@ Ze zijn **niet bit-vergelijkbaar**. Kies op de datum van je meting.
 
 ## De open richting: E1 fase 2.2 — graph-replay van de hele token
 
-**Status: GEBOUWD, NOG NIET GEDRAAID.** Preregistratie is bevroren
-(`E1F22_GRAPH_CAPTURE_PREREGISTRATION_2026-08-15.md`, poorten C/PAR/CTL/DET/
-S1 ≥ 2,5 ms/VRAM). De code staat klaar maar is **ongemeten en ongetest**:
-
-- `gpu_kernels.py`: `embed_gather_bf16`, `kv_append_fp8_dp`,
-  `attn_decode_warp_fp8_gqa4_dp` (vaste grid (2,256), t/chunk op device,
-  neutrale partials voor dode splits — combine slaat l≤0 al over),
-  `argmax_part`/`argmax_final` (lage-index-ties), `pos_inc`.
-- `runtime.py`: `graph_mode`-vlag, `_attention`-dp-tak, `setup_graph()`
-  (pinned embed-kopie +0,656 GiB host, capture op eigen stream),
-  `_step_body_graph()`, `step_graph(token_id)`, `ring_harvest(start, count)`.
-  Graph-API is wel gesmoketest (capture→launch→correct, zie notebook).
-- Te doen: runner `scripts/treesweep200/e1f22_graph_capture_ab.py` schrijven
-  (4 armen: EGR/GRAPH/CTL/DET volgens de prereg), draaien, verifier
-  (`e1f22_independent_verify.py`, nooit de runner importeren; kernelchecks:
-  argmax vs cp.argmax incl. ties, gqa4_dp bitexact vs gqa4 over t=1..4096,
-  embed_gather vs cupy-omzetting), rapport, registry-entry, notebook.
-- Bekende risico's: event-hergebruik over 23 lagen in één capture
-  (kill-criterium K1: fallback = single-stream capture); stale LRU-staat uit
-  de capture-warmup is bewezen onschadelijk (INV). VRAM-poort < 64 MiB.
+**Status 2026-08-16: BEWEZEN IN PRODUCTIE via de pro_research-lijn.** De
+machinerie (`setup_graph()`/`step_graph()`/`_step_body_graph()`, dp-kernels in
+`gpu_kernels.py`) is gebouwd onder de bevroren preregistratie
+`E1F22_GRAPH_CAPTURE_PREREGISTRATION_2026-08-15.md`, maar de treesweep200-eigen
+gegate A/B is nooit gedraaid op het Nano-checkpoint — in plaats daarvan heeft
+pro_research exact deze code bitexact in productie bewezen op het échte
+Lightning-model (V4: 41,13 tok/s; V6-record: 47,41 tok/s;
+`pro_research/results/PRO_V4_GRAPH_SELECTIVE.json`). De treesweep200-
+vervolgstappen (eigen runner/verifier/rapport op Nano) zijn daarmee
+**vervallen** — de machine draagt het bewijs al. Wat wél open staat: graph-
+residency voor **multi-sequentie** (batch>1), zie
+`pro_research/proto_multi_seq_graph_n2.py` en `PATH_TO_100_TOKS.md`.
 
 ## Waar alles staat
 

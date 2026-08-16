@@ -483,8 +483,21 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       correct (9 van 12 uniek).** Nog niet geïntegreerd in
       `proto_multi_seq_moe_shared.py` (geïsoleerde mechanismecontrole
       eerst, zoals de discipline vereist) en dekt nog niet de down_proj-
-      maskerunie (apart, groter probleem). Geen nieuwe tok/s-claim. Zie
-      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Routekaartstap 1 begonnen".
+      maskerunie (apart, groter probleem). Geen nieuwe tok/s-claim.
+      **[GEÏNTEGREERD, ZELFDE DAG]**: het mechanisme ingebouwd in de echte
+      staplus (`route_topk` schrijft direct in één platte buffer,
+      `cache_assign`/`cache_fetch` op de ruwe lijst, geen host-`set()`/
+      `dict()` meer voor de up_proj-unie). **Bitexact op de robuuste
+      40-stappen-schaal, 40/40 tokens × 2 sequenties, PASS.** **Timing:
+      10,898 tok/s — een kleine REGRESSIE tegenover de vorige 11,234, geen
+      winst.** Vermoedelijke oorzaak: de fetch-buffer is nu altijd
+      P-groot (worst case) i.p.v. u-groot (werkelijke unie-grootte), plus
+      een verse `dev_union`-allocatie per laag/stap — de bespaarde
+      host-syncs wegen daar niet tegenop. **Les: minder host-syncs is niet
+      automatisch sneller** als er een nieuwe, even grote kost tegenover
+      staat (zelfde klasse les als eerder bij gather-batching). Zie
+      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Routekaartstap 1 begonnen"
+      en het vervolg direct erna.
 - [WEERLEGD-VOOR-DEZE-AANPAK, CORRECTHEID BEVESTIGD 2026-08-16] **Expliciete
       unie-gevoede MoE-deling geïntegreerd in de echte staplus — bitexact
       correct, maar 12× TRAGER, niet sneller.**

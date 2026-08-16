@@ -70,6 +70,46 @@ correct, PASS. Geen tok/s-claim.
 **Artefacten.** `pro_research/diag_device_only_union.py`,
 `pro_research/diag_device_only_union.json`.
 
+**Vervolg, zelfde dag — geïntegreerd in de echte staplus: bitexact, maar
+GEEN nettowinst, een eerlijke negatieve uitkomst.** Het geverifieerde
+mechanisme ingebouwd in `proto_multi_seq_moe_shared.py`'s up_proj-fetch-
+stap: `route_topk` schrijft nu direct in slices van één platte
+`all_ids_dev`/`all_w_dev`-buffer (geen per-sequentie array meer), en de
+fetch gebruikt `cache_assign`+`cache_fetch` rechtstreeks op de RUWE
+N×top_k-lijst (geen host-side `set()`/`dict()` meer voor de unie zelf) —
+precies het in isolatie bewezen mechanisme. **Correctheidspoort GESLAAGD**
+op de robuuste 40-stappen-schaal: bitexact, 40/40 tokens × 2 sequenties.
+**Timing: 10,898 tok/s — een KLEINE REGRESSIE tegenover de vorige 11,234
+(40 stappen), niet de verwachte winst.**
+
+**Waarom, vermoedelijk.** De fetch-buffer (`batched_c`/`batched_s`) is nu
+altijd **P-groot** (N×top_k=12, worst case) in plaats van **u-groot**
+(het werkelijke aantal unieke experts, ≤12, vaak kleiner bij overlap) —
+de oude aanpak alloceerde minder wanneer er overlap was; de nieuwe alloceert
+en nullt altijd de volle worst-case-buffer, ook al voorkomt `need[]` nog
+steeds overbodige PCIe-fetches voor duplicaten. Plus: een verse
+`dev_union`-structuur (9 device-arrays) wordt elke laag/stap opnieuw
+gealloceerd. De bespaarde host-syncs wegen dus niet op tegen deze nieuwe
+allocatie-/nulkost in dit specifieke geval.
+
+**Wat dit sluit of opent.** Sluit de vraag of minder host-syncs
+automatisch sneller is: **nee, niet vanzelfsprekend** — hetzelfde soort les
+als eerder bij gather-batching (PCIe-gebonden werk profiteert niet
+automatisch van een op-zich-correcte optimalisatie als er een andere,
+even grote nieuwe kost tegenover staat). Het mechanisme blijft correct en
+architecturaal schoner (minder host-afhankelijkheid, dichter bij
+routekaart-item 1's geest) — maar levert in DEZE vorm geen gemeten
+tok/s-winst op. Beide versies (host-unie vs device-only-unie) zijn nu
+bitexact geverifieerd; het verschil tussen ze is binnen ruis-orde (~3%),
+geen van beide dus overtuigend beter puur op snelheid.
+
+**Poorten.** Correctheid: bitexact, 40/40 tokens × 2 sequenties, PASS.
+Timing: geen winstclaim — eerlijk gerapporteerd als vlak/lichte regressie.
+
+**Artefacten.** `pro_research/proto_multi_seq_moe_shared.py` (bijgewerkt
+met device-only up_proj-unie), `pro_research/proto_multi_seq_moe_shared.json`
+(laatste run, 10,898 tok/s bij 40 stappen).
+
 ---
 
 ## 2026-08-16 — Robuustheidscontrole van de N=2-naive-baseline: het cijfer krimpt bij een langere horizon — eerlijke bijstelling, geen tegenspraak

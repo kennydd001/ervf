@@ -43,6 +43,7 @@ from common import (
 from down_proj_batch_kernels import DownProjBatchKernels
 from ervf_dense import DenseERVF
 from graph_e1f22 import _load_prompt_set, _new_runtime, _run_eager_timed
+from layer_capacity import apply_nonuniform_capacity
 from moe_dev_batched import install_batched_moe_dev
 from selective_ervf_v3 import _install_selective
 from up_proj_batch_kernels import UpProjBatchKernels
@@ -185,6 +186,7 @@ def main() -> int:
             eager_ms.extend(ms)
 
         rt.enable_cache(capacity)
+        apply_nonuniform_capacity(rt)
         rt.device_cache = True
         rt.deterministic_accum = True
         restore_selective, ervf_counters = _install_selective(rt, dense)
@@ -222,6 +224,7 @@ def main() -> int:
 
         rt._bad_pick = 1
         rt.enable_cache(capacity)
+        apply_nonuniform_capacity(rt)
         rt.device_cache = True
         rt.setup_graph()
         ctl_n = min(n, 64)

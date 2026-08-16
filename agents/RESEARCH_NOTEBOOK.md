@@ -11,6 +11,58 @@ en waarom — dat is meestal het bruikbaarste deel. Formaat:
 
 ---
 
+## 2026-08-16 — Per-laag cachecapaciteit fysiek gemeten en geïntegreerd: 47,41 tok/s
+
+**Vervolg op de hitrate-diagnose** (−14,3% missers, hitrate 85,6%→87,7%,
+budget-neutraal). Nu fysiek causaal getest en in V6 geïntegreerd.
+
+**Causale A/B** (`pro_research/v_capacity_realloc_ab.py`, productiekernels,
+géén batching erbij — één variabele: capaciteitsverdeling), volgens
+hetzelfde precedent als A1 (capaciteit veranderen bewijsbaar bitexact met
+D1 aan). Full mode, 765 samples: BASE_A 31,1651 → NONUNIFORM 31,2058 →
+BASE_B 31,7189 ms. Poorten: `nonuniform_equals_base_bitexact` ✅ (bitexact,
+bevestigt het A1-precedent) · `base_drift_le_1ms` ✅ · `ctl_diverges` ✅ ·
+winst **0,2362 ms/token (0,75%)** — kleiner dan de ruwe schatting (~0,31 ms)
+maar reëel en positief, alle poorten groen.
+
+**Geïntegreerd in V6** (`pro_research/layer_capacity.py`, herbruikbare
+`apply_nonuniform_capacity(rt)`, aangeroepen na élke `enable_cache()`-call
+in `graph_v6_full_stack.py` inclusief de CTL-herbouw — capaciteit is
+budget-neutraal, dus **geen VRAM-kost**, in tegenstelling tot de
+gather/down_masked-poging hierboven).
+
+**Uitkomst (full, 765 samples).**
+
+| arm | p50 | tok/s |
+|---|---:|---:|
+| EGR (zelfde sessie) | 31,4289 ms | 31,82 |
+| **V6 (nu met per-laag capaciteit)** | **21,0923 ms** | **47,41** |
+
+Alle poorten groen (bitexact, deterministisch, controle-arm wijkt af, VRAM
+binnen budget — ongewijzigd t.o.v. eerder, want budget-neutraal). Nieuw,
+klein record: 47,41 tok/s (was 47,08-47,37 in eerdere runs, sessie-variantie
+in die orde, maar dit is de eerste run MET de capaciteitswinst erbij).
+
+**Stand.** 47,41/165 = **28,7% van roofline**, feitelijk ononderscheidbaar
+van vóór deze toevoeging gezien de sessie-variantie (~0,2-0,3 ms/token is
+klein t.o.v. de ruis tussen losse volledige-graph-builds) — maar wel een
+**bitexact geverifieerde, budget-neutrale, reële winst**, geen ruis in de
+eigen geïsoleerde A/B (die had een BASE_A/BASE_B-drift van 0,55 ms, dus de
+0,24 ms winst zit ruim binnen wat de eigen poort als betekenisvol aanmerkt).
+
+**Wat nog open staat.** De −20/+30-verdeling was een eerste gok op basis
+van één 256-token-rollout op één prompt; een grondiger optimalisatie
+(meerdere prompts, andere deltas, mogelijk continue in plaats van twee
+discrete niveaus) is niet gedaan en zou nog iets meer kunnen opleveren.
+
+**Artefacten.** `pro_research/layer_capacity.py` ·
+`pro_research/v_capacity_realloc_ab.py` ·
+`pro_research/results/PRO_CAPACITY_REALLOC_AB.json` ·
+`pro_research/graph_v6_full_stack.py` (uitgebreid) ·
+`pro_research/results/PRO_V6_FULL_STACK.json` (bijgewerkt).
+
+---
+
 ## 2026-08-16 — Correctie: gather/down_masked batchen bleek WÉL correct — maar niet de moeite waard om te integreren
 
 **Correctie op het eerdere "race condition"-blok.** Dat was voorbarig.

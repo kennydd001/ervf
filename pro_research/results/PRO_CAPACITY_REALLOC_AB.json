@@ -1,0 +1,133 @@
+{
+  "kind": "capacity_realloc_ab",
+  "status": "pass",
+  "mode": "full",
+  "started_utc": "2026-08-16T00:06:36.100797+00:00",
+  "scope": "isolates per-layer cache capacity reallocation on the production (unbached) kernel path; single variable = uniform vs non-uniform capacity at constant total budget",
+  "config": {
+    "baseline_cap": 72,
+    "reduce_layers": [
+      38,
+      10,
+      40,
+      20,
+      43,
+      13
+    ],
+    "reduce_delta": -20,
+    "boost_layers": [
+      1,
+      3,
+      51,
+      6
+    ],
+    "boost_delta": 30,
+    "tokens_per_prompt": 256,
+    "prompt_count": 3
+  },
+  "environment": {
+    "created_utc": "2026-08-16T00:06:41.573686+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "6c16bc8f2e3ad39a412521c30c2b6e86a86eaf70",
+    "git_status": [
+      "?? pro_research/SOURCE_MANIFEST_SHA256.json",
+      "?? pro_research/install_console.log",
+      "?? pro_research/layer_capacity.py",
+      "?? pro_research/results/PRO_CAPACITY_REALLOC_AB.json",
+      "?? pro_research/results/history/",
+      "?? pro_research/results/logs/",
+      "?? pro_research/smoke_console.log",
+      "?? pro_research/smoke_v2_console.log",
+      "?? pro_research/v_capacity_realloc_ab.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 61, 11.89 W, 3067 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "src\\moe_lab\\lightningstream_nemotron\\runtime.py": "0273a225e8e1718bfeaaa9bd7a7ec27fd574f7697a7b3893ed2f2838fc76e615",
+      "pro_research\\layer_capacity.py": "9b003b2b2b6183d66ebe4a1a0866cf6fb222aa8905ee22dad5949f6445df7798"
+    }
+  },
+  "arms": {
+    "BASE_A_uniform": {
+      "timing_ms": {
+        "count": 765,
+        "mean": 31.19870183006536,
+        "p50": 31.1651,
+        "p95": 33.42422,
+        "p99": 34.697116,
+        "max": 35.8957
+      }
+    },
+    "NONUNIFORM": {
+      "timing_ms": {
+        "count": 765,
+        "mean": 31.428573986928107,
+        "p50": 31.2058,
+        "p95": 33.3814,
+        "p99": 35.774496,
+        "max": 52.8982
+      }
+    },
+    "BASE_B_uniform": {
+      "timing_ms": {
+        "count": 765,
+        "mean": 31.866678300653597,
+        "p50": 31.7189,
+        "p95": 34.0299,
+        "p99": 35.467464,
+        "max": 37.901
+      }
+    }
+  },
+  "parity": {
+    "The capital of France is": {
+      "all_identical": true,
+      "nonuniform_vs_base_a_first_divergence": null,
+      "base_b_vs_base_a_first_divergence": null
+    },
+    "The history of computing began when": {
+      "all_identical": true,
+      "nonuniform_vs_base_a_first_divergence": null,
+      "base_b_vs_base_a_first_divergence": null
+    },
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": {
+      "all_identical": true,
+      "nonuniform_vs_base_a_first_divergence": null,
+      "base_b_vs_base_a_first_divergence": null
+    }
+  },
+  "control": {
+    "The capital of France is": {
+      "identical": false,
+      "first_divergence": 43
+    },
+    "The history of computing began when": {
+      "identical": false,
+      "first_divergence": 2
+    },
+    "Write a correct Python function that computes the longest increasing subsequence length in O(n log n), then explain its invariant.\n": {
+      "identical": true,
+      "first_divergence": null
+    }
+  },
+  "gates": {
+    "nonuniform_equals_base_bitexact": true,
+    "base_drift_le_1ms": true,
+    "ctl_diverges": true,
+    "candidate_gain_ge_0_1ms_or_0_5pct": true,
+    "full_samples_ge_500": true
+  },
+  "summary": {
+    "base_a_p50_ms": 31.1651,
+    "nonuniform_p50_ms": 31.2058,
+    "base_b_p50_ms": 31.7189,
+    "baseline_mid_p50_ms": 31.442,
+    "gain_ms": 0.2362000000000002,
+    "gain_fraction": 0.007512244768144526,
+    "base_drift_ms": 0.5538000000000025,
+    "nonuniform_tok_s": 32.04532490754924
+  },
+  "completed_utc": "2026-08-16T00:08:34.683654+00:00"
+}

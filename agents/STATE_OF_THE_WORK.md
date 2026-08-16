@@ -55,7 +55,8 @@ geadopteerd — opt-in via `rt.device_cache = True`.
 | + beide fysiek geïntegreerd (V4), full 256×3, 765 samples | 41,13 | 24,3152 ms, gain 6,8634 ms (+22,0%) vs zelfde-sessie EGR (31,1786 ms) |
 | + batched down_proj (V5: panel_scan+reduce_partials+accumulate), eager only, full 256×3 | (component) | 28,7823 ms, gain 3,1552 ms (+9,88%) vs eager BASE_A/B-midden |
 | + batched up-proj ERVF-GEMV, eager only, full 256×3, apart van V5 gehouden | (component) | 26,759 ms, gain 1,7423 ms (+6,11%) bovenop V5 |
-| + **alle vijf geïntegreerd (V6), full 256×3, 765 samples** | **47,37** | **21,1118 ms, gain 9,9855 ms (+32,1%) vs zelfde-sessie EGR (31,0973 ms)** |
+| + alle vijf geïntegreerd (V6), full 256×3, 765 samples | 47,37 | 21,1118 ms, gain 9,9855 ms (+32,1%) vs zelfde-sessie EGR (31,0973 ms) |
+| + **per-laag cachecapaciteit erbij (budget-neutraal, geen VRAM-kost), full 256×3, 765 samples** | **47,41** | **21,0923 ms, gain 10,3366 ms (+32,9%) vs zelfde-sessie EGR (31,4289 ms)** |
 
 V6 (2026-08-16) is het huidige record: device-resident routing + graph-safe
 residency + selectieve ERVF (V4) + batched `panel_scan`/`reduce_partials`/

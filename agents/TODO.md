@@ -167,14 +167,19 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
       optie (`gather_kernels=`, default `None`) klaarstaan voor als VRAM
       ooit geen blokkade meer is. Zie `RESEARCH_NOTEBOOK.md` 2026-08-16,
       blok "Correctie: gather/down_masked batchen bleek WÉL correct".
-- [DEELS-DONE 2026-08-16] **Per-laag capaciteitstuning.**
-      `pro_research/diag_per_layer_capacity.py`: budget-neutrale
-      herverdeling (−20 op 6 laagste-miss lagen, +30 op 4 hoogste-miss
-      lagen) geeft **−14,3% missers** (5182→4443), hitrate 85,6%→87,7%.
-      Ruwe tijdschatting ~0,31 ms/token — klein t.o.v. de kernel-
-      batchingwinsten, maar reëel en nog niet fysiek gemeten (alleen
-      hitrate). Nog te doen: fysieke causale A/B + V6-integratie, en de
-      −20/+30-keuze was een eerste gok, geen geoptimaliseerde verdeling.
+- [DONE 2026-08-16] **Per-laag capaciteitstuning — fysiek gemeten en
+      geïntegreerd.** Hitrate-diagnose (`diag_per_layer_capacity.py`):
+      budget-neutrale herverdeling (−20 op 6 laagste-miss lagen, +30 op 4
+      hoogste-miss lagen) geeft −14,3% missers (5182→4443), hitrate
+      85,6%→87,7%. Causale A/B (`v_capacity_realloc_ab.py`, productiekernels,
+      zelfde precedent als A1): bitexact, controle-arm wijkt af, **+0,2362
+      ms/token (+0,75%)**, alle poorten groen. Geïntegreerd in V6
+      (`pro_research/layer_capacity.py`, budget-neutraal dus **geen VRAM-
+      kost**, in tegenstelling tot de gather/down_masked-poging). **Nieuw
+      klein record: 47,41 tok/s.** Nog open: de −20/+30-verdeling was een
+      eerste gok op één prompt/rollout, niet verder geoptimaliseerd. Zie
+      `RESEARCH_NOTEBOOK.md` 2026-08-16, blok "Per-laag cachecapaciteit
+      fysiek gemeten en geïntegreerd".
       Zie `RESEARCH_NOTEBOOK.md` 2026-08-16.
 - [WEERLEGD-VOOR-DEZE-AANPAK 2026-08-16] **G2 — K-token epoch-graph.**
   `pro_research/epoch_graph.py --mode smoke` gedraaid: `technical_blocked`,

@@ -190,6 +190,21 @@ erbij, en de bestandsnaam van het rapport. Een weerlegging is óók DONE.
 
 ## Open — eerstvolgend
 
+- [DONE 2026-08-16] **Poort: CuPy + Torch-FP4 in één proces** — T1/T2/T3 alle
+      **PASS**, zero-copy pointer-overdracht beide richtingen, FP4-GEMM over
+      CuPy-eigen buffers geeft exact 256,0. `integration_feasible`: de runtime
+      hoeft NIET gemigreerd naar een nieuwe CUDA-toolchain.
+      `results/native_nvfp4/FP4_CUPY_INTEROP.json`.
+- [ ] **VOLGENDE POORT — kan een Torch `scaled_mm` binnen een CuPy CUDA-graph
+      capture?** Onze 50 tok/s hangt volledig aan graphcapture van het hele
+      token. Torch kan alloceren, synchroniseren of een eigen stream gebruiken;
+      elk daarvan breekt een capture. **Niet getest, en het beslist of native
+      FP4 überhaupt in de recordweg past.** Vóór enige tok/s-claim.
+- [ ] **Daarna: native FP4 selectief op lm_head (2,52×) en shared_down (1,68×)**
+      — samen **−1,275 ms/token → 54,6 tok/s**, formaatbehoudend (alleen andere
+      accumulatievolgorde, geen quantisatiewijziging). `routed_up` is 0,96× en
+      hoort er NIET bij. Poort: kwaliteit, geen bitexactheid.
+
 - [ ] **STRATEGIEREGEL uit V18/V19: zoek combinaties op DEZELFDE bottleneck.**
       V18 (H-SCALE + B3) was **super-additief** (×2 hun som) omdat beide het
       down_proj-PCIe-pad van complementaire kanten aanvallen: H-SCALE verkleint

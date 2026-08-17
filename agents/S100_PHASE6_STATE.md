@@ -55,6 +55,14 @@ The current H-SCALE+B3 path still transitions through one sparse gather and one 
 
 Each wave uses one 2-D gather kernel and one 3-D down kernel. The next wave is enqueued on the gather stream while the current wave computes. Per-slot partials and the existing route-ordered reducer remain unchanged, preserving expert and FMA order.
 
+The effects are isolated deliberately:
+
+- `prefix_exact`: new scan plus existing two-mirror B3 pipeline;
+- `wave2_exact`, `wave3_exact`, `wave6_exact`: existing exact scan plus WAVE;
+- `wave3_prefix_exact`: composition of both changes.
+
+This prevents a slower experimental scan from falsely closing the WAVE geometry.
+
 ## Fail-closed gates
 
 - scan arrays equal the old implementation exactly;
@@ -69,8 +77,8 @@ Each wave uses one 2-D gather kernel and one 3-D down kernel. The next wave is e
 
 ## Pack integrity
 
-- `S100_PHASE6.patch`: `17a0dd3cc20ba3a955e5da5b3678e66dcc39a33b3849a9f99b7f7152b68167f6`
-- `ervf_s100_phase6_oneclick.zip`: `75dec701572dc14188ccd7b873aca49e994e20161492928f8b376bdada1a42d6`
+- `S100_PHASE6.patch`: `5535c32ef21c45c60d76eac5e694fe82ddce17219099cd95f67ddffd4ff7d7c0`
+- `ervf_s100_phase6_oneclick.zip`: `92b477e6e51fb8bfdb72765d0bf62f52fd82dded18e1e052448367bd0a126296`
 
 ## Next architectural branch
 

@@ -18,10 +18,13 @@ All arms run on validation. Alpha 0.0003 always proceeds to untouched heldout be
 
 ## Exact CUDA arms
 
-- `prefix_exact`: deterministic panel masks and prefix compaction, existing two-mirror B3 pipeline;
-- `wave2_exact`: 2+2+2 routed slots;
-- `wave3_exact`: 3+3 routed slots;
-- `wave6_exact`: all six routed slots in one wave.
+- `prefix_exact`: deterministic prefix scan plus the existing two-mirror B3 pipeline;
+- `wave2_exact`: existing exact scan plus 2+2+2 routed-slot waves;
+- `wave3_exact`: existing exact scan plus 3+3 waves;
+- `wave6_exact`: existing exact scan plus all six slots in one wave;
+- `wave3_prefix_exact`: composition of the new prefix scan and W3.
+
+This separation is frozen before timing. A slow scan cannot falsely close WAVE, and a fast WAVE cannot hide a scan regression.
 
 WAVE uses separate mirrors per slot, one batched gather per wave, one 3-D masked-down kernel per wave, separate per-slot partials and the existing route-ordered final accumulation.
 

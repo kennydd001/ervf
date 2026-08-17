@@ -1,0 +1,33 @@
+id,category,variant,automatic,claim_if_green
+ARC00,inventory,Win32 GPU/RAM/driver inventory,yes,hardware inventory only
+ARC01,inventory,nvidia-smi + Vulkan + SYCL + OpenVINO enumeration,yes,backend availability only
+ARC02,transfer,CUDA pinned H2D/D2H 4KiB..64MiB,yes,RTX-shared-RAM boundary cost
+ARC03,memory,CPU RAM copy bandwidth,yes,DRAM sanity only
+ARC04,arc_kernel,OpenVINO GPU q-like FP16 M1/M8,conditional,Arc projection geometry
+ARC05,arc_kernel,OpenVINO GPU mamba-like FP16 M1/M8,conditional,Arc projection geometry
+ARC06,arc_kernel,OpenVINO GPU expert-down FP16 M1/M6,conditional,Arc expert geometry
+ARC06B,arc_kernel,OpenVINO GPU raw INT8 Q/expert shapes M1/M6/M8,conditional,XMX/integer path geometry
+ARC07,llama_endpoint,CPU only,conditional,GGUF endpoint
+ARC08,llama_endpoint,RTX CUDA only,conditional,GGUF endpoint
+ARC09,llama_endpoint,Arc Vulkan only,conditional,GGUF endpoint
+ARC10,llama_endpoint,Arc SYCL/OpenVINO device if exposed,conditional,GGUF endpoint
+ARC11,hybrid,CUDA+Vulkan auto layer fit,conditional,hybrid baseline
+ARC11B,hybrid,auto-fit target headroom 512/256 through 2048/1024 MiB,conditional,UMA/VRAM fit sensitivity
+ARC12,hybrid,19 RTX:Arc layer ratios,conditional,placement response surface
+ARC13,hybrid,19 reversed-order layer ratios,conditional,layer-order sensitivity
+ARC14,hybrid,CUDA_SCALE_LAUNCH_QUEUES=4x,conditional,pipeline queue sensitivity
+ARC15,kv,best layer placement K/V f16,conditional,KV baseline
+ARC16,kv,best layer placement K/V q8_0,conditional,KV bandwidth/capacity tradeoff
+ARC17,kv,best layer placement K/V q4_0,conditional,KV bandwidth/capacity tradeoff
+ARC18,context,best placement depth 4k,conditional,long-context behavior
+ARC19,context,best placement depth 16k,conditional,long-context behavior
+ARC20,context,best placement depth 32k,conditional,long-context behavior
+ARC21,attention,Flash Attention auto/on/off,conditional,backend attention sensitivity
+ARC22,scheduler,op-offload on/off,conditional,scheduler ownership sensitivity
+ARC23,tensor_parallel,tensor split smoke,conditional,experimental compatibility only
+ARC24,moe,cold-expert Arc break-even model,yes,feasibility estimate from measured costs
+ARC25,moe,Arc sparse coalescer break-even model,yes,feasibility estimate
+ARC26,context,hot RTX + cold Arc KV design model,yes,long-context research priority
+ARC27,speculation,Arc draft + RTX verify break-even model,yes,speculative research priority
+ARC28,scheduling,ATSInfer-style three-tier cost model,yes,next implementation ranking
+ARC29,npu,NPU inventory,yes,sidecar feasibility only

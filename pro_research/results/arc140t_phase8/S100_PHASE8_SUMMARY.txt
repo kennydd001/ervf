@@ -1,0 +1,15 @@
+S100 PHASE 8 — ARC ROUTED-DOWN ENGINE
+Shape: {'hidden': 2688, 'moe_inter': 1856, 'n_experts': 128, 'top_k': 6, 'moe_layers': [1, 3, 6, 8, 10, 13, 15, 17, 20, 22, 24, 27, 29, 31, 34, 36, 38, 40, 43, 45, 47, 49, 51], 'moe_layer_count': 23, 'capacity': 72}
+Actual up-cache misses: {'misses_per_layer_token_mean': 0.2548120471014493, 'misses_per_layer_token_p95': 1.0, 'route_slot_miss_fraction': 0.042468674516908216, 'distribution': {'0': 14109, '1': 2805, '2': 597, '3': 119, '4': 26, '5': 7, '6': 1}}
+Same-weight M6 INT8: 0.11485000140964985 ms
+Six DISTINCT INT8 down: 0.5464000278152525 ms
+Real NVFP4 six-expert strict: {'layer': 1, 'nexperts': 6, 'fast_math': False, 'best': {'local': 256, 'event_median_ms': 0.43427, 'event_p95_ms': 0.43567655, 'wall_median_ms': 0.47740002628415823, 'wall_p95_ms': 0.6073650089092552}, 'correctness': {'cosine': 0.9999999999999973, 'nrmse': 7.421312533836823e-08, 'max_abs': 5.587935447692871e-09, 'finite': True}, 'nonzero_fraction': [0.052801724137931036, 0.03502155172413793, 0.030711206896551723, 0.023706896551724137, 0.014547413793103448, 0.021551724137931036]}
+Pinned bridge ~55 KiB: None
+QFAST interference: {'kind': 's100_phase8_qfast_arc_interference', 'rows': [{'label': 'base_a', 'p50_ms': 20.7187, 'p95_ms': 24.08916, 'vram_mib': 6859, 'smi_before': {'memory_used_mib': 6859, 'utilization_percent': 99, 'sm_mhz': 2497.0, 'mem_mhz': 9001.0, 'power_w': 57.27, 'temperature_c': 66.0, 'pstate': 'P4'}, 'smi_after': {'memory_used_mib': 6859, 'utilization_percent': 99, 'sm_mhz': 2542.0, 'mem_mhz': 9001.0, 'power_w': 60.13, 'temperature_c': 70.0, 'pstate': 'P4'}}, {'label': 'arc_load', 'p50_ms': 23.6965, 'p95_ms': 27.754179999999998, 'vram_mib': 6859, 'smi_before': {'memory_used_mib': 6859, 'utilization_percent': 99, 'sm_mhz': 1830.0, 'mem_mhz': 11001.0, 'power_w': 40.88, 'temperature_c': 69.0, 'pstate': 'P2'}, 'smi_after': {'memory_used_mib': 6859, 'utilization_percent': 99, 'sm_mhz': 1957.0, 'mem_mhz': 9001.0, 'power_w': 41.13, 'temperature_c': 71.0, 'pstate': 'P4'}}, {'label': 'base_b', 'p50_ms': 20.815, 'p95_ms': 24.06182, 'vram_mib': 6859, 'smi_before': {'memory_used_mib': 6859, 'utilization_percent': 98, 'sm_mhz': 2047.0, 'mem_mhz': 9001.0, 'power_w': 60.13, 'temperature_c': 68.0, 'pstate': 'P4'}, 'smi_after': {'memory_used_mib': 6859, 'utilization_percent': 99, 'sm_mhz': 2715.0, 'mem_mhz': 9001.0, 'power_w': 59.24, 'temperature_c': 71.0, 'pstate': 'P4'}}], 'base_midpoint_ms': 20.766849999999998, 'arc_load_ms': 23.6965, 'regression_fraction': 0.14107339341305988}
+D3D12 cross-adapter: {'status': 'cmake_missing'}
+Combined Arc-down component estimate: None ms
+ARC DOWN ENGINE INTEGRATION CANDIDATE: False
+
+NEXT:
+If candidate=True, build end-to-end QFAST ADE with RTX routed-up + Arc real NVFP4 routed-down.
+If false, use the route census to test Arc only for up-cache misses and retain RTX downflow.

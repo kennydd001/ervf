@@ -1,0 +1,16 @@
+S100 PHASE 7 — ARC 140T HETEROGENEOUS LAB
+QFAST reference: 18.75165 ms = 53.329 tok/s
+Best llama TG row: None
+Best llama PP row: None
+
+HYPOTHESES
+- P1 Arc cold-expert compute: promising :: {'openvino_fp16_M6_ms': 0.26285002240911126, 'openvino_i8_M6_ms': 0.1619500108063221, 'note': 'FP16 geometry proxy, not NVFP4/current-model speed'}
+- P2 Arc DRAM-side sparse coalescer: measure_next :: {'rtx_h2d_16MiB_ms': 0.6472640037536621, 'note': 'Win condition is Arc pack time + larger H2D < current sparse gather/sync'}
+- P2 ATSInfer-style tensor scheduler: research_priority :: {'tiers': ['RTX_VRAM', 'ARC_UMA', 'CPU_RAM'], 'requires': ['per-op timing', 'transfer timing', 'sync timing', 'cache-miss rates'], 'note': 'Different from llama.cpp split-mode tensor'}
+- P3 Arc draft engine + RTX verifier: unmeasured :: {'reason': 'No Arc GGUF endpoint result'}
+- P4 Hot RTX + cold Arc KV: long_context_only :: {'note': 'Requires split online-softmax attention; likely capacity/long-context role, not short-context S100 primary'}
+- P5 CUDA+Arc layer split: unmeasured :: {'reason': 'No compatible GGUF/binary'}
+- P9 Cross-vendor tensor parallel: negative_control :: {'note': 'Not primary; current Nemotron-H-MoE tensor mode unsupported upstream and reductions are interconnect-sensitive'}
+
+NEXT:
+If Arc expert M6 geometry and boundary economics beat current downflow, implement Arc cold-miss engine; otherwise use Arc as coalescer/draft/long-context tier and keep short-context decode on RTX.

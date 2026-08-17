@@ -1,0 +1,162 @@
+{
+  "kind": "s100_phase4_all_run_summary",
+  "created": "2026-08-17T15:01:14.1012713+02:00",
+  "repo": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918",
+  "git_head": "c839060bf8e03b34c12401b123f788399db807e5",
+  "smoke_only": false,
+  "technical_failure_count": 0,
+  "technical_failures": [],
+  "timing": [
+    {
+      "profile": "qfast",
+      "mode": "full",
+      "status": "fresh_timing_candidate",
+      "exact_ms": 19.3955,
+      "candidate_ms": 18.75165,
+      "saving_ms": 0.6438499999999969,
+      "candidate_tok_s": 53.32864041297699,
+      "exact_drift_ms": 0.03400000000000247,
+      "candidate_drift_ms": 0.019700000000000273
+    },
+    {
+      "profile": "mamba",
+      "mode": "full",
+      "status": "fresh_timing_candidate",
+      "exact_ms": 19.37765,
+      "candidate_ms": 18.4247,
+      "saving_ms": 0.9529499999999977,
+      "candidate_tok_s": 54.27496784208155,
+      "exact_drift_ms": 0.013100000000001444,
+      "candidate_drift_ms": 0.043600000000001415
+    },
+    {
+      "profile": "fast",
+      "mode": "full",
+      "status": "fresh_timing_candidate",
+      "exact_ms": 19.3637,
+      "candidate_ms": 17.296300000000002,
+      "saving_ms": 2.0673999999999992,
+      "candidate_tok_s": 57.815833444147,
+      "exact_drift_ms": 0.013000000000001677,
+      "candidate_drift_ms": 0.26060000000000016
+    },
+    {
+      "profile": "k5",
+      "mode": "full",
+      "status": "fresh_timing_candidate",
+      "exact_ms": 19.41035,
+      "candidate_ms": 18.4039,
+      "saving_ms": 1.006450000000001,
+      "candidate_tok_s": 54.33630915186455,
+      "exact_drift_ms": 0.03749999999999787,
+      "candidate_drift_ms": 0.043199999999998795
+    },
+    {
+      "profile": "k4",
+      "mode": "full",
+      "status": "fresh_timing_candidate",
+      "exact_ms": 19.44045,
+      "candidate_ms": 17.163400000000003,
+      "saving_ms": 2.2770499999999956,
+      "candidate_tok_s": 58.26351422212381,
+      "exact_drift_ms": 0.006299999999999528,
+      "candidate_drift_ms": 0.03160000000000096
+    },
+    {
+      "profile": "fast_k5",
+      "mode": "full",
+      "status": "fresh_timing_candidate",
+      "exact_ms": 19.379849999999998,
+      "candidate_ms": 16.7994,
+      "saving_ms": 2.580449999999999,
+      "candidate_tok_s": 59.5259354500756,
+      "exact_drift_ms": 0.024699999999999278,
+      "candidate_drift_ms": 0.05339999999999989
+    },
+    {
+      "profile": "fast_k4",
+      "mode": "full",
+      "status": "fresh_timing_candidate",
+      "exact_ms": 19.377850000000002,
+      "candidate_ms": 15.830200000000001,
+      "saving_ms": 3.547650000000001,
+      "candidate_tok_s": 63.17039582570024,
+      "exact_drift_ms": 0.05529999999999902,
+      "candidate_drift_ms": 0.006600000000000605
+    }
+  ],
+  "fidelity": [
+    {
+      "profile": "qfast",
+      "mode": "full",
+      "status": "v18_fidelity_candidate",
+      "tokens": 10240,
+      "top1_agreement": 0.977734375,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": 0.011171448975801468,
+      "mean_coarse_kl": 0.01002324279397726
+    },
+    {
+      "profile": "mamba",
+      "mode": "smoke",
+      "status": "v18_fidelity_failed",
+      "tokens": 512,
+      "top1_agreement": 0.908203125,
+      "target_in_top5": 0.98828125,
+      "mean_ce_delta": 0.18462681770324707,
+      "mean_coarse_kl": 0.15263977646827698
+    },
+    {
+      "profile": "fast",
+      "mode": "smoke",
+      "status": "v18_fidelity_failed",
+      "tokens": 512,
+      "top1_agreement": 0.90234375,
+      "target_in_top5": 0.984375,
+      "mean_ce_delta": 0.18409939110279083,
+      "mean_coarse_kl": 0.1510884016752243
+    },
+    {
+      "profile": "k5",
+      "mode": "smoke",
+      "status": "v18_fidelity_failed",
+      "tokens": 512,
+      "top1_agreement": 0.955078125,
+      "target_in_top5": 0.99609375,
+      "mean_ce_delta": 0.02086113579571247,
+      "mean_coarse_kl": 0.025225818157196045
+    },
+    {
+      "profile": "k4",
+      "mode": "smoke",
+      "status": "v18_fidelity_failed",
+      "tokens": 512,
+      "top1_agreement": 0.912109375,
+      "target_in_top5": 0.9921875,
+      "mean_ce_delta": 0.08993508666753769,
+      "mean_coarse_kl": 0.1008581593632698
+    }
+  ],
+  "fidelity_green_with_timing": [
+    {
+      "profile": "qfast",
+      "fidelity_mode": "full",
+      "timing_mode": "full",
+      "candidate_ms": 18.75165,
+      "tok_s": 53.32864041297699,
+      "top1_agreement": 0.977734375,
+      "mean_ce_delta": 0.011171448975801468
+    }
+  ],
+  "fastest_fidelity_green": {
+    "profile": "qfast",
+    "fidelity_mode": "full",
+    "timing_mode": "full",
+    "candidate_ms": 18.75165,
+    "tok_s": 53.32864041297699,
+    "top1_agreement": 0.977734375,
+    "mean_ce_delta": 0.011171448975801468
+  },
+  "s100_single_achieved": false,
+  "success_definition": "S100-single requires <=10.000 ms/useful token AND v18_fidelity_candidate in the frozen fidelity suite."
+}

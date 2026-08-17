@@ -1,0 +1,1 @@
+$ErrorActionPreference='Stop';$Repo=Split-Path -Parent $PSScriptRoot;Set-Location $Repo;$Py=Join-Path $Repo '.venv-nemotron\Scripts\python.exe';& $Py 'pro_research\s100_phase5_heldout.py';if($LASTEXITCODE-ne 0){throw "phase5 heldout failed: $LASTEXITCODE"}

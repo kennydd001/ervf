@@ -1,0 +1,112 @@
+{
+  "kind": "s100_phase13i_decision_directed_margin",
+  "status": "measured",
+  "created_utc": "2026-08-18T21:36:15.389925+00:00",
+  "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning",
+  "claim_boundary": "logit-margin robustness screen with synthetic controlled perturbations; no approximate layer path or causal gate",
+  "splits": {
+    "validation": [
+      "fact_en_02",
+      "fact_nl_02",
+      "reason_02",
+      "math_02",
+      "code_02",
+      "tech_02",
+      "creative_en_02",
+      "creative_nl_02",
+      "summary_02",
+      "instr_02"
+    ],
+    "calibration_reference": [
+      "fact_en_01",
+      "fact_nl_01",
+      "reason_01",
+      "math_01",
+      "code_01",
+      "tech_01",
+      "creative_en_01",
+      "creative_nl_01",
+      "summary_01",
+      "instr_01"
+    ]
+  },
+  "tokens": 320,
+  "noise_scales_relative_to_logit_std": [
+    0.01,
+    0.05,
+    0.1
+  ],
+  "aggregates": [
+    {
+      "threshold_quantile": 0.5,
+      "normalized_margin_threshold": 1.170789388315851,
+      "fast_fraction": 0.5,
+      "noise": {
+        "0.01": {
+          "high_margin_stability": 1.0,
+          "low_margin_stability": 0.99375,
+          "high_margin_error_rate": 0.0
+        },
+        "0.05": {
+          "high_margin_stability": 1.0,
+          "low_margin_stability": 0.9625,
+          "high_margin_error_rate": 0.0
+        },
+        "0.1": {
+          "high_margin_stability": 1.0,
+          "low_margin_stability": 0.95,
+          "high_margin_error_rate": 0.0
+        }
+      }
+    },
+    {
+      "threshold_quantile": 0.75,
+      "normalized_margin_threshold": 2.8361214399632457,
+      "fast_fraction": 0.25,
+      "noise": {
+        "0.01": {
+          "high_margin_stability": 1.0,
+          "low_margin_stability": 0.9958333333333333,
+          "high_margin_error_rate": 0.0
+        },
+        "0.05": {
+          "high_margin_stability": 1.0,
+          "low_margin_stability": 0.975,
+          "high_margin_error_rate": 0.0
+        },
+        "0.1": {
+          "high_margin_stability": 1.0,
+          "low_margin_stability": 0.9666666666666667,
+          "high_margin_error_rate": 0.0
+        }
+      }
+    },
+    {
+      "threshold_quantile": 0.9,
+      "normalized_margin_threshold": 3.983395498027346,
+      "fast_fraction": 0.1,
+      "noise": {
+        "0.01": {
+          "high_margin_stability": 1.0,
+          "low_margin_stability": 0.9965277777777778,
+          "high_margin_error_rate": 0.0
+        },
+        "0.05": {
+          "high_margin_stability": 1.0,
+          "low_margin_stability": 0.9791666666666666,
+          "high_margin_error_rate": 0.0
+        },
+        "0.1": {
+          "high_margin_stability": 1.0,
+          "low_margin_stability": 0.9722222222222222,
+          "high_margin_error_rate": 0.0
+        }
+      }
+    }
+  ],
+  "gates": {
+    "margin_separates_stability": true,
+    "approximate_path_green": false,
+    "promotion_open": false
+  }
+}

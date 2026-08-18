@@ -1,0 +1,58 @@
+{
+  "kind": "s100_phase13h_native_dtype_block_screen",
+  "status": "measured",
+  "created_utc": "2026-08-18T21:34:04.134955+00:00",
+  "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning",
+  "claim_boundary": "native datatype capability/component screen; no end-to-end quality or full B=4/B=8 speculative runtime",
+  "cases": [
+    {
+      "name": "attention_5_q_proj",
+      "kind": "bf16",
+      "shape": [
+        4096,
+        2688
+      ],
+      "native_kernel": "torch_bf16_mm",
+      "native_setup": "supported",
+      "B": 4,
+      "baseline_custom_ms": 0.39215000015246915,
+      "native_ms": 0.06284999926720047,
+      "speedup": 6.239459104610053
+    },
+    {
+      "name": "attention_5_o_proj",
+      "kind": "bf16",
+      "shape": [
+        2688,
+        4096
+      ],
+      "native_kernel": "torch_bf16_mm",
+      "native_setup": "supported",
+      "B": 4,
+      "baseline_custom_ms": 0.40454999907524325,
+      "native_ms": 0.06480000047304202,
+      "speedup": 6.243055495710118
+    },
+    {
+      "name": "mamba_0_in",
+      "kind": "nvfp4",
+      "shape": [
+        10304,
+        2688
+      ],
+      "native_kernel": "torch_float4_mm",
+      "native_setup": "unsupported: RuntimeError: mat1 and mat2 shapes cannot be multiplied (1x2688 and 1344x10304)",
+      "B": 4,
+      "baseline_custom_ms": 0.29554999946412863,
+      "native_ms": null,
+      "speedup": null
+    }
+  ],
+  "gates": {
+    "native_bf16_attention_measured": true,
+    "native_fp8_measured": false,
+    "native_nvfp4_measured": false,
+    "official_quality_green": false,
+    "promotion_open": false
+  }
+}

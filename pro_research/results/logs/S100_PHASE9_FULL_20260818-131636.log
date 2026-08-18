@@ -1,0 +1,1359 @@
+{
+  "kind": "s100_phase9_rtx_upmiss",
+  "status": "measured",
+  "rows": [
+    {
+      "nexperts": 1,
+      "fetch_only": {
+        "median_ms": 0.13085,
+        "p95_ms": 0.180485,
+        "min_ms": 0.1268,
+        "max_ms": 0.4031
+      },
+      "warm_up_only": {
+        "median_ms": 0.0326,
+        "p95_ms": 0.0346,
+        "min_ms": 0.0307,
+        "max_ms": 0.0513
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.1588,
+        "p95_ms": 0.188605,
+        "min_ms": 0.1502,
+        "max_ms": 0.238
+      },
+      "direct_host_up": {
+        "median_ms": 0.1711,
+        "p95_ms": 0.174905,
+        "min_ms": 0.1677,
+        "max_ms": 0.177
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    },
+    {
+      "nexperts": 2,
+      "fetch_only": {
+        "median_ms": 0.247,
+        "p95_ms": 0.30127999999999994,
+        "min_ms": 0.2393,
+        "max_ms": 0.3527
+      },
+      "warm_up_only": {
+        "median_ms": 0.0463,
+        "p95_ms": 0.050005,
+        "min_ms": 0.0428,
+        "max_ms": 0.1183
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.30505000000000004,
+        "p95_ms": 0.3965049999999999,
+        "min_ms": 0.2759,
+        "max_ms": 0.6794
+      },
+      "direct_host_up": {
+        "median_ms": 0.40195000000000003,
+        "p95_ms": 0.4959299999999998,
+        "min_ms": 0.369,
+        "max_ms": 0.7376
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    },
+    {
+      "nexperts": 3,
+      "fetch_only": {
+        "median_ms": 0.36045,
+        "p95_ms": 0.49283499999999997,
+        "min_ms": 0.3532,
+        "max_ms": 0.9214
+      },
+      "warm_up_only": {
+        "median_ms": 0.0542,
+        "p95_ms": 0.057425,
+        "min_ms": 0.0529,
+        "max_ms": 0.0755
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.4044,
+        "p95_ms": 0.46921,
+        "min_ms": 0.3989,
+        "max_ms": 0.6295
+      },
+      "direct_host_up": {
+        "median_ms": 0.5438,
+        "p95_ms": 0.63039,
+        "min_ms": 0.5252,
+        "max_ms": 0.6887
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    }
+  ],
+  "direct_pointer_contract": "CUDA-pinned UVA host pointer, same contract already consumed by cache_fetch",
+  "all_direct_bitexact": true
+}
+[phase9] rtx-upmiss L43: s100_phase9_upmiss_rtx.py --sample C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\UPMISS_LAYER_43.npz --out C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\RTX_UPMISS_LAYER_43.json
+[phase9] rtx-upmiss L43: exit=0 (3s) status=measured
+{
+  "kind": "s100_phase9_arc_upmiss",
+  "status": "measured",
+  "rows": [
+    {
+      "nexperts": 1,
+      "best": {
+        "local": 256,
+        "wall_median_ms": 0.1303,
+        "event_median_ms": 0.124062,
+        "wall_p95_ms": 0.14265499999999995
+      },
+      "correctness": {
+        "cosine": 0.9999999999994127,
+        "nrmse": 1.0844859251006955e-06,
+        "max_abs": 3.719329833984375e-05,
+        "finite": true
+      }
+    },
+    {
+      "nexperts": 2,
+      "best": {
+        "local": 128,
+        "wall_median_ms": 0.1467,
+        "event_median_ms": 0.14,
+        "wall_p95_ms": 0.18673499999999998
+      },
+      "correctness": {
+        "cosine": 0.9999999999988805,
+        "nrmse": 1.5198802896160488e-06,
+        "max_abs": 0.00012969970703125,
+        "finite": true
+      }
+    },
+    {
+      "nexperts": 3,
+      "best": {
+        "local": 128,
+        "wall_median_ms": 0.23475000000000001,
+        "event_median_ms": 0.225989,
+        "wall_p95_ms": 0.29723
+      },
+      "correctness": {
+        "cosine": 0.9999999999988839,
+        "nrmse": 1.5179597783228982e-06,
+        "max_abs": 0.00012969970703125,
+        "finite": true
+      }
+    }
+  ],
+  "device": "Intel(R) Arc(TM) Pro 140T GPU (32GB)"
+}
+[phase9] arc-upmiss L43: s100_phase9_upmiss_arc.py --sample C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\UPMISS_LAYER_43.npz --rtx-ref C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\RTX_UPMISS_LAYER_43.ref.npz --out C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\ARC_UPMISS_LAYER_43.json
+[phase9] arc-upmiss L43: exit=0 (2s) status=measured
+{
+  "kind": "s100_phase9_rtx_upmiss",
+  "status": "measured",
+  "rows": [
+    {
+      "nexperts": 1,
+      "fetch_only": {
+        "median_ms": 0.1476,
+        "p95_ms": 0.149625,
+        "min_ms": 0.1463,
+        "max_ms": 0.1669
+      },
+      "warm_up_only": {
+        "median_ms": 0.0326,
+        "p95_ms": 0.06026499999999999,
+        "min_ms": 0.0306,
+        "max_ms": 0.4267
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.15245,
+        "p95_ms": 0.152645,
+        "min_ms": 0.1493,
+        "max_ms": 0.1699
+      },
+      "direct_host_up": {
+        "median_ms": 0.2088,
+        "p95_ms": 0.217155,
+        "min_ms": 0.1996,
+        "max_ms": 0.2241
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    },
+    {
+      "nexperts": 2,
+      "fetch_only": {
+        "median_ms": 0.2396,
+        "p95_ms": 0.24164,
+        "min_ms": 0.239,
+        "max_ms": 0.2609
+      },
+      "warm_up_only": {
+        "median_ms": 0.0419,
+        "p95_ms": 0.0427,
+        "min_ms": 0.0417,
+        "max_ms": 0.0429
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.2754,
+        "p95_ms": 0.277495,
+        "min_ms": 0.2741,
+        "max_ms": 0.2866
+      },
+      "direct_host_up": {
+        "median_ms": 0.3818,
+        "p95_ms": 0.4146849999999999,
+        "min_ms": 0.3643,
+        "max_ms": 0.5382
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    },
+    {
+      "nexperts": 3,
+      "fetch_only": {
+        "median_ms": 0.3571,
+        "p95_ms": 0.36963999999999997,
+        "min_ms": 0.3539,
+        "max_ms": 0.4378
+      },
+      "warm_up_only": {
+        "median_ms": 0.0541,
+        "p95_ms": 0.05736999999999999,
+        "min_ms": 0.0523,
+        "max_ms": 0.0977
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.4023,
+        "p95_ms": 0.41853499999999993,
+        "min_ms": 0.3998,
+        "max_ms": 0.4915
+      },
+      "direct_host_up": {
+        "median_ms": 0.52625,
+        "p95_ms": 0.5664699999999999,
+        "min_ms": 0.513,
+        "max_ms": 0.6785
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    }
+  ],
+  "direct_pointer_contract": "CUDA-pinned UVA host pointer, same contract already consumed by cache_fetch",
+  "all_direct_bitexact": true
+}
+[phase9] rtx-upmiss L38: s100_phase9_upmiss_rtx.py --sample C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\UPMISS_LAYER_38.npz --out C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\RTX_UPMISS_LAYER_38.json
+[phase9] rtx-upmiss L38: exit=0 (1s) status=measured
+{
+  "kind": "s100_phase9_arc_upmiss",
+  "status": "measured",
+  "rows": [
+    {
+      "nexperts": 1,
+      "best": {
+        "local": 256,
+        "wall_median_ms": 0.1295,
+        "event_median_ms": 0.1236975,
+        "wall_p95_ms": 0.144255
+      },
+      "correctness": {
+        "cosine": 0.9999999999981363,
+        "nrmse": 1.93067849211332e-06,
+        "max_abs": 8.940696716308594e-07,
+        "finite": true
+      }
+    },
+    {
+      "nexperts": 2,
+      "best": {
+        "local": 64,
+        "wall_median_ms": 0.1467,
+        "event_median_ms": 0.139166,
+        "wall_p95_ms": 0.16205499999999998
+      },
+      "correctness": {
+        "cosine": 0.999999999997693,
+        "nrmse": 2.1608420707661795e-06,
+        "max_abs": 8.940696716308594e-07,
+        "finite": true
+      }
+    },
+    {
+      "nexperts": 3,
+      "best": {
+        "local": 64,
+        "wall_median_ms": 0.2295,
+        "event_median_ms": 0.221041,
+        "wall_p95_ms": 0.27373
+      },
+      "correctness": {
+        "cosine": 0.9999999999994966,
+        "nrmse": 1.3877022458199856e-06,
+        "max_abs": 4.5299530029296875e-06,
+        "finite": true
+      }
+    }
+  ],
+  "device": "Intel(R) Arc(TM) Pro 140T GPU (32GB)"
+}
+[phase9] arc-upmiss L38: s100_phase9_upmiss_arc.py --sample C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\UPMISS_LAYER_38.npz --rtx-ref C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\RTX_UPMISS_LAYER_38.ref.npz --out C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\ARC_UPMISS_LAYER_38.json
+[phase9] arc-upmiss L38: exit=0 (2s) status=measured
+{
+  "kind": "s100_phase9_rtx_upmiss",
+  "status": "measured",
+  "rows": [
+    {
+      "nexperts": 1,
+      "fetch_only": {
+        "median_ms": 0.1269,
+        "p95_ms": 0.129725,
+        "min_ms": 0.1266,
+        "max_ms": 0.1434
+      },
+      "warm_up_only": {
+        "median_ms": 0.03185,
+        "p95_ms": 0.0327,
+        "min_ms": 0.0308,
+        "max_ms": 0.0334
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.1565,
+        "p95_ms": 0.170545,
+        "min_ms": 0.1523,
+        "max_ms": 0.3353
+      },
+      "direct_host_up": {
+        "median_ms": 0.21075,
+        "p95_ms": 0.21913,
+        "min_ms": 0.1996,
+        "max_ms": 0.2496
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    },
+    {
+      "nexperts": 2,
+      "fetch_only": {
+        "median_ms": 0.2396,
+        "p95_ms": 0.24441000000000002,
+        "min_ms": 0.239,
+        "max_ms": 0.2555
+      },
+      "warm_up_only": {
+        "median_ms": 0.0429,
+        "p95_ms": 0.043609999999999996,
+        "min_ms": 0.0418,
+        "max_ms": 0.1145
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.2757,
+        "p95_ms": 0.28412000000000004,
+        "min_ms": 0.2733,
+        "max_ms": 0.3301
+      },
+      "direct_host_up": {
+        "median_ms": 0.4053,
+        "p95_ms": 0.48790999999999995,
+        "min_ms": 0.3839,
+        "max_ms": 0.5514
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    },
+    {
+      "nexperts": 3,
+      "fetch_only": {
+        "median_ms": 0.36045,
+        "p95_ms": 0.43516,
+        "min_ms": 0.3545,
+        "max_ms": 0.5506
+      },
+      "warm_up_only": {
+        "median_ms": 0.057249999999999995,
+        "p95_ms": 0.06943999999999997,
+        "min_ms": 0.0525,
+        "max_ms": 0.1627
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.4022,
+        "p95_ms": 0.416725,
+        "min_ms": 0.4,
+        "max_ms": 0.4588
+      },
+      "direct_host_up": {
+        "median_ms": 0.55045,
+        "p95_ms": 0.572755,
+        "min_ms": 0.5365,
+        "max_ms": 0.691
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    }
+  ],
+  "direct_pointer_contract": "CUDA-pinned UVA host pointer, same contract already consumed by cache_fetch",
+  "all_direct_bitexact": true
+}
+[phase9] rtx-upmiss L10: s100_phase9_upmiss_rtx.py --sample C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\UPMISS_LAYER_10.npz --out C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\RTX_UPMISS_LAYER_10.json
+[phase9] rtx-upmiss L10: exit=0 (1s) status=measured
+{
+  "kind": "s100_phase9_arc_upmiss",
+  "status": "measured",
+  "rows": [
+    {
+      "nexperts": 1,
+      "best": {
+        "local": 128,
+        "wall_median_ms": 0.1297,
+        "event_median_ms": 0.124166,
+        "wall_p95_ms": 0.13385499999999997
+      },
+      "correctness": {
+        "cosine": 0.9999999999993581,
+        "nrmse": 1.7653387553444264e-06,
+        "max_abs": 4.76837158203125e-05,
+        "finite": true
+      }
+    },
+    {
+      "nexperts": 2,
+      "best": {
+        "local": 64,
+        "wall_median_ms": 0.14655,
+        "event_median_ms": 0.13927,
+        "wall_p95_ms": 0.17848499999999998
+      },
+      "correctness": {
+        "cosine": 0.9999999999992094,
+        "nrmse": 1.6443510085793068e-06,
+        "max_abs": 4.76837158203125e-05,
+        "finite": true
+      }
+    },
+    {
+      "nexperts": 3,
+      "best": {
+        "local": 64,
+        "wall_median_ms": 0.23025,
+        "event_median_ms": 0.222812,
+        "wall_p95_ms": 0.30864999999999987
+      },
+      "correctness": {
+        "cosine": 0.9999999999992093,
+        "nrmse": 1.6442264197130337e-06,
+        "max_abs": 4.76837158203125e-05,
+        "finite": true
+      }
+    }
+  ],
+  "device": "Intel(R) Arc(TM) Pro 140T GPU (32GB)"
+}
+[phase9] arc-upmiss L10: s100_phase9_upmiss_arc.py --sample C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\UPMISS_LAYER_10.npz --rtx-ref C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\RTX_UPMISS_LAYER_10.ref.npz --out C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\ARC_UPMISS_LAYER_10.json
+[phase9] arc-upmiss L10: exit=0 (2s) status=measured
+{
+  "kind": "s100_phase9_rtx_upmiss",
+  "status": "measured",
+  "rows": [
+    {
+      "nexperts": 1,
+      "fetch_only": {
+        "median_ms": 0.13215,
+        "p95_ms": 0.1474,
+        "min_ms": 0.1257,
+        "max_ms": 0.1511
+      },
+      "warm_up_only": {
+        "median_ms": 0.0317,
+        "p95_ms": 0.0327,
+        "min_ms": 0.0305,
+        "max_ms": 0.0552
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.1524,
+        "p95_ms": 0.1611,
+        "min_ms": 0.1487,
+        "max_ms": 0.209
+      },
+      "direct_host_up": {
+        "median_ms": 0.24555,
+        "p95_ms": 0.27948999999999996,
+        "min_ms": 0.2333,
+        "max_ms": 0.3648
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    },
+    {
+      "nexperts": 2,
+      "fetch_only": {
+        "median_ms": 0.2415,
+        "p95_ms": 0.251905,
+        "min_ms": 0.2394,
+        "max_ms": 0.2826
+      },
+      "warm_up_only": {
+        "median_ms": 0.0419,
+        "p95_ms": 0.0429,
+        "min_ms": 0.0411,
+        "max_ms": 0.044
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.2773,
+        "p95_ms": 0.3109949999999999,
+        "min_ms": 0.2733,
+        "max_ms": 0.3707
+      },
+      "direct_host_up": {
+        "median_ms": 0.4099,
+        "p95_ms": 0.43953,
+        "min_ms": 0.3957,
+        "max_ms": 0.5612
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    },
+    {
+      "nexperts": 3,
+      "fetch_only": {
+        "median_ms": 0.35615,
+        "p95_ms": 0.36916499999999997,
+        "min_ms": 0.3541,
+        "max_ms": 0.5132
+      },
+      "warm_up_only": {
+        "median_ms": 0.0542,
+        "p95_ms": 0.06403999999999997,
+        "min_ms": 0.0525,
+        "max_ms": 0.1312
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.403,
+        "p95_ms": 0.42417499999999997,
+        "min_ms": 0.3981,
+        "max_ms": 0.5059
+      },
+      "direct_host_up": {
+        "median_ms": 0.57915,
+        "p95_ms": 0.630315,
+        "min_ms": 0.5621,
+        "max_ms": 0.7511
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    }
+  ],
+  "direct_pointer_contract": "CUDA-pinned UVA host pointer, same contract already consumed by cache_fetch",
+  "all_direct_bitexact": true
+}
+[phase9] rtx-upmiss L29: s100_phase9_upmiss_rtx.py --sample C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\UPMISS_LAYER_29.npz --out C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\RTX_UPMISS_LAYER_29.json
+[phase9] rtx-upmiss L29: exit=0 (2s) status=measured
+{
+  "kind": "s100_phase9_arc_upmiss",
+  "status": "measured",
+  "rows": [
+    {
+      "nexperts": 1,
+      "best": {
+        "local": 256,
+        "wall_median_ms": 0.12955,
+        "event_median_ms": 0.122812,
+        "wall_p95_ms": 0.16527999999999995
+      },
+      "correctness": {
+        "cosine": 0.9999999999951605,
+        "nrmse": 3.157614739832198e-06,
+        "max_abs": 4.3213367462158203e-07,
+        "finite": true
+      }
+    },
+    {
+      "nexperts": 2,
+      "best": {
+        "local": 64,
+        "wall_median_ms": 0.1466,
+        "event_median_ms": 0.13901,
+        "wall_p95_ms": 0.15007
+      },
+      "correctness": {
+        "cosine": 0.9999999999964105,
+        "nrmse": 3.1256889394197618e-06,
+        "max_abs": 1.7583370208740234e-06,
+        "finite": true
+      }
+    },
+    {
+      "nexperts": 3,
+      "best": {
+        "local": 64,
+        "wall_median_ms": 0.22965,
+        "event_median_ms": 0.22192699999999999,
+        "wall_p95_ms": 0.2760399999999998
+      },
+      "correctness": {
+        "cosine": 0.9999999999957315,
+        "nrmse": 3.076695988322222e-06,
+        "max_abs": 1.7583370208740234e-06,
+        "finite": true
+      }
+    }
+  ],
+  "device": "Intel(R) Arc(TM) Pro 140T GPU (32GB)"
+}
+[phase9] arc-upmiss L29: s100_phase9_upmiss_arc.py --sample C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\UPMISS_LAYER_29.npz --rtx-ref C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\RTX_UPMISS_LAYER_29.ref.npz --out C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\ARC_UPMISS_LAYER_29.json
+[phase9] arc-upmiss L29: exit=0 (2s) status=measured
+{
+  "kind": "s100_phase9_rtx_upmiss",
+  "status": "measured",
+  "rows": [
+    {
+      "nexperts": 1,
+      "fetch_only": {
+        "median_ms": 0.1473,
+        "p95_ms": 0.14831,
+        "min_ms": 0.1463,
+        "max_ms": 0.1528
+      },
+      "warm_up_only": {
+        "median_ms": 0.0317,
+        "p95_ms": 0.0327,
+        "min_ms": 0.0311,
+        "max_ms": 0.2204
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.1515,
+        "p95_ms": 0.171,
+        "min_ms": 0.1483,
+        "max_ms": 0.1872
+      },
+      "direct_host_up": {
+        "median_ms": 0.19025,
+        "p95_ms": 0.20060999999999993,
+        "min_ms": 0.1833,
+        "max_ms": 0.3659
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    },
+    {
+      "nexperts": 2,
+      "fetch_only": {
+        "median_ms": 0.24245,
+        "p95_ms": 0.250405,
+        "min_ms": 0.2405,
+        "max_ms": 0.2662
+      },
+      "warm_up_only": {
+        "median_ms": 0.0439,
+        "p95_ms": 0.06741,
+        "min_ms": 0.0419,
+        "max_ms": 0.2026
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.2774,
+        "p95_ms": 0.28332999999999997,
+        "min_ms": 0.2756,
+        "max_ms": 0.2909
+      },
+      "direct_host_up": {
+        "median_ms": 0.3348,
+        "p95_ms": 0.341085,
+        "min_ms": 0.3265,
+        "max_ms": 0.345
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    },
+    {
+      "nexperts": 3,
+      "fetch_only": {
+        "median_ms": 0.3579,
+        "p95_ms": 0.4009949999999999,
+        "min_ms": 0.3552,
+        "max_ms": 0.4818
+      },
+      "warm_up_only": {
+        "median_ms": 0.0542,
+        "p95_ms": 0.056029999999999996,
+        "min_ms": 0.0521,
+        "max_ms": 0.0588
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.41100000000000003,
+        "p95_ms": 0.460465,
+        "min_ms": 0.4002,
+        "max_ms": 0.5551
+      },
+      "direct_host_up": {
+        "median_ms": 0.48614999999999997,
+        "p95_ms": 0.510855,
+        "min_ms": 0.4761,
+        "max_ms": 0.5561
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    }
+  ],
+  "direct_pointer_contract": "CUDA-pinned UVA host pointer, same contract already consumed by cache_fetch",
+  "all_direct_bitexact": true
+}
+[phase9] rtx-upmiss L22: s100_phase9_upmiss_rtx.py --sample C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\UPMISS_LAYER_22.npz --out C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\RTX_UPMISS_LAYER_22.json
+[phase9] rtx-upmiss L22: exit=0 (1s) status=measured
+{
+  "kind": "s100_phase9_arc_upmiss",
+  "status": "measured",
+  "rows": [
+    {
+      "nexperts": 1,
+      "best": {
+        "local": 256,
+        "wall_median_ms": 0.12975,
+        "event_median_ms": 0.12375,
+        "wall_p95_ms": 0.18208499999999994
+      },
+      "correctness": {
+        "cosine": 0.9999999999928497,
+        "nrmse": 4.731486582962382e-06,
+        "max_abs": 1.6093254089355469e-06,
+        "finite": true
+      }
+    },
+    {
+      "nexperts": 2,
+      "best": {
+        "local": 64,
+        "wall_median_ms": 0.14695,
+        "event_median_ms": 0.14,
+        "wall_p95_ms": 0.18033
+      },
+      "correctness": {
+        "cosine": 0.999999999999919,
+        "nrmse": 4.4439804081266736e-07,
+        "max_abs": 1.6093254089355469e-06,
+        "finite": true
+      }
+    },
+    {
+      "nexperts": 3,
+      "best": {
+        "local": 64,
+        "wall_median_ms": 0.23205,
+        "event_median_ms": 0.224791,
+        "wall_p95_ms": 0.25116999999999995
+      },
+      "correctness": {
+        "cosine": 0.9999999999992044,
+        "nrmse": 1.3094675274570782e-06,
+        "max_abs": 4.0531158447265625e-06,
+        "finite": true
+      }
+    }
+  ],
+  "device": "Intel(R) Arc(TM) Pro 140T GPU (32GB)"
+}
+[phase9] arc-upmiss L22: s100_phase9_upmiss_arc.py --sample C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\UPMISS_LAYER_22.npz --rtx-ref C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\RTX_UPMISS_LAYER_22.ref.npz --out C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9\ARC_UPMISS_LAYER_22.json
+[phase9] arc-upmiss L22: exit=0 (1s) status=measured
+{
+  "status": "measured",
+  "profile": "budget_neutral",
+  "role": "base_a",
+  "timing": {
+    "count": 765,
+    "mean": 18.33515137254902,
+    "p50": 18.0974,
+    "p95": 20.68376,
+    "p99": 22.594744000000002,
+    "max": 25.0868
+  },
+  "vram_mib": 6856,
+  "error": null
+}
+[phase9] capacity budget_neutral base_a: s100_phase9_capacity_arm.py --profile budget_neutral --role base_a
+[phase9] capacity budget_neutral base_a: exit=0 (54s) status=measured
+{
+  "status": "measured",
+  "profile": "budget_neutral",
+  "role": "cand_a",
+  "timing": {
+    "count": 765,
+    "mean": 18.65687568627451,
+    "p50": 18.402,
+    "p95": 20.98034,
+    "p99": 24.601692000000014,
+    "max": 27.2984
+  },
+  "vram_mib": 6892,
+  "error": null
+}
+[phase9] capacity budget_neutral cand_a: s100_phase9_capacity_arm.py --profile budget_neutral --role cand_a
+[phase9] capacity budget_neutral cand_a: exit=0 (56s) status=measured
+{
+  "status": "measured",
+  "profile": "budget_neutral",
+  "role": "cand_b",
+  "timing": {
+    "count": 765,
+    "mean": 18.36522666666667,
+    "p50": 18.1199,
+    "p95": 20.8093,
+    "p99": 22.622812,
+    "max": 24.8425
+  },
+  "vram_mib": 6892,
+  "error": null
+}
+[phase9] capacity budget_neutral cand_b: s100_phase9_capacity_arm.py --profile budget_neutral --role cand_b
+[phase9] capacity budget_neutral cand_b: exit=0 (56s) status=measured
+{
+  "status": "measured",
+  "profile": "budget_neutral",
+  "role": "base_b",
+  "timing": {
+    "count": 765,
+    "mean": 18.39202117647059,
+    "p50": 18.2526,
+    "p95": 20.786279999999998,
+    "p99": 22.741996,
+    "max": 25.0873
+  },
+  "vram_mib": 6856,
+  "error": null
+}
+[phase9] capacity budget_neutral base_b: s100_phase9_capacity_arm.py --profile budget_neutral --role base_b
+[phase9] capacity budget_neutral base_b: exit=0 (55s) status=measured
+{
+  "status": "capacity_below_gate",
+  "profile": "budget_neutral",
+  "created_utc": "2026-08-18T11:20:35.431559+00:00",
+  "summary": {
+    "base_ms": 18.175,
+    "candidate_ms": 18.26095,
+    "saving_ms": -0.08595000000000041,
+    "candidate_tok_s": 54.76166354981531,
+    "vram_mib": 6892
+  },
+  "gates": {
+    "base_repeat": true,
+    "cand_repeat": true,
+    "exact_token_parity": true,
+    "finite": true,
+    "base_drift_le1": true,
+    "cand_drift_le1": true,
+    "samples": true,
+    "vram": true
+  },
+  "completed_utc": "2026-08-18T11:20:35.432560+00:00"
+}
+[phase9] capacity-compare budget_neutral: s100_phase9_capacity_compare.py --profile budget_neutral
+[phase9] capacity-compare budget_neutral: exit=0 (0s) status=capacity_below_gate
+{
+  "status": "measured",
+  "profile": "plus_128",
+  "role": "base_a",
+  "timing": {
+    "count": 765,
+    "mean": 19.88212745098039,
+    "p50": 19.625,
+    "p95": 22.820179999999997,
+    "p99": 25.794528000000003,
+    "max": 32.589
+  },
+  "vram_mib": 6856,
+  "error": null
+}
+[phase9] capacity plus_128 base_a: s100_phase9_capacity_arm.py --profile plus_128 --role base_a
+[phase9] capacity plus_128 base_a: exit=0 (58s) status=measured
+{
+  "status": "measured",
+  "profile": "plus_128",
+  "role": "cand_a",
+  "timing": {
+    "count": 765,
+    "mean": 19.474557385620916,
+    "p50": 19.1625,
+    "p95": 21.93326,
+    "p99": 24.860516,
+    "max": 27.8622
+  },
+  "vram_mib": 7066,
+  "error": null
+}
+[phase9] capacity plus_128 cand_a: s100_phase9_capacity_arm.py --profile plus_128 --role cand_a
+[phase9] capacity plus_128 cand_a: exit=0 (61s) status=measured
+{
+  "status": "measured",
+  "profile": "plus_128",
+  "role": "cand_b",
+  "timing": {
+    "count": 765,
+    "mean": 21.19276248366013,
+    "p50": 20.0081,
+    "p95": 29.44794,
+    "p99": 33.02535600000001,
+    "max": 42.0478
+  },
+  "vram_mib": 7066,
+  "error": null
+}
+[phase9] capacity plus_128 cand_b: s100_phase9_capacity_arm.py --profile plus_128 --role cand_b
+[phase9] capacity plus_128 cand_b: exit=0 (62s) status=measured
+{
+  "status": "measured",
+  "profile": "plus_128",
+  "role": "base_b",
+  "timing": {
+    "count": 765,
+    "mean": 18.810914509803922,
+    "p50": 18.5958,
+    "p95": 21.76565999999999,
+    "p99": 23.567004,
+    "max": 27.8685
+  },
+  "vram_mib": 6856,
+  "error": null
+}
+[phase9] capacity plus_128 base_b: s100_phase9_capacity_arm.py --profile plus_128 --role base_b
+[phase9] capacity plus_128 base_b: exit=0 (58s) status=measured
+{
+  "status": "measurement_failed",
+  "profile": "plus_128",
+  "created_utc": "2026-08-18T11:24:33.989215+00:00",
+  "summary": {
+    "base_ms": 19.1104,
+    "candidate_ms": 19.5853,
+    "saving_ms": -0.47490000000000165,
+    "candidate_tok_s": 51.058702189907734,
+    "vram_mib": 7066
+  },
+  "gates": {
+    "base_repeat": true,
+    "cand_repeat": true,
+    "exact_token_parity": true,
+    "finite": true,
+    "base_drift_le1": false,
+    "cand_drift_le1": true,
+    "samples": true,
+    "vram": true
+  },
+  "completed_utc": "2026-08-18T11:24:33.991228+00:00"
+}
+[phase9] capacity-compare plus_128: s100_phase9_capacity_compare.py --profile plus_128
+[phase9] capacity-compare plus_128: exit=0 (0s) status=measurement_failed
+{
+  "status": "measured",
+  "profile": "plus_256",
+  "role": "base_a",
+  "timing": {
+    "count": 765,
+    "mean": 19.017374640522878,
+    "p50": 18.774,
+    "p95": 21.71924,
+    "p99": 24.124408000000003,
+    "max": 26.8592
+  },
+  "vram_mib": 6856,
+  "error": null
+}
+[phase9] capacity plus_256 base_a: s100_phase9_capacity_arm.py --profile plus_256 --role base_a
+[phase9] capacity plus_256 base_a: exit=0 (57s) status=measured
+{
+  "status": "measured",
+  "profile": "plus_256",
+  "role": "cand_a",
+  "timing": {
+    "count": 765,
+    "mean": 22.199569150326795,
+    "p50": 20.8898,
+    "p95": 34.26999999999999,
+    "p99": 41.973636000000006,
+    "max": 53.1937
+  },
+  "vram_mib": 7074,
+  "error": null
+}
+[phase9] capacity plus_256 cand_a: s100_phase9_capacity_arm.py --profile plus_256 --role cand_a
+[phase9] capacity plus_256 cand_a: exit=0 (63s) status=measured
+{
+  "status": "measured",
+  "profile": "plus_256",
+  "role": "cand_b",
+  "timing": {
+    "count": 765,
+    "mean": 22.462760392156863,
+    "p50": 21.2056,
+    "p95": 32.84699999999999,
+    "p99": 39.13330800000001,
+    "max": 43.5887
+  },
+  "vram_mib": 7074,
+  "error": null
+}
+[phase9] capacity plus_256 cand_b: s100_phase9_capacity_arm.py --profile plus_256 --role cand_b
+[phase9] capacity plus_256 cand_b: exit=0 (65s) status=measured
+{
+  "status": "measured",
+  "profile": "plus_256",
+  "role": "base_b",
+  "timing": {
+    "count": 765,
+    "mean": 18.585208758169937,
+    "p50": 18.3788,
+    "p95": 20.919719999999998,
+    "p99": 22.950124000000002,
+    "max": 25.6104
+  },
+  "vram_mib": 6856,
+  "error": null
+}
+[phase9] capacity plus_256 base_b: s100_phase9_capacity_arm.py --profile plus_256 --role base_b
+[phase9] capacity plus_256 base_b: exit=0 (60s) status=measured
+{
+  "status": "capacity_below_gate",
+  "profile": "plus_256",
+  "created_utc": "2026-08-18T11:28:39.084042+00:00",
+  "summary": {
+    "base_ms": 18.5764,
+    "candidate_ms": 21.0477,
+    "saving_ms": -2.4712999999999994,
+    "candidate_tok_s": 47.51112948208118,
+    "vram_mib": 7074
+  },
+  "gates": {
+    "base_repeat": true,
+    "cand_repeat": true,
+    "exact_token_parity": true,
+    "finite": true,
+    "base_drift_le1": true,
+    "cand_drift_le1": true,
+    "samples": true,
+    "vram": true
+  },
+  "completed_utc": "2026-08-18T11:28:39.087042+00:00"
+}
+[phase9] capacity-compare plus_256: s100_phase9_capacity_compare.py --profile plus_256
+[phase9] capacity-compare plus_256: exit=0 (0s) status=capacity_below_gate
+{
+  "status": "measured",
+  "profile": "plus_379",
+  "role": "base_a",
+  "timing": {
+    "count": 765,
+    "mean": 18.46073411764706,
+    "p50": 18.2506,
+    "p95": 20.929479999999998,
+    "p99": 22.757592,
+    "max": 24.7372
+  },
+  "vram_mib": 6856,
+  "error": null
+}
+[phase9] capacity plus_379 base_a: s100_phase9_capacity_arm.py --profile plus_379 --role base_a
+[phase9] capacity plus_379 base_a: exit=0 (57s) status=measured
+{
+  "status": "measured",
+  "profile": "plus_379",
+  "role": "cand_a",
+  "timing": {
+    "count": 765,
+    "mean": 24.01846562091503,
+    "p50": 22.4694,
+    "p95": 35.72883999999999,
+    "p99": 41.270112,
+    "max": 58.0958
+  },
+  "vram_mib": 7058,
+  "error": null
+}
+[phase9] capacity plus_379 cand_a: s100_phase9_capacity_arm.py --profile plus_379 --role cand_a
+[phase9] capacity plus_379 cand_a: exit=0 (65s) status=measured
+{
+  "status": "measured",
+  "profile": "plus_379",
+  "role": "cand_b",
+  "timing": {
+    "count": 765,
+    "mean": 24.17426052287582,
+    "p50": 22.6812,
+    "p95": 34.831179999999996,
+    "p99": 41.342204,
+    "max": 47.6236
+  },
+  "vram_mib": 7058,
+  "error": null
+}
+[phase9] capacity plus_379 cand_b: s100_phase9_capacity_arm.py --profile plus_379 --role cand_b
+[phase9] capacity plus_379 cand_b: exit=0 (66s) status=measured
+{
+  "status": "measured",
+  "profile": "plus_379",
+  "role": "base_b",
+  "timing": {
+    "count": 765,
+    "mean": 18.451986274509803,
+    "p50": 18.297,
+    "p95": 20.89156,
+    "p99": 22.776656,
+    "max": 24.8267
+  },
+  "vram_mib": 6856,
+  "error": null
+}
+[phase9] capacity plus_379 base_b: s100_phase9_capacity_arm.py --profile plus_379 --role base_b
+[phase9] capacity plus_379 base_b: exit=0 (58s) status=measured
+{
+  "status": "capacity_below_gate",
+  "profile": "plus_379",
+  "created_utc": "2026-08-18T11:32:45.517154+00:00",
+  "summary": {
+    "base_ms": 18.2738,
+    "candidate_ms": 22.5753,
+    "saving_ms": -4.301499999999997,
+    "candidate_tok_s": 44.29619982901667,
+    "vram_mib": 7058
+  },
+  "gates": {
+    "base_repeat": true,
+    "cand_repeat": true,
+    "exact_token_parity": true,
+    "finite": true,
+    "base_drift_le1": true,
+    "cand_drift_le1": true,
+    "samples": true,
+    "vram": true
+  },
+  "completed_utc": "2026-08-18T11:32:45.517154+00:00"
+}
+[phase9] capacity-compare plus_379: s100_phase9_capacity_compare.py --profile plus_379
+[phase9] capacity-compare plus_379: exit=0 (0s) status=capacity_below_gate
+{
+  "kind": "s100_phase9_miss_economics",
+  "status": "measured",
+  "instrumentation_complete": true,
+  "expected_layers": [
+    43,
+    38,
+    10,
+    29,
+    22
+  ],
+  "expected_row_count": 15,
+  "observed_row_count": 15,
+  "missing_evidence": [],
+  "rows": [
+    {
+      "layer": 43,
+      "nexperts": 1,
+      "staged_rtx_ms": 0.1588,
+      "direct_host_rtx_ms": 0.1711,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.16675032840722495,
+      "arc_kernel_wall_ms": 0.1303,
+      "bridge_estimate_ms": 0.03645032840722496,
+      "arc_correct": true
+    },
+    {
+      "layer": 43,
+      "nexperts": 2,
+      "staged_rtx_ms": 0.30505000000000004,
+      "direct_host_rtx_ms": 0.40195000000000003,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.21677651888341543,
+      "arc_kernel_wall_ms": 0.1467,
+      "bridge_estimate_ms": 0.07007651888341543,
+      "arc_correct": true
+    },
+    {
+      "layer": 43,
+      "nexperts": 3,
+      "staged_rtx_ms": 0.4044,
+      "direct_host_rtx_ms": 0.5438,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.3384527093596059,
+      "arc_kernel_wall_ms": 0.23475000000000001,
+      "bridge_estimate_ms": 0.1037027093596059,
+      "arc_correct": true
+    },
+    {
+      "layer": 38,
+      "nexperts": 1,
+      "staged_rtx_ms": 0.15245,
+      "direct_host_rtx_ms": 0.2088,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.16595032840722496,
+      "arc_kernel_wall_ms": 0.1295,
+      "bridge_estimate_ms": 0.03645032840722496,
+      "arc_correct": true
+    },
+    {
+      "layer": 38,
+      "nexperts": 2,
+      "staged_rtx_ms": 0.2754,
+      "direct_host_rtx_ms": 0.3818,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.21677651888341543,
+      "arc_kernel_wall_ms": 0.1467,
+      "bridge_estimate_ms": 0.07007651888341543,
+      "arc_correct": true
+    },
+    {
+      "layer": 38,
+      "nexperts": 3,
+      "staged_rtx_ms": 0.4023,
+      "direct_host_rtx_ms": 0.52625,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.33320270935960594,
+      "arc_kernel_wall_ms": 0.2295,
+      "bridge_estimate_ms": 0.1037027093596059,
+      "arc_correct": true
+    },
+    {
+      "layer": 10,
+      "nexperts": 1,
+      "staged_rtx_ms": 0.1565,
+      "direct_host_rtx_ms": 0.21075,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.16615032840722496,
+      "arc_kernel_wall_ms": 0.1297,
+      "bridge_estimate_ms": 0.03645032840722496,
+      "arc_correct": true
+    },
+    {
+      "layer": 10,
+      "nexperts": 2,
+      "staged_rtx_ms": 0.2757,
+      "direct_host_rtx_ms": 0.4053,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.21662651888341544,
+      "arc_kernel_wall_ms": 0.14655,
+      "bridge_estimate_ms": 0.07007651888341543,
+      "arc_correct": true
+    },
+    {
+      "layer": 10,
+      "nexperts": 3,
+      "staged_rtx_ms": 0.4022,
+      "direct_host_rtx_ms": 0.55045,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.3339527093596059,
+      "arc_kernel_wall_ms": 0.23025,
+      "bridge_estimate_ms": 0.1037027093596059,
+      "arc_correct": true
+    },
+    {
+      "layer": 29,
+      "nexperts": 1,
+      "staged_rtx_ms": 0.1524,
+      "direct_host_rtx_ms": 0.24555,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.16600032840722495,
+      "arc_kernel_wall_ms": 0.12955,
+      "bridge_estimate_ms": 0.03645032840722496,
+      "arc_correct": true
+    },
+    {
+      "layer": 29,
+      "nexperts": 2,
+      "staged_rtx_ms": 0.2773,
+      "direct_host_rtx_ms": 0.4099,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.21667651888341544,
+      "arc_kernel_wall_ms": 0.1466,
+      "bridge_estimate_ms": 0.07007651888341543,
+      "arc_correct": true
+    },
+    {
+      "layer": 29,
+      "nexperts": 3,
+      "staged_rtx_ms": 0.403,
+      "direct_host_rtx_ms": 0.57915,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.3333527093596059,
+      "arc_kernel_wall_ms": 0.22965,
+      "bridge_estimate_ms": 0.1037027093596059,
+      "arc_correct": true
+    },
+    {
+      "layer": 22,
+      "nexperts": 1,
+      "staged_rtx_ms": 0.1515,
+      "direct_host_rtx_ms": 0.19025,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.16620032840722496,
+      "arc_kernel_wall_ms": 0.12975,
+      "bridge_estimate_ms": 0.03645032840722496,
+      "arc_correct": true
+    },
+    {
+      "layer": 22,
+      "nexperts": 2,
+      "staged_rtx_ms": 0.2774,
+      "direct_host_rtx_ms": 0.3348,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.21702651888341543,
+      "arc_kernel_wall_ms": 0.14695,
+      "bridge_estimate_ms": 0.07007651888341543,
+      "arc_correct": true
+    },
+    {
+      "layer": 22,
+      "nexperts": 3,
+      "staged_rtx_ms": 0.41100000000000003,
+      "direct_host_rtx_ms": 0.48614999999999997,
+      "direct_bitexact": true,
+      "arc_wall_plus_bridge_ms": 0.3357527093596059,
+      "arc_kernel_wall_ms": 0.23205,
+      "bridge_estimate_ms": 0.1037027093596059,
+      "arc_correct": true
+    }
+  ],
+  "median_by_n": {
+    "1": {
+      "staged_rtx_ms": 0.15245,
+      "direct_host_rtx_ms": 0.2088,
+      "arc_wall_plus_bridge_ms": 0.16615032840722496,
+      "direct_gain_fraction": -0.3696293866841588,
+      "arc_gain_fraction": -0.08986768387815651
+    },
+    "2": {
+      "staged_rtx_ms": 0.2773,
+      "direct_host_rtx_ms": 0.40195000000000003,
+      "arc_wall_plus_bridge_ms": 0.21677651888341543,
+      "direct_gain_fraction": -0.4495131626397405,
+      "arc_gain_fraction": 0.2182599391149822
+    },
+    "3": {
+      "staged_rtx_ms": 0.403,
+      "direct_host_rtx_ms": 0.5438,
+      "arc_wall_plus_bridge_ms": 0.3339527093596059,
+      "direct_gain_fraction": -0.34937965260545883,
+      "arc_gain_fraction": 0.17133322739551887
+    }
+  },
+  "DIRECTHOST_PROMOTE": false,
+  "ARC_MISS_PROMOTE": false
+}
+[phase9] miss-economics: s100_phase9_miss_economics.py --dir C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9
+[phase9] miss-economics: exit=0 (0s) status=measured
+S100 PHASE 9 REPAIRED SUMMARY
+Instrumentation complete: True
+Best exact capacity promote: None
+DIRECTHOST_PROMOTE: False
+ARC_MISS_PROMOTE: False
+PREFETCH_RESEARCH: False
+Belady current-map miss fraction: 0.051046339429491605
+Current test miss fraction: 0.10292299286864504
+S100 SINGLE ACHIEVED: False
+
+[phase9] summary: s100_phase9_summary.py
+[phase9] summary: exit=0 (0s) status=None
+{
+  "kind": "verify_s100_phase9_repair",
+  "status": "PASS",
+  "failures": [],
+  "counted_tokens": 8192,
+  "layer_count": 23,
+  "current_test_miss_fraction": 0.10292299286864504,
+  "belady_test_miss_fraction": 0.051046339429491605
+}
+[phase9] repair-verify: verify_s100_phase9_repair.py --dir C:\Users\de_do\Documents\ChatGPT\ervf-s100-reboot-20260817-055918\pro_research\results\s100_phase9
+[phase9] repair-verify: exit=0 (0s) status=PASS

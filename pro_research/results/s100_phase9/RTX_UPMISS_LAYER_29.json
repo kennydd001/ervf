@@ -1,11 +1,95 @@
 {
   "kind": "s100_phase9_rtx_upmiss",
-  "status": "technical_failure",
-  "rows": [],
+  "status": "measured",
+  "rows": [
+    {
+      "nexperts": 1,
+      "fetch_only": {
+        "median_ms": 0.13215,
+        "p95_ms": 0.1474,
+        "min_ms": 0.1257,
+        "max_ms": 0.1511
+      },
+      "warm_up_only": {
+        "median_ms": 0.0317,
+        "p95_ms": 0.0327,
+        "min_ms": 0.0305,
+        "max_ms": 0.0552
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.1524,
+        "p95_ms": 0.1611,
+        "min_ms": 0.1487,
+        "max_ms": 0.209
+      },
+      "direct_host_up": {
+        "median_ms": 0.24555,
+        "p95_ms": 0.27948999999999996,
+        "min_ms": 0.2333,
+        "max_ms": 0.3648
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    },
+    {
+      "nexperts": 2,
+      "fetch_only": {
+        "median_ms": 0.2415,
+        "p95_ms": 0.251905,
+        "min_ms": 0.2394,
+        "max_ms": 0.2826
+      },
+      "warm_up_only": {
+        "median_ms": 0.0419,
+        "p95_ms": 0.0429,
+        "min_ms": 0.0411,
+        "max_ms": 0.044
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.2773,
+        "p95_ms": 0.3109949999999999,
+        "min_ms": 0.2733,
+        "max_ms": 0.3707
+      },
+      "direct_host_up": {
+        "median_ms": 0.4099,
+        "p95_ms": 0.43953,
+        "min_ms": 0.3957,
+        "max_ms": 0.5612
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    },
+    {
+      "nexperts": 3,
+      "fetch_only": {
+        "median_ms": 0.35615,
+        "p95_ms": 0.36916499999999997,
+        "min_ms": 0.3541,
+        "max_ms": 0.5132
+      },
+      "warm_up_only": {
+        "median_ms": 0.0542,
+        "p95_ms": 0.06403999999999997,
+        "min_ms": 0.0525,
+        "max_ms": 0.1312
+      },
+      "staged_fetch_plus_up": {
+        "median_ms": 0.403,
+        "p95_ms": 0.42417499999999997,
+        "min_ms": 0.3981,
+        "max_ms": 0.5059
+      },
+      "direct_host_up": {
+        "median_ms": 0.57915,
+        "p95_ms": 0.630315,
+        "min_ms": 0.5621,
+        "max_ms": 0.7511
+      },
+      "direct_bitexact": true,
+      "direct_max_abs": 0.0
+    }
+  ],
   "direct_pointer_contract": "CUDA-pinned UVA host pointer, same contract already consumed by cache_fetch",
-  "error": {
-    "type": "ValueError",
-    "message": "cannot reshape array of size 16777216 into shape (6,2494464)",
-    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_phase9_upmiss_rtx.py\", line 64, in main\n    ).reshape(expert_count, UP_CODE)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: cannot reshape array of size 16777216 into shape (6,2494464)\n"
-  }
+  "all_direct_bitexact": true
 }

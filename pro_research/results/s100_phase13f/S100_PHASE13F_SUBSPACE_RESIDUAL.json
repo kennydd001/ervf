@@ -1,0 +1,1890 @@
+{
+  "kind": "s100_phase13f_subspace_residual_ervf",
+  "status": "measured",
+  "created_utc": "2026-08-18T21:29:25.114513+00:00",
+  "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning",
+  "claim_boundary": "causal activation/output component screen; no modified generation path or official quality claim",
+  "method": {
+    "basis": "origin SVD U on calibration activations",
+    "candidate": "(W U)(U^T x)",
+    "fallback": "exact W x for residual-gated validation tokens",
+    "tested_families": [
+      "BF16 Mamba in/out"
+    ],
+    "missing": [
+      "persistent GPU gate",
+      "Mamba state refresh",
+      "heldout generation quality",
+      "FP8/NVFP4 layers"
+    ]
+  },
+  "splits": {
+    "calibration": [
+      "fact_en_01",
+      "fact_nl_01",
+      "reason_01",
+      "math_01",
+      "code_01",
+      "tech_01",
+      "creative_en_01",
+      "creative_nl_01",
+      "summary_01",
+      "instr_01"
+    ],
+    "validation": [
+      "fact_en_02",
+      "fact_nl_02",
+      "reason_02",
+      "math_02",
+      "code_02",
+      "tech_02",
+      "creative_en_02",
+      "creative_nl_02",
+      "summary_02",
+      "instr_02"
+    ]
+  },
+  "records": [
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 4,
+      "rank": 128,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.2912730574607849,
+      "validation_residual_energy_p95": 0.5714670419692993,
+      "output_nrmse_mean_no_fallback": 0.40673503279685974,
+      "output_nrmse_p95_no_fallback": 0.5578832626342773,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.2799109220504761,
+          "validation_fast_fraction": 0.5171875,
+          "fast_output_nrmse_mean": 0.324091374874115,
+          "fast_output_nrmse_p95": 0.40901798009872437,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.16761600971221924
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.19848953187465668,
+          "validation_fast_fraction": 0.346875,
+          "fast_output_nrmse_mean": 0.2967236638069153,
+          "fast_output_nrmse_p95": 0.3657929301261902,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.10292601585388184
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.1658337563276291,
+          "validation_fast_fraction": 0.2546875,
+          "fast_output_nrmse_mean": 0.2810032367706299,
+          "fast_output_nrmse_p95": 0.3370620012283325,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.07156801223754883
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.11907127499580383,
+          "validation_fast_fraction": 0.0984375,
+          "fast_output_nrmse_mean": 0.2339356690645218,
+          "fast_output_nrmse_p95": 0.2970882058143616,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.023028042167425156
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.047619047619047616
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 4,
+      "rank": 256,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.24103212356567383,
+      "validation_residual_energy_p95": 0.5122025012969971,
+      "output_nrmse_mean_no_fallback": 0.35761767625808716,
+      "output_nrmse_p95_no_fallback": 0.5200949311256409,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.08769407123327255,
+          "validation_fast_fraction": 0.1875,
+          "fast_output_nrmse_mean": 0.1903877556324005,
+          "fast_output_nrmse_p95": 0.24083004891872406,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.035697706043720245
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.06859233230352402,
+          "validation_fast_fraction": 0.1,
+          "fast_output_nrmse_mean": 0.16665518283843994,
+          "fast_output_nrmse_p95": 0.20562216639518738,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.016665518283843994
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.06062634661793709,
+          "validation_fast_fraction": 0.0640625,
+          "fast_output_nrmse_mean": 0.1510733813047409,
+          "fast_output_nrmse_p95": 0.20037758350372314,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.009678138419985771
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.04775846004486084,
+          "validation_fast_fraction": 0.0328125,
+          "fast_output_nrmse_mean": 0.12098199129104614,
+          "fast_output_nrmse_p95": 0.16556011140346527,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.003969721030443907
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.09523809523809523
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 4,
+      "rank": 512,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.19269819557666779,
+      "validation_residual_energy_p95": 0.43425190448760986,
+      "output_nrmse_mean_no_fallback": 0.30261343717575073,
+      "output_nrmse_p95_no_fallback": 0.47009772062301636,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.010734614916145802,
+          "validation_fast_fraction": 0.078125,
+          "fast_output_nrmse_mean": 0.06311475485563278,
+          "fast_output_nrmse_p95": 0.08020554482936859,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.004930840339511633
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.005850442685186863,
+          "validation_fast_fraction": 0.0265625,
+          "fast_output_nrmse_mean": 0.04939210042357445,
+          "fast_output_nrmse_p95": 0.05864795297384262,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0013119776267558336
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.002160110045224428,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.00042377790668979287,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.19047619047619047
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 11,
+      "rank": 128,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.3426741063594818,
+      "validation_residual_energy_p95": 0.5491703748703003,
+      "output_nrmse_mean_no_fallback": 0.38066616654396057,
+      "output_nrmse_p95_no_fallback": 0.49943605065345764,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.23415622115135193,
+          "validation_fast_fraction": 0.290625,
+          "fast_output_nrmse_mean": 0.2711062729358673,
+          "fast_output_nrmse_p95": 0.3264574110507965,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.07879026234149933
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.17788389325141907,
+          "validation_fast_fraction": 0.146875,
+          "fast_output_nrmse_mean": 0.24345605075359344,
+          "fast_output_nrmse_p95": 0.28452068567276,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.03575760871171951
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.15405315160751343,
+          "validation_fast_fraction": 0.0890625,
+          "fast_output_nrmse_mean": 0.22715649008750916,
+          "fast_output_nrmse_p95": 0.2723664343357086,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.020231124013662338
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.12746289372444153,
+          "validation_fast_fraction": 0.0390625,
+          "fast_output_nrmse_mean": 0.1936092972755432,
+          "fast_output_nrmse_p95": 0.261862576007843,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.007562863640487194
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.047619047619047616
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 11,
+      "rank": 256,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.28481394052505493,
+      "validation_residual_energy_p95": 0.484258770942688,
+      "output_nrmse_mean_no_fallback": 0.33888277411460876,
+      "output_nrmse_p95_no_fallback": 0.4642075002193451,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.08163034915924072,
+          "validation_fast_fraction": 0.1046875,
+          "fast_output_nrmse_mean": 0.1644376814365387,
+          "fast_output_nrmse_p95": 0.19221767783164978,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.017214570194482803
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.06623867154121399,
+          "validation_fast_fraction": 0.05625,
+          "fast_output_nrmse_mean": 0.15134643018245697,
+          "fast_output_nrmse_p95": 0.17758196592330933,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.008513236418366432
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.05995996668934822,
+          "validation_fast_fraction": 0.0421875,
+          "fast_output_nrmse_mean": 0.14662563800811768,
+          "fast_output_nrmse_p95": 0.17476949095726013,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.006185768637806177
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.05238442122936249,
+          "validation_fast_fraction": 0.025,
+          "fast_output_nrmse_mean": 0.1395752727985382,
+          "fast_output_nrmse_p95": 0.1678207814693451,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0034893820993602276
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.09523809523809523
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 11,
+      "rank": 512,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.23021240532398224,
+      "validation_residual_energy_p95": 0.40630903840065,
+      "output_nrmse_mean_no_fallback": 0.2941752076148987,
+      "output_nrmse_p95_no_fallback": 0.4166441261768341,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.016246061772108078,
+          "validation_fast_fraction": 0.015625,
+          "fast_output_nrmse_mean": 0.07749655097723007,
+          "fast_output_nrmse_p95": 0.08612685650587082,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.001210883492603898
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.00844036415219307,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.004160923883318901,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.0017698665615171194,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.19047619047619047
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 18,
+      "rank": 128,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.3932637572288513,
+      "validation_residual_energy_p95": 0.592174768447876,
+      "output_nrmse_mean_no_fallback": 0.43102216720581055,
+      "output_nrmse_p95_no_fallback": 0.5420179963111877,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.2520952820777893,
+          "validation_fast_fraction": 0.23125,
+          "fast_output_nrmse_mean": 0.2998718321323395,
+          "fast_output_nrmse_p95": 0.35848668217658997,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0693453699350357
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.1901385337114334,
+          "validation_fast_fraction": 0.1046875,
+          "fast_output_nrmse_mean": 0.2577272951602936,
+          "fast_output_nrmse_p95": 0.3129739761352539,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.026980822905898094
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.16999471187591553,
+          "validation_fast_fraction": 0.0734375,
+          "fast_output_nrmse_mean": 0.24118299782276154,
+          "fast_output_nrmse_p95": 0.29209306836128235,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.017711877822875977
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.1467038244009018,
+          "validation_fast_fraction": 0.05,
+          "fast_output_nrmse_mean": 0.22194194793701172,
+          "fast_output_nrmse_p95": 0.27309805154800415,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.011097097769379616
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.047619047619047616
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 18,
+      "rank": 256,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.33764827251434326,
+      "validation_residual_energy_p95": 0.5325793027877808,
+      "output_nrmse_mean_no_fallback": 0.3895138204097748,
+      "output_nrmse_p95_no_fallback": 0.503287136554718,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.10493309050798416,
+          "validation_fast_fraction": 0.103125,
+          "fast_output_nrmse_mean": 0.19160328805446625,
+          "fast_output_nrmse_p95": 0.22098617255687714,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.01975908875465393
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.07848188281059265,
+          "validation_fast_fraction": 0.05,
+          "fast_output_nrmse_mean": 0.17739111185073853,
+          "fast_output_nrmse_p95": 0.20716281235218048,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.008869555778801441
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.07107742130756378,
+          "validation_fast_fraction": 0.028125,
+          "fast_output_nrmse_mean": 0.16393835842609406,
+          "fast_output_nrmse_p95": 0.20051896572113037,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.004610766656696796
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.06249728798866272,
+          "validation_fast_fraction": 0.021875,
+          "fast_output_nrmse_mean": 0.1591094434261322,
+          "fast_output_nrmse_p95": 0.20069050788879395,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0034805189352482557
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.09523809523809523
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 18,
+      "rank": 512,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.2788889408111572,
+      "validation_residual_energy_p95": 0.45657017827033997,
+      "output_nrmse_mean_no_fallback": 0.34351593255996704,
+      "output_nrmse_p95_no_fallback": 0.457830548286438,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.02174791321158409,
+          "validation_fast_fraction": 0.0046875,
+          "fast_output_nrmse_mean": 0.137053981423378,
+          "fast_output_nrmse_p95": 0.14415454864501953,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.00064244051463902
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.011918732896447182,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.005872230976819992,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.0029917783103883266,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.19047619047619047
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 25,
+      "rank": 128,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.36116522550582886,
+      "validation_residual_energy_p95": 0.5395811796188354,
+      "output_nrmse_mean_no_fallback": 0.4150110185146332,
+      "output_nrmse_p95_no_fallback": 0.5225258469581604,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.24957869946956635,
+          "validation_fast_fraction": 0.2546875,
+          "fast_output_nrmse_mean": 0.2969176471233368,
+          "fast_output_nrmse_p95": 0.36989888548851013,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.07562121003866196
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.16500571370124817,
+          "validation_fast_fraction": 0.10625,
+          "fast_output_nrmse_mean": 0.24761463701725006,
+          "fast_output_nrmse_p95": 0.28679028153419495,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0263090617954731
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.14479254186153412,
+          "validation_fast_fraction": 0.0671875,
+          "fast_output_nrmse_mean": 0.23152092099189758,
+          "fast_output_nrmse_p95": 0.27682530879974365,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.015555310063064098
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.1258634626865387,
+          "validation_fast_fraction": 0.0375,
+          "fast_output_nrmse_mean": 0.20759344100952148,
+          "fast_output_nrmse_p95": 0.24738207459449768,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.007784754037857056
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.047619047619047616
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 25,
+      "rank": 256,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.3090108335018158,
+      "validation_residual_energy_p95": 0.4794369637966156,
+      "output_nrmse_mean_no_fallback": 0.3756963610649109,
+      "output_nrmse_p95_no_fallback": 0.4865722060203552,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.09742967039346695,
+          "validation_fast_fraction": 0.1203125,
+          "fast_output_nrmse_mean": 0.18860222399234772,
+          "fast_output_nrmse_p95": 0.22054888308048248,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.02269120141863823
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.06721337139606476,
+          "validation_fast_fraction": 0.034375,
+          "fast_output_nrmse_mean": 0.1644260138273239,
+          "fast_output_nrmse_p95": 0.18643085658550262,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.005652144085615873
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.060438573360443115,
+          "validation_fast_fraction": 0.01875,
+          "fast_output_nrmse_mean": 0.15439903736114502,
+          "fast_output_nrmse_p95": 0.17994263768196106,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.002894981997087598
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.05298035591840744,
+          "validation_fast_fraction": 0.0171875,
+          "fast_output_nrmse_mean": 0.153645321726799,
+          "fast_output_nrmse_p95": 0.18054834008216858,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.002640778897330165
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.09523809523809523
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 25,
+      "rank": 512,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.2552950978279114,
+      "validation_residual_energy_p95": 0.4086623191833496,
+      "output_nrmse_mean_no_fallback": 0.33305859565734863,
+      "output_nrmse_p95_no_fallback": 0.44257453083992004,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.02088618464767933,
+          "validation_fast_fraction": 0.015625,
+          "fast_output_nrmse_mean": 0.11090375483036041,
+          "fast_output_nrmse_p95": 0.13464486598968506,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0017328711692243814
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.009962279349565506,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.005375979468226433,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.002817399799823761,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.19047619047619047
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 32,
+      "rank": 128,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.3292469382286072,
+      "validation_residual_energy_p95": 0.4964004456996918,
+      "output_nrmse_mean_no_fallback": 0.43914684653282166,
+      "output_nrmse_p95_no_fallback": 0.5511062145233154,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.22186484932899475,
+          "validation_fast_fraction": 0.225,
+          "fast_output_nrmse_mean": 0.3062259554862976,
+          "fast_output_nrmse_p95": 0.37508538365364075,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.06890084594488144
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.15432888269424438,
+          "validation_fast_fraction": 0.1109375,
+          "fast_output_nrmse_mean": 0.2666025161743164,
+          "fast_output_nrmse_p95": 0.31367480754852295,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.029576212167739868
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.13701772689819336,
+          "validation_fast_fraction": 0.0765625,
+          "fast_output_nrmse_mean": 0.2522090673446655,
+          "fast_output_nrmse_p95": 0.30085134506225586,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.01930975541472435
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.11789736151695251,
+          "validation_fast_fraction": 0.0390625,
+          "fast_output_nrmse_mean": 0.22228597104549408,
+          "fast_output_nrmse_p95": 0.2780279815196991,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.008683046326041222
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.047619047619047616
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 32,
+      "rank": 256,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.27803364396095276,
+      "validation_residual_energy_p95": 0.438747763633728,
+      "output_nrmse_mean_no_fallback": 0.3978908658027649,
+      "output_nrmse_p95_no_fallback": 0.5217335224151611,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.09078443795442581,
+          "validation_fast_fraction": 0.1359375,
+          "fast_output_nrmse_mean": 0.19979976117610931,
+          "fast_output_nrmse_p95": 0.2428697645664215,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0271602775901556
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.06126673147082329,
+          "validation_fast_fraction": 0.05,
+          "fast_output_nrmse_mean": 0.17894014716148376,
+          "fast_output_nrmse_p95": 0.23595695197582245,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.008947006426751614
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.05441714823246002,
+          "validation_fast_fraction": 0.03125,
+          "fast_output_nrmse_mean": 0.16690868139266968,
+          "fast_output_nrmse_p95": 0.1905510127544403,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.005215896759182215
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.04858071357011795,
+          "validation_fast_fraction": 0.0234375,
+          "fast_output_nrmse_mean": 0.16220863163471222,
+          "fast_output_nrmse_p95": 0.2006126344203949,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.003801764454692602
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.09523809523809523
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 32,
+      "rank": 512,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.22714249789714813,
+      "validation_residual_energy_p95": 0.37549924850463867,
+      "output_nrmse_mean_no_fallback": 0.35120558738708496,
+      "output_nrmse_p95_no_fallback": 0.47686439752578735,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.01928284764289856,
+          "validation_fast_fraction": 0.0546875,
+          "fast_output_nrmse_mean": 0.09807983785867691,
+          "fast_output_nrmse_p95": 0.10935055464506149,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.005363740958273411
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.008206852711737156,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.004574897699058056,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.0022275876253843307,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.19047619047619047
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 41,
+      "rank": 128,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.21419639885425568,
+      "validation_residual_energy_p95": 0.33356839418411255,
+      "output_nrmse_mean_no_fallback": 0.4356269836425781,
+      "output_nrmse_p95_no_fallback": 0.5395609140396118,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.1578987091779709,
+          "validation_fast_fraction": 0.25625,
+          "fast_output_nrmse_mean": 0.31914982199668884,
+          "fast_output_nrmse_p95": 0.4014062285423279,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.08178213983774185
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.09886323660612106,
+          "validation_fast_fraction": 0.084375,
+          "fast_output_nrmse_mean": 0.25880545377731323,
+          "fast_output_nrmse_p95": 0.33056867122650146,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.02183670923113823
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.08759051561355591,
+          "validation_fast_fraction": 0.0453125,
+          "fast_output_nrmse_mean": 0.21211296319961548,
+          "fast_output_nrmse_p95": 0.30129358172416687,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.009611370041966438
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.07335804402828217,
+          "validation_fast_fraction": 0.0328125,
+          "fast_output_nrmse_mean": 0.18263700604438782,
+          "fast_output_nrmse_p95": 0.3010740280151367,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.005992777179926634
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.047619047619047616
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 41,
+      "rank": 256,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.18010804057121277,
+      "validation_residual_energy_p95": 0.29852578043937683,
+      "output_nrmse_mean_no_fallback": 0.38951578736305237,
+      "output_nrmse_p95_no_fallback": 0.5029634833335876,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.0569654181599617,
+          "validation_fast_fraction": 0.15625,
+          "fast_output_nrmse_mean": 0.19131319224834442,
+          "fast_output_nrmse_p95": 0.23330435156822205,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.029892688617110252
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.038134291768074036,
+          "validation_fast_fraction": 0.0640625,
+          "fast_output_nrmse_mean": 0.1623673439025879,
+          "fast_output_nrmse_p95": 0.20173363387584686,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.010401656851172447
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.03386477380990982,
+          "validation_fast_fraction": 0.04375,
+          "fast_output_nrmse_mean": 0.14689207077026367,
+          "fast_output_nrmse_p95": 0.19250918924808502,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.006426528096199036
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.02996264211833477,
+          "validation_fast_fraction": 0.025,
+          "fast_output_nrmse_mean": 0.12271657586097717,
+          "fast_output_nrmse_p95": 0.17389574646949768,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0030679143965244293
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.09523809523809523
+    },
+    {
+      "status": "measured",
+      "family": "mamba_in",
+      "layer": 41,
+      "rank": 512,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.14718882739543915,
+      "validation_residual_energy_p95": 0.25354358553886414,
+      "output_nrmse_mean_no_fallback": 0.341854989528656,
+      "output_nrmse_p95_no_fallback": 0.4679346978664398,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.012492084875702858,
+          "validation_fast_fraction": 0.08125,
+          "fast_output_nrmse_mean": 0.09427405148744583,
+          "fast_output_nrmse_p95": 0.11211330443620682,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.007659767754375935
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.004710131324827671,
+          "validation_fast_fraction": 0.0046875,
+          "fast_output_nrmse_mean": 0.07154513150453568,
+          "fast_output_nrmse_p95": 0.07217766344547272,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.000335367803927511
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.0025322644505649805,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.0009250354487448931,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        }
+      ],
+      "weight_shape": [
+        10304,
+        2688
+      ],
+      "projected_weight_read_fraction": 0.19047619047619047
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 4,
+      "rank": 128,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.47627338767051697,
+      "validation_residual_energy_p95": 0.6574101448059082,
+      "output_nrmse_mean_no_fallback": 0.645095944404602,
+      "output_nrmse_p95_no_fallback": 0.8327394723892212,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.42199766635894775,
+          "validation_fast_fraction": 0.325,
+          "fast_output_nrmse_mean": 0.5145182013511658,
+          "fast_output_nrmse_p95": 0.6289621591567993,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.167218416929245
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.31453150510787964,
+          "validation_fast_fraction": 0.16875,
+          "fast_output_nrmse_mean": 0.4628583490848541,
+          "fast_output_nrmse_p95": 0.5577253103256226,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0781073346734047
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.27965623140335083,
+          "validation_fast_fraction": 0.09375,
+          "fast_output_nrmse_mean": 0.41514235734939575,
+          "fast_output_nrmse_p95": 0.5051590800285339,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.038919590413570404
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.22522863745689392,
+          "validation_fast_fraction": 0.040625,
+          "fast_output_nrmse_mean": 0.3376178741455078,
+          "fast_output_nrmse_p95": 0.4562445282936096,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.013715727254748344
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.03125
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 4,
+      "rank": 256,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.40580862760543823,
+      "validation_residual_energy_p95": 0.5967116355895996,
+      "output_nrmse_mean_no_fallback": 0.5832549929618835,
+      "output_nrmse_p95_no_fallback": 0.7860289812088013,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.2701534628868103,
+          "validation_fast_fraction": 0.2140625,
+          "fast_output_nrmse_mean": 0.36245647072792053,
+          "fast_output_nrmse_p95": 0.48782679438591003,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.07758834213018417
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.17496244609355927,
+          "validation_fast_fraction": 0.1421875,
+          "fast_output_nrmse_mean": 0.32405638694763184,
+          "fast_output_nrmse_p95": 0.4036462604999542,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.04607676714658737
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.1392849236726761,
+          "validation_fast_fraction": 0.0921875,
+          "fast_output_nrmse_mean": 0.29349687695503235,
+          "fast_output_nrmse_p95": 0.3547751009464264,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.027056748047471046
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.08958463370800018,
+          "validation_fast_fraction": 0.025,
+          "fast_output_nrmse_mean": 0.21473214030265808,
+          "fast_output_nrmse_p95": 0.27818596363067627,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.005368303041905165
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.0625
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 4,
+      "rank": 512,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.3372493088245392,
+      "validation_residual_energy_p95": 0.529653012752533,
+      "output_nrmse_mean_no_fallback": 0.5154353380203247,
+      "output_nrmse_p95_no_fallback": 0.7305461764335632,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.09192991256713867,
+          "validation_fast_fraction": 0.153125,
+          "fast_output_nrmse_mean": 0.1958785355091095,
+          "fast_output_nrmse_p95": 0.26185983419418335,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.029993897303938866
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.022718526422977448,
+          "validation_fast_fraction": 0.0078125,
+          "fast_output_nrmse_mean": 0.07673614472150803,
+          "fast_output_nrmse_p95": 0.12727320194244385,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0005995010724291205
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.007127393502742052,
+          "validation_fast_fraction": 0.003125,
+          "fast_output_nrmse_mean": 0.009609870612621307,
+          "fast_output_nrmse_p95": 0.010122978128492832,
+          "mixed_output_nrmse_mean_with_exact_fallback": 3.0030845664441586e-05
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.001437048427760601,
+          "validation_fast_fraction": 0.003125,
+          "fast_output_nrmse_mean": 0.009609870612621307,
+          "fast_output_nrmse_p95": 0.010122978128492832,
+          "mixed_output_nrmse_mean_with_exact_fallback": 3.0030845664441586e-05
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.125
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 11,
+      "rank": 128,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.5676177144050598,
+      "validation_residual_energy_p95": 0.7318935394287109,
+      "output_nrmse_mean_no_fallback": 0.6661922335624695,
+      "output_nrmse_p95_no_fallback": 0.808718204498291,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.4967272877693176,
+          "validation_fast_fraction": 0.2328125,
+          "fast_output_nrmse_mean": 0.5184785723686218,
+          "fast_output_nrmse_p95": 0.6449018120765686,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.12070830166339874
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.3848421275615692,
+          "validation_fast_fraction": 0.146875,
+          "fast_output_nrmse_mean": 0.4662172794342041,
+          "fast_output_nrmse_p95": 0.558185338973999,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.06847567111253738
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.33032095432281494,
+          "validation_fast_fraction": 0.1109375,
+          "fast_output_nrmse_mean": 0.44202491641044617,
+          "fast_output_nrmse_p95": 0.5225815773010254,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.049037132412195206
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.26928824186325073,
+          "validation_fast_fraction": 0.0640625,
+          "fast_output_nrmse_mean": 0.4031924307346344,
+          "fast_output_nrmse_p95": 0.4868517220020294,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.025829514488577843
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.03125
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 11,
+      "rank": 256,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.49081477522850037,
+      "validation_residual_energy_p95": 0.6688241958618164,
+      "output_nrmse_mean_no_fallback": 0.6093921661376953,
+      "output_nrmse_p95_no_fallback": 0.7679504156112671,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.38146427273750305,
+          "validation_fast_fraction": 0.2046875,
+          "fast_output_nrmse_mean": 0.3964047133922577,
+          "fast_output_nrmse_p95": 0.5598564743995667,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.08113910257816315
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.21561530232429504,
+          "validation_fast_fraction": 0.1265625,
+          "fast_output_nrmse_mean": 0.33679407835006714,
+          "fast_output_nrmse_p95": 0.4167841374874115,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.04262550547719002
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.16597676277160645,
+          "validation_fast_fraction": 0.0875,
+          "fast_output_nrmse_mean": 0.31253454089164734,
+          "fast_output_nrmse_p95": 0.36251747608184814,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.027346771210432053
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.11700515449047089,
+          "validation_fast_fraction": 0.0375,
+          "fast_output_nrmse_mean": 0.271811842918396,
+          "fast_output_nrmse_p95": 0.3169041574001312,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.010192942805588245
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.0625
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 11,
+      "rank": 512,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.4103662967681885,
+      "validation_residual_energy_p95": 0.5870698690414429,
+      "output_nrmse_mean_no_fallback": 0.5469685792922974,
+      "output_nrmse_p95_no_fallback": 0.709018349647522,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.11216045171022415,
+          "validation_fast_fraction": 0.128125,
+          "fast_output_nrmse_mean": 0.24249137938022614,
+          "fast_output_nrmse_p95": 0.29080915451049805,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.031069207936525345
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.03165583685040474,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.015722990036010742,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.005371313076466322,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.125
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 18,
+      "rank": 128,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.39618968963623047,
+      "validation_residual_energy_p95": 0.5606372356414795,
+      "output_nrmse_mean_no_fallback": 0.6059973835945129,
+      "output_nrmse_p95_no_fallback": 0.7588666081428528,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.30859363079071045,
+          "validation_fast_fraction": 0.215625,
+          "fast_output_nrmse_mean": 0.45729202032089233,
+          "fast_output_nrmse_p95": 0.5440742373466492,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.09860359132289886
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.23405106365680695,
+          "validation_fast_fraction": 0.103125,
+          "fast_output_nrmse_mean": 0.4080957770347595,
+          "fast_output_nrmse_p95": 0.4884861409664154,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.04208488017320633
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.20005083084106445,
+          "validation_fast_fraction": 0.0546875,
+          "fast_output_nrmse_mean": 0.36953169107437134,
+          "fast_output_nrmse_p95": 0.47898271679878235,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.02020876482129097
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.16665694117546082,
+          "validation_fast_fraction": 0.0375,
+          "fast_output_nrmse_mean": 0.3411480486392975,
+          "fast_output_nrmse_p95": 0.4748837351799011,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.01279305201023817
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.03125
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 18,
+      "rank": 256,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.33776548504829407,
+      "validation_residual_energy_p95": 0.49652591347694397,
+      "output_nrmse_mean_no_fallback": 0.5533058643341064,
+      "output_nrmse_p95_no_fallback": 0.7093796730041504,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.18052133917808533,
+          "validation_fast_fraction": 0.1453125,
+          "fast_output_nrmse_mean": 0.34676164388656616,
+          "fast_output_nrmse_p95": 0.42451053857803345,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.05038880556821823
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.11250025779008865,
+          "validation_fast_fraction": 0.0359375,
+          "fast_output_nrmse_mean": 0.2632824778556824,
+          "fast_output_nrmse_p95": 0.3345535397529602,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.009461713023483753
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.09297346323728561,
+          "validation_fast_fraction": 0.0234375,
+          "fast_output_nrmse_mean": 0.23463357985019684,
+          "fast_output_nrmse_p95": 0.2859717607498169,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.005499224178493023
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.06957784295082092,
+          "validation_fast_fraction": 0.0140625,
+          "fast_output_nrmse_mean": 0.20809464156627655,
+          "fast_output_nrmse_p95": 0.26492658257484436,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0029263305477797985
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.0625
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 18,
+      "rank": 512,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.28134286403656006,
+      "validation_residual_energy_p95": 0.4292978346347809,
+      "output_nrmse_mean_no_fallback": 0.500200629234314,
+      "output_nrmse_p95_no_fallback": 0.6572828888893127,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.050741732120513916,
+          "validation_fast_fraction": 0.03125,
+          "fast_output_nrmse_mean": 0.1927051991224289,
+          "fast_output_nrmse_p95": 0.23316092789173126,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.006022037006914616
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.017965298146009445,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.009398659691214561,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.003681555623188615,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.125
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 25,
+      "rank": 128,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.45336049795150757,
+      "validation_residual_energy_p95": 0.6234405040740967,
+      "output_nrmse_mean_no_fallback": 0.6652222871780396,
+      "output_nrmse_p95_no_fallback": 0.8464115262031555,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.3986496031284332,
+          "validation_fast_fraction": 0.271875,
+          "fast_output_nrmse_mean": 0.4920974373817444,
+          "fast_output_nrmse_p95": 0.646128237247467,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.13378898799419403
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.2633831799030304,
+          "validation_fast_fraction": 0.14375,
+          "fast_output_nrmse_mean": 0.43437424302101135,
+          "fast_output_nrmse_p95": 0.5091326832771301,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.06244128942489624
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.22465412318706512,
+          "validation_fast_fraction": 0.09375,
+          "fast_output_nrmse_mean": 0.4092056453227997,
+          "fast_output_nrmse_p95": 0.4747266471385956,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.038363028317689896
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.18686643242835999,
+          "validation_fast_fraction": 0.0515625,
+          "fast_output_nrmse_mean": 0.37906667590141296,
+          "fast_output_nrmse_p95": 0.4422227144241333,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.019545625895261765
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.03125
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 25,
+      "rank": 256,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.39284253120422363,
+      "validation_residual_energy_p95": 0.5705203413963318,
+      "output_nrmse_mean_no_fallback": 0.6167584657669067,
+      "output_nrmse_p95_no_fallback": 0.810175895690918,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.23107358813285828,
+          "validation_fast_fraction": 0.1765625,
+          "fast_output_nrmse_mean": 0.362518846988678,
+          "fast_output_nrmse_p95": 0.46332231163978577,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0640072301030159
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.1327846497297287,
+          "validation_fast_fraction": 0.08125,
+          "fast_output_nrmse_mean": 0.31528085470199585,
+          "fast_output_nrmse_p95": 0.3640950620174408,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.025616565719246864
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.10645011067390442,
+          "validation_fast_fraction": 0.0453125,
+          "fast_output_nrmse_mean": 0.29719072580337524,
+          "fast_output_nrmse_p95": 0.3374863266944885,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.013466455042362213
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.07943926751613617,
+          "validation_fast_fraction": 0.00625,
+          "fast_output_nrmse_mean": 0.28469574451446533,
+          "fast_output_nrmse_p95": 0.32075420022010803,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0017793483566492796
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.0625
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 25,
+      "rank": 512,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.3293117582798004,
+      "validation_residual_energy_p95": 0.5027586221694946,
+      "output_nrmse_mean_no_fallback": 0.5587514638900757,
+      "output_nrmse_p95_no_fallback": 0.7657498121261597,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.05979900062084198,
+          "validation_fast_fraction": 0.078125,
+          "fast_output_nrmse_mean": 0.21864831447601318,
+          "fast_output_nrmse_p95": 0.26004737615585327,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.01708190143108368
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.020077908411622047,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.011369790881872177,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.0047829351387917995,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.125
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 32,
+      "rank": 128,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.39678478240966797,
+      "validation_residual_energy_p95": 0.571243941783905,
+      "output_nrmse_mean_no_fallback": 0.6272956728935242,
+      "output_nrmse_p95_no_fallback": 0.7841517329216003,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.28984344005584717,
+          "validation_fast_fraction": 0.228125,
+          "fast_output_nrmse_mean": 0.45113518834114075,
+          "fast_output_nrmse_p95": 0.6053030490875244,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.1029151901602745
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.21897658705711365,
+          "validation_fast_fraction": 0.10625,
+          "fast_output_nrmse_mean": 0.3913406431674957,
+          "fast_output_nrmse_p95": 0.5336686372756958,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.041579943150281906
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.1850699782371521,
+          "validation_fast_fraction": 0.0515625,
+          "fast_output_nrmse_mean": 0.33980363607406616,
+          "fast_output_nrmse_p95": 0.4995284676551819,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.017521126195788383
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.15094700455665588,
+          "validation_fast_fraction": 0.034375,
+          "fast_output_nrmse_mean": 0.30372628569602966,
+          "fast_output_nrmse_p95": 0.43391484022140503,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.010440590791404247
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.03125
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 32,
+      "rank": 256,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.3415297567844391,
+      "validation_residual_energy_p95": 0.5161944627761841,
+      "output_nrmse_mean_no_fallback": 0.577243447303772,
+      "output_nrmse_p95_no_fallback": 0.7451028823852539,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.1786583662033081,
+          "validation_fast_fraction": 0.171875,
+          "fast_output_nrmse_mean": 0.3373091518878937,
+          "fast_output_nrmse_p95": 0.4385591447353363,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.05797501653432846
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.10945168137550354,
+          "validation_fast_fraction": 0.0703125,
+          "fast_output_nrmse_mean": 0.28181251883506775,
+          "fast_output_nrmse_p95": 0.3678475618362427,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.01981494203209877
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.0825427919626236,
+          "validation_fast_fraction": 0.0265625,
+          "fast_output_nrmse_mean": 0.2571229338645935,
+          "fast_output_nrmse_p95": 0.31810876727104187,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0068298280239105225
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.061840273439884186,
+          "validation_fast_fraction": 0.0265625,
+          "fast_output_nrmse_mean": 0.2571229338645935,
+          "fast_output_nrmse_p95": 0.31810876727104187,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0068298280239105225
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.0625
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 32,
+      "rank": 512,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.2823737859725952,
+      "validation_residual_energy_p95": 0.45192432403564453,
+      "output_nrmse_mean_no_fallback": 0.5146254301071167,
+      "output_nrmse_p95_no_fallback": 0.6964121460914612,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.03240302577614784,
+          "validation_fast_fraction": 0.0609375,
+          "fast_output_nrmse_mean": 0.17867085337638855,
+          "fast_output_nrmse_p95": 0.24367572367191315,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.010887755081057549
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.011651144362986088,
+          "validation_fast_fraction": 0.00625,
+          "fast_output_nrmse_mean": 0.20017269253730774,
+          "fast_output_nrmse_p95": 0.22423098981380463,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.001251079374924302
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.006232901941984892,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.002552929800003767,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.125
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 41,
+      "rank": 128,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.4558027684688568,
+      "validation_residual_energy_p95": 0.6689551472663879,
+      "output_nrmse_mean_no_fallback": 0.6249858736991882,
+      "output_nrmse_p95_no_fallback": 0.816818356513977,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.4351886212825775,
+          "validation_fast_fraction": 0.425,
+          "fast_output_nrmse_mean": 0.5011322498321533,
+          "fast_output_nrmse_p95": 0.6462863087654114,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.2129811942577362
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.2991327941417694,
+          "validation_fast_fraction": 0.1453125,
+          "fast_output_nrmse_mean": 0.409328818321228,
+          "fast_output_nrmse_p95": 0.5189915299415588,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.05948059633374214
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.24594148993492126,
+          "validation_fast_fraction": 0.0828125,
+          "fast_output_nrmse_mean": 0.3775342106819153,
+          "fast_output_nrmse_p95": 0.4979005455970764,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.03126455470919609
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.18066629767417908,
+          "validation_fast_fraction": 0.04375,
+          "fast_output_nrmse_mean": 0.32812246680259705,
+          "fast_output_nrmse_p95": 0.40148037672042847,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.01435535866767168
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.03125
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 41,
+      "rank": 256,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.397330105304718,
+      "validation_residual_energy_p95": 0.6190932393074036,
+      "output_nrmse_mean_no_fallback": 0.5791633725166321,
+      "output_nrmse_p95_no_fallback": 0.7869353890419006,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.30828917026519775,
+          "validation_fast_fraction": 0.2734375,
+          "fast_output_nrmse_mean": 0.38023272156715393,
+          "fast_output_nrmse_p95": 0.5166661143302917,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.10396988689899445
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.1730356365442276,
+          "validation_fast_fraction": 0.115625,
+          "fast_output_nrmse_mean": 0.3104896545410156,
+          "fast_output_nrmse_p95": 0.4011426270008087,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.03590036556124687
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.11980821937322617,
+          "validation_fast_fraction": 0.071875,
+          "fast_output_nrmse_mean": 0.28249579668045044,
+          "fast_output_nrmse_p95": 0.3549115061759949,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.02030438557267189
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.07735490798950195,
+          "validation_fast_fraction": 0.0265625,
+          "fast_output_nrmse_mean": 0.2530493438243866,
+          "fast_output_nrmse_p95": 0.29554736614227295,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.006721621844917536
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.0625
+    },
+    {
+      "status": "measured",
+      "family": "mamba_out",
+      "layer": 41,
+      "rank": 512,
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "validation_residual_energy_mean": 0.3331243097782135,
+      "validation_residual_energy_p95": 0.5552703142166138,
+      "output_nrmse_mean_no_fallback": 0.5226998329162598,
+      "output_nrmse_p95_no_fallback": 0.739189624786377,
+      "gates": [
+        {
+          "fallback_rate_target": 0.0,
+          "calibration_residual_threshold": 0.13464172184467316,
+          "validation_fast_fraction": 0.175,
+          "fast_output_nrmse_mean": 0.2243865430355072,
+          "fast_output_nrmse_p95": 0.3043592870235443,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.039267648011446
+        },
+        {
+          "fallback_rate_target": 0.1,
+          "calibration_residual_threshold": 0.021666985005140305,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.25,
+          "calibration_residual_threshold": 0.01071508415043354,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        },
+        {
+          "fallback_rate_target": 0.5,
+          "calibration_residual_threshold": 0.0032349952962249517,
+          "validation_fast_fraction": 0.0,
+          "fast_output_nrmse_mean": 0.0,
+          "fast_output_nrmse_p95": 0.0,
+          "mixed_output_nrmse_mean_with_exact_fallback": 0.0
+        }
+      ],
+      "weight_shape": [
+        2688,
+        4096
+      ],
+      "projected_weight_read_fraction": 0.125
+    }
+  ],
+  "gates": {
+    "output_quality_green": false,
+    "end_to_end_quality_green": false,
+    "promotion_open": false
+  }
+}

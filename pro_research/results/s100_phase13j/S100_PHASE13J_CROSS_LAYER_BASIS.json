@@ -1,0 +1,75 @@
+{
+  "kind": "s100_phase13j_cross_layer_activation_basis",
+  "status": "measured",
+  "created_utc": "2026-08-18T21:38:37.244455+00:00",
+  "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning",
+  "claim_boundary": "shared-input-basis residual screen; no WU output quality, runtime fusion, or end-to-end claim",
+  "method": {
+    "families": [
+      "attention_input",
+      "moe_input"
+    ],
+    "basis": "origin SVD",
+    "max_rows_per_pool": 512,
+    "source_layer_count": 29,
+    "missing": [
+      "shared WU output",
+      "kernel amortization",
+      "heldout quality"
+    ]
+  },
+  "records": [
+    {
+      "rank": 128,
+      "family": "attention",
+      "separate_basis_residual_mean": 0.38361454010009766,
+      "shared_cross_layer_basis_residual_mean": 0.5183364152908325,
+      "separate_basis_rows": 512,
+      "shared_basis_rows": 512
+    },
+    {
+      "rank": 128,
+      "family": "moe",
+      "separate_basis_residual_mean": 0.7711223363876343,
+      "shared_cross_layer_basis_residual_mean": 0.773030161857605,
+      "separate_basis_rows": 512,
+      "shared_basis_rows": 512
+    },
+    {
+      "rank": 256,
+      "family": "attention",
+      "separate_basis_residual_mean": 0.32856103777885437,
+      "shared_cross_layer_basis_residual_mean": 0.4292408525943756,
+      "separate_basis_rows": 512,
+      "shared_basis_rows": 512
+    },
+    {
+      "rank": 256,
+      "family": "moe",
+      "separate_basis_residual_mean": 0.6995080709457397,
+      "shared_cross_layer_basis_residual_mean": 0.6999742984771729,
+      "separate_basis_rows": 512,
+      "shared_basis_rows": 512
+    },
+    {
+      "rank": 512,
+      "family": "attention",
+      "separate_basis_residual_mean": 0.2667461037635803,
+      "shared_cross_layer_basis_residual_mean": 0.3452327251434326,
+      "separate_basis_rows": 512,
+      "shared_basis_rows": 512
+    },
+    {
+      "rank": 512,
+      "family": "moe",
+      "separate_basis_residual_mean": 0.5967707633972168,
+      "shared_cross_layer_basis_residual_mean": 0.5984429121017456,
+      "separate_basis_rows": 512,
+      "shared_basis_rows": 512
+    }
+  ],
+  "gates": {
+    "shared_basis_input_residual_green": false,
+    "promotion_open": false
+  }
+}

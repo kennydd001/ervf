@@ -1,0 +1,1022 @@
+{
+  "kind": "s100_phase13e_expert_shared_basis_census",
+  "status": "measured",
+  "created_utc": "2026-08-18T21:14:49.472734+00:00",
+  "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning",
+  "model_identity": {
+    "config_sha256": "f4fcbaaaed3ee215f86205a7600636cd930bde069f2b603d7ff908c046a0cd96",
+    "index_sha256": "e076394997f518b64a2b81b9648a58063faa611c95a1d5fb5495e77194e5dfb7",
+    "claim": "same checkpoint as Phase 12C: models/nemotron_3_5_lightning"
+  },
+  "method": {
+    "expert_layers": [
+      1,
+      27,
+      51
+    ],
+    "expert_count": 128,
+    "projections": [
+      "up_proj",
+      "down_proj"
+    ],
+    "ranks": [
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "basis_storage_assumption": "BF16 basis and BF16 expert coefficients; FP8 code plane only",
+    "scale_policy": "all per-expert weight_scale and weight_scale_2 bytes retained untouched",
+    "not_measured": "decoded FP8 numerical quality, activation/output error, sparse residual indexing, kernel throughput, official validation"
+  },
+  "counts": {
+    "matrix_records": 6,
+    "expert_matrices": 768,
+    "routed_weight_bytes": 2155219968,
+    "routed_code_bytes": 1915748352,
+    "routed_scale_bytes": 239471616
+  },
+  "best_reconstruction_rows": [
+    {
+      "rank": 64,
+      "residual_energy_fraction": 0.10092858291137811,
+      "reconstruction_nrmse": 0.31769259184214244,
+      "basis_bytes_bf16": 319291392,
+      "coefficient_bytes_bf16": 16384,
+      "scale_bytes_untouched": 39911936,
+      "ideal_dense_shared_total_bytes": 359219712,
+      "ideal_dense_shared_byte_reduction": -4.561204956310405e-05,
+      "top_residual_capture_on_sample": {
+        "0.1": {
+          "kept_sample_fraction": 0.09999847412109375,
+          "residual_energy_captured": 0.42328178183724935
+        },
+        "0.25": {
+          "kept_sample_fraction": 0.25,
+          "residual_energy_captured": 0.7105374118606285
+        },
+        "0.5": {
+          "kept_sample_fraction": 0.5,
+          "residual_energy_captured": 0.9242739011404975
+        }
+      }
+    },
+    {
+      "rank": 64,
+      "residual_energy_fraction": 0.10096384994572134,
+      "reconstruction_nrmse": 0.3177480919623615,
+      "basis_bytes_bf16": 319291392,
+      "coefficient_bytes_bf16": 16384,
+      "scale_bytes_untouched": 39911936,
+      "ideal_dense_shared_total_bytes": 359219712,
+      "ideal_dense_shared_byte_reduction": -4.561204956310405e-05,
+      "top_residual_capture_on_sample": {
+        "0.1": {
+          "kept_sample_fraction": 0.09999847412109375,
+          "residual_energy_captured": 0.4196091705471519
+        },
+        "0.25": {
+          "kept_sample_fraction": 0.25,
+          "residual_energy_captured": 0.7078282432155878
+        },
+        "0.5": {
+          "kept_sample_fraction": 0.5,
+          "residual_energy_captured": 0.9230718502663321
+        }
+      }
+    },
+    {
+      "rank": 64,
+      "residual_energy_fraction": 0.09933810484704816,
+      "reconstruction_nrmse": 0.31517948037118176,
+      "basis_bytes_bf16": 319291392,
+      "coefficient_bytes_bf16": 16384,
+      "scale_bytes_untouched": 39911936,
+      "ideal_dense_shared_total_bytes": 359219712,
+      "ideal_dense_shared_byte_reduction": -4.561204956310405e-05,
+      "top_residual_capture_on_sample": {
+        "0.1": {
+          "kept_sample_fraction": 0.09999847412109375,
+          "residual_energy_captured": 0.419447705204948
+        },
+        "0.25": {
+          "kept_sample_fraction": 0.25,
+          "residual_energy_captured": 0.7076240220548905
+        },
+        "0.5": {
+          "kept_sample_fraction": 0.5,
+          "residual_energy_captured": 0.9230099201866628
+        }
+      }
+    },
+    {
+      "rank": 64,
+      "residual_energy_fraction": 0.10010198230832436,
+      "reconstruction_nrmse": 0.3163889731143049,
+      "basis_bytes_bf16": 319291392,
+      "coefficient_bytes_bf16": 16384,
+      "scale_bytes_untouched": 39911936,
+      "ideal_dense_shared_total_bytes": 359219712,
+      "ideal_dense_shared_byte_reduction": -4.561204956310405e-05,
+      "top_residual_capture_on_sample": {
+        "0.1": {
+          "kept_sample_fraction": 0.09999847412109375,
+          "residual_energy_captured": 0.4194703740296155
+        },
+        "0.25": {
+          "kept_sample_fraction": 0.25,
+          "residual_energy_captured": 0.7085343824414986
+        },
+        "0.5": {
+          "kept_sample_fraction": 0.5,
+          "residual_energy_captured": 0.923367240620559
+        }
+      }
+    },
+    {
+      "rank": 64,
+      "residual_energy_fraction": 0.09963477322310652,
+      "reconstruction_nrmse": 0.3156497635403938,
+      "basis_bytes_bf16": 319291392,
+      "coefficient_bytes_bf16": 16384,
+      "scale_bytes_untouched": 39911936,
+      "ideal_dense_shared_total_bytes": 359219712,
+      "ideal_dense_shared_byte_reduction": -4.561204956310405e-05,
+      "top_residual_capture_on_sample": {
+        "0.1": {
+          "kept_sample_fraction": 0.09999847412109375,
+          "residual_energy_captured": 0.41882110579435616
+        },
+        "0.25": {
+          "kept_sample_fraction": 0.25,
+          "residual_energy_captured": 0.7079382354038865
+        },
+        "0.5": {
+          "kept_sample_fraction": 0.5,
+          "residual_energy_captured": 0.9232262253299433
+        }
+      }
+    },
+    {
+      "rank": 64,
+      "residual_energy_fraction": 0.1008498930362351,
+      "reconstruction_nrmse": 0.317568721753631,
+      "basis_bytes_bf16": 319291392,
+      "coefficient_bytes_bf16": 16384,
+      "scale_bytes_untouched": 39911936,
+      "ideal_dense_shared_total_bytes": 359219712,
+      "ideal_dense_shared_byte_reduction": -4.561204956310405e-05,
+      "top_residual_capture_on_sample": {
+        "0.1": {
+          "kept_sample_fraction": 0.09999847412109375,
+          "residual_energy_captured": 0.4187789138618635
+        },
+        "0.25": {
+          "kept_sample_fraction": 0.25,
+          "residual_energy_captured": 0.7074335315226892
+        },
+        "0.5": {
+          "kept_sample_fraction": 0.5,
+          "residual_energy_captured": 0.9233615635741893
+        }
+      }
+    }
+  ],
+  "records": [
+    {
+      "layer": 1,
+      "projection": "up_proj",
+      "shape": [
+        1856,
+        1344
+      ],
+      "experts": 128,
+      "full_features_per_expert": 2494464,
+      "sample_features": 4096,
+      "sample_strategy": "deterministic linspace over flattened FP8 code plane",
+      "original_code_bytes": 319291392,
+      "scale_bytes": 39911936,
+      "original_total_weight_bytes": 359203328,
+      "scale_planes": 256,
+      "ranks": [
+        {
+          "rank": 4,
+          "residual_energy_fraction": 0.22823209017667864,
+          "reconstruction_nrmse": 0.4777364233305627,
+          "basis_bytes_bf16": 19955712,
+          "coefficient_bytes_bf16": 1024,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 59868672,
+          "ideal_dense_shared_byte_reduction": 0.8333292947664449,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.30201481644861916
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.5895367008035016
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8626901937150546
+            }
+          }
+        },
+        {
+          "rank": 8,
+          "residual_energy_fraction": 0.21848828823941083,
+          "reconstruction_nrmse": 0.46742730797356163,
+          "basis_bytes_bf16": 39911424,
+          "coefficient_bytes_bf16": 2048,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 79825408,
+          "ideal_dense_shared_byte_reduction": 0.7777709676453777,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.31805591823177004
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6048495229044308
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8719326315578962
+            }
+          }
+        },
+        {
+          "rank": 16,
+          "residual_energy_fraction": 0.1996820907592718,
+          "reconstruction_nrmse": 0.44685802080668957,
+          "basis_bytes_bf16": 79822848,
+          "coefficient_bytes_bf16": 4096,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 119738880,
+          "ideal_dense_shared_byte_reduction": 0.6666543134032433,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.34376376530388375
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6319328267416582
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8871539406165146
+            }
+          }
+        },
+        {
+          "rank": 32,
+          "residual_energy_fraction": 0.16434695223682994,
+          "reconstruction_nrmse": 0.4053972770466397,
+          "basis_bytes_bf16": 159645696,
+          "coefficient_bytes_bf16": 8192,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 199565824,
+          "ideal_dense_shared_byte_reduction": 0.4444210049189745,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.38021479033799355
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6702104796869744
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.9067944611526982
+            }
+          }
+        },
+        {
+          "rank": 64,
+          "residual_energy_fraction": 0.10092858291137811,
+          "reconstruction_nrmse": 0.31769259184214244,
+          "basis_bytes_bf16": 319291392,
+          "coefficient_bytes_bf16": 16384,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 359219712,
+          "ideal_dense_shared_byte_reduction": -4.561204956310405e-05,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.42328178183724935
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.7105374118606285
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.9242739011404975
+            }
+          }
+        }
+      ]
+    },
+    {
+      "layer": 1,
+      "projection": "down_proj",
+      "shape": [
+        2688,
+        928
+      ],
+      "experts": 128,
+      "full_features_per_expert": 2494464,
+      "sample_features": 4096,
+      "sample_strategy": "deterministic linspace over flattened FP8 code plane",
+      "original_code_bytes": 319291392,
+      "scale_bytes": 39911936,
+      "original_total_weight_bytes": 359203328,
+      "scale_planes": 256,
+      "ranks": [
+        {
+          "rank": 4,
+          "residual_energy_fraction": 0.22735335420418554,
+          "reconstruction_nrmse": 0.4768158493634472,
+          "basis_bytes_bf16": 19955712,
+          "coefficient_bytes_bf16": 1024,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 59868672,
+          "ideal_dense_shared_byte_reduction": 0.8333292947664449,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.29110470409041445
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.583427167796953
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8675171636172506
+            }
+          }
+        },
+        {
+          "rank": 8,
+          "residual_energy_fraction": 0.21772125100069717,
+          "reconstruction_nrmse": 0.4666060983320912,
+          "basis_bytes_bf16": 39911424,
+          "coefficient_bytes_bf16": 2048,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 79825408,
+          "ideal_dense_shared_byte_reduction": 0.7777709676453777,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.30911929736221055
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6005511767364132
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8752055093810138
+            }
+          }
+        },
+        {
+          "rank": 16,
+          "residual_energy_fraction": 0.19901897622217782,
+          "reconstruction_nrmse": 0.4461154292581437,
+          "basis_bytes_bf16": 79822848,
+          "coefficient_bytes_bf16": 4096,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 119738880,
+          "ideal_dense_shared_byte_reduction": 0.6666543134032433,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.3375748107259292
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6286549787784449
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8882716986479938
+            }
+          }
+        },
+        {
+          "rank": 32,
+          "residual_energy_fraction": 0.1639656829854237,
+          "reconstruction_nrmse": 0.40492676249591564,
+          "basis_bytes_bf16": 159645696,
+          "coefficient_bytes_bf16": 8192,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 199565824,
+          "ideal_dense_shared_byte_reduction": 0.4444210049189745,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.37604897675733584
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6676837372313931
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.9065480460828493
+            }
+          }
+        },
+        {
+          "rank": 64,
+          "residual_energy_fraction": 0.10096384994572134,
+          "reconstruction_nrmse": 0.3177480919623615,
+          "basis_bytes_bf16": 319291392,
+          "coefficient_bytes_bf16": 16384,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 359219712,
+          "ideal_dense_shared_byte_reduction": -4.561204956310405e-05,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.4196091705471519
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.7078282432155878
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.9230718502663321
+            }
+          }
+        }
+      ]
+    },
+    {
+      "layer": 27,
+      "projection": "up_proj",
+      "shape": [
+        1856,
+        1344
+      ],
+      "experts": 128,
+      "full_features_per_expert": 2494464,
+      "sample_features": 4096,
+      "sample_strategy": "deterministic linspace over flattened FP8 code plane",
+      "original_code_bytes": 319291392,
+      "scale_bytes": 39911936,
+      "original_total_weight_bytes": 359203328,
+      "scale_planes": 256,
+      "ranks": [
+        {
+          "rank": 4,
+          "residual_energy_fraction": 0.22420607192534497,
+          "reconstruction_nrmse": 0.4735040358068186,
+          "basis_bytes_bf16": 19955712,
+          "coefficient_bytes_bf16": 1024,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 59868672,
+          "ideal_dense_shared_byte_reduction": 0.8333292947664449,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.2951573175195415
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.5875438719129464
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8696470926332079
+            }
+          }
+        },
+        {
+          "rank": 8,
+          "residual_energy_fraction": 0.21462229507197542,
+          "reconstruction_nrmse": 0.46327345604078746,
+          "basis_bytes_bf16": 39911424,
+          "coefficient_bytes_bf16": 2048,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 79825408,
+          "ideal_dense_shared_byte_reduction": 0.7777709676453777,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.31270354531695915
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6040839088977056
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8768970093912551
+            }
+          }
+        },
+        {
+          "rank": 16,
+          "residual_energy_fraction": 0.19622427855888097,
+          "reconstruction_nrmse": 0.4429720968174869,
+          "basis_bytes_bf16": 79822848,
+          "coefficient_bytes_bf16": 4096,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 119738880,
+          "ideal_dense_shared_byte_reduction": 0.6666543134032433,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.339866930777247
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6311960544044721
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8896900139620958
+            }
+          }
+        },
+        {
+          "rank": 32,
+          "residual_energy_fraction": 0.16160819820937627,
+          "reconstruction_nrmse": 0.402005221619541,
+          "basis_bytes_bf16": 159645696,
+          "coefficient_bytes_bf16": 8192,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 199565824,
+          "ideal_dense_shared_byte_reduction": 0.4444210049189745,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.37721539149002226
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6687299283050928
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.9072544497413346
+            }
+          }
+        },
+        {
+          "rank": 64,
+          "residual_energy_fraction": 0.09933810484704816,
+          "reconstruction_nrmse": 0.31517948037118176,
+          "basis_bytes_bf16": 319291392,
+          "coefficient_bytes_bf16": 16384,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 359219712,
+          "ideal_dense_shared_byte_reduction": -4.561204956310405e-05,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.419447705204948
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.7076240220548905
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.9230099201866628
+            }
+          }
+        }
+      ]
+    },
+    {
+      "layer": 27,
+      "projection": "down_proj",
+      "shape": [
+        2688,
+        928
+      ],
+      "experts": 128,
+      "full_features_per_expert": 2494464,
+      "sample_features": 4096,
+      "sample_strategy": "deterministic linspace over flattened FP8 code plane",
+      "original_code_bytes": 319291392,
+      "scale_bytes": 39911936,
+      "original_total_weight_bytes": 359203328,
+      "scale_planes": 256,
+      "ranks": [
+        {
+          "rank": 4,
+          "residual_energy_fraction": 0.22631423017983326,
+          "reconstruction_nrmse": 0.4757249522358831,
+          "basis_bytes_bf16": 19955712,
+          "coefficient_bytes_bf16": 1024,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 59868672,
+          "ideal_dense_shared_byte_reduction": 0.8333292947664449,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.28982438355315965
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.5815943707950081
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8661275980572526
+            }
+          }
+        },
+        {
+          "rank": 8,
+          "residual_energy_fraction": 0.216636488702286,
+          "reconstruction_nrmse": 0.46544225066305056,
+          "basis_bytes_bf16": 39911424,
+          "coefficient_bytes_bf16": 2048,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 79825408,
+          "ideal_dense_shared_byte_reduction": 0.7777709676453777,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.3081734936723206
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.5988763953506596
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8740169702610522
+            }
+          }
+        },
+        {
+          "rank": 16,
+          "residual_energy_fraction": 0.19794394734042434,
+          "reconstruction_nrmse": 0.4449089202751776,
+          "basis_bytes_bf16": 79822848,
+          "coefficient_bytes_bf16": 4096,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 119738880,
+          "ideal_dense_shared_byte_reduction": 0.6666543134032433,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.3361627844455472
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6271241912352402
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8873931382640142
+            }
+          }
+        },
+        {
+          "rank": 32,
+          "residual_energy_fraction": 0.16288475381031986,
+          "reconstruction_nrmse": 0.40358983363102674,
+          "basis_bytes_bf16": 159645696,
+          "coefficient_bytes_bf16": 8192,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 199565824,
+          "ideal_dense_shared_byte_reduction": 0.4444210049189745,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.3752457733070997
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6670452411292614
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.9064583903594663
+            }
+          }
+        },
+        {
+          "rank": 64,
+          "residual_energy_fraction": 0.10010198230832436,
+          "reconstruction_nrmse": 0.3163889731143049,
+          "basis_bytes_bf16": 319291392,
+          "coefficient_bytes_bf16": 16384,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 359219712,
+          "ideal_dense_shared_byte_reduction": -4.561204956310405e-05,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.4194703740296155
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.7085343824414986
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.923367240620559
+            }
+          }
+        }
+      ]
+    },
+    {
+      "layer": 51,
+      "projection": "up_proj",
+      "shape": [
+        1856,
+        1344
+      ],
+      "experts": 128,
+      "full_features_per_expert": 2494464,
+      "sample_features": 4096,
+      "sample_strategy": "deterministic linspace over flattened FP8 code plane",
+      "original_code_bytes": 319291392,
+      "scale_bytes": 39911936,
+      "original_total_weight_bytes": 359203328,
+      "scale_planes": 256,
+      "ranks": [
+        {
+          "rank": 4,
+          "residual_energy_fraction": 0.2245252127788284,
+          "reconstruction_nrmse": 0.47384091505359516,
+          "basis_bytes_bf16": 19955712,
+          "coefficient_bytes_bf16": 1024,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 59868672,
+          "ideal_dense_shared_byte_reduction": 0.8333292947664449,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.2926031923320835
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.5844525159264609
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.867598767040992
+            }
+          }
+        },
+        {
+          "rank": 8,
+          "residual_energy_fraction": 0.21492437445604637,
+          "reconstruction_nrmse": 0.4635993684810694,
+          "basis_bytes_bf16": 39911424,
+          "coefficient_bytes_bf16": 2048,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 79825408,
+          "ideal_dense_shared_byte_reduction": 0.7777709676453777,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.31086456996420864
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6017428176715877
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8755166984885882
+            }
+          }
+        },
+        {
+          "rank": 16,
+          "residual_energy_fraction": 0.1964417031326091,
+          "reconstruction_nrmse": 0.443217444526509,
+          "basis_bytes_bf16": 79822848,
+          "coefficient_bytes_bf16": 4096,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 119738880,
+          "ideal_dense_shared_byte_reduction": 0.6666543134032433,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.338048664567113
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.629438165761426
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8888110193122069
+            }
+          }
+        },
+        {
+          "rank": 32,
+          "residual_energy_fraction": 0.16181947526336354,
+          "reconstruction_nrmse": 0.4022679147823793,
+          "basis_bytes_bf16": 159645696,
+          "coefficient_bytes_bf16": 8192,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 199565824,
+          "ideal_dense_shared_byte_reduction": 0.4444210049189745,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.3763938184330867
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6680455395867281
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.9070174928492671
+            }
+          }
+        },
+        {
+          "rank": 64,
+          "residual_energy_fraction": 0.09963477322310652,
+          "reconstruction_nrmse": 0.3156497635403938,
+          "basis_bytes_bf16": 319291392,
+          "coefficient_bytes_bf16": 16384,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 359219712,
+          "ideal_dense_shared_byte_reduction": -4.561204956310405e-05,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.41882110579435616
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.7079382354038865
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.9232262253299433
+            }
+          }
+        }
+      ]
+    },
+    {
+      "layer": 51,
+      "projection": "down_proj",
+      "shape": [
+        2688,
+        928
+      ],
+      "experts": 128,
+      "full_features_per_expert": 2494464,
+      "sample_features": 4096,
+      "sample_strategy": "deterministic linspace over flattened FP8 code plane",
+      "original_code_bytes": 319291392,
+      "scale_bytes": 39911936,
+      "original_total_weight_bytes": 359203328,
+      "scale_planes": 256,
+      "ranks": [
+        {
+          "rank": 4,
+          "residual_energy_fraction": 0.2265504039899919,
+          "reconstruction_nrmse": 0.4759731126754871,
+          "basis_bytes_bf16": 19955712,
+          "coefficient_bytes_bf16": 1024,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 59868672,
+          "ideal_dense_shared_byte_reduction": 0.8333292947664449,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.28987669477749267
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.5821830697114262
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8666070073458062
+            }
+          }
+        },
+        {
+          "rank": 8,
+          "residual_energy_fraction": 0.21698719353163018,
+          "reconstruction_nrmse": 0.4658188419671645,
+          "basis_bytes_bf16": 39911424,
+          "coefficient_bytes_bf16": 2048,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 79825408,
+          "ideal_dense_shared_byte_reduction": 0.7777709676453777,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.3082215872690233
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.5990968946098021
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8741445721387787
+            }
+          }
+        },
+        {
+          "rank": 16,
+          "residual_energy_fraction": 0.1985012615512982,
+          "reconstruction_nrmse": 0.4455348039730434,
+          "basis_bytes_bf16": 79822848,
+          "coefficient_bytes_bf16": 4096,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 119738880,
+          "ideal_dense_shared_byte_reduction": 0.6666543134032433,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.33615784992671005
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6271570621692076
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.8877094469459585
+            }
+          }
+        },
+        {
+          "rank": 32,
+          "residual_energy_fraction": 0.16360013541106502,
+          "reconstruction_nrmse": 0.40447513571425503,
+          "basis_bytes_bf16": 159645696,
+          "coefficient_bytes_bf16": 8192,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 199565824,
+          "ideal_dense_shared_byte_reduction": 0.4444210049189745,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.37585315809771186
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.6671930950487777
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.9060861484172603
+            }
+          }
+        },
+        {
+          "rank": 64,
+          "residual_energy_fraction": 0.1008498930362351,
+          "reconstruction_nrmse": 0.317568721753631,
+          "basis_bytes_bf16": 319291392,
+          "coefficient_bytes_bf16": 16384,
+          "scale_bytes_untouched": 39911936,
+          "ideal_dense_shared_total_bytes": 359219712,
+          "ideal_dense_shared_byte_reduction": -4.561204956310405e-05,
+          "top_residual_capture_on_sample": {
+            "0.1": {
+              "kept_sample_fraction": 0.09999847412109375,
+              "residual_energy_captured": 0.4187789138618635
+            },
+            "0.25": {
+              "kept_sample_fraction": 0.25,
+              "residual_energy_captured": 0.7074335315226892
+            },
+            "0.5": {
+              "kept_sample_fraction": 0.5,
+              "residual_energy_captured": 0.9233615635741893
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "gates": {
+    "any_ideal_dense_shared_byte_reduction_ge_30": true,
+    "decoded_quality_green": false,
+    "official_validation_green": false,
+    "promotion_open": false
+  }
+}

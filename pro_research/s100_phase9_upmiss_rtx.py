@@ -53,18 +53,21 @@ def main():
         expert_count = len(codes)
         x = cp.asarray(x_host)
 
-        pinned_codes_owner = cp.cuda.alloc_pinned_memory(
-            expert_count * UP_CODE
-        )
+        requested_codes = expert_count * UP_CODE
+        requested_scales = expert_count * UP_SCALE
+        pinned_codes_owner = cp.cuda.alloc_pinned_memory(requested_codes)
         pinned_scales_owner = cp.cuda.alloc_pinned_memory(
-            expert_count * UP_SCALE
+            requested_scales
         )
+        # alloc_pinned_memory rounds the allocation up (observed: 14,271 KiB
+        # -> 16 MiB), so the raw buffer is larger than requested; reshape
+        # only the requested prefix. Slicing keeps the pinned base pointer.
         host_codes = np.frombuffer(
             pinned_codes_owner, np.uint8
-        ).reshape(expert_count, UP_CODE)
+        )[:requested_codes].reshape(expert_count, UP_CODE)
         host_scales = np.frombuffer(
             pinned_scales_owner, np.uint8
-        ).reshape(expert_count, UP_SCALE)
+        )[:requested_scales].reshape(expert_count, UP_SCALE)
         host_codes[:] = codes
         host_scales[:] = scales
 

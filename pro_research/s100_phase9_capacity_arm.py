@@ -4,7 +4,7 @@ from common import REPO,percentiles,utc_now,write_json_atomic
 from diag_component_marginals_graph import _run,_prefill,_reset_exact_state
 from diag_fp4_activation_quality import _require_gpu_idle_wddm
 from graph_e1f22 import _load_prompt_set
-from s100_phase9_capacity_runtime import build,record
+from s100_phase9_capacity_runtime import Phase9VRAMInfeasible,build,record
 PROF=REPO/'pro_research'/'results'/'s100_phase9'/'S100_PHASE9_CAPACITY_PROFILES.json'
 def smi():
  p=subprocess.run(['nvidia-smi','--query-gpu=memory.used,utilization.gpu,clocks.sm,clocks.mem,power.draw,temperature.gpu,pstate','--format=csv,noheader,nounits'],capture_output=True,text=True)
@@ -21,6 +21,11 @@ def main():
   prompts,_e,n,_capacity=_load_prompt_set('full');n=max(int(n),256);b=build(mp);rt=b.rt;preheat(rt,prompts[0]['prompt_ids']);before=smi();raw=[];ids={}
   for q in prompts:x,ms=_run(rt,q['prompt_ids'],n);ids[q['prompt']]=[int(z) for z in x];raw.extend(float(z) for z in ms)
   rt._graph_stream.synchronize();after=smi();p.update({'status':'measured','runtime':record(b),'timing':percentiles(raw),'raw_timing_ms':raw,'ids':ids,'finite':bool(cp.isfinite(rt.logits).all().item()),'vram_mib':max(int(before.get('memory_used_mib',0)),int(after.get('memory_used_mib',0))),'smi_before':before,'smi_after':after,'completed_utc':utc_now()});b.restore_combined();b.restore_sel();del rt,b;cp.get_default_memory_pool().free_all_blocks();gc.collect()
- except Exception as e:p.update({'status':'technical_failure','error':{'type':type(e).__name__,'message':str(e),'traceback':traceback.format_exc()},'completed_utc':utc_now()})
+ except Phase9VRAMInfeasible as e:p.update({'status':'infeasible_vram','error':{'type':type(e).__name__,'message':str(e),'stage':e.stage,'planned_plane_bytes':e.planned,'free_bytes_at_plan':e.free,'traceback':traceback.format_exc()},'completed_utc':utc_now()})
+ except Exception as e:
+  # A raw CuPy OOM outside build() (preheat/run buffers) is the same honest
+  # verdict: this candidate does not fit on the target GPU.
+  s='infeasible_vram' if type(e).__name__=='OutOfMemoryError' else 'technical_failure'
+  p.update({'status':s,'error':{'type':type(e).__name__,'message':str(e),'traceback':traceback.format_exc()},'completed_utc':utc_now()})
  write_json_atomic(out,p,archive=True);print(json.dumps({'status':p.get('status'),'profile':a.profile,'role':a.role,'timing':p.get('timing'),'vram_mib':p.get('vram_mib'),'error':(p.get('error') or {}).get('message')},indent=2));return 2 if p.get('status')=='technical_failure' else 0
 if __name__=='__main__':raise SystemExit(main())

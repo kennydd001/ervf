@@ -21,6 +21,28 @@ from s100_phase5_combined import install_phase5_combined
 from s100_phase5_threshold_kernels import Phase5ThresholdKernels
 
 
+class Phase9VRAMInfeasible(RuntimeError):
+    """The candidate map cannot be built on this GPU: the real allocation
+    of the resident scale planes (or a later run buffer) ran out of VRAM.
+
+    This replaces the old fail-fast `planned > mem_info.free` pre-check,
+    which was a false negative: it compared planned plane bytes against
+    point-in-time free VRAM while the CuPy pool/graph pools still held
+    hundreds of MiB that a real allocation can reuse. Measured 2026-08-18:
+    the 1656-slot current map failed the pre-check (492.4 MiB planned >
+    459.0 MiB free) yet the full build completes with 289 MiB headroom.
+    """
+
+    def __init__(self, planned: int, free: int, stage: str):
+        super().__init__(
+            f"phase9 candidate VRAM-infeasible at {stage}: "
+            f"planned_plane_bytes={planned} free_at_plan={free}"
+        )
+        self.planned = planned
+        self.free = free
+        self.stage = stage
+
+
 @dataclass
 class Bundle:
     rt: Any
@@ -31,6 +53,7 @@ class Bundle:
     restore_sel: Any
     restore_combined: Any
     planned: int
+    free_at_plan: int
 
 
 def build(capmap):
@@ -68,18 +91,20 @@ def build(capmap):
 
     planned = int(planned_plane_bytes(runtime))
     free = int(cp.cuda.Device(0).mem_info[0])
-    if planned > free:
-        raise RuntimeError(
-            f"phase9 scale planes do not fit: {planned}>{free}"
-        )
 
     sres = ScaleResidentKernels()
     threshold = Phase5ThresholdKernels()
     config = {"layer_k": {}, "alpha": 0.0003}
-    restore_combined = install_phase5_combined(
-        runtime, down, up, sres, threshold, config
-    )
-    _recapture(runtime)
+    # Real fit test: allocate the planes and recapture. The CuPy allocator
+    # releases cached blocks on demand, so an OutOfMemoryError here means
+    # the candidate genuinely does not fit on this GPU.
+    try:
+        restore_combined = install_phase5_combined(
+            runtime, down, up, sres, threshold, config
+        )
+        _recapture(runtime)
+    except cp.cuda.memory.OutOfMemoryError as exc:
+        raise Phase9VRAMInfeasible(planned, free, "build") from exc
 
     return Bundle(
         runtime,
@@ -90,6 +115,7 @@ def build(capmap):
         restore_sel,
         restore_combined,
         planned,
+        free,
     )
 
 
@@ -101,5 +127,6 @@ def record(bundle):
         },
         "total_slots": sum(bundle.capmap.values()),
         "planned_plane_bytes": bundle.planned,
+        "free_bytes_at_plan": bundle.free_at_plan,
         "profile_record": public_profile_record(bundle.profile),
     }

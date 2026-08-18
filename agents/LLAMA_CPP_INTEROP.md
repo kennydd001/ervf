@@ -2,6 +2,13 @@
 
 Datum: 2026-08-16 · alle feiten geverifieerd tegen upstream, niet uit het geheugen
 
+> **Update 2026-08-18 — deels verouderd.** De Mamba-assertie uit sectie 1 is
+> upstream gefixt (getest op b10488); onze v35-checkpoint converteert schoon
+> naar GGUF (20,91 GiB, NVFP4) en draait in llama.cpp. Bench:
+> `agents/S100_LLAMACPP_BENCH_2026-08-18.md` — llama.cpp haalt ~32 tok/s
+> decode tegen onze ~53,7 (ERVF blijft ~1,7x sneller). Sectie 2 (chat via de
+> eigen OpenAI-server) blijft de snelle route.
+
 **Vraag.** Kunnen we ons onderzoek in llama.cpp draaien, zodat we na een
 token-barrière kunnen blijven testen zonder zelf een chat te bouwen?
 

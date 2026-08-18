@@ -94,6 +94,14 @@ def main() -> int:
                 "plane":cp.asarray(extract_plane(down_h)),
                 "g_up":float(bank["globals"][expert,1]),
                 "g_down":float(bank["globals"][expert,0]),
+                # down_masked_sres indexes globals_dev[id*2+0]; eid is 0 for
+                # the standalone record, so [0]=down, [1]=up global scale.
+                "globals_dev":cp.asarray(
+                    np.array(
+                        [bank["globals"][expert,0],bank["globals"][expert,1]],
+                        dtype=np.float32,
+                    )
+                ),
             })
 
         props=cp.cuda.runtime.getDeviceProperties(0)

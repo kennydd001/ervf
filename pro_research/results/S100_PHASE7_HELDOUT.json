@@ -1,0 +1,1683 @@
+{
+  "kind": "s100_phase7_heldout",
+  "status": "complete",
+  "created_utc": "2026-08-17T20:44:30.782666+00:00",
+  "frozen_candidates": {
+    "thr_0003": {
+      "layer_k": {},
+      "alpha": 0.0003
+    },
+    "thr_0010": {
+      "layer_k": {},
+      "alpha": 0.001
+    },
+    "thr_0015": {
+      "layer_k": {},
+      "alpha": 0.0015
+    },
+    "thr_0020": {
+      "layer_k": {},
+      "alpha": 0.002
+    },
+    "k1": {
+      "layer_k": {
+        "40": 5
+      },
+      "alpha": 0.0
+    },
+    "k2": {
+      "layer_k": {
+        "34": 5,
+        "40": 5
+      },
+      "alpha": 0.0
+    },
+    "thr0010_k1": {
+      "layer_k": {
+        "40": 5
+      },
+      "alpha": 0.001
+    },
+    "thr0010_k2": {
+      "layer_k": {
+        "34": 5,
+        "40": 5
+      },
+      "alpha": 0.001
+    },
+    "thr0015_k1": {
+      "layer_k": {
+        "40": 5
+      },
+      "alpha": 0.0015
+    }
+  },
+  "results": {
+    "thr_0003": {
+      "kind": "s100_phase7_heldout_arm",
+      "status": "v18_fidelity_candidate",
+      "candidate": "thr_0003",
+      "spec": {
+        "layer_k": {},
+        "alpha": 0.0003
+      },
+      "started_utc": "2026-08-17T20:18:53.123396+00:00",
+      "gpu_idle_preflight": {
+        "compute_app_lines": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "ignored_wddm_gui_contexts": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "gpu_memory_used_mib": 12,
+        "gpu_utilization_percent": 0
+      },
+      "split": "heldout",
+      "summary": {
+        "tokens": 5120,
+        "top1_agreement": 0.980859375,
+        "target_in_top5": 1.0,
+        "mean_target_rank": 0.0212890625,
+        "max_target_rank": 3,
+        "mean_ce_delta": 0.00842670351266861,
+        "p95_ce_delta": 0.08238349854946136,
+        "mean_coarse_kl": 0.008639806881546974,
+        "p95_coarse_kl": 0.033274758607149124,
+        "all_finite": true,
+        "deterministic_anchor_repeat": true,
+        "anchor_hash": "2e1b8f91aca21476cf4915437fa248d81728afba4bc742c2488ca7f39aac3f2c",
+        "bootstrap": {
+          "rounds": 1000,
+          "mean_ce_delta_p95": 0.010713959718123077,
+          "top1_agreement_p05": 0.9775390625
+        }
+      },
+      "per_domain": {
+        "code": {
+          "tokens": 512,
+          "top1_agreement": 0.98828125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.003937724977731705,
+          "p95_ce_delta": 0.025229021906852722,
+          "mean_coarse_kl": 0.0039933230727910995,
+          "p95_coarse_kl": 0.011007745750248432,
+          "mean_target_rank": 0.01171875,
+          "max_target_rank": 1
+        },
+        "creative_en": {
+          "tokens": 512,
+          "top1_agreement": 0.96484375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.021351147443056107,
+          "p95_ce_delta": 0.21500945091247559,
+          "mean_coarse_kl": 0.026937264949083328,
+          "p95_coarse_kl": 0.13034559786319733,
+          "mean_target_rank": 0.041015625,
+          "max_target_rank": 2
+        },
+        "creative_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.978515625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0176605936139822,
+          "p95_ce_delta": 0.15839314460754395,
+          "mean_coarse_kl": 0.012371034361422062,
+          "p95_coarse_kl": 0.05454828962683678,
+          "mean_target_rank": 0.029296875,
+          "max_target_rank": 2
+        },
+        "factual_en": {
+          "tokens": 512,
+          "top1_agreement": 0.974609375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.006051218137145042,
+          "p95_ce_delta": 0.085446797311306,
+          "mean_coarse_kl": 0.006280751898884773,
+          "p95_coarse_kl": 0.02753538452088833,
+          "mean_target_rank": 0.03125,
+          "max_target_rank": 3
+        },
+        "factual_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.9765625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0025811810046434402,
+          "p95_ce_delta": 0.10594334453344345,
+          "mean_coarse_kl": 0.008670625276863575,
+          "p95_coarse_kl": 0.04262251779437065,
+          "mean_target_rank": 0.025390625,
+          "max_target_rank": 2
+        },
+        "instruction_following": {
+          "tokens": 512,
+          "top1_agreement": 0.986328125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.008434223011136055,
+          "p95_ce_delta": 0.06659658253192902,
+          "mean_coarse_kl": 0.00586834829300642,
+          "p95_coarse_kl": 0.01883646845817566,
+          "mean_target_rank": 0.013671875,
+          "max_target_rank": 1
+        },
+        "mathematics": {
+          "tokens": 512,
+          "top1_agreement": 0.990234375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.005368595942854881,
+          "p95_ce_delta": 0.04605499655008316,
+          "mean_coarse_kl": 0.002038658130913973,
+          "p95_coarse_kl": 0.007316693663597107,
+          "mean_target_rank": 0.009765625,
+          "max_target_rank": 1
+        },
+        "reasoning": {
+          "tokens": 512,
+          "top1_agreement": 0.986328125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.008101647719740868,
+          "p95_ce_delta": 0.08339925110340118,
+          "mean_coarse_kl": 0.008045502007007599,
+          "p95_coarse_kl": 0.030409613624215126,
+          "mean_target_rank": 0.013671875,
+          "max_target_rank": 1
+        },
+        "summarisation": {
+          "tokens": 512,
+          "top1_agreement": 0.982421875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.00499427504837513,
+          "p95_ce_delta": 0.07182394713163376,
+          "mean_coarse_kl": 0.00576615147292614,
+          "p95_coarse_kl": 0.02772970125079155,
+          "mean_target_rank": 0.017578125,
+          "max_target_rank": 1
+        },
+        "technical": {
+          "tokens": 512,
+          "top1_agreement": 0.98046875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.00578642450273037,
+          "p95_ce_delta": 0.0775202065706253,
+          "mean_coarse_kl": 0.00642640795558691,
+          "p95_coarse_kl": 0.02929825894534588,
+          "mean_target_rank": 0.01953125,
+          "max_target_rank": 1
+        }
+      },
+      "official_gates": {
+        "F1_top1": true,
+        "F2_top5": true,
+        "F3_mean_ce": true,
+        "F4_bootstrap_ce": true,
+        "F5_p95_ce": true,
+        "F6_mean_kl": true,
+        "F7_p95_kl": true,
+        "F8_domain_top1": true,
+        "F9_domain_ce": true,
+        "F10_deterministic": true,
+        "F11_finite": true
+      },
+      "official_pass": true,
+      "strict_gates": {
+        "V1_top1": true,
+        "V2_top5": true,
+        "V3_mean_ce": true,
+        "V4_mean_kl": true,
+        "V5_p95_kl": true,
+        "V6_domain_top1": true,
+        "V7_domain_ce": true,
+        "V8_finite": true
+      },
+      "strict_pass": true,
+      "completed_utc": "2026-08-17T20:21:38.567089+00:00"
+    },
+    "thr_0010": {
+      "kind": "s100_phase7_heldout_arm",
+      "status": "v18_fidelity_candidate",
+      "candidate": "thr_0010",
+      "spec": {
+        "layer_k": {},
+        "alpha": 0.001
+      },
+      "started_utc": "2026-08-17T20:21:40.973543+00:00",
+      "gpu_idle_preflight": {
+        "compute_app_lines": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "ignored_wddm_gui_contexts": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "gpu_memory_used_mib": 12,
+        "gpu_utilization_percent": 0
+      },
+      "split": "heldout",
+      "summary": {
+        "tokens": 5120,
+        "top1_agreement": 0.980859375,
+        "target_in_top5": 1.0,
+        "mean_target_rank": 0.021484375,
+        "max_target_rank": 3,
+        "mean_ce_delta": 0.0093072559684515,
+        "p95_ce_delta": 0.09074429422616959,
+        "mean_coarse_kl": 0.008755175396800041,
+        "p95_coarse_kl": 0.03147801011800766,
+        "all_finite": true,
+        "deterministic_anchor_repeat": true,
+        "anchor_hash": "3f6026cf5dd0e6f819fcd57d0bd41ca85e81e1f150d8f3f6ebf60cfbbacdd55a",
+        "bootstrap": {
+          "rounds": 1000,
+          "mean_ce_delta_p95": 0.01146917282603681,
+          "top1_agreement_p05": 0.977734375
+        }
+      },
+      "per_domain": {
+        "code": {
+          "tokens": 512,
+          "top1_agreement": 0.9921875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.004134753718972206,
+          "p95_ce_delta": 0.02591300569474697,
+          "mean_coarse_kl": 0.0036341212689876556,
+          "p95_coarse_kl": 0.009802741929888725,
+          "mean_target_rank": 0.0078125,
+          "max_target_rank": 1
+        },
+        "creative_en": {
+          "tokens": 512,
+          "top1_agreement": 0.958984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.024243630468845367,
+          "p95_ce_delta": 0.1887807846069336,
+          "mean_coarse_kl": 0.026032473891973495,
+          "p95_coarse_kl": 0.11847618222236633,
+          "mean_target_rank": 0.046875,
+          "max_target_rank": 2
+        },
+        "creative_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.98046875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.018912121653556824,
+          "p95_ce_delta": 0.17124687135219574,
+          "mean_coarse_kl": 0.011980073526501656,
+          "p95_coarse_kl": 0.06256218254566193,
+          "mean_target_rank": 0.025390625,
+          "max_target_rank": 2
+        },
+        "factual_en": {
+          "tokens": 512,
+          "top1_agreement": 0.974609375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.005230747163295746,
+          "p95_ce_delta": 0.08925943076610565,
+          "mean_coarse_kl": 0.00658835843205452,
+          "p95_coarse_kl": 0.02719457820057869,
+          "mean_target_rank": 0.03125,
+          "max_target_rank": 3
+        },
+        "factual_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.97265625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.007033156231045723,
+          "p95_ce_delta": 0.1101008951663971,
+          "mean_coarse_kl": 0.008798295632004738,
+          "p95_coarse_kl": 0.04303838312625885,
+          "mean_target_rank": 0.029296875,
+          "max_target_rank": 2
+        },
+        "instruction_following": {
+          "tokens": 512,
+          "top1_agreement": 0.984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.011638868600130081,
+          "p95_ce_delta": 0.07818952202796936,
+          "mean_coarse_kl": 0.0070564839988946915,
+          "p95_coarse_kl": 0.02372955158352852,
+          "mean_target_rank": 0.017578125,
+          "max_target_rank": 2
+        },
+        "mathematics": {
+          "tokens": 512,
+          "top1_agreement": 0.990234375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.004738893359899521,
+          "p95_ce_delta": 0.04281622916460037,
+          "mean_coarse_kl": 0.002508450299501419,
+          "p95_coarse_kl": 0.0077661555260419846,
+          "mean_target_rank": 0.009765625,
+          "max_target_rank": 1
+        },
+        "reasoning": {
+          "tokens": 512,
+          "top1_agreement": 0.984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.007636787369847298,
+          "p95_ce_delta": 0.07530011236667633,
+          "mean_coarse_kl": 0.00641828216612339,
+          "p95_coarse_kl": 0.023808863013982773,
+          "mean_target_rank": 0.015625,
+          "max_target_rank": 1
+        },
+        "summarisation": {
+          "tokens": 512,
+          "top1_agreement": 0.986328125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.004076514393091202,
+          "p95_ce_delta": 0.06455922871828079,
+          "mean_coarse_kl": 0.005824190564453602,
+          "p95_coarse_kl": 0.02593136951327324,
+          "mean_target_rank": 0.015625,
+          "max_target_rank": 2
+        },
+        "technical": {
+          "tokens": 512,
+          "top1_agreement": 0.984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.005427084863185883,
+          "p95_ce_delta": 0.08923707157373428,
+          "mean_coarse_kl": 0.008711027912795544,
+          "p95_coarse_kl": 0.03356499969959259,
+          "mean_target_rank": 0.015625,
+          "max_target_rank": 1
+        }
+      },
+      "official_gates": {
+        "F1_top1": true,
+        "F2_top5": true,
+        "F3_mean_ce": true,
+        "F4_bootstrap_ce": true,
+        "F5_p95_ce": true,
+        "F6_mean_kl": true,
+        "F7_p95_kl": true,
+        "F8_domain_top1": true,
+        "F9_domain_ce": true,
+        "F10_deterministic": true,
+        "F11_finite": true
+      },
+      "official_pass": true,
+      "strict_gates": {
+        "V1_top1": true,
+        "V2_top5": true,
+        "V3_mean_ce": true,
+        "V4_mean_kl": true,
+        "V5_p95_kl": true,
+        "V6_domain_top1": true,
+        "V7_domain_ce": true,
+        "V8_finite": true
+      },
+      "strict_pass": true,
+      "completed_utc": "2026-08-17T20:24:26.674544+00:00"
+    },
+    "thr_0015": {
+      "kind": "s100_phase7_heldout_arm",
+      "status": "v18_fidelity_candidate",
+      "candidate": "thr_0015",
+      "spec": {
+        "layer_k": {},
+        "alpha": 0.0015
+      },
+      "started_utc": "2026-08-17T20:24:29.004047+00:00",
+      "gpu_idle_preflight": {
+        "compute_app_lines": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "ignored_wddm_gui_contexts": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "gpu_memory_used_mib": 12,
+        "gpu_utilization_percent": 0
+      },
+      "split": "heldout",
+      "summary": {
+        "tokens": 5120,
+        "top1_agreement": 0.9806640625,
+        "target_in_top5": 1.0,
+        "mean_target_rank": 0.0220703125,
+        "max_target_rank": 3,
+        "mean_ce_delta": 0.008586352691054344,
+        "p95_ce_delta": 0.09162869304418564,
+        "mean_coarse_kl": 0.008441237732768059,
+        "p95_coarse_kl": 0.03343352675437927,
+        "all_finite": true,
+        "deterministic_anchor_repeat": true,
+        "anchor_hash": "36d552efeab9ebd1c5e9005e259c3e620b6541808ddbb7cace9ac13b3f526aa7",
+        "bootstrap": {
+          "rounds": 1000,
+          "mean_ce_delta_p95": 0.010809714067727327,
+          "top1_agreement_p05": 0.97734375
+        }
+      },
+      "per_domain": {
+        "code": {
+          "tokens": 512,
+          "top1_agreement": 0.984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.004382263869047165,
+          "p95_ce_delta": 0.024559564888477325,
+          "mean_coarse_kl": 0.0034598938655108213,
+          "p95_coarse_kl": 0.011372788809239864,
+          "mean_target_rank": 0.015625,
+          "max_target_rank": 1
+        },
+        "creative_en": {
+          "tokens": 512,
+          "top1_agreement": 0.96484375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.018127206712961197,
+          "p95_ce_delta": 0.18992073833942413,
+          "mean_coarse_kl": 0.022968506440520287,
+          "p95_coarse_kl": 0.1001553013920784,
+          "mean_target_rank": 0.0390625,
+          "max_target_rank": 2
+        },
+        "creative_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.978515625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.020849237218499184,
+          "p95_ce_delta": 0.20471492409706116,
+          "mean_coarse_kl": 0.01408917922526598,
+          "p95_coarse_kl": 0.07188291847705841,
+          "mean_target_rank": 0.033203125,
+          "max_target_rank": 3
+        },
+        "factual_en": {
+          "tokens": 512,
+          "top1_agreement": 0.978515625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0072513148188591,
+          "p95_ce_delta": 0.08325765281915665,
+          "mean_coarse_kl": 0.005822706967592239,
+          "p95_coarse_kl": 0.022241758182644844,
+          "mean_target_rank": 0.025390625,
+          "max_target_rank": 2
+        },
+        "factual_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.9765625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.005118055269122124,
+          "p95_ce_delta": 0.11519341915845871,
+          "mean_coarse_kl": 0.008631681092083454,
+          "p95_coarse_kl": 0.04504520073533058,
+          "mean_target_rank": 0.025390625,
+          "max_target_rank": 2
+        },
+        "instruction_following": {
+          "tokens": 512,
+          "top1_agreement": 0.984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.007410624995827675,
+          "p95_ce_delta": 0.0680176317691803,
+          "mean_coarse_kl": 0.006566183641552925,
+          "p95_coarse_kl": 0.025501646101474762,
+          "mean_target_rank": 0.015625,
+          "max_target_rank": 1
+        },
+        "mathematics": {
+          "tokens": 512,
+          "top1_agreement": 0.990234375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0038986317813396454,
+          "p95_ce_delta": 0.04117421433329582,
+          "mean_coarse_kl": 0.0020468926522880793,
+          "p95_coarse_kl": 0.007671520113945007,
+          "mean_target_rank": 0.009765625,
+          "max_target_rank": 1
+        },
+        "reasoning": {
+          "tokens": 512,
+          "top1_agreement": 0.984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.007765104994177818,
+          "p95_ce_delta": 0.07150129973888397,
+          "mean_coarse_kl": 0.00651657534763217,
+          "p95_coarse_kl": 0.02649475261569023,
+          "mean_target_rank": 0.017578125,
+          "max_target_rank": 2
+        },
+        "summarisation": {
+          "tokens": 512,
+          "top1_agreement": 0.984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0030761584639549255,
+          "p95_ce_delta": 0.06676023453474045,
+          "mean_coarse_kl": 0.005291828885674477,
+          "p95_coarse_kl": 0.029741359874606133,
+          "mean_target_rank": 0.01953125,
+          "max_target_rank": 2
+        },
+        "technical": {
+          "tokens": 512,
+          "top1_agreement": 0.98046875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.007984932512044907,
+          "p95_ce_delta": 0.09497115015983582,
+          "mean_coarse_kl": 0.009018930606544018,
+          "p95_coarse_kl": 0.02855663187801838,
+          "mean_target_rank": 0.01953125,
+          "max_target_rank": 1
+        }
+      },
+      "official_gates": {
+        "F1_top1": true,
+        "F2_top5": true,
+        "F3_mean_ce": true,
+        "F4_bootstrap_ce": true,
+        "F5_p95_ce": true,
+        "F6_mean_kl": true,
+        "F7_p95_kl": true,
+        "F8_domain_top1": true,
+        "F9_domain_ce": true,
+        "F10_deterministic": true,
+        "F11_finite": true
+      },
+      "official_pass": true,
+      "strict_gates": {
+        "V1_top1": true,
+        "V2_top5": true,
+        "V3_mean_ce": true,
+        "V4_mean_kl": true,
+        "V5_p95_kl": true,
+        "V6_domain_top1": true,
+        "V7_domain_ce": true,
+        "V8_finite": true
+      },
+      "strict_pass": true,
+      "completed_utc": "2026-08-17T20:27:15.718889+00:00"
+    },
+    "thr_0020": {
+      "kind": "s100_phase7_heldout_arm",
+      "status": "v18_fidelity_candidate",
+      "candidate": "thr_0020",
+      "spec": {
+        "layer_k": {},
+        "alpha": 0.002
+      },
+      "started_utc": "2026-08-17T20:27:18.081151+00:00",
+      "gpu_idle_preflight": {
+        "compute_app_lines": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "ignored_wddm_gui_contexts": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "gpu_memory_used_mib": 12,
+        "gpu_utilization_percent": 0
+      },
+      "split": "heldout",
+      "summary": {
+        "tokens": 5120,
+        "top1_agreement": 0.9798828125,
+        "target_in_top5": 1.0,
+        "mean_target_rank": 0.0232421875,
+        "max_target_rank": 3,
+        "mean_ce_delta": 0.010934196412563324,
+        "p95_ce_delta": 0.09366661310195923,
+        "mean_coarse_kl": 0.008712305687367916,
+        "p95_coarse_kl": 0.03231416270136833,
+        "all_finite": true,
+        "deterministic_anchor_repeat": true,
+        "anchor_hash": "2ca2a344fb367f775f7f444a2976e9c4b6bf781b5a9ea4b53c464eb39ca355a8",
+        "bootstrap": {
+          "rounds": 1000,
+          "mean_ce_delta_p95": 0.013285299530252814,
+          "top1_agreement_p05": 0.9765625
+        }
+      },
+      "per_domain": {
+        "code": {
+          "tokens": 512,
+          "top1_agreement": 0.98828125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.003545466810464859,
+          "p95_ce_delta": 0.026453014463186264,
+          "mean_coarse_kl": 0.0029686689376831055,
+          "p95_coarse_kl": 0.010214826092123985,
+          "mean_target_rank": 0.01171875,
+          "max_target_rank": 1
+        },
+        "creative_en": {
+          "tokens": 512,
+          "top1_agreement": 0.9609375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.029010936617851257,
+          "p95_ce_delta": 0.2972864806652069,
+          "mean_coarse_kl": 0.027746740728616714,
+          "p95_coarse_kl": 0.14132340252399445,
+          "mean_target_rank": 0.046875,
+          "max_target_rank": 2
+        },
+        "creative_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.974609375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.027585158124566078,
+          "p95_ce_delta": 0.21469613909721375,
+          "mean_coarse_kl": 0.015088838525116444,
+          "p95_coarse_kl": 0.06748933345079422,
+          "mean_target_rank": 0.033203125,
+          "max_target_rank": 3
+        },
+        "factual_en": {
+          "tokens": 512,
+          "top1_agreement": 0.974609375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0060639772564172745,
+          "p95_ce_delta": 0.07416876405477524,
+          "mean_coarse_kl": 0.005956065841019154,
+          "p95_coarse_kl": 0.021367043256759644,
+          "mean_target_rank": 0.03125,
+          "max_target_rank": 2
+        },
+        "factual_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.978515625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.006892336532473564,
+          "p95_ce_delta": 0.1148814857006073,
+          "mean_coarse_kl": 0.00874690804630518,
+          "p95_coarse_kl": 0.045079305768013,
+          "mean_target_rank": 0.0234375,
+          "max_target_rank": 2
+        },
+        "instruction_following": {
+          "tokens": 512,
+          "top1_agreement": 0.978515625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.011702306568622589,
+          "p95_ce_delta": 0.0687716081738472,
+          "mean_coarse_kl": 0.005163522437214851,
+          "p95_coarse_kl": 0.0202627070248127,
+          "mean_target_rank": 0.025390625,
+          "max_target_rank": 2
+        },
+        "mathematics": {
+          "tokens": 512,
+          "top1_agreement": 0.990234375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0052200797945261,
+          "p95_ce_delta": 0.046286433935165405,
+          "mean_coarse_kl": 0.002453225664794445,
+          "p95_coarse_kl": 0.0075102015398442745,
+          "mean_target_rank": 0.009765625,
+          "max_target_rank": 1
+        },
+        "reasoning": {
+          "tokens": 512,
+          "top1_agreement": 0.982421875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.006081992760300636,
+          "p95_ce_delta": 0.06170133128762245,
+          "mean_coarse_kl": 0.0066870092414319515,
+          "p95_coarse_kl": 0.02591816708445549,
+          "mean_target_rank": 0.017578125,
+          "max_target_rank": 1
+        },
+        "summarisation": {
+          "tokens": 512,
+          "top1_agreement": 0.984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0063077788800001144,
+          "p95_ce_delta": 0.07879843562841415,
+          "mean_coarse_kl": 0.005382216069847345,
+          "p95_coarse_kl": 0.030821727588772774,
+          "mean_target_rank": 0.01953125,
+          "max_target_rank": 2
+        },
+        "technical": {
+          "tokens": 512,
+          "top1_agreement": 0.986328125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.006931936368346214,
+          "p95_ce_delta": 0.08612847328186035,
+          "mean_coarse_kl": 0.006929862312972546,
+          "p95_coarse_kl": 0.023033779114484787,
+          "mean_target_rank": 0.013671875,
+          "max_target_rank": 1
+        }
+      },
+      "official_gates": {
+        "F1_top1": true,
+        "F2_top5": true,
+        "F3_mean_ce": true,
+        "F4_bootstrap_ce": true,
+        "F5_p95_ce": true,
+        "F6_mean_kl": true,
+        "F7_p95_kl": true,
+        "F8_domain_top1": true,
+        "F9_domain_ce": true,
+        "F10_deterministic": true,
+        "F11_finite": true
+      },
+      "official_pass": true,
+      "strict_gates": {
+        "V1_top1": true,
+        "V2_top5": true,
+        "V3_mean_ce": true,
+        "V4_mean_kl": true,
+        "V5_p95_kl": true,
+        "V6_domain_top1": true,
+        "V7_domain_ce": true,
+        "V8_finite": true
+      },
+      "strict_pass": true,
+      "completed_utc": "2026-08-17T20:30:10.776181+00:00"
+    },
+    "k1": {
+      "kind": "s100_phase7_heldout_arm",
+      "status": "v18_fidelity_candidate",
+      "candidate": "k1",
+      "spec": {
+        "layer_k": {
+          "40": 5
+        },
+        "alpha": 0.0
+      },
+      "started_utc": "2026-08-17T20:30:13.547185+00:00",
+      "gpu_idle_preflight": {
+        "compute_app_lines": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "ignored_wddm_gui_contexts": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "gpu_memory_used_mib": 12,
+        "gpu_utilization_percent": 0
+      },
+      "split": "heldout",
+      "summary": {
+        "tokens": 5120,
+        "top1_agreement": 0.978515625,
+        "target_in_top5": 1.0,
+        "mean_target_rank": 0.0244140625,
+        "max_target_rank": 3,
+        "mean_ce_delta": 0.009997712448239326,
+        "p95_ce_delta": 0.09422676265239716,
+        "mean_coarse_kl": 0.008465996943414211,
+        "p95_coarse_kl": 0.034776292741298676,
+        "all_finite": true,
+        "deterministic_anchor_repeat": true,
+        "anchor_hash": "a58d0946f8f4fe4474784c85829adf2c6e8e2156b0de57427d8c7c067d4f2d3a",
+        "bootstrap": {
+          "rounds": 1000,
+          "mean_ce_delta_p95": 0.012281181383877992,
+          "top1_agreement_p05": 0.975
+        }
+      },
+      "per_domain": {
+        "code": {
+          "tokens": 512,
+          "top1_agreement": 0.98828125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0050485339015722275,
+          "p95_ce_delta": 0.027640031650662422,
+          "mean_coarse_kl": 0.003732253797352314,
+          "p95_coarse_kl": 0.012057880870997906,
+          "mean_target_rank": 0.01171875,
+          "max_target_rank": 1
+        },
+        "creative_en": {
+          "tokens": 512,
+          "top1_agreement": 0.958984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.02170884609222412,
+          "p95_ce_delta": 0.17521396279335022,
+          "mean_coarse_kl": 0.022944573312997818,
+          "p95_coarse_kl": 0.12130828201770782,
+          "mean_target_rank": 0.048828125,
+          "max_target_rank": 3
+        },
+        "creative_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.97265625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.021449413150548935,
+          "p95_ce_delta": 0.17191770672798157,
+          "mean_coarse_kl": 0.012729029171168804,
+          "p95_coarse_kl": 0.059084080159664154,
+          "mean_target_rank": 0.04296875,
+          "max_target_rank": 3
+        },
+        "factual_en": {
+          "tokens": 512,
+          "top1_agreement": 0.970703125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.007914640009403229,
+          "p95_ce_delta": 0.08835668861865997,
+          "mean_coarse_kl": 0.006401672028005123,
+          "p95_coarse_kl": 0.02933584153652191,
+          "mean_target_rank": 0.03125,
+          "max_target_rank": 2
+        },
+        "factual_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.982421875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0033706724643707275,
+          "p95_ce_delta": 0.12401866912841797,
+          "mean_coarse_kl": 0.009438016451895237,
+          "p95_coarse_kl": 0.04808272421360016,
+          "mean_target_rank": 0.017578125,
+          "max_target_rank": 1
+        },
+        "instruction_following": {
+          "tokens": 512,
+          "top1_agreement": 0.98046875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.012284819036722183,
+          "p95_ce_delta": 0.11148468405008316,
+          "mean_coarse_kl": 0.007135683670639992,
+          "p95_coarse_kl": 0.030849292874336243,
+          "mean_target_rank": 0.021484375,
+          "max_target_rank": 2
+        },
+        "mathematics": {
+          "tokens": 512,
+          "top1_agreement": 0.9921875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.003482181578874588,
+          "p95_ce_delta": 0.041449736803770065,
+          "mean_coarse_kl": 0.0020015297923237085,
+          "p95_coarse_kl": 0.007444777060300112,
+          "mean_target_rank": 0.0078125,
+          "max_target_rank": 1
+        },
+        "reasoning": {
+          "tokens": 512,
+          "top1_agreement": 0.984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.007516985759139061,
+          "p95_ce_delta": 0.0614921860396862,
+          "mean_coarse_kl": 0.006572903133928776,
+          "p95_coarse_kl": 0.023451603949069977,
+          "mean_target_rank": 0.015625,
+          "max_target_rank": 1
+        },
+        "summarisation": {
+          "tokens": 512,
+          "top1_agreement": 0.98046875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0049754548817873,
+          "p95_ce_delta": 0.05276811867952347,
+          "mean_coarse_kl": 0.006046643480658531,
+          "p95_coarse_kl": 0.031157707795500755,
+          "mean_target_rank": 0.021484375,
+          "max_target_rank": 2
+        },
+        "technical": {
+          "tokens": 512,
+          "top1_agreement": 0.974609375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.01222558319568634,
+          "p95_ce_delta": 0.10312365740537643,
+          "mean_coarse_kl": 0.007657666690647602,
+          "p95_coarse_kl": 0.03043966181576252,
+          "mean_target_rank": 0.025390625,
+          "max_target_rank": 1
+        }
+      },
+      "official_gates": {
+        "F1_top1": true,
+        "F2_top5": true,
+        "F3_mean_ce": true,
+        "F4_bootstrap_ce": true,
+        "F5_p95_ce": true,
+        "F6_mean_kl": true,
+        "F7_p95_kl": true,
+        "F8_domain_top1": true,
+        "F9_domain_ce": true,
+        "F10_deterministic": true,
+        "F11_finite": true
+      },
+      "official_pass": true,
+      "strict_gates": {
+        "V1_top1": true,
+        "V2_top5": true,
+        "V3_mean_ce": true,
+        "V4_mean_kl": true,
+        "V5_p95_kl": true,
+        "V6_domain_top1": true,
+        "V7_domain_ce": true,
+        "V8_finite": true
+      },
+      "strict_pass": true,
+      "completed_utc": "2026-08-17T20:33:07.200823+00:00"
+    },
+    "k2": {
+      "kind": "s100_phase7_heldout_arm",
+      "status": "v18_fidelity_candidate",
+      "candidate": "k2",
+      "spec": {
+        "layer_k": {
+          "34": 5,
+          "40": 5
+        },
+        "alpha": 0.0
+      },
+      "started_utc": "2026-08-17T20:33:10.056787+00:00",
+      "gpu_idle_preflight": {
+        "compute_app_lines": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "ignored_wddm_gui_contexts": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "gpu_memory_used_mib": 12,
+        "gpu_utilization_percent": 0
+      },
+      "split": "heldout",
+      "summary": {
+        "tokens": 5120,
+        "top1_agreement": 0.976953125,
+        "target_in_top5": 1.0,
+        "mean_target_rank": 0.0255859375,
+        "max_target_rank": 3,
+        "mean_ce_delta": 0.010194518603384495,
+        "p95_ce_delta": 0.10659206658601761,
+        "mean_coarse_kl": 0.008970716036856174,
+        "p95_coarse_kl": 0.04048767685890198,
+        "all_finite": true,
+        "deterministic_anchor_repeat": true,
+        "anchor_hash": "96d21bd0181c38169ad6f148f92b9f6f89a682c7296f8641a6b95603ebc35f7b",
+        "bootstrap": {
+          "rounds": 1000,
+          "mean_ce_delta_p95": 0.01247774981893599,
+          "top1_agreement_p05": 0.9734375
+        }
+      },
+      "per_domain": {
+        "code": {
+          "tokens": 512,
+          "top1_agreement": 0.98828125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0059865303337574005,
+          "p95_ce_delta": 0.05408051609992981,
+          "mean_coarse_kl": 0.0036989827640354633,
+          "p95_coarse_kl": 0.012543498538434505,
+          "mean_target_rank": 0.01171875,
+          "max_target_rank": 1
+        },
+        "creative_en": {
+          "tokens": 512,
+          "top1_agreement": 0.953125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.027723222970962524,
+          "p95_ce_delta": 0.2893488109111786,
+          "mean_coarse_kl": 0.02545195445418358,
+          "p95_coarse_kl": 0.16228793561458588,
+          "mean_target_rank": 0.0546875,
+          "max_target_rank": 3
+        },
+        "creative_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.98046875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.01788191683590412,
+          "p95_ce_delta": 0.18427738547325134,
+          "mean_coarse_kl": 0.012359784916043282,
+          "p95_coarse_kl": 0.06214778870344162,
+          "mean_target_rank": 0.025390625,
+          "max_target_rank": 2
+        },
+        "factual_en": {
+          "tokens": 512,
+          "top1_agreement": 0.970703125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.008096788078546524,
+          "p95_ce_delta": 0.09098510444164276,
+          "mean_coarse_kl": 0.006402414757758379,
+          "p95_coarse_kl": 0.02251138724386692,
+          "mean_target_rank": 0.03515625,
+          "max_target_rank": 3
+        },
+        "factual_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.97265625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0060027241706848145,
+          "p95_ce_delta": 0.12642590701580048,
+          "mean_coarse_kl": 0.010609784163534641,
+          "p95_coarse_kl": 0.057229433208703995,
+          "mean_target_rank": 0.029296875,
+          "max_target_rank": 2
+        },
+        "instruction_following": {
+          "tokens": 512,
+          "top1_agreement": 0.978515625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.011693965643644333,
+          "p95_ce_delta": 0.12388363480567932,
+          "mean_coarse_kl": 0.007877341471612453,
+          "p95_coarse_kl": 0.03953244909644127,
+          "mean_target_rank": 0.0234375,
+          "max_target_rank": 2
+        },
+        "mathematics": {
+          "tokens": 512,
+          "top1_agreement": 0.98828125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.002211267128586769,
+          "p95_ce_delta": 0.037709977477788925,
+          "mean_coarse_kl": 0.002099300967529416,
+          "p95_coarse_kl": 0.00912922341376543,
+          "mean_target_rank": 0.01171875,
+          "max_target_rank": 1
+        },
+        "reasoning": {
+          "tokens": 512,
+          "top1_agreement": 0.984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.005643671378493309,
+          "p95_ce_delta": 0.06893128156661987,
+          "mean_coarse_kl": 0.0068076858296990395,
+          "p95_coarse_kl": 0.032369643449783325,
+          "mean_target_rank": 0.015625,
+          "max_target_rank": 1
+        },
+        "summarisation": {
+          "tokens": 512,
+          "top1_agreement": 0.98046875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.005472196266055107,
+          "p95_ce_delta": 0.05637921020388603,
+          "mean_coarse_kl": 0.0059333061799407005,
+          "p95_coarse_kl": 0.03333396092057228,
+          "mean_target_rank": 0.01953125,
+          "max_target_rank": 1
+        },
+        "technical": {
+          "tokens": 512,
+          "top1_agreement": 0.97265625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.011232906952500343,
+          "p95_ce_delta": 0.104322150349617,
+          "mean_coarse_kl": 0.008466599509119987,
+          "p95_coarse_kl": 0.036224331706762314,
+          "mean_target_rank": 0.029296875,
+          "max_target_rank": 2
+        }
+      },
+      "official_gates": {
+        "F1_top1": true,
+        "F2_top5": true,
+        "F3_mean_ce": true,
+        "F4_bootstrap_ce": true,
+        "F5_p95_ce": true,
+        "F6_mean_kl": true,
+        "F7_p95_kl": true,
+        "F8_domain_top1": true,
+        "F9_domain_ce": true,
+        "F10_deterministic": true,
+        "F11_finite": true
+      },
+      "official_pass": true,
+      "strict_gates": {
+        "V1_top1": true,
+        "V2_top5": true,
+        "V3_mean_ce": true,
+        "V4_mean_kl": true,
+        "V5_p95_kl": true,
+        "V6_domain_top1": true,
+        "V7_domain_ce": true,
+        "V8_finite": true
+      },
+      "strict_pass": true,
+      "completed_utc": "2026-08-17T20:36:00.889128+00:00"
+    },
+    "thr0010_k1": {
+      "kind": "s100_phase7_heldout_arm",
+      "status": "v18_fidelity_candidate",
+      "candidate": "thr0010_k1",
+      "spec": {
+        "layer_k": {
+          "40": 5
+        },
+        "alpha": 0.001
+      },
+      "started_utc": "2026-08-17T20:36:03.741376+00:00",
+      "gpu_idle_preflight": {
+        "compute_app_lines": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "ignored_wddm_gui_contexts": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "gpu_memory_used_mib": 12,
+        "gpu_utilization_percent": 0
+      },
+      "split": "heldout",
+      "summary": {
+        "tokens": 5120,
+        "top1_agreement": 0.9771484375,
+        "target_in_top5": 1.0,
+        "mean_target_rank": 0.025390625,
+        "max_target_rank": 3,
+        "mean_ce_delta": 0.010320842266082764,
+        "p95_ce_delta": 0.10686151683330536,
+        "mean_coarse_kl": 0.009363919496536255,
+        "p95_coarse_kl": 0.037261657416820526,
+        "all_finite": true,
+        "deterministic_anchor_repeat": true,
+        "anchor_hash": "087f85e66d92b1650a373d47ee29ae7cef7ff93ab0381958774b72dbd989cc08",
+        "bootstrap": {
+          "rounds": 1000,
+          "mean_ce_delta_p95": 0.012534149549901485,
+          "top1_agreement_p05": 0.9736328125
+        }
+      },
+      "per_domain": {
+        "code": {
+          "tokens": 512,
+          "top1_agreement": 0.984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.006101924926042557,
+          "p95_ce_delta": 0.03870614618062973,
+          "mean_coarse_kl": 0.003508744528517127,
+          "p95_coarse_kl": 0.009493752382695675,
+          "mean_target_rank": 0.015625,
+          "max_target_rank": 1
+        },
+        "creative_en": {
+          "tokens": 512,
+          "top1_agreement": 0.94921875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.02521241083741188,
+          "p95_ce_delta": 0.22693751752376556,
+          "mean_coarse_kl": 0.02825414203107357,
+          "p95_coarse_kl": 0.10717692226171494,
+          "mean_target_rank": 0.05859375,
+          "max_target_rank": 3
+        },
+        "creative_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.978515625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.017553938552737236,
+          "p95_ce_delta": 0.19411194324493408,
+          "mean_coarse_kl": 0.012273392640054226,
+          "p95_coarse_kl": 0.062495529651641846,
+          "mean_target_rank": 0.02734375,
+          "max_target_rank": 2
+        },
+        "factual_en": {
+          "tokens": 512,
+          "top1_agreement": 0.970703125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0068178195506334305,
+          "p95_ce_delta": 0.1062498688697815,
+          "mean_coarse_kl": 0.0069834329187870026,
+          "p95_coarse_kl": 0.02863534539937973,
+          "mean_target_rank": 0.03515625,
+          "max_target_rank": 3
+        },
+        "factual_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.97265625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.007174478843808174,
+          "p95_ce_delta": 0.12310802191495895,
+          "mean_coarse_kl": 0.009590686298906803,
+          "p95_coarse_kl": 0.04604683071374893,
+          "mean_target_rank": 0.02734375,
+          "max_target_rank": 1
+        },
+        "instruction_following": {
+          "tokens": 512,
+          "top1_agreement": 0.978515625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.014872170984745026,
+          "p95_ce_delta": 0.10173769295215607,
+          "mean_coarse_kl": 0.008174225687980652,
+          "p95_coarse_kl": 0.031305305659770966,
+          "mean_target_rank": 0.025390625,
+          "max_target_rank": 2
+        },
+        "mathematics": {
+          "tokens": 512,
+          "top1_agreement": 0.990234375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0041898395866155624,
+          "p95_ce_delta": 0.0399860218167305,
+          "mean_coarse_kl": 0.0030169356614351273,
+          "p95_coarse_kl": 0.009470094926655293,
+          "mean_target_rank": 0.009765625,
+          "max_target_rank": 1
+        },
+        "reasoning": {
+          "tokens": 512,
+          "top1_agreement": 0.984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.007960185408592224,
+          "p95_ce_delta": 0.08446352928876877,
+          "mean_coarse_kl": 0.0070810336619615555,
+          "p95_coarse_kl": 0.024836774915456772,
+          "mean_target_rank": 0.015625,
+          "max_target_rank": 1
+        },
+        "summarisation": {
+          "tokens": 512,
+          "top1_agreement": 0.986328125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.004599357023835182,
+          "p95_ce_delta": 0.07034080475568771,
+          "mean_coarse_kl": 0.005849622189998627,
+          "p95_coarse_kl": 0.030016280710697174,
+          "mean_target_rank": 0.015625,
+          "max_target_rank": 2
+        },
+        "technical": {
+          "tokens": 512,
+          "top1_agreement": 0.9765625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.008726295083761215,
+          "p95_ce_delta": 0.10611892491579056,
+          "mean_coarse_kl": 0.008906976319849491,
+          "p95_coarse_kl": 0.03932106867432594,
+          "mean_target_rank": 0.0234375,
+          "max_target_rank": 1
+        }
+      },
+      "official_gates": {
+        "F1_top1": true,
+        "F2_top5": true,
+        "F3_mean_ce": true,
+        "F4_bootstrap_ce": true,
+        "F5_p95_ce": true,
+        "F6_mean_kl": true,
+        "F7_p95_kl": true,
+        "F8_domain_top1": true,
+        "F9_domain_ce": true,
+        "F10_deterministic": true,
+        "F11_finite": true
+      },
+      "official_pass": true,
+      "strict_gates": {
+        "V1_top1": true,
+        "V2_top5": true,
+        "V3_mean_ce": true,
+        "V4_mean_kl": true,
+        "V5_p95_kl": true,
+        "V6_domain_top1": true,
+        "V7_domain_ce": true,
+        "V8_finite": true
+      },
+      "strict_pass": true,
+      "completed_utc": "2026-08-17T20:38:52.761592+00:00"
+    },
+    "thr0010_k2": {
+      "kind": "s100_phase7_heldout_arm",
+      "status": "v18_fidelity_candidate",
+      "candidate": "thr0010_k2",
+      "spec": {
+        "layer_k": {
+          "34": 5,
+          "40": 5
+        },
+        "alpha": 0.001
+      },
+      "started_utc": "2026-08-17T20:38:55.380382+00:00",
+      "gpu_idle_preflight": {
+        "compute_app_lines": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "ignored_wddm_gui_contexts": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "gpu_memory_used_mib": 12,
+        "gpu_utilization_percent": 0
+      },
+      "split": "heldout",
+      "summary": {
+        "tokens": 5120,
+        "top1_agreement": 0.9771484375,
+        "target_in_top5": 1.0,
+        "mean_target_rank": 0.025390625,
+        "max_target_rank": 4,
+        "mean_ce_delta": 0.01036799792200327,
+        "p95_ce_delta": 0.10898013412952423,
+        "mean_coarse_kl": 0.009596327319741249,
+        "p95_coarse_kl": 0.03935031592845917,
+        "all_finite": true,
+        "deterministic_anchor_repeat": true,
+        "anchor_hash": "84c3527739aa1a9d788bd98cff86fbc1bca20f509cd25d7ae2d5eb10393e2718",
+        "bootstrap": {
+          "rounds": 1000,
+          "mean_ce_delta_p95": 0.012570061953738332,
+          "top1_agreement_p05": 0.973828125
+        }
+      },
+      "per_domain": {
+        "code": {
+          "tokens": 512,
+          "top1_agreement": 0.990234375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.00619262270629406,
+          "p95_ce_delta": 0.031300537288188934,
+          "mean_coarse_kl": 0.003548001404851675,
+          "p95_coarse_kl": 0.012106033973395824,
+          "mean_target_rank": 0.009765625,
+          "max_target_rank": 1
+        },
+        "creative_en": {
+          "tokens": 512,
+          "top1_agreement": 0.953125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.027518857270479202,
+          "p95_ce_delta": 0.28089433908462524,
+          "mean_coarse_kl": 0.028336364775896072,
+          "p95_coarse_kl": 0.1469024419784546,
+          "mean_target_rank": 0.056640625,
+          "max_target_rank": 3
+        },
+        "creative_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.98046875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.016679562628269196,
+          "p95_ce_delta": 0.19472697377204895,
+          "mean_coarse_kl": 0.012999932281672955,
+          "p95_coarse_kl": 0.07117637246847153,
+          "mean_target_rank": 0.021484375,
+          "max_target_rank": 2
+        },
+        "factual_en": {
+          "tokens": 512,
+          "top1_agreement": 0.970703125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.007117023691534996,
+          "p95_ce_delta": 0.09656299650669098,
+          "mean_coarse_kl": 0.006470654159784317,
+          "p95_coarse_kl": 0.023355454206466675,
+          "mean_target_rank": 0.037109375,
+          "max_target_rank": 4
+        },
+        "factual_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.962890625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.008169448003172874,
+          "p95_ce_delta": 0.11892548948526382,
+          "mean_coarse_kl": 0.010294687002897263,
+          "p95_coarse_kl": 0.04027598723769188,
+          "mean_target_rank": 0.041015625,
+          "max_target_rank": 2
+        },
+        "instruction_following": {
+          "tokens": 512,
+          "top1_agreement": 0.9765625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.01371937245130539,
+          "p95_ce_delta": 0.11971113830804825,
+          "mean_coarse_kl": 0.00848762970417738,
+          "p95_coarse_kl": 0.035571709275245667,
+          "mean_target_rank": 0.025390625,
+          "max_target_rank": 2
+        },
+        "mathematics": {
+          "tokens": 512,
+          "top1_agreement": 0.9921875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.0013956371694803238,
+          "p95_ce_delta": 0.035289280116558075,
+          "mean_coarse_kl": 0.0025329519994556904,
+          "p95_coarse_kl": 0.009607733227312565,
+          "mean_target_rank": 0.0078125,
+          "max_target_rank": 1
+        },
+        "reasoning": {
+          "tokens": 512,
+          "top1_agreement": 0.982421875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.00880373828113079,
+          "p95_ce_delta": 0.08567037433385849,
+          "mean_coarse_kl": 0.007921295240521431,
+          "p95_coarse_kl": 0.028361663222312927,
+          "mean_target_rank": 0.017578125,
+          "max_target_rank": 1
+        },
+        "summarisation": {
+          "tokens": 512,
+          "top1_agreement": 0.98828125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.004635225981473923,
+          "p95_ce_delta": 0.07213395833969116,
+          "mean_coarse_kl": 0.0063955229707062244,
+          "p95_coarse_kl": 0.03180257976055145,
+          "mean_target_rank": 0.01171875,
+          "max_target_rank": 1
+        },
+        "technical": {
+          "tokens": 512,
+          "top1_agreement": 0.974609375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.009448491036891937,
+          "p95_ce_delta": 0.10753236711025238,
+          "mean_coarse_kl": 0.008976228535175323,
+          "p95_coarse_kl": 0.039554424583911896,
+          "mean_target_rank": 0.025390625,
+          "max_target_rank": 1
+        }
+      },
+      "official_gates": {
+        "F1_top1": true,
+        "F2_top5": true,
+        "F3_mean_ce": true,
+        "F4_bootstrap_ce": true,
+        "F5_p95_ce": true,
+        "F6_mean_kl": true,
+        "F7_p95_kl": true,
+        "F8_domain_top1": true,
+        "F9_domain_ce": true,
+        "F10_deterministic": true,
+        "F11_finite": true
+      },
+      "official_pass": true,
+      "strict_gates": {
+        "V1_top1": true,
+        "V2_top5": true,
+        "V3_mean_ce": true,
+        "V4_mean_kl": true,
+        "V5_p95_kl": true,
+        "V6_domain_top1": true,
+        "V7_domain_ce": true,
+        "V8_finite": true
+      },
+      "strict_pass": true,
+      "completed_utc": "2026-08-17T20:41:41.485012+00:00"
+    },
+    "thr0015_k1": {
+      "kind": "s100_phase7_heldout_arm",
+      "status": "v18_fidelity_candidate",
+      "candidate": "thr0015_k1",
+      "spec": {
+        "layer_k": {
+          "40": 5
+        },
+        "alpha": 0.0015
+      },
+      "started_utc": "2026-08-17T20:41:43.937153+00:00",
+      "gpu_idle_preflight": {
+        "compute_app_lines": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "ignored_wddm_gui_contexts": [
+          "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+        ],
+        "gpu_memory_used_mib": 12,
+        "gpu_utilization_percent": 0
+      },
+      "split": "heldout",
+      "summary": {
+        "tokens": 5120,
+        "top1_agreement": 0.9794921875,
+        "target_in_top5": 1.0,
+        "mean_target_rank": 0.0234375,
+        "max_target_rank": 3,
+        "mean_ce_delta": 0.008914953097701073,
+        "p95_ce_delta": 0.1011870726943016,
+        "mean_coarse_kl": 0.008835891261696815,
+        "p95_coarse_kl": 0.03625734522938728,
+        "all_finite": true,
+        "deterministic_anchor_repeat": true,
+        "anchor_hash": "a887637682c04b34cda98a471ed53c1dc2ac0e5009c74eacef85884040387ed9",
+        "bootstrap": {
+          "rounds": 1000,
+          "mean_ce_delta_p95": 0.011033762898296117,
+          "top1_agreement_p05": 0.976171875
+        }
+      },
+      "per_domain": {
+        "code": {
+          "tokens": 512,
+          "top1_agreement": 0.984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.004981586709618568,
+          "p95_ce_delta": 0.037891242653131485,
+          "mean_coarse_kl": 0.003365751588717103,
+          "p95_coarse_kl": 0.013123204931616783,
+          "mean_target_rank": 0.015625,
+          "max_target_rank": 1
+        },
+        "creative_en": {
+          "tokens": 512,
+          "top1_agreement": 0.966796875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.01756233349442482,
+          "p95_ce_delta": 0.1689765602350235,
+          "mean_coarse_kl": 0.02308717742562294,
+          "p95_coarse_kl": 0.09419601410627365,
+          "mean_target_rank": 0.041015625,
+          "max_target_rank": 3
+        },
+        "creative_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.978515625,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.01883578486740589,
+          "p95_ce_delta": 0.19948334991931915,
+          "mean_coarse_kl": 0.01360742561519146,
+          "p95_coarse_kl": 0.061600808054208755,
+          "mean_target_rank": 0.03125,
+          "max_target_rank": 3
+        },
+        "factual_en": {
+          "tokens": 512,
+          "top1_agreement": 0.974609375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.006806764751672745,
+          "p95_ce_delta": 0.08933209627866745,
+          "mean_coarse_kl": 0.006459021009504795,
+          "p95_coarse_kl": 0.024222418665885925,
+          "mean_target_rank": 0.029296875,
+          "max_target_rank": 2
+        },
+        "factual_nl": {
+          "tokens": 512,
+          "top1_agreement": 0.974609375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.003982990980148315,
+          "p95_ce_delta": 0.10980873554944992,
+          "mean_coarse_kl": 0.010260353796184063,
+          "p95_coarse_kl": 0.053156767040491104,
+          "mean_target_rank": 0.025390625,
+          "max_target_rank": 1
+        },
+        "instruction_following": {
+          "tokens": 512,
+          "top1_agreement": 0.98046875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.010445959866046906,
+          "p95_ce_delta": 0.10393103212118149,
+          "mean_coarse_kl": 0.006996071897447109,
+          "p95_coarse_kl": 0.031112609431147575,
+          "mean_target_rank": 0.021484375,
+          "max_target_rank": 2
+        },
+        "mathematics": {
+          "tokens": 512,
+          "top1_agreement": 0.98828125,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.003315916284918785,
+          "p95_ce_delta": 0.034457478672266006,
+          "mean_coarse_kl": 0.002485894598066807,
+          "p95_coarse_kl": 0.008660935796797276,
+          "mean_target_rank": 0.01171875,
+          "max_target_rank": 1
+        },
+        "reasoning": {
+          "tokens": 512,
+          "top1_agreement": 0.984375,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.00864947959780693,
+          "p95_ce_delta": 0.07551628351211548,
+          "mean_coarse_kl": 0.007236038334667683,
+          "p95_coarse_kl": 0.025492718443274498,
+          "mean_target_rank": 0.017578125,
+          "max_target_rank": 2
+        },
+        "summarisation": {
+          "tokens": 512,
+          "top1_agreement": 0.982421875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.003162754699587822,
+          "p95_ce_delta": 0.06385381519794464,
+          "mean_coarse_kl": 0.005491971969604492,
+          "p95_coarse_kl": 0.03301038220524788,
+          "mean_target_rank": 0.021484375,
+          "max_target_rank": 2
+        },
+        "technical": {
+          "tokens": 512,
+          "top1_agreement": 0.98046875,
+          "target_in_top5": 1.0,
+          "mean_ce_delta": 0.011405954137444496,
+          "p95_ce_delta": 0.10521829128265381,
+          "mean_coarse_kl": 0.009369200095534325,
+          "p95_coarse_kl": 0.030334707349538803,
+          "mean_target_rank": 0.01953125,
+          "max_target_rank": 1
+        }
+      },
+      "official_gates": {
+        "F1_top1": true,
+        "F2_top5": true,
+        "F3_mean_ce": true,
+        "F4_bootstrap_ce": true,
+        "F5_p95_ce": true,
+        "F6_mean_kl": true,
+        "F7_p95_kl": true,
+        "F8_domain_top1": true,
+        "F9_domain_ce": true,
+        "F10_deterministic": true,
+        "F11_finite": true
+      },
+      "official_pass": true,
+      "strict_gates": {
+        "V1_top1": true,
+        "V2_top5": true,
+        "V3_mean_ce": true,
+        "V4_mean_kl": true,
+        "V5_p95_kl": true,
+        "V6_domain_top1": true,
+        "V7_domain_ce": true,
+        "V8_finite": true
+      },
+      "strict_pass": true,
+      "completed_utc": "2026-08-17T20:44:28.418751+00:00"
+    }
+  },
+  "green": [
+    "thr_0003",
+    "thr_0010",
+    "thr_0015",
+    "thr_0020",
+    "k1",
+    "k2",
+    "thr0010_k1",
+    "thr0010_k2",
+    "thr0015_k1"
+  ],
+  "technical_failures": []
+}

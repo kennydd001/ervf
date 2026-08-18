@@ -1,0 +1,1 @@
+$ErrorActionPreference='Stop';$Repo=Split-Path -Parent $PSScriptRoot;Set-Location $Repo;$Py=Join-Path $Repo '.venv-nemotron\Scripts\python.exe';if(-not(Test-Path $Py)){throw "Missing $Py"};& $Py 'pro_research\s100_phase5_calibrate.py';if($LASTEXITCODE-ne 0){throw "phase5 calibration failed: $LASTEXITCODE"}

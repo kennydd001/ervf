@@ -1,0 +1,21 @@
+{
+  "kind": "s100_phase6_preflight",
+  "status": "technical_failure",
+  "started_utc": "2026-08-17T18:55:54.527731+00:00",
+  "gpu_idle_preflight": {
+    "compute_app_lines": [
+      "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+    ],
+    "ignored_wddm_gui_contexts": [
+      "23856, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.810.7004.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+    ],
+    "gpu_memory_used_mib": 12,
+    "gpu_utilization_percent": 0
+  },
+  "error": {
+    "type": "CUDADriverError",
+    "message": "CUDA_ERROR_ILLEGAL_ADDRESS: an illegal memory access was encountered",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_phase6_preflight.py\", line 39, in main\n    runs={name:run_backend(name) for name in BACKENDS}\n               ^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_phase6_preflight.py\", line 17, in run_backend\n    b = build_phase6_runtime(int(capacity), backend=name)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_phase6_runtime.py\", line 62, in build_phase6_runtime\n    rt.setup_graph()\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\src\\moe_lab\\lightningstream_nemotron\\runtime.py\", line 893, in setup_graph\n    self._step_body_graph()  # warmup: compiles every kernel, mutates\n    ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\src\\moe_lab\\lightningstream_nemotron\\runtime.py\", line 913, in _step_body_graph\n    self._mamba(i, self.acc)\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\src\\moe_lab\\lightningstream_nemotron\\runtime.py\", line 401, in _mamba\n    k.mv_fp8_tensor(self.proj, d[\"in_w8\"], self.normed, d[\"in_s\"],\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\selective_ervf_v3.py\", line 65, in fp8\n    return dense.mv_fp8_tensor(out, W, x, float(wscale), int(rows), int(cols))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\ervf_dense.py\", line 238, in mv_fp8_tensor\n    self.fp8(\n  File \"cupy/_core/raw.pyx\", line 101, in cupy._core.raw.RawKernel.__call__\n  File \"cupy/cuda/function.pyx\", line 323, in cupy.cuda.function.Function.__call__\n  File \"cupy/cuda/function.pyx\", line 305, in cupy.cuda.function._launch\n  File \"cupy_backends/cuda/api/driver.pyx\", line 330, in cupy_backends.cuda.api.driver.launchKernel\n  File \"cupy_backends/cuda/api/driver.pyx\", line 64, in cupy_backends.cuda.api.driver.check_status\ncupy_backends.cuda.api.driver.CUDADriverError: CUDA_ERROR_ILLEGAL_ADDRESS: an illegal memory access was encountered\n"
+  },
+  "completed_utc": "2026-08-17T18:57:52.029330+00:00"
+}

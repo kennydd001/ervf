@@ -1,149 +1,517 @@
 from __future__ import annotations
-import argparse, collections, json, math
+
+import argparse
+import collections
+import json
 from pathlib import Path
+
 import numpy as np
 
-CURRENT_REDUCE={38,10,40,20,43,13};CURRENT_BOOST={1,3,51,6}
-UP_CODE=2494464;UP_SCALE=311808;DOWN_PLANE=311808;SLOT_BYTES=UP_CODE+UP_SCALE+DOWN_PLANE
-PCIE_GBS=26.1686
+CURRENT_REDUCE = {38, 10, 40, 20, 43, 13}
+CURRENT_BOOST = {1, 3, 51, 6}
+UP_CODE = 2_494_464
+UP_SCALE = 311_808
+DOWN_PLANE = 311_808
+SLOT_BYTES = UP_CODE + UP_SCALE + DOWN_PLANE
+PCIE_GBS = 26.1686
 
-def cmap_current(layers):return {int(l):(52 if int(l) in CURRENT_REDUCE else 102 if int(l) in CURRENT_BOOST else 72) for l in layers}
 
-def lru_layer(ids,cnt,ses,cap,session_filter=None):
-    hits=miss=0;cur=None;c=collections.OrderedDict()
-    for t in range(len(ids)):
-        if session_filter is not None and not session_filter(int(ses[t])):continue
-        if cur!=int(ses[t]):cur=int(ses[t]);c=collections.OrderedDict()
-        for e in ids[t]:
-            e=int(e);hit=e in c
-            if cnt[t]:hits+=int(hit);miss+=int(not hit)
-            if hit:c.move_to_end(e)
+def cmap_current(layers):
+    return {
+        int(layer): (
+            52 if int(layer) in CURRENT_REDUCE
+            else 102 if int(layer) in CURRENT_BOOST
+            else 72
+        )
+        for layer in layers
+    }
+
+
+def lru_layer(ids, counted, sessions, capacity, session_filter=None):
+    hits = misses = 0
+    current_session = None
+    cache = collections.OrderedDict()
+
+    for token in range(len(ids)):
+        sid = int(sessions[token])
+        if session_filter is not None and not session_filter(sid):
+            continue
+        if current_session != sid:
+            current_session = sid
+            cache = collections.OrderedDict()
+
+        for raw_expert in ids[token]:
+            expert = int(raw_expert)
+            hit = expert in cache
+            if counted[token]:
+                hits += int(hit)
+                misses += int(not hit)
+            if hit:
+                cache.move_to_end(expert)
             else:
-                c[e]=None
-                if len(c)>cap:c.popitem(last=False)
-    return hits,miss
+                cache[expert] = None
+                if len(cache) > capacity:
+                    cache.popitem(last=False)
+    return hits, misses
 
-def static_layer(ids,cnt,ses,cap,train_filter,test_filter):
-    f=collections.Counter()
-    for t in range(len(ids)):
-        if train_filter(int(ses[t])):
-            for e in ids[t]:f[int(e)]+=1
-    hot=set(e for e,_ in f.most_common(cap));h=m=0
-    for t in range(len(ids)):
-        if test_filter(int(ses[t])) and cnt[t]:
-            for e in ids[t]:h+=int(int(e) in hot);m+=int(int(e) not in hot)
-    return h,m
 
-def belady_layer(ids,cnt,ses,cap,session_filter):
-    hits=miss=0
-    for sid in sorted(set(int(x) for x in ses if session_filter(int(x)))):
-        ts=np.flatnonzero(ses==sid);flat=[];countflat=[]
-        for t in ts:
-            for e in ids[t]:flat.append(int(e));countflat.append(bool(cnt[t]))
-        future=collections.defaultdict(collections.deque)
-        for pos,e in enumerate(flat):future[e].append(pos)
-        cache=set()
-        for pos,(e,co) in enumerate(zip(flat,countflat)):
-            q=future[e]
-            if q and q[0]==pos:q.popleft()
-            hit=e in cache
-            if co:hits+=int(hit);miss+=int(not hit)
-            if hit:continue
-            if len(cache)>=cap:
-                victim=max(cache,key=lambda x:(future[x][0] if future[x] else 10**18))
+def static_layer(ids, counted, sessions, capacity, train_filter, test_filter):
+    frequency = collections.Counter()
+    for token in range(len(ids)):
+        if train_filter(int(sessions[token])):
+            for expert in ids[token]:
+                frequency[int(expert)] += 1
+
+    hot = {expert for expert, _ in frequency.most_common(capacity)}
+    hits = misses = 0
+    for token in range(len(ids)):
+        if test_filter(int(sessions[token])) and counted[token]:
+            for expert in ids[token]:
+                hit = int(expert) in hot
+                hits += int(hit)
+                misses += int(not hit)
+    return hits, misses
+
+
+def belady_layer(ids, counted, sessions, capacity, session_filter):
+    hits = misses = 0
+    session_ids = sorted({
+        int(value) for value in sessions if session_filter(int(value))
+    })
+
+    for sid in session_ids:
+        token_indices = np.flatnonzero(sessions == sid)
+        flat_experts = []
+        flat_counted = []
+        for token in token_indices:
+            for expert in ids[token]:
+                flat_experts.append(int(expert))
+                flat_counted.append(bool(counted[token]))
+
+        future = collections.defaultdict(collections.deque)
+        for position, expert in enumerate(flat_experts):
+            future[expert].append(position)
+
+        cache = set()
+        for position, (expert, is_counted) in enumerate(
+            zip(flat_experts, flat_counted)
+        ):
+            queue = future[expert]
+            if queue and queue[0] == position:
+                queue.popleft()
+
+            hit = expert in cache
+            if is_counted:
+                hits += int(hit)
+                misses += int(not hit)
+            if hit:
+                continue
+
+            if len(cache) >= capacity:
+                victim = max(
+                    cache,
+                    key=lambda item: (
+                        future[item][0] if future[item] else 10**18
+                    ),
+                )
                 cache.remove(victim)
-            cache.add(e)
-    return hits,miss
+            cache.add(expert)
+    return hits, misses
 
-def optimize_caps(layers,train_miss,budget,caps):
-    dp={0:(0,[])}
-    for li,l in enumerate(layers):
-        nd={}
-        for used,(cost,chosen) in dp.items():
-            for c in caps:
-                nu=used+c
-                if nu>budget:continue
-                nc=cost+train_miss[int(l)][c]
-                if nu not in nd or nc<nd[nu][0]:nd[nu]=(nc,chosen+[c])
-        dp=nd
-    used,best=min(dp.items(),key=lambda kv:(kv[1][0],-kv[0]))
-    return {int(l):int(c) for l,c in zip(layers,best[1][1])},used,best[1][0]
 
-def eval_map(ids,cnt,ses,layers,capmap,filt):
-    h=m=0
-    for j,l in enumerate(layers):
-        a,b=lru_layer(ids[:,j,:],cnt,ses,capmap[int(l)],filt);h+=a;m+=b
-    return {'hits':h,'misses':m,'miss_fraction':m/(h+m),'misses_per_layer_token':m/(cnt[[filt(int(s)) for s in ses]].sum()*len(layers)) if len(layers) else None}
+def optimize_caps(layers, train_miss, budget, capacities):
+    """Exact multiple-choice knapsack over one capacity per MoE layer."""
+    dp = {0: (0, [])}  # used slots -> (miss cost, chosen capacities)
 
-def markov_prefetch(ids,cnt,ses,layers,capmap,train_filter,test_filter,budget):
-    L=len(layers);nexp=128;trans=np.ones((L,nexp,nexp),dtype=np.float64)*0.01
-    prev={}
-    for t in range(len(ids)):
-        sid=int(ses[t])
-        if not train_filter(sid):continue
-        if sid in prev:
-            for j in range(L):
-                for a in prev[sid][j]:
-                    for b in ids[t,j]:trans[j,int(a),int(b)]+=1
-        prev[sid]=ids[t].copy()
-    caches=[collections.OrderedDict() for _ in range(L)];pf=[set() for _ in range(L)];cur=None;prevroute=None
-    hits=miss=pfhits=pftotal=pfused=0
-    for t in range(len(ids)):
-        sid=int(ses[t])
-        if not test_filter(sid):continue
-        if cur!=sid:caches=[collections.OrderedDict() for _ in range(L)];pf=[set() for _ in range(L)];cur=sid;prevroute=None
-        for j,l in enumerate(layers):
-            c=caches[j]
-            for e0 in ids[t,j]:
-                e=int(e0);main=e in c;pref=e in pf[j]
-                if cnt[t]:
-                    if main:hits+=1
-                    elif pref:pfhits+=1
-                    else:miss+=1
-                if main:c.move_to_end(e)
+    for layer in layers:
+        next_dp = {}
+        for used, (cost, chosen) in dp.items():
+            for capacity in capacities:
+                new_used = used + capacity
+                if new_used > budget:
+                    continue
+                new_cost = cost + int(train_miss[int(layer)][capacity])
+                previous = next_dp.get(new_used)
+                if previous is None or new_cost < previous[0]:
+                    next_dp[new_used] = (new_cost, chosen + [capacity])
+        if not next_dp:
+            raise RuntimeError(
+                f"No feasible cache allocation after layer {layer}; "
+                f"budget={budget}"
+            )
+        dp = next_dp
+
+    used, (cost, chosen) = min(
+        dp.items(),
+        key=lambda item: (item[1][0], -item[0]),
+    )
+    if len(chosen) != len(layers):
+        raise RuntimeError(
+            f"DP returned {len(chosen)} capacities for {len(layers)} layers"
+        )
+
+    mapping = {
+        int(layer): int(capacity)
+        for layer, capacity in zip(layers, chosen)
+    }
+    if sum(mapping.values()) != used:
+        raise RuntimeError("DP capacity sum does not match used-slot record")
+    return mapping, int(used), int(cost)
+
+
+def eval_map(ids, counted, sessions, layers, capmap, session_filter):
+    hits = misses = 0
+    selected = np.asarray(
+        [session_filter(int(value)) for value in sessions],
+        dtype=bool,
+    )
+    counted_tokens = int(counted[selected].sum())
+
+    for layer_index, layer in enumerate(layers):
+        layer_hits, layer_misses = lru_layer(
+            ids[:, layer_index, :],
+            counted,
+            sessions,
+            int(capmap[int(layer)]),
+            session_filter,
+        )
+        hits += layer_hits
+        misses += layer_misses
+
+    total = hits + misses
+    denominator = counted_tokens * len(layers)
+    return {
+        "hits": int(hits),
+        "misses": int(misses),
+        "miss_fraction": misses / total if total else None,
+        "misses_per_layer_token": (
+            misses / denominator if denominator else None
+        ),
+        "counted_tokens": counted_tokens,
+    }
+
+
+def markov_prefetch(
+    ids,
+    counted,
+    sessions,
+    layers,
+    capmap,
+    train_filter,
+    test_filter,
+    budget,
+):
+    layer_count = len(layers)
+    expert_count = 128
+    transitions = np.ones(
+        (layer_count, expert_count, expert_count),
+        dtype=np.float64,
+    ) * 0.01
+
+    previous = {}
+    for token in range(len(ids)):
+        sid = int(sessions[token])
+        if not train_filter(sid):
+            continue
+        if sid in previous:
+            for layer_index in range(layer_count):
+                for source in previous[sid][layer_index]:
+                    for target in ids[token, layer_index]:
+                        transitions[
+                            layer_index, int(source), int(target)
+                        ] += 1
+        previous[sid] = ids[token].copy()
+
+    caches = [collections.OrderedDict() for _ in range(layer_count)]
+    prefetched = [set() for _ in range(layer_count)]
+    current_session = None
+    hits = prefetch_hits = misses = 0
+    prefetches = prefetch_used = 0
+
+    for token in range(len(ids)):
+        sid = int(sessions[token])
+        if not test_filter(sid):
+            continue
+        if current_session != sid:
+            caches = [
+                collections.OrderedDict() for _ in range(layer_count)
+            ]
+            prefetched = [set() for _ in range(layer_count)]
+            current_session = sid
+
+        for layer_index, layer in enumerate(layers):
+            cache = caches[layer_index]
+            for raw_expert in ids[token, layer_index]:
+                expert = int(raw_expert)
+                main_hit = expert in cache
+                prefetched_hit = expert in prefetched[layer_index]
+
+                if counted[token]:
+                    if main_hit:
+                        hits += 1
+                    elif prefetched_hit:
+                        prefetch_hits += 1
+                    else:
+                        misses += 1
+
+                if main_hit:
+                    cache.move_to_end(expert)
                 else:
-                    c[e]=None
-                    if len(c)>capmap[int(l)]:c.popitem(last=False)
-                if pref and cnt[t]:pfused+=1
-        # predict next token after consuming current token
-        cand=[]
-        for j,l in enumerate(layers):
-            score=trans[j,ids[t,j].astype(int)].sum(axis=0);den=float(score.sum())
-            for e in np.argsort(score)[-3:][::-1]:
-                e=int(e)
-                if e not in caches[j]:cand.append((float(score[e]/den),j,e))
-        cand.sort(reverse=True);newpf=[set() for _ in range(L)]
-        next_counted = (t + 1 < len(ids) and int(ses[t + 1]) == sid and bool(cnt[t + 1]))
-        for sc,j,e in cand:
-            if sum(len(x) for x in newpf)>=budget:break
-            if e not in newpf[j]:
-                newpf[j].add(e)
-                pftotal += int(next_counted)
-        pf=newpf
-    total=hits+pfhits+miss
-    return {'budget_records_per_token':budget,'demand_miss_fraction':miss/total,'main_hits':hits,'prefetch_hits':pfhits,'demand_misses':miss,'prefetches':pftotal,'prefetch_used':pfused,'prefetch_precision':pfused/pftotal if pftotal else 0.0,'bytes_prefetched_per_counted_token':pftotal*SLOT_BYTES/max(1,int(cnt[[test_filter(int(s)) for s in ses]].sum()))}
+                    cache[expert] = None
+                    if len(cache) > int(capmap[int(layer)]):
+                        cache.popitem(last=False)
+
+                if prefetched_hit and counted[token]:
+                    prefetch_used += 1
+
+        candidates = []
+        for layer_index in range(layer_count):
+            score = transitions[
+                layer_index, ids[token, layer_index].astype(int)
+            ].sum(axis=0)
+            denominator = float(score.sum())
+            for expert in np.argsort(score)[-3:][::-1]:
+                expert = int(expert)
+                if expert not in caches[layer_index]:
+                    candidates.append(
+                        (float(score[expert] / denominator), layer_index, expert)
+                    )
+
+        candidates.sort(reverse=True)
+        next_prefetched = [set() for _ in range(layer_count)]
+        next_is_counted = (
+            token + 1 < len(ids)
+            and int(sessions[token + 1]) == sid
+            and bool(counted[token + 1])
+        )
+        for _, layer_index, expert in candidates:
+            if sum(len(values) for values in next_prefetched) >= budget:
+                break
+            if expert not in next_prefetched[layer_index]:
+                next_prefetched[layer_index].add(expert)
+                prefetches += int(next_is_counted)
+        prefetched = next_prefetched
+
+    total = hits + prefetch_hits + misses
+    counted_test_tokens = int(
+        counted[
+            np.asarray(
+                [test_filter(int(value)) for value in sessions],
+                dtype=bool,
+            )
+        ].sum()
+    )
+    return {
+        "budget_records_per_token": budget,
+        "demand_miss_fraction": misses / total if total else None,
+        "main_hits": hits,
+        "prefetch_hits": prefetch_hits,
+        "demand_misses": misses,
+        "prefetches": prefetches,
+        "prefetch_used": prefetch_used,
+        "prefetch_precision": (
+            prefetch_used / prefetches if prefetches else 0.0
+        ),
+        "bytes_prefetched_per_counted_token": (
+            prefetches * SLOT_BYTES / max(1, counted_test_tokens)
+        ),
+    }
+
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--trace',required=True);ap.add_argument('--outdir',required=True);a=ap.parse_args();od=Path(a.outdir);od.mkdir(parents=True,exist_ok=True)
-    z=np.load(a.trace);ids=z['ids'].astype(np.int16);cnt=z['counted'].astype(bool);ses=z['session'].astype(np.int16);layers=[int(x) for x in z['layers']]
-    train=lambda s:s%2==0;test=lambda s:s%2==1;cur=cmap_current(layers);caps=list(range(32,129,2));actual_need=z['need'][cnt].sum()/z['need'][cnt].size
-    cur_all=eval_map(ids,cnt,ses,layers,cur,lambda s:True);sim_gate=abs(cur_all['miss_fraction']-actual_need)<=0.015
-    train_miss={};test_miss={};curves={}
-    for j,l in enumerate(layers):
-        train_miss[l]={};test_miss[l]={};curves[str(l)]={}
-        for c in caps:
-            ht,mt=lru_layer(ids[:,j,:],cnt,ses,c,train);hv,mv=lru_layer(ids[:,j,:],cnt,ses,c,test)
-            train_miss[l][c]=mt;test_miss[l][c]=mv;curves[str(l)][str(c)]={'train_misses':mt,'test_misses':mv}
-    budgets=[1656,1784,1912,2035];profiles={'current':{str(k):v for k,v in cur.items()}};optrows={}
-    for B in budgets:
-        mp,used,cost=optimize_caps(layers,train_miss,B,caps);ev=eval_map(ids,cnt,ses,layers,mp,test);name='budget_neutral' if B==1656 else f'plus_{B-1656}'
-        profiles[name]={str(k):v for k,v in mp.items()};optrows[name]={'slot_budget':B,'slots_used':used,'train_misses':cost,'test':ev,'extra_vram_mib_estimate':max(0,used-1656)*SLOT_BYTES/1024**2}
-    static_h=static_m=0;bel_h=bel_m=0
-    for j,l in enumerate(layers):
-        h,m=static_layer(ids[:,j,:],cnt,ses,cur[l],train,test);static_h+=h;static_m+=m
-        h,m=belady_layer(ids[:,j,:],cnt,ses,cur[l],test);bel_h+=h;bel_m+=m
-    pref=[markov_prefetch(ids,cnt,ses,layers,cur,train,test,b) for b in (4,8,12)]
-    test_current=eval_map(ids,cnt,ses,layers,cur,test)
-    out={'kind':'s100_phase9_cache_oracle','status':'measured','simulation_gate':sim_gate,'measured_miss_fraction':float(actual_need),'simulated_current_all':cur_all,'test_current':test_current,'static_train_frequency_test':{'miss_fraction':static_m/(static_h+static_m)},'belady_current_map_test':{'miss_fraction':bel_m/(bel_h+bel_m)},'optimized_profiles':optrows,'prefetch':pref,'slot_bytes':SLOT_BYTES,'pcie_gbs_anchor':PCIE_GBS,'theoretical_current_up_fetch_serial_ms':cur_all['misses_per_layer_token']*len(layers)*(UP_CODE+UP_SCALE)/(PCIE_GBS*1e9)*1e3,'profiles_path':'S100_PHASE9_CAPACITY_PROFILES.json'}
-    (od/'S100_PHASE9_CACHE_ORACLE.json').write_text(json.dumps(out,indent=2,allow_nan=False)+'\n',encoding='utf-8');(od/'S100_PHASE9_CAPACITY_PROFILES.json').write_text(json.dumps({'profiles':profiles,'oracle':optrows},indent=2)+'\n',encoding='utf-8');print(json.dumps(out,indent=2));return 0 if sim_gate else 2
-if __name__=='__main__':raise SystemExit(main())
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--trace", required=True)
+    parser.add_argument("--outdir", required=True)
+    args = parser.parse_args()
+
+    output_dir = Path(args.outdir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    with np.load(args.trace) as trace:
+        ids = trace["ids"].astype(np.int16)
+        counted = trace["counted"].astype(bool)
+        sessions = trace["session"].astype(np.int16)
+        layers = [int(value) for value in trace["layers"]]
+        need = trace["need"].astype(np.int8)
+
+    train = lambda sid: sid % 2 == 0
+    test = lambda sid: sid % 2 == 1
+    current = cmap_current(layers)
+    capacities = list(range(32, 129, 2))
+
+    actual_need = float(need[counted].sum() / need[counted].size)
+    current_all = eval_map(
+        ids, counted, sessions, layers, current, lambda _: True
+    )
+    simulation_error = abs(
+        float(current_all["miss_fraction"]) - actual_need
+    )
+    simulation_gate = simulation_error <= 0.015
+
+    train_miss = {}
+    curves = {}
+    for layer_index, layer in enumerate(layers):
+        train_miss[layer] = {}
+        curves[str(layer)] = {}
+        for capacity in capacities:
+            train_hits, train_misses = lru_layer(
+                ids[:, layer_index, :],
+                counted,
+                sessions,
+                capacity,
+                train,
+            )
+            test_hits, test_misses = lru_layer(
+                ids[:, layer_index, :],
+                counted,
+                sessions,
+                capacity,
+                test,
+            )
+            train_miss[layer][capacity] = train_misses
+            curves[str(layer)][str(capacity)] = {
+                "train_hits": train_hits,
+                "train_misses": train_misses,
+                "test_hits": test_hits,
+                "test_misses": test_misses,
+            }
+
+    budgets = [1656, 1784, 1912, 2035]
+    profiles = {
+        "current": {str(key): value for key, value in current.items()}
+    }
+    optimized_rows = {}
+
+    for budget in budgets:
+        mapping, used, cost = optimize_caps(
+            layers, train_miss, budget, capacities
+        )
+        evaluation = eval_map(
+            ids, counted, sessions, layers, mapping, test
+        )
+        name = (
+            "budget_neutral"
+            if budget == 1656
+            else f"plus_{budget - 1656}"
+        )
+        profiles[name] = {
+            str(key): value for key, value in mapping.items()
+        }
+        optimized_rows[name] = {
+            "slot_budget": budget,
+            "slots_used": used,
+            "train_misses": cost,
+            "test": evaluation,
+            "extra_vram_mib_estimate": (
+                max(0, used - 1656) * SLOT_BYTES / 1024**2
+            ),
+        }
+
+    static_hits = static_misses = 0
+    belady_hits = belady_misses = 0
+    for layer_index, layer in enumerate(layers):
+        hits, misses = static_layer(
+            ids[:, layer_index, :],
+            counted,
+            sessions,
+            current[layer],
+            train,
+            test,
+        )
+        static_hits += hits
+        static_misses += misses
+
+        hits, misses = belady_layer(
+            ids[:, layer_index, :],
+            counted,
+            sessions,
+            current[layer],
+            test,
+        )
+        belady_hits += hits
+        belady_misses += misses
+
+    prefetch = [
+        markov_prefetch(
+            ids,
+            counted,
+            sessions,
+            layers,
+            current,
+            train,
+            test,
+            budget,
+        )
+        for budget in (4, 8, 12)
+    ]
+    test_current = eval_map(
+        ids, counted, sessions, layers, current, test
+    )
+
+    profile_invariants = {}
+    for name, mapping_raw in profiles.items():
+        mapping = {int(key): int(value) for key, value in mapping_raw.items()}
+        profile_invariants[name] = {
+            "layer_count": len(mapping),
+            "slots": sum(mapping.values()),
+            "all_layers_present": set(mapping) == set(layers),
+            "all_caps_even_32_to_128": all(
+                32 <= value <= 128 and value % 2 == 0
+                for value in mapping.values()
+            ),
+        }
+
+    output = {
+        "kind": "s100_phase9_cache_oracle",
+        "status": "measured",
+        "simulation_gate": simulation_gate,
+        "simulation_error_fraction": simulation_error,
+        "measured_miss_fraction": actual_need,
+        "simulated_current_all": current_all,
+        "test_current": test_current,
+        "static_train_frequency_test": {
+            "miss_fraction": (
+                static_misses / (static_hits + static_misses)
+            ),
+        },
+        "belady_current_map_test": {
+            "miss_fraction": (
+                belady_misses / (belady_hits + belady_misses)
+            ),
+        },
+        "optimized_profiles": optimized_rows,
+        "prefetch": prefetch,
+        "slot_bytes": SLOT_BYTES,
+        "pcie_gbs_anchor": PCIE_GBS,
+        "theoretical_current_up_fetch_serial_ms": (
+            float(current_all["misses_per_layer_token"])
+            * len(layers)
+            * (UP_CODE + UP_SCALE)
+            / (PCIE_GBS * 1e9)
+            * 1e3
+        ),
+        "profile_invariants": profile_invariants,
+        "profiles_path": "S100_PHASE9_CAPACITY_PROFILES.json",
+        "curves": curves,
+    }
+
+    oracle_path = output_dir / "S100_PHASE9_CACHE_ORACLE.json"
+    profiles_path = output_dir / "S100_PHASE9_CAPACITY_PROFILES.json"
+    oracle_path.write_text(
+        json.dumps(output, indent=2, allow_nan=False) + "\n",
+        encoding="utf-8",
+    )
+    profiles_path.write_text(
+        json.dumps(
+            {"profiles": profiles, "oracle": optimized_rows},
+            indent=2,
+            allow_nan=False,
+        ) + "\n",
+        encoding="utf-8",
+    )
+    print(json.dumps(output, indent=2, allow_nan=False))
+    return 0 if simulation_gate else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

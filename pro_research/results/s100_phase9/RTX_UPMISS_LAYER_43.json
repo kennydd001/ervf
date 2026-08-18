@@ -2,9 +2,10 @@
   "kind": "s100_phase9_rtx_upmiss",
   "status": "technical_failure",
   "rows": [],
+  "direct_pointer_contract": "CUDA-pinned UVA host pointer, same contract already consumed by cache_fetch",
   "error": {
-    "type": "ModuleNotFoundError",
-    "message": "No module named 'moe_lab'",
-    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_phase9_upmiss_rtx.py\", line 11, in main\n    from moe_lab.lightningstream_nemotron.fused_nvfp4 import FusedNVFP4\nModuleNotFoundError: No module named 'moe_lab'\n"
+    "type": "ValueError",
+    "message": "cannot reshape array of size 16777216 into shape (6,2494464)",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_phase9_upmiss_rtx.py\", line 64, in main\n    ).reshape(expert_count, UP_CODE)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: cannot reshape array of size 16777216 into shape (6,2494464)\n"
   }
 }

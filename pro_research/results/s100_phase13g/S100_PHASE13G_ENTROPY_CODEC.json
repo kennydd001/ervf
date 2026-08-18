@@ -1,0 +1,361 @@
+{
+  "kind": "s100_phase13g_lossless_entropy_codec",
+  "status": "measured",
+  "created_utc": "2026-08-18T21:31:41.770346+00:00",
+  "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning",
+  "claim_boundary": "CPU tile codec roundtrip and overhead screen; no GPU decoder or end-to-end inference claim",
+  "method": {
+    "tile_bytes": 1024,
+    "bits": [
+      4,
+      5,
+      6
+    ],
+    "encoding": "local top-symbol palette, fixed-width palette/escape codes, raw escape bytes",
+    "selected_streams": [
+      "backbone.layers.0.mixer.in_proj.weight",
+      "backbone.layers.11.mixer.in_proj.weight",
+      "backbone.layers.0.mixer.out_proj.weight",
+      "backbone.layers.11.mixer.out_proj.weight",
+      "backbone.layers.12.mixer.q_proj.weight",
+      "backbone.layers.19.mixer.q_proj.weight"
+    ],
+    "missing": [
+      "GPU register/shared-memory decode",
+      "kernel integration",
+      "full model latency",
+      "quality risk under imperfect decode"
+    ]
+  },
+  "records": [
+    {
+      "name": "backbone.layers.0.mixer.in_proj.weight",
+      "dtype": "torch.uint8",
+      "shape": [
+        10304,
+        1344
+      ],
+      "bits": 4,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1574408,
+      "escapes": 899592,
+      "encoded_fraction": 1.5014724731445312,
+      "roundtrip_exact": true,
+      "encode_ms": 465.4866000000766,
+      "decode_ms": 563.6071000008087,
+      "decode_mib_s": 1.774285668151741
+    },
+    {
+      "name": "backbone.layers.0.mixer.in_proj.weight",
+      "dtype": "torch.uint8",
+      "shape": [
+        10304,
+        1344
+      ],
+      "bits": 5,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1603521,
+      "escapes": 781249,
+      "encoded_fraction": 1.5292367935180664,
+      "roundtrip_exact": true,
+      "encode_ms": 522.915000001376,
+      "decode_ms": 667.6158999998734,
+      "decode_mib_s": 1.4978672616997133
+    },
+    {
+      "name": "backbone.layers.0.mixer.in_proj.weight",
+      "dtype": "torch.uint8",
+      "shape": [
+        10304,
+        1344
+      ],
+      "bits": 6,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1568944,
+      "escapes": 582832,
+      "encoded_fraction": 1.4962615966796875,
+      "roundtrip_exact": true,
+      "encode_ms": 607.898700000078,
+      "decode_ms": 721.6734000012366,
+      "decode_mib_s": 1.3856683646623065
+    },
+    {
+      "name": "backbone.layers.11.mixer.in_proj.weight",
+      "dtype": "torch.bfloat16",
+      "shape": [
+        10304,
+        2688
+      ],
+      "bits": 4,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1141601,
+      "escapes": 466785,
+      "encoded_fraction": 1.0887155532836914,
+      "roundtrip_exact": true,
+      "encode_ms": 454.4941000003746,
+      "decode_ms": 584.0702999994392,
+      "decode_mib_s": 1.7121226674271235
+    },
+    {
+      "name": "backbone.layers.11.mixer.in_proj.weight",
+      "dtype": "torch.bfloat16",
+      "shape": [
+        10304,
+        2688
+      ],
+      "bits": 5,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1214614,
+      "escapes": 392342,
+      "encoded_fraction": 1.158346176147461,
+      "roundtrip_exact": true,
+      "encode_ms": 509.5058999995672,
+      "decode_ms": 681.4335999988543,
+      "decode_mib_s": 1.4674944117837472
+    },
+    {
+      "name": "backbone.layers.11.mixer.in_proj.weight",
+      "dtype": "torch.bfloat16",
+      "shape": [
+        10304,
+        2688
+      ],
+      "bits": 6,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1264805,
+      "escapes": 278693,
+      "encoded_fraction": 1.206212043762207,
+      "roundtrip_exact": true,
+      "encode_ms": 576.553299999432,
+      "decode_ms": 766.6343000000779,
+      "decode_mib_s": 1.3044028945742427
+    },
+    {
+      "name": "backbone.layers.0.mixer.out_proj.weight",
+      "dtype": "torch.uint8",
+      "shape": [
+        2688,
+        2048
+      ],
+      "bits": 4,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1573223,
+      "escapes": 898407,
+      "encoded_fraction": 1.5003423690795898,
+      "roundtrip_exact": true,
+      "encode_ms": 461.0040999996272,
+      "decode_ms": 579.3607999985397,
+      "decode_mib_s": 1.7260401463173216
+    },
+    {
+      "name": "backbone.layers.0.mixer.out_proj.weight",
+      "dtype": "torch.uint8",
+      "shape": [
+        2688,
+        2048
+      ],
+      "bits": 5,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1602729,
+      "escapes": 780457,
+      "encoded_fraction": 1.5284814834594727,
+      "roundtrip_exact": true,
+      "encode_ms": 531.4782000004925,
+      "decode_ms": 695.7120000006398,
+      "decode_mib_s": 1.4373763856295139
+    },
+    {
+      "name": "backbone.layers.0.mixer.out_proj.weight",
+      "dtype": "torch.uint8",
+      "shape": [
+        2688,
+        2048
+      ],
+      "bits": 6,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1570281,
+      "escapes": 584169,
+      "encoded_fraction": 1.4975366592407227,
+      "roundtrip_exact": true,
+      "encode_ms": 615.5073999998422,
+      "decode_ms": 779.2310999993788,
+      "decode_mib_s": 1.2833163358094886
+    },
+    {
+      "name": "backbone.layers.11.mixer.out_proj.weight",
+      "dtype": "torch.bfloat16",
+      "shape": [
+        2688,
+        4096
+      ],
+      "bits": 4,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1141985,
+      "escapes": 467169,
+      "encoded_fraction": 1.0890817642211914,
+      "roundtrip_exact": true,
+      "encode_ms": 465.1262000006682,
+      "decode_ms": 590.2392999996664,
+      "decode_mib_s": 1.694228086812527
+    },
+    {
+      "name": "backbone.layers.11.mixer.out_proj.weight",
+      "dtype": "torch.bfloat16",
+      "shape": [
+        2688,
+        4096
+      ],
+      "bits": 5,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1214972,
+      "escapes": 392700,
+      "encoded_fraction": 1.1586875915527344,
+      "roundtrip_exact": true,
+      "encode_ms": 548.0838999992557,
+      "decode_ms": 687.6509999983682,
+      "decode_mib_s": 1.4542260536265823
+    },
+    {
+      "name": "backbone.layers.11.mixer.out_proj.weight",
+      "dtype": "torch.bfloat16",
+      "shape": [
+        2688,
+        4096
+      ],
+      "bits": 6,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1265189,
+      "escapes": 279077,
+      "encoded_fraction": 1.206578254699707,
+      "roundtrip_exact": true,
+      "encode_ms": 582.7769999996235,
+      "decode_ms": 746.9424999999319,
+      "decode_mib_s": 1.338791138541576
+    },
+    {
+      "name": "backbone.layers.12.mixer.q_proj.weight",
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        2688
+      ],
+      "bits": 4,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1140481,
+      "escapes": 465665,
+      "encoded_fraction": 1.0876474380493164,
+      "roundtrip_exact": true,
+      "encode_ms": 444.8876000005839,
+      "decode_ms": 560.7445999994525,
+      "decode_mib_s": 1.7833430763327482
+    },
+    {
+      "name": "backbone.layers.12.mixer.q_proj.weight",
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        2688
+      ],
+      "bits": 5,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1214154,
+      "escapes": 391882,
+      "encoded_fraction": 1.157907485961914,
+      "roundtrip_exact": true,
+      "encode_ms": 485.59519999980694,
+      "decode_ms": 642.6303000007465,
+      "decode_mib_s": 1.5561046530156426
+    },
+    {
+      "name": "backbone.layers.12.mixer.q_proj.weight",
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        2688
+      ],
+      "bits": 6,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1264657,
+      "escapes": 278545,
+      "encoded_fraction": 1.206070899963379,
+      "roundtrip_exact": true,
+      "encode_ms": 555.2988999988884,
+      "decode_ms": 696.1519999986194,
+      "decode_mib_s": 1.4364678978182683
+    },
+    {
+      "name": "backbone.layers.19.mixer.q_proj.weight",
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        2688
+      ],
+      "bits": 4,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1140138,
+      "escapes": 465322,
+      "encoded_fraction": 1.087320327758789,
+      "roundtrip_exact": true,
+      "encode_ms": 433.3275000008143,
+      "decode_ms": 559.7467999996297,
+      "decode_mib_s": 1.7865220488990048
+    },
+    {
+      "name": "backbone.layers.19.mixer.q_proj.weight",
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        2688
+      ],
+      "bits": 5,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1213820,
+      "escapes": 391548,
+      "encoded_fraction": 1.1575889587402344,
+      "roundtrip_exact": true,
+      "encode_ms": 506.10539999979665,
+      "decode_ms": 654.8719000002166,
+      "decode_mib_s": 1.5270161996562523
+    },
+    {
+      "name": "backbone.layers.19.mixer.q_proj.weight",
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        2688
+      ],
+      "bits": 6,
+      "tiles": 1024,
+      "raw_bytes": 1048576,
+      "encoded_bytes": 1264356,
+      "escapes": 278244,
+      "encoded_fraction": 1.2057838439941406,
+      "roundtrip_exact": true,
+      "encode_ms": 557.9705000000104,
+      "decode_ms": 719.1716000015731,
+      "decode_mib_s": 1.3904887234115093
+    }
+  ],
+  "gates": {
+    "all_roundtrips_exact": true,
+    "gpu_runtime_green": false,
+    "promotion_open": false
+  }
+}

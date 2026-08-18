@@ -1,0 +1,42 @@
+{
+  "kind": "s100_phase13l_persistent_compressed_pipeline",
+  "status": "measured",
+  "created_utc": "2026-08-18T21:41:34.748635+00:00",
+  "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning",
+  "claim_boundary": "GPU eager-operator pipeline prototype; not a persistent custom CUDA kernel and no quality claim",
+  "pipeline": [
+    "U^T x",
+    "WU projection",
+    "residual norm gate",
+    "exact fallback"
+  ],
+  "records": [
+    {
+      "B": 4,
+      "rank": 256,
+      "fast_fraction": 0.5,
+      "subspace_output_nrmse": 0.9521996378898621,
+      "exact_ms": 0.5258000001049368,
+      "subspace_ms": 0.07554999956482789,
+      "gated_fallback_ms": 0.6377499994414393,
+      "subspace_speedup": 6.959629425990383,
+      "gated_speedup": 0.8244609965745955
+    },
+    {
+      "B": 8,
+      "rank": 256,
+      "fast_fraction": 0.5,
+      "subspace_output_nrmse": 0.948750913143158,
+      "exact_ms": 0.5573999997068313,
+      "subspace_ms": 0.08590000015828991,
+      "gated_fallback_ms": 0.6542500004798057,
+      "subspace_speedup": 6.488940613267723,
+      "gated_speedup": 0.851967901105162
+    }
+  ],
+  "gates": {
+    "persistent_kernel_measured": false,
+    "official_quality_green": false,
+    "promotion_open": false
+  }
+}

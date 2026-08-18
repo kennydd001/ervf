@@ -1,0 +1,1037 @@
+{
+  "kind": "s100_phase13b_activation_census",
+  "status": "measured",
+  "created_utc": "2026-08-18T20:57:49.905885+00:00",
+  "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\models\\nemotron_3_5_lightning",
+  "claim_boundary": "activation-subspace screen; no substituted model output, token fidelity, or speed claim",
+  "splits": {
+    "calibration": [
+      "fact_en_01",
+      "fact_nl_01",
+      "reason_01",
+      "math_01",
+      "code_01",
+      "tech_01",
+      "creative_en_01",
+      "creative_nl_01",
+      "summary_01",
+      "instr_01"
+    ],
+    "validation": [
+      "fact_en_02",
+      "fact_nl_02",
+      "reason_02",
+      "math_02",
+      "code_02",
+      "tech_02",
+      "creative_en_02",
+      "creative_nl_02",
+      "summary_02",
+      "instr_02"
+    ]
+  },
+  "tokens_per_prompt": 64,
+  "method": {
+    "basis": "uncentered origin SVD U; projection U U^T x",
+    "pooling": "deterministic max-1024 rows per family after layer pooling",
+    "missing": [
+      "W U output NRMSE",
+      "top1/top5 token effects",
+      "official validation fidelity",
+      "GPU bytes and latency"
+    ]
+  },
+  "families": {
+    "mamba_in": {
+      "family": "mamba_in",
+      "input_dim": 2688,
+      "basis_count": 23,
+      "calibration_rows": 1024,
+      "validation_rows": 1024,
+      "basis_rank_limit": 1024,
+      "singular_energy_top_fraction": 1.0,
+      "ranks": [
+        {
+          "rank": 128,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.24482425169710126,
+          "validation_residual_energy_mean": 0.46595799674585875,
+          "validation_residual_energy_p95": 0.6556216871634798,
+          "candidate_bytes_estimate": 76496896.0,
+          "original_bytes_estimate": 1274068992,
+          "projected_dense_byte_reduction": 0.9399585921325052,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.5833779618810541,
+              "validation_fast_fraction": 0.80078125,
+              "projected_expected_byte_reduction": 0.7527012163561076
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.39261526906215916,
+              "validation_fast_fraction": 0.287109375,
+              "projected_expected_byte_reduction": 0.2698709239130435
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.32992559108078606,
+              "validation_fast_fraction": 0.16015625,
+              "projected_expected_byte_reduction": 0.15054024327122154
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.24592021845554765,
+              "validation_fast_fraction": 0.06640625,
+              "projected_expected_byte_reduction": 0.062419125258799175
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 0.007368457854127594,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.14051887788194234,
+          "validation_residual_energy_mean": 0.4077463027012545,
+          "validation_residual_energy_p95": 0.5917882031969991,
+          "candidate_bytes_estimate": 152993792.0,
+          "original_bytes_estimate": 1274068992,
+          "projected_dense_byte_reduction": 0.8799171842650103,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.41917791764693624,
+              "validation_fast_fraction": 0.505859375,
+              "projected_expected_byte_reduction": 0.4451143568840579
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.2666794749085565,
+              "validation_fast_fraction": 0.1396484375,
+              "projected_expected_byte_reduction": 0.12287905991200827
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.2033020285328202,
+              "validation_fast_fraction": 0.0634765625,
+              "projected_expected_byte_reduction": 0.055854118141821944
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.13259852385399573,
+              "validation_fast_fraction": 0.0302734375,
+              "projected_expected_byte_reduction": 0.026638117883022772
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 0.0011839680757690482,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 384,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.08056006587766568,
+          "validation_residual_energy_mean": 0.369529633890622,
+          "validation_residual_energy_p95": 0.5497195823217522,
+          "candidate_bytes_estimate": 229490688.0,
+          "original_bytes_estimate": 1274068992,
+          "projected_dense_byte_reduction": 0.8198757763975155,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.2938166392943465,
+              "validation_fast_fraction": 0.275390625,
+              "projected_expected_byte_reduction": 0.22578610248447203
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.1657118737063885,
+              "validation_fast_fraction": 0.056640625,
+              "projected_expected_byte_reduction": 0.04643827639751553
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.12039437006884146,
+              "validation_fast_fraction": 0.0341796875,
+              "projected_expected_byte_reduction": 0.028023097826086956
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.06964854002775438,
+              "validation_fast_fraction": 0.0166015625,
+              "projected_expected_byte_reduction": 0.013611218944099378
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 0.0002520631465710278,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 512,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.04412216563919523,
+          "validation_residual_energy_mean": 0.3394092670813969,
+          "validation_residual_energy_p95": 0.5084357791979991,
+          "candidate_bytes_estimate": 305987584.0,
+          "original_bytes_estimate": 1274068992,
+          "projected_dense_byte_reduction": 0.7598343685300207,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.1763572380146467,
+              "validation_fast_fraction": 0.0771484375,
+              "projected_expected_byte_reduction": 0.05862003429089027
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.09641591476341918,
+              "validation_fast_fraction": 0.03125,
+              "projected_expected_byte_reduction": 0.023744824016563148
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.06921435136074103,
+              "validation_fast_fraction": 0.01953125,
+              "projected_expected_byte_reduction": 0.014840515010351968
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.03687691177254872,
+              "validation_fast_fraction": 0.013671875,
+              "projected_expected_byte_reduction": 0.010388360507246378
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 9.007313702458104e-05,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 768,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.010289053157241879,
+          "validation_residual_energy_mean": 0.29024978694964626,
+          "validation_residual_energy_p95": 0.43939475114039217,
+          "candidate_bytes_estimate": 458981376.0,
+          "original_bytes_estimate": 1274068992,
+          "projected_dense_byte_reduction": 0.639751552795031,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.05378327275123371,
+              "validation_fast_fraction": 0.01953125,
+              "projected_expected_byte_reduction": 0.01249514751552795
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.02842038726372176,
+              "validation_fast_fraction": 0.013671875,
+              "projected_expected_byte_reduction": 0.008746603260869564
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.01737811769050414,
+              "validation_fast_fraction": 0.009765625,
+              "projected_expected_byte_reduction": 0.006247573757763975
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.005617865347608053,
+              "validation_fast_fraction": 0.0078125,
+              "projected_expected_byte_reduction": 0.00499805900621118
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 8.79658391772961e-06,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 1024,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 2.2168612698540916e-13,
+          "validation_residual_energy_mean": 0.2474546980651542,
+          "validation_residual_energy_p95": 0.37661202750179296,
+          "candidate_bytes_estimate": 611975168.0,
+          "original_bytes_estimate": 1274068992,
+          "projected_dense_byte_reduction": 0.5196687370600415,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 9.312110611471389e-13,
+              "validation_fast_fraction": 0.0078125,
+              "projected_expected_byte_reduction": 0.004059912008281574
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 3.025489114472159e-13,
+              "validation_fast_fraction": 0.0068359375,
+              "projected_expected_byte_reduction": 0.003552423007246377
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 2.4492309881245995e-13,
+              "validation_fast_fraction": 0.0068359375,
+              "projected_expected_byte_reduction": 0.003552423007246377
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 2.0666868159471123e-13,
+              "validation_fast_fraction": 0.00390625,
+              "projected_expected_byte_reduction": 0.002029956004140787
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 7.375816486037295e-14,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        }
+      ]
+    },
+    "mamba_out": {
+      "family": "mamba_out",
+      "input_dim": 4096,
+      "basis_count": 23,
+      "calibration_rows": 1024,
+      "validation_rows": 1024,
+      "basis_rank_limit": 1024,
+      "singular_energy_top_fraction": 1.0,
+      "ranks": [
+        {
+          "rank": 128,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.7258090801184025,
+          "validation_residual_energy_mean": 0.8449582688457808,
+          "validation_residual_energy_p95": 0.9789898398593796,
+          "candidate_bytes_estimate": 39944192.0,
+          "original_bytes_estimate": 506462208,
+          "projected_dense_byte_reduction": 0.9211309523809523,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.9882973548165392,
+              "validation_fast_fraction": 0.998046875,
+              "projected_expected_byte_reduction": 0.9193318684895833
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.9748594487422392,
+              "validation_fast_fraction": 0.8916015625,
+              "projected_expected_byte_reduction": 0.8212817964099702
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.969182091714333,
+              "validation_fast_fraction": 0.724609375,
+              "projected_expected_byte_reduction": 0.6674601236979166
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.8962726271231402,
+              "validation_fast_fraction": 0.4775390625,
+              "projected_expected_byte_reduction": 0.4398760114397321
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 0.00013459591838880489,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.5755061935385494,
+          "validation_residual_energy_mean": 0.785157137764225,
+          "validation_residual_energy_p95": 0.9530415131821875,
+          "candidate_bytes_estimate": 79888384.0,
+          "original_bytes_estimate": 506462208,
+          "projected_dense_byte_reduction": 0.8422619047619048,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.9745542852816996,
+              "validation_fast_fraction": 1.0,
+              "projected_expected_byte_reduction": 0.8422619047619048
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.9449191444268313,
+              "validation_fast_fraction": 0.890625,
+              "projected_expected_byte_reduction": 0.7501395089285714
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.9341461079232917,
+              "validation_fast_fraction": 0.7421875,
+              "projected_expected_byte_reduction": 0.6251162574404762
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.6805022782627792,
+              "validation_fast_fraction": 0.2333984375,
+              "projected_expected_byte_reduction": 0.19658261253720238
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 2.005243514407192e-05,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 384,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.45764110718671236,
+          "validation_residual_energy_mean": 0.7350402056011326,
+          "validation_residual_energy_p95": 0.9235568957689543,
+          "candidate_bytes_estimate": 119832576.0,
+          "original_bytes_estimate": 506462208,
+          "projected_dense_byte_reduction": 0.7633928571428572,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.9526285755446139,
+              "validation_fast_fraction": 0.998046875,
+              "projected_expected_byte_reduction": 0.7619018554687501
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.9150054534714513,
+              "validation_fast_fraction": 0.8896484375,
+              "projected_expected_byte_reduction": 0.6791512625558036
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.8953864836940697,
+              "validation_fast_fraction": 0.7216796875,
+              "projected_expected_byte_reduction": 0.5509251185825893
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.5006831292821958,
+              "validation_fast_fraction": 0.0869140625,
+              "projected_expected_byte_reduction": 0.06634957449776786
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 2.4489313745859592e-06,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 512,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.35294645366510813,
+          "validation_residual_energy_mean": 0.6865169206866741,
+          "validation_residual_energy_p95": 0.8947777798888763,
+          "candidate_bytes_estimate": 159776768.0,
+          "original_bytes_estimate": 506462208,
+          "projected_dense_byte_reduction": 0.6845238095238095,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.9275611757464504,
+              "validation_fast_fraction": 0.9990234375,
+              "projected_expected_byte_reduction": 0.6838553292410714
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.8827227522299778,
+              "validation_fast_fraction": 0.8994140625,
+              "projected_expected_byte_reduction": 0.6156703404017857
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.8302346924608159,
+              "validation_fast_fraction": 0.7314453125,
+              "projected_expected_byte_reduction": 0.5006917317708334
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.13856827791109003,
+              "validation_fast_fraction": 0.0048828125,
+              "projected_expected_byte_reduction": 0.003342401413690476
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 1.8662975400076151e-07,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 768,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.12856105384223132,
+          "validation_residual_energy_mean": 0.5684094845301926,
+          "validation_residual_energy_p95": 0.7491402560008231,
+          "candidate_bytes_estimate": 239665152.0,
+          "original_bytes_estimate": 506462208,
+          "projected_dense_byte_reduction": 0.5267857142857143,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.8314792696098263,
+              "validation_fast_fraction": 1.0,
+              "projected_expected_byte_reduction": 0.5267857142857143
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.5550946369169907,
+              "validation_fast_fraction": 0.3955078125,
+              "projected_expected_byte_reduction": 0.20834786551339288
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.12914638601450507,
+              "validation_fast_fraction": 0.0087890625,
+              "projected_expected_byte_reduction": 0.004629952566964286
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 2.7035764901134972e-05,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 4.147363630229192e-10,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 1024,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 1.5016431524459754e-13,
+          "validation_residual_energy_mean": 0.500010116133947,
+          "validation_residual_energy_p95": 0.6519955380847028,
+          "candidate_bytes_estimate": 319553536.0,
+          "original_bytes_estimate": 506462208,
+          "projected_dense_byte_reduction": 0.36904761904761907,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 6.096706788124874e-13,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 2.066917595042517e-13,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 1.7044885441148874e-13,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 1.3829245683254764e-13,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 7.381352959653167e-14,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        }
+      ]
+    },
+    "attention_input": {
+      "family": "attention_input",
+      "input_dim": 2688,
+      "basis_count": 6,
+      "calibration_rows": 1024,
+      "validation_rows": 1024,
+      "basis_rank_limit": 1024,
+      "singular_energy_top_fraction": 1.0,
+      "ranks": [
+        {
+          "rank": 128,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.22339823711159182,
+          "validation_residual_energy_mean": 0.38623851711389456,
+          "validation_residual_energy_p95": 0.5997260855092174,
+          "candidate_bytes_estimate": 17498112.0,
+          "original_bytes_estimate": 280756224,
+          "projected_dense_byte_reduction": 0.9376750700280112,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.49077374218401243,
+              "validation_fast_fraction": 0.7001953125,
+              "projected_expected_byte_reduction": 0.6565556886817226
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.3682927332586571,
+              "validation_fast_fraction": 0.4130859375,
+              "projected_expected_byte_reduction": 0.38734038537289917
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.3176952983742703,
+              "validation_fast_fraction": 0.3203125,
+              "projected_expected_byte_reduction": 0.3003490458683473
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.2506193506777362,
+              "validation_fast_fraction": 0.22265625,
+              "projected_expected_byte_reduction": 0.20877921481092437
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 0.007007510414265509,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.13643593139473123,
+          "validation_residual_energy_mean": 0.323946825070945,
+          "validation_residual_energy_p95": 0.5234950297097896,
+          "candidate_bytes_estimate": 34996224.0,
+          "original_bytes_estimate": 280756224,
+          "projected_dense_byte_reduction": 0.8753501400560224,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.358814154854859,
+              "validation_fast_fraction": 0.55859375,
+              "projected_expected_byte_reduction": 0.48896511729691877
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.2449015866478177,
+              "validation_fast_fraction": 0.3115234375,
+              "projected_expected_byte_reduction": 0.2726920846463585
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.21170551205849525,
+              "validation_fast_fraction": 0.2490234375,
+              "projected_expected_byte_reduction": 0.21798270089285715
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.14984877678376035,
+              "validation_fast_fraction": 0.142578125,
+              "projected_expected_byte_reduction": 0.12480578168767507
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 0.0033142118363405325,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 384,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.08554265464721039,
+          "validation_residual_energy_mean": 0.2861048956306721,
+          "validation_residual_energy_p95": 0.4725809659981224,
+          "candidate_bytes_estimate": 52494336.0,
+          "original_bytes_estimate": 280756224,
+          "projected_dense_byte_reduction": 0.8130252100840336,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.23204327590716683,
+              "validation_fast_fraction": 0.3583984375,
+              "projected_expected_byte_reduction": 0.2913869649422269
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.17144665451704927,
+              "validation_fast_fraction": 0.2529296875,
+              "projected_expected_byte_reduction": 0.20563821231617646
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.142711466706532,
+              "validation_fast_fraction": 0.1767578125,
+              "projected_expected_byte_reduction": 0.14370855764180673
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.08533066779913531,
+              "validation_fast_fraction": 0.0576171875,
+              "projected_expected_byte_reduction": 0.046844225971638655
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 0.0017071978777337504,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 512,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.05107649733247327,
+          "validation_residual_energy_mean": 0.25706003135365585,
+          "validation_residual_energy_p95": 0.4312095288118099,
+          "candidate_bytes_estimate": 69992448.0,
+          "original_bytes_estimate": 280756224,
+          "projected_dense_byte_reduction": 0.7507002801120448,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.1415936959235751,
+              "validation_fast_fraction": 0.2353515625,
+              "projected_expected_byte_reduction": 0.17667848389355742
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.11203813897203442,
+              "validation_fast_fraction": 0.1513671875,
+              "projected_expected_byte_reduction": 0.11363139005602241
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.09071698432316387,
+              "validation_fast_fraction": 0.091796875,
+              "projected_expected_byte_reduction": 0.06891193977591037
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.0424597186583492,
+              "validation_fast_fraction": 0.029296875,
+              "projected_expected_byte_reduction": 0.02199317226890756
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 0.0009215517391454576,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 768,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.011560312864557123,
+          "validation_residual_energy_mean": 0.21190511221457553,
+          "validation_residual_energy_p95": 0.36495055576304863,
+          "candidate_bytes_estimate": 104988672.0,
+          "original_bytes_estimate": 280756224,
+          "projected_dense_byte_reduction": 0.6260504201680672,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.055991539736808,
+              "validation_fast_fraction": 0.0859375,
+              "projected_expected_byte_reduction": 0.05380120798319328
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.03294299680473001,
+              "validation_fast_fraction": 0.0439453125,
+              "projected_expected_byte_reduction": 0.027511981355042018
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.01866820288667369,
+              "validation_fast_fraction": 0.0224609375,
+              "projected_expected_byte_reduction": 0.014061679359243698
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.005898056674510448,
+              "validation_fast_fraction": 0.0048828125,
+              "projected_expected_byte_reduction": 0.0030568868172268907
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 7.49269261687108e-05,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 1024,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 2.4307621132271246e-13,
+          "validation_residual_energy_mean": 0.17608013617037194,
+          "validation_residual_energy_p95": 0.30821514192865673,
+          "candidate_bytes_estimate": 139984896.0,
+          "original_bytes_estimate": 280756224,
+          "projected_dense_byte_reduction": 0.5014005602240896,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 3.3599042275172547e-12,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 3.3857284776791266e-13,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 2.514495164672052e-13,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 2.1265708593562949e-13,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 5.683566666791322e-14,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        }
+      ]
+    },
+    "moe_input": {
+      "family": "moe_input",
+      "input_dim": 2688,
+      "basis_count": 23,
+      "calibration_rows": 1024,
+      "validation_rows": 1024,
+      "basis_rank_limit": 1024,
+      "singular_energy_top_fraction": 1.0,
+      "ranks": [
+        {
+          "rank": 128,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.520518222832826,
+          "validation_residual_energy_mean": 0.8018327396780861,
+          "validation_residual_energy_p95": 0.94434813735335,
+          "candidate_bytes_estimate": 37683200.0,
+          "original_bytes_estimate": 458981376,
+          "projected_dense_byte_reduction": 0.9178981937602627,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.9624598398820953,
+              "validation_fast_fraction": 0.9990234375,
+              "projected_expected_byte_reduction": 0.9170018088054187
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.9112065515486318,
+              "validation_fast_fraction": 0.8193359375,
+              "projected_expected_byte_reduction": 0.7520669771141215
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.791106864286817,
+              "validation_fast_fraction": 0.3544921875,
+              "projected_expected_byte_reduction": 0.3253877386083744
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.5591192274374179,
+              "validation_fast_fraction": 0.048828125,
+              "projected_expected_byte_reduction": 0.04481924774220033
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 0.01713817261248022,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.3629098594066508,
+          "validation_residual_energy_mean": 0.734404129372044,
+          "validation_residual_energy_p95": 0.8938977442576764,
+          "candidate_bytes_estimate": 75366400.0,
+          "original_bytes_estimate": 458981376,
+          "projected_dense_byte_reduction": 0.8357963875205254,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.9201896711240739,
+              "validation_fast_fraction": 0.9990234375,
+              "projected_expected_byte_reduction": 0.8349801801108374
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.8278331014017444,
+              "validation_fast_fraction": 0.755859375,
+              "projected_expected_byte_reduction": 0.6317445350985221
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.6173618817474047,
+              "validation_fast_fraction": 0.18359375,
+              "projected_expected_byte_reduction": 0.15344699302134646
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.30937464437511064,
+              "validation_fast_fraction": 0.0107421875,
+              "projected_expected_byte_reduction": 0.008978281506568144
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 0.001290169987230679,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 384,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.25525703371690445,
+          "validation_residual_energy_mean": 0.6792080067739682,
+          "validation_residual_energy_p95": 0.840170013965743,
+          "candidate_bytes_estimate": 113049600.0,
+          "original_bytes_estimate": 458981376,
+          "projected_dense_byte_reduction": 0.7536945812807881,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.8730089206776382,
+              "validation_fast_fraction": 0.998046875,
+              "projected_expected_byte_reduction": 0.7522225215517241
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.7228936679149104,
+              "validation_fast_fraction": 0.537109375,
+              "projected_expected_byte_reduction": 0.4048164254926108
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.42519889715659365,
+              "validation_fast_fraction": 0.0517578125,
+              "projected_expected_byte_reduction": 0.03900958282019704
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.14614597133969146,
+              "validation_fast_fraction": 0.005859375,
+              "projected_expected_byte_reduction": 0.004416179187192118
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 0.0003716513978838375,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 512,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.1745791687910483,
+          "validation_residual_energy_mean": 0.6304368645274874,
+          "validation_residual_energy_p95": 0.7856527885977075,
+          "candidate_bytes_estimate": 150732800.0,
+          "original_bytes_estimate": 458981376,
+          "projected_dense_byte_reduction": 0.6715927750410509,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.812223274976149,
+              "validation_fast_fraction": 0.990234375,
+              "projected_expected_byte_reduction": 0.6650342518472906
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.5951521438461026,
+              "validation_fast_fraction": 0.2998046875,
+              "projected_expected_byte_reduction": 0.20134666204844004
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.24364616302396214,
+              "validation_fast_fraction": 0.0126953125,
+              "projected_expected_byte_reduction": 0.00852608015188834
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.07616385053601363,
+              "validation_fast_fraction": 0.00390625,
+              "projected_expected_byte_reduction": 0.002623409277504105
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 8.860954952431365e-05,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 768,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 0.06650026737614376,
+          "validation_residual_energy_mean": 0.5419932107033784,
+          "validation_residual_energy_p95": 0.6697032766653561,
+          "candidate_bytes_estimate": 226099200.0,
+          "original_bytes_estimate": 458981376,
+          "projected_dense_byte_reduction": 0.5073891625615763,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 0.6385260073157656,
+              "validation_fast_fraction": 0.8310546875,
+              "projected_expected_byte_reduction": 0.4216681419334975
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 0.26527574995921965,
+              "validation_fast_fraction": 0.0224609375,
+              "projected_expected_byte_reduction": 0.011396436268472905
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 0.044475803093246724,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 0.0045270484619383666,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 5.794939396940999e-06,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        },
+        {
+          "rank": 1024,
+          "status": "measured",
+          "calibration_rows": 1024,
+          "validation_rows": 1024,
+          "calibration_residual_energy_mean": 1.754688333196292e-13,
+          "validation_residual_energy_mean": 0.46296070546429036,
+          "validation_residual_energy_p95": 0.5747260954144411,
+          "candidate_bytes_estimate": 301465600.0,
+          "original_bytes_estimate": 458981376,
+          "projected_dense_byte_reduction": 0.34318555008210183,
+          "gates": {
+            "0.0": {
+              "calibration_threshold_residual_energy": 4.900543598936675e-13,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "0.1": {
+              "calibration_threshold_residual_energy": 2.1934760986203869e-13,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "0.25": {
+              "calibration_threshold_residual_energy": 2.0267761156803704e-13,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "0.5": {
+              "calibration_threshold_residual_energy": 1.7057265806782837e-13,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            },
+            "1.0": {
+              "calibration_threshold_residual_energy": 9.551917161719494e-14,
+              "validation_fast_fraction": 0.0,
+              "projected_expected_byte_reduction": 0.0
+            }
+          }
+        }
+      ]
+    },
+    "final_norm": {
+      "family": "final_norm",
+      "status": "activation_only",
+      "calibration_rows": 640,
+      "validation_rows": 640,
+      "ranks": []
+    }
+  },
+  "screen_gate": {
+    "promotion_open": false,
+    "reason": "official output and end-to-end quality gates were not measured in this screen"
+  }
+}

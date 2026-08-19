@@ -1,0 +1,96 @@
+{
+  "kind": "s100_lightning16_block_verifier",
+  "status": "measured",
+  "blocks": [
+    2,
+    4,
+    8
+  ],
+  "started_utc": "2026-08-19T10:53:06.125399+00:00",
+  "identity": {
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.cache\\nemotron_3_5_lightning\\hub\\models--nvidia--NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4\\snapshots\\e8f3c7c4de75ad84fe1bcef95d38eca76214480b",
+    "config_sha256": "f1d98b530846087dc08b574a219713a94f945bf6583dc7230a19ebf1e8c50933",
+    "index_sha256": "3c3bc7efa8d658c2e909a0b9020eb0f72064e6647de348856af4dee9895bead9",
+    "max_position_embeddings": 1048576,
+    "hidden_size": 2688,
+    "num_hidden_layers": 52,
+    "n_routed_experts": 128,
+    "num_experts_per_tok": 6,
+    "moe_intermediate_size": 1856,
+    "vocab_size": 131072,
+    "architectures": [
+      "NemotronHForCausalLM"
+    ],
+    "model_type": "nemotron_h",
+    "shard_count": 18487,
+    "expected": {
+      "max_position_embeddings": 1048576,
+      "hidden_size": 2688,
+      "num_hidden_layers": 52,
+      "n_routed_experts": 128,
+      "num_experts_per_tok": 6,
+      "moe_intermediate_size": 1856,
+      "vocab_size": 131072
+    },
+    "mismatches": {},
+    "LIGHTNING_IDENTITY_GREEN": true
+  },
+  "per_B": {
+    "2": {
+      "setup_ms": 99.2577,
+      "correctness": {
+        "positions_checked": 12,
+        "positions_accepted": 12,
+        "acceptance": 1.0,
+        "argmax_identity": true,
+        "state_fingerprint_equal": true,
+        "final_logits_bitexact": true
+      },
+      "cycle_ms_median": 37.555503845214844,
+      "cycle_ms_p10": 35.5989933013916,
+      "cycle_ms_p90": 38.666487503051755,
+      "sequential_B_tokens_ms_median": 36.31902313232422,
+      "block_vs_sequential_ratio": 1.0340449881701292,
+      "useful_tok_s_perfect_draft": 53.25451119609546,
+      "perfect_draft_s100_open": false
+    },
+    "4": {
+      "setup_ms": 145.0445,
+      "correctness": {
+        "positions_checked": 24,
+        "positions_accepted": 24,
+        "acceptance": 1.0,
+        "argmax_identity": true,
+        "state_fingerprint_equal": true,
+        "final_logits_bitexact": true
+      },
+      "cycle_ms_median": 73.09080123901367,
+      "cycle_ms_p10": 69.7208625793457,
+      "cycle_ms_p90": 75.56296844482422,
+      "sequential_B_tokens_ms_median": 72.45926284790039,
+      "block_vs_sequential_ratio": 1.0087157716804123,
+      "useful_tok_s_perfect_draft": 54.72644891276579,
+      "perfect_draft_s100_open": false
+    },
+    "8": {
+      "setup_ms": 289.125,
+      "correctness": {
+        "positions_checked": 48,
+        "positions_accepted": 48,
+        "acceptance": 1.0,
+        "argmax_identity": true,
+        "state_fingerprint_equal": true,
+        "final_logits_bitexact": true
+      },
+      "cycle_ms_median": 145.00430297851562,
+      "cycle_ms_p10": 139.07785339355468,
+      "cycle_ms_p90": 150.94261474609377,
+      "sequential_B_tokens_ms_median": 146.87860870361328,
+      "block_vs_sequential_ratio": 0.987239083065664,
+      "useful_tok_s_perfect_draft": 55.17077656092254,
+      "perfect_draft_s100_open": false
+    }
+  },
+  "LIGHTNING_PERFECT_DRAFT_S100_OPEN": false,
+  "completed_utc": "2026-08-19T10:54:34.706833+00:00"
+}

@@ -1,0 +1,68 @@
+{
+  "kind": "s100_phase20s_reclassify",
+  "status": "measured",
+  "started_utc": "2026-08-19T14:18:30.018136+00:00",
+  "attention_layers": [
+    5,
+    12,
+    19,
+    26,
+    33,
+    42
+  ],
+  "unknown_original": [
+    "backbone.layers.12.mixer.k_proj.k_scale",
+    "backbone.layers.12.mixer.v_proj.v_scale",
+    "backbone.layers.19.mixer.k_proj.k_scale",
+    "backbone.layers.19.mixer.v_proj.v_scale",
+    "backbone.layers.26.mixer.k_proj.k_scale",
+    "backbone.layers.26.mixer.v_proj.v_scale",
+    "backbone.layers.33.mixer.k_proj.k_scale",
+    "backbone.layers.33.mixer.v_proj.v_scale",
+    "backbone.layers.42.mixer.k_proj.k_scale",
+    "backbone.layers.42.mixer.v_proj.v_scale",
+    "backbone.layers.5.mixer.k_proj.k_scale",
+    "backbone.layers.5.mixer.v_proj.v_scale"
+  ],
+  "expected_kv_serving_metadata": [
+    "backbone.layers.5.mixer.k_scale",
+    "backbone.layers.5.mixer.v_scale",
+    "backbone.layers.12.mixer.k_scale",
+    "backbone.layers.12.mixer.v_scale",
+    "backbone.layers.19.mixer.k_scale",
+    "backbone.layers.19.mixer.v_scale",
+    "backbone.layers.26.mixer.k_scale",
+    "backbone.layers.26.mixer.v_scale",
+    "backbone.layers.33.mixer.k_scale",
+    "backbone.layers.33.mixer.v_scale",
+    "backbone.layers.42.mixer.k_scale",
+    "backbone.layers.42.mixer.v_scale"
+  ],
+  "kv_cache_declared": true,
+  "kv_cache_scheme": {
+    "dynamic": false,
+    "num_bits": 8,
+    "type": "float"
+  },
+  "kv_cache_quant_algo": "FP8",
+  "exact_12_only": false,
+  "expected_but_missing_count": 0,
+  "intentional_serving_metadata": [],
+  "TARGET_MATH_CONSUMPTION_GREEN": false,
+  "remaining_unknown_target_math": [
+    "backbone.layers.12.mixer.k_proj.k_scale",
+    "backbone.layers.12.mixer.v_proj.v_scale",
+    "backbone.layers.19.mixer.k_proj.k_scale",
+    "backbone.layers.19.mixer.v_proj.v_scale",
+    "backbone.layers.26.mixer.k_proj.k_scale",
+    "backbone.layers.26.mixer.v_proj.v_scale",
+    "backbone.layers.33.mixer.k_proj.k_scale",
+    "backbone.layers.33.mixer.v_proj.v_scale",
+    "backbone.layers.42.mixer.k_proj.k_scale",
+    "backbone.layers.42.mixer.v_proj.v_scale",
+    "backbone.layers.5.mixer.k_proj.k_scale",
+    "backbone.layers.5.mixer.v_proj.v_scale"
+  ],
+  "reason": "fail-closed: unknown set or quantization metadata does not match",
+  "completed_utc": "2026-08-19T14:18:30.041234+00:00"
+}

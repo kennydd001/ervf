@@ -1,0 +1,220 @@
+{
+  "kind": "s100_phase20s_layer_oracle",
+  "status": "measured",
+  "started_utc": "2026-08-19T14:18:30.265521+00:00",
+  "oracle_independence": "fresh safetensors reader + NumPy math; candidate runtime only captures inputs/outputs",
+  "sampled": {
+    "mamba": [
+      0,
+      25,
+      50
+    ],
+    "moe": [
+      1,
+      27,
+      51
+    ],
+    "attention": [
+      5,
+      12,
+      19,
+      26,
+      33,
+      42
+    ]
+  },
+  "results": {
+    "norm": [
+      {
+        "layer": 0,
+        "type": "mamba",
+        "nrmse": 0.0
+      },
+      {
+        "layer": 25,
+        "type": "mamba",
+        "nrmse": 6.387810559764618e-08
+      },
+      {
+        "layer": 50,
+        "type": "mamba",
+        "nrmse": 0.0
+      },
+      {
+        "layer": 1,
+        "type": "moe",
+        "nrmse": 8.801138251003053e-08
+      },
+      {
+        "layer": 27,
+        "type": "moe",
+        "nrmse": 0.0
+      },
+      {
+        "layer": 51,
+        "type": "moe",
+        "nrmse": 8.51267134359334e-08
+      },
+      {
+        "layer": 5,
+        "type": "attn",
+        "nrmse": 0.0
+      },
+      {
+        "layer": 12,
+        "type": "attn",
+        "nrmse": 2.093456678233547e-07
+      },
+      {
+        "layer": 19,
+        "type": "attn",
+        "nrmse": 0.0
+      },
+      {
+        "layer": 26,
+        "type": "attn",
+        "nrmse": 7.843338623139767e-08
+      },
+      {
+        "layer": 33,
+        "type": "attn",
+        "nrmse": 0.0
+      },
+      {
+        "layer": 42,
+        "type": "attn",
+        "nrmse": 0.0
+      }
+    ],
+    "mamba": [
+      {
+        "layer": 0,
+        "output_nrmse": 1.5818042329062341e-06,
+        "conv_state_nrmse": 1.3690104163345847e-07,
+        "ssm_state_nrmse": 5.391469487234016e-08
+      },
+      {
+        "layer": 25,
+        "output_nrmse": 7.140630500118981e-07,
+        "conv_state_nrmse": 1.5132094803201367e-07,
+        "ssm_state_nrmse": 7.337220662212475e-08
+      },
+      {
+        "layer": 50,
+        "output_nrmse": 3.498855450198744e-07,
+        "conv_state_nrmse": 1.4124990959252738e-07,
+        "ssm_state_nrmse": 1.0396654683822505e-07
+      }
+    ],
+    "attention": [
+      {
+        "layer": 5,
+        "tokens": 9,
+        "output_nrmse": 6.728059676985811e-07
+      },
+      {
+        "layer": 12,
+        "tokens": 9,
+        "output_nrmse": 5.995428107035131e-07
+      },
+      {
+        "layer": 19,
+        "tokens": 9,
+        "output_nrmse": 4.95347193494535e-07
+      },
+      {
+        "layer": 26,
+        "tokens": 9,
+        "output_nrmse": 6.198539478322821e-07
+      },
+      {
+        "layer": 33,
+        "tokens": 9,
+        "output_nrmse": 5.61099514014903e-07
+      },
+      {
+        "layer": 42,
+        "tokens": 9,
+        "output_nrmse": 7.187865535348002e-07
+      }
+    ],
+    "moe": [
+      {
+        "layer": 1,
+        "output_nrmse": 1.6968485517371953e-07,
+        "oracle_experts": [
+          58,
+          108,
+          114,
+          30,
+          45,
+          59
+        ],
+        "oracle_weights": [
+          0.4590610375266804,
+          0.4428225320481709,
+          0.4101021583845559,
+          0.4079180269787203,
+          0.4083954640782379,
+          0.37170078098363457
+        ]
+      },
+      {
+        "layer": 27,
+        "output_nrmse": 3.048075876658239e-07,
+        "oracle_experts": [
+          65,
+          98,
+          81,
+          115,
+          75,
+          113
+        ],
+        "oracle_weights": [
+          0.5553390225317627,
+          0.4855048343217805,
+          0.436910695147376,
+          0.4132142097986773,
+          0.355034747194661,
+          0.25399649100574256
+        ]
+      },
+      {
+        "layer": 51,
+        "output_nrmse": 1.7312944298392073e-07,
+        "oracle_experts": [
+          109,
+          62,
+          61,
+          76,
+          112,
+          81
+        ],
+        "oracle_weights": [
+          0.5307676097028405,
+          0.529257651286754,
+          0.4461018324026234,
+          0.4216155617458603,
+          0.30581406980068926,
+          0.2664432750612326
+        ]
+      }
+    ]
+  },
+  "final": {
+    "norm_nrmse": 0.0,
+    "logits_nrmse": 3.441532931273528e-07,
+    "top1_match": true
+  },
+  "gates": {
+    "norm": true,
+    "mamba": true,
+    "attention": true,
+    "moe": true,
+    "final_norm": true,
+    "final_logits": true,
+    "final_top1": true
+  },
+  "INDEPENDENT_LAYER_ORACLE_GREEN": true,
+  "completed_utc": "2026-08-19T14:19:19.524219+00:00"
+}

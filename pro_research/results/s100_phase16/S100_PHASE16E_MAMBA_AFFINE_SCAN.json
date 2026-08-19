@@ -1,14 +1,54 @@
 {
   "kind": "s100_phase16e_mamba_affine_scan",
-  "status": "technical_failure",
+  "status": "measured",
   "horizon": 8,
-  "tolerance_nrmse": 5e-05,
-  "started_utc": "2026-08-19T07:06:28.190882+00:00",
-  "claim_boundary": "SSM affine scan proof only; not a full block runtime",
-  "error": {
-    "type": "ValueError",
-    "message": "cannot reshape array of size 4096 into shape (64,64,128)",
-    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase16e_mamba_affine_scan.py\", line 126, in main\n    cy,cs,a,b=cpu_sequential(records)\n              ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase16e_mamba_affine_scan.py\", line 58, in cpu_sequential\n    state=r0[\"state_pre\"].reshape(HH,P,N).copy()\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: cannot reshape array of size 4096 into shape (64,64,128)\n"
-  },
-  "completed_utc": "2026-08-19T07:07:00.986008+00:00"
+  "formula_tolerance_nrmse": 0.0001,
+  "scan_tolerance_nrmse": 5e-05,
+  "started_utc": "2026-08-19T07:39:28.499040+00:00",
+  "claim_boundary": "repaired real SSM ABI; affine scan proof only",
+  "layers": [
+    0,
+    25,
+    50
+  ],
+  "results": [
+    {
+      "layer": 0,
+      "abi_state_elements": 524288,
+      "abi_expected_state_elements": 524288,
+      "max_formula_b_nrmse": 7.559406247767612e-07,
+      "scan_formula_vs_gpu_state_all_nrmse": 9.091640011293685e-08,
+      "scan_formula_vs_gpu_final_state_nrmse": 6.708013121019929e-08,
+      "scan_formula_vs_gpu_y_nrmse": 1.1941431638256396e-07,
+      "scan_observed_vs_gpu_state_all_nrmse": 5.4844473039537843e-08,
+      "scan_observed_vs_gpu_y_nrmse": 1.0389945000078773e-07,
+      "pass": true
+    },
+    {
+      "layer": 25,
+      "abi_state_elements": 524288,
+      "abi_expected_state_elements": 524288,
+      "max_formula_b_nrmse": 7.723792246676748e-07,
+      "scan_formula_vs_gpu_state_all_nrmse": 1.0266645367361898e-07,
+      "scan_formula_vs_gpu_final_state_nrmse": 1.4901339727343295e-07,
+      "scan_formula_vs_gpu_y_nrmse": 2.987169752735552e-07,
+      "scan_observed_vs_gpu_state_all_nrmse": 6.42919259406984e-08,
+      "scan_observed_vs_gpu_y_nrmse": 2.8463895090701023e-07,
+      "pass": true
+    },
+    {
+      "layer": 50,
+      "abi_state_elements": 524288,
+      "abi_expected_state_elements": 524288,
+      "max_formula_b_nrmse": 8.334929827488239e-07,
+      "scan_formula_vs_gpu_state_all_nrmse": 1.0858294673937676e-07,
+      "scan_formula_vs_gpu_final_state_nrmse": 1.6424806084593904e-07,
+      "scan_formula_vs_gpu_y_nrmse": 7.842293287659508e-08,
+      "scan_observed_vs_gpu_state_all_nrmse": 5.743234252024275e-08,
+      "scan_observed_vs_gpu_y_nrmse": 8.261608408175062e-08,
+      "pass": true
+    }
+  ],
+  "MAMBA_AFFINE_SCAN_BUILD_OPEN": true,
+  "completed_utc": "2026-08-19T07:40:11.401719+00:00"
 }

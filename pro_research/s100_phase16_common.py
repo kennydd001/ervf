@@ -55,8 +55,12 @@ class SelectiveNativeBF16:
         key=(int(W.data.ptr),int(rows),int(cols))
         wt=self.weights_t.get(key)
         if wt is None:
+            # Match the exact Phase-14 D2 primitive that was measured green:
+            # first materialize a Torch-owned BF16 copy, then transpose+pack.
+            # The prior Phase16 skipped clone(); q_proj then hit
+            # CUBLAS_STATUS_INVALID_VALUE on the runtime path.
             raw=(self.torch.utils.dlpack.from_dlpack(W)
-                 .view(self.torch.bfloat16).reshape(int(rows),int(cols)))
+                 .view(self.torch.bfloat16).reshape(int(rows),int(cols)).clone())
             wt=raw.t().contiguous()
             self.weights_t[key]=wt
         return wt
@@ -76,6 +80,8 @@ class SelectiveNativeBF16:
         return None
 
 def make_runtime(contexts_max=2048):
+    # Match the working Phase-14 D2 initialization order.
+    import torch
     from moe_lab.lightningstream_nemotron.runtime import LightningRuntime
     rt=LightningRuntime(Path(os.environ["LS_MODEL_DIR"]),contexts_max=contexts_max,
                         embed_on_host=True,fp8_kv=True,verbose=False)

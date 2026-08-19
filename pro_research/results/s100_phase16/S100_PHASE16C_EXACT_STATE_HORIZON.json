@@ -1,12 +1,3675 @@
 {
   "kind": "s100_phase16c_exact_state_horizon",
-  "status": "technical_failure",
-  "started_utc": "2026-08-19T07:05:53.750810+00:00",
+  "status": "measured",
+  "started_utc": "2026-08-19T07:37:09.802367+00:00",
   "claim_boundary": "candidate blocks start from exact state",
-  "error": {
-    "type": "RuntimeError",
-    "message": "CUDA error: CUBLAS_STATUS_INVALID_VALUE when calling `cublasGemmEx( handle, opa, opb, m, n, k, &falpha, a, CUDA_R_16BF, lda, b, CUDA_R_16BF, ldb, &fbeta, c, std::is_same_v<C_Dtype, float> ? CUDA_R_32F : CUDA_R_16BF, ldc, compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP)`",
-    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase16c_exact_state_horizon.py\", line 68, in main\n    s,go,recs=run_scope(rt,dispatch,rows,label,names)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase16c_exact_state_horizon.py\", line 24, in run_scope\n    tok=int(rt.step(int(tok)));cand.append(tok)\n            ^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\src\\moe_lab\\lightningstream_nemotron\\runtime.py\", line 819, in step\n    self._attention(i, self.acc)\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\src\\moe_lab\\lightningstream_nemotron\\runtime.py\", line 433, in _attention\n    k.mv_bf16(self.qv, d[\"q_proj\"], self.normed, self.n_heads * self.head_dim, self.hidden)\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase16_common.py\", line 73, in __call__\n    y=torch.mm(xb,self._weight_t(W,rows,cols)).float().reshape(-1)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: CUDA error: CUBLAS_STATUS_INVALID_VALUE when calling `cublasGemmEx( handle, opa, opb, m, n, k, &falpha, a, CUDA_R_16BF, lda, b, CUDA_R_16BF, ldb, &fbeta, c, std::is_same_v<C_Dtype, float> ? CUDA_R_32F : CUDA_R_16BF, ldc, compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP)`\n"
+  "results": {
+    "attention_all": {
+      "names": [
+        "attention_5_q",
+        "attention_5_k",
+        "attention_5_v",
+        "attention_5_o",
+        "attention_12_q",
+        "attention_12_k",
+        "attention_12_v",
+        "attention_12_o",
+        "attention_19_q",
+        "attention_19_k",
+        "attention_19_v",
+        "attention_19_o",
+        "attention_26_q",
+        "attention_26_k",
+        "attention_26_v",
+        "attention_26_o",
+        "attention_33_q",
+        "attention_33_k",
+        "attention_33_v",
+        "attention_33_o",
+        "attention_42_q",
+        "attention_42_k",
+        "attention_42_v",
+        "attention_42_o"
+      ],
+      "summary": {
+        "1": {
+          "blocks": 40,
+          "first_prediction_agreement": 0.775,
+          "mean_accepted_exact_prefix": 0.775,
+          "p50_accepted_exact_prefix": 1.0,
+          "full_block_match_rate": 0.775,
+          "mean_position_agreement": 0.775
+        },
+        "2": {
+          "blocks": 40,
+          "first_prediction_agreement": 0.775,
+          "mean_accepted_exact_prefix": 1.325,
+          "p50_accepted_exact_prefix": 2.0,
+          "full_block_match_rate": 0.55,
+          "mean_position_agreement": 0.675
+        },
+        "4": {
+          "blocks": 40,
+          "first_prediction_agreement": 0.7,
+          "mean_accepted_exact_prefix": 1.775,
+          "p50_accepted_exact_prefix": 1.5,
+          "full_block_match_rate": 0.2,
+          "mean_position_agreement": 0.48125
+        },
+        "8": {
+          "blocks": 40,
+          "first_prediction_agreement": 0.775,
+          "mean_accepted_exact_prefix": 2.2,
+          "p50_accepted_exact_prefix": 1.5,
+          "full_block_match_rate": 0.05,
+          "mean_position_agreement": 0.325
+        }
+      },
+      "H4_BLOCK_RESEARCH_GO": false,
+      "records": [
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            4391
+          ],
+          "candidate": [
+            59093
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            6091
+          ],
+          "candidate": [
+            6091
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 2,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            2203
+          ],
+          "candidate": [
+            2203
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            11883
+          ],
+          "candidate": [
+            11883
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 0,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1032
+          ],
+          "candidate": [
+            1032
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1049
+          ],
+          "candidate": [
+            1049
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 2,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1048
+          ],
+          "candidate": [
+            1048
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1048
+          ],
+          "candidate": [
+            1048
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 0,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            6160
+          ],
+          "candidate": [
+            6160
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 1,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            1046
+          ],
+          "candidate": [
+            2613
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 2,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            27923
+          ],
+          "candidate": [
+            5675
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1307
+          ],
+          "candidate": [
+            1307
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 0,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            3148
+          ],
+          "candidate": [
+            3148
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            70024
+          ],
+          "candidate": [
+            70024
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 2,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1536
+          ],
+          "candidate": [
+            1536
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1032
+          ],
+          "candidate": [
+            1032
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            9148
+          ],
+          "candidate": [
+            5972
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1454
+          ],
+          "candidate": [
+            1454
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 2,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1278
+          ],
+          "candidate": [
+            1278
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            8174
+          ],
+          "candidate": [
+            8174
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            99478
+          ],
+          "candidate": [
+            1603
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 1,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            21165
+          ],
+          "candidate": [
+            1261
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 2,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            8091
+          ],
+          "candidate": [
+            8091
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1505
+          ],
+          "candidate": [
+            1505
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            1603
+          ],
+          "candidate": [
+            1531
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 1,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            19429
+          ],
+          "candidate": [
+            1083
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 2,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1494
+          ],
+          "candidate": [
+            1494
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            6113
+          ],
+          "candidate": [
+            6113
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            5682
+          ],
+          "candidate": [
+            3005
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1489
+          ],
+          "candidate": [
+            1489
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 2,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1765
+          ],
+          "candidate": [
+            1765
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            4432
+          ],
+          "candidate": [
+            4432
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 0,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1010
+          ],
+          "candidate": [
+            1010
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            3761
+          ],
+          "candidate": [
+            3761
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 2,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            65169
+          ],
+          "candidate": [
+            65169
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            7188
+          ],
+          "candidate": [
+            7188
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 0,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            9148
+          ],
+          "candidate": [
+            9148
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1454
+          ],
+          "candidate": [
+            1454
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 2,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1278
+          ],
+          "candidate": [
+            1278
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 1,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            8174
+          ],
+          "candidate": [
+            8174
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            4391,
+            6091
+          ],
+          "candidate": [
+            59093,
+            2203
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 1,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            2203,
+            11883
+          ],
+          "candidate": [
+            2203,
+            11883
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 2,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            6091,
+            11489
+          ],
+          "candidate": [
+            6091,
+            11489
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 3,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1294,
+            18060
+          ],
+          "candidate": [
+            1294,
+            18060
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 0,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1032,
+            1049
+          ],
+          "candidate": [
+            1032,
+            1049
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            1048,
+            1048
+          ],
+          "candidate": [
+            1048,
+            59199
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 2,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            59199,
+            12801
+          ],
+          "candidate": [
+            59199,
+            12801
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            1044,
+            41815
+          ],
+          "candidate": [
+            1044,
+            3633
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            6160,
+            1046
+          ],
+          "candidate": [
+            53274,
+            2613
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 1,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            27923,
+            1307
+          ],
+          "candidate": [
+            1034,
+            1058
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 2,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1278,
+            3629
+          ],
+          "candidate": [
+            1278,
+            3629
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 3,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            4016,
+            1402
+          ],
+          "candidate": [
+            21166,
+            1395
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 0,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            3148,
+            70024
+          ],
+          "candidate": [
+            3148,
+            70024
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 1,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1536,
+            1032
+          ],
+          "candidate": [
+            1536,
+            1032
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 2,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1051,
+            1046
+          ],
+          "candidate": [
+            1051,
+            1046
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 3,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1256,
+            1010
+          ],
+          "candidate": [
+            1256,
+            1010
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            9148,
+            1454
+          ],
+          "candidate": [
+            5972,
+            5966
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 1,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1278,
+            8174
+          ],
+          "candidate": [
+            1278,
+            8174
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 2,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1058,
+            2158
+          ],
+          "candidate": [
+            1058,
+            2158
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 3,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            21788,
+            1278
+          ],
+          "candidate": [
+            21788,
+            1278
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 0,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            99478,
+            21165
+          ],
+          "candidate": [
+            99478,
+            1261
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            8091,
+            1505
+          ],
+          "candidate": [
+            8091,
+            1321
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 2,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            15421,
+            26236
+          ],
+          "candidate": [
+            26808,
+            1044
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            1626,
+            1045
+          ],
+          "candidate": [
+            1626,
+            1626
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            1603,
+            19429
+          ],
+          "candidate": [
+            1531,
+            44077
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 1,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1494,
+            6113
+          ],
+          "candidate": [
+            1494,
+            6113
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 2,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            5450,
+            2157
+          ],
+          "candidate": [
+            5450,
+            2157
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 3,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            21622,
+            1261
+          ],
+          "candidate": [
+            2190,
+            2129
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 0,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            5682,
+            1489
+          ],
+          "candidate": [
+            5682,
+            1256
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            1765,
+            4432
+          ],
+          "candidate": [
+            1765,
+            60166
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 2,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            4216,
+            1695
+          ],
+          "candidate": [
+            4216,
+            1695
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 3,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            1351,
+            1044
+          ],
+          "candidate": [
+            3832,
+            1044
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 0,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1010,
+            3761
+          ],
+          "candidate": [
+            1010,
+            3761
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            65169,
+            7188
+          ],
+          "candidate": [
+            65169,
+            89898
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 2,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            24072,
+            1032
+          ],
+          "candidate": [
+            24072,
+            1032
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            1049,
+            1048
+          ],
+          "candidate": [
+            1049,
+            1053
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 0,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            9148,
+            1454
+          ],
+          "candidate": [
+            9148,
+            1454
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 1,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1278,
+            8174
+          ],
+          "candidate": [
+            1278,
+            8174
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 2,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1058,
+            2158
+          ],
+          "candidate": [
+            1058,
+            2158
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 2,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 3,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            21788,
+            1278
+          ],
+          "candidate": [
+            21788,
+            1278
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            4391,
+            6091,
+            2203,
+            11883
+          ],
+          "candidate": [
+            6091,
+            1562,
+            1278,
+            1562
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            6091,
+            11489,
+            1294,
+            18060
+          ],
+          "candidate": [
+            6091,
+            6091,
+            11489,
+            1294
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 2,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            1046,
+            1531,
+            2832,
+            12366
+          ],
+          "candidate": [
+            93156,
+            1046,
+            1784,
+            1278
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 3,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.75,
+          "exact": [
+            1294,
+            101255,
+            1115,
+            1044
+          ],
+          "candidate": [
+            1294,
+            101255,
+            1044,
+            1044
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 0,
+          "accepted_exact_prefix": 3,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.75,
+          "exact": [
+            1032,
+            1049,
+            1048,
+            1048
+          ],
+          "candidate": [
+            1032,
+            1049,
+            1048,
+            1032
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 1,
+          "accepted_exact_prefix": 4,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            59199,
+            12801,
+            1044,
+            41815
+          ],
+          "candidate": [
+            59199,
+            12801,
+            1044,
+            41815
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 2,
+          "accepted_exact_prefix": 4,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            12134,
+            1032,
+            1049,
+            1048
+          ],
+          "candidate": [
+            12134,
+            1032,
+            1049,
+            1048
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 3,
+          "accepted_exact_prefix": 4,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1048,
+            59199,
+            12801,
+            1395
+          ],
+          "candidate": [
+            1048,
+            59199,
+            12801,
+            1395
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            6160,
+            1046,
+            27923,
+            1307
+          ],
+          "candidate": [
+            53274,
+            2613,
+            4493,
+            4832
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 1,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            1278,
+            3629,
+            4016,
+            1402
+          ],
+          "candidate": [
+            1278,
+            3629,
+            21166,
+            1395
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 2,
+          "accepted_exact_prefix": 4,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            2925,
+            10555,
+            47191,
+            1058
+          ],
+          "candidate": [
+            2925,
+            10555,
+            47191,
+            1058
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 3,
+          "accepted_exact_prefix": 3,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.75,
+          "exact": [
+            1349,
+            1041,
+            1531,
+            7616
+          ],
+          "candidate": [
+            1349,
+            1041,
+            1531,
+            4978
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 0,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            3148,
+            70024,
+            1536,
+            1032
+          ],
+          "candidate": [
+            3148,
+            3148,
+            87199,
+            1536
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 1,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.75,
+          "exact": [
+            1051,
+            1046,
+            1256,
+            1010
+          ],
+          "candidate": [
+            1051,
+            1046,
+            1046,
+            1010
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 2,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            1045,
+            18147,
+            3148,
+            1058
+          ],
+          "candidate": [
+            1784,
+            4275,
+            3148,
+            1395
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            2007,
+            1053,
+            1052,
+            1617
+          ],
+          "candidate": [
+            2007,
+            1049,
+            1617,
+            1123
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            9148,
+            1454,
+            1278,
+            8174
+          ],
+          "candidate": [
+            5972,
+            5966,
+            1536,
+            1536
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 1,
+          "accepted_exact_prefix": 4,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            1058,
+            2158,
+            21788,
+            1278
+          ],
+          "candidate": [
+            1058,
+            2158,
+            21788,
+            1278
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 2,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            4546,
+            3541,
+            1394,
+            3541
+          ],
+          "candidate": [
+            4546,
+            1286,
+            4546,
+            3541
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            3816,
+            4036,
+            1044,
+            2430
+          ],
+          "candidate": [
+            3816,
+            1044,
+            21788,
+            1044
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            99478,
+            21165,
+            8091,
+            1505
+          ],
+          "candidate": [
+            1278,
+            3244,
+            1058,
+            1032
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 1,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            15421,
+            26236,
+            1626,
+            1045
+          ],
+          "candidate": [
+            26808,
+            36090,
+            1626,
+            1626
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 2,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            129575,
+            6763,
+            29190,
+            48192
+          ],
+          "candidate": [
+            129575,
+            2606,
+            5782,
+            55327
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 3,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            1321,
+            37957,
+            1626,
+            1045
+          ],
+          "candidate": [
+            1058,
+            55818,
+            1101,
+            37957
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            1603,
+            19429,
+            1494,
+            6113
+          ],
+          "candidate": [
+            1531,
+            44077,
+            1395,
+            1261
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 1,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.75,
+          "exact": [
+            5450,
+            2157,
+            21622,
+            1261
+          ],
+          "candidate": [
+            5450,
+            2157,
+            2190,
+            1261
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 2,
+          "accepted_exact_prefix": 3,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.75,
+          "exact": [
+            9533,
+            21956,
+            1321,
+            34195
+          ],
+          "candidate": [
+            9533,
+            21956,
+            1321,
+            1261
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 3,
+          "accepted_exact_prefix": 3,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.75,
+          "exact": [
+            1278,
+            20294,
+            1562,
+            57309
+          ],
+          "candidate": [
+            1278,
+            20294,
+            1562,
+            2129
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            5682,
+            1489,
+            1765,
+            4432
+          ],
+          "candidate": [
+            3005,
+            1256,
+            1010,
+            1045
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            4216,
+            1695,
+            1351,
+            1044
+          ],
+          "candidate": [
+            4216,
+            1262,
+            41140,
+            2704
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 2,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            114105,
+            2518,
+            5223,
+            1351
+          ],
+          "candidate": [
+            63092,
+            39923,
+            1044,
+            125584
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 3,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            2019,
+            3230,
+            3464,
+            2548
+          ],
+          "candidate": [
+            125584,
+            2704,
+            1626,
+            1626
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 0,
+          "accepted_exact_prefix": 3,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.75,
+          "exact": [
+            1010,
+            3761,
+            65169,
+            7188
+          ],
+          "candidate": [
+            1010,
+            3761,
+            65169,
+            89898
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 1,
+          "accepted_exact_prefix": 3,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.75,
+          "exact": [
+            24072,
+            1032,
+            1049,
+            1048
+          ],
+          "candidate": [
+            24072,
+            1032,
+            1049,
+            1053
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 2,
+          "accepted_exact_prefix": 4,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            59199,
+            2422,
+            8318,
+            1777
+          ],
+          "candidate": [
+            59199,
+            2422,
+            8318,
+            1777
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 3,
+          "accepted_exact_prefix": 4,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            38891,
+            5433,
+            4432,
+            16396
+          ],
+          "candidate": [
+            38891,
+            5433,
+            4432,
+            16396
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 0,
+          "accepted_exact_prefix": 3,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.75,
+          "exact": [
+            9148,
+            1454,
+            1278,
+            8174
+          ],
+          "candidate": [
+            9148,
+            1454,
+            1278,
+            1261
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 1,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            1058,
+            2158,
+            21788,
+            1278
+          ],
+          "candidate": [
+            1058,
+            2158,
+            1010,
+            1766
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 2,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            4546,
+            3541,
+            1394,
+            3541
+          ],
+          "candidate": [
+            4546,
+            1286,
+            1044,
+            19929
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 4,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 3,
+          "accepted_exact_prefix": 4,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            3816,
+            4036,
+            1044,
+            2430
+          ],
+          "candidate": [
+            3816,
+            4036,
+            1044,
+            2430
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.125,
+          "exact": [
+            4391,
+            6091,
+            2203,
+            11883,
+            6091,
+            11489,
+            1294,
+            18060
+          ],
+          "candidate": [
+            59093,
+            2203,
+            11883,
+            6091,
+            1044,
+            20044,
+            6403,
+            18060
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.125,
+          "exact": [
+            1046,
+            1531,
+            2832,
+            12366,
+            1294,
+            101255,
+            1115,
+            1044
+          ],
+          "candidate": [
+            1046,
+            1784,
+            1044,
+            1636,
+            1044,
+            1321,
+            1278,
+            1307
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 2,
+          "accepted_exact_prefix": 4,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            2478,
+            100898,
+            66583,
+            59093,
+            1317,
+            13156,
+            4180,
+            15382
+          ],
+          "candidate": [
+            2478,
+            100898,
+            66583,
+            59093,
+            1321,
+            34747,
+            1278,
+            16278
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "fact_en_02",
+          "domain": "factual_en",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.125,
+          "exact": [
+            1044,
+            47457,
+            14297,
+            1321,
+            63536,
+            35572,
+            1046,
+            4634
+          ],
+          "candidate": [
+            1044,
+            105775,
+            37247,
+            14297,
+            1321,
+            1278,
+            14297,
+            8077
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 0,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.125,
+          "exact": [
+            1032,
+            1049,
+            1048,
+            1048,
+            59199,
+            12801,
+            1044,
+            41815
+          ],
+          "candidate": [
+            1032,
+            2025,
+            79092,
+            1046,
+            1784,
+            109431,
+            29212,
+            109431
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 1,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            12134,
+            1032,
+            1049,
+            1048,
+            1048,
+            59199,
+            12801,
+            1395
+          ],
+          "candidate": [
+            3801,
+            1889,
+            9008,
+            3293,
+            20260,
+            1409,
+            5715,
+            1046
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 2,
+          "accepted_exact_prefix": 3,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.375,
+          "exact": [
+            1765,
+            29747,
+            4180,
+            22522,
+            1294,
+            1311,
+            1330,
+            45838
+          ],
+          "candidate": [
+            1765,
+            29747,
+            4180,
+            114927,
+            3633,
+            9008,
+            11063,
+            1046
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "fact_nl_02",
+          "domain": "factual_nl",
+          "block": 3,
+          "accepted_exact_prefix": 4,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            1612,
+            1667,
+            22080,
+            1046,
+            1256,
+            1010,
+            1045,
+            1603
+          ],
+          "candidate": [
+            1612,
+            1667,
+            22080,
+            1046,
+            1784,
+            1045,
+            1050,
+            1048
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 0,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.125,
+          "exact": [
+            6160,
+            1046,
+            27923,
+            1307,
+            1278,
+            3629,
+            4016,
+            1402
+          ],
+          "candidate": [
+            6160,
+            2613,
+            5646,
+            5659,
+            1395,
+            3533,
+            1317,
+            1058
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 1,
+          "accepted_exact_prefix": 7,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.875,
+          "exact": [
+            2925,
+            10555,
+            47191,
+            1058,
+            1349,
+            1041,
+            1531,
+            7616
+          ],
+          "candidate": [
+            2925,
+            10555,
+            47191,
+            1058,
+            1349,
+            1041,
+            1531,
+            1044
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 2,
+          "accepted_exact_prefix": 4,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            1395,
+            69087,
+            2224,
+            1278,
+            6160,
+            1046,
+            1398,
+            1041
+          ],
+          "candidate": [
+            1395,
+            69087,
+            2224,
+            1278,
+            4978,
+            1398,
+            1041,
+            1531
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "reason_02",
+          "domain": "reasoning",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.75,
+          "exact": [
+            1531,
+            6160,
+            1395,
+            69087,
+            2224,
+            1278,
+            7616,
+            1046
+          ],
+          "candidate": [
+            1531,
+            4978,
+            1395,
+            69087,
+            2224,
+            1278,
+            6160,
+            1046
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 0,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            3148,
+            70024,
+            1536,
+            1032,
+            1051,
+            1046,
+            1256,
+            1010
+          ],
+          "candidate": [
+            3148,
+            70024,
+            70024,
+            1536,
+            1032,
+            1051,
+            1046,
+            4493
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 1,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.125,
+          "exact": [
+            1045,
+            18147,
+            3148,
+            1058,
+            2007,
+            1053,
+            1052,
+            1617
+          ],
+          "candidate": [
+            1784,
+            4275,
+            3148,
+            3148,
+            1395,
+            1278,
+            2782,
+            1395
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 2,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            8379,
+            1032,
+            1051,
+            1376,
+            1032,
+            1049,
+            1054,
+            1050
+          ],
+          "candidate": [
+            8379,
+            1032,
+            3433,
+            1123,
+            1049,
+            3483,
+            1123,
+            1051
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "math_02",
+          "domain": "mathematics",
+          "block": 3,
+          "accepted_exact_prefix": 4,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            1918,
+            1256,
+            1010,
+            1045,
+            21057,
+            3148,
+            1058,
+            2007
+          ],
+          "candidate": [
+            1918,
+            1256,
+            1010,
+            1045,
+            2007,
+            1049,
+            1054,
+            1050
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            9148,
+            1454,
+            1278,
+            8174,
+            1058,
+            2158,
+            21788,
+            1278
+          ],
+          "candidate": [
+            5972,
+            5966,
+            1536,
+            5966,
+            4043,
+            1278,
+            3330,
+            17000
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 1,
+          "accepted_exact_prefix": 8,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            4546,
+            3541,
+            1394,
+            3541,
+            3816,
+            4036,
+            1044,
+            2430
+          ],
+          "candidate": [
+            4546,
+            3541,
+            1394,
+            3541,
+            3816,
+            4036,
+            1044,
+            2430
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 2,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.125,
+          "exact": [
+            5628,
+            2143,
+            4832,
+            1319,
+            1049,
+            1046,
+            1653,
+            1605
+          ],
+          "candidate": [
+            5628,
+            1752,
+            2143,
+            4832,
+            1319,
+            1317,
+            1093,
+            4410
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "code_02",
+          "domain": "code",
+          "block": 3,
+          "accepted_exact_prefix": 3,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.375,
+          "exact": [
+            4150,
+            2258,
+            6619,
+            1505,
+            11084,
+            3066,
+            54272,
+            1278
+          ],
+          "candidate": [
+            4150,
+            2258,
+            6619,
+            3066,
+            54272,
+            1044,
+            1032,
+            1046
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 0,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.125,
+          "exact": [
+            99478,
+            21165,
+            8091,
+            1505,
+            15421,
+            26236,
+            1626,
+            1045
+          ],
+          "candidate": [
+            99478,
+            1261,
+            4958,
+            17616,
+            2906,
+            1319,
+            87088,
+            1261
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.125,
+          "exact": [
+            129575,
+            6763,
+            29190,
+            48192,
+            1321,
+            37957,
+            1626,
+            1045
+          ],
+          "candidate": [
+            129575,
+            1058,
+            6906,
+            17000,
+            17984,
+            17984,
+            1063,
+            3247
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 2,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            37053,
+            10980,
+            5628,
+            3336,
+            26544,
+            1626,
+            1045,
+            40659
+          ],
+          "candidate": [
+            37053,
+            10980,
+            7693,
+            55818,
+            1101,
+            37957,
+            8070,
+            55818
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "tech_02",
+          "domain": "technical",
+          "block": 3,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.375,
+          "exact": [
+            20294,
+            16157,
+            1044,
+            6133,
+            1626,
+            1045,
+            3501,
+            1759
+          ],
+          "candidate": [
+            20294,
+            5594,
+            10304,
+            27705,
+            1626,
+            1045,
+            99478,
+            17984
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 0,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            1603,
+            19429,
+            1494,
+            6113,
+            5450,
+            2157,
+            21622,
+            1261
+          ],
+          "candidate": [
+            1531,
+            1058,
+            1429,
+            1784,
+            1048,
+            1048,
+            1048,
+            1034
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 1,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            9533,
+            21956,
+            1321,
+            34195,
+            1278,
+            20294,
+            1562,
+            57309
+          ],
+          "candidate": [
+            1364,
+            71532,
+            1042,
+            1319,
+            1097,
+            4811,
+            1044,
+            27421
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 2,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.375,
+          "exact": [
+            1317,
+            10537,
+            1046,
+            1531,
+            44077,
+            55325,
+            49111,
+            1321
+          ],
+          "candidate": [
+            1317,
+            49111,
+            1046,
+            1531,
+            3330,
+            15923,
+            4145,
+            1395
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "creative_en_02",
+          "domain": "creative_en",
+          "block": 3,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            24628,
+            2251,
+            1395,
+            1494,
+            1261,
+            4987,
+            1063,
+            1349
+          ],
+          "candidate": [
+            10537,
+            1044,
+            88646,
+            61549,
+            1317,
+            23249,
+            2549,
+            2190
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 0,
+          "accepted_exact_prefix": 3,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.375,
+          "exact": [
+            5682,
+            1489,
+            1765,
+            4432,
+            4216,
+            1695,
+            1351,
+            1044
+          ],
+          "candidate": [
+            5682,
+            1489,
+            1765,
+            1262,
+            4432,
+            1314,
+            1395,
+            4432
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 1,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            114105,
+            2518,
+            5223,
+            1351,
+            2019,
+            3230,
+            3464,
+            2548
+          ],
+          "candidate": [
+            63092,
+            39923,
+            55633,
+            2454,
+            109431,
+            1626,
+            3195,
+            1594
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 2,
+          "accepted_exact_prefix": 7,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.875,
+          "exact": [
+            2704,
+            1626,
+            1045,
+            2163,
+            3484,
+            3633,
+            3801,
+            125584
+          ],
+          "candidate": [
+            2704,
+            1626,
+            1045,
+            2163,
+            3484,
+            3633,
+            3801,
+            14891
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "creative_nl_02",
+          "domain": "creative_nl",
+          "block": 3,
+          "accepted_exact_prefix": 4,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            35498,
+            8738,
+            2477,
+            4432,
+            4216,
+            1112,
+            2548,
+            3633
+          ],
+          "candidate": [
+            35498,
+            8738,
+            2477,
+            4432,
+            1058,
+            1429,
+            14891,
+            1429
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 0,
+          "accepted_exact_prefix": 4,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.5,
+          "exact": [
+            1010,
+            3761,
+            65169,
+            7188,
+            24072,
+            1032,
+            1049,
+            1048
+          ],
+          "candidate": [
+            1010,
+            3761,
+            65169,
+            7188,
+            102953,
+            2477,
+            4432,
+            7188
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 1,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.875,
+          "exact": [
+            59199,
+            2422,
+            8318,
+            1777,
+            38891,
+            5433,
+            4432,
+            16396
+          ],
+          "candidate": [
+            59199,
+            2422,
+            1991,
+            1777,
+            38891,
+            5433,
+            4432,
+            16396
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 2,
+          "accepted_exact_prefix": 0,
+          "first_prediction_match": false,
+          "full_block_match": false,
+          "position_agreement": 0.0,
+          "exact": [
+            1101,
+            38192,
+            1044,
+            17036,
+            3944,
+            24922,
+            1311,
+            7188
+          ],
+          "candidate": [
+            1044,
+            17036,
+            89898,
+            1311,
+            65169,
+            89898,
+            40778,
+            89898
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "summary_02",
+          "domain": "summarisation",
+          "block": 3,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            3185,
+            1302,
+            11895,
+            14225,
+            74304,
+            3656,
+            13572,
+            1294
+          ],
+          "candidate": [
+            3185,
+            1302,
+            1294,
+            1418,
+            43479,
+            1046,
+            11,
+            1010
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 0,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            9148,
+            1454,
+            1278,
+            8174,
+            1058,
+            2158,
+            21788,
+            1278
+          ],
+          "candidate": [
+            9148,
+            1454,
+            1294,
+            1294,
+            7846,
+            4043,
+            4268,
+            2534
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 1,
+          "accepted_exact_prefix": 1,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.125,
+          "exact": [
+            4546,
+            3541,
+            1394,
+            3541,
+            3816,
+            4036,
+            1044,
+            2430
+          ],
+          "candidate": [
+            4546,
+            1286,
+            4546,
+            19929,
+            19929,
+            1044,
+            5213,
+            1044
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 2,
+          "accepted_exact_prefix": 8,
+          "first_prediction_match": true,
+          "full_block_match": true,
+          "position_agreement": 1.0,
+          "exact": [
+            5628,
+            2143,
+            4832,
+            1319,
+            1049,
+            1046,
+            1653,
+            1605
+          ],
+          "candidate": [
+            5628,
+            2143,
+            4832,
+            1319,
+            1049,
+            1046,
+            1653,
+            1605
+          ]
+        },
+        {
+          "scope": "attention_all",
+          "horizon": 8,
+          "prompt_id": "instr_02",
+          "domain": "instruction_following",
+          "block": 3,
+          "accepted_exact_prefix": 2,
+          "first_prediction_match": true,
+          "full_block_match": false,
+          "position_agreement": 0.25,
+          "exact": [
+            4150,
+            2258,
+            6619,
+            1505,
+            11084,
+            3066,
+            54272,
+            1278
+          ],
+          "candidate": [
+            4150,
+            2258,
+            4543,
+            1636,
+            1653,
+            1605,
+            2840,
+            1044
+          ]
+        }
+      ]
+    }
   },
-  "completed_utc": "2026-08-19T07:06:25.828530+00:00"
+  "ANY_H4_BLOCK_RESEARCH_GO": false,
+  "completed_utc": "2026-08-19T07:39:25.392174+00:00"
 }

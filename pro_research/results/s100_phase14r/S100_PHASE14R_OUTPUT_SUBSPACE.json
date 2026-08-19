@@ -1,0 +1,4073 @@
+{
+  "kind": "s100_phase14r_output_subspace",
+  "status": "measured",
+  "started_utc": "2026-08-19T08:21:26.027618+00:00",
+  "tokens_per_prompt": 48,
+  "max_rows": 320,
+  "cases": {
+    "attention_12_k": {
+      "family": "attention_k",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 256,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 188416,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.8630952380952381,
+          "validation": {
+            "nrmse": 0.5595427551733517,
+            "mean_cosine": 0.8120818520280417,
+            "min_cosine": 0.522396099934533,
+            "p95_relative_row_error": 0.7704575989345509,
+            "max_relative_row_error": 0.8802262418345483,
+            "row_argmax_agreement": 0.575,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 376832,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.7261904761904762,
+          "validation": {
+            "nrmse": 0.5209910992322855,
+            "mean_cosine": 0.8408709763594533,
+            "min_cosine": 0.579452349694629,
+            "p95_relative_row_error": 0.7202176772468979,
+            "max_relative_row_error": 0.8172811338704066,
+            "row_argmax_agreement": 0.60625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 753664,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.45238095238095233,
+          "validation": {
+            "nrmse": 0.4816741391640509,
+            "mean_cosine": 0.8670530444024476,
+            "min_cosine": 0.6081426617880415,
+            "p95_relative_row_error": 0.6757088262430375,
+            "max_relative_row_error": 0.794209676523438,
+            "row_argmax_agreement": 0.65625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 1130496,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.1785714285714286,
+          "validation": {
+            "nrmse": 0.4663672875034707,
+            "mean_cosine": 0.8765339431764045,
+            "min_cosine": 0.6700554024781371,
+            "p95_relative_row_error": 0.6584968396094121,
+            "max_relative_row_error": 0.7430704196580294,
+            "row_argmax_agreement": 0.678125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 1507328,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": -0.09523809523809534,
+          "validation": {
+            "nrmse": 0.46196148771409146,
+            "mean_cosine": 0.8791712908618632,
+            "min_cosine": 0.6746745336686606,
+            "p95_relative_row_error": 0.6477732956396567,
+            "max_relative_row_error": 0.7388540982085815,
+            "row_argmax_agreement": 0.684375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_12_o": {
+      "family": "attention_o",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 4096,
+      "output_dim": 2688,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9802827380952381,
+          "validation": {
+            "nrmse": 0.44956699923151716,
+            "mean_cosine": 0.858742003896689,
+            "min_cosine": 0.36340336312064403,
+            "p95_relative_row_error": 0.8487810776573165,
+            "max_relative_row_error": 0.9507663167388112,
+            "row_argmax_agreement": 0.990625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9605654761904762,
+          "validation": {
+            "nrmse": 0.43717124428622867,
+            "mean_cosine": 0.8686473668591267,
+            "min_cosine": 0.4071577343351321,
+            "p95_relative_row_error": 0.8231915291682497,
+            "max_relative_row_error": 0.9340966678284696,
+            "row_argmax_agreement": 0.990625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9211309523809523,
+          "validation": {
+            "nrmse": 0.4260749346383363,
+            "mean_cosine": 0.8776245061281255,
+            "min_cosine": 0.45247822377290087,
+            "p95_relative_row_error": 0.7988352557796004,
+            "max_relative_row_error": 0.918249655585073,
+            "row_argmax_agreement": 0.990625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.8816964285714286,
+          "validation": {
+            "nrmse": 0.42009005493154444,
+            "mean_cosine": 0.8821300262520676,
+            "min_cosine": 0.4673634321295399,
+            "p95_relative_row_error": 0.7889943384954512,
+            "max_relative_row_error": 0.9174955282302105,
+            "row_argmax_agreement": 0.990625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.8422619047619048,
+          "validation": {
+            "nrmse": 0.4167639519304996,
+            "mean_cosine": 0.8847851653136246,
+            "min_cosine": 0.4961986150139253,
+            "p95_relative_row_error": 0.7839229860966215,
+            "max_relative_row_error": 0.9038108500192312,
+            "row_argmax_agreement": 0.990625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_12_q": {
+      "family": "attention_q",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 4096,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.929894225173724,
+          "validation": {
+            "nrmse": 0.5430595244167299,
+            "mean_cosine": 0.8411843748574288,
+            "min_cosine": 0.6170876772017326,
+            "p95_relative_row_error": 0.6383664008177204,
+            "max_relative_row_error": 0.8231250847481881,
+            "row_argmax_agreement": 0.403125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.859788450347448,
+          "validation": {
+            "nrmse": 0.5066626570413727,
+            "mean_cosine": 0.8640004337693533,
+            "min_cosine": 0.6768346219843573,
+            "p95_relative_row_error": 0.607338423682843,
+            "max_relative_row_error": 0.7707018847179946,
+            "row_argmax_agreement": 0.440625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.7195769006948961,
+          "validation": {
+            "nrmse": 0.4755507978522086,
+            "mean_cosine": 0.8823232501131292,
+            "min_cosine": 0.7868230018524643,
+            "p95_relative_row_error": 0.5757228537523246,
+            "max_relative_row_error": 0.6244945864837537,
+            "row_argmax_agreement": 0.4625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.5793653510423442,
+          "validation": {
+            "nrmse": 0.4615933536164473,
+            "mean_cosine": 0.8899953468128737,
+            "min_cosine": 0.7956428407272302,
+            "p95_relative_row_error": 0.5606457876690367,
+            "max_relative_row_error": 0.6109689782570331,
+            "row_argmax_agreement": 0.475,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.4391538013897922,
+          "validation": {
+            "nrmse": 0.4534148063425547,
+            "mean_cosine": 0.8941600026794563,
+            "min_cosine": 0.8014741735398688,
+            "p95_relative_row_error": 0.5540322876297391,
+            "max_relative_row_error": 0.6034057152014969,
+            "row_argmax_agreement": 0.484375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_12_v": {
+      "family": "attention_v",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 256,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 188416,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.8630952380952381,
+          "validation": {
+            "nrmse": 0.7769897409490752,
+            "mean_cosine": 0.6334931465955581,
+            "min_cosine": 0.33542894566102616,
+            "p95_relative_row_error": 0.8849575712161034,
+            "max_relative_row_error": 0.9454165076944763,
+            "row_argmax_agreement": 0.81875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 376832,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.7261904761904762,
+          "validation": {
+            "nrmse": 0.7217994060977063,
+            "mean_cosine": 0.6970886067483095,
+            "min_cosine": 0.5177653394673751,
+            "p95_relative_row_error": 0.8334940780464151,
+            "max_relative_row_error": 0.8555601924006562,
+            "row_argmax_agreement": 0.825,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 753664,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.45238095238095233,
+          "validation": {
+            "nrmse": 0.673696072946154,
+            "mean_cosine": 0.744650027079719,
+            "min_cosine": 0.565112410334049,
+            "p95_relative_row_error": 0.7809998866344643,
+            "max_relative_row_error": 0.825017543773527,
+            "row_argmax_agreement": 0.821875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 1130496,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.1785714285714286,
+          "validation": {
+            "nrmse": 0.6559334222878715,
+            "mean_cosine": 0.760631348657405,
+            "min_cosine": 0.5934988581568228,
+            "p95_relative_row_error": 0.7586543097434624,
+            "max_relative_row_error": 0.8048672817257684,
+            "row_argmax_agreement": 0.84375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 1507328,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": -0.09523809523809534,
+          "validation": {
+            "nrmse": 0.6504642023605693,
+            "mean_cosine": 0.7652359134440679,
+            "min_cosine": 0.6076984982012453,
+            "p95_relative_row_error": 0.7524459112479036,
+            "max_relative_row_error": 0.8062025132079758,
+            "row_argmax_agreement": 0.8375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_19_k": {
+      "family": "attention_k",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 256,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 188416,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.8630952380952381,
+          "validation": {
+            "nrmse": 0.4977729137195992,
+            "mean_cosine": 0.8688977820559763,
+            "min_cosine": 0.738792051887018,
+            "p95_relative_row_error": 0.6235916189652324,
+            "max_relative_row_error": 0.679378548169224,
+            "row_argmax_agreement": 0.515625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 376832,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.7261904761904762,
+          "validation": {
+            "nrmse": 0.45050912716982194,
+            "mean_cosine": 0.8959862245571764,
+            "min_cosine": 0.795314895638103,
+            "p95_relative_row_error": 0.5735713545850796,
+            "max_relative_row_error": 0.615956528677013,
+            "row_argmax_agreement": 0.58125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 753664,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.45238095238095233,
+          "validation": {
+            "nrmse": 0.41695212774544743,
+            "mean_cosine": 0.9125098581337167,
+            "min_cosine": 0.8193295362971896,
+            "p95_relative_row_error": 0.5359568697944458,
+            "max_relative_row_error": 0.586183181596984,
+            "row_argmax_agreement": 0.625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 1130496,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.1785714285714286,
+          "validation": {
+            "nrmse": 0.4064716533313508,
+            "mean_cosine": 0.9173794957821173,
+            "min_cosine": 0.8305294045120917,
+            "p95_relative_row_error": 0.5259783529706622,
+            "max_relative_row_error": 0.5715430194405395,
+            "row_argmax_agreement": 0.640625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 1507328,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": -0.09523809523809534,
+          "validation": {
+            "nrmse": 0.40472442435449274,
+            "mean_cosine": 0.9181485575442736,
+            "min_cosine": 0.8357013068511674,
+            "p95_relative_row_error": 0.5225957512704006,
+            "max_relative_row_error": 0.5649621458561196,
+            "row_argmax_agreement": 0.6375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_19_o": {
+      "family": "attention_o",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 4096,
+      "output_dim": 2688,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9802827380952381,
+          "validation": {
+            "nrmse": 0.40661535975324475,
+            "mean_cosine": 0.901746665806064,
+            "min_cosine": 0.3659153631087453,
+            "p95_relative_row_error": 0.8091282068124175,
+            "max_relative_row_error": 1.0563063063227116,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9605654761904762,
+          "validation": {
+            "nrmse": 0.3972923359050346,
+            "mean_cosine": 0.9073396388521868,
+            "min_cosine": 0.40420716992409905,
+            "p95_relative_row_error": 0.7913178866698084,
+            "max_relative_row_error": 1.0389157625302088,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9211309523809523,
+          "validation": {
+            "nrmse": 0.388305976588415,
+            "mean_cosine": 0.9129029030480094,
+            "min_cosine": 0.44869147212551086,
+            "p95_relative_row_error": 0.7783101964155575,
+            "max_relative_row_error": 1.009233915564331,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.8816964285714286,
+          "validation": {
+            "nrmse": 0.38384763511824566,
+            "mean_cosine": 0.9157436317911817,
+            "min_cosine": 0.48052493551112424,
+            "p95_relative_row_error": 0.769879350125215,
+            "max_relative_row_error": 1.0027281614712316,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.8422619047619048,
+          "validation": {
+            "nrmse": 0.3813528586665284,
+            "mean_cosine": 0.9174627882050878,
+            "min_cosine": 0.4938566491217059,
+            "p95_relative_row_error": 0.763851502282749,
+            "max_relative_row_error": 0.9987830830865778,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_19_q": {
+      "family": "attention_q",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 4096,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.929894225173724,
+          "validation": {
+            "nrmse": 0.5459761542046919,
+            "mean_cosine": 0.8419217522618277,
+            "min_cosine": 0.7421171419105916,
+            "p95_relative_row_error": 0.6305888126455945,
+            "max_relative_row_error": 0.6719795724668847,
+            "row_argmax_agreement": 0.496875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.859788450347448,
+          "validation": {
+            "nrmse": 0.516080519363032,
+            "mean_cosine": 0.8607606539862624,
+            "min_cosine": 0.7746042988116882,
+            "p95_relative_row_error": 0.608443523518555,
+            "max_relative_row_error": 0.6389023118756832,
+            "row_argmax_agreement": 0.515625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.7195769006948961,
+          "validation": {
+            "nrmse": 0.4917161292049474,
+            "mean_cosine": 0.8750429598567997,
+            "min_cosine": 0.791156511142185,
+            "p95_relative_row_error": 0.5818817255978345,
+            "max_relative_row_error": 0.6132222277556435,
+            "row_argmax_agreement": 0.53125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.5793653510423442,
+          "validation": {
+            "nrmse": 0.48015154650411607,
+            "mean_cosine": 0.8816241768523492,
+            "min_cosine": 0.8031688607625246,
+            "p95_relative_row_error": 0.5695805352562566,
+            "max_relative_row_error": 0.5999316737946524,
+            "row_argmax_agreement": 0.496875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.4391538013897922,
+          "validation": {
+            "nrmse": 0.4738620238539807,
+            "mean_cosine": 0.8849770586666749,
+            "min_cosine": 0.8073819706521255,
+            "p95_relative_row_error": 0.5625609773298966,
+            "max_relative_row_error": 0.5920066031216972,
+            "row_argmax_agreement": 0.546875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_19_v": {
+      "family": "attention_v",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 256,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 188416,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.8630952380952381,
+          "validation": {
+            "nrmse": 0.7372778833475089,
+            "mean_cosine": 0.6843803713909844,
+            "min_cosine": 0.500148428089329,
+            "p95_relative_row_error": 0.8328786340269191,
+            "max_relative_row_error": 0.8660362891055504,
+            "row_argmax_agreement": 0.796875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 376832,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.7261904761904762,
+          "validation": {
+            "nrmse": 0.6740927580037698,
+            "mean_cosine": 0.7483108315230995,
+            "min_cosine": 0.577498389146703,
+            "p95_relative_row_error": 0.7780249189433335,
+            "max_relative_row_error": 0.8165189714856932,
+            "row_argmax_agreement": 0.81875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 753664,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.45238095238095233,
+          "validation": {
+            "nrmse": 0.6222910125128407,
+            "mean_cosine": 0.7917284586259312,
+            "min_cosine": 0.6386682830841132,
+            "p95_relative_row_error": 0.7205990150930597,
+            "max_relative_row_error": 0.7707710891972015,
+            "row_argmax_agreement": 0.834375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 1130496,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.1785714285714286,
+          "validation": {
+            "nrmse": 0.6045131881423669,
+            "mean_cosine": 0.8054015907782397,
+            "min_cosine": 0.6771861313826619,
+            "p95_relative_row_error": 0.7021128089098693,
+            "max_relative_row_error": 0.7402306594836151,
+            "row_argmax_agreement": 0.834375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 1507328,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": -0.09523809523809534,
+          "validation": {
+            "nrmse": 0.6002832941904787,
+            "mean_cosine": 0.8086778311493982,
+            "min_cosine": 0.6697723600518742,
+            "p95_relative_row_error": 0.6988525743073828,
+            "max_relative_row_error": 0.744452800241633,
+            "row_argmax_agreement": 0.840625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_26_k": {
+      "family": "attention_k",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 256,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 188416,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.8630952380952381,
+          "validation": {
+            "nrmse": 0.45371920722568376,
+            "mean_cosine": 0.8940081981141678,
+            "min_cosine": 0.7862650628159542,
+            "p95_relative_row_error": 0.5782413670472557,
+            "max_relative_row_error": 0.6227010009208134,
+            "row_argmax_agreement": 0.815625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 376832,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.7261904761904762,
+          "validation": {
+            "nrmse": 0.41464560156162944,
+            "mean_cosine": 0.9133827588633456,
+            "min_cosine": 0.800329217278284,
+            "p95_relative_row_error": 0.544519273134477,
+            "max_relative_row_error": 0.6047935952686583,
+            "row_argmax_agreement": 0.834375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 753664,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.45238095238095233,
+          "validation": {
+            "nrmse": 0.38218006844248165,
+            "mean_cosine": 0.9276969615192499,
+            "min_cosine": 0.8335558674609784,
+            "p95_relative_row_error": 0.49280283106572925,
+            "max_relative_row_error": 0.561325195629321,
+            "row_argmax_agreement": 0.83125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 1130496,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.1785714285714286,
+          "validation": {
+            "nrmse": 0.3754830916814091,
+            "mean_cosine": 0.9304382489219476,
+            "min_cosine": 0.8350254393756694,
+            "p95_relative_row_error": 0.4898900219666627,
+            "max_relative_row_error": 0.5587866018717307,
+            "row_argmax_agreement": 0.828125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 1507328,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": -0.09523809523809534,
+          "validation": {
+            "nrmse": 0.37445181984312464,
+            "mean_cosine": 0.9308505560506888,
+            "min_cosine": 0.8368188146247347,
+            "p95_relative_row_error": 0.4881221600470467,
+            "max_relative_row_error": 0.5562886754241007,
+            "row_argmax_agreement": 0.834375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_26_o": {
+      "family": "attention_o",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 4096,
+      "output_dim": 2688,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9802827380952381,
+          "validation": {
+            "nrmse": 0.5735804822586168,
+            "mean_cosine": 0.8118634499319516,
+            "min_cosine": 0.26690978790988407,
+            "p95_relative_row_error": 0.8916067305413937,
+            "max_relative_row_error": 0.9790453564885141,
+            "row_argmax_agreement": 0.978125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9605654761904762,
+          "validation": {
+            "nrmse": 0.5619417367137289,
+            "mean_cosine": 0.822496442609072,
+            "min_cosine": 0.31627570335677324,
+            "p95_relative_row_error": 0.8792389122500218,
+            "max_relative_row_error": 0.9822618890544943,
+            "row_argmax_agreement": 0.978125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9211309523809523,
+          "validation": {
+            "nrmse": 0.5499643447173073,
+            "mean_cosine": 0.8330638766667192,
+            "min_cosine": 0.37820918059167363,
+            "p95_relative_row_error": 0.8678674839184845,
+            "max_relative_row_error": 0.9658647089831477,
+            "row_argmax_agreement": 0.98125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.8816964285714286,
+          "validation": {
+            "nrmse": 0.5442872818175504,
+            "mean_cosine": 0.8385929285303586,
+            "min_cosine": 0.4119937276243738,
+            "p95_relative_row_error": 0.859263863434834,
+            "max_relative_row_error": 0.9580476023706761,
+            "row_argmax_agreement": 0.98125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.8422619047619048,
+          "validation": {
+            "nrmse": 0.5400255015764771,
+            "mean_cosine": 0.8428123327429903,
+            "min_cosine": 0.43140541126246834,
+            "p95_relative_row_error": 0.8547148422353789,
+            "max_relative_row_error": 0.9481677588442396,
+            "row_argmax_agreement": 0.978125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_26_q": {
+      "family": "attention_q",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 4096,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.929894225173724,
+          "validation": {
+            "nrmse": 0.5838611709456237,
+            "mean_cosine": 0.8150218306079248,
+            "min_cosine": 0.6919266543896473,
+            "p95_relative_row_error": 0.677499340283629,
+            "max_relative_row_error": 0.725699204916135,
+            "row_argmax_agreement": 0.409375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.859788450347448,
+          "validation": {
+            "nrmse": 0.5549486677423199,
+            "mean_cosine": 0.8352461959713086,
+            "min_cosine": 0.7088498140614254,
+            "p95_relative_row_error": 0.6545240335088649,
+            "max_relative_row_error": 0.708790396704955,
+            "row_argmax_agreement": 0.434375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.7195769006948961,
+          "validation": {
+            "nrmse": 0.5323187635448863,
+            "mean_cosine": 0.8502386459880779,
+            "min_cosine": 0.7294990321777202,
+            "p95_relative_row_error": 0.6257252066337834,
+            "max_relative_row_error": 0.6875733518140583,
+            "row_argmax_agreement": 0.465625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.5793653510423442,
+          "validation": {
+            "nrmse": 0.5222565422871667,
+            "mean_cosine": 0.8565707542916489,
+            "min_cosine": 0.7400396554438117,
+            "p95_relative_row_error": 0.6147217128708241,
+            "max_relative_row_error": 0.6760744394377117,
+            "row_argmax_agreement": 0.475,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.4391538013897922,
+          "validation": {
+            "nrmse": 0.5161620873340567,
+            "mean_cosine": 0.860186206468381,
+            "min_cosine": 0.7453272329501669,
+            "p95_relative_row_error": 0.611417220351012,
+            "max_relative_row_error": 0.6700040216892166,
+            "row_argmax_agreement": 0.496875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_26_v": {
+      "family": "attention_v",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 256,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 188416,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.8630952380952381,
+          "validation": {
+            "nrmse": 0.7727949130759775,
+            "mean_cosine": 0.6378142715986244,
+            "min_cosine": 0.4206345944484414,
+            "p95_relative_row_error": 0.8812397235169813,
+            "max_relative_row_error": 0.9080037305926217,
+            "row_argmax_agreement": 0.703125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 376832,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.7261904761904762,
+          "validation": {
+            "nrmse": 0.714607246758986,
+            "mean_cosine": 0.7046511160215487,
+            "min_cosine": 0.4601965626698871,
+            "p95_relative_row_error": 0.8295758117144055,
+            "max_relative_row_error": 0.8937198764927722,
+            "row_argmax_agreement": 0.73125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 753664,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.45238095238095233,
+          "validation": {
+            "nrmse": 0.6590652771087053,
+            "mean_cosine": 0.7582152316852068,
+            "min_cosine": 0.5602284322850017,
+            "p95_relative_row_error": 0.7763979484047578,
+            "max_relative_row_error": 0.8362643088734353,
+            "row_argmax_agreement": 0.728125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 1130496,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.1785714285714286,
+          "validation": {
+            "nrmse": 0.642210376408201,
+            "mean_cosine": 0.7730273568496442,
+            "min_cosine": 0.5738877640681298,
+            "p95_relative_row_error": 0.7594914690423679,
+            "max_relative_row_error": 0.8281687537182755,
+            "row_argmax_agreement": 0.75,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 1507328,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": -0.09523809523809534,
+          "validation": {
+            "nrmse": 0.6384320758392635,
+            "mean_cosine": 0.7762703363812962,
+            "min_cosine": 0.5805795384242454,
+            "p95_relative_row_error": 0.7550444509950942,
+            "max_relative_row_error": 0.8231679792223083,
+            "row_argmax_agreement": 0.734375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_33_k": {
+      "family": "attention_k",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 256,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 188416,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.8630952380952381,
+          "validation": {
+            "nrmse": 0.20662080977855313,
+            "mean_cosine": 0.978186308598807,
+            "min_cosine": 0.9425509788326021,
+            "p95_relative_row_error": 0.2768485154873332,
+            "max_relative_row_error": 0.33458128683510313,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 376832,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.7261904761904762,
+          "validation": {
+            "nrmse": 0.18925993527215343,
+            "mean_cosine": 0.9818033120956956,
+            "min_cosine": 0.9484952905610002,
+            "p95_relative_row_error": 0.25895038482658356,
+            "max_relative_row_error": 0.3174925872267915,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 753664,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.45238095238095233,
+          "validation": {
+            "nrmse": 0.17823748587742336,
+            "mean_cosine": 0.9839300342310976,
+            "min_cosine": 0.9553734698014973,
+            "p95_relative_row_error": 0.24603731844984275,
+            "max_relative_row_error": 0.2964624228800536,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 1130496,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.1785714285714286,
+          "validation": {
+            "nrmse": 0.17547781724205924,
+            "mean_cosine": 0.9844497588178062,
+            "min_cosine": 0.9576198767352107,
+            "p95_relative_row_error": 0.24286540621169042,
+            "max_relative_row_error": 0.28918608300245324,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 1507328,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": -0.09523809523809534,
+          "validation": {
+            "nrmse": 0.1750538313665317,
+            "mean_cosine": 0.9845281971808507,
+            "min_cosine": 0.9582648566486263,
+            "p95_relative_row_error": 0.2423472880258293,
+            "max_relative_row_error": 0.28708504371898214,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_33_o": {
+      "family": "attention_o",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 4096,
+      "output_dim": 2688,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9802827380952381,
+          "validation": {
+            "nrmse": 0.7242371139357104,
+            "mean_cosine": 0.6956551123623924,
+            "min_cosine": 0.14407159417586093,
+            "p95_relative_row_error": 0.9595229736665916,
+            "max_relative_row_error": 1.0628219913104895,
+            "row_argmax_agreement": 0.65,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9605654761904762,
+          "validation": {
+            "nrmse": 0.7076665488069072,
+            "mean_cosine": 0.7173593271429765,
+            "min_cosine": 0.18483079371992647,
+            "p95_relative_row_error": 0.9449728064203609,
+            "max_relative_row_error": 1.0560807366439995,
+            "row_argmax_agreement": 0.640625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9211309523809523,
+          "validation": {
+            "nrmse": 0.687009303860539,
+            "mean_cosine": 0.7421694125368674,
+            "min_cosine": 0.2141766752697248,
+            "p95_relative_row_error": 0.9238210224252117,
+            "max_relative_row_error": 1.0542575811557813,
+            "row_argmax_agreement": 0.640625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.8816964285714286,
+          "validation": {
+            "nrmse": 0.6746322689130615,
+            "mean_cosine": 0.7560608258255641,
+            "min_cosine": 0.2471816732258195,
+            "p95_relative_row_error": 0.9133428736611999,
+            "max_relative_row_error": 1.0484196547790665,
+            "row_argmax_agreement": 0.64375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.8422619047619048,
+          "validation": {
+            "nrmse": 0.667091749932608,
+            "mean_cosine": 0.7639134966161159,
+            "min_cosine": 0.27099703867773883,
+            "p95_relative_row_error": 0.9011110520378486,
+            "max_relative_row_error": 1.0414263416379137,
+            "row_argmax_agreement": 0.64375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_33_q": {
+      "family": "attention_q",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 4096,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.929894225173724,
+          "validation": {
+            "nrmse": 0.6095359931045891,
+            "mean_cosine": 0.7973436388980975,
+            "min_cosine": 0.6673261019191337,
+            "p95_relative_row_error": 0.7013264283385493,
+            "max_relative_row_error": 0.7448169488220623,
+            "row_argmax_agreement": 0.725,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.859788450347448,
+          "validation": {
+            "nrmse": 0.5762744418083551,
+            "mean_cosine": 0.8224757233620259,
+            "min_cosine": 0.7026291026006044,
+            "p95_relative_row_error": 0.6744302083026634,
+            "max_relative_row_error": 0.7115603507715158,
+            "row_argmax_agreement": 0.74375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.7195769006948961,
+          "validation": {
+            "nrmse": 0.5512083978077819,
+            "mean_cosine": 0.8395336977553601,
+            "min_cosine": 0.7343199625292423,
+            "p95_relative_row_error": 0.6537708178416934,
+            "max_relative_row_error": 0.6788122374429243,
+            "row_argmax_agreement": 0.75,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.5793653510423442,
+          "validation": {
+            "nrmse": 0.5402368934338452,
+            "mean_cosine": 0.846801728301443,
+            "min_cosine": 0.7485996764514512,
+            "p95_relative_row_error": 0.6415634148178345,
+            "max_relative_row_error": 0.6654089499786452,
+            "row_argmax_agreement": 0.75,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.4391538013897922,
+          "validation": {
+            "nrmse": 0.5347737058964169,
+            "mean_cosine": 0.8502239640216951,
+            "min_cosine": 0.7481757513602765,
+            "p95_relative_row_error": 0.6343044986525516,
+            "max_relative_row_error": 0.6661590746498983,
+            "row_argmax_agreement": 0.784375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_33_v": {
+      "family": "attention_v",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 256,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 188416,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.8630952380952381,
+          "validation": {
+            "nrmse": 0.8566373356941683,
+            "mean_cosine": 0.5234490438793544,
+            "min_cosine": 0.24888339357313705,
+            "p95_relative_row_error": 0.9444166580461419,
+            "max_relative_row_error": 0.9774063566147658,
+            "row_argmax_agreement": 0.35625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 376832,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.7261904761904762,
+          "validation": {
+            "nrmse": 0.7920110537354039,
+            "mean_cosine": 0.6171734136731442,
+            "min_cosine": 0.32233782343181827,
+            "p95_relative_row_error": 0.9041462515556962,
+            "max_relative_row_error": 0.9559694022859839,
+            "row_argmax_agreement": 0.3875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 753664,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.45238095238095233,
+          "validation": {
+            "nrmse": 0.708204806395666,
+            "mean_cosine": 0.7117247827506439,
+            "min_cosine": 0.3958329189720441,
+            "p95_relative_row_error": 0.8394908708757501,
+            "max_relative_row_error": 0.9392790135239957,
+            "row_argmax_agreement": 0.434375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 1130496,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.1785714285714286,
+          "validation": {
+            "nrmse": 0.674382021944059,
+            "mean_cosine": 0.7445819310338231,
+            "min_cosine": 0.4438310165957281,
+            "p95_relative_row_error": 0.8202960619050161,
+            "max_relative_row_error": 0.9157389854963719,
+            "row_argmax_agreement": 0.4625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 1507328,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": -0.09523809523809534,
+          "validation": {
+            "nrmse": 0.6633795308740548,
+            "mean_cosine": 0.7545294112895192,
+            "min_cosine": 0.4750580471162882,
+            "p95_relative_row_error": 0.8130190693376528,
+            "max_relative_row_error": 0.8977416958448965,
+            "row_argmax_agreement": 0.4875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_42_k": {
+      "family": "attention_k",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 256,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 188416,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.8630952380952381,
+          "validation": {
+            "nrmse": 0.16395389486083578,
+            "mean_cosine": 0.9866543074435186,
+            "min_cosine": 0.9682569581735283,
+            "p95_relative_row_error": 0.21969291132978697,
+            "max_relative_row_error": 0.25161995212382493,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 376832,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.7261904761904762,
+          "validation": {
+            "nrmse": 0.150337779654674,
+            "mean_cosine": 0.9888199177764996,
+            "min_cosine": 0.9733520710449816,
+            "p95_relative_row_error": 0.21023784474467141,
+            "max_relative_row_error": 0.22964016043144259,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 753664,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.45238095238095233,
+          "validation": {
+            "nrmse": 0.1405009171894551,
+            "mean_cosine": 0.9902634579086224,
+            "min_cosine": 0.9751174471819931,
+            "p95_relative_row_error": 0.19329515989007706,
+            "max_relative_row_error": 0.22376656124703234,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 1130496,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.1785714285714286,
+          "validation": {
+            "nrmse": 0.13889948350982523,
+            "mean_cosine": 0.9904865208331838,
+            "min_cosine": 0.9758078990469199,
+            "p95_relative_row_error": 0.19131275705895293,
+            "max_relative_row_error": 0.22069934975748773,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 1507328,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": -0.09523809523809534,
+          "validation": {
+            "nrmse": 0.1387426276572946,
+            "mean_cosine": 0.9905086217080393,
+            "min_cosine": 0.97589256863437,
+            "p95_relative_row_error": 0.19080518290820578,
+            "max_relative_row_error": 0.22032015744438008,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_42_o": {
+      "family": "attention_o",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 4096,
+      "output_dim": 2688,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9802827380952381,
+          "validation": {
+            "nrmse": 0.4654923525036397,
+            "mean_cosine": 0.8865706265693154,
+            "min_cosine": 0.2719680899505406,
+            "p95_relative_row_error": 0.752589310417029,
+            "max_relative_row_error": 0.9624951805784979,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9605654761904762,
+          "validation": {
+            "nrmse": 0.4504678629074824,
+            "mean_cosine": 0.8951089121650151,
+            "min_cosine": 0.2742912423028308,
+            "p95_relative_row_error": 0.7540439601766503,
+            "max_relative_row_error": 0.9617010400092848,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9211309523809523,
+          "validation": {
+            "nrmse": 0.42897362109927406,
+            "mean_cosine": 0.9065058062960387,
+            "min_cosine": 0.2783925263357641,
+            "p95_relative_row_error": 0.7317448673210015,
+            "max_relative_row_error": 0.9627838601050281,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.8816964285714286,
+          "validation": {
+            "nrmse": 0.41671694298353634,
+            "mean_cosine": 0.912631413316166,
+            "min_cosine": 0.2859418168463493,
+            "p95_relative_row_error": 0.7210181273054553,
+            "max_relative_row_error": 0.9637765585395369,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.8422619047619048,
+          "validation": {
+            "nrmse": 0.40841439994354084,
+            "mean_cosine": 0.9165981978694564,
+            "min_cosine": 0.30341169556885034,
+            "p95_relative_row_error": 0.7201834797852761,
+            "max_relative_row_error": 0.9606989586600687,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_42_q": {
+      "family": "attention_q",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 4096,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.929894225173724,
+          "validation": {
+            "nrmse": 0.5263167144721322,
+            "mean_cosine": 0.8549074561121872,
+            "min_cosine": 0.7553741285307345,
+            "p95_relative_row_error": 0.6126845451234104,
+            "max_relative_row_error": 0.6574316678826203,
+            "row_argmax_agreement": 0.9,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.859788450347448,
+          "validation": {
+            "nrmse": 0.4964468686440099,
+            "mean_cosine": 0.8726365158352122,
+            "min_cosine": 0.7698913429417238,
+            "p95_relative_row_error": 0.5941978396387394,
+            "max_relative_row_error": 0.6392925839545575,
+            "row_argmax_agreement": 0.9,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.7195769006948961,
+          "validation": {
+            "nrmse": 0.4769938879988551,
+            "mean_cosine": 0.8831772240276745,
+            "min_cosine": 0.7770465149793425,
+            "p95_relative_row_error": 0.5771060662035631,
+            "max_relative_row_error": 0.6302253044777736,
+            "row_argmax_agreement": 0.896875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.5793653510423442,
+          "validation": {
+            "nrmse": 0.4702036106299807,
+            "mean_cosine": 0.8867625291669177,
+            "min_cosine": 0.7838467702613279,
+            "p95_relative_row_error": 0.5716100476543743,
+            "max_relative_row_error": 0.6216613685994137,
+            "row_argmax_agreement": 0.896875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.4391538013897922,
+          "validation": {
+            "nrmse": 0.4667781968742828,
+            "mean_cosine": 0.8885426407743854,
+            "min_cosine": 0.7877251983403766,
+            "p95_relative_row_error": 0.5688774728035995,
+            "max_relative_row_error": 0.616699526957316,
+            "row_argmax_agreement": 0.896875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_42_v": {
+      "family": "attention_v",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 256,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 188416,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.8630952380952381,
+          "validation": {
+            "nrmse": 0.8679748980387793,
+            "mean_cosine": 0.48871242780262325,
+            "min_cosine": 0.14830738084062148,
+            "p95_relative_row_error": 1.009069650121939,
+            "max_relative_row_error": 1.1193325421245741,
+            "row_argmax_agreement": 0.153125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 376832,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.7261904761904762,
+          "validation": {
+            "nrmse": 0.7791673511385746,
+            "mean_cosine": 0.6182221591008724,
+            "min_cosine": 0.22855004272243448,
+            "p95_relative_row_error": 1.0073353293203753,
+            "max_relative_row_error": 1.1643333632965214,
+            "row_argmax_agreement": 0.178125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 753664,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.45238095238095233,
+          "validation": {
+            "nrmse": 0.6831667946843593,
+            "mean_cosine": 0.7185719857463473,
+            "min_cosine": 0.34208159877476174,
+            "p95_relative_row_error": 1.006211329879117,
+            "max_relative_row_error": 1.265630700806058,
+            "row_argmax_agreement": 0.25625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 1130496,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.1785714285714286,
+          "validation": {
+            "nrmse": 0.669224857481722,
+            "mean_cosine": 0.7325037962052884,
+            "min_cosine": 0.35075820965126936,
+            "p95_relative_row_error": 1.0056405302813585,
+            "max_relative_row_error": 1.2806353053749473,
+            "row_argmax_agreement": 0.259375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 1507328,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": -0.09523809523809534,
+          "validation": {
+            "nrmse": 0.6685218789564421,
+            "mean_cosine": 0.7332712449180101,
+            "min_cosine": 0.3540579639853545,
+            "p95_relative_row_error": 1.0046401412879422,
+            "max_relative_row_error": 1.2795653714746273,
+            "row_argmax_agreement": 0.25625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_5_k": {
+      "family": "attention_k",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 256,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 188416,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.8630952380952381,
+          "validation": {
+            "nrmse": 0.6088110659073754,
+            "mean_cosine": 0.7959888329101489,
+            "min_cosine": 0.5702305662923756,
+            "p95_relative_row_error": 0.7269261927949137,
+            "max_relative_row_error": 0.8221706828895139,
+            "row_argmax_agreement": 0.446875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 376832,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.7261904761904762,
+          "validation": {
+            "nrmse": 0.54707971405154,
+            "mean_cosine": 0.8401089855106548,
+            "min_cosine": 0.6312464827915104,
+            "p95_relative_row_error": 0.6726250955394201,
+            "max_relative_row_error": 0.7761843175938347,
+            "row_argmax_agreement": 0.49375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 753664,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.45238095238095233,
+          "validation": {
+            "nrmse": 0.479177172317153,
+            "mean_cosine": 0.8815357266983674,
+            "min_cosine": 0.7153580181311875,
+            "p95_relative_row_error": 0.6030148250807018,
+            "max_relative_row_error": 0.6990770153251629,
+            "row_argmax_agreement": 0.553125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 1130496,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.1785714285714286,
+          "validation": {
+            "nrmse": 0.4511608246357847,
+            "mean_cosine": 0.8973078080661907,
+            "min_cosine": 0.7451420171232087,
+            "p95_relative_row_error": 0.5653618192542966,
+            "max_relative_row_error": 0.6679750532628659,
+            "row_argmax_agreement": 0.578125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 1507328,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": -0.09523809523809534,
+          "validation": {
+            "nrmse": 0.44532511429454413,
+            "mean_cosine": 0.9004533002313515,
+            "min_cosine": 0.7487081856052771,
+            "p95_relative_row_error": 0.5593413002680071,
+            "max_relative_row_error": 0.6628997307637625,
+            "row_argmax_agreement": 0.571875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_5_o": {
+      "family": "attention_o",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 4096,
+      "output_dim": 2688,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9802827380952381,
+          "validation": {
+            "nrmse": 0.755368584147809,
+            "mean_cosine": 0.6700493987547689,
+            "min_cosine": 0.42221738919108515,
+            "p95_relative_row_error": 0.8668883097675423,
+            "max_relative_row_error": 0.9093329372980258,
+            "row_argmax_agreement": 0.80625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9605654761904762,
+          "validation": {
+            "nrmse": 0.7314241320463939,
+            "mean_cosine": 0.6961214334937793,
+            "min_cosine": 0.4592937287772148,
+            "p95_relative_row_error": 0.8480244625456224,
+            "max_relative_row_error": 0.8923576687365734,
+            "row_argmax_agreement": 0.80625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9211309523809523,
+          "validation": {
+            "nrmse": 0.7041078855443276,
+            "mean_cosine": 0.7248278322116525,
+            "min_cosine": 0.4908485792592552,
+            "p95_relative_row_error": 0.8286300294739388,
+            "max_relative_row_error": 0.8760889019442687,
+            "row_argmax_agreement": 0.790625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.8816964285714286,
+          "validation": {
+            "nrmse": 0.689270422690372,
+            "mean_cosine": 0.7402423950050693,
+            "min_cosine": 0.49642807513894355,
+            "p95_relative_row_error": 0.8170411729993017,
+            "max_relative_row_error": 0.8786057011073128,
+            "row_argmax_agreement": 0.7875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.8422619047619048,
+          "validation": {
+            "nrmse": 0.6782310887052365,
+            "mean_cosine": 0.7514160197919489,
+            "min_cosine": 0.5072759798532697,
+            "p95_relative_row_error": 0.804431977716645,
+            "max_relative_row_error": 0.8741669558790465,
+            "row_argmax_agreement": 0.790625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_5_q": {
+      "family": "attention_q",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 4096,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.929894225173724,
+          "validation": {
+            "nrmse": 0.4837389021082041,
+            "mean_cosine": 0.8758311323177429,
+            "min_cosine": 0.5034006547071689,
+            "p95_relative_row_error": 0.5834009181194653,
+            "max_relative_row_error": 0.8648377848673151,
+            "row_argmax_agreement": 0.634375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.859788450347448,
+          "validation": {
+            "nrmse": 0.44483081628464205,
+            "mean_cosine": 0.8962481289841063,
+            "min_cosine": 0.5354950709835459,
+            "p95_relative_row_error": 0.5469277169485758,
+            "max_relative_row_error": 0.8451174626108787,
+            "row_argmax_agreement": 0.665625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.7195769006948961,
+          "validation": {
+            "nrmse": 0.40925034876899036,
+            "mean_cosine": 0.9133372644620422,
+            "min_cosine": 0.6092018984911529,
+            "p95_relative_row_error": 0.5153427830360249,
+            "max_relative_row_error": 0.793325685062349,
+            "row_argmax_agreement": 0.696875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.5793653510423442,
+          "validation": {
+            "nrmse": 0.3929282020607621,
+            "mean_cosine": 0.9206643061661145,
+            "min_cosine": 0.6540658010181889,
+            "p95_relative_row_error": 0.500829560974142,
+            "max_relative_row_error": 0.7566683315926656,
+            "row_argmax_agreement": 0.715625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.4391538013897922,
+          "validation": {
+            "nrmse": 0.38364945874233036,
+            "mean_cosine": 0.9247346928990663,
+            "min_cosine": 0.6880168374122992,
+            "p95_relative_row_error": 0.4897734779284519,
+            "max_relative_row_error": 0.7258781219045574,
+            "row_argmax_agreement": 0.725,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "attention_5_v": {
+      "family": "attention_v",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 256,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 188416,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.8630952380952381,
+          "validation": {
+            "nrmse": 0.7909888850812864,
+            "mean_cosine": 0.6120804018375752,
+            "min_cosine": 0.30634218174911815,
+            "p95_relative_row_error": 0.9047663242378032,
+            "max_relative_row_error": 0.9767882851172538,
+            "row_argmax_agreement": 0.50625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 376832,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.7261904761904762,
+          "validation": {
+            "nrmse": 0.7252673518563897,
+            "mean_cosine": 0.6923964481800274,
+            "min_cosine": 0.4121722924313906,
+            "p95_relative_row_error": 0.849405366084785,
+            "max_relative_row_error": 0.9501199987143097,
+            "row_argmax_agreement": 0.553125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 753664,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.45238095238095233,
+          "validation": {
+            "nrmse": 0.6611754417339747,
+            "mean_cosine": 0.7574738730813291,
+            "min_cosine": 0.5230409389335565,
+            "p95_relative_row_error": 0.7962290211332742,
+            "max_relative_row_error": 0.8913099228445687,
+            "row_argmax_agreement": 0.58125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 1130496,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": 0.1785714285714286,
+          "validation": {
+            "nrmse": 0.6368571570494455,
+            "mean_cosine": 0.779515119906017,
+            "min_cosine": 0.5242601671976026,
+            "p95_relative_row_error": 0.7827824288870219,
+            "max_relative_row_error": 0.9055031588206701,
+            "row_argmax_agreement": 0.6125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 1507328,
+          "original_weight_bytes": 1376256,
+          "physical_byte_reduction": -0.09523809523809534,
+          "validation": {
+            "nrmse": 0.630035433419668,
+            "mean_cosine": 0.7861556128144889,
+            "min_cosine": 0.5373388327555237,
+            "p95_relative_row_error": 0.768043795863069,
+            "max_relative_row_error": 0.899903486252498,
+            "row_argmax_agreement": 0.615625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": false,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "mamba_0_in": {
+      "family": "mamba_in",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 10304,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 831488,
+          "original_weight_bytes": 15579652,
+          "physical_byte_reduction": 0.9466298733758624,
+          "validation": {
+            "nrmse": 0.43334867794319193,
+            "mean_cosine": 0.8664670426528787,
+            "min_cosine": 0.510316047776096,
+            "p95_relative_row_error": 0.791076910753057,
+            "max_relative_row_error": 0.9109243197585143,
+            "row_argmax_agreement": 0.409375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 1662976,
+          "original_weight_bytes": 15579652,
+          "physical_byte_reduction": 0.8932597467517246,
+          "validation": {
+            "nrmse": 0.3941643989278142,
+            "mean_cosine": 0.8897397477112292,
+            "min_cosine": 0.5293483177998675,
+            "p95_relative_row_error": 0.7715601831399361,
+            "max_relative_row_error": 0.8995735526029227,
+            "row_argmax_agreement": 0.55,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 3325952,
+          "original_weight_bytes": 15579652,
+          "physical_byte_reduction": 0.7865194935034492,
+          "validation": {
+            "nrmse": 0.3612722730073751,
+            "mean_cosine": 0.9070563398352196,
+            "min_cosine": 0.5486148951743112,
+            "p95_relative_row_error": 0.75065409828505,
+            "max_relative_row_error": 0.8843648864681687,
+            "row_argmax_agreement": 0.628125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "unsupported"
+        },
+        {
+          "rank": 256,
+          "status": "unsupported"
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "mamba_0_out": {
+      "family": "mamba_out",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 4096,
+      "output_dim": 2688,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.929894225173724,
+          "validation": {
+            "nrmse": 0.4763007890851323,
+            "mean_cosine": 0.8829238587028613,
+            "min_cosine": 0.3917181383552571,
+            "p95_relative_row_error": 0.6735343696500555,
+            "max_relative_row_error": 0.9284669720824502,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.859788450347448,
+          "validation": {
+            "nrmse": 0.45536263700901475,
+            "mean_cosine": 0.8945818253607211,
+            "min_cosine": 0.41310652732363873,
+            "p95_relative_row_error": 0.6616122810278041,
+            "max_relative_row_error": 0.918119992819898,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.7195769006948961,
+          "validation": {
+            "nrmse": 0.4351167409755107,
+            "mean_cosine": 0.9064144322808911,
+            "min_cosine": 0.43469377661910963,
+            "p95_relative_row_error": 0.6478266525762316,
+            "max_relative_row_error": 0.9071436124071577,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.5793653510423442,
+          "validation": {
+            "nrmse": 0.42478362072464587,
+            "mean_cosine": 0.913190835325835,
+            "min_cosine": 0.4462663648982305,
+            "p95_relative_row_error": 0.639878606044764,
+            "max_relative_row_error": 0.9013869402262928,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.4391538013897922,
+          "validation": {
+            "nrmse": 0.41843886038084804,
+            "mean_cosine": 0.9173291715888503,
+            "min_cosine": 0.4597079802727362,
+            "p95_relative_row_error": 0.6367092823431826,
+            "max_relative_row_error": 0.8942271478465326,
+            "row_argmax_agreement": 1.0,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "mamba_25_in": {
+      "family": "mamba_in",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 10304,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 831488,
+          "original_weight_bytes": 55394304,
+          "physical_byte_reduction": 0.9849896480331263,
+          "validation": {
+            "nrmse": 0.4894528778137004,
+            "mean_cosine": 0.8741196955358188,
+            "min_cosine": 0.7092284861084002,
+            "p95_relative_row_error": 0.5778104070851535,
+            "max_relative_row_error": 0.7052983363138033,
+            "row_argmax_agreement": 0.35,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 1662976,
+          "original_weight_bytes": 55394304,
+          "physical_byte_reduction": 0.9699792960662525,
+          "validation": {
+            "nrmse": 0.459030367163081,
+            "mean_cosine": 0.8910758196097512,
+            "min_cosine": 0.8044230527062997,
+            "p95_relative_row_error": 0.5498770227918043,
+            "max_relative_row_error": 0.6028630133049336,
+            "row_argmax_agreement": 0.4125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 3325952,
+          "original_weight_bytes": 55394304,
+          "physical_byte_reduction": 0.9399585921325052,
+          "validation": {
+            "nrmse": 0.4328454882946916,
+            "mean_cosine": 0.9041794217468742,
+            "min_cosine": 0.8253108389641706,
+            "p95_relative_row_error": 0.5220965477605318,
+            "max_relative_row_error": 0.5698716379916338,
+            "row_argmax_agreement": 0.434375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 4988928,
+          "original_weight_bytes": 55394304,
+          "physical_byte_reduction": 0.9099378881987578,
+          "validation": {
+            "nrmse": 0.4196095981896756,
+            "mean_cosine": 0.9103817952308624,
+            "min_cosine": 0.8330307764341822,
+            "p95_relative_row_error": 0.5102559171525428,
+            "max_relative_row_error": 0.5584210977293453,
+            "row_argmax_agreement": 0.45625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 6651904,
+          "original_weight_bytes": 55394304,
+          "physical_byte_reduction": 0.8799171842650103,
+          "validation": {
+            "nrmse": 0.41135658679960885,
+            "mean_cosine": 0.9141012710868107,
+            "min_cosine": 0.8369727190791094,
+            "p95_relative_row_error": 0.5034586355404626,
+            "max_relative_row_error": 0.552262907343179,
+            "row_argmax_agreement": 0.48125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "mamba_25_out": {
+      "family": "mamba_out",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 4096,
+      "output_dim": 2688,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9802827380952381,
+          "validation": {
+            "nrmse": 0.6789782672793836,
+            "mean_cosine": 0.7140597260788862,
+            "min_cosine": 0.4452333364933811,
+            "p95_relative_row_error": 0.8615660393827775,
+            "max_relative_row_error": 0.8954280419297798,
+            "row_argmax_agreement": 0.95625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9605654761904762,
+          "validation": {
+            "nrmse": 0.656281248648276,
+            "mean_cosine": 0.7383094595636738,
+            "min_cosine": 0.48469091373882256,
+            "p95_relative_row_error": 0.8337626470473367,
+            "max_relative_row_error": 0.8747485148875721,
+            "row_argmax_agreement": 0.9625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.9211309523809523,
+          "validation": {
+            "nrmse": 0.6293597094266855,
+            "mean_cosine": 0.7651847151141684,
+            "min_cosine": 0.5089114068722359,
+            "p95_relative_row_error": 0.8098035265132169,
+            "max_relative_row_error": 0.861083250446132,
+            "row_argmax_agreement": 0.96875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.8816964285714286,
+          "validation": {
+            "nrmse": 0.6120076205973958,
+            "mean_cosine": 0.7818567649797494,
+            "min_cosine": 0.5297069206644044,
+            "p95_relative_row_error": 0.7919769483778059,
+            "max_relative_row_error": 0.8485714230711169,
+            "row_argmax_agreement": 0.975,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 22020096,
+          "physical_byte_reduction": 0.8422619047619048,
+          "validation": {
+            "nrmse": 0.6007499345149214,
+            "mean_cosine": 0.7920531933356945,
+            "min_cosine": 0.541962033810953,
+            "p95_relative_row_error": 0.7796346265423688,
+            "max_relative_row_error": 0.8408428370342937,
+            "row_argmax_agreement": 0.971875,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "mamba_50_in": {
+      "family": "mamba_in",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 2688,
+      "output_dim": 10304,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 831488,
+          "original_weight_bytes": 15579652,
+          "physical_byte_reduction": 0.9466298733758624,
+          "validation": {
+            "nrmse": 0.46904364166335993,
+            "mean_cosine": 0.8823096119044138,
+            "min_cosine": 0.7358575379097537,
+            "p95_relative_row_error": 0.6091516920322987,
+            "max_relative_row_error": 0.6818713625172083,
+            "row_argmax_agreement": 0.934375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 1662976,
+          "original_weight_bytes": 15579652,
+          "physical_byte_reduction": 0.8932597467517246,
+          "validation": {
+            "nrmse": 0.4431741474458498,
+            "mean_cosine": 0.8957904776591279,
+            "min_cosine": 0.7454753148111354,
+            "p95_relative_row_error": 0.5824977349627154,
+            "max_relative_row_error": 0.6711794749944706,
+            "row_argmax_agreement": 0.93125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 3325952,
+          "original_weight_bytes": 15579652,
+          "physical_byte_reduction": 0.7865194935034492,
+          "validation": {
+            "nrmse": 0.42236162563603596,
+            "mean_cosine": 0.9059547853741454,
+            "min_cosine": 0.755446780658785,
+            "p95_relative_row_error": 0.5635370270560984,
+            "max_relative_row_error": 0.6592634026307383,
+            "row_argmax_agreement": 0.93125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 4988928,
+          "original_weight_bytes": 15579652,
+          "physical_byte_reduction": 0.6797792402551739,
+          "validation": {
+            "nrmse": 0.4100343940813218,
+            "mean_cosine": 0.9116714270947256,
+            "min_cosine": 0.7607979283714478,
+            "p95_relative_row_error": 0.5526589236083814,
+            "max_relative_row_error": 0.6526916661619769,
+            "row_argmax_agreement": 0.93125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 6651904,
+          "original_weight_bytes": 15579652,
+          "physical_byte_reduction": 0.5730389870068985,
+          "validation": {
+            "nrmse": 0.40180610891707685,
+            "mean_cosine": 0.9153424541158574,
+            "min_cosine": 0.7664650147353079,
+            "p95_relative_row_error": 0.5447752567890523,
+            "max_relative_row_error": 0.6457532422544254,
+            "row_argmax_agreement": 0.934375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    },
+    "mamba_50_out": {
+      "family": "mamba_out",
+      "calibration_rows": 320,
+      "validation_rows": 320,
+      "input_dim": 4096,
+      "output_dim": 2688,
+      "ranks": [
+        {
+          "rank": 32,
+          "status": "measured",
+          "factor_bytes_bf16": 434176,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.929894225173724,
+          "validation": {
+            "nrmse": 0.426743204914575,
+            "mean_cosine": 0.8837008144088193,
+            "min_cosine": 0.6092526485868623,
+            "p95_relative_row_error": 0.683577712197871,
+            "max_relative_row_error": 0.8041547394337164,
+            "row_argmax_agreement": 0.94375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 64,
+          "status": "measured",
+          "factor_bytes_bf16": 868352,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.859788450347448,
+          "validation": {
+            "nrmse": 0.39497436385423307,
+            "mean_cosine": 0.899885096890307,
+            "min_cosine": 0.6266620491401096,
+            "p95_relative_row_error": 0.6660059033140255,
+            "max_relative_row_error": 0.7901096890487747,
+            "row_argmax_agreement": 0.953125,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 128,
+          "status": "measured",
+          "factor_bytes_bf16": 1736704,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.7195769006948961,
+          "validation": {
+            "nrmse": 0.3713281265650511,
+            "mean_cosine": 0.9112153025468597,
+            "min_cosine": 0.6424458054964619,
+            "p95_relative_row_error": 0.6379299008139876,
+            "max_relative_row_error": 0.770868209697785,
+            "row_argmax_agreement": 0.95625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 192,
+          "status": "measured",
+          "factor_bytes_bf16": 2605056,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.5793653510423442,
+          "validation": {
+            "nrmse": 0.360217009702527,
+            "mean_cosine": 0.9163151627222685,
+            "min_cosine": 0.65166403988887,
+            "p95_relative_row_error": 0.6227371706081118,
+            "max_relative_row_error": 0.7671319711729615,
+            "row_argmax_agreement": 0.959375,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 256,
+          "status": "measured",
+          "factor_bytes_bf16": 3473408,
+          "original_weight_bytes": 6193156,
+          "physical_byte_reduction": 0.4391538013897922,
+          "validation": {
+            "nrmse": 0.3530830918359037,
+            "mean_cosine": 0.9196766527243898,
+            "min_cosine": 0.6592127782970799,
+            "p95_relative_row_error": 0.6105765659354381,
+            "max_relative_row_error": 0.7607587281588559,
+            "row_argmax_agreement": 0.9625,
+            "finite": true
+          },
+          "gates": {
+            "bytes_saved_ge_35pct": true,
+            "nrmse_le_0_03": false,
+            "cosine_ge_0_9995": false,
+            "p95_relative_le_0_08": false,
+            "finite": true
+          },
+          "pass": false
+        },
+        {
+          "rank": 384,
+          "status": "unsupported"
+        }
+      ],
+      "selected": null
+    }
+  },
+  "families": {
+    "attention_k": {
+      "cases": 6,
+      "passed": 0,
+      "case_names": [
+        "attention_12_k",
+        "attention_19_k",
+        "attention_26_k",
+        "attention_33_k",
+        "attention_42_k",
+        "attention_5_k"
+      ],
+      "pass_fraction": 0.0,
+      "runtime_build_open": false
+    },
+    "attention_o": {
+      "cases": 6,
+      "passed": 0,
+      "case_names": [
+        "attention_12_o",
+        "attention_19_o",
+        "attention_26_o",
+        "attention_33_o",
+        "attention_42_o",
+        "attention_5_o"
+      ],
+      "pass_fraction": 0.0,
+      "runtime_build_open": false
+    },
+    "attention_q": {
+      "cases": 6,
+      "passed": 0,
+      "case_names": [
+        "attention_12_q",
+        "attention_19_q",
+        "attention_26_q",
+        "attention_33_q",
+        "attention_42_q",
+        "attention_5_q"
+      ],
+      "pass_fraction": 0.0,
+      "runtime_build_open": false
+    },
+    "attention_v": {
+      "cases": 6,
+      "passed": 0,
+      "case_names": [
+        "attention_12_v",
+        "attention_19_v",
+        "attention_26_v",
+        "attention_33_v",
+        "attention_42_v",
+        "attention_5_v"
+      ],
+      "pass_fraction": 0.0,
+      "runtime_build_open": false
+    },
+    "mamba_in": {
+      "cases": 3,
+      "passed": 0,
+      "case_names": [
+        "mamba_0_in",
+        "mamba_25_in",
+        "mamba_50_in"
+      ],
+      "pass_fraction": 0.0,
+      "runtime_build_open": false
+    },
+    "mamba_out": {
+      "cases": 3,
+      "passed": 0,
+      "case_names": [
+        "mamba_0_out",
+        "mamba_25_out",
+        "mamba_50_out"
+      ],
+      "pass_fraction": 0.0,
+      "runtime_build_open": false
+    }
+  },
+  "open_families": [],
+  "SUBSPACE_RUNTIME_BUILD_OPEN": false,
+  "moe_capture_path": "pro_research\\results\\s100_phase14r\\S100_PHASE14R_MOE_INPUTS.npz",
+  "completed_utc": "2026-08-19T08:23:14.001420+00:00"
+}

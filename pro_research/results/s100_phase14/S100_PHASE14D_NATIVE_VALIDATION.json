@@ -1,0 +1,12 @@
+{
+  "kind": "s100_phase14d_native_quality",
+  "status": "technical_failure",
+  "split": "validation",
+  "started_utc": "2026-08-19T06:53:22.814368+00:00",
+  "error": {
+    "type": "FileNotFoundError",
+    "message": "phase3 full trace missing; phase4 full QFAST run must complete first",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase14d_native_quality.py\", line 280, in main\n    payload = evaluate(args.split)\n              ^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase14d_native_quality.py\", line 81, in evaluate\n    prompts, indices, n, data, meta = load_trace(split)\n                                      ^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase5_quality.py\", line 24, in load_trace\n    if not TRACE.exists() or not TRACE_META.exists(): raise FileNotFoundError('phase3 full trace missing; phase4 full QFAST run must complete first')\n                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: phase3 full trace missing; phase4 full QFAST run must complete first\n"
+  },
+  "completed_utc": "2026-08-19T06:54:00.149779+00:00"
+}

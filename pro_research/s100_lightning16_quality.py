@@ -11,7 +11,7 @@ from s100_lightning16_common import (
     RESULTS, assert_lightning, ensure_results,
     evaluate_runtime, normalize_eager_moe,
 )
-from s100_lightning16_native import PointerDispatch
+from s100_lightning16_native import CUBLAS_WARMUP_DIAG, PointerDispatch
 
 def slug(name):
     return "".join(
@@ -91,6 +91,7 @@ def main():
                 "native_calls": dispatch.native_calls,
                 "original_calls": dispatch.original_calls,
                 "torch_mm_style": dispatch.engine.mm.style,
+                "cublas_warmup": dict(CUBLAS_WARMUP_DIAG),
             },
             **result,
             "completed_utc": utc_now(),

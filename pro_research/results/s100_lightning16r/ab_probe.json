@@ -1,4 +1,41 @@
 {
+ "provenance": {
+  "kind": "s100_lightning16r_ab_probe",
+  "purpose": "In-process A/B: Phase-16 PointerDispatch vs Phase-16R PointerDispatch on one runtime, tc1_k candidate, first 2 calibration prompts (128 positions), plus a P16 control in third position.",
+  "command": "LS_MODEL_DIR=<lightning-snapshot> .venv-nemotron/Scripts/python.exe pro_research/zz_ab_probe.py",
+  "environment": {
+   "python": ".venv-nemotron (worktree)",
+   "torch": "2.9.1+cu128",
+   "cupy": "14.1.1",
+   "cuda_runtime": 12090,
+   "gpu": "RTX PRO 2000 Blackwell 8GB (WDDM)",
+   "os": "Windows"
+  },
+  "candidate": {
+   "name": "tc1_k",
+   "terms": 1,
+   "handoff": "sync_control",
+   "cases": [
+    "attention_12_k",
+    "attention_19_k",
+    "attention_26_k",
+    "attention_33_k",
+    "attention_42_k",
+    "attention_5_k"
+   ],
+   "signature": "d3c51df3e5170d5e94cd35cabd0976c6159da94764b704dc3f1b47807c8682d0"
+  },
+  "source_state": "agent/s100-phase12-block-ervf @ 3c0418f + 16R recovery pack (zip sha256 b3bdc90f08ca4986fb41df73f90b434e25926b682726e032286799d4a9700376) + cuBLAS warmup fix; results first committed in 4345608",
+  "generator": {
+   "path": "pro_research/zz_ab_probe.py",
+   "sha256": "7d2fd9e5c970d9fdaf10681d20a3d6eaa64bed95a89def77f29ba476f235328c"
+  },
+  "claim_boundary": "Allocator-layout sensitivity diagnostic only: same-process comparisons on a 128-position calibration prefix. Shows end-to-end top1 of the TC1 torch.mm bridge shifts with module/import/eval order (96.09/95.31/95.31% in-process; 98.44% bit-reproducible for the P16-module-only layout; 80.8-82.3% for the 16R-module-only layout). Not a gate measurement; gates live in the S100_LIGHTNING16R_QUALITY_* files.",
+  "runs": {
+   "v1_20260819": "p16 first 0.984375 / p16r second 0.953125 (128 tokens)",
+   "v2_20260819": "p16 first 0.960938 / p16r second 0.953125 / p16 third 0.953125 (this file)"
+  }
+ },
  "p16": {
   "summary": {
    "tokens": 128,

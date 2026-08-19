@@ -18,6 +18,7 @@ from s100_lightning16r_common import (
     quality_path,
 )
 from s100_lightning16r_native import (
+    CUBLAS_WARMUP_DIAG,
     HANDOFFS,
     PointerDispatch,
 )
@@ -93,6 +94,7 @@ def main() -> int:
                 "torch_mm_style": (
                     dispatch.engine.mm.style
                 ),
+                "cublas_warmup": dict(CUBLAS_WARMUP_DIAG),
             },
             **result,
             "completed_utc": utc_now(),

@@ -1,0 +1,111 @@
+{
+  "kind": "s100_phase15_summary",
+  "stage": "final",
+  "created_utc": "2026-08-19T06:40:21.548464+00:00",
+  "torch_mm_bf16_fp32_out_supported": null,
+  "B1_mm_fp32out_speedup": null,
+  "B4_comp2_speedup": null,
+  "validation_arms": [
+    {
+      "variant": "mm_fp32out",
+      "scope": "all",
+      "strict_pass": false,
+      "summary": {
+        "tokens": 240,
+        "top1_agreement": 0.016666666666666666,
+        "target_in_top5": 0.05416666666666667,
+        "mean_ce_delta": 9.485902949112539,
+        "p95_ce_delta": 14.458602106348286,
+        "mean_coarse_kl": 8.83068657661604,
+        "p95_coarse_kl": 14.026997255472043,
+        "all_finite": true,
+        "native_calls": 16280,
+        "original_bf16_calls": 0,
+        "fp32_out_supported": true,
+        "K8_inclusion": 0.06666666666666667,
+        "K16_inclusion": 0.10416666666666667,
+        "K32_inclusion": 0.14583333333333334,
+        "K64_inclusion": 0.2
+      }
+    },
+    {
+      "variant": "mm_fp32out",
+      "scope": "attention",
+      "strict_pass": false,
+      "summary": {
+        "tokens": 240,
+        "top1_agreement": 0.5666666666666667,
+        "target_in_top5": 0.7875,
+        "mean_ce_delta": 1.7734686861961912,
+        "p95_ce_delta": 8.388497031565887,
+        "mean_coarse_kl": 1.5911665308289544,
+        "p95_coarse_kl": 8.168772611327363,
+        "all_finite": true,
+        "native_calls": 10560,
+        "original_bf16_calls": 5720,
+        "fp32_out_supported": true,
+        "K8_inclusion": 0.8166666666666667,
+        "K16_inclusion": 0.8541666666666666,
+        "K32_inclusion": 0.8833333333333333,
+        "K64_inclusion": 0.9041666666666667
+      }
+    },
+    {
+      "variant": "mm_fp32out",
+      "scope": "mamba",
+      "strict_pass": false,
+      "summary": {
+        "tokens": 240,
+        "top1_agreement": 0.24583333333333332,
+        "target_in_top5": 0.44583333333333336,
+        "mean_ce_delta": 4.282166246104678,
+        "p95_ce_delta": 10.94029810058763,
+        "mean_coarse_kl": 3.9111463938466717,
+        "p95_coarse_kl": 9.885575353630234,
+        "all_finite": true,
+        "native_calls": 5280,
+        "original_bf16_calls": 11000,
+        "fp32_out_supported": true,
+        "K8_inclusion": 0.49166666666666664,
+        "K16_inclusion": 0.5541666666666667,
+        "K32_inclusion": 0.6875,
+        "K64_inclusion": 0.725
+      }
+    },
+    {
+      "variant": "mm_fp32out_comp2",
+      "scope": "all",
+      "strict_pass": false,
+      "summary": {
+        "tokens": 240,
+        "top1_agreement": 0.0125,
+        "target_in_top5": 0.04583333333333333,
+        "mean_ce_delta": 9.321086706237288,
+        "p95_ce_delta": 13.947846469442226,
+        "mean_coarse_kl": 8.653466037102397,
+        "p95_coarse_kl": 13.482549332127052,
+        "all_finite": true,
+        "native_calls": 16280,
+        "original_bf16_calls": 0,
+        "fp32_out_supported": true,
+        "K8_inclusion": 0.07916666666666666,
+        "K16_inclusion": 0.10416666666666667,
+        "K32_inclusion": 0.14166666666666666,
+        "K64_inclusion": 0.17083333333333334
+      }
+    }
+  ],
+  "selected_validation_arm": null,
+  "RUN_HELDOUT": false,
+  "heldout_strict_pass": null,
+  "matrix_safe_count": null,
+  "safe_cases_ranked": null,
+  "H4_mm_fp32out_go": null,
+  "H4_mm_fp32out_comp2_go": null,
+  "DIRECT_NATIVE_BF16_RUNTIME_BUILD_OPEN": false,
+  "EXACT_STATE_BLOCK_DRAFT_BUILD_OPEN": false,
+  "SELECTIVE_MATRIX_RUNTIME_RESEARCH_OPEN": false,
+  "NEXT_ROUTE": "LOCALIZE_OR_CLOSE_NATIVE_BF16_DIRECT_SUBSTITUTION",
+  "S100_SINGLE_ACHIEVED": false,
+  "claim_boundary": "Phase15 integration authorization only; no production tok/s claim"
+}

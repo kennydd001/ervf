@@ -1,0 +1,13 @@
+{
+  "kind": "s100_phase15d_exact_state_horizon",
+  "status": "technical_failure",
+  "variant": "mm_fp32out_comp2",
+  "started_utc": "2026-08-19T06:39:46.332691+00:00",
+  "claim_boundary": "native greedy draft from exact recurrent state at every block boundary; no throughput claim",
+  "error": {
+    "type": "RuntimeError",
+    "message": "CUDA error: CUBLAS_STATUS_INVALID_VALUE when calling `cublasGemmEx( handle, opa, opb, m, n, k, &falpha, a, CUDA_R_16BF, lda, b, CUDA_R_16BF, ldb, &fbeta, c, std::is_same_v<C_Dtype, float> ? CUDA_R_32F : CUDA_R_16BF, ldc, compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP)`",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase15d_exact_state_horizon.py\", line 159, in main\n    summary, gate, records = run_variant(\n                             ^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase15d_exact_state_horizon.py\", line 61, in run_variant\n    nxt = int(rt.step(int(tok)))\n              ^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\src\\moe_lab\\lightningstream_nemotron\\runtime.py\", line 817, in step\n    self._mamba(i, self.acc)\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\src\\moe_lab\\lightningstream_nemotron\\runtime.py\", line 404, in _mamba\n    k.mv_bf16(self.proj, d[\"in_w\"], self.normed, self.proj.size, self.hidden)\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase15_native.py\", line 151, in __call__\n    self._mm_fp32(hi.reshape(1, -1), wtt)\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase15_native.py\", line 120, in _mm_fp32\n    y = self.torch.mm(a, b, out_dtype=self.torch.float32)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: CUDA error: CUBLAS_STATUS_INVALID_VALUE when calling `cublasGemmEx( handle, opa, opb, m, n, k, &falpha, a, CUDA_R_16BF, lda, b, CUDA_R_16BF, ldb, &fbeta, c, std::is_same_v<C_Dtype, float> ? CUDA_R_32F : CUDA_R_16BF, ldc, compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP)`\n"
+  },
+  "completed_utc": "2026-08-19T06:40:20.437020+00:00"
+}

@@ -1,0 +1,21 @@
+{
+  "kind": "s100_phase15a_component_variants",
+  "status": "technical_failure",
+  "started_utc": "2026-08-19T06:23:01.431407+00:00",
+  "blocks": [
+    1,
+    4
+  ],
+  "variants": [
+    "mm_bf16out",
+    "mm_fp32out",
+    "mm_fp32out_comp2"
+  ],
+  "claim_boundary": "cold component contract benchmark; not end-to-end",
+  "error": {
+    "type": "RuntimeError",
+    "message": "CUDA error: CUBLAS_STATUS_INVALID_VALUE when calling `cublasGemmEx( handle, opa, opb, m, n, k, &falpha, a, CUDA_R_16BF, lda, b, CUDA_R_16BF, ldb, &fbeta, c, std::is_same_v<C_Dtype, float> ? CUDA_R_32F : CUDA_R_16BF, ldc, compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP)`",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase15a_component_variants.py\", line 125, in main\n    cand = native(v)\n           ^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase15a_component_variants.py\", line 104, in native\n    return torch.mm(xb, wtt).float()\n           ^^^^^^^^^^^^^^^^^\nRuntimeError: CUDA error: CUBLAS_STATUS_INVALID_VALUE when calling `cublasGemmEx( handle, opa, opb, m, n, k, &falpha, a, CUDA_R_16BF, lda, b, CUDA_R_16BF, ldb, &fbeta, c, std::is_same_v<C_Dtype, float> ? CUDA_R_32F : CUDA_R_16BF, ldc, compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP)`\n"
+  },
+  "completed_utc": "2026-08-19T06:23:06.841660+00:00"
+}

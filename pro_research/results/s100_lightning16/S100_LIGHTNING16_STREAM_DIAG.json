@@ -1,11 +1,791 @@
 {
   "kind": "s100_lightning16_stream_diag",
-  "status": "technical_failure",
-  "started_utc": "2026-08-19T12:20:30.912826+00:00",
-  "error": {
-    "type": "KeyError",
-    "message": "'producer_stream_ptr'",
-    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_lightning16_stream_diag.py\", line 232, in main\n    sentinel_rows = sentinel()\n                    ^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_lightning16_stream_diag.py\", line 217, in sentinel\n    results[path] = aggregate(rows)\n                    ^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_lightning16_stream_diag.py\", line 97, in aggregate\n    \"stream_pointer_equal\": all(\n                            ^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_lightning16_stream_diag.py\", line 98, in <genexpr>\n    v[\"producer_stream_ptr\"]\n    ~^^^^^^^^^^^^^^^^^^^^^^^\nKeyError: 'producer_stream_ptr'\n"
+  "status": "measured",
+  "started_utc": "2026-08-19T13:06:42.626716+00:00",
+  "identity": {
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.cache\\nemotron_3_5_lightning\\hub\\models--nvidia--NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4\\snapshots\\e8f3c7c4de75ad84fe1bcef95d38eca76214480b",
+    "config_sha256": "f1d98b530846087dc08b574a219713a94f945bf6583dc7230a19ebf1e8c50933",
+    "index_sha256": "3c3bc7efa8d658c2e909a0b9020eb0f72064e6647de348856af4dee9895bead9",
+    "max_position_embeddings": 1048576,
+    "hidden_size": 2688,
+    "num_hidden_layers": 52,
+    "n_routed_experts": 128,
+    "num_experts_per_tok": 6,
+    "moe_intermediate_size": 1856,
+    "vocab_size": 131072,
+    "architectures": [
+      "NemotronHForCausalLM"
+    ],
+    "model_type": "nemotron_h",
+    "shard_count": 18487,
+    "expected": {
+      "max_position_embeddings": 1048576,
+      "hidden_size": 2688,
+      "num_hidden_layers": 52,
+      "n_routed_experts": 128,
+      "num_experts_per_tok": 6,
+      "moe_intermediate_size": 1856,
+      "vocab_size": 131072
+    },
+    "mismatches": {},
+    "LIGHTNING_IDENTITY_GREEN": true
   },
-  "completed_utc": "2026-08-19T12:21:02.255163+00:00"
+  "sentinel": {
+    "legacy": {
+      "calls": 96,
+      "max_nrmse": 5.659066153973957e-06,
+      "mean_nrmse": 4.327985473365787e-06,
+      "min_cosine": 0.9999997927211822,
+      "cases": {
+        "attention_5_k": {
+          "calls": 32,
+          "family": "k",
+          "layer": 5,
+          "max_nrmse": 4.085229252631917e-06,
+          "mean_nrmse": 3.7888297976028414e-06,
+          "min_cosine": 0.9999997927211822,
+          "max_abs": 4.00543212890625e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_5_v": {
+          "calls": 32,
+          "family": "v",
+          "layer": 5,
+          "max_nrmse": 4.0682180468494105e-06,
+          "mean_nrmse": 3.8291433710553775e-06,
+          "min_cosine": 0.9999998528699875,
+          "max_abs": 3.993511199951172e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_5_o": {
+          "calls": 32,
+          "family": "o",
+          "layer": 5,
+          "max_nrmse": 5.659066153973957e-06,
+          "mean_nrmse": 5.36598325143914e-06,
+          "min_cosine": 0.9999998252020378,
+          "max_abs": 6.4849853515625e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        }
+      }
+    },
+    "context_first": {
+      "calls": 96,
+      "max_nrmse": 5.466775634295643e-06,
+      "mean_nrmse": 4.333904775522468e-06,
+      "min_cosine": 0.9999997917639669,
+      "cases": {
+        "attention_5_k": {
+          "calls": 32,
+          "family": "k",
+          "layer": 5,
+          "max_nrmse": 4.2296620759838035e-06,
+          "mean_nrmse": 3.9519794682240174e-06,
+          "min_cosine": 0.9999997917639669,
+          "max_abs": 3.4332275390625e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_5_v": {
+          "calls": 32,
+          "family": "v",
+          "layer": 5,
+          "max_nrmse": 4.139283623747872e-06,
+          "mean_nrmse": 3.816516504497948e-06,
+          "min_cosine": 0.9999998613563306,
+          "max_abs": 4.5299530029296875e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_5_o": {
+          "calls": 32,
+          "family": "o",
+          "layer": 5,
+          "max_nrmse": 5.466775634295643e-06,
+          "mean_nrmse": 5.233218353845439e-06,
+          "min_cosine": 0.9999998436976237,
+          "max_abs": 9.059906005859375e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        }
+      }
+    },
+    "sync_control": {
+      "calls": 96,
+      "max_nrmse": 5.543683314669135e-06,
+      "mean_nrmse": 4.1666922933981954e-06,
+      "min_cosine": 0.999999834134908,
+      "cases": {
+        "attention_5_k": {
+          "calls": 32,
+          "family": "k",
+          "layer": 5,
+          "max_nrmse": 4.047653520271256e-06,
+          "mean_nrmse": 3.775554247925768e-06,
+          "min_cosine": 0.999999854777938,
+          "max_abs": 3.814697265625e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_5_v": {
+          "calls": 32,
+          "family": "v",
+          "layer": 5,
+          "max_nrmse": 3.7060642316259776e-06,
+          "mean_nrmse": 3.4619881532777054e-06,
+          "min_cosine": 0.9999998995988058,
+          "max_abs": 3.993511199951172e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_5_o": {
+          "calls": 32,
+          "family": "o",
+          "layer": 5,
+          "max_nrmse": 5.543683314669135e-06,
+          "mean_nrmse": 5.2625344789911115e-06,
+          "min_cosine": 0.999999834134908,
+          "max_abs": 7.176399230957031e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        }
+      }
+    }
+  },
+  "real_activation_shadow": {
+    "legacy": {
+      "calls": 288,
+      "max_nrmse": 1.268843210722775,
+      "mean_nrmse": 0.30139895296303654,
+      "min_cosine": 0.09097552741660155,
+      "cases": {
+        "attention_5_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 5,
+          "max_nrmse": 1.268843210722775,
+          "mean_nrmse": 0.9232548109938796,
+          "min_cosine": 0.09097552741660155,
+          "max_abs": 6.8732991218566895,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_5_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 5,
+          "max_nrmse": 4.492404426840095e-06,
+          "mean_nrmse": 3.68854595916381e-06,
+          "min_cosine": 0.9999998524687813,
+          "max_abs": 2.6226043701171875e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_5_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 5,
+          "max_nrmse": 6.407055997602582e-06,
+          "mean_nrmse": 5.660118701350524e-06,
+          "min_cosine": 0.9999997656764792,
+          "max_abs": 6.079673767089844e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_12_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 12,
+          "max_nrmse": 1.2509240142176665,
+          "mean_nrmse": 1.002053809940008,
+          "min_cosine": 0.18165546437310653,
+          "max_abs": 8.891919136047363,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_12_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 12,
+          "max_nrmse": 3.9690219760412655e-06,
+          "mean_nrmse": 3.4384308612428554e-06,
+          "min_cosine": 0.9999999152311159,
+          "max_abs": 3.0994415283203125e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_12_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 12,
+          "max_nrmse": 7.94565319466982e-06,
+          "mean_nrmse": 6.471798952971622e-06,
+          "min_cosine": 0.9999999487126986,
+          "max_abs": 9.775161743164062e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_19_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 19,
+          "max_nrmse": 0.8856529258848134,
+          "mean_nrmse": 0.8079165318184751,
+          "min_cosine": 0.466452062373247,
+          "max_abs": 6.8238630294799805,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_19_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 19,
+          "max_nrmse": 3.650715340589933e-06,
+          "mean_nrmse": 3.3051774629830096e-06,
+          "min_cosine": 0.9999998647387632,
+          "max_abs": 1.0967254638671875e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_19_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 19,
+          "max_nrmse": 6.516616389563393e-06,
+          "mean_nrmse": 4.742871299748308e-06,
+          "min_cosine": 0.9999998463949284,
+          "max_abs": 2.765655517578125e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_26_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 26,
+          "max_nrmse": 0.8884645267895915,
+          "mean_nrmse": 0.8287040046741952,
+          "min_cosine": 0.4681152322231499,
+          "max_abs": 8.329330444335938,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_26_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 26,
+          "max_nrmse": 3.6402259296939464e-06,
+          "mean_nrmse": 3.321098566509248e-06,
+          "min_cosine": 0.9999998856807454,
+          "max_abs": 1.7881393432617188e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_26_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 26,
+          "max_nrmse": 6.61768588148305e-06,
+          "mean_nrmse": 5.340429554626545e-06,
+          "min_cosine": 0.9999997224995352,
+          "max_abs": 6.198883056640625e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_33_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 33,
+          "max_nrmse": 0.9308087482988655,
+          "mean_nrmse": 0.9173629854208935,
+          "min_cosine": 0.3945790540067284,
+          "max_abs": 50.513946533203125,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_33_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 33,
+          "max_nrmse": 4.454133589031378e-06,
+          "mean_nrmse": 3.8128663408694084e-06,
+          "min_cosine": 0.9999999079344266,
+          "max_abs": 2.288818359375e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_33_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 33,
+          "max_nrmse": 5.4353165845642945e-06,
+          "mean_nrmse": 4.093041863297943e-06,
+          "min_cosine": 0.9999999085313611,
+          "max_abs": 7.82012939453125e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_42_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 42,
+          "max_nrmse": 0.9902663900459481,
+          "mean_nrmse": 0.9458370996704801,
+          "min_cosine": 0.20942648891529617,
+          "max_abs": 21.223079681396484,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_42_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 42,
+          "max_nrmse": 4.788525367567373e-06,
+          "mean_nrmse": 3.7782653219616735e-06,
+          "min_cosine": 0.9999998743155719,
+          "max_abs": 4.38690185546875e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_42_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 42,
+          "max_nrmse": 5.162484474644217e-06,
+          "mean_nrmse": 4.258171842258565e-06,
+          "min_cosine": 0.9999998329344935,
+          "max_abs": 0.000396728515625,
+          "stream_pointer_equal": false,
+          "finite": true
+        }
+      },
+      "path": "legacy",
+      "terms": 2,
+      "torch_mm_style": "keyword"
+    },
+    "context_first": {
+      "calls": 288,
+      "max_nrmse": 3.5077803188748375,
+      "mean_nrmse": 0.13829676504139993,
+      "min_cosine": 0.9999997224995352,
+      "cases": {
+        "attention_5_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 5,
+          "max_nrmse": 3.5077803188748375,
+          "mean_nrmse": 0.7091381446399815,
+          "min_cosine": 0.9999998948102993,
+          "max_abs": 7.194412708282471,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_5_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 5,
+          "max_nrmse": 4.492404426840095e-06,
+          "mean_nrmse": 3.68854595916381e-06,
+          "min_cosine": 0.9999998524687813,
+          "max_abs": 2.6226043701171875e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_5_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 5,
+          "max_nrmse": 6.407055997602582e-06,
+          "mean_nrmse": 5.660118701350524e-06,
+          "min_cosine": 0.9999997656764792,
+          "max_abs": 6.079673767089844e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_12_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 12,
+          "max_nrmse": 1.0,
+          "mean_nrmse": 0.4751633270696991,
+          "min_cosine": 0.9999998770625448,
+          "max_abs": 7.215197563171387,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_12_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 12,
+          "max_nrmse": 3.9690219760412655e-06,
+          "mean_nrmse": 3.4384308612428554e-06,
+          "min_cosine": 0.9999999152311159,
+          "max_abs": 3.0994415283203125e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_12_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 12,
+          "max_nrmse": 7.94565319466982e-06,
+          "mean_nrmse": 6.471798952971622e-06,
+          "min_cosine": 0.9999999487126986,
+          "max_abs": 9.775161743164062e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_19_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 19,
+          "max_nrmse": 1.0,
+          "mean_nrmse": 0.5198289862970508,
+          "min_cosine": 0.9999999088398894,
+          "max_abs": 7.408858776092529,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_19_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 19,
+          "max_nrmse": 3.650715340589933e-06,
+          "mean_nrmse": 3.3051774629830096e-06,
+          "min_cosine": 0.9999998647387632,
+          "max_abs": 1.0967254638671875e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_19_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 19,
+          "max_nrmse": 6.516616389563393e-06,
+          "mean_nrmse": 4.742871299748308e-06,
+          "min_cosine": 0.9999998463949284,
+          "max_abs": 2.765655517578125e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_26_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 26,
+          "max_nrmse": 1.0,
+          "mean_nrmse": 0.4281749825016298,
+          "min_cosine": 0.9999998353528623,
+          "max_abs": 8.047554016113281,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_26_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 26,
+          "max_nrmse": 3.6402259296939464e-06,
+          "mean_nrmse": 3.321098566509248e-06,
+          "min_cosine": 0.9999998856807454,
+          "max_abs": 1.7881393432617188e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_26_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 26,
+          "max_nrmse": 6.61768588148305e-06,
+          "mean_nrmse": 5.340429554626545e-06,
+          "min_cosine": 0.9999997224995352,
+          "max_abs": 6.198883056640625e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_33_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 33,
+          "max_nrmse": 0.2734318245500809,
+          "mean_nrmse": 0.1480680911429812,
+          "min_cosine": 0.9999997846108918,
+          "max_abs": 5.1467437744140625,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_33_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 33,
+          "max_nrmse": 4.454133589031378e-06,
+          "mean_nrmse": 3.8128663408694084e-06,
+          "min_cosine": 0.9999999079344266,
+          "max_abs": 2.288818359375e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_33_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 33,
+          "max_nrmse": 5.4353165845642945e-06,
+          "mean_nrmse": 4.093041863297943e-06,
+          "min_cosine": 0.9999999085313611,
+          "max_abs": 7.82012939453125e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_42_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 42,
+          "max_nrmse": 0.9999998953379329,
+          "mean_nrmse": 0.20891632827712925,
+          "min_cosine": 0.9999999187889567,
+          "max_abs": 16.99822998046875,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_42_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 42,
+          "max_nrmse": 4.788525367567373e-06,
+          "mean_nrmse": 3.7782653219616735e-06,
+          "min_cosine": 0.9999998743155719,
+          "max_abs": 4.38690185546875e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_42_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 42,
+          "max_nrmse": 5.162484474644217e-06,
+          "mean_nrmse": 4.258171842258565e-06,
+          "min_cosine": 0.9999998329344935,
+          "max_abs": 0.000396728515625,
+          "stream_pointer_equal": false,
+          "finite": true
+        }
+      },
+      "path": "context_first",
+      "terms": 2,
+      "torch_mm_style": "keyword"
+    },
+    "sync_control": {
+      "calls": 288,
+      "max_nrmse": 7.94565319466982e-06,
+      "mean_nrmse": 3.824302324523381e-06,
+      "min_cosine": 0.9999997224995352,
+      "cases": {
+        "attention_5_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 5,
+          "max_nrmse": 5.019550904621869e-06,
+          "mean_nrmse": 3.288546410508639e-06,
+          "min_cosine": 0.9999998948102993,
+          "max_abs": 2.3365020751953125e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_5_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 5,
+          "max_nrmse": 4.492404426840095e-06,
+          "mean_nrmse": 3.68854595916381e-06,
+          "min_cosine": 0.9999998524687813,
+          "max_abs": 2.6226043701171875e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_5_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 5,
+          "max_nrmse": 6.407055997602582e-06,
+          "mean_nrmse": 5.660118701350524e-06,
+          "min_cosine": 0.9999997656764792,
+          "max_abs": 6.079673767089844e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_12_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 12,
+          "max_nrmse": 5.869996160763396e-06,
+          "mean_nrmse": 3.4454302548759336e-06,
+          "min_cosine": 0.9999998770625448,
+          "max_abs": 3.1948089599609375e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_12_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 12,
+          "max_nrmse": 3.9690219760412655e-06,
+          "mean_nrmse": 3.4384308612428554e-06,
+          "min_cosine": 0.9999999152311159,
+          "max_abs": 3.0994415283203125e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_12_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 12,
+          "max_nrmse": 7.94565319466982e-06,
+          "mean_nrmse": 6.471798952971622e-06,
+          "min_cosine": 0.9999999487126986,
+          "max_abs": 9.775161743164062e-06,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_19_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 19,
+          "max_nrmse": 3.835722237533335e-06,
+          "mean_nrmse": 3.104851213011801e-06,
+          "min_cosine": 0.9999999088398894,
+          "max_abs": 3.0517578125e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_19_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 19,
+          "max_nrmse": 3.650715340589933e-06,
+          "mean_nrmse": 3.3051774629830096e-06,
+          "min_cosine": 0.9999998647387632,
+          "max_abs": 1.0967254638671875e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_19_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 19,
+          "max_nrmse": 6.516616389563393e-06,
+          "mean_nrmse": 4.742871299748308e-06,
+          "min_cosine": 0.9999998463949284,
+          "max_abs": 2.765655517578125e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_26_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 26,
+          "max_nrmse": 3.8142761889058556e-06,
+          "mean_nrmse": 2.8261951061194816e-06,
+          "min_cosine": 0.9999998353528623,
+          "max_abs": 4.673004150390625e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_26_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 26,
+          "max_nrmse": 3.6402259296939464e-06,
+          "mean_nrmse": 3.321098566509248e-06,
+          "min_cosine": 0.9999998856807454,
+          "max_abs": 1.7881393432617188e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_26_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 26,
+          "max_nrmse": 6.61768588148305e-06,
+          "mean_nrmse": 5.340429554626545e-06,
+          "min_cosine": 0.9999997224995352,
+          "max_abs": 6.198883056640625e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_33_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 33,
+          "max_nrmse": 4.908053150153418e-06,
+          "mean_nrmse": 1.808303181266436e-06,
+          "min_cosine": 0.9999997846108918,
+          "max_abs": 0.000148773193359375,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_33_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 33,
+          "max_nrmse": 4.454133589031378e-06,
+          "mean_nrmse": 3.8128663408694084e-06,
+          "min_cosine": 0.9999999079344266,
+          "max_abs": 2.288818359375e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_33_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 33,
+          "max_nrmse": 5.4353165845642945e-06,
+          "mean_nrmse": 4.093041863297943e-06,
+          "min_cosine": 0.9999999085313611,
+          "max_abs": 7.82012939453125e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_42_k": {
+          "calls": 16,
+          "family": "k",
+          "layer": 42,
+          "max_nrmse": 4.930214137269459e-06,
+          "mean_nrmse": 2.453298948655058e-06,
+          "min_cosine": 0.9999999187889567,
+          "max_abs": 8.392333984375e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_42_v": {
+          "calls": 16,
+          "family": "v",
+          "layer": 42,
+          "max_nrmse": 4.788525367567373e-06,
+          "mean_nrmse": 3.7782653219616735e-06,
+          "min_cosine": 0.9999998743155719,
+          "max_abs": 4.38690185546875e-05,
+          "stream_pointer_equal": false,
+          "finite": true
+        },
+        "attention_42_o": {
+          "calls": 16,
+          "family": "o",
+          "layer": 42,
+          "max_nrmse": 5.162484474644217e-06,
+          "mean_nrmse": 4.258171842258565e-06,
+          "min_cosine": 0.9999998329344935,
+          "max_abs": 0.000396728515625,
+          "stream_pointer_equal": false,
+          "finite": true
+        }
+      },
+      "path": "sync_control",
+      "terms": 2,
+      "torch_mm_style": "keyword"
+    }
+  },
+  "STREAM_HANDSHAKE_BUG_CONFIRMED": true,
+  "recommended_handoff": "sync_control",
+  "FIXED_NATIVE_SHADOW_GREEN": true,
+  "completed_utc": "2026-08-19T13:09:09.759119+00:00"
 }

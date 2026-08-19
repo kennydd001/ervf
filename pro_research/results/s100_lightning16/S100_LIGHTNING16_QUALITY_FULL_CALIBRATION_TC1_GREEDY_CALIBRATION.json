@@ -1,0 +1,210 @@
+{
+  "kind": "s100_lightning16_quality",
+  "status": "measured",
+  "name": "FULL CALIBRATION tc1_greedy",
+  "terms": 1,
+  "cases": [
+    "attention_12_k",
+    "attention_12_v",
+    "attention_19_k",
+    "attention_19_v",
+    "attention_26_k",
+    "attention_26_v",
+    "attention_33_k",
+    "attention_33_v",
+    "attention_42_k",
+    "attention_42_v",
+    "attention_5_k",
+    "attention_5_v"
+  ],
+  "handoff": "sync_control",
+  "split": "calibration",
+  "candidate_signature": "33bf99ac34ff8c4ec0397df0238041a186c50b84d891d1ae9633aab6769e401f",
+  "started_utc": "2026-08-19T13:40:34.141615+00:00",
+  "identity": {
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.cache\\nemotron_3_5_lightning\\hub\\models--nvidia--NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4\\snapshots\\e8f3c7c4de75ad84fe1bcef95d38eca76214480b",
+    "config_sha256": "f1d98b530846087dc08b574a219713a94f945bf6583dc7230a19ebf1e8c50933",
+    "index_sha256": "3c3bc7efa8d658c2e909a0b9020eb0f72064e6647de348856af4dee9895bead9",
+    "max_position_embeddings": 1048576,
+    "hidden_size": 2688,
+    "num_hidden_layers": 52,
+    "n_routed_experts": 128,
+    "num_experts_per_tok": 6,
+    "moe_intermediate_size": 1856,
+    "vocab_size": 131072,
+    "architectures": [
+      "NemotronHForCausalLM"
+    ],
+    "model_type": "nemotron_h",
+    "shard_count": 18487,
+    "expected": {
+      "max_position_embeddings": 1048576,
+      "hidden_size": 2688,
+      "num_hidden_layers": 52,
+      "n_routed_experts": 128,
+      "num_experts_per_tok": 6,
+      "moe_intermediate_size": 1856,
+      "vocab_size": 131072
+    },
+    "mismatches": {},
+    "LIGHTNING_IDENTITY_GREEN": true
+  },
+  "dispatch": {
+    "native_calls": 10008,
+    "original_calls": 5004,
+    "torch_mm_style": "keyword"
+  },
+  "summary": {
+    "tokens": 640,
+    "top1_agreement": 0.9703125,
+    "target_in_top5": 0.9984375,
+    "mean_target_rank": 0.040625,
+    "max_target_rank": 5,
+    "mean_ce_delta": 0.01596759632229805,
+    "p95_ce_delta": 0.07876765727996826,
+    "mean_coarse_kl": 0.011351566761732101,
+    "p95_coarse_kl": 0.02714907005429268,
+    "all_finite": true,
+    "deterministic_anchor_repeat": true,
+    "anchor_hash": null,
+    "first_flat_top1_divergence": 2
+  },
+  "per_domain": {
+    "code": {
+      "tokens": 64,
+      "top1_agreement": 1.0,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": -0.002724766731262207,
+      "p95_ce_delta": 0.00641727214679122,
+      "mean_coarse_kl": 0.00029770570108667016,
+      "p95_coarse_kl": 0.0010681739076972008,
+      "mean_target_rank": 0.0,
+      "max_target_rank": 0
+    },
+    "creative_en": {
+      "tokens": 64,
+      "top1_agreement": 0.984375,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": 0.006757169961929321,
+      "p95_ce_delta": 0.06884097307920456,
+      "mean_coarse_kl": 0.0030871029011905193,
+      "p95_coarse_kl": 0.008026450872421265,
+      "mean_target_rank": 0.015625,
+      "max_target_rank": 1
+    },
+    "creative_nl": {
+      "tokens": 64,
+      "top1_agreement": 0.953125,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": 0.012408971786499023,
+      "p95_ce_delta": 0.09089159965515137,
+      "mean_coarse_kl": 0.002709438558667898,
+      "p95_coarse_kl": 0.011533766053617,
+      "mean_target_rank": 0.046875,
+      "max_target_rank": 1
+    },
+    "factual_en": {
+      "tokens": 64,
+      "top1_agreement": 0.921875,
+      "target_in_top5": 0.984375,
+      "mean_ce_delta": 0.11650416254997253,
+      "p95_ce_delta": 1.1643774509429932,
+      "mean_coarse_kl": 0.0784347802400589,
+      "p95_coarse_kl": 0.5226477384567261,
+      "mean_target_rank": 0.1875,
+      "max_target_rank": 5
+    },
+    "factual_nl": {
+      "tokens": 64,
+      "top1_agreement": 0.9375,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": 0.001417398452758789,
+      "p95_ce_delta": 0.1114315614104271,
+      "mean_coarse_kl": 0.007049130741506815,
+      "p95_coarse_kl": 0.028712164610624313,
+      "mean_target_rank": 0.0625,
+      "max_target_rank": 1
+    },
+    "instruction_following": {
+      "tokens": 64,
+      "top1_agreement": 0.984375,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": -0.0015925467014312744,
+      "p95_ce_delta": 0.061254020780324936,
+      "mean_coarse_kl": 0.0023193848319351673,
+      "p95_coarse_kl": 0.006393113639205694,
+      "mean_target_rank": 0.015625,
+      "max_target_rank": 1
+    },
+    "mathematics": {
+      "tokens": 64,
+      "top1_agreement": 0.984375,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": -0.0029284656047821045,
+      "p95_ce_delta": 0.03878391906619072,
+      "mean_coarse_kl": 0.003709446871653199,
+      "p95_coarse_kl": 0.005820182152092457,
+      "mean_target_rank": 0.015625,
+      "max_target_rank": 1
+    },
+    "reasoning": {
+      "tokens": 64,
+      "top1_agreement": 0.984375,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": 0.022247493267059326,
+      "p95_ce_delta": 0.1155875027179718,
+      "mean_coarse_kl": 0.01341446116566658,
+      "p95_coarse_kl": 0.11898503452539444,
+      "mean_target_rank": 0.015625,
+      "max_target_rank": 1
+    },
+    "summarisation": {
+      "tokens": 64,
+      "top1_agreement": 0.984375,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": 0.0007734298706054688,
+      "p95_ce_delta": 0.029286760836839676,
+      "mean_coarse_kl": 0.0008882432011887431,
+      "p95_coarse_kl": 0.0035988178569823503,
+      "mean_target_rank": 0.015625,
+      "max_target_rank": 1
+    },
+    "technical": {
+      "tokens": 64,
+      "top1_agreement": 0.96875,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": 0.006813123822212219,
+      "p95_ce_delta": 0.06514087319374084,
+      "mean_coarse_kl": 0.0016059760237112641,
+      "p95_coarse_kl": 0.008466923609375954,
+      "mean_target_rank": 0.03125,
+      "max_target_rank": 1
+    }
+  },
+  "strict_gates": {
+    "top1": true,
+    "top5": false,
+    "mean_ce": true,
+    "mean_kl": true,
+    "p95_kl": true,
+    "domain_top1": true,
+    "domain_ce": false,
+    "finite": true
+  },
+  "strict_pass": false,
+  "official_gates": {
+    "top1": true,
+    "top5": true,
+    "mean_ce": true,
+    "p95_ce": true,
+    "mean_kl": true,
+    "p95_kl": true,
+    "domain_top1": true,
+    "domain_ce": false,
+    "deterministic": true,
+    "finite": true
+  },
+  "official_pass": false,
+  "trace_model_signature": "8d63c9a75a0d729ca64eb8b70456973479ff52813aa66afc38aa8466e84f54ce",
+  "completed_utc": "2026-08-19T13:41:34.764381+00:00"
+}

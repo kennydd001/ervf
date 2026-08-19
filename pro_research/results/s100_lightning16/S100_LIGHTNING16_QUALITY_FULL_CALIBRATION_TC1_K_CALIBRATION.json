@@ -1,0 +1,204 @@
+{
+  "kind": "s100_lightning16_quality",
+  "status": "measured",
+  "name": "FULL CALIBRATION tc1_k",
+  "terms": 1,
+  "cases": [
+    "attention_12_k",
+    "attention_19_k",
+    "attention_26_k",
+    "attention_33_k",
+    "attention_42_k",
+    "attention_5_k"
+  ],
+  "handoff": "sync_control",
+  "split": "calibration",
+  "candidate_signature": "d3c51df3e5170d5e94cd35cabd0976c6159da94764b704dc3f1b47807c8682d0",
+  "started_utc": "2026-08-19T13:43:46.794369+00:00",
+  "identity": {
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.cache\\nemotron_3_5_lightning\\hub\\models--nvidia--NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4\\snapshots\\e8f3c7c4de75ad84fe1bcef95d38eca76214480b",
+    "config_sha256": "f1d98b530846087dc08b574a219713a94f945bf6583dc7230a19ebf1e8c50933",
+    "index_sha256": "3c3bc7efa8d658c2e909a0b9020eb0f72064e6647de348856af4dee9895bead9",
+    "max_position_embeddings": 1048576,
+    "hidden_size": 2688,
+    "num_hidden_layers": 52,
+    "n_routed_experts": 128,
+    "num_experts_per_tok": 6,
+    "moe_intermediate_size": 1856,
+    "vocab_size": 131072,
+    "architectures": [
+      "NemotronHForCausalLM"
+    ],
+    "model_type": "nemotron_h",
+    "shard_count": 18487,
+    "expected": {
+      "max_position_embeddings": 1048576,
+      "hidden_size": 2688,
+      "num_hidden_layers": 52,
+      "n_routed_experts": 128,
+      "num_experts_per_tok": 6,
+      "moe_intermediate_size": 1856,
+      "vocab_size": 131072
+    },
+    "mismatches": {},
+    "LIGHTNING_IDENTITY_GREEN": true
+  },
+  "dispatch": {
+    "native_calls": 5004,
+    "original_calls": 10008,
+    "torch_mm_style": "keyword"
+  },
+  "summary": {
+    "tokens": 640,
+    "top1_agreement": 0.984375,
+    "target_in_top5": 1.0,
+    "mean_target_rank": 0.015625,
+    "max_target_rank": 1,
+    "mean_ce_delta": 0.0024656623136252165,
+    "p95_ce_delta": 0.05269498750567436,
+    "mean_coarse_kl": 0.0014462581602856517,
+    "p95_coarse_kl": 0.006640562321990728,
+    "all_finite": true,
+    "deterministic_anchor_repeat": true,
+    "anchor_hash": null,
+    "first_flat_top1_divergence": 71
+  },
+  "per_domain": {
+    "code": {
+      "tokens": 64,
+      "top1_agreement": 1.0,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": -0.0007333755493164062,
+      "p95_ce_delta": 0.008373920805752277,
+      "mean_coarse_kl": 0.00019756972324103117,
+      "p95_coarse_kl": 0.0010804919293150306,
+      "mean_target_rank": 0.0,
+      "max_target_rank": 0
+    },
+    "creative_en": {
+      "tokens": 64,
+      "top1_agreement": 1.0,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": 0.004224210977554321,
+      "p95_ce_delta": 0.06459426134824753,
+      "mean_coarse_kl": 0.002315711695700884,
+      "p95_coarse_kl": 0.006613967940211296,
+      "mean_target_rank": 0.0,
+      "max_target_rank": 0
+    },
+    "creative_nl": {
+      "tokens": 64,
+      "top1_agreement": 0.953125,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": 0.014927387237548828,
+      "p95_ce_delta": 0.12707418203353882,
+      "mean_coarse_kl": 0.0023859208449721336,
+      "p95_coarse_kl": 0.010961158201098442,
+      "mean_target_rank": 0.046875,
+      "max_target_rank": 1
+    },
+    "factual_en": {
+      "tokens": 64,
+      "top1_agreement": 1.0,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": 0.0006525218486785889,
+      "p95_ce_delta": 0.005011844448745251,
+      "mean_coarse_kl": 0.0002796813496388495,
+      "p95_coarse_kl": 0.0005280872574076056,
+      "mean_target_rank": 0.0,
+      "max_target_rank": 0
+    },
+    "factual_nl": {
+      "tokens": 64,
+      "top1_agreement": 0.96875,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": 0.00038367509841918945,
+      "p95_ce_delta": 0.03836169093847275,
+      "mean_coarse_kl": 0.001465042121708393,
+      "p95_coarse_kl": 0.0074834031984210014,
+      "mean_target_rank": 0.03125,
+      "max_target_rank": 1
+    },
+    "instruction_following": {
+      "tokens": 64,
+      "top1_agreement": 0.984375,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": -0.002970367670059204,
+      "p95_ce_delta": 0.05077112093567848,
+      "mean_coarse_kl": 0.0030374873895198107,
+      "p95_coarse_kl": 0.010631383396685123,
+      "mean_target_rank": 0.015625,
+      "max_target_rank": 1
+    },
+    "mathematics": {
+      "tokens": 64,
+      "top1_agreement": 1.0,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": -0.0036675333976745605,
+      "p95_ce_delta": 0.016409775242209435,
+      "mean_coarse_kl": 0.0009973308769986033,
+      "p95_coarse_kl": 0.003590629668906331,
+      "mean_target_rank": 0.0,
+      "max_target_rank": 0
+    },
+    "reasoning": {
+      "tokens": 64,
+      "top1_agreement": 0.96875,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": 0.006694704294204712,
+      "p95_ce_delta": 0.08214081078767776,
+      "mean_coarse_kl": 0.0020283362828195095,
+      "p95_coarse_kl": 0.00655389903113246,
+      "mean_target_rank": 0.03125,
+      "max_target_rank": 1
+    },
+    "summarisation": {
+      "tokens": 64,
+      "top1_agreement": 0.984375,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": 0.0014883577823638916,
+      "p95_ce_delta": 0.034479424357414246,
+      "mean_coarse_kl": 0.000765630102250725,
+      "p95_coarse_kl": 0.0030441752169281244,
+      "mean_target_rank": 0.015625,
+      "max_target_rank": 1
+    },
+    "technical": {
+      "tokens": 64,
+      "top1_agreement": 0.984375,
+      "target_in_top5": 1.0,
+      "mean_ce_delta": 0.003657042980194092,
+      "p95_ce_delta": 0.03436250239610672,
+      "mean_coarse_kl": 0.000989870517514646,
+      "p95_coarse_kl": 0.005508778151124716,
+      "mean_target_rank": 0.015625,
+      "max_target_rank": 1
+    }
+  },
+  "strict_gates": {
+    "top1": true,
+    "top5": true,
+    "mean_ce": true,
+    "mean_kl": true,
+    "p95_kl": true,
+    "domain_top1": true,
+    "domain_ce": true,
+    "finite": true
+  },
+  "strict_pass": true,
+  "official_gates": {
+    "top1": true,
+    "top5": true,
+    "mean_ce": true,
+    "p95_ce": true,
+    "mean_kl": true,
+    "p95_kl": true,
+    "domain_top1": true,
+    "domain_ce": true,
+    "deterministic": true,
+    "finite": true
+  },
+  "official_pass": true,
+  "trace_model_signature": "8d63c9a75a0d729ca64eb8b70456973479ff52813aa66afc38aa8466e84f54ce",
+  "completed_utc": "2026-08-19T13:44:45.782652+00:00"
+}

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 import json
+from pathlib import Path
 import traceback
 
 import numpy as np
@@ -158,6 +159,15 @@ def run_path(path):
     result["torch_mm_style"] = shadow.engine.mm.style
     bundle.restore_combined()
     bundle.restore_sel()
+    # Release the full runtime before the next path rebuilds it; otherwise
+    # the pinned host pool runs out after repeated 21 GB checkpoint loads.
+    import gc
+    import torch
+    del shadow, bundle, rt
+    gc.collect()
+    cp.get_default_memory_pool().free_all_blocks()
+    cp.get_default_pinned_memory_pool().free_all_blocks()
+    torch.cuda.empty_cache()
     return result
 
 def sentinel():
@@ -207,30 +217,94 @@ def sentinel():
                 )
                 cp.cuda.get_current_stream().synchronize()
                 m = metric(cp, reference, candidate)
+                producer_ptr = int(cp.cuda.get_current_stream().ptr)
                 m.update({
                     "case": record["case"],
                     "family": family,
                     "layer": record["layer"],
                     "rep": rep,
+                    "producer_stream_ptr": producer_ptr,
+                    "torch_external_stream_ptr": int(
+                        getattr(
+                            engine._stream(cp), "cuda_stream",
+                            producer_ptr,
+                        )
+                    ),
                 })
                 rows.append(m)
         results[path] = aggregate(rows)
 
     bundle.restore_combined()
     bundle.restore_sel()
+    # Free the runtime before run_path() rebuilds it per handoff path.
+    import gc
+    import torch
+    del bundle, rt
+    gc.collect()
+    cp.get_default_memory_pool().free_all_blocks()
+    cp.get_default_pinned_memory_pool().free_all_blocks()
+    torch.cuda.empty_cache()
     return results
 
 def main():
+    import argparse
+    import subprocess
+    import sys
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--part",
+        choices=("sentinel",) + tuple(PATHS),
+        default=None,
+        help="run one isolated part in this process (memory isolation)",
+    )
+    args = parser.parse_args()
+
     ensure_results()
+
+    if args.part is not None:
+        # Each part builds a full runtime (~21 GB pinned bank). Running the
+        # parts in separate processes avoids pinned-host OOM on rebuild.
+        ident = assert_lightning()
+        data = sentinel() if args.part == "sentinel" else run_path(args.part)
+        part_out = RESULTS / f"S100_LIGHTNING16_STREAM_DIAG_{args.part.upper()}.json"
+        write_json_atomic(part_out, {
+            "kind": "s100_lightning16_stream_diag_part",
+            "part": args.part,
+            "status": "measured",
+            "identity": ident,
+            "result": data,
+            "completed_utc": utc_now(),
+        }, archive=True)
+        print(json.dumps({"status": "measured", "part": args.part}))
+        return 0
+
     payload = {
         "kind": "s100_lightning16_stream_diag",
         "status": "started",
         "started_utc": utc_now(),
     }
     try:
-        ident = assert_lightning()
-        sentinel_rows = sentinel()
-        real = {path: run_path(path) for path in PATHS}
+        parts = {}
+        for part in ("sentinel",) + tuple(PATHS):
+            proc = subprocess.run(
+                [sys.executable, str(Path(__file__).resolve()), "--part", part],
+                cwd=str(REPO / "pro_research"),
+            )
+            if proc.returncode != 0:
+                raise RuntimeError(f"part {part} exit={proc.returncode}")
+            parts[part] = json.loads(
+                (
+                    RESULTS
+                    / f"S100_LIGHTNING16_STREAM_DIAG_{part.upper()}.json"
+                ).read_text(encoding="utf-8")
+            )
+            if parts[part].get("status") != "measured":
+                raise RuntimeError(f"part {part} not measured")
+
+        ident = parts["sentinel"]["identity"]
+        sentinel_rows = parts["sentinel"]["result"]
+        real = {path: parts[path]["result"] for path in PATHS}
         legacy = real["legacy"]["max_nrmse"]
         context = real["context_first"]["max_nrmse"]
         sync = real["sync_control"]["max_nrmse"]

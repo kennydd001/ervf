@@ -207,7 +207,12 @@ def sentinel():
                 )
                 cp.cuda.get_current_stream().synchronize()
                 m = metric(cp, reference, candidate)
-                m.update({"family": family, "rep": rep})
+                m.update({
+                    "case": record["case"],
+                    "family": family,
+                    "layer": record["layer"],
+                    "rep": rep,
+                })
                 rows.append(m)
         results[path] = aggregate(rows)
 

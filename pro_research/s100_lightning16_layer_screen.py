@@ -12,8 +12,12 @@ from s100_lightning16_common import (
 from s100_lightning16_native import PointerDispatch
 
 OUT = RESULTS / "S100_LIGHTNING16_LAYER_SCREEN.json"
-SCREEN_PROMPTS = 4
-SCREEN_TOKENS = 16
+# Measured on hardware: only the FULL calibration split reproduces the
+# frozen Lightning trace bit-exactly. Truncated evaluation (4x16 or 10x16)
+# perturbs the runtime's numerics (allocation-history sensitive), so the
+# screen must evaluate the complete 10x64 calibration split.
+SCREEN_PROMPTS = None
+SCREEN_TOKENS = None
 
 def screen_pass(result):
     summary = result["summary"]

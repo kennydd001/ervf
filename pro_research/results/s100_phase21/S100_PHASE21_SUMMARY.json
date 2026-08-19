@@ -1,0 +1,92 @@
+{
+  "kind": "s100_phase21_summary",
+  "created_utc": "2026-08-19T18:47:16.024633+00:00",
+  "instrumentation_complete": true,
+  "selected_arm": "v6_device_rows",
+  "selection_gain_fraction_vs_current": 0.38388208041026767,
+  "profile": {
+    "ordinary_block_ms": 220.282,
+    "family_ms": {
+      "embed": 0.5962,
+      "layer_norm": 3.2784999999999984,
+      "mamba": 16.687599999999996,
+      "residual_add": 6.031499999999998,
+      "moe": 137.12199999999999,
+      "attention": 11.0976,
+      "final_norm": 0.0681,
+      "lm_head": 21.4185,
+      "argmax_readback": 0.4016
+    },
+    "route_census": {
+      "moe_layers": 23,
+      "median_unique_experts": 17.0,
+      "median_repeat_rate": 0.29166666666666663,
+      "rows_per_expert_histogram": {
+        "1": 278,
+        "2": 70,
+        "3": 26,
+        "4": 14
+      },
+      "m1_fraction": 0.7164948453608248
+    },
+    "dominant_family": "moe"
+  },
+  "promoted_contexts": [
+    {
+      "context": 128,
+      "status": "measured",
+      "correctness_green": true,
+      "summary": {
+        "count": 12,
+        "median_ms": 114.5877,
+        "p10_ms": 109.73502,
+        "p90_ms": 120.92611,
+        "mean_ms": 115.66729166666666,
+        "ms_per_useful_token": 28.646925,
+        "target_only_tok_s": 34.90776060606854,
+        "all_token_exact": true
+      },
+      "path": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\results\\s100_phase21\\S100_PHASE21_PROMOTED_V6_DEVICE_ROWS_CTX128.json"
+    },
+    {
+      "context": 1024,
+      "status": "measured",
+      "correctness_green": true,
+      "summary": {
+        "count": 12,
+        "median_ms": 111.55465000000001,
+        "p10_ms": 108.93225,
+        "p90_ms": 118.43375999999999,
+        "mean_ms": 112.83870833333333,
+        "ms_per_useful_token": 27.888662500000002,
+        "target_only_tok_s": 35.856864774350505,
+        "all_token_exact": true
+      },
+      "path": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\results\\s100_phase21\\S100_PHASE21_PROMOTED_V6_DEVICE_ROWS_CTX1024.json"
+    },
+    {
+      "context": 4096,
+      "status": "measured",
+      "correctness_green": true,
+      "summary": {
+        "count": 12,
+        "median_ms": 116.4148,
+        "p10_ms": 113.93511,
+        "p90_ms": 120.21865000000001,
+        "mean_ms": 118.52862499999998,
+        "ms_per_useful_token": 29.1037,
+        "target_only_tok_s": 34.35989238481705,
+        "all_token_exact": true
+      },
+      "path": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\results\\s100_phase21\\S100_PHASE21_PROMOTED_V6_DEVICE_ROWS_CTX4096.json"
+    }
+  ],
+  "FULL_VERIFIER_CORRECTNESS_GREEN": true,
+  "PHASE21_TARGET_40MS_OPEN": false,
+  "DRAFTER_SHOOTOUT_OPEN": false,
+  "PHASE21_GRAPH_BUILD_OPEN": true,
+  "PHASE21_GROUPED_MOE_REPAIR_OPEN": true,
+  "NEXT_ROUTE": "BUILD_SINGLE_H4_CUDA_GRAPH_ON_DEVICE_MOE_PARENT",
+  "S100_SINGLE_ACHIEVED": false,
+  "claim_boundary": "target-only H4 optimization; no drafter cost"
+}

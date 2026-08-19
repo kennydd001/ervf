@@ -1,0 +1,411 @@
+{
+  "kind": "s100_phase21_profile",
+  "status": "measured",
+  "context": 1024,
+  "started_utc": "2026-08-19T18:37:39.549235+00:00",
+  "claim_boundary": "synchronized diagnostic profile; not throughput",
+  "ordinary_block_ms": 220.282,
+  "profile_sync_sum_ms": 196.70159999999998,
+  "family_ms": {
+    "embed": 0.5962,
+    "layer_norm": 3.2784999999999984,
+    "mamba": 16.687599999999996,
+    "residual_add": 6.031499999999998,
+    "moe": 137.12199999999999,
+    "attention": 11.0976,
+    "final_norm": 0.0681,
+    "lm_head": 21.4185,
+    "argmax_readback": 0.4016
+  },
+  "family_fraction_of_sync_sum": {
+    "embed": 0.0030309870382345646,
+    "layer_norm": 0.016667378404649474,
+    "mamba": 0.08483713401416154,
+    "residual_add": 0.03066319745238472,
+    "moe": 0.6971066834230123,
+    "attention": 0.05641845312900353,
+    "final_norm": 0.0003462096902109591,
+    "lm_head": 0.10888828560621776,
+    "argmax_readback": 0.002041671242125128
+  },
+  "layers": [
+    {
+      "layer": 0,
+      "kind": "mamba",
+      "norm_ms": 0.0698,
+      "body_ms": 0.7402,
+      "add_ms": 0.0658
+    },
+    {
+      "layer": 1,
+      "kind": "moe",
+      "norm_ms": 0.0484,
+      "body_ms": 5.3687,
+      "add_ms": 0.0678
+    },
+    {
+      "layer": 2,
+      "kind": "mamba",
+      "norm_ms": 0.0504,
+      "body_ms": 0.7228,
+      "add_ms": 0.0553
+    },
+    {
+      "layer": 3,
+      "kind": "moe",
+      "norm_ms": 0.0447,
+      "body_ms": 6.3176,
+      "add_ms": 0.11579999999999999
+    },
+    {
+      "layer": 4,
+      "kind": "mamba",
+      "norm_ms": 0.0881,
+      "body_ms": 0.7277,
+      "add_ms": 0.20529999999999998
+    },
+    {
+      "layer": 5,
+      "kind": "attention",
+      "norm_ms": 0.0541,
+      "body_ms": 1.8676,
+      "add_ms": 0.1112
+    },
+    {
+      "layer": 6,
+      "kind": "moe",
+      "norm_ms": 0.0493,
+      "body_ms": 5.3361,
+      "add_ms": 0.1536
+    },
+    {
+      "layer": 7,
+      "kind": "mamba",
+      "norm_ms": 0.0618,
+      "body_ms": 0.7161,
+      "add_ms": 0.0736
+    },
+    {
+      "layer": 8,
+      "kind": "moe",
+      "norm_ms": 0.056,
+      "body_ms": 5.0613,
+      "add_ms": 0.08349999999999999
+    },
+    {
+      "layer": 9,
+      "kind": "mamba",
+      "norm_ms": 0.0583,
+      "body_ms": 0.7104,
+      "add_ms": 0.0723
+    },
+    {
+      "layer": 10,
+      "kind": "moe",
+      "norm_ms": 0.0462,
+      "body_ms": 5.1912,
+      "add_ms": 0.21810000000000002
+    },
+    {
+      "layer": 11,
+      "kind": "mamba",
+      "norm_ms": 0.0573,
+      "body_ms": 0.7228,
+      "add_ms": 0.0635
+    },
+    {
+      "layer": 12,
+      "kind": "attention",
+      "norm_ms": 0.0469,
+      "body_ms": 1.8361,
+      "add_ms": 0.0677
+    },
+    {
+      "layer": 13,
+      "kind": "moe",
+      "norm_ms": 0.0454,
+      "body_ms": 5.1702,
+      "add_ms": 0.09509999999999999
+    },
+    {
+      "layer": 14,
+      "kind": "mamba",
+      "norm_ms": 0.0488,
+      "body_ms": 0.7189,
+      "add_ms": 0.0552
+    },
+    {
+      "layer": 15,
+      "kind": "moe",
+      "norm_ms": 0.0485,
+      "body_ms": 5.0097,
+      "add_ms": 0.29169999999999996
+    },
+    {
+      "layer": 16,
+      "kind": "mamba",
+      "norm_ms": 0.1469,
+      "body_ms": 0.724,
+      "add_ms": 0.0579
+    },
+    {
+      "layer": 17,
+      "kind": "moe",
+      "norm_ms": 0.0452,
+      "body_ms": 7.3621,
+      "add_ms": 0.1358
+    },
+    {
+      "layer": 18,
+      "kind": "mamba",
+      "norm_ms": 0.0707,
+      "body_ms": 0.7334,
+      "add_ms": 0.1091
+    },
+    {
+      "layer": 19,
+      "kind": "attention",
+      "norm_ms": 0.0561,
+      "body_ms": 1.8564,
+      "add_ms": 0.0662
+    },
+    {
+      "layer": 20,
+      "kind": "moe",
+      "norm_ms": 0.0714,
+      "body_ms": 6.8864,
+      "add_ms": 0.17079999999999998
+    },
+    {
+      "layer": 21,
+      "kind": "mamba",
+      "norm_ms": 0.0807,
+      "body_ms": 0.7412,
+      "add_ms": 0.1015
+    },
+    {
+      "layer": 22,
+      "kind": "moe",
+      "norm_ms": 0.0595,
+      "body_ms": 6.3205,
+      "add_ms": 0.11069999999999999
+    },
+    {
+      "layer": 23,
+      "kind": "mamba",
+      "norm_ms": 0.0605,
+      "body_ms": 0.723,
+      "add_ms": 0.06430000000000001
+    },
+    {
+      "layer": 24,
+      "kind": "moe",
+      "norm_ms": 0.0522,
+      "body_ms": 5.967,
+      "add_ms": 0.1654
+    },
+    {
+      "layer": 25,
+      "kind": "mamba",
+      "norm_ms": 0.0776,
+      "body_ms": 0.7248,
+      "add_ms": 0.0538
+    },
+    {
+      "layer": 26,
+      "kind": "attention",
+      "norm_ms": 0.0544,
+      "body_ms": 1.846,
+      "add_ms": 0.0815
+    },
+    {
+      "layer": 27,
+      "kind": "moe",
+      "norm_ms": 0.0659,
+      "body_ms": 6.256,
+      "add_ms": 0.1008
+    },
+    {
+      "layer": 28,
+      "kind": "mamba",
+      "norm_ms": 0.049,
+      "body_ms": 0.721,
+      "add_ms": 0.0539
+    },
+    {
+      "layer": 29,
+      "kind": "moe",
+      "norm_ms": 0.0445,
+      "body_ms": 7.1211,
+      "add_ms": 0.3711
+    },
+    {
+      "layer": 30,
+      "kind": "mamba",
+      "norm_ms": 0.2041,
+      "body_ms": 0.7553,
+      "add_ms": 0.1557
+    },
+    {
+      "layer": 31,
+      "kind": "moe",
+      "norm_ms": 0.0711,
+      "body_ms": 6.9399,
+      "add_ms": 0.1113
+    },
+    {
+      "layer": 32,
+      "kind": "mamba",
+      "norm_ms": 0.0603,
+      "body_ms": 0.7234,
+      "add_ms": 0.06309999999999999
+    },
+    {
+      "layer": 33,
+      "kind": "attention",
+      "norm_ms": 0.0528,
+      "body_ms": 1.847,
+      "add_ms": 0.0759
+    },
+    {
+      "layer": 34,
+      "kind": "moe",
+      "norm_ms": 0.0582,
+      "body_ms": 5.5317,
+      "add_ms": 0.38969999999999994
+    },
+    {
+      "layer": 35,
+      "kind": "mamba",
+      "norm_ms": 0.0509,
+      "body_ms": 0.7288,
+      "add_ms": 0.056900000000000006
+    },
+    {
+      "layer": 36,
+      "kind": "moe",
+      "norm_ms": 0.0452,
+      "body_ms": 5.297,
+      "add_ms": 0.1141
+    },
+    {
+      "layer": 37,
+      "kind": "mamba",
+      "norm_ms": 0.0498,
+      "body_ms": 0.7107,
+      "add_ms": 0.0825
+    },
+    {
+      "layer": 38,
+      "kind": "moe",
+      "norm_ms": 0.0459,
+      "body_ms": 4.8926,
+      "add_ms": 0.1247
+    },
+    {
+      "layer": 39,
+      "kind": "mamba",
+      "norm_ms": 0.0499,
+      "body_ms": 0.7137,
+      "add_ms": 0.054099999999999995
+    },
+    {
+      "layer": 40,
+      "kind": "moe",
+      "norm_ms": 0.0446,
+      "body_ms": 7.5084,
+      "add_ms": 0.0962
+    },
+    {
+      "layer": 41,
+      "kind": "mamba",
+      "norm_ms": 0.0947,
+      "body_ms": 0.7237,
+      "add_ms": 0.14120000000000002
+    },
+    {
+      "layer": 42,
+      "kind": "attention",
+      "norm_ms": 0.0782,
+      "body_ms": 1.8445,
+      "add_ms": 0.07859999999999999
+    },
+    {
+      "layer": 43,
+      "kind": "moe",
+      "norm_ms": 0.0637,
+      "body_ms": 5.4722,
+      "add_ms": 0.057499999999999996
+    },
+    {
+      "layer": 44,
+      "kind": "mamba",
+      "norm_ms": 0.0447,
+      "body_ms": 0.7362,
+      "add_ms": 0.0523
+    },
+    {
+      "layer": 45,
+      "kind": "moe",
+      "norm_ms": 0.0454,
+      "body_ms": 6.5931,
+      "add_ms": 0.0833
+    },
+    {
+      "layer": 46,
+      "kind": "mamba",
+      "norm_ms": 0.0519,
+      "body_ms": 0.7207,
+      "add_ms": 0.0794
+    },
+    {
+      "layer": 47,
+      "kind": "moe",
+      "norm_ms": 0.0511,
+      "body_ms": 5.2891,
+      "add_ms": 0.1025
+    },
+    {
+      "layer": 48,
+      "kind": "mamba",
+      "norm_ms": 0.0483,
+      "body_ms": 0.7168,
+      "add_ms": 0.052199999999999996
+    },
+    {
+      "layer": 49,
+      "kind": "moe",
+      "norm_ms": 0.0506,
+      "body_ms": 5.5977,
+      "add_ms": 0.3961
+    },
+    {
+      "layer": 50,
+      "kind": "mamba",
+      "norm_ms": 0.1374,
+      "body_ms": 0.732,
+      "add_ms": 0.0847
+    },
+    {
+      "layer": 51,
+      "kind": "moe",
+      "norm_ms": 0.0711,
+      "body_ms": 6.6324,
+      "add_ms": 0.1412
+    }
+  ],
+  "route_census": {
+    "moe_layers": 23,
+    "median_unique_experts": 17.0,
+    "median_repeat_rate": 0.29166666666666663,
+    "rows_per_expert_histogram": {
+      "1": 278,
+      "2": 70,
+      "3": 26,
+      "4": 14
+    },
+    "m1_fraction": 0.7164948453608248
+  },
+  "all_token_exact": true,
+  "completed_utc": "2026-08-19T18:38:59.586777+00:00"
+}

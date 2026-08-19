@@ -5,9 +5,8 @@ import statistics
 import traceback
 import numpy as np
 
-from common import REPO, write_json_atomic, utc_now
+from common import REPO, require_model_dir, write_json_atomic, utc_now
 from ervf_dense import DenseERVF
-from s100_phase10a_runtime import build
 from s100_phase14d2_native import collect_bf16_cases
 
 OUT = (
@@ -25,11 +24,19 @@ def main():
         "claim_boundary": "cold native BF16 component ceiling; not end-to-end",
     }
     try:
-        import cupy as cp
         import torch
+        import cupy as cp
 
-        bundle = build()
-        rt = bundle.rt
+        # This component needs only the resident BF16 matrices. The former
+        # Phase-10A build also allocated the full mapped expert bank and cache,
+        # which is unrelated here and can exhaust Windows mapped-pinned memory
+        # before the native BF16 benchmark starts.
+        from moe_lab.lightningstream_nemotron.runtime import LightningRuntime
+        rt = LightningRuntime(
+            require_model_dir(), contexts_max=4096, embed_on_host=True,
+            fp8_kv=True, verbose=False,
+        )
+        rt.deterministic_accum = True
         ref = DenseERVF()
         cases = collect_bf16_cases(rt)
         if not cases:
@@ -57,6 +64,7 @@ def main():
                     torch.utils.dlpack.from_dlpack(case.W)
                     .view(torch.bfloat16)
                     .reshape(case.rows, case.cols)
+                    .clone()
                 )
                 # The native path used by Phase 13D.
                 wtt = wt.t().contiguous()
@@ -170,8 +178,6 @@ def main():
             "B4_BLOCK_COMPONENT_PASS": bool(aggregate["4"]["gate_pass"]),
             "completed_utc": utc_now(),
         })
-        bundle.restore_combined()
-        bundle.restore_sel()
     except Exception as exc:
         payload.update({
             "status": "technical_failure",

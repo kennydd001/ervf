@@ -9,7 +9,7 @@ ZIP: `ervf_s100_lightning_phase16_streamfix_dflash2.zip`
 SHA256:
 
 ```text
-1c2833b652f2ce067e8c7db60033309c40b578db4ce4d516caf59d5e785f42f3
+56abbc61ad8ef6f00492133863b2b4d1f70792f0107e18ed1afff4b4d9e5964d
 ```
 
 The hardware runner publishes source and compact results to `agent/s100-lightning-phase16-hardware`. Technical failures remain incomplete evidence.

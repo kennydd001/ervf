@@ -1,0 +1,111 @@
+{
+  "kind": "s100_phase23_state_check",
+  "status": "measured",
+  "context": 1024,
+  "started_utc": "2026-08-19T21:02:00.553967+00:00",
+  "claim_boundary": "V6 device-row parent versus GPU grouped H4",
+  "head_mode": "production_x4",
+  "capture_info": {
+    "graph_extra_vram_bytes": 0,
+    "max_splits": 3,
+    "dot_probe": {
+      "available": true,
+      "length": 187469,
+      "contains_fp8_residual2": true,
+      "contains_device_route": true,
+      "contains_moe_batched_up": false,
+      "contains_fp32_kv": true,
+      "contains_fp32_attention": true,
+      "contains_argmax4": true,
+      "contains_pos_add4": true
+    },
+    "grouped_dot": {
+      "group_routes24": true,
+      "cache_assign_h4": true,
+      "up_m1": true,
+      "up_m2": true,
+      "up_m3": true,
+      "up_m4": true,
+      "group_union_gather": true,
+      "row_specific_down": true,
+      "accumulate_h4": true
+    }
+  },
+  "expected": [
+    91558,
+    1505,
+    118422,
+    1338
+  ],
+  "parent_ids": [
+    91558,
+    1505,
+    118422,
+    1338
+  ],
+  "candidate_ids": [
+    91558,
+    1505,
+    118422,
+    1338
+  ],
+  "graph_ids": [
+    91558,
+    1505,
+    118422,
+    1338
+  ],
+  "graph_ids_repeat": [
+    91558,
+    1505,
+    118422,
+    1338
+  ],
+  "parent_vs_candidate": {
+    "max_ssm_nrmse": 0.0,
+    "max_conv_nrmse": 0.0,
+    "max_kv_nrmse": 0.0,
+    "logits_nrmse": 0.0
+  },
+  "candidate_vs_graph": {
+    "max_ssm_nrmse": 0.0,
+    "max_conv_nrmse": 0.0,
+    "max_kv_nrmse": 0.0,
+    "logits_nrmse": 0.0
+  },
+  "census": {
+    "moe_layers": 23,
+    "m_histogram": {
+      "1": 270,
+      "2": 69,
+      "3": 20,
+      "4": 21
+    },
+    "m1_fraction": 0.7105263157894737,
+    "median_repeat_rate": 0.33333333333333337,
+    "up_weight_stream_reduction_fraction": 0.3115942028985508,
+    "down_sparse_byte_reduction_fraction": 0.26647892131763096,
+    "up_parent_streams": 552,
+    "up_grouped_streams": 380,
+    "down_parent_bytes_est": 236234880,
+    "down_grouped_bytes": 173283264
+  },
+  "gates": {
+    "parent_ids_exact": true,
+    "candidate_ids_exact": true,
+    "graph_ids_exact": true,
+    "graph_deterministic": true,
+    "parent_candidate_ssm": true,
+    "parent_candidate_conv": true,
+    "parent_candidate_kv": true,
+    "parent_candidate_logits": true,
+    "candidate_graph_ssm": true,
+    "candidate_graph_conv": true,
+    "candidate_graph_kv": true,
+    "candidate_graph_logits": true,
+    "group_counts_valid": true,
+    "finite": true
+  },
+  "GPU_GROUPED_CORRECTNESS_GREEN": true,
+  "completed_utc": "2026-08-19T21:04:15.811123+00:00"
+}

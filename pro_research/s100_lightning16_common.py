@@ -333,6 +333,23 @@ def case_manifest(rt):
         ):
             if key in data:
                 weight = data[key]
+                if weight.ndim == 2:
+                    n_rows, n_cols = int(weight.shape[0]), int(weight.shape[1])
+                else:
+                    # BF16 weights are stored as flat uint16 buffers; recover
+                    # the logical GEMM shape from the runtime dimensions:
+                    # k/v produce kv_dim from hidden, o produces hidden from hq.
+                    if family in ("k", "v"):
+                        n_rows, n_cols = int(rt.kv_dim), int(rt.hidden)
+                    else:
+                        n_cols = int(rt.n_heads) * int(rt.head_dim)
+                        n_rows = int(rt.hidden)
+                    if n_rows * n_cols * 2 != int(weight.nbytes):
+                        raise ValueError(
+                            f"shape mismatch layer={int(layer)} "
+                            f"family={family}: "
+                            f"{n_rows}x{n_cols} bf16 != {int(weight.nbytes)} bytes"
+                        )
                 rows.append({
                     "case": f"attention_{int(layer)}_{family}",
                     "layer": int(layer),
@@ -340,7 +357,7 @@ def case_manifest(rt):
                     "key": key,
                     "pointer": int(weight.data.ptr),
                     "weight_bytes": int(weight.nbytes),
-                    "rows": int(weight.shape[0]),
-                    "cols": int(weight.shape[1]),
+                    "rows": n_rows,
+                    "cols": n_cols,
                 })
     return rows

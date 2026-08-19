@@ -1,0 +1,65 @@
+{
+  "kind": "s100_phase22_graph_state_check",
+  "status": "measured",
+  "context": 1024,
+  "started_utc": "2026-08-19T19:49:52.789101+00:00",
+  "claim_boundary": "direct eager-repaired V6 versus H4 graph state parity",
+  "head_mode": "production_x4",
+  "capture_info": {
+    "graph_extra_vram_bytes": 0,
+    "max_splits": 3,
+    "dot_probe": {
+      "available": true,
+      "length": 402793,
+      "contains_fp8_residual2": true,
+      "contains_device_route": true,
+      "contains_moe_batched_up": true,
+      "contains_fp32_kv": true,
+      "contains_fp32_attention": true,
+      "contains_argmax4": true,
+      "contains_pos_add4": true
+    }
+  },
+  "expected": [
+    91558,
+    1505,
+    118422,
+    1338
+  ],
+  "eager_ids": [
+    91558,
+    1505,
+    118422,
+    1338
+  ],
+  "graph_ids": [
+    91558,
+    1505,
+    118422,
+    1338
+  ],
+  "graph_ids_repeat": [
+    91558,
+    1505,
+    118422,
+    1338
+  ],
+  "state": {
+    "max_ssm_nrmse": 0.0,
+    "max_conv_nrmse": 0.0,
+    "max_kv_nrmse": 0.0,
+    "logits_nrmse": 0.0
+  },
+  "gates": {
+    "eager_ids_exact": true,
+    "graph_ids_exact": true,
+    "graph_deterministic_ids": true,
+    "ssm": true,
+    "conv": true,
+    "kv": true,
+    "logits": true,
+    "finite": true
+  },
+  "GRAPH_CORRECTNESS_GREEN": true,
+  "completed_utc": "2026-08-19T19:51:43.573793+00:00"
+}

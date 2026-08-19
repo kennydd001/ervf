@@ -1,0 +1,59 @@
+{
+  "kind": "s100_phase22_summary",
+  "created_utc": "2026-08-19T19:56:12.500504+00:00",
+  "instrumentation_complete": true,
+  "head_selection": {
+    "mode": "production_x4",
+    "generic_ms": 21.310791969299316,
+    "selected_ms": 6.012079954147339,
+    "gain_fraction": 0.7178856626816853
+  },
+  "GRAPH_CORRECTNESS_GREEN": true,
+  "graph_state": {
+    "max_ssm_nrmse": 0.0,
+    "max_conv_nrmse": 0.0,
+    "max_kv_nrmse": 0.0,
+    "logits_nrmse": 0.0
+  },
+  "graph_capture": {
+    "graph_extra_vram_bytes": 0,
+    "max_splits": 3,
+    "dot_probe": {
+      "available": true,
+      "length": 402793,
+      "contains_fp8_residual2": true,
+      "contains_device_route": true,
+      "contains_moe_batched_up": true,
+      "contains_fp32_kv": true,
+      "contains_fp32_attention": true,
+      "contains_argmax4": true,
+      "contains_pos_add4": true
+    }
+  },
+  "same_era_screen": {
+    "kind": "s100_phase22_screen",
+    "created_utc": "2026-08-19T19:56:12.101877+00:00",
+    "medians_ms": {
+      "eager_a": 91.44655,
+      "graph_a": 87.26105000000001,
+      "graph_b": 80.46549999999999,
+      "eager_b": 90.057
+    },
+    "eager_midpoint_ms": 90.75177500000001,
+    "graph_midpoint_ms": 83.863275,
+    "eager_relative_drift": 0.015311546247993493,
+    "graph_relative_drift": 0.08103129766873544,
+    "graph_gain_fraction": 0.07590485144780923,
+    "correctness_green": true,
+    "measurement_stable": false,
+    "RUN_PROMOTED_GRAPH": false
+  },
+  "promoted_contexts": [],
+  "PHASE22_TARGET_40MS_OPEN": false,
+  "DRAFTER_SHOOTOUT_OPEN": false,
+  "GPU_GROUPED_MOE_PHASE23_OPEN": true,
+  "phase21_m1_fraction": 0.7164948453608248,
+  "NEXT_ROUTE": "GRAPH_CORRECT_BUT_NO_GAIN_PROFILE_GRAPH_NODES_AND_HEAD",
+  "S100_SINGLE_ACHIEVED": false,
+  "claim_boundary": "perfect-draft target-only H4 graph; no drafter"
+}

@@ -1,0 +1,199 @@
+{
+  "kind": "s100_lightning15_quality",
+  "status": "measured",
+  "candidate": "tc3_kvo",
+  "mode": "tc3",
+  "families": [
+    "k",
+    "o",
+    "v"
+  ],
+  "split": "calibration",
+  "started_utc": "2026-08-19T09:54:56.675901+00:00",
+  "identity": {
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.cache\\nemotron_3_5_lightning\\hub\\models--nvidia--NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4\\snapshots\\e8f3c7c4de75ad84fe1bcef95d38eca76214480b",
+    "config_sha256": "f1d98b530846087dc08b574a219713a94f945bf6583dc7230a19ebf1e8c50933",
+    "index_sha256": "3c3bc7efa8d658c2e909a0b9020eb0f72064e6647de348856af4dee9895bead9",
+    "max_position_embeddings": 1048576,
+    "hidden_size": 2688,
+    "num_hidden_layers": 52,
+    "n_routed_experts": 128,
+    "num_experts_per_tok": 6,
+    "moe_intermediate_size": 1856,
+    "vocab_size": 131072,
+    "architectures": [
+      "NemotronHForCausalLM"
+    ],
+    "model_type": "nemotron_h",
+    "shard_count": 18487,
+    "expected": {
+      "max_position_embeddings": 1048576,
+      "hidden_size": 2688,
+      "num_hidden_layers": 52,
+      "n_routed_experts": 128,
+      "num_experts_per_tok": 6,
+      "moe_intermediate_size": 1856,
+      "vocab_size": 131072
+    },
+    "mismatches": {},
+    "LIGHTNING_IDENTITY_GREEN": true
+  },
+  "trace_model_signature": "8d63c9a75a0d729ca64eb8b70456973479ff52813aa66afc38aa8466e84f54ce",
+  "summary": {
+    "tokens": 640,
+    "top1_agreement": 0.2890625,
+    "target_in_top5": 0.4609375,
+    "mean_target_rank": 2124.9578125,
+    "max_target_rank": 112155,
+    "mean_ce_delta": 4.605999946594238,
+    "p95_ce_delta": 11.034270286560059,
+    "mean_coarse_kl": 4.243465423583984,
+    "p95_coarse_kl": 10.621838569641113,
+    "all_finite": true,
+    "deterministic_anchor_repeat": true,
+    "anchor_hash": null
+  },
+  "per_domain": {
+    "code": {
+      "tokens": 64,
+      "top1_agreement": 0.484375,
+      "target_in_top5": 0.71875,
+      "mean_ce_delta": 2.8259639739990234,
+      "p95_ce_delta": 9.463866233825684,
+      "mean_coarse_kl": 2.620359420776367,
+      "p95_coarse_kl": 9.4435396194458,
+      "mean_target_rank": 640.0625,
+      "max_target_rank": 37076
+    },
+    "creative_en": {
+      "tokens": 64,
+      "top1_agreement": 0.40625,
+      "target_in_top5": 0.78125,
+      "mean_ce_delta": 1.9818971157073975,
+      "p95_ce_delta": 5.604765892028809,
+      "mean_coarse_kl": 1.781855583190918,
+      "p95_coarse_kl": 4.371567726135254,
+      "mean_target_rank": 4.921875,
+      "max_target_rank": 91
+    },
+    "creative_nl": {
+      "tokens": 64,
+      "top1_agreement": 0.109375,
+      "target_in_top5": 0.21875,
+      "mean_ce_delta": 6.958772659301758,
+      "p95_ce_delta": 13.33905029296875,
+      "mean_coarse_kl": 5.976716995239258,
+      "p95_coarse_kl": 12.980890274047852,
+      "mean_target_rank": 7190.59375,
+      "max_target_rank": 100473
+    },
+    "factual_en": {
+      "tokens": 64,
+      "top1_agreement": 0.734375,
+      "target_in_top5": 0.78125,
+      "mean_ce_delta": 1.68027663230896,
+      "p95_ce_delta": 6.996061325073242,
+      "mean_coarse_kl": 1.6489193439483643,
+      "p95_coarse_kl": 6.6639227867126465,
+      "mean_target_rank": 16.546875,
+      "max_target_rank": 437
+    },
+    "factual_nl": {
+      "tokens": 64,
+      "top1_agreement": 0.34375,
+      "target_in_top5": 0.578125,
+      "mean_ce_delta": 3.450623035430908,
+      "p95_ce_delta": 9.6063232421875,
+      "mean_coarse_kl": 3.0631768703460693,
+      "p95_coarse_kl": 7.641452789306641,
+      "mean_target_rank": 153.265625,
+      "max_target_rank": 2665
+    },
+    "instruction_following": {
+      "tokens": 64,
+      "top1_agreement": 0.125,
+      "target_in_top5": 0.25,
+      "mean_ce_delta": 5.876620292663574,
+      "p95_ce_delta": 12.227865219116211,
+      "mean_coarse_kl": 5.432564735412598,
+      "p95_coarse_kl": 11.77307415008545,
+      "mean_target_rank": 2023.578125,
+      "max_target_rank": 29234
+    },
+    "mathematics": {
+      "tokens": 64,
+      "top1_agreement": 0.171875,
+      "target_in_top5": 0.375,
+      "mean_ce_delta": 5.339587211608887,
+      "p95_ce_delta": 12.451390266418457,
+      "mean_coarse_kl": 4.960608959197998,
+      "p95_coarse_kl": 10.714568138122559,
+      "mean_target_rank": 4260.9375,
+      "max_target_rank": 112155
+    },
+    "reasoning": {
+      "tokens": 64,
+      "top1_agreement": 0.203125,
+      "target_in_top5": 0.328125,
+      "mean_ce_delta": 5.718496799468994,
+      "p95_ce_delta": 10.2446928024292,
+      "mean_coarse_kl": 5.482390880584717,
+      "p95_coarse_kl": 10.154961585998535,
+      "mean_target_rank": 2171.71875,
+      "max_target_rank": 92849
+    },
+    "summarisation": {
+      "tokens": 64,
+      "top1_agreement": 0.125,
+      "target_in_top5": 0.265625,
+      "mean_ce_delta": 6.431573390960693,
+      "p95_ce_delta": 11.69429874420166,
+      "mean_coarse_kl": 6.342804908752441,
+      "p95_coarse_kl": 11.44200325012207,
+      "mean_target_rank": 2148.46875,
+      "max_target_rank": 38485
+    },
+    "technical": {
+      "tokens": 64,
+      "top1_agreement": 0.1875,
+      "target_in_top5": 0.3125,
+      "mean_ce_delta": 5.796188831329346,
+      "p95_ce_delta": 10.754755020141602,
+      "mean_coarse_kl": 5.1252546310424805,
+      "p95_coarse_kl": 10.10055923461914,
+      "mean_target_rank": 2639.484375,
+      "max_target_rank": 95333
+    }
+  },
+  "strict_gates": {
+    "top1": false,
+    "top5": false,
+    "mean_ce": false,
+    "mean_kl": false,
+    "p95_kl": false,
+    "domain_top1": false,
+    "domain_ce": false,
+    "finite": true
+  },
+  "strict_pass": false,
+  "official_gates": {
+    "top1": false,
+    "top5": false,
+    "mean_ce": false,
+    "p95_ce": false,
+    "mean_kl": false,
+    "p95_kl": false,
+    "domain_top1": false,
+    "domain_ce": false,
+    "deterministic": true,
+    "finite": true
+  },
+  "official_pass": false,
+  "baseline_self_exact": true,
+  "dispatch": {
+    "native_calls": 15012,
+    "original_calls": 0,
+    "torch_mm_call_style": "keyword"
+  },
+  "completed_utc": "2026-08-19T09:55:56.499301+00:00"
+}

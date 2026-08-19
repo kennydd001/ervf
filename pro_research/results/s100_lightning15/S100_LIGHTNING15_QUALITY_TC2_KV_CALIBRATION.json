@@ -1,0 +1,198 @@
+{
+  "kind": "s100_lightning15_quality",
+  "status": "measured",
+  "candidate": "tc2_kv",
+  "mode": "tc2",
+  "families": [
+    "k",
+    "v"
+  ],
+  "split": "calibration",
+  "started_utc": "2026-08-19T10:02:16.272537+00:00",
+  "identity": {
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.cache\\nemotron_3_5_lightning\\hub\\models--nvidia--NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4\\snapshots\\e8f3c7c4de75ad84fe1bcef95d38eca76214480b",
+    "config_sha256": "f1d98b530846087dc08b574a219713a94f945bf6583dc7230a19ebf1e8c50933",
+    "index_sha256": "3c3bc7efa8d658c2e909a0b9020eb0f72064e6647de348856af4dee9895bead9",
+    "max_position_embeddings": 1048576,
+    "hidden_size": 2688,
+    "num_hidden_layers": 52,
+    "n_routed_experts": 128,
+    "num_experts_per_tok": 6,
+    "moe_intermediate_size": 1856,
+    "vocab_size": 131072,
+    "architectures": [
+      "NemotronHForCausalLM"
+    ],
+    "model_type": "nemotron_h",
+    "shard_count": 18487,
+    "expected": {
+      "max_position_embeddings": 1048576,
+      "hidden_size": 2688,
+      "num_hidden_layers": 52,
+      "n_routed_experts": 128,
+      "num_experts_per_tok": 6,
+      "moe_intermediate_size": 1856,
+      "vocab_size": 131072
+    },
+    "mismatches": {},
+    "LIGHTNING_IDENTITY_GREEN": true
+  },
+  "trace_model_signature": "8d63c9a75a0d729ca64eb8b70456973479ff52813aa66afc38aa8466e84f54ce",
+  "summary": {
+    "tokens": 640,
+    "top1_agreement": 0.71875,
+    "target_in_top5": 0.928125,
+    "mean_target_rank": 2.125,
+    "max_target_rank": 238,
+    "mean_ce_delta": 0.7494562864303589,
+    "p95_ce_delta": 3.517641305923462,
+    "mean_coarse_kl": 0.6889861226081848,
+    "p95_coarse_kl": 3.0018255710601807,
+    "all_finite": true,
+    "deterministic_anchor_repeat": true,
+    "anchor_hash": null
+  },
+  "per_domain": {
+    "code": {
+      "tokens": 64,
+      "top1_agreement": 0.859375,
+      "target_in_top5": 0.953125,
+      "mean_ce_delta": 0.6924041509628296,
+      "p95_ce_delta": 5.987548828125,
+      "mean_coarse_kl": 0.6859927773475647,
+      "p95_coarse_kl": 5.890546798706055,
+      "mean_target_rank": 0.546875,
+      "max_target_rank": 9
+    },
+    "creative_en": {
+      "tokens": 64,
+      "top1_agreement": 0.671875,
+      "target_in_top5": 0.890625,
+      "mean_ce_delta": 1.060463786125183,
+      "p95_ce_delta": 5.145230770111084,
+      "mean_coarse_kl": 0.9005324840545654,
+      "p95_coarse_kl": 3.1834075450897217,
+      "mean_target_rank": 5.0625,
+      "max_target_rank": 238
+    },
+    "creative_nl": {
+      "tokens": 64,
+      "top1_agreement": 0.703125,
+      "target_in_top5": 0.921875,
+      "mean_ce_delta": 0.45438289642333984,
+      "p95_ce_delta": 2.627908229827881,
+      "mean_coarse_kl": 0.6184110045433044,
+      "p95_coarse_kl": 2.452420711517334,
+      "mean_target_rank": 2.25,
+      "max_target_rank": 80
+    },
+    "factual_en": {
+      "tokens": 64,
+      "top1_agreement": 0.859375,
+      "target_in_top5": 0.953125,
+      "mean_ce_delta": 0.4706827402114868,
+      "p95_ce_delta": 2.9719715118408203,
+      "mean_coarse_kl": 0.4354549050331116,
+      "p95_coarse_kl": 2.417172908782959,
+      "mean_target_rank": 0.578125,
+      "max_target_rank": 14
+    },
+    "factual_nl": {
+      "tokens": 64,
+      "top1_agreement": 0.640625,
+      "target_in_top5": 0.859375,
+      "mean_ce_delta": 1.1274337768554688,
+      "p95_ce_delta": 4.3895111083984375,
+      "mean_coarse_kl": 0.9041993618011475,
+      "p95_coarse_kl": 3.223335027694702,
+      "mean_target_rank": 2.671875,
+      "max_target_rank": 33
+    },
+    "instruction_following": {
+      "tokens": 64,
+      "top1_agreement": 0.609375,
+      "target_in_top5": 0.921875,
+      "mean_ce_delta": 0.925369381904602,
+      "p95_ce_delta": 3.6180171966552734,
+      "mean_coarse_kl": 0.8105785846710205,
+      "p95_coarse_kl": 2.330986261367798,
+      "mean_target_rank": 2.328125,
+      "max_target_rank": 47
+    },
+    "mathematics": {
+      "tokens": 64,
+      "top1_agreement": 0.75,
+      "target_in_top5": 0.984375,
+      "mean_ce_delta": 0.37508895993232727,
+      "p95_ce_delta": 1.9971098899841309,
+      "mean_coarse_kl": 0.32028812170028687,
+      "p95_coarse_kl": 1.3953074216842651,
+      "mean_target_rank": 0.453125,
+      "max_target_rank": 5
+    },
+    "reasoning": {
+      "tokens": 64,
+      "top1_agreement": 0.765625,
+      "target_in_top5": 0.96875,
+      "mean_ce_delta": 0.5140901803970337,
+      "p95_ce_delta": 3.1711337566375732,
+      "mean_coarse_kl": 0.3805575370788574,
+      "p95_coarse_kl": 2.3764615058898926,
+      "mean_target_rank": 0.875,
+      "max_target_rank": 22
+    },
+    "summarisation": {
+      "tokens": 64,
+      "top1_agreement": 0.59375,
+      "target_in_top5": 0.875,
+      "mean_ce_delta": 1.440050482749939,
+      "p95_ce_delta": 5.502196311950684,
+      "mean_coarse_kl": 1.388089656829834,
+      "p95_coarse_kl": 5.353673458099365,
+      "mean_target_rank": 5.46875,
+      "max_target_rank": 162
+    },
+    "technical": {
+      "tokens": 64,
+      "top1_agreement": 0.734375,
+      "target_in_top5": 0.953125,
+      "mean_ce_delta": 0.4345971941947937,
+      "p95_ce_delta": 2.305418014526367,
+      "mean_coarse_kl": 0.44575685262680054,
+      "p95_coarse_kl": 1.7604782581329346,
+      "mean_target_rank": 1.015625,
+      "max_target_rank": 16
+    }
+  },
+  "strict_gates": {
+    "top1": false,
+    "top5": false,
+    "mean_ce": false,
+    "mean_kl": false,
+    "p95_kl": false,
+    "domain_top1": false,
+    "domain_ce": false,
+    "finite": true
+  },
+  "strict_pass": false,
+  "official_gates": {
+    "top1": false,
+    "top5": false,
+    "mean_ce": false,
+    "p95_ce": false,
+    "mean_kl": false,
+    "p95_kl": false,
+    "domain_top1": false,
+    "domain_ce": false,
+    "deterministic": true,
+    "finite": true
+  },
+  "official_pass": false,
+  "baseline_self_exact": true,
+  "dispatch": {
+    "native_calls": 10008,
+    "original_calls": 5004,
+    "torch_mm_call_style": "keyword"
+  },
+  "completed_utc": "2026-08-19T10:03:18.981534+00:00"
+}

@@ -1,0 +1,126 @@
+{
+  "kind": "s100_lightning15_parent_trace",
+  "status": "trace_ready",
+  "split": "validation",
+  "started_utc": "2026-08-19T09:45:43.917599+00:00",
+  "identity": {
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.cache\\nemotron_3_5_lightning\\hub\\models--nvidia--NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4\\snapshots\\e8f3c7c4de75ad84fe1bcef95d38eca76214480b",
+    "config_sha256": "f1d98b530846087dc08b574a219713a94f945bf6583dc7230a19ebf1e8c50933",
+    "index_sha256": "3c3bc7efa8d658c2e909a0b9020eb0f72064e6647de348856af4dee9895bead9",
+    "max_position_embeddings": 1048576,
+    "hidden_size": 2688,
+    "num_hidden_layers": 52,
+    "n_routed_experts": 128,
+    "num_experts_per_tok": 6,
+    "moe_intermediate_size": 1856,
+    "vocab_size": 131072,
+    "architectures": [
+      "NemotronHForCausalLM"
+    ],
+    "model_type": "nemotron_h",
+    "shard_count": 18487,
+    "expected": {
+      "max_position_embeddings": 1048576,
+      "hidden_size": 2688,
+      "num_hidden_layers": 52,
+      "n_routed_experts": 128,
+      "num_experts_per_tok": 6,
+      "moe_intermediate_size": 1856,
+      "vocab_size": 131072
+    },
+    "mismatches": {},
+    "LIGHTNING_IDENTITY_GREEN": true
+  },
+  "model_signature": "8d63c9a75a0d729ca64eb8b70456973479ff52813aa66afc38aa8466e84f54ce",
+  "prompt_manifest_sha256": "e67c4ebc437b5970dc410fe69b7edfc55d6c229025b58986da433d11eb886113",
+  "trace_path": "pro_research\\results\\s100_lightning15\\S100_LIGHTNING15_TRACE_VALIDATION.npz",
+  "trace_sha256": "157c910f8d8faa8ccc3233340fa8252b1b22c9568d4c8d9de85f09588b016277",
+  "prompt_records": [
+    {
+      "id": "fact_en_02",
+      "domain": "factual_en",
+      "prompt_ids_sha256": "2ce1ace9b5690eb9042123d16f3fe9e733d9c18627fe97fd8aeca31ab0d57653",
+      "prompt_token_count": 6
+    },
+    {
+      "id": "fact_nl_02",
+      "domain": "factual_nl",
+      "prompt_ids_sha256": "1f3778ca000d629afa5cb6d0f6e5fa76471a98a43c60e73f946c24a0cfa547e7",
+      "prompt_token_count": 10
+    },
+    {
+      "id": "reason_02",
+      "domain": "reasoning",
+      "prompt_ids_sha256": "2a992368e98ff797ed30ba4b795e72aa5fb3792201497ab5b50f9ceb94cf137f",
+      "prompt_token_count": 22
+    },
+    {
+      "id": "math_02",
+      "domain": "mathematics",
+      "prompt_ids_sha256": "3c1cdf4fedc4a3e2926e80d55849d3cf03dc8f985a148c6451b2565694a78374",
+      "prompt_token_count": 17
+    },
+    {
+      "id": "code_02",
+      "domain": "code",
+      "prompt_ids_sha256": "47ba9cfc8b3a9e030a48a3543e965511c0ff8fd035576015ee579a3398d201f5",
+      "prompt_token_count": 18
+    },
+    {
+      "id": "tech_02",
+      "domain": "technical",
+      "prompt_ids_sha256": "11179bea743db42fd112740535b5e5328b0f265b4a156f5878112103cfe1e19f",
+      "prompt_token_count": 20
+    },
+    {
+      "id": "creative_en_02",
+      "domain": "creative_en",
+      "prompt_ids_sha256": "ec33286c3e65b343537673a6d13e7fd268f95ca961630cbf75d5f247b653ed33",
+      "prompt_token_count": 23
+    },
+    {
+      "id": "creative_nl_02",
+      "domain": "creative_nl",
+      "prompt_ids_sha256": "b27de6b78bd2f218b99e8747cc0124285dcef862d265562ffe56eb415aaf79cc",
+      "prompt_token_count": 24
+    },
+    {
+      "id": "summary_02",
+      "domain": "summarisation",
+      "prompt_ids_sha256": "2877b9899aa41f4d6a5180c19437579e09b60d882a7868d45703cd4418e4e3d7",
+      "prompt_token_count": 48
+    },
+    {
+      "id": "instr_02",
+      "domain": "instruction_following",
+      "prompt_ids_sha256": "3737427ba8d0dca6e313086d19a54dfbb0e0e2600ea217307c3ffeb1ab5e1779",
+      "prompt_token_count": 22
+    }
+  ],
+  "array_shapes": {
+    "target_ids": [
+      10,
+      128
+    ],
+    "target_logprob": [
+      10,
+      128
+    ],
+    "top_ids": [
+      10,
+      128,
+      64
+    ],
+    "top_logprob": [
+      10,
+      128,
+      64
+    ],
+    "rest_prob": [
+      10,
+      128
+    ]
+  },
+  "parent": "Lightning QFAST + alpha=0.0003 eager",
+  "completed_utc": "2026-08-19T09:47:04.500940+00:00"
+}

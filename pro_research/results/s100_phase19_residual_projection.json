@@ -1,0 +1,1508 @@
+{
+  "kind": "s100_phase19_residual_projection",
+  "status": "measured",
+  "model_id": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4",
+  "horizons": [
+    2,
+    4,
+    8
+  ],
+  "residual_terms": [
+    1,
+    2,
+    3
+  ],
+  "correctness_gate_nrmse": 0.0001,
+  "claim_boundary": "residual projection screen; no full-layer claim until all sampled projection arms pass",
+  "started_utc": "2026-08-19T09:22:09.343581+00:00",
+  "available_projection_formats": {
+    "0": {
+      "in": "fp8_tensor",
+      "out": "fp8_tensor"
+    },
+    "25": {
+      "in": "fp8_tensor",
+      "out": "fp8_tensor"
+    },
+    "50": {
+      "in": "fp8_tensor",
+      "out": "fp8_tensor"
+    }
+  },
+  "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.cache\\nemotron_3_5_lightning\\hub\\models--nvidia--NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4\\snapshots\\e8f3c7c4de75ad84fe1bcef95d38eca76214480b",
+  "config_identity": {
+    "architectures": [
+      "NemotronHForCausalLM"
+    ],
+    "model_type": "nemotron_h",
+    "num_hidden_layers": 52,
+    "hidden_size": 2688
+  },
+  "sampled_layers": [
+    0,
+    25,
+    50
+  ],
+  "results": [
+    {
+      "layer": 0,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 1,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 0.0016490173293277621,
+        "max_abs": 0.009991168975830078,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.371071994304657,
+        "p10_ms": 0.36879999935626984,
+        "p90_ms": 0.38894400000572205
+      },
+      "candidate": {
+        "median_ms": 0.2189280018210411,
+        "p10_ms": 0.21620800346136093,
+        "p90_ms": 0.22235200554132462
+      },
+      "speedup": 1.694949897765857,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 2,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 2.4161079181794776e-06,
+        "max_abs": 1.4543533325195312e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.371071994304657,
+        "p10_ms": 0.36879999935626984,
+        "p90_ms": 0.38894400000572205
+      },
+      "candidate": {
+        "median_ms": 0.2853440046310425,
+        "p10_ms": 0.2842079997062683,
+        "p90_ms": 0.28784000873565674
+      },
+      "speedup": 1.3004373257621555,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 3,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 1.4513339863242436e-07,
+        "max_abs": 1.430511474609375e-06,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.371071994304657,
+        "p10_ms": 0.36879999935626984,
+        "p90_ms": 0.38894400000572205
+      },
+      "candidate": {
+        "median_ms": 0.38368000090122223,
+        "p10_ms": 0.38123200833797455,
+        "p90_ms": 0.38646399974823
+      },
+      "speedup": 0.9671392656199166,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 1,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 0.0017190031940117478,
+        "max_abs": 0.011282574385404587,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.7533439993858337,
+        "p10_ms": 0.717631995677948,
+        "p90_ms": 0.7793760001659393
+      },
+      "candidate": {
+        "median_ms": 0.30182400345802307,
+        "p10_ms": 0.28017599880695343,
+        "p90_ms": 0.3457760065793991
+      },
+      "speedup": 2.495971131370295,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 2,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 2.486932089595939e-06,
+        "max_abs": 1.7464160919189453e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.7533439993858337,
+        "p10_ms": 0.717631995677948,
+        "p90_ms": 0.7793760001659393
+      },
+      "candidate": {
+        "median_ms": 0.50204798579216,
+        "p10_ms": 0.4986720085144043,
+        "p90_ms": 0.521807998418808
+      },
+      "speedup": 1.5005418221072324,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 3,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 1.4821854676938528e-07,
+        "max_abs": 9.5367431640625e-07,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.7533439993858337,
+        "p10_ms": 0.717631995677948,
+        "p90_ms": 0.7793760001659393
+      },
+      "candidate": {
+        "median_ms": 0.7284480035305023,
+        "p10_ms": 0.7110079824924469,
+        "p90_ms": 0.7738400101661682
+      },
+      "speedup": 1.0341767644837658,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 1,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 0.0016727683832868934,
+        "max_abs": 0.01172184944152832,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 1.5592639446258545,
+        "p10_ms": 1.5391200184822083,
+        "p90_ms": 1.6153119802474976
+      },
+      "candidate": {
+        "median_ms": 0.5166720151901245,
+        "p10_ms": 0.5115040242671967,
+        "p90_ms": 0.5284320116043091
+      },
+      "speedup": 3.0178989741723825,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 2,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 2.5167371404677397e-06,
+        "max_abs": 2.2649765014648438e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 1.5592639446258545,
+        "p10_ms": 1.5391200184822083,
+        "p90_ms": 1.6153119802474976
+      },
+      "candidate": {
+        "median_ms": 0.9348160028457642,
+        "p10_ms": 0.9322719871997833,
+        "p90_ms": 0.9635200202465057
+      },
+      "speedup": 1.6679902139877234,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 3,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 1.4861956287859357e-07,
+        "max_abs": 1.430511474609375e-06,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 1.5592639446258545,
+        "p10_ms": 1.5391200184822083,
+        "p90_ms": 1.6153119802474976
+      },
+      "candidate": {
+        "median_ms": 1.4087200164794922,
+        "p10_ms": 1.4011839628219604,
+        "p90_ms": 1.5504000186920166
+      },
+      "speedup": 1.1068657550011847,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 1,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 0.001649774145334959,
+        "max_abs": 0.012678384780883789,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.18801599740982056,
+        "p10_ms": 0.17136000096797943,
+        "p90_ms": 0.2001120001077652
+      },
+      "candidate": {
+        "median_ms": 0.10241600126028061,
+        "p10_ms": 0.08574400097131729,
+        "p90_ms": 0.1186240017414093
+      },
+      "speedup": 1.835806857289767,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 2,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 2.4798976028250763e-06,
+        "max_abs": 2.2411346435546875e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.18801599740982056,
+        "p10_ms": 0.17136000096797943,
+        "p90_ms": 0.2001120001077652
+      },
+      "candidate": {
+        "median_ms": 0.11328000202775002,
+        "p10_ms": 0.11115200072526932,
+        "p90_ms": 0.11507199704647064
+      },
+      "speedup": 1.6597457101365747,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 3,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 1.426010669547395e-07,
+        "max_abs": 1.430511474609375e-06,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.18801599740982056,
+        "p10_ms": 0.17136000096797943,
+        "p90_ms": 0.2001120001077652
+      },
+      "candidate": {
+        "median_ms": 0.1608320027589798,
+        "p10_ms": 0.1576640009880066,
+        "p90_ms": 0.16755200177431107
+      },
+      "speedup": 1.1690210541715274,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 1,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 0.0016851924592629075,
+        "max_abs": 0.031876564025878906,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.33211199939250946,
+        "p10_ms": 0.3139200061559677,
+        "p90_ms": 0.3964959979057312
+      },
+      "candidate": {
+        "median_ms": 0.13300799578428268,
+        "p10_ms": 0.10684799775481224,
+        "p90_ms": 0.13646399974822998
+      },
+      "speedup": 2.496932589910918,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 2,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 2.4627381662867265e-06,
+        "max_abs": 3.78340482711792e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.33211199939250946,
+        "p10_ms": 0.3139200061559677,
+        "p90_ms": 0.3964959979057312
+      },
+      "candidate": {
+        "median_ms": 0.1857920065522194,
+        "p10_ms": 0.18463999778032303,
+        "p90_ms": 0.18835200369358063
+      },
+      "speedup": 1.7875472984849046,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 3,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 1.406505845125139e-07,
+        "max_abs": 9.98377799987793e-07,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.33211199939250946,
+        "p10_ms": 0.3139200061559677,
+        "p90_ms": 0.3964959979057312
+      },
+      "candidate": {
+        "median_ms": 0.27740800380706787,
+        "p10_ms": 0.26185598969459534,
+        "p90_ms": 0.29603201150894165
+      },
+      "speedup": 1.19719688990476,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 1,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 0.0016716617392376065,
+        "max_abs": 0.014908790588378906,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.6009919941425323,
+        "p10_ms": 0.5955999791622162,
+        "p90_ms": 0.641871988773346
+      },
+      "candidate": {
+        "median_ms": 0.18836800009012222,
+        "p10_ms": 0.18372799456119537,
+        "p90_ms": 0.20639999955892563
+      },
+      "speedup": 3.190520650296205,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 2,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 2.4813371055643074e-06,
+        "max_abs": 3.4332275390625e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.6009919941425323,
+        "p10_ms": 0.5955999791622162,
+        "p90_ms": 0.641871988773346
+      },
+      "candidate": {
+        "median_ms": 0.3444799929857254,
+        "p10_ms": 0.3384319990873337,
+        "p90_ms": 0.3481440097093582
+      },
+      "speedup": 1.744635410995948,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 0,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 3,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 1.3996115910686058e-07,
+        "max_abs": 1.9073486328125e-06,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.6009919941425323,
+        "p10_ms": 0.5955999791622162,
+        "p90_ms": 0.641871988773346
+      },
+      "candidate": {
+        "median_ms": 0.5164639949798584,
+        "p10_ms": 0.48576000332832336,
+        "p90_ms": 0.5273599922657013
+      },
+      "speedup": 1.1636667802292209,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 1,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 0.001675841980613768,
+        "max_abs": 0.011925220489501953,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.3842879980802536,
+        "p10_ms": 0.35443200170993805,
+        "p90_ms": 0.49641600251197815
+      },
+      "candidate": {
+        "median_ms": 0.21140799671411514,
+        "p10_ms": 0.21009600162506104,
+        "p90_ms": 0.21332799643278122
+      },
+      "speedup": 1.8177552602228302,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 2,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 2.3951322418724885e-06,
+        "max_abs": 1.5050172805786133e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.3842879980802536,
+        "p10_ms": 0.35443200170993805,
+        "p90_ms": 0.49641600251197815
+      },
+      "candidate": {
+        "median_ms": 0.2848159968852997,
+        "p10_ms": 0.281823992729187,
+        "p90_ms": 0.28783999383449554
+      },
+      "speedup": 1.3492500501473343,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 3,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 1.4916344071025378e-07,
+        "max_abs": 9.5367431640625e-07,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.3842879980802536,
+        "p10_ms": 0.35443200170993805,
+        "p90_ms": 0.49641600251197815
+      },
+      "candidate": {
+        "median_ms": 0.37942400574684143,
+        "p10_ms": 0.37624000012874603,
+        "p90_ms": 0.4179520010948181
+      },
+      "speedup": 1.0128194111593918,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 1,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 0.0016524663660675287,
+        "max_abs": 0.010402128100395203,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.6978720128536224,
+        "p10_ms": 0.6939359903335571,
+        "p90_ms": 0.753248006105423
+      },
+      "candidate": {
+        "median_ms": 0.2922080010175705,
+        "p10_ms": 0.2861280143260956,
+        "p90_ms": 0.2945920079946518
+      },
+      "speedup": 2.3882714040114847,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 2,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 2.500769369362388e-06,
+        "max_abs": 1.582503318786621e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.6978720128536224,
+        "p10_ms": 0.6939359903335571,
+        "p90_ms": 0.753248006105423
+      },
+      "candidate": {
+        "median_ms": 0.5088320076465607,
+        "p10_ms": 0.49955199658870697,
+        "p90_ms": 0.5320479869842529
+      },
+      "speedup": 1.3715175192720397,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 3,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 1.480650695384611e-07,
+        "max_abs": 9.5367431640625e-07,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.6978720128536224,
+        "p10_ms": 0.6939359903335571,
+        "p90_ms": 0.753248006105423
+      },
+      "candidate": {
+        "median_ms": 0.7521120011806488,
+        "p10_ms": 0.7415040135383606,
+        "p90_ms": 0.7796480059623718
+      },
+      "speedup": 0.9278830968766865,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 1,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 0.0016567375278100371,
+        "max_abs": 0.011319383978843689,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 1.472063958644867,
+        "p10_ms": 1.461072027683258,
+        "p90_ms": 1.5246080160140991
+      },
+      "candidate": {
+        "median_ms": 0.5076799988746643,
+        "p10_ms": 0.5048800110816956,
+        "p90_ms": 0.5266240239143372
+      },
+      "speedup": 2.899590218066261,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 2,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 2.4395033051405335e-06,
+        "max_abs": 1.9311904907226562e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 1.472063958644867,
+        "p10_ms": 1.461072027683258,
+        "p90_ms": 1.5246080160140991
+      },
+      "candidate": {
+        "median_ms": 0.988207995891571,
+        "p10_ms": 0.9713760018348694,
+        "p90_ms": 1.0355519652366638
+      },
+      "speedup": 1.4896296779270202,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 3,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 1.4821010552168445e-07,
+        "max_abs": 1.1920928955078125e-06,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 1.472063958644867,
+        "p10_ms": 1.461072027683258,
+        "p90_ms": 1.5246080160140991
+      },
+      "candidate": {
+        "median_ms": 1.5230240225791931,
+        "p10_ms": 1.4609919786453247,
+        "p90_ms": 1.5828960537910461
+      },
+      "speedup": 0.966540210017156,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 1,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 0.0016373972175642848,
+        "max_abs": 0.008052855730056763,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.1687679961323738,
+        "p10_ms": 0.16811200231313705,
+        "p90_ms": 0.17046400159597397
+      },
+      "candidate": {
+        "median_ms": 0.11214400082826614,
+        "p10_ms": 0.08862399682402611,
+        "p90_ms": 0.11817599833011627
+      },
+      "speedup": 1.5049221972276512,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 2,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 2.5254646516259527e-06,
+        "max_abs": 1.2874603271484375e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.1687679961323738,
+        "p10_ms": 0.16811200231313705,
+        "p90_ms": 0.17046400159597397
+      },
+      "candidate": {
+        "median_ms": 0.1260640025138855,
+        "p10_ms": 0.11116800084710121,
+        "p90_ms": 0.13947200030088425
+      },
+      "speedup": 1.3387485147775204,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 3,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 1.5436388878242724e-07,
+        "max_abs": 7.152557373046875e-07,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.1687679961323738,
+        "p10_ms": 0.16811200231313705,
+        "p90_ms": 0.17046400159597397
+      },
+      "candidate": {
+        "median_ms": 0.16051200032234192,
+        "p10_ms": 0.15612800419330597,
+        "p90_ms": 0.18652799725532532
+      },
+      "speedup": 1.0514353804915029,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 1,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 0.0016553772147744894,
+        "max_abs": 0.009520471096038818,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.3150559961795807,
+        "p10_ms": 0.31403200328350067,
+        "p90_ms": 0.3345919996500015
+      },
+      "candidate": {
+        "median_ms": 0.11409600079059601,
+        "p10_ms": 0.1125280000269413,
+        "p90_ms": 0.14006400108337402
+      },
+      "speedup": 2.7613237448857904,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 2,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 2.4112559913191944e-06,
+        "max_abs": 1.3709068298339844e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.3150559961795807,
+        "p10_ms": 0.31403200328350067,
+        "p90_ms": 0.3345919996500015
+      },
+      "candidate": {
+        "median_ms": 0.2075039967894554,
+        "p10_ms": 0.1892159953713417,
+        "p90_ms": 0.2234720066189766
+      },
+      "speedup": 1.5183129050726345,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 3,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 1.5836737077279395e-07,
+        "max_abs": 9.5367431640625e-07,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.3150559961795807,
+        "p10_ms": 0.31403200328350067,
+        "p90_ms": 0.3345919996500015
+      },
+      "candidate": {
+        "median_ms": 0.27110399305820465,
+        "p10_ms": 0.2688159942626953,
+        "p90_ms": 0.29819200932979584
+      },
+      "speedup": 1.162122300839515,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 1,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 0.0016550322761759162,
+        "max_abs": 0.010528087615966797,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.607120007276535,
+        "p10_ms": 0.5997759997844696,
+        "p90_ms": 0.6306400001049042
+      },
+      "candidate": {
+        "median_ms": 0.19233600050210953,
+        "p10_ms": 0.1913440003991127,
+        "p90_ms": 0.20918399840593338
+      },
+      "speedup": 3.156559384054969,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 2,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 2.4603609745099675e-06,
+        "max_abs": 1.2874603271484375e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.607120007276535,
+        "p10_ms": 0.5997759997844696,
+        "p90_ms": 0.6306400001049042
+      },
+      "candidate": {
+        "median_ms": 0.35731199383735657,
+        "p10_ms": 0.35096000134944916,
+        "p90_ms": 0.3832480013370514
+      },
+      "speedup": 1.6991313410903515,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 25,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 3,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 1.5963104260663386e-07,
+        "max_abs": 9.5367431640625e-07,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.607120007276535,
+        "p10_ms": 0.5997759997844696,
+        "p90_ms": 0.6306400001049042
+      },
+      "candidate": {
+        "median_ms": 0.5037600100040436,
+        "p10_ms": 0.4982080012559891,
+        "p90_ms": 0.5063199996948242
+      },
+      "speedup": 1.2051770589564301,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 1,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 0.0016990144504234195,
+        "max_abs": 0.01342678815126419,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.36507201194763184,
+        "p10_ms": 0.3620319962501526,
+        "p90_ms": 0.4145280122756958
+      },
+      "candidate": {
+        "median_ms": 0.2141600027680397,
+        "p10_ms": 0.21059200167655945,
+        "p90_ms": 0.24028799682855606
+      },
+      "speedup": 1.7046694398068694,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 2,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 2.4236851459136233e-06,
+        "max_abs": 1.621246337890625e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.36507201194763184,
+        "p10_ms": 0.3620319962501526,
+        "p90_ms": 0.4145280122756958
+      },
+      "candidate": {
+        "median_ms": 0.2908959984779358,
+        "p10_ms": 0.28752000629901886,
+        "p90_ms": 0.2983039915561676
+      },
+      "speedup": 1.2549915222547217,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 3,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 1.4704980344504293e-07,
+        "max_abs": 1.0728836059570312e-06,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.36507201194763184,
+        "p10_ms": 0.3620319962501526,
+        "p90_ms": 0.4145280122756958
+      },
+      "candidate": {
+        "median_ms": 0.3821119964122772,
+        "p10_ms": 0.3805599957704544,
+        "p90_ms": 0.3851359933614731
+      },
+      "speedup": 0.9554057851503301,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 1,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 0.001651836559176445,
+        "max_abs": 0.017911359667778015,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.7044800221920013,
+        "p10_ms": 0.6979199945926666,
+        "p90_ms": 0.7204000055789948
+      },
+      "candidate": {
+        "median_ms": 0.2998400032520294,
+        "p10_ms": 0.28326399624347687,
+        "p90_ms": 0.3104479908943176
+      },
+      "speedup": 2.3495197923935893,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 2,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 2.500493565094075e-06,
+        "max_abs": 2.0503997802734375e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.7044800221920013,
+        "p10_ms": 0.6979199945926666,
+        "p90_ms": 0.7204000055789948
+      },
+      "candidate": {
+        "median_ms": 0.49694399535655975,
+        "p10_ms": 0.49006399512290955,
+        "p90_ms": 0.49961601197719574
+      },
+      "speedup": 1.4176245789760142,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 3,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 1.4666326819678943e-07,
+        "max_abs": 1.430511474609375e-06,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.7044800221920013,
+        "p10_ms": 0.6979199945926666,
+        "p90_ms": 0.7204000055789948
+      },
+      "candidate": {
+        "median_ms": 0.7252160012722015,
+        "p10_ms": 0.7208160161972046,
+        "p90_ms": 0.7624000012874603
+      },
+      "speedup": 0.9714071682866562,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 1,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 0.0016340778674930334,
+        "max_abs": 0.01552438735961914,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 1.547823965549469,
+        "p10_ms": 1.5055360198020935,
+        "p90_ms": 1.620688021183014
+      },
+      "candidate": {
+        "median_ms": 0.5236800014972687,
+        "p10_ms": 0.5157759785652161,
+        "p90_ms": 0.5384960174560547
+      },
+      "speedup": 2.9556675090208535,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 2,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 2.4061630483629415e-06,
+        "max_abs": 2.86102294921875e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 1.547823965549469,
+        "p10_ms": 1.5055360198020935,
+        "p90_ms": 1.620688021183014
+      },
+      "candidate": {
+        "median_ms": 1.017520010471344,
+        "p10_ms": 0.9717599749565125,
+        "p90_ms": 1.0331520438194275
+      },
+      "speedup": 1.521172998683803,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "in",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 3,
+      "rows": 10304,
+      "cols": 2688,
+      "correctness": {
+        "nrmse": 1.4860040664643748e-07,
+        "max_abs": 1.430511474609375e-06,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 1.547823965549469,
+        "p10_ms": 1.5055360198020935,
+        "p90_ms": 1.620688021183014
+      },
+      "candidate": {
+        "median_ms": 1.5773119926452637,
+        "p10_ms": 1.5601279735565186,
+        "p90_ms": 1.6217600107192993
+      },
+      "speedup": 0.9813048862664506,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 1,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 0.0016481649363413453,
+        "max_abs": 0.014764785766601562,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.16895999759435654,
+        "p10_ms": 0.16811200231313705,
+        "p90_ms": 0.17033600062131882
+      },
+      "candidate": {
+        "median_ms": 0.11265600100159645,
+        "p10_ms": 0.08791999891400337,
+        "p90_ms": 0.1194240003824234
+      },
+      "speedup": 1.499786927391131,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 2,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 2.424681724733091e-06,
+        "max_abs": 4.082918167114258e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.16895999759435654,
+        "p10_ms": 0.16811200231313705,
+        "p90_ms": 0.17033600062131882
+      },
+      "candidate": {
+        "median_ms": 0.14030399918556213,
+        "p10_ms": 0.11467199772596359,
+        "p90_ms": 0.14105600118637085
+      },
+      "speedup": 1.204242206744904,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 2,
+      "residual_terms": 3,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 1.585151068184132e-07,
+        "max_abs": 9.5367431640625e-07,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.16895999759435654,
+        "p10_ms": 0.16811200231313705,
+        "p90_ms": 0.17033600062131882
+      },
+      "candidate": {
+        "median_ms": 0.16259200125932693,
+        "p10_ms": 0.16148800402879715,
+        "p90_ms": 0.1648319959640503
+      },
+      "speedup": 1.0391654957544494,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 1,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 0.0016364955808967352,
+        "max_abs": 0.016570568084716797,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.3139839917421341,
+        "p10_ms": 0.31195200979709625,
+        "p90_ms": 0.33238400518894196
+      },
+      "candidate": {
+        "median_ms": 0.11238399893045425,
+        "p10_ms": 0.11064000055193901,
+        "p90_ms": 0.1393279954791069
+      },
+      "speedup": 2.7938496114240823,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 2,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 2.427379513392225e-06,
+        "max_abs": 3.0040740966796875e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.3139839917421341,
+        "p10_ms": 0.31195200979709625,
+        "p90_ms": 0.33238400518894196
+      },
+      "candidate": {
+        "median_ms": 0.19441600143909454,
+        "p10_ms": 0.19336000084877014,
+        "p90_ms": 0.2228960022330284
+      },
+      "speedup": 1.6150110557669148,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 4,
+      "residual_terms": 3,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 1.575174906065513e-07,
+        "max_abs": 1.9073486328125e-06,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.3139839917421341,
+        "p10_ms": 0.31195200979709625,
+        "p90_ms": 0.33238400518894196
+      },
+      "candidate": {
+        "median_ms": 0.27241601049900055,
+        "p10_ms": 0.2709440141916275,
+        "p90_ms": 0.27481599152088165
+      },
+      "speedup": 1.1525900814970127,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 1,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 0.0016540965298190713,
+        "max_abs": 0.01619952917098999,
+        "finite": true,
+        "pass": false
+      },
+      "baseline": {
+        "median_ms": 0.6130239963531494,
+        "p10_ms": 0.6091200113296509,
+        "p90_ms": 0.6237600147724152
+      },
+      "candidate": {
+        "median_ms": 0.19395199418067932,
+        "p10_ms": 0.1921759992837906,
+        "p90_ms": 0.21731200069189072
+      },
+      "speedup": 3.1606996305594897,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 2,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 2.3714137569186278e-06,
+        "max_abs": 2.765655517578125e-05,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.6130239963531494,
+        "p10_ms": 0.6091200113296509,
+        "p90_ms": 0.6237600147724152
+      },
+      "candidate": {
+        "median_ms": 0.3522239923477173,
+        "p10_ms": 0.34993599355220795,
+        "p90_ms": 0.3572800010442734
+      },
+      "speedup": 1.74043793061084,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    },
+    {
+      "layer": 50,
+      "side": "out",
+      "format": "fp8_tensor",
+      "H": 8,
+      "residual_terms": 3,
+      "rows": 2688,
+      "cols": 4096,
+      "correctness": {
+        "nrmse": 1.5665730757064011e-07,
+        "max_abs": 1.4901161193847656e-06,
+        "finite": true,
+        "pass": true
+      },
+      "baseline": {
+        "median_ms": 0.6130239963531494,
+        "p10_ms": 0.6091200113296509,
+        "p90_ms": 0.6237600147724152
+      },
+      "candidate": {
+        "median_ms": 0.49859200417995453,
+        "p10_ms": 0.4965119957923889,
+        "p90_ms": 0.5067359805107117
+      },
+      "speedup": 1.2295102833857188,
+      "route_note": "existing exact FP8 tensor-vector primitive per residual term; batched FP8 candidate is tested"
+    }
+  ],
+  "all_correct": false,
+  "completed_utc": "2026-08-19T09:22:41.425470+00:00"
+}

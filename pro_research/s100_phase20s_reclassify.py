@@ -17,8 +17,8 @@ def main():
         expected=[]
         for i in expected_layers:
             expected += [
-                f"backbone.layers.{i}.mixer.k_scale",
-                f"backbone.layers.{i}.mixer.v_scale",
+                f"backbone.layers.{i}.mixer.k_proj.k_scale",
+                f"backbone.layers.{i}.mixer.v_proj.v_scale",
             ]
 
         # Require explicit KV quantization metadata in either config spelling.

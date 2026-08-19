@@ -1,0 +1,13 @@
+{
+  "kind": "s100_phase16a_local_sensitivity",
+  "status": "technical_failure",
+  "tokens_per_prompt": 8,
+  "started_utc": "2026-08-19T07:05:17.538438+00:00",
+  "claim_boundary": "one native transition from exact state",
+  "error": {
+    "type": "RuntimeError",
+    "message": "CUDA error: CUBLAS_STATUS_INVALID_VALUE when calling `cublasGemmEx( handle, opa, opb, m, n, k, &falpha, a, CUDA_R_16BF, lda, b, CUDA_R_16BF, ldb, &fbeta, c, std::is_same_v<C_Dtype, float> ? CUDA_R_32F : CUDA_R_16BF, ldc, compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP)`",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase16a_local_sensitivity.py\", line 52, in main\n    s=run_scope(rt,dispatch,rows,names)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase16a_local_sensitivity.py\", line 34, in run_scope\n    dispatch.set_selected(names);rt.step(inp);cand[...]=rt.logits\n                                 ^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\src\\moe_lab\\lightningstream_nemotron\\runtime.py\", line 819, in step\n    self._attention(i, self.acc)\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\src\\moe_lab\\lightningstream_nemotron\\runtime.py\", line 433, in _attention\n    k.mv_bf16(self.qv, d[\"q_proj\"], self.normed, self.n_heads * self.head_dim, self.hidden)\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase16_common.py\", line 73, in __call__\n    y=torch.mm(xb,self._weight_t(W,rows,cols)).float().reshape(-1)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: CUDA error: CUBLAS_STATUS_INVALID_VALUE when calling `cublasGemmEx( handle, opa, opb, m, n, k, &falpha, a, CUDA_R_16BF, lda, b, CUDA_R_16BF, ldb, &fbeta, c, std::is_same_v<C_Dtype, float> ? CUDA_R_32F : CUDA_R_16BF, ldc, compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP)`\n"
+  },
+  "completed_utc": "2026-08-19T07:05:51.431044+00:00"
+}

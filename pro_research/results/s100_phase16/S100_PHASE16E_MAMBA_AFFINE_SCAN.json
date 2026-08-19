@@ -1,0 +1,14 @@
+{
+  "kind": "s100_phase16e_mamba_affine_scan",
+  "status": "technical_failure",
+  "horizon": 8,
+  "tolerance_nrmse": 5e-05,
+  "started_utc": "2026-08-19T07:06:28.190882+00:00",
+  "claim_boundary": "SSM affine scan proof only; not a full block runtime",
+  "error": {
+    "type": "ValueError",
+    "message": "cannot reshape array of size 4096 into shape (64,64,128)",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase16e_mamba_affine_scan.py\", line 126, in main\n    cy,cs,a,b=cpu_sequential(records)\n              ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\pro_research\\s100_phase16e_mamba_affine_scan.py\", line 58, in cpu_sequential\n    state=r0[\"state_pre\"].reshape(HH,P,N).copy()\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: cannot reshape array of size 4096 into shape (64,64,128)\n"
+  },
+  "completed_utc": "2026-08-19T07:07:00.986008+00:00"
+}

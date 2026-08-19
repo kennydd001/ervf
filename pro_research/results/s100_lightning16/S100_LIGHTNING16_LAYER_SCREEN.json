@@ -1,11 +1,11 @@
 {
   "kind": "s100_lightning16_layer_screen",
   "status": "technical_failure",
-  "started_utc": "2026-08-19T11:16:40.133805+00:00",
+  "started_utc": "2026-08-19T11:34:11.714032+00:00",
   "error": {
     "type": "RuntimeError",
-    "message": "BF16->FP32 torch.mm unsupported: keyword: RuntimeError: CUDA error: CUBLAS_STATUS_INVALID_VALUE when calling `cublasGemmEx( handle, opa, opb, m, n, k, &falpha, a, CUDA_R_16BF, lda, b, CUDA_R_16BF, ldb, &fbeta, c, std::is_same_v<C_Dtype, float> ? CUDA_R_32F : CUDA_R_16BF, ldc, compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP)` | positional: RuntimeError: CUDA error: CUBLAS_STATUS_INVALID_VALUE when calling `cublasGemmEx( handle, opa, opb, m, n, k, &falpha, a, CUDA_R_16BF, lda, b, CUDA_R_16BF, ldb, &fbeta, c, std::is_same_v<C_Dtype, float> ? CUDA_R_32F : CUDA_R_16BF, ldc, compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP)`",
-    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_lightning16_layer_screen.py\", line 65, in main\n    dispatch = PointerDispatch(\n               ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_lightning16_native.py\", line 162, in __init__\n    self.engine = NativeEngine(handoff)\n                  ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_lightning16_native.py\", line 52, in __init__\n    self.mm = TorchMMOut32()\n              ^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_lightning16_native.py\", line 26, in __init__\n    raise RuntimeError(\nRuntimeError: BF16->FP32 torch.mm unsupported: keyword: RuntimeError: CUDA error: CUBLAS_STATUS_INVALID_VALUE when calling `cublasGemmEx( handle, opa, opb, m, n, k, &falpha, a, CUDA_R_16BF, lda, b, CUDA_R_16BF, ldb, &fbeta, c, std::is_same_v<C_Dtype, float> ? CUDA_R_32F : CUDA_R_16BF, ldc, compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP)` | positional: RuntimeError: CUDA error: CUBLAS_STATUS_INVALID_VALUE when calling `cublasGemmEx( handle, opa, opb, m, n, k, &falpha, a, CUDA_R_16BF, lda, b, CUDA_R_16BF, ldb, &fbeta, c, std::is_same_v<C_Dtype, float> ? CUDA_R_32F : CUDA_R_16BF, ldc, compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP)`\n"
+    "message": "screen baseline is not exact against Lightning trace",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\pro_research\\s100_lightning16_layer_screen.py\", line 76, in main\n    raise RuntimeError(\nRuntimeError: screen baseline is not exact against Lightning trace\n"
   },
-  "completed_utc": "2026-08-19T11:17:14.168549+00:00"
+  "completed_utc": "2026-08-19T11:34:48.169473+00:00"
 }

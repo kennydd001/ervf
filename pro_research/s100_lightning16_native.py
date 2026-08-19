@@ -2,6 +2,29 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+def _warm_cublas_before_cupy():
+    """Initialize torch's cuBLAS BF16->FP32 path before CuPy loads.
+
+    On this CUDA stack (torch 2.9.1+cu128 / cupy 14.1.1), torch's
+    cublasGemmEx with BF16 inputs and FP32 output fails with
+    CUBLAS_STATUS_INVALID_VALUE once the CuPy runtime build has loaded
+    its own cuBLAS DLLs first. Running one tiny mm at import time binds
+    torch's cuBLAS handle before that happens.
+    """
+    try:
+        import torch
+        if not torch.cuda.is_available():
+            return
+        a = torch.randn(2, 16, device="cuda", dtype=torch.bfloat16)
+        b = torch.randn(16, 8, device="cuda", dtype=torch.bfloat16)
+        out = torch.empty(2, 8, device="cuda", dtype=torch.float32)
+        torch.mm(a, b, out_dtype=torch.float32, out=out)
+        torch.cuda.synchronize()
+    except Exception:
+        pass
+
+_warm_cublas_before_cupy()
+
 class TorchMMOut32:
     def __init__(self):
         import torch

@@ -1,0 +1,55 @@
+{
+  "kind": "s100_phase14n2_adjudication",
+  "created_utc": "2026-08-19T05:38:50.797965+00:00",
+  "reference_evidence_file_count": 13,
+  "FORMAT_GROUP16_PACKED_GREEN": true,
+  "LOSSLESS_REPACK_EVIDENCE_GREEN": true,
+  "repack_sources": [
+    "C1_REPACK_AUDIT.json"
+  ],
+  "NATIVE_FP4_FREE_M_GREEN": false,
+  "c2d": {
+    "source": "C2D_M_SCALING.json",
+    "rows": [
+      {
+        "shape": "lm_head",
+        "rotation_over_l2": 10.5,
+        "M4_over_M1": 0.8753585274863933,
+        "M8_over_M1": 0.8816364653993455,
+        "M4_speedup_per_token_vs_ervf": 9.625222736007904,
+        "M8_speedup_per_token_vs_ervf": 19.11336731541388
+      },
+      {
+        "shape": "shared_up",
+        "rotation_over_l2": 3.568359375,
+        "M4_over_M1": 0.938503703410862,
+        "M8_over_M1": 0.7991675756635199,
+        "M4_speedup_per_token_vs_ervf": 3.9590315732236347,
+        "M8_speedup_per_token_vs_ervf": 9.298589949188097
+      },
+      {
+        "shape": "shared_down",
+        "rotation_over_l2": 3.568359375,
+        "M4_over_M1": 1.3943602279087106,
+        "M8_over_M1": 0.9501537820500284,
+        "M4_speedup_per_token_vs_ervf": 4.609489716866972,
+        "M8_speedup_per_token_vs_ervf": 13.528945005693979
+      },
+      {
+        "shape": "routed_up",
+        "rotation_over_l2": 1.7841796875,
+        "M4_over_M1": 0.9705562643581445,
+        "M8_over_M1": 1.0919097359471188,
+        "M4_speedup_per_token_vs_ervf": 3.7906561970234978,
+        "M8_speedup_per_token_vs_ervf": 6.7387348915942855
+      }
+    ],
+    "cold_shapes": 1,
+    "M4_green_shapes": 1,
+    "M8_green_shapes": 1
+  },
+  "instrumentation_complete": true,
+  "NATIVE_NVFP4_C3_RUNTIME_BUILD_OPEN": false,
+  "s100_single_achieved": false,
+  "claim_boundary": "authorizes real-weight C3 implementation only; N2 does not execute real repacked weights natively"
+}

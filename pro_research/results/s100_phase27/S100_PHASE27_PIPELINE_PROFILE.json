@@ -1,0 +1,13 @@
+{
+  "kind": "s100_phase27_pipeline_profile",
+  "status": "technical_failure",
+  "context": 1024,
+  "started_utc": "2026-08-20T09:14:14.850680+00:00",
+  "claim_boundary": "captured event spans for selected candidate; not adoption timing",
+  "error": {
+    "type": "CUDARuntimeError",
+    "message": "cudaErrorInvalidValue: invalid argument",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase25-h8-best-of-all\\pro_research\\s100_phase27_profile.py\", line 47, in main\n    snap=g.gmoe.profile_snapshot()\n         ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase25-h8-best-of-all\\pro_research\\s100_phase27_common.py\", line 307, in profile_snapshot\n    \"pipeline_span_ms\":float(cp.cuda.get_elapsed_time(\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"cupy/cuda/stream.pyx\", line 179, in cupy.cuda.stream.get_elapsed_time\n  File \"cupy_backends/cuda/api/runtime.pyx\", line 1056, in cupy_backends.cuda.api.runtime.eventElapsedTime\n  File \"cupy_backends/cuda/api/runtime.pyx\", line 146, in cupy_backends.cuda.api.runtime.check_status\ncupy_backends.cuda.api.runtime.CUDARuntimeError: cudaErrorInvalidValue: invalid argument\n"
+  },
+  "completed_utc": "2026-08-20T09:15:14.349678+00:00"
+}

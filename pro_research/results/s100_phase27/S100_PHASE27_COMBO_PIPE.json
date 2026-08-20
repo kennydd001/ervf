@@ -1,0 +1,278 @@
+{
+  "kind": "s100_phase27_measure",
+  "status": "measured",
+  "arm": "candidate",
+  "variant": {
+    "gather_y": 4,
+    "batches": 3,
+    "shared_overlap": false,
+    "label": "g4_b3"
+  },
+  "context": 1024,
+  "tag": "COMBO_PIPE",
+  "blocks": 10,
+  "warmup": 6,
+  "started_utc": "2026-08-20T09:08:12.049925+00:00",
+  "claim_boundary": "fresh-process exact target-only H4 timing",
+  "capture_info": {
+    "graph_extra_vram_bytes": 0,
+    "max_splits": 3,
+    "dot_probe": {
+      "available": true,
+      "length": 207870,
+      "contains_fp8_residual2": true,
+      "contains_device_route": true,
+      "contains_moe_batched_up": false,
+      "contains_fp32_kv": true,
+      "contains_fp32_attention": true,
+      "contains_argmax4": true,
+      "contains_pos_add4": true
+    },
+    "phase24_config": {
+      "attention_m4": false,
+      "router_m4": false,
+      "shared_m4": false,
+      "sres_layers": [
+        20,
+        22,
+        29,
+        17,
+        27,
+        24,
+        13,
+        31,
+        43,
+        51,
+        49,
+        15,
+        38,
+        10,
+        34,
+        36,
+        45,
+        47,
+        40,
+        6,
+        3,
+        8,
+        1
+      ]
+    },
+    "actual_plane_bytes": 516354048,
+    "phase24_dot": {
+      "bf16_m4": false,
+      "f32_m4": false,
+      "shared_m4": false,
+      "sres_gather": true,
+      "sres_down": true
+    }
+  },
+  "records": [
+    {
+      "block": 0,
+      "pos": 1048,
+      "ms": 75.0561,
+      "got": [
+        19732,
+        3016,
+        24925,
+        2738
+      ],
+      "expected": [
+        19732,
+        3016,
+        24925,
+        2738
+      ]
+    },
+    {
+      "block": 1,
+      "pos": 1052,
+      "ms": 81.9103,
+      "got": [
+        6103,
+        1338,
+        1358,
+        1032
+      ],
+      "expected": [
+        6103,
+        1338,
+        1358,
+        1032
+      ]
+    },
+    {
+      "block": 2,
+      "pos": 1056,
+      "ms": 77.3232,
+      "got": [
+        1051,
+        1046,
+        108225,
+        75377
+      ],
+      "expected": [
+        1051,
+        1046,
+        108225,
+        75377
+      ]
+    },
+    {
+      "block": 3,
+      "pos": 1060,
+      "ms": 74.5014,
+      "got": [
+        1321,
+        73530,
+        116696,
+        1267
+      ],
+      "expected": [
+        1321,
+        73530,
+        116696,
+        1267
+      ]
+    },
+    {
+      "block": 4,
+      "pos": 1064,
+      "ms": 79.9351,
+      "got": [
+        27313,
+        1454,
+        1261,
+        6010
+      ],
+      "expected": [
+        27313,
+        1454,
+        1261,
+        6010
+      ]
+    },
+    {
+      "block": 5,
+      "pos": 1068,
+      "ms": 77.5196,
+      "got": [
+        2779,
+        1321,
+        1517,
+        100947
+      ],
+      "expected": [
+        2779,
+        1321,
+        1517,
+        100947
+      ]
+    },
+    {
+      "block": 6,
+      "pos": 1072,
+      "ms": 79.1439,
+      "got": [
+        3244,
+        1044,
+        1278,
+        3039
+      ],
+      "expected": [
+        3244,
+        1044,
+        1278,
+        3039
+      ]
+    },
+    {
+      "block": 7,
+      "pos": 1076,
+      "ms": 75.2312,
+      "got": [
+        1278,
+        3475,
+        1395,
+        19555
+      ],
+      "expected": [
+        1278,
+        3475,
+        1395,
+        19555
+      ]
+    },
+    {
+      "block": 8,
+      "pos": 1080,
+      "ms": 81.5094,
+      "got": [
+        22482,
+        1046,
+        101259,
+        15765
+      ],
+      "expected": [
+        22482,
+        1046,
+        101259,
+        15765
+      ]
+    },
+    {
+      "block": 9,
+      "pos": 1084,
+      "ms": 76.7814,
+      "got": [
+        6076,
+        1307,
+        14953,
+        1307
+      ],
+      "expected": [
+        6076,
+        1307,
+        14953,
+        1307
+      ]
+    }
+  ],
+  "summary": {
+    "count": 10,
+    "median_ms": 77.4214,
+    "p10_ms": 75.00063,
+    "p90_ms": 81.54949,
+    "mean_ms": 77.89116,
+    "ms_per_useful_token": 19.35535,
+    "target_only_tok_s": 51.66530184160968,
+    "all_token_exact": true
+  },
+  "correctness_green": true,
+  "ms_per_useful_token": 19.35535,
+  "target_only_tok_s": 51.66530184160968,
+  "telemetry": {
+    "after_setup": {
+      "timestamp": "2026/08/20 11:08:46.072",
+      "temperature.gpu": 73.0,
+      "pstate": "P4",
+      "clocks.sm": 1725.0,
+      "clocks.mem": 9001.0,
+      "power.draw": 26.13,
+      "utilization.gpu": 93.0,
+      "memory.used": 7516.0
+    },
+    "after_measure": {
+      "timestamp": "2026/08/20 11:09:13.907",
+      "temperature.gpu": 86.0,
+      "pstate": "P4",
+      "clocks.sm": 2317.0,
+      "clocks.mem": 9001.0,
+      "power.draw": 59.15,
+      "utilization.gpu": 100.0,
+      "memory.used": 7516.0
+    }
+  },
+  "completed_utc": "2026-08-20T09:09:13.917564+00:00"
+}

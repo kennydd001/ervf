@@ -1,0 +1,84 @@
+{
+  "kind": "s100_phase25_summary",
+  "created_utc": "2026-08-20T07:19:24.302723+00:00",
+  "instrumentation_complete": true,
+  "official_parent_h8_ms": 148.3404,
+  "adoption_abs_ms": 140.91,
+  "selected_variant": "direct8_route",
+  "screen_selected": {
+    "variant": "direct8_route",
+    "status": "measured",
+    "state_green": true,
+    "median_ms": 140.40445,
+    "tok_s": 56.97825104546188,
+    "fresh_gain_fraction": -0.00192386119512733,
+    "official_gain_fraction": 0.05349823783675922,
+    "meets_abs_adoption": true
+  },
+  "state": {
+    "max_ssm_nrmse": 0.0,
+    "max_conv_nrmse": 0.0,
+    "max_kv_nrmse": 0.0,
+    "logits_nrmse": 0.0
+  },
+  "state_green": true,
+  "thermal": {},
+  "profile_summary": {
+    "status": "measured",
+    "stage_totals_ms_per_h8": {
+      "router": 8.606752000749111,
+      "cache_group": 1.7331360038369894,
+      "shared": 40.2671038210392,
+      "routed_up": 28.105472147464752,
+      "mask_union": 2.0384160056710243,
+      "down_gather": 22.797824010252953,
+      "down_compute_reduce": 6.78679995983839
+    },
+    "weight_streams_per_h8": {
+      "ideal_unique": 704.5,
+      "split4": 728.5,
+      "selected": 704.5,
+      "selected_vs_split4_reduction_fraction": 0.03294440631434459
+    },
+    "max_m": 8
+  },
+  "contexts": {
+    "128": {
+      "count": 8,
+      "median_ms": 144.02405,
+      "p10_ms": 138.64102,
+      "p90_ms": 151.51781,
+      "mean_ms": 144.98877499999998,
+      "mad_ms": 4.252250000000004,
+      "ms_per_useful_token": 18.00300625,
+      "target_only_tok_s": 55.54627855556069,
+      "all_token_exact": true
+    },
+    "1024_screen_ms": 140.40445,
+    "4096": {
+      "count": 4,
+      "median_ms": 160.2141,
+      "p10_ms": 156.68727,
+      "p90_ms": 169.72145,
+      "mean_ms": 162.35000000000002,
+      "mad_ms": 3.20805,
+      "ms_per_useful_token": 20.0267625,
+      "target_only_tok_s": 49.93318315928498,
+      "all_token_exact": true
+    }
+  },
+  "gates": {
+    "PREFLIGHT_GREEN": true,
+    "H8_STATE_GREEN": true,
+    "THERMAL_ADOPTION_OPEN": false,
+    "H8_ADOPTED": false,
+    "STRONG_LE_120MS": false,
+    "BREAKTHROUGH_LE_100MS": false,
+    "S100_TARGET_ONLY_LE_80MS": false
+  },
+  "H8_ACTIVE_PARENT": false,
+  "S100_TARGET_ONLY_ACHIEVED": false,
+  "S100_SINGLE_ACHIEVED": false,
+  "claim_boundary": "Even <=80 ms/H8 is target-verifier-only. True single-stream S100 remains false until drafter/rejection/fallback costs are included.",
+  "NEXT_ROUTE": "PROFILE_H8_ECONOMICS_AND_REDUCE_DOMINANT_STAGE"
+}

@@ -1,0 +1,2257 @@
+{
+  "kind": "s100_lightning17_atlas_summary",
+  "completed_utc": "2026-08-20T00:03:43.100341+00:00",
+  "identity": {
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.cache\\nemotron_3_5_lightning\\hub\\models--nvidia--NVIDIA-Nemotron-3.5-Lightning-30B-A3B-NVFP4\\snapshots\\e8f3c7c4de75ad84fe1bcef95d38eca76214480b",
+    "config_sha256": "f1d98b530846087dc08b574a219713a94f945bf6583dc7230a19ebf1e8c50933",
+    "index_sha256": "3c3bc7efa8d658c2e909a0b9020eb0f72064e6647de348856af4dee9895bead9",
+    "max_position_embeddings": 1048576,
+    "hidden_size": 2688,
+    "num_hidden_layers": 52,
+    "n_routed_experts": 128,
+    "num_experts_per_tok": 6,
+    "moe_intermediate_size": 1856,
+    "vocab_size": 131072,
+    "architectures": [
+      "NemotronHForCausalLM"
+    ],
+    "model_type": "nemotron_h",
+    "shard_count": 18487,
+    "expected": {
+      "max_position_embeddings": 1048576,
+      "hidden_size": 2688,
+      "num_hidden_layers": 52,
+      "n_routed_experts": 128,
+      "num_experts_per_tok": 6,
+      "moe_intermediate_size": 1856,
+      "vocab_size": 131072
+    },
+    "mismatches": {},
+    "LIGHTNING_IDENTITY_GREEN": true
+  },
+  "dimensions": {
+    "hidden": 2688,
+    "kv_dim": 256,
+    "proj_dim": 10304,
+    "vocab": 131072,
+    "moe_layers": [
+      1,
+      3,
+      6,
+      8,
+      10,
+      13,
+      15,
+      17,
+      20,
+      22,
+      24,
+      27,
+      29,
+      31,
+      34,
+      36,
+      38,
+      40,
+      43,
+      45,
+      47,
+      49,
+      51
+    ],
+    "attn_layers": [
+      5,
+      12,
+      19,
+      26,
+      33,
+      42
+    ],
+    "mamba_layers": [
+      0,
+      2,
+      4,
+      7,
+      9,
+      11,
+      14,
+      16,
+      18,
+      21,
+      23,
+      25,
+      28,
+      30,
+      32,
+      35,
+      37,
+      39,
+      41,
+      44,
+      46,
+      48,
+      50
+    ]
+  },
+  "table_bytes_per_layer": {
+    "E": 13762560,
+    "A_K": 1310720,
+    "A_V": 1310720,
+    "A_O": 13762560,
+    "M_IN": 52756480,
+    "M_OUT": 13762560,
+    "A": 16384000,
+    "M_IO": 66519040
+  },
+  "workload": {
+    "prompts": 10,
+    "max_pos": 128,
+    "warmup_targets_per_prompt": 8
+  },
+  "mamba_partition": {
+    "groups": [
+      [
+        0,
+        2,
+        4,
+        7,
+        9,
+        11,
+        14,
+        16
+      ],
+      [
+        18,
+        21,
+        23,
+        25,
+        28,
+        30,
+        32,
+        35
+      ],
+      [
+        37,
+        39,
+        41,
+        44,
+        46,
+        48,
+        50
+      ]
+    ],
+    "budget_mib": null,
+    "reserve_mib": 256
+  },
+  "additivity": {
+    "status": "scheduled",
+    "kind": "group_pair",
+    "groups": [
+      1
+    ],
+    "layers": [
+      18,
+      21,
+      23,
+      25,
+      28,
+      30,
+      32,
+      35,
+      37,
+      39,
+      41,
+      44,
+      46,
+      48,
+      50
+    ],
+    "combined_ms": 3.040430000000001,
+    "singles_sum_ms": 1.5857915178571411,
+    "difference_ms": 1.45463848214286,
+    "tolerance_ms": 0.15857915178571413,
+    "additive_ok": false
+  },
+  "arms": {
+    "L": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 19.10993267857143,
+        "oracle_mean_ms": 17.862231785714286,
+        "savings_ms_per_prompt": [
+          1.264079,
+          1.249873,
+          1.251179,
+          1.248287,
+          1.292714,
+          1.249292,
+          1.227268,
+          1.289572,
+          1.231104,
+          1.270609
+        ],
+        "savings_ms_mean": 1.2573977678571442,
+        "savings_ms_median": 1.2505258928571443,
+        "savings_ms_one_sided95": {
+          "lower": 1.2467587924107164,
+          "upper": 1.2682844642857147
+        },
+        "replay_copy_overhead_ms_mean": 0.07260910714285593,
+        "corrected_savings_ms_per_prompt": [
+          1.386739,
+          1.32587,
+          1.32748,
+          1.308632,
+          1.343747,
+          1.306304,
+          1.303569,
+          1.356094,
+          1.303553,
+          1.33808
+        ],
+        "corrected_savings_ms_mean": 1.330006875,
+        "corrected_savings_ms_median": 1.3266750000000016,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 1.3175166808035719,
+          "upper": 1.3442508013392862
+        },
+        "aggregate_speedup": 1.0698513437640542,
+        "p50_speedup": 1.068001571576909,
+        "gap_to_target_ms": 9.109932678571429,
+        "s100_gap_coverage_corrected": 0.14599524737745534,
+        "thermal": {
+          "drift_ms": 0.20085035714285837,
+          "slope_ms_per_sample": 0.0005696803990254721,
+          "slope_ms_over_controls": 0.6380420469085287,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 0,
+        "replay_bytes_per_token": 0
+      },
+      "parity": {
+        "token_ids_equal": "teacher_forced_echo",
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": true
+      },
+      "error": null
+    },
+    "E": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 19.390858035714288,
+        "oracle_mean_ms": 8.903210714285715,
+        "savings_ms_per_prompt": [
+          9.675381,
+          10.390402,
+          10.68788,
+          10.941696,
+          9.607087,
+          10.844508,
+          10.860155,
+          10.478736,
+          10.942958,
+          10.637065
+        ],
+        "savings_ms_mean": 10.506586785714285,
+        "savings_ms_median": 10.66247232142857,
+        "savings_ms_one_sided95": {
+          "lower": 10.256179205357142,
+          "upper": 10.741253794642855
+        },
+        "replay_copy_overhead_ms_mean": 0.1720521428571427,
+        "corrected_savings_ms_per_prompt": [
+          9.48448,
+          10.496664,
+          10.713042,
+          11.290578,
+          9.939447,
+          11.030418,
+          11.075811,
+          10.675361,
+          11.231086,
+          10.849503
+        ],
+        "corrected_savings_ms_mean": 10.678638928571427,
+        "corrected_savings_ms_median": 10.78127232142857,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 10.37631603125,
+          "upper": 10.941715725446427
+        },
+        "aggregate_speedup": 2.177962384356526,
+        "p50_speedup": 2.180362679377199,
+        "gap_to_target_ms": 9.390858035714288,
+        "s100_gap_coverage_corrected": 1.137131334321059,
+        "thermal": {
+          "drift_ms": 0.17641250000000142,
+          "slope_ms_per_sample": 0.0004886604860175988,
+          "slope_ms_over_controls": 0.5472997443397106,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 23,
+        "replay_bytes_per_token": 247296
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "A": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 19.716309464285718,
+        "oracle_mean_ms": 18.085910714285717,
+        "savings_ms_per_prompt": [
+          1.658167,
+          1.623759,
+          1.655308,
+          1.621001,
+          1.579673,
+          1.684063,
+          1.710492,
+          1.644263,
+          1.705735,
+          1.651454
+        ],
+        "savings_ms_mean": 1.6533914285714282,
+        "savings_ms_median": 1.6533810267857127,
+        "savings_ms_one_sided95": {
+          "lower": 1.6333330892857139,
+          "upper": 1.6727113303571426
+        },
+        "replay_copy_overhead_ms_mean": 0.06332339285714247,
+        "corrected_savings_ms_per_prompt": [
+          1.799085,
+          1.599327,
+          1.714047,
+          1.702137,
+          1.549043,
+          1.766597,
+          1.752844,
+          1.746164,
+          1.816954,
+          1.72095
+        ],
+        "corrected_savings_ms_mean": 1.7167148214285706,
+        "corrected_savings_ms_median": 1.7335566964285718,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 1.6738640044642836,
+          "upper": 1.7558442276785722
+        },
+        "aggregate_speedup": 1.090147451005173,
+        "p50_speedup": 1.0911605969784424,
+        "gap_to_target_ms": 9.716309464285718,
+        "s100_gap_coverage_corrected": 0.17668383533261336,
+        "thermal": {
+          "drift_ms": -0.03403535714285866,
+          "slope_ms_per_sample": 0.00018973069061074997,
+          "slope_ms_over_controls": 0.21249837348403997,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 18,
+        "replay_bytes_per_token": 76800
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "E+L": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 19.818933392857144,
+        "oracle_mean_ms": 7.810411607142857,
+        "savings_ms_per_prompt": [
+          11.325148,
+          12.024112,
+          12.333708,
+          12.342981,
+          11.021897,
+          12.320326,
+          12.226604,
+          11.874811,
+          12.500343,
+          12.010971
+        ],
+        "savings_ms_mean": 11.998090089285713,
+        "savings_ms_median": 12.125358035714283,
+        "savings_ms_one_sided95": {
+          "lower": 11.748910620535712,
+          "upper": 12.223407553571427
+        },
+        "replay_copy_overhead_ms_mean": 0.06634142857142891,
+        "corrected_savings_ms_per_prompt": [
+          11.750217,
+          11.811127,
+          12.372106,
+          12.255256,
+          11.078919,
+          12.090728,
+          12.324078,
+          12.07932,
+          12.671788,
+          12.210777
+        ],
+        "corrected_savings_ms_mean": 12.064431517857143,
+        "corrected_savings_ms_median": 12.150752455357143,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 11.84181204017857,
+          "upper": 12.262434991071427
+        },
+        "aggregate_speedup": 2.5375017847628065,
+        "p50_speedup": 2.5453180286029173,
+        "gap_to_target_ms": 9.818933392857144,
+        "s100_gap_coverage_corrected": 1.2286906362592809,
+        "thermal": {
+          "drift_ms": 0.030381785714283183,
+          "slope_ms_per_sample": 0.0003072426032591676,
+          "slope_ms_over_controls": 0.3441117156502677,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 23,
+        "replay_bytes_per_token": 247296
+      },
+      "parity": {
+        "token_ids_equal": "teacher_forced_echo",
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": true
+      },
+      "error": null
+    },
+    "A+L": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 19.855616160714288,
+        "oracle_mean_ms": 16.81823892857143,
+        "savings_ms_per_prompt": [
+          3.105431,
+          2.923149,
+          2.840891,
+          2.84626,
+          2.888349,
+          2.699395,
+          2.577853,
+          3.139604,
+          3.011568,
+          2.940477
+        ],
+        "savings_ms_mean": 2.8972975446428566,
+        "savings_ms_median": 2.905748660714284,
+        "savings_ms_one_sided95": {
+          "lower": 2.810809776785715,
+          "upper": 2.9800316517857133
+        },
+        "replay_copy_overhead_ms_mean": 0.06496955357142867,
+        "corrected_savings_ms_per_prompt": [
+          2.99455,
+          3.049226,
+          3.10085,
+          3.150338,
+          2.930921,
+          2.790448,
+          2.793472,
+          2.925593,
+          2.924458,
+          2.962814
+        ],
+        "corrected_savings_ms_mean": 2.9622670982142854,
+        "corrected_savings_ms_median": 2.946867633928571,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 2.9040366383928564,
+          "upper": 3.020855714285714
+        },
+        "aggregate_speedup": 1.180600195124048,
+        "p50_speedup": 1.1835216313033892,
+        "gap_to_target_ms": 9.855616160714288,
+        "s100_gap_coverage_corrected": 0.3005664029431514,
+        "thermal": {
+          "drift_ms": -0.007397678571429367,
+          "slope_ms_per_sample": 0.0003102460866860104,
+          "slope_ms_over_controls": 0.34747561708833163,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 18,
+        "replay_bytes_per_token": 76800
+      },
+      "parity": {
+        "token_ids_equal": "teacher_forced_echo",
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": true
+      },
+      "error": null
+    },
+    "E+A": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 20.457437857142857,
+        "oracle_mean_ms": 8.24993125,
+        "savings_ms_per_prompt": [
+          11.847075,
+          12.233533,
+          12.632542,
+          12.820947,
+          11.524121,
+          12.4388,
+          12.64626,
+          12.364066,
+          12.727504,
+          12.496667
+        ],
+        "savings_ms_mean": 12.373151607142857,
+        "savings_ms_median": 12.46773392857143,
+        "savings_ms_one_sided95": {
+          "lower": 12.162307993303571,
+          "upper": 12.566249866071427
+        },
+        "replay_copy_overhead_ms_mean": 0.6709019642857147,
+        "corrected_savings_ms_per_prompt": [
+          13.570555,
+          13.570822,
+          13.811326,
+          13.635519,
+          12.188999,
+          13.233221,
+          13.193238,
+          12.580199,
+          12.523955,
+          12.132702
+        ],
+        "corrected_savings_ms_mean": 13.044053571428572,
+        "corrected_savings_ms_median": 13.213229464285716,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 12.731539196428574,
+          "upper": 13.358686345982145
+        },
+        "aggregate_speedup": 2.479710101480283,
+        "p50_speedup": 2.476751202208773,
+        "gap_to_target_ms": 10.457437857142857,
+        "s100_gap_coverage_corrected": 1.247346983995602,
+        "thermal": {
+          "drift_ms": -0.5055339285714275,
+          "slope_ms_per_sample": -0.0002524555643778481,
+          "slope_ms_over_controls": -0.2827502321031899,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 41,
+        "replay_bytes_per_token": 324096
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "M_IN_g0": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.3333333333333333,
+          "overhead": 0.6666666666666666
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 20.07517732142857,
+        "oracle_mean_ms": 18.945561607142857,
+        "savings_ms_per_prompt": [
+          1.061139,
+          1.390858,
+          1.122617,
+          1.229305,
+          0.989373,
+          1.323528,
+          1.258283,
+          1.021401,
+          1.149231,
+          1.137674
+        ],
+        "savings_ms_mean": 1.1683408928571453,
+        "savings_ms_median": 1.14345267857143,
+        "savings_ms_one_sided95": {
+          "lower": 1.1053729017857166,
+          "upper": 1.234027142857145
+        },
+        "replay_copy_overhead_ms_mean": -0.1120312500000015,
+        "corrected_savings_ms_per_prompt": [
+          1.021636,
+          1.632267,
+          1.276736,
+          1.286038,
+          0.725696,
+          1.004961,
+          0.965335,
+          0.818299,
+          0.898342,
+          0.933785
+        ],
+        "corrected_savings_ms_mean": 1.0563096428571437,
+        "corrected_savings_ms_median": 0.9851479166666675,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 0.9317210446428565,
+          "upper": 1.1979008333333359
+        },
+        "aggregate_speedup": 1.05962429289295,
+        "p50_speedup": 1.0608527706834248,
+        "gap_to_target_ms": 10.07517732142857,
+        "s100_gap_coverage_corrected": 0.1048427843161145,
+        "thermal": {
+          "drift_ms": -0.23235107142857103,
+          "slope_ms_per_sample": -7.030239694751448e-05,
+          "slope_ms_over_controls": -0.07873868458121622,
+          "exceeds_gate": false,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": false,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 8,
+        "replay_bytes_per_token": 329728
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "M_OUT_g0": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 19.924484464285715,
+        "oracle_mean_ms": 19.413390357142855,
+        "savings_ms_per_prompt": [
+          0.351864,
+          0.488861,
+          0.514326,
+          0.37515,
+          0.516823,
+          0.518584,
+          0.456792,
+          0.400377,
+          0.62655,
+          0.628258
+        ],
+        "savings_ms_mean": 0.487758482142857,
+        "savings_ms_median": 0.501593526785717,
+        "savings_ms_one_sided95": {
+          "lower": 0.4398826138392859,
+          "upper": 0.5350432544642866
+        },
+        "replay_copy_overhead_ms_mean": -0.016271428571428714,
+        "corrected_savings_ms_per_prompt": [
+          0.324131,
+          0.485545,
+          0.504272,
+          0.602343,
+          0.500782,
+          0.349066,
+          0.603887,
+          0.262929,
+          0.578678,
+          0.503238
+        ],
+        "corrected_savings_ms_mean": 0.4714870535714283,
+        "corrected_savings_ms_median": 0.5020100446428533,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 0.41092197098214317,
+          "upper": 0.5287066361607135
+        },
+        "aggregate_speedup": 1.0263268856052652,
+        "p50_speedup": 1.0272903877535162,
+        "gap_to_target_ms": 9.924484464285715,
+        "s100_gap_coverage_corrected": 0.04750746049007616,
+        "thermal": {
+          "drift_ms": -0.08687178571428689,
+          "slope_ms_per_sample": 0.00017086779633683345,
+          "slope_ms_over_controls": 0.19137193189725346,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "secondary"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 8,
+        "replay_bytes_per_token": 86016
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "M_IO_g0": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.3333333333333333,
+          "overhead": 0.6666666666666666
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 19.919324196428573,
+        "oracle_mean_ms": 18.29860035714286,
+        "savings_ms_per_prompt": [
+          1.7352,
+          1.67653,
+          1.885429,
+          1.394357,
+          1.593272,
+          1.512793,
+          1.517814,
+          1.743165,
+          1.488215,
+          1.83242
+        ],
+        "savings_ms_mean": 1.637919642857144,
+        "savings_ms_median": 1.6349011904761923,
+        "savings_ms_one_sided95": {
+          "lower": 1.5574461458333342,
+          "upper": 1.7181930357142874
+        },
+        "replay_copy_overhead_ms_mean": 0.013690714285716155,
+        "corrected_savings_ms_per_prompt": [
+          1.943839,
+          1.920975,
+          1.679612,
+          1.374473,
+          1.568824,
+          1.492375,
+          1.514758,
+          1.704158,
+          1.548901,
+          1.768189
+        ],
+        "corrected_savings_ms_mean": 1.6516103571428602,
+        "corrected_savings_ms_median": 1.6242181547619108,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 1.5618410386904793,
+          "upper": 1.7470486517857173
+        },
+        "aggregate_speedup": 1.0885709184119683,
+        "p50_speedup": 1.089526744055122,
+        "gap_to_target_ms": 9.919324196428573,
+        "s100_gap_coverage_corrected": 0.16650432271762206,
+        "thermal": {
+          "drift_ms": -0.10317482142857415,
+          "slope_ms_per_sample": 0.00012098875451795335,
+          "slope_ms_over_controls": 0.13550740506010775,
+          "exceeds_gate": false,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": false,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 16,
+        "replay_bytes_per_token": 415744
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "M_IN_g1": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 19.96214223214286,
+        "oracle_mean_ms": 18.804602857142857,
+        "savings_ms_per_prompt": [
+          1.1379,
+          1.193913,
+          1.074759,
+          1.158197,
+          1.214939,
+          1.197314,
+          0.967801,
+          1.10264,
+          1.092642,
+          1.108443
+        ],
+        "savings_ms_mean": 1.1248549553571419,
+        "savings_ms_median": 1.1231716517857127,
+        "savings_ms_one_sided95": {
+          "lower": 1.0870167366071422,
+          "upper": 1.1593720647321417
+        },
+        "replay_copy_overhead_ms_mean": -0.004746874999998596,
+        "corrected_savings_ms_per_prompt": [
+          1.056255,
+          1.209573,
+          1.144483,
+          1.247469,
+          1.220867,
+          1.183761,
+          1.10171,
+          0.98824,
+          0.983558,
+          1.065166
+        ],
+        "corrected_savings_ms_mean": 1.1201080803571433,
+        "corrected_savings_ms_median": 1.1230966517857155,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 1.0728021026785717,
+          "upper": 1.1667358303571433
+        },
+        "aggregate_speedup": 1.0615561723793765,
+        "p50_speedup": 1.0605060388442409,
+        "gap_to_target_ms": 9.96214223214286,
+        "s100_gap_coverage_corrected": 0.11243646740387962,
+        "thermal": {
+          "drift_ms": -0.08149125000000268,
+          "slope_ms_per_sample": 0.00019487580293145028,
+          "slope_ms_over_controls": 0.2182608992832243,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 8,
+        "replay_bytes_per_token": 329728
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "M_OUT_g1": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 19.934399553571428,
+        "oracle_mean_ms": 19.52089375,
+        "savings_ms_per_prompt": [
+          0.368835,
+          0.202615,
+          0.360489,
+          0.426788,
+          0.500596,
+          0.438247,
+          0.428043,
+          0.317754,
+          0.556922,
+          0.403877
+        ],
+        "savings_ms_mean": 0.40041656250000024,
+        "savings_ms_median": 0.41533214285714415,
+        "savings_ms_one_sided95": {
+          "lower": 0.35212019866071453,
+          "upper": 0.44689417410714277
+        },
+        "replay_copy_overhead_ms_mean": 0.059855446428570505,
+        "corrected_savings_ms_per_prompt": [
+          0.579288,
+          0.432858,
+          0.586395,
+          0.688502,
+          0.559372,
+          0.383088,
+          0.363286,
+          0.299905,
+          0.371101,
+          0.338925
+        ],
+        "corrected_savings_ms_mean": 0.46027200892857073,
+        "corrected_savings_ms_median": 0.40797343749999904,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 0.39794795089285645,
+          "upper": 0.5277386540178585
+        },
+        "aggregate_speedup": 1.021182729073121,
+        "p50_speedup": 1.019706537794453,
+        "gap_to_target_ms": 9.934399553571428,
+        "s100_gap_coverage_corrected": 0.04633113520817697,
+        "thermal": {
+          "drift_ms": -0.06753839285714491,
+          "slope_ms_per_sample": 0.00022949035568315125,
+          "slope_ms_over_controls": 0.2570291983651294,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "secondary"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 8,
+        "replay_bytes_per_token": 86016
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "M_IO_g1": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 19.99261535714286,
+        "oracle_mean_ms": 18.372203214285715,
+        "savings_ms_per_prompt": [
+          1.487096,
+          1.490334,
+          1.554792,
+          1.570214,
+          1.598378,
+          1.693763,
+          1.724035,
+          1.706605,
+          1.780131,
+          1.73645
+        ],
+        "savings_ms_mean": 1.634179732142858,
+        "savings_ms_median": 1.646070312500001,
+        "savings_ms_one_sided95": {
+          "lower": 1.5804749866071455,
+          "upper": 1.6869460825892841
+        },
+        "replay_copy_overhead_ms_mean": -0.048388214285716914,
+        "corrected_savings_ms_per_prompt": [
+          1.431002,
+          1.366643,
+          1.429114,
+          1.509243,
+          1.511176,
+          1.475867,
+          1.615968,
+          1.918446,
+          1.785751,
+          1.814704
+        ],
+        "corrected_savings_ms_mean": 1.5857915178571411,
+        "corrected_savings_ms_median": 1.5102095982142831,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 1.4953846830357123,
+          "upper": 1.6814621785714254
+        },
+        "aggregate_speedup": 1.088199119286747,
+        "p50_speedup": 1.0866936694488265,
+        "gap_to_target_ms": 9.99261535714286,
+        "s100_gap_coverage_corrected": 0.15869634336756447,
+        "thermal": {
+          "drift_ms": -0.0703278571428605,
+          "slope_ms_per_sample": 0.0002275512157614922,
+          "slope_ms_over_controls": 0.25485736165287126,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 16,
+        "replay_bytes_per_token": 415744
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "M_IN_g2": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 19.992190535714286,
+        "oracle_mean_ms": 18.970199642857143,
+        "savings_ms_per_prompt": [
+          1.165544,
+          0.892615,
+          1.19013,
+          1.115935,
+          1.042387,
+          1.094623,
+          0.870097,
+          0.991845,
+          0.984688,
+          1.087682
+        ],
+        "savings_ms_mean": 1.0435546428571434,
+        "savings_ms_median": 1.0650345982142913,
+        "savings_ms_one_sided95": {
+          "lower": 0.9887008281249996,
+          "upper": 1.095780970982144
+        },
+        "replay_copy_overhead_ms_mean": -0.08409321428571559,
+        "corrected_savings_ms_per_prompt": [
+          0.960381,
+          0.819662,
+          1.042943,
+          0.979349,
+          0.823561,
+          0.984886,
+          0.955201,
+          0.9082,
+          0.957623,
+          1.162809
+        ],
+        "corrected_savings_ms_mean": 0.9594614285714279,
+        "corrected_savings_ms_median": 0.9590020089285662,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 0.9114630379464278,
+          "upper": 1.0101847299107127
+        },
+        "aggregate_speedup": 1.0538734916921106,
+        "p50_speedup": 1.0559928106948866,
+        "gap_to_target_ms": 9.992190535714286,
+        "s100_gap_coverage_corrected": 0.09602113021585225,
+        "thermal": {
+          "drift_ms": 0.07018857142857016,
+          "slope_ms_per_sample": 0.00033920244617997413,
+          "slope_ms_over_controls": 0.379906739721571,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 7,
+        "replay_bytes_per_token": 288512
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "M_OUT_g2": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.3333333333333333,
+          "overhead": 0.6666666666666666
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 20.084514821428574,
+        "oracle_mean_ms": 19.63881857142857,
+        "savings_ms_per_prompt": [
+          0.738645,
+          0.500948,
+          0.430703,
+          0.295739,
+          0.384618,
+          0.669486,
+          0.266176,
+          0.564146,
+          0.389394,
+          0.489121
+        ],
+        "savings_ms_mean": 0.47289761904761995,
+        "savings_ms_median": 0.45991190476190447,
+        "savings_ms_one_sided95": {
+          "lower": 0.3971513125000012,
+          "upper": 0.5487584821428555
+        },
+        "replay_copy_overhead_ms_mean": -0.15067845238095073,
+        "corrected_savings_ms_per_prompt": [
+          0.39906,
+          0.156363,
+          0.093951,
+          -0.020065,
+          0.119654,
+          0.459532,
+          0.220356,
+          0.720109,
+          0.615076,
+          0.458158
+        ],
+        "corrected_savings_ms_mean": 0.3222191666666692,
+        "corrected_savings_ms_median": 0.3097080357142872,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 0.202666574404764,
+          "upper": 0.4428513720238135
+        },
+        "aggregate_speedup": 1.022694656930556,
+        "p50_speedup": 1.0210593327589337,
+        "gap_to_target_ms": 10.084514821428574,
+        "s100_gap_coverage_corrected": 0.03195187595758064,
+        "thermal": {
+          "drift_ms": -0.1632082142857172,
+          "slope_ms_per_sample": -4.0399116002394916e-05,
+          "slope_ms_over_controls": -0.0452470099226823,
+          "exceeds_gate": false,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": false,
+        "decision_band": "secondary"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 7,
+        "replay_bytes_per_token": 75264
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "M_IO_g2": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 20.07750651785714,
+        "oracle_mean_ms": 18.664675535714288,
+        "savings_ms_per_prompt": [
+          1.019879,
+          1.116912,
+          1.198446,
+          1.158089,
+          1.194958,
+          1.435607,
+          1.431733,
+          1.453305,
+          1.449697,
+          1.413446
+        ],
+        "savings_ms_mean": 1.2872071874999995,
+        "savings_ms_median": 1.3059462053571416,
+        "savings_ms_one_sided95": {
+          "lower": 1.203136850446428,
+          "upper": 1.3659475200892846
+        },
+        "replay_copy_overhead_ms_mean": -0.0722915178571423,
+        "corrected_savings_ms_per_prompt": [
+          0.897239,
+          1.074336,
+          1.212195,
+          1.231488,
+          1.343738,
+          1.200218,
+          1.283328,
+          1.359315,
+          1.372403,
+          1.174897
+        ],
+        "corrected_savings_ms_mean": 1.2149156696428574,
+        "corrected_savings_ms_median": 1.221841294642859,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 1.1377329017857147,
+          "upper": 1.2804926941964259
+        },
+        "aggregate_speedup": 1.0756954483049785,
+        "p50_speedup": 1.0783308241111562,
+        "gap_to_target_ms": 10.077506517857142,
+        "s100_gap_coverage_corrected": 0.12055717031688849,
+        "thermal": {
+          "drift_ms": 0.054060178571425865,
+          "slope_ms_per_sample": 0.0004043645865754874,
+          "slope_ms_over_controls": 0.4528883369645459,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 14,
+        "replay_bytes_per_token": 363776
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "ADDCHK_M_IO_PAIR": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 20.045048035714284,
+        "oracle_mean_ms": 17.00727285714286,
+        "savings_ms_per_prompt": [
+          3.19998,
+          3.127944,
+          3.05671,
+          2.933624,
+          3.035142,
+          3.074846,
+          2.744986,
+          2.865923,
+          2.813848,
+          2.975182
+        ],
+        "savings_ms_mean": 2.982818571428572,
+        "savings_ms_median": 3.0051620535714285,
+        "savings_ms_one_sided95": {
+          "lower": 2.909833053571429,
+          "upper": 3.05262749107143
+        },
+        "replay_copy_overhead_ms_mean": 0.057611428571429,
+        "corrected_savings_ms_per_prompt": [
+          3.117577,
+          2.953978,
+          2.869834,
+          3.169506,
+          3.094267,
+          3.319115,
+          2.916242,
+          2.95047,
+          3.00923,
+          3.00408
+        ],
+        "corrected_savings_ms_mean": 3.040430000000001,
+        "corrected_savings_ms_median": 3.0066553571428543,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 2.9759281093750007,
+          "upper": 3.1107386339285727
+        },
+        "aggregate_speedup": 1.178616242832583,
+        "p50_speedup": 1.1795964603026252,
+        "gap_to_target_ms": 10.045048035714284,
+        "s100_gap_coverage_corrected": 0.3026794883598386,
+        "thermal": {
+          "drift_ms": -0.2077375000000039,
+          "slope_ms_per_sample": -0.0001358231394931946,
+          "slope_ms_over_controls": -0.15212191623237795,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 30,
+        "replay_bytes_per_token": 779520
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "M_IO+A": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 19.92184705357143,
+        "oracle_mean_ms": 13.74309267857143,
+        "savings_ms_per_prompt": [
+          6.207656,
+          6.306367,
+          6.268629,
+          6.264988,
+          6.183818,
+          6.163983,
+          6.249612,
+          6.157518,
+          6.238088,
+          6.238736
+        ],
+        "savings_ms_mean": 6.2279395089285705,
+        "savings_ms_median": 6.23841205357143,
+        "savings_ms_one_sided95": {
+          "lower": 6.204252515624998,
+          "upper": 6.252049511160714
+        },
+        "replay_copy_overhead_ms_mean": 0.3413100892857145,
+        "corrected_savings_ms_per_prompt": [
+          6.841516,
+          6.534825,
+          6.497978,
+          6.544625,
+          6.64743,
+          6.476017,
+          6.580778,
+          6.547566,
+          6.553207,
+          6.468555
+        ],
+        "corrected_savings_ms_mean": 6.569249598214286,
+        "corrected_savings_ms_median": 6.546095089285713,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 6.521770334821428,
+          "upper": 6.628808455357143
+        },
+        "aggregate_speedup": 1.4495898062765793,
+        "p50_speedup": 1.4560916590284143,
+        "gap_to_target_ms": 9.92184705357143,
+        "s100_gap_coverage_corrected": 0.6620994622014098,
+        "thermal": {
+          "drift_ms": 0.07415267857142993,
+          "slope_ms_per_sample": 0.0003725798716300451,
+          "slope_ms_over_controls": 0.4172894562256505,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 64,
+        "replay_bytes_per_token": 1272064
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "M_IO+E": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 19.982997589285716,
+        "oracle_mean_ms": 4.730183571428571,
+        "savings_ms_per_prompt": [
+          14.777464,
+          15.156697,
+          15.570556,
+          15.454832,
+          14.133365,
+          15.356046,
+          15.425224,
+          15.075657,
+          15.637165,
+          15.30917
+        ],
+        "savings_ms_mean": 15.189617544642857,
+        "savings_ms_median": 15.332607812500001,
+        "savings_ms_one_sided95": {
+          "lower": 14.953030000000004,
+          "upper": 15.395095879464288
+        },
+        "replay_copy_overhead_ms_mean": 0.309017589285714,
+        "corrected_savings_ms_per_prompt": [
+          14.992875,
+          15.638744,
+          15.790746,
+          15.703343,
+          14.493697,
+          15.71475,
+          15.788194,
+          15.478422,
+          15.911524,
+          15.474055
+        ],
+        "corrected_savings_ms_mean": 15.49863513392857,
+        "corrected_savings_ms_median": 15.67104330357143,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 15.270421821428572,
+          "upper": 15.694323799107144
+        },
+        "aggregate_speedup": 4.22457126399655,
+        "p50_speedup": 4.2151704262510465,
+        "gap_to_target_ms": 9.982997589285716,
+        "s100_gap_coverage_corrected": 1.5525031430001073,
+        "thermal": {
+          "drift_ms": -0.01876339285714579,
+          "slope_ms_per_sample": 0.00021295487022071846,
+          "slope_ms_over_controls": 0.2385094546472047,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 69,
+        "replay_bytes_per_token": 1442560
+      },
+      "parity": {
+        "token_ids_equal": true,
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": false
+      },
+      "error": null
+    },
+    "M_IO+E+A+L": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 20.115193214285714,
+        "oracle_mean_ms": 1.5952075,
+        "savings_ms_per_prompt": [
+          17.935794,
+          18.037682,
+          18.788226,
+          18.888579,
+          17.611123,
+          18.815854,
+          18.769075,
+          18.454597,
+          19.029818,
+          18.581857
+        ],
+        "savings_ms_mean": 18.491260357142856,
+        "savings_ms_median": 18.675465848214287,
+        "savings_ms_one_sided95": {
+          "lower": 18.251278560267856,
+          "upper": 18.718816245535713
+        },
+        "replay_copy_overhead_ms_mean": 0.2752339285714275,
+        "corrected_savings_ms_per_prompt": [
+          18.423747,
+          18.458097,
+          19.0033,
+          19.17698,
+          17.757164,
+          18.996159,
+          19.108875,
+          18.685378,
+          19.216082,
+          18.839159
+        ],
+        "corrected_savings_ms_mean": 18.766494285714288,
+        "corrected_savings_ms_median": 18.917659151785713,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 18.533897412946427,
+          "upper": 18.97355370535714
+        },
+        "aggregate_speedup": 12.609765948496177,
+        "p50_speedup": 12.605915519576653,
+        "gap_to_target_ms": 10.115193214285714,
+        "s100_gap_coverage_corrected": 1.8552778862602761,
+        "thermal": {
+          "drift_ms": -0.025676428571426158,
+          "slope_ms_per_sample": 0.00023449659301843476,
+          "slope_ms_over_controls": 0.26263618418064694,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 87,
+        "replay_bytes_per_token": 1519360
+      },
+      "parity": {
+        "token_ids_equal": "teacher_forced_echo",
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": true
+      },
+      "error": null
+    },
+    "M_IO+L": {
+      "status": "measured",
+      "statistics": {
+        "bracket_alpha": {
+          "oracle": 0.75,
+          "overhead": 0.5
+        },
+        "bootstrap": {
+          "cluster": "prompt",
+          "resamples": 10000,
+          "seed": 20260819
+        },
+        "reference_mean_ms": 20.030638571428568,
+        "oracle_mean_ms": 14.049603928571429,
+        "savings_ms_per_prompt": [
+          6.06634,
+          6.03177,
+          5.999451,
+          5.979734,
+          6.04464,
+          5.928245,
+          5.932004,
+          5.907206,
+          5.879086,
+          5.925471
+        ],
+        "savings_ms_mean": 5.969394732142858,
+        "savings_ms_median": 5.955869419642861,
+        "savings_ms_one_sided95": {
+          "lower": 5.937712720982142,
+          "upper": 6.001396270089287
+        },
+        "replay_copy_overhead_ms_mean": 0.12618464285714204,
+        "corrected_savings_ms_per_prompt": [
+          6.002653,
+          6.135405,
+          6.110946,
+          5.977105,
+          6.006954,
+          6.061987,
+          6.068067,
+          6.244501,
+          6.188477,
+          6.159699
+        ],
+        "corrected_savings_ms_mean": 6.095579375,
+        "corrected_savings_ms_median": 6.08950625,
+        "corrected_savings_ms_one_sided95": {
+          "lower": 6.052510435267858,
+          "upper": 6.1382207566964295
+        },
+        "aggregate_speedup": 1.425708416640418,
+        "p50_speedup": 1.4270810942493157,
+        "gap_to_target_ms": 10.030638571428568,
+        "s100_gap_coverage_corrected": 0.6076960436360199,
+        "thermal": {
+          "drift_ms": -0.2365732142857162,
+          "slope_ms_per_sample": -0.00018167094219165238,
+          "slope_ms_over_controls": -0.20347145525465066,
+          "exceeds_gate": true,
+          "note": "slope fitted over concatenated control A+B samples; interleaved oracle/overhead wall-clock not modelled"
+        },
+        "second_oracle_used": true,
+        "decision_band": "target"
+      },
+      "replay_profile": {
+        "replay_nodes_per_token": 46,
+        "replay_bytes_per_token": 1195264
+      },
+      "parity": {
+        "token_ids_equal": "teacher_forced_echo",
+        "final_logits_sha256_equal": true,
+        "probe_token_ids_equal": true,
+        "hidden_state_equal": true,
+        "recurrent_state_equal": true,
+        "kv_state_equal": true,
+        "kv_used_bytes_per_layer": [
+          17920,
+          18176,
+          19712,
+          21504,
+          23296,
+          21504,
+          22016,
+          24320,
+          28672,
+          21504
+        ],
+        "control_b_tokens_equal": true,
+        "overhead_tokens_equal": true,
+        "recorder_tokens_equal": true,
+        "teacher_forced_upper_bound": true
+      },
+      "error": null
+    }
+  },
+  "singles": {
+    "L": {
+      "corrected_savings_ms_mean": 1.330006875,
+      "corrected_one_sided95": {
+        "lower": 1.3175166808035719,
+        "upper": 1.3442508013392862
+      },
+      "decision_band": "target",
+      "reference_mean_ms": 19.10993267857143
+    },
+    "E": {
+      "corrected_savings_ms_mean": 10.678638928571427,
+      "corrected_one_sided95": {
+        "lower": 10.37631603125,
+        "upper": 10.941715725446427
+      },
+      "decision_band": "target",
+      "reference_mean_ms": 19.390858035714288
+    },
+    "A": {
+      "corrected_savings_ms_mean": 1.7167148214285706,
+      "corrected_one_sided95": {
+        "lower": 1.6738640044642836,
+        "upper": 1.7558442276785722
+      },
+      "decision_band": "target",
+      "reference_mean_ms": 19.716309464285718
+    }
+  },
+  "mamba_rollup": {
+    "M_IN": {
+      "groups_measured": 3,
+      "groups_total": 3,
+      "corrected_savings_ms_mean_sum": 3.1358791517857147,
+      "corrected_one_sided95_stacked": {
+        "lower": 2.915986185267856,
+        "upper": 3.374821393601192
+      },
+      "additive_sum_valid": false,
+      "note": "sum of per-group arms; valid only after the additivity check, bounds are stacked per-group one-sided bounds"
+    },
+    "M_OUT": {
+      "groups_measured": 3,
+      "groups_total": 3,
+      "corrected_savings_ms_mean_sum": 1.2539782291666683,
+      "corrected_one_sided95_stacked": {
+        "lower": 1.0115364962797635,
+        "upper": 1.4992966622023856
+      },
+      "additive_sum_valid": false,
+      "note": "sum of per-group arms; valid only after the additivity check, bounds are stacked per-group one-sided bounds"
+    },
+    "M_IO": {
+      "groups_measured": 3,
+      "groups_total": 3,
+      "corrected_savings_ms_mean_sum": 4.452317544642859,
+      "corrected_one_sided95_stacked": {
+        "lower": 4.194958623511907,
+        "upper": 4.709003524553569
+      },
+      "additive_sum_valid": false,
+      "note": "sum of per-group arms; valid only after the additivity check, bounds are stacked per-group one-sided bounds"
+    }
+  },
+  "combinations": {
+    "E+L": {
+      "type": "point",
+      "corrected_savings_ms_mean": 12.064431517857143,
+      "corrected_one_sided95": {
+        "lower": 11.84181204017857,
+        "upper": 12.262434991071427
+      },
+      "reference_mean_ms": 19.818933392857144,
+      "combined_latency_estimate_ms": 7.754501875000001
+    },
+    "A+L": {
+      "type": "point",
+      "corrected_savings_ms_mean": 2.9622670982142854,
+      "corrected_one_sided95": {
+        "lower": 2.9040366383928564,
+        "upper": 3.020855714285714
+      },
+      "reference_mean_ms": 19.855616160714288,
+      "combined_latency_estimate_ms": 16.8933490625
+    },
+    "E+A": {
+      "type": "point",
+      "corrected_savings_ms_mean": 13.044053571428572,
+      "corrected_one_sided95": {
+        "lower": 12.731539196428574,
+        "upper": 13.358686345982145
+      },
+      "reference_mean_ms": 20.457437857142857,
+      "combined_latency_estimate_ms": 7.413384285714285
+    },
+    "M_IO+A": {
+      "type": "point",
+      "corrected_savings_ms_mean": 6.569249598214286,
+      "corrected_one_sided95": {
+        "lower": 6.521770334821428,
+        "upper": 6.628808455357143
+      },
+      "reference_mean_ms": 19.92184705357143,
+      "combined_latency_estimate_ms": 13.352597455357143
+    },
+    "M_IO+E": {
+      "type": "point",
+      "corrected_savings_ms_mean": 15.49863513392857,
+      "corrected_one_sided95": {
+        "lower": 15.270421821428572,
+        "upper": 15.694323799107144
+      },
+      "reference_mean_ms": 19.982997589285716,
+      "combined_latency_estimate_ms": 4.484362455357147
+    },
+    "M_IO+E+A+L": {
+      "type": "point",
+      "corrected_savings_ms_mean": 18.766494285714288,
+      "corrected_one_sided95": {
+        "lower": 18.533897412946427,
+        "upper": 18.97355370535714
+      },
+      "reference_mean_ms": 20.115193214285714,
+      "combined_latency_estimate_ms": 1.3486989285714266
+    },
+    "M_IO+L": {
+      "type": "point",
+      "corrected_savings_ms_mean": 6.095579375,
+      "corrected_one_sided95": {
+        "lower": 6.052510435267858,
+        "upper": 6.1382207566964295
+      },
+      "reference_mean_ms": 20.030638571428568,
+      "combined_latency_estimate_ms": 13.935059196428568
+    }
+  },
+  "interactions": {
+    "E*L": {
+      "status": "measured",
+      "interaction_ms": 0.05578571428571566,
+      "saving_union_ms": 12.064431517857143,
+      "saving_s_ms": 10.678638928571427,
+      "saving_t_ms": 1.330006875
+    },
+    "A*L": {
+      "status": "measured",
+      "interaction_ms": -0.08445459821428525,
+      "saving_union_ms": 2.9622670982142854,
+      "saving_s_ms": 1.7167148214285706,
+      "saving_t_ms": 1.330006875
+    },
+    "E*A": {
+      "status": "measured",
+      "interaction_ms": 0.6486998214285742,
+      "saving_union_ms": 13.044053571428572,
+      "saving_s_ms": 10.678638928571427,
+      "saving_t_ms": 1.7167148214285706
+    }
+  },
+  "decision_bands": {
+    "L": "target",
+    "E": "target",
+    "A": "target",
+    "M_IN": "unclassified_additive_sum_not_validated",
+    "M_OUT": "unclassified_additive_sum_not_validated",
+    "M_IO": "unclassified_additive_sum_not_validated"
+  },
+  "flags": {
+    "GROUPS_GE_0_58MS_LOWER": [
+      "A",
+      "E",
+      "L"
+    ],
+    "GROUPS_LT_0_20MS_UPPER_CLOSED": [],
+    "basis": "M_IO+E+A+L point",
+    "reference_mean_ms": 20.115193214285714,
+    "combined_latency_estimate_ms": 1.3486989285714266,
+    "combined_latency_conservative_ms": 1.5812958013392873,
+    "S100_PATH_EXISTS_IN_MEASURED_SET": true
+  }
+}

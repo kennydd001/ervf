@@ -1,0 +1,46 @@
+S100 Lightning Phase 17 -- oracle atlas summary
+completed: 2026-08-20T00:03:43.100341+00:00
+
+Arms:
+  L                      measured corrected +1.3300 ms [+1.3175, +1.3443] band=target
+  E                      measured corrected +10.6786 ms [+10.3763, +10.9417] band=target
+  A                      measured corrected +1.7167 ms [+1.6739, +1.7558] band=target
+  E+L                    measured corrected +12.0644 ms [+11.8418, +12.2624] band=target
+  A+L                    measured corrected +2.9623 ms [+2.9040, +3.0209] band=target
+  E+A                    measured corrected +13.0441 ms [+12.7315, +13.3587] band=target
+  M_IN_g0                measured corrected +1.0563 ms [+0.9317, +1.1979] band=target
+  M_OUT_g0               measured corrected +0.4715 ms [+0.4109, +0.5287] band=secondary
+  M_IO_g0                measured corrected +1.6516 ms [+1.5618, +1.7470] band=target
+  M_IN_g1                measured corrected +1.1201 ms [+1.0728, +1.1667] band=target
+  M_OUT_g1               measured corrected +0.4603 ms [+0.3979, +0.5277] band=secondary
+  M_IO_g1                measured corrected +1.5858 ms [+1.4954, +1.6815] band=target
+  M_IN_g2                measured corrected +0.9595 ms [+0.9115, +1.0102] band=target
+  M_OUT_g2               measured corrected +0.3222 ms [+0.2027, +0.4429] band=secondary
+  M_IO_g2                measured corrected +1.2149 ms [+1.1377, +1.2805] band=target
+  ADDCHK_M_IO_PAIR       measured corrected +3.0404 ms [+2.9759, +3.1107] band=target
+  M_IO+A                 measured corrected +6.5692 ms [+6.5218, +6.6288] band=target
+  M_IO+E                 measured corrected +15.4986 ms [+15.2704, +15.6943] band=target
+  M_IO+E+A+L             measured corrected +18.7665 ms [+18.5339, +18.9736] band=target
+  M_IO+L                 measured corrected +6.0956 ms [+6.0525, +6.1382] band=target
+
+Mamba rollup (additive sums, gated on additivity check):
+  M_IN     sum +3.1359 ms valid=False (3/3 groups)
+  M_OUT    sum +1.2540 ms valid=False (3/3 groups)
+  M_IO     sum +4.4523 ms valid=False (3/3 groups)
+
+Interactions (ms; positive = super-additive):
+  E*L          +0.0558
+  A*L          -0.0845
+  E*A          +0.6487
+
+Decision bands:
+  L        target
+  E        target
+  A        target
+  M_IN     unclassified_additive_sum_not_validated
+  M_OUT    unclassified_additive_sum_not_validated
+  M_IO     unclassified_additive_sum_not_validated
+
+Groups >= 0.58 ms lower bound (targets): ['A', 'E', 'L']
+Groups < 0.20 ms upper bound (closed):  []
+S100_PATH_EXISTS_IN_MEASURED_SET: True

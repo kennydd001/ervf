@@ -1,0 +1,1 @@
+Phase18R2 protocol adjudication source package is distributed separately; this branch contains the frozen method notes.

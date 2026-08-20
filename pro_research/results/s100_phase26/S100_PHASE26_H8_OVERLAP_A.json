@@ -1,0 +1,30 @@
+{
+  "kind": "s100_phase26_measure",
+  "status": "technical_failure",
+  "arm": "overlap",
+  "horizon": 8,
+  "context": 1024,
+  "tag": "H8_OVERLAP_A",
+  "blocks": 12,
+  "warmup": 8,
+  "started_utc": "2026-08-20T08:16:54.261856+00:00",
+  "claim_boundary": "exact target-only shared/routed overlap timing",
+  "telemetry": {
+    "after_setup": {
+      "timestamp": "2026/08/20 10:17:27.023",
+      "temperature.gpu": 67.0,
+      "pstate": "P5",
+      "clocks.sm": 255.0,
+      "clocks.mem": 810.0,
+      "power.draw": 15.74,
+      "utilization.gpu": 1.0,
+      "memory.used": 7518.0
+    }
+  },
+  "error": {
+    "type": "RuntimeError",
+    "message": "H8 mismatch pos=1152 got=[1338, 1438, 1256, 1603, 73025, 75377, 3795, 2409] expected=[1338, 1042, 1256, 1603, 73025, 75377, 3795, 2409]",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase25-h8-best-of-all\\pro_research\\s100_phase26_measure.py\", line 95, in main\n    records,summary=timed_h8_blocks(\n                    ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase25-h8-best-of-all\\pro_research\\s100_phase25_common.py\", line 452, in timed_h8_blocks\n    raise RuntimeError(f\"H8 mismatch pos={pos} got={got.tolist()} expected={expected.tolist()}\")\nRuntimeError: H8 mismatch pos=1152 got=[1338, 1438, 1256, 1603, 73025, 75377, 3795, 2409] expected=[1338, 1042, 1256, 1603, 73025, 75377, 3795, 2409]\n"
+  },
+  "completed_utc": "2026-08-20T08:17:54.084584+00:00"
+}

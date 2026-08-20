@@ -1,0 +1,30 @@
+{
+  "kind": "s100_phase26_measure",
+  "status": "technical_failure",
+  "arm": "parent",
+  "horizon": 8,
+  "context": 1024,
+  "tag": "H8_PARENT_B",
+  "blocks": 12,
+  "warmup": 8,
+  "started_utc": "2026-08-20T08:18:58.036304+00:00",
+  "claim_boundary": "exact target-only shared/routed overlap timing",
+  "telemetry": {
+    "after_setup": {
+      "timestamp": "2026/08/20 10:19:30.708",
+      "temperature.gpu": 67.0,
+      "pstate": "P5",
+      "clocks.sm": 277.0,
+      "clocks.mem": 810.0,
+      "power.draw": 17.43,
+      "utilization.gpu": 0.0,
+      "memory.used": 7516.0
+    }
+  },
+  "error": {
+    "type": "RuntimeError",
+    "message": "parent H4+H4 mismatch pos=1152 got=[1338, 1438, 1256, 1603, 73025, 75377, 3795, 2409] expected=[1338, 1042, 1256, 1603, 73025, 75377, 3795, 2409]",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase25-h8-best-of-all\\pro_research\\s100_phase26_measure.py\", line 88, in main\n    records,summary=timed_parent_h8_windows(\n                    ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase25-h8-best-of-all\\pro_research\\s100_phase25_common.py\", line 464, in timed_parent_h8_windows\n    raise RuntimeError(f\"parent H4+H4 mismatch pos={pos} got={got.tolist()} expected={expected.tolist()}\")\nRuntimeError: parent H4+H4 mismatch pos=1152 got=[1338, 1438, 1256, 1603, 73025, 75377, 3795, 2409] expected=[1338, 1042, 1256, 1603, 73025, 75377, 3795, 2409]\n"
+  },
+  "completed_utc": "2026-08-20T08:19:57.925276+00:00"
+}

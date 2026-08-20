@@ -1,0 +1,209 @@
+{
+  "kind": "s100_phase24_measure",
+  "status": "measured",
+  "arm": "synth",
+  "k": 4,
+  "label": "synth_k4",
+  "context": 1024,
+  "tag": "SCREEN",
+  "blocks": 8,
+  "warmup": 4,
+  "started_utc": "2026-08-20T04:50:49.331437+00:00",
+  "claim_boundary": "fresh-process best-of-all target-only H4 timing",
+  "config": {
+    "attention_m4": false,
+    "router_m4": false,
+    "shared_m4": false,
+    "sres_layers": [
+      20,
+      22,
+      29,
+      17
+    ]
+  },
+  "actual_plane_bytes": 83564544,
+  "capture_info": {
+    "graph_extra_vram_bytes": 0,
+    "max_splits": 3,
+    "dot_probe": {
+      "available": true,
+      "length": 188045,
+      "contains_fp8_residual2": true,
+      "contains_device_route": true,
+      "contains_moe_batched_up": false,
+      "contains_fp32_kv": true,
+      "contains_fp32_attention": true,
+      "contains_argmax4": true,
+      "contains_pos_add4": true
+    },
+    "phase24_config": {
+      "attention_m4": false,
+      "router_m4": false,
+      "shared_m4": false,
+      "sres_layers": [
+        20,
+        22,
+        29,
+        17
+      ]
+    },
+    "actual_plane_bytes": 83564544,
+    "phase24_dot": {
+      "bf16_m4": false,
+      "f32_m4": false,
+      "shared_m4": false,
+      "sres_gather": true,
+      "sres_down": true
+    }
+  },
+  "records": [
+    {
+      "block": 0,
+      "pos": 1040,
+      "ms": 74.1755,
+      "got": [
+        15249,
+        6056,
+        1317,
+        1402
+      ],
+      "expected": [
+        15249,
+        6056,
+        1317,
+        1402
+      ]
+    },
+    {
+      "block": 1,
+      "pos": 1044,
+      "ms": 74.1512,
+      "got": [
+        43427,
+        2203,
+        3435,
+        3709
+      ],
+      "expected": [
+        43427,
+        2203,
+        3435,
+        3709
+      ]
+    },
+    {
+      "block": 2,
+      "pos": 1048,
+      "ms": 75.8528,
+      "got": [
+        19732,
+        3016,
+        24925,
+        2738
+      ],
+      "expected": [
+        19732,
+        3016,
+        24925,
+        2738
+      ]
+    },
+    {
+      "block": 3,
+      "pos": 1052,
+      "ms": 81.7865,
+      "got": [
+        6103,
+        1338,
+        1358,
+        1032
+      ],
+      "expected": [
+        6103,
+        1338,
+        1358,
+        1032
+      ]
+    },
+    {
+      "block": 4,
+      "pos": 1056,
+      "ms": 78.2043,
+      "got": [
+        1051,
+        1046,
+        108225,
+        75377
+      ],
+      "expected": [
+        1051,
+        1046,
+        108225,
+        75377
+      ]
+    },
+    {
+      "block": 5,
+      "pos": 1060,
+      "ms": 76.9201,
+      "got": [
+        1321,
+        73530,
+        116696,
+        1267
+      ],
+      "expected": [
+        1321,
+        73530,
+        116696,
+        1267
+      ]
+    },
+    {
+      "block": 6,
+      "pos": 1064,
+      "ms": 89.6137,
+      "got": [
+        27313,
+        1454,
+        1261,
+        6010
+      ],
+      "expected": [
+        27313,
+        1454,
+        1261,
+        6010
+      ]
+    },
+    {
+      "block": 7,
+      "pos": 1068,
+      "ms": 88.1317,
+      "got": [
+        2779,
+        1321,
+        1517,
+        100947
+      ],
+      "expected": [
+        2779,
+        1321,
+        1517,
+        100947
+      ]
+    }
+  ],
+  "summary": {
+    "count": 8,
+    "median_ms": 77.5622,
+    "p10_ms": 74.16821,
+    "p90_ms": 88.57629999999999,
+    "mean_ms": 79.85447500000001,
+    "ms_per_useful_token": 19.39055,
+    "target_only_tok_s": 51.571512927689,
+    "all_token_exact": true
+  },
+  "correctness_green": true,
+  "completed_utc": "2026-08-20T04:51:49.538614+00:00"
+}

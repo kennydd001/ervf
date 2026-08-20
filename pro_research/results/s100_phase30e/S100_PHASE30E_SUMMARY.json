@@ -1,0 +1,49 @@
+{
+  "kind": "s100_phase30e_summary",
+  "status": "measured",
+  "instrumentation_complete": true,
+  "code_parent_branch": "agent/s100-phase28-mirrorless-down",
+  "code_parent_commit": "e759e2260015fa4259a50888cbb5c42548b8c2a7",
+  "candidate": {
+    "phase27r": {
+      "gather_y": 4,
+      "batches": 3,
+      "shared_overlap": true
+    },
+    "shared_direct_l2_m4": true,
+    "routed_up_dispatch": "split_m12_m34"
+  },
+  "state": {
+    "ids_exact": true,
+    "candidate_deterministic_ids": true,
+    "max_ssm_nrmse": 0.0,
+    "max_conv_nrmse": 0.0,
+    "max_kv_nrmse": 0.0,
+    "logits_nrmse": 0.0,
+    "PHASE30E_STATE_GREEN": true
+  },
+  "ctx1024_thermal": {
+    "round_gain_pct": [
+      5.107336408847229,
+      8.949591927239336,
+      5.8246180420170335,
+      4.20283917664008
+    ],
+    "median_round_gain_pct": 5.465977225432131,
+    "bootstrap_lower95_gain_pct": 4.20283917664008,
+    "positive_rounds": 4,
+    "round_count": 4,
+    "median_parent_anchor_ms_per_h4": 75.4201,
+    "median_candidate_anchor_ms_per_h4": 71.10845,
+    "median_candidate_target_only_tok_s": 56.252105059244,
+    "PHASE30E_ADOPTED": true
+  },
+  "generalization": {
+    "ctx128_gain_pct": 7.934362542385494,
+    "ctx4096_gain_pct": 11.368227195169736,
+    "all_token_exact": true,
+    "PHASE30E_GENERALIZATION_GREEN": true
+  },
+  "TARGET_100_TARGET_ONLY_OPEN": false,
+  "claim_boundary": "exact target-only verifier; no drafter cost"
+}

@@ -1,0 +1,1 @@
+Phase 18R2 uses a same-day matched-protocol repeat to adjudicate the 18R E timing discrepancy. See S100_LIGHTNING_PHASE18R2_ADJUDICATION_PLAN.md.

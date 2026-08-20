@@ -1,0 +1,1 @@
+This note anchors the Phase18R2 protocol-adjudication work. Hardware results should be published to agent/s100-lightning-phase18r2-adjudication-hardware.

@@ -1,0 +1,1 @@
+Published source audit: Phase17 E used calibration trace with 64 targets, 8 warmup (560 timed positions), rt.reset() preserving expert cache, and A/O/OH/B/O2 bracket with oracle alpha .75 and overhead alpha .5. Phase18R used validation/128, exact cache reset and a different role interpolation. Historical direct +/-0.75ms comparison is therefore non-comparable.

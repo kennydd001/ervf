@@ -1,0 +1,282 @@
+{
+  "kind": "s100_phase28_measure",
+  "status": "measured",
+  "arm": "p27_control",
+  "arm_config": {
+    "name": "p27_control",
+    "mirrorless": false,
+    "mode": "phase27_control",
+    "vector_bytes": null,
+    "shared_overlap": true,
+    "eligible_for_phase28_selection": false
+  },
+  "context": 1024,
+  "tag": "SCREEN_P27_CONTROL",
+  "blocks": 10,
+  "warmup": 6,
+  "started_utc": "2026-08-20T16:01:20.926862+00:00",
+  "claim_boundary": "fresh-process exact H4 target-only timing",
+  "capture_info": {
+    "graph_extra_vram_bytes": 0,
+    "max_splits": 3,
+    "dot_probe": {
+      "available": true,
+      "length": 209792,
+      "contains_fp8_residual2": true,
+      "contains_device_route": true,
+      "contains_moe_batched_up": false,
+      "contains_fp32_kv": true,
+      "contains_fp32_attention": true,
+      "contains_argmax4": true,
+      "contains_pos_add4": true
+    },
+    "phase24_config": {
+      "attention_m4": false,
+      "router_m4": false,
+      "shared_m4": false,
+      "sres_layers": [
+        20,
+        22,
+        29,
+        17,
+        27,
+        24,
+        13,
+        31,
+        43,
+        51,
+        49,
+        15,
+        38,
+        10,
+        34,
+        36,
+        45,
+        47,
+        40,
+        6,
+        3,
+        8,
+        1
+      ]
+    },
+    "actual_plane_bytes": 516354048,
+    "phase24_dot": {
+      "bf16_m4": false,
+      "f32_m4": false,
+      "shared_m4": false,
+      "sres_gather": true,
+      "sres_down": true
+    }
+  },
+  "records": [
+    {
+      "block": 0,
+      "pos": 1048,
+      "ms": 70.6198,
+      "got": [
+        19732,
+        3016,
+        24925,
+        2738
+      ],
+      "expected": [
+        19732,
+        3016,
+        24925,
+        2738
+      ]
+    },
+    {
+      "block": 1,
+      "pos": 1052,
+      "ms": 76.8367,
+      "got": [
+        6103,
+        1338,
+        1358,
+        1032
+      ],
+      "expected": [
+        6103,
+        1338,
+        1358,
+        1032
+      ]
+    },
+    {
+      "block": 2,
+      "pos": 1056,
+      "ms": 72.5605,
+      "got": [
+        1051,
+        1046,
+        108225,
+        75377
+      ],
+      "expected": [
+        1051,
+        1046,
+        108225,
+        75377
+      ]
+    },
+    {
+      "block": 3,
+      "pos": 1060,
+      "ms": 68.9241,
+      "got": [
+        1321,
+        73530,
+        116696,
+        1267
+      ],
+      "expected": [
+        1321,
+        73530,
+        116696,
+        1267
+      ]
+    },
+    {
+      "block": 4,
+      "pos": 1064,
+      "ms": 74.6798,
+      "got": [
+        27313,
+        1454,
+        1261,
+        6010
+      ],
+      "expected": [
+        27313,
+        1454,
+        1261,
+        6010
+      ]
+    },
+    {
+      "block": 5,
+      "pos": 1068,
+      "ms": 71.6957,
+      "got": [
+        2779,
+        1321,
+        1517,
+        100947
+      ],
+      "expected": [
+        2779,
+        1321,
+        1517,
+        100947
+      ]
+    },
+    {
+      "block": 6,
+      "pos": 1072,
+      "ms": 73.3154,
+      "got": [
+        3244,
+        1044,
+        1278,
+        3039
+      ],
+      "expected": [
+        3244,
+        1044,
+        1278,
+        3039
+      ]
+    },
+    {
+      "block": 7,
+      "pos": 1076,
+      "ms": 69.967,
+      "got": [
+        1278,
+        3475,
+        1395,
+        19555
+      ],
+      "expected": [
+        1278,
+        3475,
+        1395,
+        19555
+      ]
+    },
+    {
+      "block": 8,
+      "pos": 1080,
+      "ms": 76.6636,
+      "got": [
+        22482,
+        1046,
+        101259,
+        15765
+      ],
+      "expected": [
+        22482,
+        1046,
+        101259,
+        15765
+      ]
+    },
+    {
+      "block": 9,
+      "pos": 1084,
+      "ms": 72.2002,
+      "got": [
+        6076,
+        1307,
+        14953,
+        1307
+      ],
+      "expected": [
+        6076,
+        1307,
+        14953,
+        1307
+      ]
+    }
+  ],
+  "summary": {
+    "count": 10,
+    "median_ms": 72.38034999999999,
+    "p10_ms": 69.86270999999999,
+    "p90_ms": 76.68091,
+    "mean_ms": 72.74627999999998,
+    "ms_per_useful_token": 18.095087499999998,
+    "target_only_tok_s": 55.263617818924615,
+    "all_token_exact": true
+  },
+  "correctness_green": true,
+  "ms_per_useful_token": 18.095087499999998,
+  "target_only_tok_s": 55.263617818924615,
+  "mirror_bytes_removed": 0,
+  "alignment": null,
+  "telemetry": {
+    "after_graph_setup": {
+      "timestamp": "2026/08/20 18:01:53.200",
+      "temperature.gpu": 66.0,
+      "pstate": "P5",
+      "clocks.sm": 630.0,
+      "clocks.mem": 810.0,
+      "power.draw": 26.2,
+      "utilization.gpu": 20.0,
+      "memory.used": 7516.0
+    },
+    "after_measure": {
+      "timestamp": "2026/08/20 18:02:19.458",
+      "temperature.gpu": 83.0,
+      "pstate": "P4",
+      "clocks.sm": 2317.0,
+      "clocks.mem": 9001.0,
+      "power.draw": 59.77,
+      "utilization.gpu": 100.0,
+      "memory.used": 7516.0
+    }
+  },
+  "completed_utc": "2026-08-20T16:02:19.466974+00:00"
+}

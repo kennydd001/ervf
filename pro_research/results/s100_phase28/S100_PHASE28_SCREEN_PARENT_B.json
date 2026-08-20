@@ -1,0 +1,275 @@
+{
+  "kind": "s100_phase28_measure",
+  "status": "measured",
+  "arm": "parent",
+  "arm_config": null,
+  "context": 1024,
+  "tag": "SCREEN_PARENT_B",
+  "blocks": 10,
+  "warmup": 6,
+  "started_utc": "2026-08-20T16:07:32.064937+00:00",
+  "claim_boundary": "fresh-process exact H4 target-only timing",
+  "capture_info": {
+    "graph_extra_vram_bytes": 0,
+    "max_splits": 3,
+    "dot_probe": {
+      "available": true,
+      "length": 190782,
+      "contains_fp8_residual2": true,
+      "contains_device_route": true,
+      "contains_moe_batched_up": false,
+      "contains_fp32_kv": true,
+      "contains_fp32_attention": true,
+      "contains_argmax4": true,
+      "contains_pos_add4": true
+    },
+    "phase24_config": {
+      "attention_m4": false,
+      "router_m4": false,
+      "shared_m4": false,
+      "sres_layers": [
+        20,
+        22,
+        29,
+        17,
+        27,
+        24,
+        13,
+        31,
+        43,
+        51,
+        49,
+        15,
+        38,
+        10,
+        34,
+        36,
+        45,
+        47,
+        40,
+        6,
+        3,
+        8,
+        1
+      ]
+    },
+    "actual_plane_bytes": 516354048,
+    "phase24_dot": {
+      "bf16_m4": false,
+      "f32_m4": false,
+      "shared_m4": false,
+      "sres_gather": true,
+      "sres_down": true
+    }
+  },
+  "records": [
+    {
+      "block": 0,
+      "pos": 1048,
+      "ms": 73.6142,
+      "got": [
+        19732,
+        3016,
+        24925,
+        2738
+      ],
+      "expected": [
+        19732,
+        3016,
+        24925,
+        2738
+      ]
+    },
+    {
+      "block": 1,
+      "pos": 1052,
+      "ms": 79.3241,
+      "got": [
+        6103,
+        1338,
+        1358,
+        1032
+      ],
+      "expected": [
+        6103,
+        1338,
+        1358,
+        1032
+      ]
+    },
+    {
+      "block": 2,
+      "pos": 1056,
+      "ms": 75.7973,
+      "got": [
+        1051,
+        1046,
+        108225,
+        75377
+      ],
+      "expected": [
+        1051,
+        1046,
+        108225,
+        75377
+      ]
+    },
+    {
+      "block": 3,
+      "pos": 1060,
+      "ms": 72.627,
+      "got": [
+        1321,
+        73530,
+        116696,
+        1267
+      ],
+      "expected": [
+        1321,
+        73530,
+        116696,
+        1267
+      ]
+    },
+    {
+      "block": 4,
+      "pos": 1064,
+      "ms": 77.5844,
+      "got": [
+        27313,
+        1454,
+        1261,
+        6010
+      ],
+      "expected": [
+        27313,
+        1454,
+        1261,
+        6010
+      ]
+    },
+    {
+      "block": 5,
+      "pos": 1068,
+      "ms": 74.3345,
+      "got": [
+        2779,
+        1321,
+        1517,
+        100947
+      ],
+      "expected": [
+        2779,
+        1321,
+        1517,
+        100947
+      ]
+    },
+    {
+      "block": 6,
+      "pos": 1072,
+      "ms": 77.2831,
+      "got": [
+        3244,
+        1044,
+        1278,
+        3039
+      ],
+      "expected": [
+        3244,
+        1044,
+        1278,
+        3039
+      ]
+    },
+    {
+      "block": 7,
+      "pos": 1076,
+      "ms": 73.1632,
+      "got": [
+        1278,
+        3475,
+        1395,
+        19555
+      ],
+      "expected": [
+        1278,
+        3475,
+        1395,
+        19555
+      ]
+    },
+    {
+      "block": 8,
+      "pos": 1080,
+      "ms": 79.8937,
+      "got": [
+        22482,
+        1046,
+        101259,
+        15765
+      ],
+      "expected": [
+        22482,
+        1046,
+        101259,
+        15765
+      ]
+    },
+    {
+      "block": 9,
+      "pos": 1084,
+      "ms": 74.7357,
+      "got": [
+        6076,
+        1307,
+        14953,
+        1307
+      ],
+      "expected": [
+        6076,
+        1307,
+        14953,
+        1307
+      ]
+    }
+  ],
+  "summary": {
+    "count": 10,
+    "median_ms": 75.26650000000001,
+    "p10_ms": 73.10958000000001,
+    "p90_ms": 79.38106,
+    "mean_ms": 75.83572000000001,
+    "ms_per_useful_token": 18.816625000000002,
+    "target_only_tok_s": 53.1444932340417,
+    "all_token_exact": true
+  },
+  "correctness_green": true,
+  "ms_per_useful_token": 18.816625000000002,
+  "target_only_tok_s": 53.1444932340417,
+  "mirror_bytes_removed": 0,
+  "alignment": null,
+  "telemetry": {
+    "after_graph_setup": {
+      "timestamp": "2026/08/20 18:08:05.592",
+      "temperature.gpu": 68.0,
+      "pstate": "P4",
+      "clocks.sm": 495.0,
+      "clocks.mem": 9001.0,
+      "power.draw": 25.96,
+      "utilization.gpu": 0.0,
+      "memory.used": 7516.0
+    },
+    "after_measure": {
+      "timestamp": "2026/08/20 18:08:32.106",
+      "temperature.gpu": 86.0,
+      "pstate": "P4",
+      "clocks.sm": 2302.0,
+      "clocks.mem": 9001.0,
+      "power.draw": 59.09,
+      "utilization.gpu": 100.0,
+      "memory.used": 7516.0
+    }
+  },
+  "completed_utc": "2026-08-20T16:08:32.113989+00:00"
+}

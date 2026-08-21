@@ -1,4 +1,4 @@
-# Ornith-1.5 NVFP4/DFlash transfer report — Phase46 through Phase57
+# Ornith-1.5 NVFP4/DFlash transfer report — Phase46 through Phase66
 
 ## Outcome
 
@@ -9,6 +9,14 @@ expert, route-adaptive batching and cold mapped-host miss path are all measured
 green on the 8 GiB RTX PRO 2000 Blackwell laptop. The exact Pottokao GGUF
 target/DFlash pair also runs end to end in upstream llama.cpp and accelerates
 this hybrid placement.
+
+The new custom H4 component stack keeps 65 tok/s physically open. Its measured
+all-hot floor is 51.382 ms/H4 (77.85 equivalent tok/s), leaving 10.157 ms under
+the 61.538 ms/H4 boundary for routers, recurrent/full-attention cores, norms,
+reductions and orchestration. This is a measured-component budget, not an
+end-to-end throughput result. Cache residency is decisive: four unique misses
+per layer already push the known floor to 66.558 ms/H4 before those remaining
+components execute.
 
 Upstream llama.cpp build 10549 is not lossless for this quantized draft-model
 path: output is deterministic but can differ from target-only greedy decoding.
@@ -105,8 +113,9 @@ The runtime decision is therefore:
 1. Keep popular complete experts resident in the GPU cache.
 2. Dispatch cache hits through H1 or exact M2-M8 according to route
    multiplicity.
-3. Execute misses directly from a bounded mapped-pinned ring instead of first
-   staging the complete record to a device mirror.
+3. Execute a single unique miss directly from a bounded mapped-pinned ring.
+   Phase62 supersedes this rule for bulk misses: stage two or more misses unless
+   a later exact count-specific measurement promotes direct-UVA.
 4. Prefetch pageable checkpoint bytes into that bounded ring; do not attempt to
    pin the full 16.875 GiB routed payload.
 
@@ -162,6 +171,84 @@ single-request operating point in this sweep.
   serving currently requires a fresh worker per request or an upstream/custom
   drafter-state fix.
 
+### Phase58 — direct-L2 FP8 H4 attention projections
+
+- A direct-L2 FP8 E4M3 M4 kernel is bit-exact versus four M1 launches on every
+  tested real Official and Pottokao projection.
+- Median speedup is 2.028x; the kernel uses 28 registers and no local memory.
+- Official/Pottokao latency ratios are 0.987-1.014 for the shared linear
+  geometries.
+- The measured 30-linear plus 10-full projection total is 23.924 ms/H4.
+
+### Phase59 — 32-way routed-expert bulk H4
+
+- Thirty-two real unique layer-20 expert assignments execute in 0.561 ms versus
+  1.486 ms serially: 2.649x faster.
+- Candidate and same-kernel serial outputs are bit-identical; independent
+  dequantized-reference NRMSE is 4.25e-7.
+- Projected over 40 layers, worst-case-unique hot routed work is 22.438 ms/H4.
+
+### Phase60/61 — indirect route reuse and occupancy
+
+- Cache-indirect M1-M4 buckets are exact and faster for repeated routes, but
+  Phase60 narrowly missed its frozen M4 1.15x gate at 1.143x.
+- Two warps per row reduced M4 from 64 to 56 registers and beat the matched
+  one-warp M4 by 1.096x, but still missed the assignment-control gate at 1.102x.
+- These failed gates close aggressive route-reuse claims. The production plan
+  retains multiplicity bucketing, with inter-expert bulk parallelism as the
+  primary speed mechanism.
+
+### Phase62 — cold bulk miss crossover
+
+All direct and staged arms are bit-exact against hot execution. Rotating working
+sets are 4.06-6.75x the 32 MiB L2.
+
+| Unique misses | Hot | Direct UVA | Bulk stage | Selected |
+|---:|---:|---:|---:|---|
+| 1 | 0.042 ms | 0.136 ms | 0.199 ms | direct |
+| 4 | 0.088 ms | 0.671 ms | 0.449 ms | stage |
+| 8 | 0.152 ms | 1.343 ms | 0.818 ms | stage |
+| 16 | 0.278 ms | 2.706 ms | 1.565 ms | stage |
+| 32 | 0.558 ms | 5.767 ms | 3.224 ms | stage |
+
+The earlier one-record “always direct” conclusion therefore does not scale to
+an H4 miss union. Runtime policy is `1 -> direct_uva`, `>=2 -> bulk_stage`
+conservatively until counts two and three are measured.
+
+### Phase63/64 — hybrid native/exact LM head
+
+- Direct ERVF H1x4 costs 7.561 ms on the 248,320-token head; the best direct M4
+  is only 1.54x faster, so Phase63 failed its 2.5x gate.
+- Native NVFP4 activation/head top-1 alone matches only 26/32 synthetic rows.
+- Native top-64 recall is 32/32. An indexed ERVF rerank reproduces every
+  shortlisted full-ERVF logit bit-for-bit and restores all 32/32 token IDs.
+- Complete quantize + native head + top-64 + exact rerank is 1.575 ms/H4,
+  4.801x faster than ERVF H1x4. Real final-normalized Ornith activations still
+  require end-to-end adjudication.
+
+### Phase65 — shared-expert overlap closed
+
+Shared/routed outputs remain bit-exact, but overlap is 0.698 ms versus 0.694 ms
+serial. Both branches compete for memory bandwidth, so Nemotron's shared-stream
+overlap does not transfer and is excluded from the budget.
+
+### Phase66 — 65 tok/s budget
+
+| Known all-hot component | H4 latency |
+|---|---:|
+| FP8 attention projections | 23.924 ms |
+| Routed experts, 40 layers | 22.438 ms |
+| Shared experts, 40 layers | 3.444 ms |
+| Native top-64 + exact head | 1.575 ms |
+| **Known floor** | **51.382 ms** |
+| **Residual to 65 tok/s** | **10.157 ms** |
+
+One unique miss in every layer raises the known floor to 56.148 ms/H4; four in
+every layer raise it to 66.558 ms/H4. If 5 ms is reserved for other unmeasured
+work, no more than roughly 43 isolated misses across 1,280 H4 assignments fit,
+which corresponds to a minimum 96.6% hit rate. A real route trace is required
+to determine whether the 52-expert/layer cache reaches that boundary.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |
@@ -170,24 +257,31 @@ single-request operating point in this sweep.
 | Native SM120 matrix path | Transfers | Real target and head tensors measured green |
 | Phase33 H8 idea | Transfers with M2-M8 family | Exact-size dispatch avoids padded work |
 | GPU expert cache | Transfers | 3.4278 GiB budget holds 52 complete experts per layer across 40 layers |
-| Mapped-host miss path | Transfers | Cold rotating direct-UVA wins 27-42% over staging |
+| Mapped-host miss path | Transfers conditionally | Direct wins for one miss; bulk staging wins from four measured misses onward |
 | Prefetch/cache-policy research | Transfers conceptually | Requires real Ornith route trace |
+| FP8 direct-L2 H4 projections | Transfers | Real Official/Pottokao M4 is exact and about 2x faster |
+| Inter-expert bulk dispatch | New Ornith path | 32 unique routed assignments are exact and 2.65x faster |
+| Shared-expert stream overlap | Does not transfer | Memory-bandwidth contention erases the overlap |
+| Native-head acceleration | Transfers with exact rerank | Native top-64 plus indexed ERVF recovers exact selected IDs on 32 synthetic rows |
 | Nemotron ReLU2 sparse down | Does not transfer | SwiGLU output is dense; no exact-zero column mask |
 | Nemotron Mamba/SSM kernels | Does not transfer directly | Qwen3.5 uses a different linear-attention recurrence |
 | Nemotron hardcoded DFlash adapter | Does not transfer | Different target layers, hidden injection and draft semantics |
 
 ## Remaining critical path
 
-1. Add explicit per-request target/drafter state reset and fixed verification
+1. Port and independently gate Qwen3.5's linear-attention recurrent core and
+   full causal-attention core. Together with routers/norms/reductions they must
+   fit inside the measured 10.157 ms all-hot residual.
+2. Capture real target router IDs for H4 speculative blocks and replay them
+   through the implemented multiplicity planner, 52-expert/layer cache and
+   miss-count-adaptive transport. With 5 ms reserved elsewhere, approximately
+   96.6% route hits are required.
+3. Validate native top-64 recall on real final-normalized Ornith activations;
+   increase shortlist size or fall back to full ERVF whenever the exact winner
+   is not provably retained.
+4. Add explicit per-request target/drafter state reset and fixed verification
    geometry to the custom runtime; gate every speculative completion against
    target-only greedy output during bring-up.
-2. Capture real target router IDs for speculative blocks and build the M1-M8
-   multiplicity histogram per layer.
-3. Replay that trace through the 52-expert/layer cache plus bounded pinned-ring
-   miss path.
-4. Port Qwen3.5 linear attention and full attention into the custom runtime,
-   gated against an independent reference before reporting custom end-to-end
-   tok/s.
 
 The Official 1.5 repository currently provides safetensors rather than an
 Official 1.5 GGUF. Phase50 therefore establishes real-weight Official kernel

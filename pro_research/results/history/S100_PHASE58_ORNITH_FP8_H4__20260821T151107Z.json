@@ -1,0 +1,33 @@
+{
+  "kind": "s100_phase58_ornith_fp8_h4",
+  "status": "technical_failure",
+  "started_utc": "2026-08-21T15:10:34.243290+00:00",
+  "preregistration": "pro_research\\S100_PHASE58_ORNITH_FP8_H4_PREREGISTRATION.md",
+  "warmup": 12,
+  "repeats": 41,
+  "error": {
+    "type": "KeyError",
+    "message": "'model.layers.20.linear_attn.in_proj_qkv.weight'",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase58_ornith_fp8_h4.py\", line 197, in main\n    records.append(_bench_matrix(\n                   ^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase58_ornith_fp8_h4.py\", line 111, in _bench_matrix\n    raw, weight_scale, input_scale, shard = _load_fp8(repo, weight_map, name)\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase58_ornith_fp8_h4.py\", line 50, in _load_fp8\n    shard = repo / weight_map[name]\n                   ~~~~~~~~~~^^^^^^\nKeyError: 'model.layers.20.linear_attn.in_proj_qkv.weight'\n"
+  },
+  "completed_utc": "2026-08-21T15:10:36.046437+00:00",
+  "environment": {
+    "created_utc": "2026-08-21T15:10:36.054447+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "82f64d78de0368f951b44810dd18d26c987988f0",
+    "git_status": [
+      "?? pro_research/S100_PHASE58_ORNITH_FP8_H4_PREREGISTRATION.md",
+      "?? pro_research/s100_phase58_ornith_fp8_h4.py",
+      "?? pro_research/s100_phase58_ornith_fp8_h4_kernels.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 92 MiB, 51, 4.99 W, 615 MHz, 11001 MHz, P2",
+    "source_hashes": {
+      "pro_research\\s100_phase58_ornith_fp8_h4.py": "7c7f0a9f88ab8da198e79bc106e81ec7d77e8c2888f171d9f2b77ab141aae31d",
+      "pro_research\\S100_PHASE58_ORNITH_FP8_H4_PREREGISTRATION.md": "a1a56a12381b9530cd23612480582453aad2b6a84b5dbccdfa41c0f0e5c6fdef",
+      "pro_research\\s100_phase58_ornith_fp8_h4_kernels.py": "ec82d47befbc5a0bb7d3e0b9c4d0771afd9f83be09ede18c1d2755c2b8128970"
+    }
+  }
+}

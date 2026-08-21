@@ -1,0 +1,165 @@
+{
+  "kind": "s100_phase66_ornith_65tps_budget",
+  "status": "measured_pass",
+  "started_utc": "2026-08-21T15:36:56.726254+00:00",
+  "preregistration": "pro_research\\S100_PHASE66_ORNITH_65TPS_BUDGET_PREREGISTRATION.md",
+  "components_ms_h4": {
+    "fp8_attention_projections": 23.92383936792612,
+    "routed_hot_40_layers": 22.498559951782227,
+    "shared_serial_40_layers": 3.444480001926422,
+    "native_shortlist_exact_head": 1.5748159885406494
+  },
+  "hot_budget": {
+    "known_floor_ms_h4": 51.44169531017542,
+    "known_floor_equivalent_tok_s": 77.75793499575393,
+    "target_ms_h4": 61.53846153846154,
+    "unmeasured_allowance_ms": 10.096766228286121,
+    "unmeasured_components": [
+      "40 routers and route planning/reduction",
+      "30 linear-attention recurrent cores",
+      "10 causal full-attention cores at serving context",
+      "norms, residuals, final norm, argmax and graph orchestration"
+    ]
+  },
+  "uniform_miss_scenarios": [
+    {
+      "uniform_unique_misses_per_layer": 0,
+      "route_hit_rate": 1.0,
+      "miss_policy": "hot_only",
+      "routed_ms_per_layer": 0.5624639987945557,
+      "known_floor_ms_h4": 51.44169531017542,
+      "known_floor_equivalent_tok_s": 77.75793499575393,
+      "remaining_to_65_ms": 10.096766228286121
+    },
+    {
+      "uniform_unique_misses_per_layer": 1,
+      "route_hit_rate": 0.96875,
+      "miss_policy": "direct_uva",
+      "routed_ms_per_layer": 0.6813779938966036,
+      "known_floor_ms_h4": 56.198255114257336,
+      "known_floor_equivalent_tok_s": 71.1765870998584,
+      "remaining_to_65_ms": 5.340206424204204
+    },
+    {
+      "uniform_unique_misses_per_layer": 4,
+      "route_hit_rate": 0.875,
+      "miss_policy": "bulk_stage",
+      "routed_ms_per_layer": 0.9408719912171364,
+      "known_floor_ms_h4": 66.57801500707865,
+      "known_floor_equivalent_tok_s": 60.07989273297973,
+      "remaining_to_65_ms": -5.0395534686171075
+    },
+    {
+      "uniform_unique_misses_per_layer": 8,
+      "route_hit_rate": 0.75,
+      "miss_policy": "bulk_stage",
+      "routed_ms_per_layer": 1.2397279888391495,
+      "known_floor_ms_h4": 78.53225491195917,
+      "known_floor_equivalent_tok_s": 50.934485511517714,
+      "remaining_to_65_ms": -16.99379337349763
+    },
+    {
+      "uniform_unique_misses_per_layer": 16,
+      "route_hit_rate": 0.5,
+      "miss_policy": "bulk_stage",
+      "routed_ms_per_layer": 1.8473279774188995,
+      "known_floor_ms_h4": 102.83625445514917,
+      "known_floor_equivalent_tok_s": 38.89678811420104,
+      "remaining_to_65_ms": -41.297792916687634
+    },
+    {
+      "uniform_unique_misses_per_layer": 32,
+      "route_hit_rate": 0.0,
+      "miss_policy": "bulk_stage",
+      "routed_ms_per_layer": 3.223871946334839,
+      "known_floor_ms_h4": 157.89801321178675,
+      "known_floor_equivalent_tok_s": 25.33280766892771,
+      "remaining_to_65_ms": -96.3595516733252
+    }
+  ],
+  "cache_ceiling": {
+    "marginal_ms_h4_for_one_unique_miss_in_each_layer": 4.756559804081917,
+    "max_isolated_single_misses_across_1280_assignments_if_no_other_work": 84,
+    "minimum_hit_rate_if_no_other_work": 0.934375,
+    "max_isolated_single_misses_if_5ms_reserved_for_other_work": 42,
+    "minimum_hit_rate_if_5ms_reserved_for_other_work": 0.9671875
+  },
+  "claim": "65 tok/s remains physically open on the measured hot components, but is not proven until the unmeasured attention/router/core work and real cache trace fit inside the residual budget",
+  "sources": {
+    "phase49": "pro_research\\results\\s100_phase49\\S100_PHASE49_POTTOKAO_LAYER20_EXPERT0.json",
+    "phase58": "pro_research\\results\\s100_phase58\\S100_PHASE58_ORNITH_FP8_H4.json",
+    "phase59": "pro_research\\results\\s100_phase59\\S100_PHASE59_ORNITH_BULK_EXPERT_H4.json",
+    "phase62": "pro_research\\results\\s100_phase62\\S100_PHASE62_ORNITH_BULK_COLD_UVA.json",
+    "phase64": "pro_research\\results\\s100_phase64\\S100_PHASE64_ORNITH_NATIVE_SHORTLIST_HEAD.json",
+    "phase65": "pro_research\\results\\s100_phase65\\S100_PHASE65_ORNITH_SHARED_OVERLAP.json"
+  },
+  "gates": {
+    "P66_G1_required_sources_present": true,
+    "P66_G2_required_component_results_green": true,
+    "P66_G3_hot_known_floor_below_65_boundary": true,
+    "P66_G4_overlap_correctly_excluded": true
+  },
+  "completed_utc": "2026-08-21T15:36:56.754341+00:00",
+  "environment": {
+    "created_utc": "2026-08-21T15:36:56.760351+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "82f64d78de0368f951b44810dd18d26c987988f0",
+    "git_status": [
+      "?? pro_research/S100_PHASE58_ORNITH_FP8_H4_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE59_ORNITH_BULK_EXPERT_H4_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE60_ORNITH_ROUTE_ADAPTIVE_BULK_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE61_ORNITH_PAIRWARP_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE62_ORNITH_BULK_COLD_UVA_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE63_ORNITH_LM_HEAD_H4_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE64_ORNITH_NATIVE_SHORTLIST_HEAD_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE65_ORNITH_SHARED_OVERLAP_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE66_ORNITH_65TPS_BUDGET_PREREGISTRATION.md",
+      "?? pro_research/results/history/S100_PHASE58_ORNITH_FP8_H4__20260821T151107Z.json",
+      "?? pro_research/results/history/S100_PHASE62_ORNITH_BULK_COLD_UVA__20260821T152412Z.json",
+      "?? pro_research/results/history/S100_PHASE64_ORNITH_NATIVE_SHORTLIST_HEAD__20260821T153025Z.json",
+      "?? pro_research/results/history/S100_PHASE64_ORNITH_NATIVE_SHORTLIST_HEAD__20260821T153048Z.json",
+      "?? pro_research/results/history/S100_PHASE64_ORNITH_NATIVE_SHORTLIST_HEAD__20260821T153139Z.json",
+      "?? pro_research/results/history/S100_PHASE64_ORNITH_NATIVE_SHORTLIST_HEAD__20260821T153228Z.json",
+      "?? pro_research/results/history/S100_PHASE64_ORNITH_NATIVE_SHORTLIST_HEAD__20260821T153259Z.json",
+      "?? pro_research/results/s100_phase58/",
+      "?? pro_research/results/s100_phase59/",
+      "?? pro_research/results/s100_phase60/",
+      "?? pro_research/results/s100_phase61/",
+      "?? pro_research/results/s100_phase62/",
+      "?? pro_research/results/s100_phase63/",
+      "?? pro_research/results/s100_phase64/",
+      "?? pro_research/results/s100_phase65/",
+      "?? pro_research/s100_phase58_ornith_fp8_h4.py",
+      "?? pro_research/s100_phase58_ornith_fp8_h4_kernels.py",
+      "?? pro_research/s100_phase59_ornith_bulk_expert.py",
+      "?? pro_research/s100_phase59_ornith_bulk_expert_kernels.py",
+      "?? pro_research/s100_phase60_ornith_route_adaptive.py",
+      "?? pro_research/s100_phase60_ornith_route_adaptive_kernels.py",
+      "?? pro_research/s100_phase61_ornith_pairwarp.py",
+      "?? pro_research/s100_phase61_ornith_pairwarp_kernels.py",
+      "?? pro_research/s100_phase62_ornith_bulk_cold_uva.py",
+      "?? pro_research/s100_phase63_ornith_lm_head_h4.py",
+      "?? pro_research/s100_phase64_ornith_native_shortlist_head.py",
+      "?? pro_research/s100_phase64_ornith_shortlist_kernel.py",
+      "?? pro_research/s100_phase65_ornith_shared_overlap.py",
+      "?? pro_research/s100_phase66_ornith_65tps_budget.py",
+      "?? src/moe_lab/ornith/",
+      "?? tests/test_ornith_h4_budget.py",
+      "?? tests/test_ornith_h4_plan.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 50, 4.03 W, 180 MHz, 405 MHz, P8",
+    "source_hashes": {
+      "pro_research\\s100_phase66_ornith_65tps_budget.py": "0890b102000654e205ede27148fa5cf27b18c08e1fcc58d98f0a52ccd25ad228",
+      "pro_research\\S100_PHASE66_ORNITH_65TPS_BUDGET_PREREGISTRATION.md": "111a276dbb2b284e299d55825d54289455cb3bb3b4c60f12ed7594b05c354077",
+      "pro_research\\results\\s100_phase49\\S100_PHASE49_POTTOKAO_LAYER20_EXPERT0.json": "6350b643d771df891966cb1d1c15b9ff3330fe7b777285b216d567f3a7199af7",
+      "pro_research\\results\\s100_phase58\\S100_PHASE58_ORNITH_FP8_H4.json": "7768c4311b667276058764ce167932c0036b2da3b7d43a7b40fa864a83bda596",
+      "pro_research\\results\\s100_phase59\\S100_PHASE59_ORNITH_BULK_EXPERT_H4.json": "ae24d76315b014bf4662effcbfde53036c3c89f64e2c021854c19bf7f5ed7672",
+      "pro_research\\results\\s100_phase62\\S100_PHASE62_ORNITH_BULK_COLD_UVA.json": "b8f0088bdf5564b429562b4cbd6da7bda621f5ffffc987c587878b81824fd1c4",
+      "pro_research\\results\\s100_phase64\\S100_PHASE64_ORNITH_NATIVE_SHORTLIST_HEAD.json": "fa95544764a1768c27e85acb329912058e30af02b95329bdd595ed326810e4ec",
+      "pro_research\\results\\s100_phase65\\S100_PHASE65_ORNITH_SHARED_OVERLAP.json": "d109569c5c430219a161585096e62a12d75cbd691549852c2438178ab7644e54"
+    }
+  }
+}

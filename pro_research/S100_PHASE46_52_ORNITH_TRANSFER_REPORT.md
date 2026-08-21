@@ -377,6 +377,26 @@ expert records are copied contiguously and the compute envelope is represented
 by a non-VRAM-contending calibrated wait kernel. Segmented copies and real
 kernel integration are required before an end-to-end claim.
 
+### Phase73 — segmented copies under real routed compute
+
+The contiguous oracle copy was replaced by the exact six checkpoint segments
+per expert: three 524,288-byte code planes and three 65,536-byte scale planes.
+Every simulated layer now runs the real Pottokao bulk32 gate/up/SwiGLU/down
+kernel while copies execute. Only the remaining non-routed part of the measured
+layer envelope is represented by a wait kernel.
+
+| Policy | Selected lead | Exposed tail | Floor-normalized H4 | Equivalent |
+|---|---:|---:|---:|---:|
+| LRU-52 | 2 | 0.158 ms | 60.253 ms | 66.39 tok/s |
+| Belady-52 | 2 | 0.790 ms | 60.885 ms | 65.70 tok/s |
+
+The real hot kernel is 0.560 ms, effectively identical to Phase59's 0.561 ms,
+and output remains bit-exact and repeat-exact. All gates pass. Belady's slower
+wall time despite fewer transferred bytes reveals order/thermal drift between
+long epochs; a paired compute/overlap/compute bracket is required before the
+smaller LRU tail is treated as stable. Both policies remain below the 65 tok/s
+boundary even under that conservative observation.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |

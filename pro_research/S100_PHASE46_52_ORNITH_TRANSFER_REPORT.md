@@ -510,6 +510,32 @@ promote a staged physical expert page into LRU52 by swapping its page-table
 mapping with the evicted page. Copying the same 1,769,472 bytes D2D after each
 H2D miss costs 20.587 ms/H4 here and is not required by model semantics.
 
+### Phase84 — layer-0 target-verifier correctness gate
+
+The target-only verifier now starts from real token embeddings and executes
+layer 0 through input RMSNorm, statically scaled E4M3 projections, Gated
+DeltaNet with real convolution/recurrent state, output projection, residual
+addition and post-attention RMSNorm. Against an independent CPU dequantized
+HF-ModelOpt reference, all 8,192 output values pass at **2.288e-7 NRMSE** and
+**2.861e-6 max absolute error**. Fresh-state repeats are bit-identical, the
+FP8 probe bytes exactly match PyTorch E4M3, and both recurrent state families
+are nonzero after execution.
+
+The same activation differs from the llama.cpp trace by 2.918% NRMSE because
+that GGUF stores the three tested projection families as Q8_0 while the source
+checkpoint stores E4M3 FP8. GGUF remains an authoritative token/route sequence,
+but it is not an exact activation reference for the original HF-FP8 runtime.
+
+This gate also exposes a missing correctness condition in the Phase58 M4/M1
+benchmark: both comparison arms quantized the unscaled activation and then
+applied `input_scale * weight_scale`. The checkpoint contract instead requires
+`E4M3(x / input_scale)` before applying that product. The relative M4-vs-M1
+kernel result remains informative because both arms shared the input, but the
+old component floor did not include the correct static quantizer or its cost.
+The 60.084-ms floor must therefore be remeasured inside the integrated path.
+This checkpoint covers layer 0 only; it is not a complete verifier and makes no
+output tok/s claim.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |
@@ -520,7 +546,7 @@ H2D miss costs 20.587 ms/H4 here and is not required by model semantics.
 | GPU expert cache | Transfers | 3.4278 GiB budget holds 52 complete experts per layer across 40 layers |
 | Mapped-host miss path | Transfers conditionally | Direct wins for one miss; bulk staging wins from four measured misses onward |
 | Prefetch/cache-policy research | Transfers conceptually | Requires real Ornith route trace |
-| FP8 direct-L2 H4 projections | Transfers | Real Official/Pottokao M4 is exact and about 2x faster |
+| FP8 direct-L2 H4 projections | Transfers with corrected quantizer | M4 arithmetic is exact; integrated inputs must use `E4M3(x / input_scale)` and its cost must be remeasured |
 | Inter-expert bulk dispatch | New Ornith path | 32 unique routed assignments are exact and 2.65x faster |
 | Shared-expert stream overlap | Does not transfer | Memory-bandwidth contention erases the overlap |
 | Native-head acceleration | Transfers with exact rerank | Native top-64 plus indexed ERVF recovers exact selected IDs on 32 synthetic rows |

@@ -1,0 +1,98 @@
+{
+  "kind": "s100_phase84_ornith_target_verifier_layer0",
+  "status": "measured_pass",
+  "started_utc": "2026-08-21T20:46:33.699667+00:00",
+  "preregistration": "pro_research\\S100_PHASE84_ORNITH_TARGET_VERIFIER_LAYER0_PREREGISTRATION.md",
+  "claim_boundary": "embedding through layer-0 attention/state only; not output tok/s",
+  "gpu_idle_preflight": {
+    "compute_app_lines": [],
+    "ignored_wddm_gui_contexts": [],
+    "gpu_memory_used_mib": 0,
+    "gpu_utilization_percent": 0,
+    "policy": "ignore only ChatGPT.exe with [N/A] WDDM memory; block every other compute-app; require total memory <=1024 MiB and utilization <=10%"
+  },
+  "completed_utc": "2026-08-21T20:46:39.115593+00:00",
+  "inputs": {
+    "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+    "trace": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\results\\s100_phase76\\ornith_64_hidden_trace.json.gz",
+    "tokens": [
+      2523,
+      513,
+      32767,
+      264
+    ],
+    "fresh_zero_state": true
+  },
+  "quality": {
+    "hf_layer0_attn_post_norm_nrmse": 2.2883068317816582e-07,
+    "hf_layer0_attn_post_norm_max_abs": 2.86102294921875e-06,
+    "gguf_q8_cross_format_nrmse": 0.029184621248039444,
+    "gguf_q8_cross_format_max_abs": 0.17472076416015625,
+    "candidate_finite": true,
+    "hf_reference_finite": true,
+    "gguf_reference_finite": true,
+    "reference_boundary": "HF FP8 is the exact activation reference; GGUF Q8_0 is cross-format evidence only",
+    "fp8_probe_candidate_bytes": [
+      254,
+      216,
+      184,
+      156,
+      128,
+      0,
+      28,
+      56,
+      88,
+      126
+    ],
+    "fp8_probe_torch_bytes": [
+      254,
+      216,
+      184,
+      156,
+      128,
+      0,
+      28,
+      56,
+      88,
+      126
+    ]
+  },
+  "state": {
+    "conv_nonzero": 32320,
+    "recurrent_nonzero": 509952
+  },
+  "resources": {
+    "static_fp8_quantizer": {
+      "num_regs": 10,
+      "shared_size_bytes_static": 0,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    }
+  },
+  "gates": {
+    "P84_L0_G1_cuda_fp8_bytes_match_torch": true,
+    "P84_L0_G2_output_and_state_repeat_exact": true,
+    "P84_L0_G3_authoritative_layer0_parity": true,
+    "P84_L0_G4_real_state_mutation": true
+  },
+  "environment": {
+    "created_utc": "2026-08-21T20:46:39.135853+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "021ccc8c1349d48e14a659bb6f75705de8c2af98",
+    "git_status": [
+      "?? pro_research/S100_PHASE84_ORNITH_TARGET_VERIFIER_LAYER0_PREREGISTRATION.md",
+      "?? pro_research/results/s100_phase84_target_verifier/",
+      "?? pro_research/s100_phase84_ornith_target_verifier_layer0.py",
+      "?? src/moe_lab/ornith/static_fp8.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 128 MiB, 51, 10.44 W, 63847 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "pro_research\\s100_phase84_ornith_target_verifier_layer0.py": "93232eea4f6416e4f7f34a5d18432ca3684918ff7e56c661541ac21f499bed23",
+      "pro_research\\S100_PHASE84_ORNITH_TARGET_VERIFIER_LAYER0_PREREGISTRATION.md": "f3009523425bcd7ccc9ac3b1138847f0060ae13d46e47c6e685583cd4a6ebfc8",
+      "pro_research\\results\\s100_phase76\\ornith_64_hidden_trace.json.gz": "bd99092ea8690a9d58bb69a01cc638a0aeb3fd3dca5d9454fed4b0556beecbd7"
+    }
+  }
+}

@@ -1,0 +1,309 @@
+{
+  "kind": "s100_phase67_ornith_linear_h4",
+  "status": "measured_pass",
+  "started_utc": "2026-08-21T15:48:21.292882+00:00",
+  "preregistration": "pro_research\\S100_PHASE67_ORNITH_LINEAR_H4_PREREGISTRATION.md",
+  "warmup": 15,
+  "repeats": 51,
+  "records": [
+    {
+      "repository": "official",
+      "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--ornith-ai--Ornith-1.5-35B-A3B-NVFP4\\snapshots\\0f0b1b59b879ccde1353e6ebd0fb10c204d4c544",
+      "prefix": "model.language_model.layers.20.linear_attn",
+      "auxiliary": {
+        "in_proj_a.weight": {
+          "shape": [
+            32,
+            2048
+          ],
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "in_proj_b.weight": {
+          "shape": [
+            32,
+            2048
+          ],
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "A_log": {
+          "shape": [
+            32
+          ],
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "dt_bias": {
+          "shape": [
+            32
+          ],
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "conv1d.weight": {
+          "shape": [
+            8192,
+            1,
+            4
+          ],
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "norm.weight": {
+          "shape": [
+            128
+          ],
+          "shard": "model-00002-of-00003.safetensors"
+        }
+      },
+      "quality": {
+        "beta": {
+          "nrmse": 6.599757092561376e-08,
+          "max_abs": 8.940696716308594e-08,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "g": {
+          "nrmse": 5.302839634597694e-08,
+          "max_abs": 9.5367431640625e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "convolved": {
+          "nrmse": 7.581446658123982e-08,
+          "max_abs": 5.960464477539063e-08,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "conv_state": {
+          "nrmse": 0.0,
+          "max_abs": 0.0,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "recurrent_state": {
+          "nrmse": 1.6109545859612336e-07,
+          "max_abs": 1.5366822481155396e-08,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "output": {
+          "nrmse": 2.7186970859680937e-07,
+          "max_abs": 3.5762786865234375e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        }
+      },
+      "fresh_state_bit_deterministic": true,
+      "timings_ms": {
+        "gates": {
+          "count": 51,
+          "mean": 0.020406588254606024,
+          "p50": 0.01142400037497282,
+          "p95": 0.059008000418543816,
+          "p99": 0.06315199844539165,
+          "max": 0.06425599753856659
+        },
+        "convolution": {
+          "count": 51,
+          "mean": 0.015181176400944298,
+          "p50": 0.010367999784648418,
+          "p95": 0.04974399879574776,
+          "p99": 0.05881599895656109,
+          "max": 0.05951999872922897
+        },
+        "delta_norm": {
+          "count": 51,
+          "mean": 0.050777725437108207,
+          "p50": 0.05052800104022026,
+          "p95": 0.05166400037705898,
+          "p99": 0.055215999484062195,
+          "max": 0.05852799862623215
+        },
+        "complete": {
+          "count": 51,
+          "mean": 0.07278556851487533,
+          "p50": 0.06515199691057205,
+          "p95": 0.08790399879217148,
+          "p99": 0.09217600151896477,
+          "max": 0.0958079993724823
+        }
+      },
+      "projected_30_linear_layers_ms_h4": 1.9545599073171616
+    },
+    {
+      "repository": "pottokao",
+      "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+      "prefix": "model.layers.20.linear_attn",
+      "auxiliary": {
+        "in_proj_a.weight": {
+          "shape": [
+            32,
+            2048
+          ],
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "in_proj_b.weight": {
+          "shape": [
+            32,
+            2048
+          ],
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "A_log": {
+          "shape": [
+            32
+          ],
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "dt_bias": {
+          "shape": [
+            32
+          ],
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "conv1d.weight": {
+          "shape": [
+            8192,
+            1,
+            4
+          ],
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "norm.weight": {
+          "shape": [
+            128
+          ],
+          "shard": "model-00002-of-00003.safetensors"
+        }
+      },
+      "quality": {
+        "beta": {
+          "nrmse": 7.02970360482751e-08,
+          "max_abs": 1.1920928955078125e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "g": {
+          "nrmse": 9.095527552560569e-08,
+          "max_abs": 1.9073486328125e-06,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "convolved": {
+          "nrmse": 7.444233085693629e-08,
+          "max_abs": 8.940696716308594e-08,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "conv_state": {
+          "nrmse": 0.0,
+          "max_abs": 0.0,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "recurrent_state": {
+          "nrmse": 1.306156476387878e-07,
+          "max_abs": 1.6763806343078613e-08,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "output": {
+          "nrmse": 2.7220756065892664e-07,
+          "max_abs": 4.172325134277344e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        }
+      },
+      "fresh_state_bit_deterministic": true,
+      "timings_ms": {
+        "gates": {
+          "count": 51,
+          "mean": 0.0195494902630647,
+          "p50": 0.011680000461637974,
+          "p95": 0.05595199950039387,
+          "p99": 0.058000000193715096,
+          "max": 0.05852799862623215
+        },
+        "convolution": {
+          "count": 51,
+          "mean": 0.010378039186345596,
+          "p50": 0.009312000125646591,
+          "p95": 0.012191999703645706,
+          "p99": 0.036720000207424164,
+          "max": 0.04124800115823746
+        },
+        "delta_norm": {
+          "count": 51,
+          "mean": 0.05091513729855126,
+          "p50": 0.050783999264240265,
+          "p95": 0.05188800022006035,
+          "p99": 0.052559999749064445,
+          "max": 0.0530879981815815
+        },
+        "complete": {
+          "count": 51,
+          "mean": 0.07301835277501274,
+          "p50": 0.06550399959087372,
+          "p95": 0.0873279981315136,
+          "p99": 0.09860800206661224,
+          "max": 0.10304000228643417
+        }
+      },
+      "projected_30_linear_layers_ms_h4": 1.9651199877262115
+    }
+  ],
+  "resources": {
+    "ornith_ab_gate_h4": {
+      "num_regs": 44,
+      "shared_size_bytes_static": 288,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    },
+    "ornith_conv_silu_h4": {
+      "num_regs": 26,
+      "shared_size_bytes_static": 0,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    },
+    "ornith_delta_norm_h4": {
+      "num_regs": 38,
+      "shared_size_bytes_static": 1084,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    }
+  },
+  "budget": {
+    "phase66_known_hot_floor_ms_h4": 51.38153515011072,
+    "worse_linear_core_ms_per_layer": 0.06550399959087372,
+    "worse_30_linear_core_ms_h4": 1.9651199877262115,
+    "combined_known_floor_ms_h4": 53.34665513783693,
+    "combined_equivalent_tok_s": 74.98127089064556,
+    "remaining_to_65_ms": 8.191806400624607
+  },
+  "gates": {
+    "P67_G1_reference_quality": true,
+    "P67_G2_each_layer_le_0_20ms_and_30_le_6ms": true,
+    "P67_G3_phase66_plus_linear_core_below_65_boundary": true,
+    "P67_G4_resource_budget": true,
+    "P67_G5_fresh_state_deterministic": true
+  },
+  "completed_utc": "2026-08-21T15:48:23.024906+00:00",
+  "environment": {
+    "created_utc": "2026-08-21T15:48:23.024906+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "524be8904287c33c1a09478fcbc1174320fcceee",
+    "git_status": [
+      "?? pro_research/S100_PHASE67_ORNITH_LINEAR_H4_PREREGISTRATION.md",
+      "?? pro_research/results/s100_phase67/",
+      "?? pro_research/s100_phase67_ornith_linear_h4.py",
+      "?? pro_research/s100_phase67_ornith_linear_h4_kernels.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 92 MiB, 53, 11.31 W, 1650 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "pro_research\\s100_phase67_ornith_linear_h4.py": "74b76c837d296f74beb7e1689830f709d58d1e59e3e97b69736e7d13a135fe0e",
+      "pro_research\\S100_PHASE67_ORNITH_LINEAR_H4_PREREGISTRATION.md": "06f092a3f256c56f7d8e1579be1aaf5f6a2c6c9d41a082022602995a714364e8",
+      "pro_research\\s100_phase67_ornith_linear_h4_kernels.py": "4b34ce5621e1a13c95a32fb78a36781cc2026bf883a84e1963dc89d57838f196",
+      "pro_research\\results\\s100_phase66\\S100_PHASE66_ORNITH_65TPS_BUDGET.json": "2bb3c61e047d4687b2fc27e0cc97eb8fc15880a6cdec96091a481a56ccc831e7"
+    }
+  }
+}

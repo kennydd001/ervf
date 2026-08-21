@@ -249,6 +249,23 @@ work, no more than roughly 43 isolated misses across 1,280 H4 assignments fit,
 which corresponds to a minimum 96.6% hit rate. A real route trace is required
 to determine whether the 52-expert/layer cache reaches that boundary.
 
+### Phase67 — fused Qwen3.5 linear-attention H4
+
+The full post-projection Gated DeltaNet core now executes in three H4 launches:
+fused A/B gates, depthwise causal convolution, and recurrent delta update plus
+gated RMSNorm. The benchmark uses real layer-20 auxiliary weights and the full
+2 MiB FP32 recurrent state.
+
+| Checkpoint | One linear layer | 30 layers | Output NRMSE | State NRMSE |
+|---|---:|---:|---:|---:|
+| Official Ornith-1.5 | 0.0652 ms | 1.955 ms | 2.72e-7 | 1.61e-7 |
+| Pottokao abliterated | 0.0655 ms | 1.965 ms | 2.72e-7 | 1.31e-7 |
+
+All kernels use zero local memory; the recurrence uses 38 registers. Fresh
+states reproduce bit-identical GPU outputs. Adding the worse 30-layer result
+to the Phase66 floor gives 53.347 ms/H4, or 74.98 tok/s equivalent, and leaves
+8.192 ms/H4 for full attention, routers, remaining norms and orchestration.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |
@@ -263,15 +280,16 @@ to determine whether the 52-expert/layer cache reaches that boundary.
 | Inter-expert bulk dispatch | New Ornith path | 32 unique routed assignments are exact and 2.65x faster |
 | Shared-expert stream overlap | Does not transfer | Memory-bandwidth contention erases the overlap |
 | Native-head acceleration | Transfers with exact rerank | Native top-64 plus indexed ERVF recovers exact selected IDs on 32 synthetic rows |
+| Qwen3.5 linear-attention H4 | Transfers | Full conv/gate/delta/norm core is independently green at 1.965 ms over 30 layers |
 | Nemotron ReLU2 sparse down | Does not transfer | SwiGLU output is dense; no exact-zero column mask |
-| Nemotron Mamba/SSM kernels | Does not transfer directly | Qwen3.5 uses a different linear-attention recurrence |
+| Nemotron Mamba/SSM kernels | Replaced | Qwen3.5 recurrence now has a dedicated fused H4 implementation |
 | Nemotron hardcoded DFlash adapter | Does not transfer | Different target layers, hidden injection and draft semantics |
 
 ## Remaining critical path
 
-1. Port and independently gate Qwen3.5's linear-attention recurrent core and
-   full causal-attention core. Together with routers/norms/reductions they must
-   fit inside the measured 10.157 ms all-hot residual.
+1. Port and independently gate Qwen3.5's ten full causal-attention cores.
+   Together with routers/norms/reductions they must fit inside the remaining
+   measured 8.192 ms all-hot residual.
 2. Capture real target router IDs for H4 speculative blocks and replay them
    through the implemented multiplicity planner, 52-expert/layer cache and
    miss-count-adaptive transport. With 5 ms reserved elsewhere, approximately

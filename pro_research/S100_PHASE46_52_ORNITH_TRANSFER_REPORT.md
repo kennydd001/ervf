@@ -338,6 +338,25 @@ into a 65 tok/s end-to-end result. The next experiment must hide or eliminate
 real miss transport; another hot-kernel micro-optimization cannot close this
 gap.
 
+### Phase71 — real-trace prefetch oracle
+
+The exact Phase70 miss schedule was converted to real pinned-H2D bytes and
+overlapped on a dedicated CUDA stream with the measured 60.095 ms/H4 compute
+envelope. The envelope is an optimistic one-SM wait proxy, so this is a ceiling
+for copy-engine scheduling rather than an end-to-end result.
+
+| Policy | Serial | Best reset-per-H4 prefetch | Exposed tail | Equivalent |
+|---|---:|---:|---:|---:|
+| LRU-52 | 90.650 ms | 61.951 ms (lead 4) | 1.992 ms | 64.57 tok/s |
+| Belady-52 | 80.149 ms | 61.641 ms (lead 2) | 1.682 ms | 64.89 tok/s |
+
+The source working set is 6.54x L2 and the calibrated waits are within 0.3% of
+their targets. Both the implementable and oracle policies miss the frozen
+1.443 ms exposed-tail gate. However, the schedule restarts its pipeline at
+every H4 and repeatedly exposes layer-0 transfer. A continuous cross-H4 ring
+is the final prefetch-only test justified by this result; it can move the next
+block's initial copy under the current block's late compute/head.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |

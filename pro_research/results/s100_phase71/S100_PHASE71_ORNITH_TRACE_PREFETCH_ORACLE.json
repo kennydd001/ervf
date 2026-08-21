@@ -1,0 +1,245 @@
+{
+  "kind": "s100_phase71_ornith_trace_prefetch_oracle",
+  "status": "measured_fail",
+  "started_utc": "2026-08-21T16:35:01.439510+00:00",
+  "preregistration": "pro_research\\S100_PHASE71_ORNITH_TRACE_PREFETCH_ORACLE_PREREGISTRATION.md",
+  "targets_ms": {
+    "all_hot_floor_h4": 60.095487602,
+    "head_h4": 1.574815989,
+    "per_layer_h4": 1.463016790325,
+    "residual_to_65_h4": 1.4429739364615415
+  },
+  "gpu": {
+    "name": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU",
+    "l2_bytes": 33554432,
+    "clock_khz": 1657000
+  },
+  "source": {
+    "expert_bytes": 1769472,
+    "max_groups": 31,
+    "max_copy_bytes": 54853632,
+    "rotations": 4,
+    "working_set_bytes": 219414528,
+    "working_set_over_l2": 6.5390625
+  },
+  "calibration": {
+    "layer_cycles": 4174760,
+    "layer": {
+      "count": 11,
+      "mean": 1.4745541594245217,
+      "p50": 1.4662400484085083,
+      "p95": 1.5067039728164673,
+      "p99": 1.5178783655166626,
+      "max": 1.5206719636917114
+    },
+    "head_cycles": 4484969,
+    "head": {
+      "count": 11,
+      "mean": 1.590772347016768,
+      "p50": 1.5756479501724243,
+      "p95": 1.638655960559845,
+      "p99": 1.6467455506324769,
+      "max": 1.6487679481506348
+    },
+    "compute_epoch": {
+      "count": 5,
+      "mean": 1678.87568359375,
+      "p50": 1678.864990234375,
+      "p95": 1678.9117919921875,
+      "p99": 1678.9177099609376,
+      "max": 1678.919189453125
+    },
+    "compute_only_ms_h4": 59.959463936941965
+  },
+  "records": {
+    "lru52": {
+      "trace": {
+        "blocks": 28,
+        "sum_groups": 9011,
+        "mean_groups_per_h4": 321.82142857142856,
+        "max_groups_one_layer": 31,
+        "mean_bytes_per_h4": 569454006.8571428
+      },
+      "arms": {
+        "serial": {
+          "count": 5,
+          "mean": 2536.998486328125,
+          "p50": 2538.19384765625,
+          "p95": 2546.460986328125,
+          "p99": 2547.251572265625,
+          "max": 2547.44921875
+        },
+        "lead1": {
+          "count": 5,
+          "mean": 2523.52451171875,
+          "p50": 2524.095458984375,
+          "p95": 2526.336767578125,
+          "p99": 2526.735126953125,
+          "max": 2526.834716796875
+        },
+        "lead2": {
+          "count": 5,
+          "mean": 1735.3858642578125,
+          "p50": 1735.3541259765625,
+          "p95": 1736.845751953125,
+          "p99": 1737.058603515625,
+          "max": 1737.11181640625
+        },
+        "lead4": {
+          "count": 5,
+          "mean": 1735.030078125,
+          "p50": 1734.6370849609375,
+          "p95": 1736.0004638671876,
+          "p99": 1736.0113232421875,
+          "max": 1736.0140380859375
+        },
+        "lead8": {
+          "count": 5,
+          "mean": 1738.1267822265625,
+          "p50": 1738.2598876953125,
+          "p95": 1738.454052734375,
+          "p99": 1738.478310546875,
+          "max": 1738.484375
+        }
+      },
+      "summary": {
+        "compute_only_ms_h4": 59.959463936941965,
+        "serial_ms_h4": 90.6497802734375,
+        "serial_increment_ms_h4": 30.690316336495535,
+        "arms": {
+          "lead1": {
+            "ms_h4": 90.14626639229911,
+            "exposed_tail_ms_h4": 30.186802455357146,
+            "speedup_vs_serial": 1.0055855211900535,
+            "effective_tok_s": 44.372331324214514
+          },
+          "lead2": {
+            "ms_h4": 61.97693307059152,
+            "exposed_tail_ms_h4": 2.0174691336495556,
+            "speedup_vs_serial": 1.4626374004371545,
+            "effective_tok_s": 64.54014101414172
+          },
+          "lead4": {
+            "ms_h4": 61.951324462890625,
+            "exposed_tail_ms_h4": 1.9918605259486597,
+            "speedup_vs_serial": 1.4632420058708753,
+            "effective_tok_s": 64.56681975211094
+          },
+          "lead8": {
+            "ms_h4": 62.08071027483259,
+            "exposed_tail_ms_h4": 2.121246337890625,
+            "speedup_vs_serial": 1.4601923829822347,
+            "effective_tok_s": 64.43225250310309
+          }
+        }
+      }
+    },
+    "belady52": {
+      "trace": {
+        "blocks": 28,
+        "sum_groups": 4821,
+        "mean_groups_per_h4": 172.17857142857142,
+        "max_groups_one_layer": 24,
+        "mean_bytes_per_h4": 304665161.14285713
+      },
+      "arms": {
+        "serial": {
+          "count": 5,
+          "mean": 2240.55078125,
+          "p50": 2244.15966796875,
+          "p95": 2252.914208984375,
+          "p99": 2253.848857421875,
+          "max": 2254.08251953125
+        },
+        "lead1": {
+          "count": 5,
+          "mean": 2232.366015625,
+          "p50": 2230.527099609375,
+          "p95": 2239.612841796875,
+          "p99": 2241.159677734375,
+          "max": 2241.54638671875
+        },
+        "lead2": {
+          "count": 5,
+          "mean": 1725.9275146484374,
+          "p50": 1725.959716796875,
+          "p95": 1726.768994140625,
+          "p99": 1726.881337890625,
+          "max": 1726.909423828125
+        },
+        "lead4": {
+          "count": 5,
+          "mean": 1727.5840087890624,
+          "p50": 1727.65087890625,
+          "p95": 1728.1378173828125,
+          "p99": 1728.2061767578125,
+          "max": 1728.2232666015625
+        },
+        "lead8": {
+          "count": 5,
+          "mean": 1728.9844482421875,
+          "p50": 1728.7376708984375,
+          "p95": 1729.9015625,
+          "p99": 1729.92748046875,
+          "max": 1729.9339599609375
+        }
+      },
+      "summary": {
+        "compute_only_ms_h4": 59.959463936941965,
+        "serial_ms_h4": 80.1485595703125,
+        "serial_increment_ms_h4": 20.189095633370535,
+        "arms": {
+          "lead1": {
+            "ms_h4": 79.66168212890625,
+            "exposed_tail_ms_h4": 19.702218191964285,
+            "speedup_vs_serial": 1.0061118147193828,
+            "effective_tok_s": 50.21234667788354
+          },
+          "lead2": {
+            "ms_h4": 61.64141845703125,
+            "exposed_tail_ms_h4": 1.6819545200892847,
+            "speedup_vs_serial": 1.300238728707746,
+            "effective_tok_s": 64.89143339211611
+          },
+          "lead4": {
+            "ms_h4": 61.701817103794646,
+            "exposed_tail_ms_h4": 1.7423531668526806,
+            "speedup_vs_serial": 1.2989659516102547,
+            "effective_tok_s": 64.82791249520594
+          },
+          "lead8": {
+            "ms_h4": 61.740631103515625,
+            "exposed_tail_ms_h4": 1.7811671665736597,
+            "speedup_vs_serial": 1.2981493408438562,
+            "effective_tok_s": 64.78715763843614
+          }
+        }
+      }
+    }
+  },
+  "gates": {
+    "P71_G1_pinned_working_set_and_ring_bounds": true,
+    "P71_G2_wait_calibration_within_5pct": true,
+    "P71_G3_lookahead_no_slower_than_serial": true,
+    "P71_G4_lru_exposed_tail_within_residual": false,
+    "P71_G5_belady_exposed_tail_within_residual": false
+  },
+  "completed_utc": "2026-08-21T16:37:12.325036+00:00",
+  "environment": {
+    "created_utc": "2026-08-21T16:37:12.332140+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "8d8ced8473cd477e046d7b1db05b526f4bd87475",
+    "git_status": [
+      "?? pro_research/s100_phase71_ornith_trace_prefetch_oracle.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 94 MiB, 76, 35.38 W, 2835 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "pro_research\\s100_phase71_ornith_trace_prefetch_oracle.py": "2f759a4f3cf3a79385b0ab158fe4d83406b8c6d38ac2f40df296210b0bc9d38c",
+      "pro_research\\S100_PHASE71_ORNITH_TRACE_PREFETCH_ORACLE_PREREGISTRATION.md": "6b437459d66ff55ad8618f96aba10f30b0ce53d835ae7cf21552b068944c291b",
+      "pro_research\\results\\s100_phase70\\S100_PHASE70_ORNITH_REAL_TRACE.json": "464302c6d5e9dab64662ef7fb3b6ee5434bcea44e66e87e43d1d550d9b61265c"
+    }
+  }
+}

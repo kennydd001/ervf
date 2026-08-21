@@ -4,12 +4,18 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 RESULT = REPO / "pro_research" / "results" / "native_nvfp4" / "C3B_REAL_ACTIVATION.json"
-MODEL_DIR = REPO / "models" / "nemotron_3_5_lightning_v35"
+MODEL_DIR = Path(
+    os.environ.get(
+        "LS_MODEL_DIR",
+        str(REPO / "models" / "nemotron_3_5_lightning_v35"),
+    )
+).resolve()
 INDEX = MODEL_DIR / "model.safetensors.index.json"
 
 TH = {"normalized_rmse_max": 0.080, "cosine_min": 0.9950,

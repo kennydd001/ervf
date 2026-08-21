@@ -1,0 +1,29 @@
+{
+  "kind": "s100_phase38_official_dflash_target_capture",
+  "status": "technical_failure",
+  "started_utc": "2026-08-21T08:31:51.771059+00:00",
+  "preregistration": "pro_research\\S100_PHASE38_DFLASH_PREREGISTRATION.md",
+  "claim_boundary": "untimed exact target-state capture; no DFlash acceptance or throughput claim",
+  "gpu_idle_preflight": {
+    "compute_app_lines": [
+      "38572, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.818.2441.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+    ],
+    "ignored_wddm_gui_contexts": [
+      "38572, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.818.2441.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+    ],
+    "gpu_memory_used_mib": 0,
+    "gpu_utilization_percent": 0,
+    "policy": "ignore only ChatGPT.exe with [N/A] WDDM memory; block every other compute-app; require total memory <=1024 MiB and utilization <=10%"
+  },
+  "dflash_checkpoint": {
+    "snapshot": "7fc1f1ff4b82b917efbd0710df0872c2bb89caa5",
+    "config_sha256": "562047b6c1a105c48c2698b63fe2daf12eb650f8be37a43ce93cb2899f299b67",
+    "model_bytes": 1177089556
+  },
+  "completed_utc": "2026-08-21T08:32:21.917227+00:00",
+  "error": {
+    "type": "RuntimeError",
+    "message": "canonical replay diverged at input 0: predicted=1048 expected=67546",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase38_dflash_capture.py\", line 162, in main\n    hidden, predictions = _capture(rt, trace_tokens, COUNT)\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase38_dflash_capture.py\", line 125, in _capture\n    raise RuntimeError(\nRuntimeError: canonical replay diverged at input 0: predicted=1048 expected=67546\n"
+  }
+}

@@ -4,13 +4,19 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 import struct
 from pathlib import Path
 from typing import Any
 
 from common import REPO
 
-MODEL_DIR = REPO / "models" / "nemotron_3_5_lightning_v35"
+MODEL_DIR = Path(
+    os.environ.get(
+        "LS_MODEL_DIR",
+        str(REPO / "models" / "nemotron_3_5_lightning_v35"),
+    )
+).resolve()
 INDEX = MODEL_DIR / "model.safetensors.index.json"
 REFERENCE_ROWS = 64
 COLD_L2_MULTIPLE = 4.0

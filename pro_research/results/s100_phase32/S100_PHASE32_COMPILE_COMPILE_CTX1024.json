@@ -1,0 +1,62 @@
+{
+  "kind": "s100_phase32_measure",
+  "status": "compiled",
+  "arm": "compile",
+  "tag": "compile",
+  "context": 1024,
+  "blocks": 8,
+  "warmup": 4,
+  "started_utc": "2026-08-21T06:14:16.780674+00:00",
+  "claim_boundary": "fresh-process exact target-only H8 timing; no drafter, acceptance loss, rejection or rollback cost",
+  "kernel_resources": {
+    "dense_m4": {
+      "gemv_bf16_m4_direct_l2": {
+        "num_regs": 48,
+        "shared_size_bytes_static": 512,
+        "local_size_bytes": 0,
+        "max_threads_per_block": 1024
+      },
+      "gemv_f32_m4_direct_l2": {
+        "num_regs": 40,
+        "shared_size_bytes_static": 512,
+        "local_size_bytes": 0,
+        "max_threads_per_block": 1024
+      }
+    },
+    "dense_m8": {
+      "gemv_bf16_m8_direct_l2": {
+        "num_regs": 40,
+        "shared_size_bytes_static": 1024,
+        "local_size_bytes": 0,
+        "max_threads_per_block": 1024
+      },
+      "gemv_f32_m8_direct_l2": {
+        "num_regs": 40,
+        "shared_size_bytes_static": 1024,
+        "local_size_bytes": 0,
+        "max_threads_per_block": 1024
+      }
+    },
+    "shared_head_m4": {
+      "m2_stage": {
+        "num_regs": 64,
+        "shared_size_bytes_static": 64,
+        "local_size_bytes": 0,
+        "max_threads_per_block": 1024
+      },
+      "m2_direct": {
+        "num_regs": 64,
+        "shared_size_bytes_static": 64,
+        "local_size_bytes": 0,
+        "max_threads_per_block": 1024
+      },
+      "m4_direct": {
+        "num_regs": 96,
+        "shared_size_bytes_static": 64,
+        "local_size_bytes": 0,
+        "max_threads_per_block": 640
+      }
+    }
+  },
+  "completed_utc": "2026-08-21T06:14:19.912744+00:00"
+}

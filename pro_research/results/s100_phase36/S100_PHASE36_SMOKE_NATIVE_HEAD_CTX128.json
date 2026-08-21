@@ -1,0 +1,120 @@
+{
+  "kind": "s100_phase36_measure",
+  "status": "measured",
+  "arm": "native_head",
+  "tag": "smoke",
+  "context": 128,
+  "blocks": 1,
+  "warmup": 0,
+  "started_utc": "2026-08-21T07:02:33.838254+00:00",
+  "claim_boundary": "quality-contract target-only H8; native head is not bitexact logits",
+  "capture_info": {
+    "variant": "direct8_route",
+    "up_mode": "direct8",
+    "down_mode": "route",
+    "graph_extra_vram_bytes": 0,
+    "max_splits": 1,
+    "actual_plane_bytes": 516354048,
+    "dot_probe": {
+      "available": true,
+      "length": 247471,
+      "group_routes48": true,
+      "cache_assign_h8": true,
+      "split4": false,
+      "direct_m8": true,
+      "group_down": false,
+      "route_down": true,
+      "argmax4": true,
+      "pos_add4": true
+    },
+    "phase32_arm": "dense_m8",
+    "dense_mode": "m8",
+    "shared_two_m4_waves": true,
+    "head_two_m4_waves": true,
+    "phase36_native_fp4_head_m8": true,
+    "native_head_tensor_scale": 0.03744343462444487,
+    "native_head_extra_device_bytes": 22052356,
+    "native_head_resources": {
+      "quantizer": {
+        "num_regs": 20,
+        "shared_size_bytes_static": 4,
+        "local_size_bytes": 0,
+        "max_threads_per_block": 1024
+      },
+      "bf16_to_f32": {
+        "num_regs": 10,
+        "shared_size_bytes_static": 0,
+        "local_size_bytes": 0,
+        "max_threads_per_block": 1024
+      }
+    }
+  },
+  "records": [
+    {
+      "block": 0,
+      "pos": 128,
+      "ms": 123.2048,
+      "got": [
+        3244,
+        1710,
+        8125,
+        2203,
+        17280,
+        1044,
+        10752,
+        112422
+      ],
+      "expected": [
+        3244,
+        1710,
+        8125,
+        2203,
+        17280,
+        1044,
+        10752,
+        112422
+      ],
+      "matching_ids": 8
+    }
+  ],
+  "summary": {
+    "count": 1,
+    "median_ms": 123.2048,
+    "p10_ms": 123.2048,
+    "p90_ms": 123.2048,
+    "mean_ms": 123.2048,
+    "mad_ms": 0.0,
+    "target_only_tok_s": 64.93253509603521,
+    "matching_ids": 8,
+    "total_ids": 8,
+    "top1_agreement": 1.0,
+    "all_token_exact": true
+  },
+  "finite_logits": true,
+  "static_represented_max": 100.6479522705078,
+  "static_saturation_values": 0,
+  "screen_promotion_open": true,
+  "telemetry": {
+    "before": {
+      "timestamp": "2026/08/21 09:03:25.635",
+      "temperature.gpu": 63.0,
+      "pstate": "P4",
+      "clocks.sm": 2295.0,
+      "clocks.mem": 9001.0,
+      "power.draw": 11.67,
+      "utilization.gpu": 3.0,
+      "memory.used": 7669.0
+    },
+    "after": {
+      "timestamp": "2026/08/21 09:03:37.941",
+      "temperature.gpu": 63.0,
+      "pstate": "P5",
+      "clocks.sm": 180.0,
+      "clocks.mem": 810.0,
+      "power.draw": 8.39,
+      "utilization.gpu": 0.0,
+      "memory.used": 7669.0
+    }
+  },
+  "completed_utc": "2026-08-21T07:03:41.068222+00:00"
+}

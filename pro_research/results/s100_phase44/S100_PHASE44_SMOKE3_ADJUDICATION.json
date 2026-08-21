@@ -1,0 +1,16 @@
+{
+  "kind": "s100_phase44_prefetch_oracle",
+  "status": "technical_failure",
+  "started_utc": "2026-08-21T11:20:07.737762+00:00",
+  "frozen_parent": "codex/s100-phase31-critical-path@1046da1",
+  "context": 128,
+  "blocks": 1,
+  "warmup": 0,
+  "claim_boundary": "perfect future-route target-only H4 oracle; real routers and all arithmetic remain authoritative; no predictor/drafter cost",
+  "error": {
+    "type": "CUDARuntimeError",
+    "message": "cudaErrorStreamCaptureIsolation: dependency created on uncaptured work in another stream",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase44_measure.py\", line 174, in main\n    candidate = run_oracle(\n                ^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase44_measure.py\", line 89, in run_oracle\n    capture_info = graph.setup_graph()\n                   ^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase24_common.py\", line 428, in setup_graph\n    info=super().setup_graph()\n         ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase22_common.py\", line 183, in setup_graph\n    self.body()\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase44_prefetch_oracle.py\", line 211, in oracle_body\n    return original_body()\n           ^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase24_common.py\", line 417, in body\n    self.gmoe(i,v.normed,v.acc,False)\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase44_prefetch_oracle.py\", line 196, in __call__\n    return self.inner(layer, normed, out, collect_stats)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase27_common.py\", line 174, in __call__\n    b.k.cache_assign(dev,b.ids,b.slots,b.need,int(c[\"cap\"]))\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase44_prefetch_oracle.py\", line 295, in _cache_assign_after_router\n    main.wait_event(self.prefetch_done[layer])\n  File \"cupy/cuda/stream.pyx\", line 348, in cupy.cuda.stream._BaseStream.wait_event\n  File \"cupy_backends/cuda/api/runtime.pyx\", line 999, in cupy_backends.cuda.api.runtime.streamWaitEvent\n  File \"cupy_backends/cuda/api/runtime.pyx\", line 146, in cupy_backends.cuda.api.runtime.check_status\ncupy_backends.cuda.api.runtime.CUDARuntimeError: cudaErrorStreamCaptureIsolation: dependency created on uncaptured work in another stream\n"
+  },
+  "completed_utc": "2026-08-21T11:21:55.012154+00:00"
+}

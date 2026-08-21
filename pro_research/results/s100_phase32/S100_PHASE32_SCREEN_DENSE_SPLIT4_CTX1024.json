@@ -1,0 +1,280 @@
+{
+  "kind": "s100_phase32_measure",
+  "status": "measured",
+  "arm": "dense_split4",
+  "tag": "screen",
+  "context": 1024,
+  "blocks": 8,
+  "warmup": 4,
+  "started_utc": "2026-08-21T06:16:43.447893+00:00",
+  "claim_boundary": "fresh-process exact target-only H8 timing; no drafter, acceptance loss, rejection or rollback cost",
+  "config": {
+    "arm": "dense_split4",
+    "dense_mode": "split4",
+    "moe": "phase25_direct8_route_phase32_dense_shared"
+  },
+  "capture_info": {
+    "variant": "direct8_route",
+    "up_mode": "direct8",
+    "down_mode": "route",
+    "graph_extra_vram_bytes": 0,
+    "max_splits": 3,
+    "actual_plane_bytes": 516354048,
+    "dot_probe": {
+      "available": true,
+      "length": 259773,
+      "group_routes48": true,
+      "cache_assign_h8": true,
+      "split4": false,
+      "direct_m8": true,
+      "group_down": false,
+      "route_down": true,
+      "argmax4": true,
+      "pos_add4": true
+    },
+    "phase32_arm": "dense_split4",
+    "dense_mode": "split4",
+    "shared_two_m4_waves": true,
+    "head_two_m4_waves": true
+  },
+  "records": [
+    {
+      "block": 0,
+      "pos": 1056,
+      "ms": 122.4175,
+      "got": [
+        1051,
+        1046,
+        108225,
+        75377,
+        1321,
+        73530,
+        116696,
+        1267
+      ],
+      "expected": [
+        1051,
+        1046,
+        108225,
+        75377,
+        1321,
+        73530,
+        116696,
+        1267
+      ]
+    },
+    {
+      "block": 1,
+      "pos": 1064,
+      "ms": 127.6144,
+      "got": [
+        27313,
+        1454,
+        1261,
+        6010,
+        2779,
+        1321,
+        1517,
+        100947
+      ],
+      "expected": [
+        27313,
+        1454,
+        1261,
+        6010,
+        2779,
+        1321,
+        1517,
+        100947
+      ]
+    },
+    {
+      "block": 2,
+      "pos": 1072,
+      "ms": 125.3052,
+      "got": [
+        3244,
+        1044,
+        1278,
+        3039,
+        1278,
+        3475,
+        1395,
+        19555
+      ],
+      "expected": [
+        3244,
+        1044,
+        1278,
+        3039,
+        1278,
+        3475,
+        1395,
+        19555
+      ]
+    },
+    {
+      "block": 3,
+      "pos": 1080,
+      "ms": 133.1035,
+      "got": [
+        22482,
+        1046,
+        101259,
+        15765,
+        6076,
+        1307,
+        14953,
+        1307
+      ],
+      "expected": [
+        22482,
+        1046,
+        101259,
+        15765,
+        6076,
+        1307,
+        14953,
+        1307
+      ]
+    },
+    {
+      "block": 4,
+      "pos": 1088,
+      "ms": 122.2369,
+      "got": [
+        10317,
+        1319,
+        7238,
+        78789,
+        1044,
+        2229,
+        1044,
+        1871
+      ],
+      "expected": [
+        10317,
+        1319,
+        7238,
+        78789,
+        1044,
+        2229,
+        1044,
+        1871
+      ]
+    },
+    {
+      "block": 5,
+      "pos": 1096,
+      "ms": 120.5458,
+      "got": [
+        73275,
+        1044,
+        6704,
+        14617,
+        1656,
+        11546,
+        9314,
+        1044
+      ],
+      "expected": [
+        73275,
+        1044,
+        6704,
+        14617,
+        1656,
+        11546,
+        9314,
+        1044
+      ]
+    },
+    {
+      "block": 6,
+      "pos": 1104,
+      "ms": 118.6369,
+      "got": [
+        2576,
+        10317,
+        1584,
+        19555,
+        65016,
+        1044,
+        28083,
+        1278
+      ],
+      "expected": [
+        2576,
+        10317,
+        1584,
+        19555,
+        65016,
+        1044,
+        28083,
+        1278
+      ]
+    },
+    {
+      "block": 7,
+      "pos": 1112,
+      "ms": 120.8726,
+      "got": [
+        2181,
+        1317,
+        1402,
+        8628,
+        1562,
+        6628,
+        1317,
+        1278
+      ],
+      "expected": [
+        2181,
+        1317,
+        1402,
+        8628,
+        1562,
+        6628,
+        1317,
+        1278
+      ]
+    }
+  ],
+  "summary": {
+    "count": 8,
+    "median_ms": 122.3272,
+    "p10_ms": 119.97313,
+    "p90_ms": 129.26113,
+    "mean_ms": 123.8416,
+    "mad_ms": 2.3796999999999997,
+    "ms_per_useful_token": 15.2909,
+    "target_only_tok_s": 65.39837419641748,
+    "all_token_exact": true
+  },
+  "correctness_green": true,
+  "ms_per_useful_token": 15.2909,
+  "target_only_tok_s": 65.39837419641748,
+  "zero_cost_s100_ceiling_open": false,
+  "telemetry": {
+    "before": {
+      "timestamp": "2026/08/21 08:17:17.936",
+      "temperature.gpu": 66.0,
+      "pstate": "P5",
+      "clocks.sm": 187.0,
+      "clocks.mem": 810.0,
+      "power.draw": 36.62,
+      "utilization.gpu": 44.0,
+      "memory.used": 7529.0
+    },
+    "after": {
+      "timestamp": "2026/08/21 08:17:45.535",
+      "temperature.gpu": 83.0,
+      "pstate": "P4",
+      "clocks.sm": 2295.0,
+      "clocks.mem": 9001.0,
+      "power.draw": 57.57,
+      "utilization.gpu": 100.0,
+      "memory.used": 7529.0
+    }
+  },
+  "completed_utc": "2026-08-21T06:17:45.544693+00:00"
+}

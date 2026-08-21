@@ -1,0 +1,17 @@
+{
+  "kind": "s100_phase40_measure",
+  "status": "technical_failure",
+  "arm": "base_a",
+  "context": 1024,
+  "blocks": 16,
+  "warmup": 4,
+  "started_utc": "2026-08-21T10:04:30.239274+00:00",
+  "preregistration": "pro_research/S100_PHASE40_H8_DOWN_PIPELINE_PREREGISTRATION.md",
+  "claim_boundary": "exact synchronous target-only H8; no drafter or speculative throughput",
+  "error": {
+    "type": "RuntimeError",
+    "message": "H8 mismatch pos=1152 got=[1338, 1438, 1256, 1603, 73025, 75377, 3795, 2409] expected=[1338, 1042, 1256, 1603, 73025, 75377, 3795, 2409]",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase40_measure.py\", line 63, in main\n    records, summary = timed_h8_blocks(\n                       ^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase25_common.py\", line 452, in timed_h8_blocks\n    raise RuntimeError(f\"H8 mismatch pos={pos} got={got.tolist()} expected={expected.tolist()}\")\nRuntimeError: H8 mismatch pos=1152 got=[1338, 1438, 1256, 1603, 73025, 75377, 3795, 2409] expected=[1338, 1042, 1256, 1603, 73025, 75377, 3795, 2409]\n"
+  },
+  "completed_utc": "2026-08-21T10:05:28.071736+00:00"
+}

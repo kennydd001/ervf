@@ -1,0 +1,26 @@
+{
+  "kind": "s100_phase41_adjudication",
+  "status": "correctness_failed",
+  "created_utc": "2026-08-21T10:33:33.905844+00:00",
+  "base_a": {
+    "status": "measured",
+    "median_ms": 125.09309999999999,
+    "tokens_exact": true
+  },
+  "overlap": {
+    "status": "technical_failure",
+    "error": "H8 mismatch pos=1024 got=[91558, 1505, 118422, 1338, 1358, 123070, 1454, 123070] expected=[91558, 1505, 118422, 1338, 7651, 11137, 1454, 123070]"
+  },
+  "serial_control": {
+    "status": "technical_failure",
+    "error": "H8 mismatch pos=1024 got=[91558, 1505, 118422, 1338, 1358, 123070, 1454, 123070] expected=[91558, 1505, 118422, 1338, 7651, 11137, 1454, 123070]"
+  },
+  "gates": {
+    "G41_R1_zero_local_memory": true,
+    "G41_C1_overlap_exact": false,
+    "G41_C2_serial_control_exact": false,
+    "G41_DIAG_failure_is_not_cross_stream": true
+  },
+  "root_cause": "Pointer-sliced group metadata changed effective group-index semantics. Phase42 replaced slicing with explicit global g0 indexing and passed.",
+  "claim_boundary": "correctness closure; no Phase41 speed claim"
+}

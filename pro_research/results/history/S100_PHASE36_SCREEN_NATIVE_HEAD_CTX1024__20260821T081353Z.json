@@ -1,0 +1,17 @@
+{
+  "kind": "s100_phase36_measure",
+  "status": "technical_failure",
+  "arm": "native_head",
+  "tag": "screen",
+  "context": 1024,
+  "blocks": 16,
+  "warmup": 4,
+  "started_utc": "2026-08-21T07:03:58.815113+00:00",
+  "claim_boundary": "quality-contract target-only H8; native head is not bitexact logits",
+  "error": {
+    "type": "CUDARuntimeError",
+    "message": "cudaErrorNotReady: device not ready",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase36_measure.py\", line 106, in main\n    runtime, graph, keep = make_candidate(int(args.context))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase36_common.py\", line 30, in make_candidate\n    rt, keep = make_rt(int(context), \"v6_device_rows\")\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase21_common.py\", line 87, in make_rt\n    apply_nonuniform_capacity(rt)\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\layer_capacity.py\", line 59, in apply_nonuniform_capacity\n    reallocate_layer(rt, layer, BASELINE_CAP + BOOST_DELTA)\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\layer_capacity.py\", line 40, in reallocate_layer\n    \"codes\": cp.zeros(new_cap * UP_CODE, dtype=cp.uint8),\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-fp4-c2b\\Lib\\site-packages\\cupy\\_creation\\basic.py\", line 252, in zeros\n    a = cupy.ndarray(shape, dtype, order=order)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"cupy/_core/core.pyx\", line 176, in cupy._core.core.ndarray.__new__\n  File \"cupy/_core/core.pyx\", line 282, in cupy._core.core._ndarray_base._init\n  File \"cupy/cuda/memory.pyx\", line 904, in cupy.cuda.memory.alloc\n  File \"cupy/cuda/memory.pyx\", line 1614, in cupy.cuda.memory.MemoryPool.malloc\n  File \"cupy/cuda/memory.pyx\", line 1635, in cupy.cuda.memory.MemoryPool.malloc\n  File \"cupy/cuda/memory.pyx\", line 1350, in cupy.cuda.memory.SingleDeviceMemoryPool.malloc\n  File \"cupy/cuda/memory.pyx\", line 1376, in cupy.cuda.memory.SingleDeviceMemoryPool._malloc\n  File \"cupy/cuda/memory.pyx\", line 1539, in cupy.cuda.memory.SingleDeviceMemoryPool._try_malloc\n  File \"cupy/cuda/memory.pyx\", line 1536, in cupy.cuda.memory.SingleDeviceMemoryPool._try_malloc\n  File \"cupy/cuda/memory.pyx\", line 1321, in cupy.cuda.memory.SingleDeviceMemoryPool._alloc\n  File \"cupy/cuda/memory.pyx\", line 769, in cupy.cuda.memory._malloc\n  File \"cupy/cuda/memory.pyx\", line 770, in cupy.cuda.memory._malloc\n  File \"cupy/cuda/memory.pyx\", line 119, in cupy.cuda.memory.Memory.__init__\n  File \"cupy_backends/cuda/api/runtime.pyx\", line 520, in cupy_backends.cuda.api.runtime.malloc\n  File \"cupy_backends/cuda/api/runtime.pyx\", line 146, in cupy_backends.cuda.api.runtime.check_status\ncupy_backends.cuda.api.runtime.CUDARuntimeError: cudaErrorNotReady: device not ready\n"
+  },
+  "completed_utc": "2026-08-21T07:07:06.437751+00:00"
+}

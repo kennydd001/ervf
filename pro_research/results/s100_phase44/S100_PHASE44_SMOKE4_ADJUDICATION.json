@@ -1,0 +1,407 @@
+{
+  "kind": "s100_phase44_prefetch_oracle",
+  "status": "measured",
+  "started_utc": "2026-08-21T11:22:21.205996+00:00",
+  "frozen_parent": "codex/s100-phase31-critical-path@1046da1",
+  "context": 128,
+  "blocks": 1,
+  "warmup": 0,
+  "claim_boundary": "perfect future-route target-only H4 oracle; real routers and all arithmetic remain authoritative; no predictor/drafter cost",
+  "route_capture": {
+    "positions": [
+      128
+    ],
+    "layer_count": 23,
+    "routes_per_layer": 24,
+    "capture_info": {
+      "graph_extra_vram_bytes": 0,
+      "max_splits": 1,
+      "dot_probe": {
+        "available": true,
+        "length": 177361,
+        "contains_fp8_residual2": true,
+        "contains_device_route": true,
+        "contains_moe_batched_up": false,
+        "contains_fp32_kv": true,
+        "contains_fp32_attention": true,
+        "contains_argmax4": true,
+        "contains_pos_add4": true
+      },
+      "phase24_config": {
+        "attention_m4": true,
+        "router_m4": false,
+        "shared_m4": false,
+        "sres_layers": [
+          20,
+          22,
+          29,
+          17,
+          27,
+          24,
+          13,
+          31,
+          43,
+          51,
+          49,
+          15,
+          38,
+          10,
+          34,
+          36,
+          45,
+          47,
+          40,
+          6,
+          3,
+          8,
+          1
+        ]
+      },
+      "actual_plane_bytes": 516354048,
+      "phase24_dot": {
+        "bf16_m4": true,
+        "f32_m4": false,
+        "shared_m4": false,
+        "sres_gather": true,
+        "sres_down": true
+      }
+    }
+  },
+  "parent_a": {
+    "capture_info": {
+      "graph_extra_vram_bytes": 0,
+      "max_splits": 1,
+      "dot_probe": {
+        "available": true,
+        "length": 174426,
+        "contains_fp8_residual2": true,
+        "contains_device_route": true,
+        "contains_moe_batched_up": false,
+        "contains_fp32_kv": true,
+        "contains_fp32_attention": true,
+        "contains_argmax4": true,
+        "contains_pos_add4": true
+      },
+      "phase24_config": {
+        "attention_m4": true,
+        "router_m4": false,
+        "shared_m4": false,
+        "sres_layers": [
+          20,
+          22,
+          29,
+          17,
+          27,
+          24,
+          13,
+          31,
+          43,
+          51,
+          49,
+          15,
+          38,
+          10,
+          34,
+          36,
+          45,
+          47,
+          40,
+          6,
+          3,
+          8,
+          1
+        ]
+      },
+      "actual_plane_bytes": 516354048,
+      "phase24_dot": {
+        "bf16_m4": true,
+        "f32_m4": false,
+        "shared_m4": false,
+        "sres_gather": true,
+        "sres_down": true
+      }
+    },
+    "records": [
+      {
+        "block": 0,
+        "pos": 128,
+        "ms": 650.7606,
+        "got": [
+          3244,
+          1710,
+          8125,
+          2203
+        ],
+        "expected": [
+          3244,
+          1710,
+          8125,
+          2203
+        ]
+      }
+    ],
+    "summary": {
+      "count": 1,
+      "median_ms": 650.7606,
+      "p10_ms": 650.7606,
+      "p90_ms": 650.7606,
+      "mean_ms": 650.7606,
+      "ms_per_useful_token": 162.69015,
+      "target_only_tok_s": 6.146653623467678,
+      "all_token_exact": true
+    },
+    "telemetry": {
+      "before": {
+        "timestamp": "2026/08/21 13:23:26.048",
+        "temperature.gpu": 66.0,
+        "pstate": "P1",
+        "clocks.sm": 2850.0,
+        "clocks.mem": 11801.0,
+        "power.draw": 36.81,
+        "utilization.gpu": 99.0,
+        "memory.used": 7818.0
+      },
+      "after": {
+        "timestamp": "2026/08/21 13:23:32.913",
+        "temperature.gpu": 71.0,
+        "pstate": "P1",
+        "clocks.sm": 2850.0,
+        "clocks.mem": 11801.0,
+        "power.draw": 40.03,
+        "utilization.gpu": 100.0,
+        "memory.used": 7818.0
+      }
+    }
+  },
+  "candidate": {
+    "capture_info": {
+      "graph_extra_vram_bytes": 0,
+      "max_splits": 1,
+      "dot_probe": {
+        "available": true,
+        "length": 196076,
+        "contains_fp8_residual2": true,
+        "contains_device_route": true,
+        "contains_moe_batched_up": false,
+        "contains_fp32_kv": true,
+        "contains_fp32_attention": true,
+        "contains_argmax4": true,
+        "contains_pos_add4": true
+      },
+      "phase24_config": {
+        "attention_m4": true,
+        "router_m4": false,
+        "shared_m4": false,
+        "sres_layers": [
+          20,
+          22,
+          29,
+          17,
+          27,
+          24,
+          13,
+          31,
+          43,
+          51,
+          49,
+          15,
+          38,
+          10,
+          34,
+          36,
+          45,
+          47,
+          40,
+          6,
+          3,
+          8,
+          1
+        ]
+      },
+      "actual_plane_bytes": 516354048,
+      "phase24_dot": {
+        "bf16_m4": true,
+        "f32_m4": false,
+        "shared_m4": false,
+        "sres_gather": true,
+        "sres_down": true
+      }
+    },
+    "records": [
+      {
+        "block": 0,
+        "pos": 128,
+        "ms": 203.3467,
+        "got": [
+          3244,
+          1710,
+          8125,
+          2203
+        ],
+        "expected": [
+          3244,
+          1710,
+          8125,
+          2203
+        ]
+      }
+    ],
+    "summary": {
+      "count": 1,
+      "median_ms": 203.3467,
+      "p10_ms": 203.3467,
+      "p90_ms": 203.3467,
+      "mean_ms": 203.3467,
+      "ms_per_useful_token": 50.836675,
+      "target_only_tok_s": 19.670838031794958,
+      "all_token_exact": true
+    },
+    "route_mismatch_count": 0,
+    "telemetry": {
+      "before": {
+        "timestamp": "2026/08/21 13:24:04.263",
+        "temperature.gpu": 65.0,
+        "pstate": "P4",
+        "clocks.sm": 1597.0,
+        "clocks.mem": 9001.0,
+        "power.draw": 26.54,
+        "utilization.gpu": 45.0,
+        "memory.used": 7794.0
+      },
+      "after": {
+        "timestamp": "2026/08/21 13:24:16.347",
+        "temperature.gpu": 74.0,
+        "pstate": "P1",
+        "clocks.sm": 2842.0,
+        "clocks.mem": 11801.0,
+        "power.draw": 48.14,
+        "utilization.gpu": 99.0,
+        "memory.used": 7794.0
+      }
+    }
+  },
+  "parent_b": {
+    "capture_info": {
+      "graph_extra_vram_bytes": 0,
+      "max_splits": 1,
+      "dot_probe": {
+        "available": true,
+        "length": 178835,
+        "contains_fp8_residual2": true,
+        "contains_device_route": true,
+        "contains_moe_batched_up": false,
+        "contains_fp32_kv": true,
+        "contains_fp32_attention": true,
+        "contains_argmax4": true,
+        "contains_pos_add4": true
+      },
+      "phase24_config": {
+        "attention_m4": true,
+        "router_m4": false,
+        "shared_m4": false,
+        "sres_layers": [
+          20,
+          22,
+          29,
+          17,
+          27,
+          24,
+          13,
+          31,
+          43,
+          51,
+          49,
+          15,
+          38,
+          10,
+          34,
+          36,
+          45,
+          47,
+          40,
+          6,
+          3,
+          8,
+          1
+        ]
+      },
+      "actual_plane_bytes": 516354048,
+      "phase24_dot": {
+        "bf16_m4": true,
+        "f32_m4": false,
+        "shared_m4": false,
+        "sres_gather": true,
+        "sres_down": true
+      }
+    },
+    "records": [
+      {
+        "block": 0,
+        "pos": 128,
+        "ms": 168.9911,
+        "got": [
+          3244,
+          1710,
+          8125,
+          2203
+        ],
+        "expected": [
+          3244,
+          1710,
+          8125,
+          2203
+        ]
+      }
+    ],
+    "summary": {
+      "count": 1,
+      "median_ms": 168.9911,
+      "p10_ms": 168.9911,
+      "p90_ms": 168.9911,
+      "mean_ms": 168.9911,
+      "ms_per_useful_token": 42.247775,
+      "target_only_tok_s": 23.669885573855666,
+      "all_token_exact": true
+    },
+    "telemetry": {
+      "before": {
+        "timestamp": "2026/08/21 13:24:47.788",
+        "temperature.gpu": 64.0,
+        "pstate": "P4",
+        "clocks.sm": 532.0,
+        "clocks.mem": 9001.0,
+        "power.draw": 22.41,
+        "utilization.gpu": 15.0,
+        "memory.used": 7362.0
+      },
+      "after": {
+        "timestamp": "2026/08/21 13:24:54.381",
+        "temperature.gpu": 73.0,
+        "pstate": "P4",
+        "clocks.sm": 2587.0,
+        "clocks.mem": 9001.0,
+        "power.draw": 41.16,
+        "utilization.gpu": 96.0,
+        "memory.used": 7362.0
+      }
+    }
+  },
+  "adjudication": {
+    "parent_a_median_ms_per_h4": 650.7606,
+    "candidate_median_ms_per_h4": 203.3467,
+    "parent_b_median_ms_per_h4": 168.9911,
+    "baseline_midpoint_ms_per_h4": 409.87584999999996,
+    "baseline_drift_fraction": 1.175403478882691,
+    "saving_ms_per_h4": 206.52914999999996,
+    "candidate_target_only_tok_s": 19.670838031794958,
+    "bootstrap_saving": {
+      "mean_ms_per_h4": 206.52914999999996,
+      "median_ms_per_h4": 206.52914999999996,
+      "lower95_ms_per_h4": 206.52914999999996,
+      "upper95_ms_per_h4": 206.52914999999996
+    },
+    "PREFETCH_RESEARCH_OPEN": false,
+    "STRUCTURAL_BREAKTHROUGH": false
+  },
+  "completed_utc": "2026-08-21T11:24:56.358524+00:00"
+}

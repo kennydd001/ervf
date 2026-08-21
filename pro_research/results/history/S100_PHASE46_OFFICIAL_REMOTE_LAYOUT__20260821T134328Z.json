@@ -1,0 +1,34 @@
+{
+  "kind": "s100_phase46_ornith_nvfp4_transfer_probe",
+  "status": "technical_failure",
+  "tag": "official_remote_layout",
+  "model_dir": null,
+  "repo_id": "ornith-ai/Ornith-1.5-35B-A3B-NVFP4",
+  "layout_only": true,
+  "started_utc": "2026-08-21T13:41:42.441443+00:00",
+  "preregistration": "pro_research\\S100_PHASE46_ORNITH_NVFP4_PREREGISTRATION.md",
+  "claim_boundary": "real checkpoint layout, offload byte plan and native matrix kernels only; not a full Qwen3.5 token decoder or DFlash acceptance claim",
+  "remote_provenance": {
+    "repo_id": "ornith-ai/Ornith-1.5-35B-A3B-NVFP4",
+    "revision": "0f0b1b59b879ccde1353e6ebd0fb10c204d4c544",
+    "config_sha256": "4b12527ba7cc6d64ce5fd8a2569c77ea2713efca2b5ffc42b4402048ee857c4b",
+    "index_sha256": "c9bfd574cc1deffe09d8fbc5a7d8c2e105cfdb7764b1ee7b16ca52072e7366f7",
+    "header_sha256": {
+      "model-00001-of-00003.safetensors": "efbce110fe1305d13a4979f3580c7edb0a84e1030b82a722b1b854ec5e7039d5",
+      "model-00002-of-00003.safetensors": "c86db284e73d4946b2fc9f254d29923868dfce6ecfd25f005b2ab3ab7315dece",
+      "model-00003-of-00003.safetensors": "7930276d541c0f47bf50359b8c6eaf598460a05c02fd15115e66fb13f785a601"
+    },
+    "shard_bytes": {
+      "model-00001-of-00003.safetensors": 10005227452,
+      "model-00002-of-00003.safetensors": 10001532968,
+      "model-00003-of-00003.safetensors": 3413657112
+    },
+    "payload_bytes_not_downloaded": 23420417532
+  },
+  "error": {
+    "type": "RuntimeError",
+    "message": "unable to identify one language layer root: ['model.language_model.layers', 'mtp.layers']",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase46_ornith_nvfp4_probe.py\", line 401, in main\n    layout = _layout_audit(source_name, config, entries, headers, triples)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase46_ornith_nvfp4_probe.py\", line 77, in _layout_audit\n    root = _layer_root(entries)\n           ^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase46_ornith_nvfp4_probe.py\", line 36, in _layer_root\n    raise RuntimeError(f\"unable to identify one language layer root: {matches}\")\nRuntimeError: unable to identify one language layer root: ['model.language_model.layers', 'mtp.layers']\n"
+  },
+  "completed_utc": "2026-08-21T13:42:17.517917+00:00"
+}

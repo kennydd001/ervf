@@ -1,0 +1,17 @@
+{
+  "kind": "s100_phase36_measure",
+  "status": "technical_failure",
+  "arm": "native_head",
+  "tag": "smoke",
+  "context": 128,
+  "blocks": 1,
+  "warmup": 0,
+  "started_utc": "2026-08-21T07:01:52.013989+00:00",
+  "claim_boundary": "quality-contract target-only H8; native head is not bitexact logits",
+  "error": {
+    "type": "ModuleNotFoundError",
+    "message": "No module named 'moe_lab'",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase36_measure.py\", line 106, in main\n    runtime, graph, keep = make_candidate(int(args.context))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase36_common.py\", line 30, in make_candidate\n    rt, keep = make_rt(int(context), \"v6_device_rows\")\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase21_common.py\", line 68, in make_rt\n    from moe_lab.lightningstream_nemotron.runtime import LightningRuntime\nModuleNotFoundError: No module named 'moe_lab'\n"
+  },
+  "completed_utc": "2026-08-21T07:01:52.222275+00:00"
+}

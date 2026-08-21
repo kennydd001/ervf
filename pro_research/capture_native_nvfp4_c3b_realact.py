@@ -18,7 +18,8 @@ from typing import Any
 
 import numpy as np
 
-from common import REPO, environment_snapshot, require_gpu_free, utc_now, write_json_atomic
+from common import REPO, environment_snapshot, utc_now, write_json_atomic
+from diag_native_nvfp4_c3a_real_weight_v2 import require_gpu_idle_wddm
 from down_proj_batch_kernels import DownProjBatchKernels
 from ervf_dense import DenseERVF
 from graph_e1f22 import _load_prompt_set, _new_runtime
@@ -69,7 +70,7 @@ def main() -> int:
     try:
         if args.tokens != 64:
             raise ValueError("C3B preregistration freezes --tokens 64")
-        require_gpu_free()
+        payload["gpu_idle_preflight"] = require_gpu_idle_wddm()
         import cupy as cp
 
         prompts, _expected, _n, capacity = _load_prompt_set("smoke")

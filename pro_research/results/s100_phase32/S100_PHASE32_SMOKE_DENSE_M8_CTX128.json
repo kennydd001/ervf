@@ -1,0 +1,105 @@
+{
+  "kind": "s100_phase32_measure",
+  "status": "measured",
+  "arm": "dense_m8",
+  "tag": "smoke",
+  "context": 128,
+  "blocks": 1,
+  "warmup": 0,
+  "started_utc": "2026-08-21T06:14:28.303500+00:00",
+  "claim_boundary": "fresh-process exact target-only H8 timing; no drafter, acceptance loss, rejection or rollback cost",
+  "config": {
+    "arm": "dense_m8",
+    "dense_mode": "m8",
+    "moe": "phase25_direct8_route_phase32_dense_shared"
+  },
+  "capture_info": {
+    "variant": "direct8_route",
+    "up_mode": "direct8",
+    "down_mode": "route",
+    "graph_extra_vram_bytes": 0,
+    "max_splits": 1,
+    "actual_plane_bytes": 516354048,
+    "dot_probe": {
+      "available": true,
+      "length": 246921,
+      "group_routes48": true,
+      "cache_assign_h8": true,
+      "split4": false,
+      "direct_m8": true,
+      "group_down": false,
+      "route_down": true,
+      "argmax4": true,
+      "pos_add4": true
+    },
+    "phase32_arm": "dense_m8",
+    "dense_mode": "m8",
+    "shared_two_m4_waves": true,
+    "head_two_m4_waves": true
+  },
+  "records": [
+    {
+      "block": 0,
+      "pos": 128,
+      "ms": 119.8766,
+      "got": [
+        3244,
+        1710,
+        8125,
+        2203,
+        17280,
+        1044,
+        10752,
+        112422
+      ],
+      "expected": [
+        3244,
+        1710,
+        8125,
+        2203,
+        17280,
+        1044,
+        10752,
+        112422
+      ]
+    }
+  ],
+  "summary": {
+    "count": 1,
+    "median_ms": 119.8766,
+    "p10_ms": 119.8766,
+    "p90_ms": 119.8766,
+    "mean_ms": 119.8766,
+    "mad_ms": 0.0,
+    "ms_per_useful_token": 14.984575,
+    "target_only_tok_s": 66.73529279275522,
+    "all_token_exact": true
+  },
+  "correctness_green": true,
+  "ms_per_useful_token": 14.984575,
+  "target_only_tok_s": 66.73529279275522,
+  "zero_cost_s100_ceiling_open": false,
+  "telemetry": {
+    "before": {
+      "timestamp": "2026/08/21 08:15:12.451",
+      "temperature.gpu": 63.0,
+      "pstate": "P4",
+      "clocks.sm": 315.0,
+      "clocks.mem": 9001.0,
+      "power.draw": 17.84,
+      "utilization.gpu": 0.0,
+      "memory.used": 7509.0
+    },
+    "after": {
+      "timestamp": "2026/08/21 08:15:16.517",
+      "temperature.gpu": 73.0,
+      "pstate": "P4",
+      "clocks.sm": 2505.0,
+      "clocks.mem": 9001.0,
+      "power.draw": 51.01,
+      "utilization.gpu": 93.0,
+      "memory.used": 7509.0
+    }
+  },
+  "completed_utc": "2026-08-21T06:15:16.524675+00:00"
+}

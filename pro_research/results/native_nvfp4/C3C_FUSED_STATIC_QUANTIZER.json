@@ -1,0 +1,298 @@
+{
+  "kind": "s100_phase35_c3c_fused_static_quantizer",
+  "status": "fused_static_quantizer_candidate",
+  "started_utc": "2026-08-21T06:57:47.117278+00:00",
+  "claim_boundary": "fused quantizer and native component timing; no full-verifier claim",
+  "gpu_idle_preflight": {
+    "compute_app_lines": [
+      "38572, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.818.2441.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+    ],
+    "ignored_wddm_gui_contexts": [
+      "38572, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.818.2441.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+    ],
+    "gpu_memory_used_mib": 12,
+    "gpu_utilization_percent": 0,
+    "policy": "ignore only ChatGPT.exe with [N/A] WDDM memory; block every other compute-app; require total memory <=1024 MiB and utilization <=10%"
+  },
+  "selected_scale_policy": "static_1p10",
+  "families": [
+    {
+      "label": "lm_head",
+      "N": 131072,
+      "K": 2688,
+      "static_tensor_scale": 0.03744343462444487,
+      "rows": [
+        {
+          "M": 1,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true
+        },
+        {
+          "M": 2,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true
+        },
+        {
+          "M": 4,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true
+        },
+        {
+          "M": 8,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true,
+          "quantizer_timing": {
+            "samples_ms": [
+              0.010338879823684692,
+              0.008989760279655456,
+              0.008754879832267762,
+              0.008819199800491333,
+              0.008357120156288146
+            ],
+            "p50_ms": 0.008819199800491333,
+            "min_ms": 0.008357120156288146,
+            "max_ms": 0.010338879823684692,
+            "reps": 100
+          },
+          "quantizer_plus_native_timing": {
+            "samples_ms": [
+              0.1702346642812093,
+              0.15919307072957356,
+              0.15871680577596028,
+              0.17189332644144695,
+              0.1609941323598226
+            ],
+            "p50_ms": 0.1609941323598226,
+            "min_ms": 0.15871680577596028,
+            "max_ms": 0.17189332644144695,
+            "reps": 60
+          },
+          "c3b_reference_combined_ms": 0.9806520462036132,
+          "combined_gain_vs_reference": 0.8358295044780896,
+          "resource": {
+            "num_regs": 20,
+            "shared_size_bytes_static": 4,
+            "local_size_bytes": 0,
+            "max_threads_per_block": 1024
+          }
+        }
+      ]
+    },
+    {
+      "label": "shared_up",
+      "N": 3712,
+      "K": 2688,
+      "static_tensor_scale": 0.00033969727034370106,
+      "rows": [
+        {
+          "M": 1,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true
+        },
+        {
+          "M": 2,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true
+        },
+        {
+          "M": 4,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true
+        },
+        {
+          "M": 8,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true,
+          "quantizer_timing": {
+            "samples_ms": [
+              0.00978496015071869,
+              0.00879360020160675,
+              0.008913599848747254,
+              0.009266560077667236,
+              0.008968960046768188
+            ],
+            "p50_ms": 0.008968960046768188,
+            "min_ms": 0.00879360020160675,
+            "max_ms": 0.00978496015071869,
+            "reps": 100
+          },
+          "quantizer_plus_native_timing": {
+            "samples_ms": [
+              0.0821616013844808,
+              0.06968479951222738,
+              0.06576480070749918,
+              0.08128906885782877,
+              0.08695092995961508
+            ],
+            "p50_ms": 0.08128906885782877,
+            "min_ms": 0.06576480070749918,
+            "max_ms": 0.08695092995961508,
+            "reps": 60
+          },
+          "c3b_reference_combined_ms": 0.7174506717258029,
+          "combined_gain_vs_reference": 0.8866973409303658,
+          "resource": {
+            "num_regs": 20,
+            "shared_size_bytes_static": 4,
+            "local_size_bytes": 0,
+            "max_threads_per_block": 1024
+          }
+        }
+      ]
+    },
+    {
+      "label": "shared_down",
+      "N": 2688,
+      "K": 3712,
+      "static_tensor_scale": 0.00027206244523681345,
+      "rows": [
+        {
+          "M": 1,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true
+        },
+        {
+          "M": 2,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true
+        },
+        {
+          "M": 4,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true
+        },
+        {
+          "M": 8,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true,
+          "quantizer_timing": {
+            "samples_ms": [
+              0.01189120054244995,
+              0.011129599809646607,
+              0.010729600191116333,
+              0.010934400558471679,
+              0.010182080268859863
+            ],
+            "p50_ms": 0.010934400558471679,
+            "min_ms": 0.010182080268859863,
+            "max_ms": 0.01189120054244995,
+            "reps": 100
+          },
+          "quantizer_plus_native_timing": {
+            "samples_ms": [
+              0.1629583994547526,
+              0.08730666637420655,
+              0.08773386478424072,
+              0.07108266353607177,
+              0.06252426703770955
+            ],
+            "p50_ms": 0.08730666637420655,
+            "min_ms": 0.06252426703770955,
+            "max_ms": 0.1629583994547526,
+            "reps": 60
+          },
+          "c3b_reference_combined_ms": 0.7294999758402506,
+          "combined_gain_vs_reference": 0.8803198502184386,
+          "resource": {
+            "num_regs": 20,
+            "shared_size_bytes_static": 4,
+            "local_size_bytes": 0,
+            "max_threads_per_block": 1024
+          }
+        }
+      ]
+    },
+    {
+      "label": "routed_up",
+      "N": 1856,
+      "K": 2688,
+      "static_tensor_scale": 0.00033969727034370106,
+      "rows": [
+        {
+          "M": 1,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true
+        },
+        {
+          "M": 2,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true
+        },
+        {
+          "M": 4,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true
+        },
+        {
+          "M": 8,
+          "codes_byte_exact": true,
+          "blocked_scales_byte_exact": true,
+          "native_output_exact": true,
+          "quantizer_timing": {
+            "samples_ms": [
+              0.01107200026512146,
+              0.010638400316238403,
+              0.011488640308380127,
+              0.011864960193634033,
+              0.01095296025276184
+            ],
+            "p50_ms": 0.01107200026512146,
+            "min_ms": 0.010638400316238403,
+            "max_ms": 0.011864960193634033,
+            "reps": 100
+          },
+          "quantizer_plus_native_timing": {
+            "samples_ms": [
+              0.09556639989217122,
+              0.11043999989827474,
+              0.1001146634419759,
+              0.1067034641901652,
+              0.100381867090861
+            ],
+            "p50_ms": 0.100381867090861,
+            "min_ms": 0.09556639989217122,
+            "max_ms": 0.11043999989827474,
+            "reps": 60
+          },
+          "c3b_reference_combined_ms": 0.7644955317179362,
+          "combined_gain_vs_reference": 0.8686952860727807,
+          "resource": {
+            "num_regs": 20,
+            "shared_size_bytes_static": 4,
+            "local_size_bytes": 0,
+            "max_threads_per_block": 1024
+          }
+        }
+      ]
+    }
+  ],
+  "graph_gate": {
+    "capture_succeeded": true,
+    "replay1_exact": true,
+    "replay2_exact": true
+  },
+  "gates": {
+    "C3C_G1_all_codes_and_scales_byte_exact": true,
+    "C3C_G2_all_native_outputs_exact_to_reference_A": true,
+    "C3C_G3_all_M8_quantizers_le_0p10_ms": true,
+    "C3C_G4_all_combined_paths_beat_reference": true,
+    "C3C_G5_graph_capture_replays_exact": true
+  },
+  "C4_NATIVE_HEAD_INTEGRATION_OPEN": true,
+  "completed_utc": "2026-08-21T06:57:51.753399+00:00"
+}

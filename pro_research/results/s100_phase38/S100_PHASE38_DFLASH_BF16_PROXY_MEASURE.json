@@ -1,0 +1,3765 @@
+{
+  "kind": "s100_phase38_dflash_bf16_residual_proxy_measure",
+  "status": "measured",
+  "started_utc": "2026-08-21T08:54:01.903022+00:00",
+  "preregistration": "pro_research\\S100_PHASE38_DFLASH_PREREGISTRATION.md",
+  "claim_boundary": "post-hoc target-activation sensitivity; unchanged official DFlash checkpoint/reference forward",
+  "gpu_idle_preflight": {
+    "compute_app_lines": [
+      "38572, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.818.2441.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+    ],
+    "ignored_wddm_gui_contexts": [
+      "38572, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.818.2441.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+    ],
+    "gpu_memory_used_mib": 0,
+    "gpu_utilization_percent": 0,
+    "policy": "ignore only ChatGPT.exe with [N/A] WDDM memory; block every other compute-app; require total memory <=1024 MiB and utilization <=10%"
+  },
+  "completed_utc": "2026-08-21T08:54:07.107795+00:00",
+  "git_head": "f51d207914ccd32bc7c3133d8826ab70b747fca1",
+  "environment": {
+    "created_utc": "2026-08-21T08:54:07.143522+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "f51d207914ccd32bc7c3133d8826ab70b747fca1",
+    "git_status": [
+      "M pro_research/capture_native_nvfp4_c3b_realact.py",
+      " M pro_research/diag_native_nvfp4_c3b_realact.py",
+      " M pro_research/native_nvfp4_c3a_lib.py",
+      " M pro_research/verify_s100_native_nvfp4_c3b_realact.py",
+      "?? pro_research/S100_PHASE31_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE32_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE33_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE34_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE35_C3C_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE36_C4_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE38_DFLASH_PREREGISTRATION.md",
+      "?? pro_research/results/history/C3B_REAL_ACTIVATIONS_META__20260821T065054Z.json",
+      "?? pro_research/results/history/C3C_FUSED_STATIC_QUANTIZER__20260821T065751Z.json",
+      "?? pro_research/results/history/S100_PHASE31_COMPILE_COMPILE__20260820T202959Z.json",
+      "?? pro_research/results/history/S100_PHASE31_COMPILE_COMPILE__20260820T203424Z.json",
+      "?? pro_research/results/history/S100_PHASE31_COMPILE_COMPILE__20260820T203446Z.json",
+      "?? pro_research/results/history/S100_PHASE31_COMPILE_COMPILE__20260820T204007Z.json",
+      "?? pro_research/results/history/S100_PHASE31_COMPILE_COMPILE__20260820T205215Z.json",
+      "?? pro_research/results/history/S100_PHASE31_COMPILE_COMPILE__20260820T212351Z.json",
+      "?? pro_research/results/history/S100_PHASE31_MICRO_DENSE_DIRECT__20260820T205412Z.json",
+      "?? pro_research/results/history/S100_PHASE31_MICRO_SINK__20260820T202130Z.json",
+      "?? pro_research/results/history/S100_PHASE31_MICRO_SINK__20260820T202255Z.json",
+      "?? pro_research/results/history/S100_PHASE31_STATE_CHECK__20260820T210545Z.json",
+      "?? pro_research/results/history/S100_PHASE36_SCREEN_NATIVE_HEAD_CTX1024__20260821T081353Z.json",
+      "?? pro_research/results/history/S100_PHASE36_SMOKE_NATIVE_HEAD_CTX128__20260821T070342Z.json",
+      "?? pro_research/results/history/S100_PHASE38_TARGET_CAPTURE__20260821T083223Z.json",
+      "?? pro_research/results/history/S100_PHASE38_TARGET_CAPTURE__20260821T083347Z.json",
+      "?? pro_research/results/native_nvfp4/C3B_REAL_ACTIVATION.json",
+      "?? pro_research/results/native_nvfp4/C3C_FUSED_STATIC_QUANTIZER.json",
+      "?? pro_research/results/native_nvfp4/c3b_capture/",
+      "?? pro_research/results/s100_phase31/",
+      "?? pro_research/results/s100_phase32/",
+      "?? pro_research/results/s100_phase33/",
+      "?? pro_research/results/s100_phase34/",
+      "?? pro_research/results/s100_phase36/",
+      "?? pro_research/results/s100_phase38/",
+      "?? pro_research/s100_phase31_adjudicate.py",
+      "?? pro_research/s100_phase31_common.py",
+      "?? pro_research/s100_phase31_dense_direct_kernels.py",
+      "?? pro_research/s100_phase31_group_down_kernels.py",
+      "?? pro_research/s100_phase31_measure.py",
+      "?? pro_research/s100_phase31_residual_kernels.py",
+      "?? pro_research/s100_phase31_staged_kernels.py",
+      "?? pro_research/s100_phase31_state.py",
+      "?? pro_research/s100_phase32_adjudicate.py",
+      "?? pro_research/s100_phase32_common.py",
+      "?? pro_research/s100_phase32_dense_h8.py",
+      "?? pro_research/s100_phase32_measure.py",
+      "?? pro_research/s100_phase32_state.py",
+      "?? pro_research/s100_phase33_adjudicate.py",
+      "?? pro_research/s100_phase33_common.py",
+      "?? pro_research/s100_phase33_measure.py",
+      "?? pro_research/s100_phase33_nvfp4_m8.py",
+      "?? pro_research/s100_phase34_adjudicate.py",
+      "?? pro_research/s100_phase34_panel_reuse.py",
+      "?? pro_research/s100_phase35_c3c_measure.py",
+      "?? pro_research/s100_phase35_c3c_quantizer.py",
+      "?? pro_research/s100_phase36_common.py",
+      "?? pro_research/s100_phase36_measure.py",
+      "?? pro_research/s100_phase36_native_head.py",
+      "?? pro_research/s100_phase38_dflash_bf16_proxy_capture.py",
+      "?? pro_research/s100_phase38_dflash_bf16_proxy_measure.py",
+      "?? pro_research/s100_phase38_dflash_capture.py",
+      "?? pro_research/s100_phase38_dflash_measure.py",
+      "?? pro_research/s100_phase38_dflash_reference.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 1310 MiB, 68, 55.15 W, 1860 MHz, 11801 MHz, P1",
+    "source_hashes": {
+      "pro_research\\s100_phase38_dflash_bf16_proxy_measure.py": "a14f9c254ec517d220232b695471e210f6aa757ef8d425e240e521a76619f668",
+      "pro_research\\s100_phase38_dflash_reference.py": "9ee89f92a9f59a18823cfab87809f7d118d7789d3b3612c398700bc71b437f74",
+      "pro_research\\S100_PHASE38_DFLASH_PREREGISTRATION.md": "90f26841d4d17d6f3a911b52b680e79023be359d20866a30b347da0f5ff80e77"
+    }
+  },
+  "checkpoint": {
+    "dflash_snapshot": "7fc1f1ff4b82b917efbd0710df0872c2bb89caa5",
+    "dflash_model_sha256": "8759166652c4105f140ab9a65f543a3e229b8f6441933185e4edb0838365660a",
+    "target_snapshot": "e8f3c7c4de75ad84fe1bcef95d38eca76214480b",
+    "proxy_capture_meta_sha256": "fbde4825ed25dfa0082d489bcca0afda327f62ec0345f33a751114832ed9ac50",
+    "frozen_main_measure_sha256": "40dd25b48d78cec91a4a58c03bb978a102f92ac6699177ab00a087497d2d8a70"
+  },
+  "contract_validation": {
+    "checkpoint_target_ids_zero_based_post_layer": [
+      1,
+      5,
+      19,
+      29,
+      41,
+      51
+    ],
+    "vllm_aux_hidden_indices_embedding_inclusive": [
+      2,
+      6,
+      20,
+      30,
+      42,
+      52
+    ],
+    "context_positions_at_anchor": "0..anchor-1",
+    "query_positions_at_anchor": "anchor..anchor+7",
+    "query_embeddings": "official DFlash checkpoint embed_tokens including row 990",
+    "sampled_hidden_positions": "block positions 1..7"
+  },
+  "proxy_capture": {
+    "meta": "pro_research\\results\\s100_phase38\\S100_PHASE38_DFLASH_BF16_PROXY_CAPTURE.json",
+    "first_canonical_divergence_position": 17,
+    "limitations": "internal Mamba/MoE temporaries and recurrent states retain custom-runtime storage"
+  },
+  "acceptance": {
+    "evaluation_start_position": 128,
+    "last_anchor_position": 504,
+    "rounds": 149,
+    "accepted_drafts": {
+      "mean": 1.5436241610738255,
+      "median": 1.0,
+      "p10": 0.0,
+      "p90": 4.0,
+      "min": 0.0,
+      "max": 7.0
+    },
+    "committed_length": {
+      "mean": 2.5436241610738257,
+      "median": 2.0,
+      "p10": 1.0,
+      "p90": 5.0,
+      "min": 1.0,
+      "max": 8.0
+    },
+    "accepted_draft_histogram": {
+      "0": 45,
+      "1": 45,
+      "2": 29,
+      "3": 12,
+      "4": 5,
+      "5": 8,
+      "6": 4,
+      "7": 1
+    },
+    "zero_draft_rate": 0.30201342281879195,
+    "full_seven_draft_rate": 0.006711409395973154
+  },
+  "economics": {
+    "adopted_phase31_baseline_tok_s": 62.96114117068372,
+    "frozen_gate_5pct_tok_s": 66.10919822921791,
+    "phase31_h4_median_ms": 63.53125,
+    "phase32_h8_median_ms": 122.578525,
+    "proxy_mean_committed_tokens": 2.5436241610738257,
+    "proxy_zero_drafter_cost_ceiling_tok_s": 20.750977066120072,
+    "proxy_reference_projection_tok_s": 17.61924480283678,
+    "perfect_7_of_7_zero_drafter_cost_ceiling_tok_s": 65.26428670927473,
+    "perfect_7_of_7_reference_projection_tok_s": 51.5027952337382,
+    "perfect_7_of_7_zero_cost_vs_baseline_percent": 3.6580428749652505,
+    "perfect_7_of_7_zero_cost_clears_5pct_gate": false,
+    "h8_verifier_ms_required_for_perfect_acceptance_5pct_zero_draft": 121.01190476190476,
+    "h8_verifier_ms_required_for_perfect_acceptance_5pct_with_reference_cost": 88.25905476190476,
+    "h4_perfect_zero_draft_ceiling_tok_s": 62.96114117068372,
+    "acceptance_independent_conclusion": "current H8 verifier cannot clear the frozen 5% gate even with perfect seven-of-seven acceptance and a zero-cost drafter"
+  },
+  "PHASE38_DFLASH_INTEGRATION_OPEN": false,
+  "closure_reason": "acceptance-independent perfect-block upper bound misses frozen 5% gate",
+  "round_records": [
+    {
+      "round": 0,
+      "anchor_position": 128,
+      "draft_ids": [
+        1294,
+        1278,
+        14780,
+        1710,
+        1605,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1294,
+        5659,
+        20523,
+        25640,
+        1311,
+        60422,
+        1278
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 1,
+      "anchor_position": 130,
+      "draft_ids": [
+        14780,
+        1710,
+        1605,
+        1278,
+        14780,
+        1307,
+        1278
+      ],
+      "expected_ids": [
+        20523,
+        25640,
+        1311,
+        60422,
+        1278,
+        3244,
+        1681
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 2,
+      "anchor_position": 131,
+      "draft_ids": [
+        1710,
+        1605,
+        1278,
+        1278,
+        14780,
+        14780,
+        14780
+      ],
+      "expected_ids": [
+        25640,
+        1311,
+        60422,
+        1278,
+        3244,
+        1681,
+        14780
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 3,
+      "anchor_position": 132,
+      "draft_ids": [
+        3657,
+        1294,
+        2282,
+        1044,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1311,
+        60422,
+        1278,
+        3244,
+        1681,
+        14780,
+        6695
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 4,
+      "anchor_position": 133,
+      "draft_ids": [
+        60422,
+        1278,
+        14780,
+        1044,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        60422,
+        1278,
+        3244,
+        1681,
+        14780,
+        6695,
+        1044
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 5,
+      "anchor_position": 136,
+      "draft_ids": [
+        1681,
+        14780,
+        6695,
+        1044,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1681,
+        14780,
+        6695,
+        1044,
+        1809,
+        1494,
+        14980
+      ],
+      "accepted_drafts": 4,
+      "committed_length": 5
+    },
+    {
+      "round": 6,
+      "anchor_position": 141,
+      "draft_ids": [
+        1494,
+        5266,
+        1278,
+        1278,
+        1278,
+        1307,
+        1278
+      ],
+      "expected_ids": [
+        1494,
+        14980,
+        22743,
+        35537,
+        15021,
+        1338,
+        1595
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 7,
+      "anchor_position": 143,
+      "draft_ids": [
+        22743,
+        22743,
+        1317,
+        1278,
+        21016,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        22743,
+        35537,
+        15021,
+        1338,
+        1595,
+        1531,
+        129084
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 8,
+      "anchor_position": 145,
+      "draft_ids": [
+        38277,
+        1338,
+        1338,
+        1056,
+        1603,
+        1603,
+        1395
+      ],
+      "expected_ids": [
+        15021,
+        1338,
+        1595,
+        1531,
+        129084,
+        1307,
+        27294
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 9,
+      "anchor_position": 146,
+      "draft_ids": [
+        1338,
+        1784,
+        1603,
+        1056,
+        1307,
+        1307,
+        1278
+      ],
+      "expected_ids": [
+        1338,
+        1595,
+        1531,
+        129084,
+        1307,
+        27294,
+        3229
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 10,
+      "anchor_position": 148,
+      "draft_ids": [
+        1531,
+        27294,
+        3229,
+        1010,
+        1267,
+        1321,
+        2591
+      ],
+      "expected_ids": [
+        1531,
+        129084,
+        1307,
+        27294,
+        3229,
+        1267,
+        7651
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 11,
+      "anchor_position": 150,
+      "draft_ids": [
+        1307,
+        27294,
+        3229,
+        1267,
+        1049,
+        1046,
+        1603
+      ],
+      "expected_ids": [
+        1307,
+        27294,
+        3229,
+        1267,
+        7651,
+        1729,
+        6010
+      ],
+      "accepted_drafts": 4,
+      "committed_length": 5
+    },
+    {
+      "round": 12,
+      "anchor_position": 155,
+      "draft_ids": [
+        1729,
+        1736,
+        1261,
+        1032,
+        1056,
+        1032,
+        1056
+      ],
+      "expected_ids": [
+        1729,
+        6010,
+        2033,
+        1562,
+        43454,
+        1051,
+        1050
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 13,
+      "anchor_position": 157,
+      "draft_ids": [
+        2033,
+        1044,
+        1729,
+        1044,
+        1261,
+        1032,
+        1049
+      ],
+      "expected_ids": [
+        2033,
+        1562,
+        43454,
+        1051,
+        1050,
+        1317,
+        27707
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 14,
+      "anchor_position": 159,
+      "draft_ids": [
+        43454,
+        1051,
+        1050,
+        1317,
+        27707,
+        1049,
+        1056
+      ],
+      "expected_ids": [
+        43454,
+        1051,
+        1050,
+        1317,
+        27707,
+        1056,
+        1044
+      ],
+      "accepted_drafts": 5,
+      "committed_length": 6
+    },
+    {
+      "round": 15,
+      "anchor_position": 165,
+      "draft_ids": [
+        1044,
+        1729,
+        1584,
+        1278,
+        1278,
+        1877,
+        1010
+      ],
+      "expected_ids": [
+        1044,
+        1729,
+        1584,
+        21905,
+        19516,
+        1261,
+        14118
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4
+    },
+    {
+      "round": 16,
+      "anchor_position": 169,
+      "draft_ids": [
+        19516,
+        1261,
+        18246,
+        1307,
+        1261,
+        1261,
+        1261
+      ],
+      "expected_ids": [
+        19516,
+        1261,
+        14118,
+        4521,
+        1307,
+        32449,
+        25185
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 17,
+      "anchor_position": 172,
+      "draft_ids": [
+        4521,
+        1307,
+        1261,
+        1056,
+        1317,
+        1307,
+        26951
+      ],
+      "expected_ids": [
+        4521,
+        1307,
+        32449,
+        25185,
+        4213,
+        1317,
+        1261
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 18,
+      "anchor_position": 175,
+      "draft_ids": [
+        25185,
+        4213,
+        1317,
+        1261,
+        18246,
+        15748,
+        1032
+      ],
+      "expected_ids": [
+        25185,
+        4213,
+        1317,
+        1261,
+        33123,
+        2016,
+        1307
+      ],
+      "accepted_drafts": 4,
+      "committed_length": 5
+    },
+    {
+      "round": 19,
+      "anchor_position": 180,
+      "draft_ids": [
+        2016,
+        1307,
+        1032,
+        1056,
+        1046,
+        1046,
+        1046
+      ],
+      "expected_ids": [
+        2016,
+        1307,
+        15748,
+        4213,
+        1046,
+        2409,
+        2832
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 20,
+      "anchor_position": 183,
+      "draft_ids": [
+        4213,
+        1046,
+        2409,
+        1395,
+        1032,
+        1531,
+        19516
+      ],
+      "expected_ids": [
+        4213,
+        1046,
+        2409,
+        2832,
+        19263,
+        2295,
+        2830
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4
+    },
+    {
+      "round": 21,
+      "anchor_position": 187,
+      "draft_ids": [
+        19263,
+        1261,
+        1261,
+        1603,
+        1603,
+        1603,
+        1603
+      ],
+      "expected_ids": [
+        19263,
+        2295,
+        2830,
+        9578,
+        1058,
+        1603,
+        19284
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 22,
+      "anchor_position": 189,
+      "draft_ids": [
+        2830,
+        2100,
+        1049,
+        1049,
+        1603,
+        1603,
+        1438
+      ],
+      "expected_ids": [
+        2830,
+        9578,
+        1058,
+        1603,
+        19284,
+        28618,
+        1438
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 23,
+      "anchor_position": 191,
+      "draft_ids": [
+        1058,
+        1049,
+        1046,
+        1032,
+        1603,
+        1321,
+        1438
+      ],
+      "expected_ids": [
+        1058,
+        1603,
+        19284,
+        28618,
+        1438,
+        1321,
+        1603
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 24,
+      "anchor_position": 193,
+      "draft_ids": [
+        19284,
+        1438,
+        1321,
+        1321,
+        1603,
+        1603,
+        5450
+      ],
+      "expected_ids": [
+        19284,
+        28618,
+        1438,
+        1321,
+        1603,
+        1109,
+        7641
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 25,
+      "anchor_position": 195,
+      "draft_ids": [
+        1438,
+        1321,
+        1603,
+        1603,
+        1438,
+        1438,
+        1438
+      ],
+      "expected_ids": [
+        1438,
+        1321,
+        1603,
+        1109,
+        7641,
+        26720,
+        1049
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4
+    },
+    {
+      "round": 26,
+      "anchor_position": 199,
+      "draft_ids": [
+        7641,
+        26720,
+        1049,
+        1046,
+        1032,
+        1603,
+        1603
+      ],
+      "expected_ids": [
+        7641,
+        26720,
+        1049,
+        1046,
+        1032,
+        1603,
+        15121
+      ],
+      "accepted_drafts": 6,
+      "committed_length": 7
+    },
+    {
+      "round": 27,
+      "anchor_position": 206,
+      "draft_ids": [
+        4055,
+        15953,
+        3795,
+        1531,
+        1278,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        4055,
+        15953,
+        5450,
+        1531,
+        2663,
+        28857,
+        1278
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 28,
+      "anchor_position": 209,
+      "draft_ids": [
+        1531,
+        1261,
+        1278,
+        1044,
+        1278,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        1531,
+        2663,
+        28857,
+        1278,
+        11835,
+        1321,
+        8905
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 29,
+      "anchor_position": 211,
+      "draft_ids": [
+        28857,
+        1278,
+        11835,
+        1307,
+        1307,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        28857,
+        1278,
+        11835,
+        1321,
+        8905,
+        4213,
+        1319
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4
+    },
+    {
+      "round": 30,
+      "anchor_position": 215,
+      "draft_ids": [
+        8905,
+        4213,
+        1307,
+        1278,
+        3244,
+        1278,
+        2033
+      ],
+      "expected_ids": [
+        8905,
+        4213,
+        1319,
+        3265,
+        4521,
+        1041,
+        1394
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 31,
+      "anchor_position": 218,
+      "draft_ids": [
+        1270,
+        1041,
+        1041,
+        1041,
+        1278,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        3265,
+        4521,
+        1041,
+        1394,
+        1278,
+        25980,
+        1505
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 32,
+      "anchor_position": 219,
+      "draft_ids": [
+        4521,
+        1041,
+        1041,
+        1278,
+        1278,
+        4232,
+        4232
+      ],
+      "expected_ids": [
+        4521,
+        1041,
+        1394,
+        1278,
+        25980,
+        1505,
+        4232
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 33,
+      "anchor_position": 222,
+      "draft_ids": [
+        1278,
+        4232,
+        1681,
+        7313,
+        1321,
+        4232,
+        4232
+      ],
+      "expected_ids": [
+        1278,
+        25980,
+        1505,
+        4232,
+        1795,
+        1046,
+        2409
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 34,
+      "anchor_position": 224,
+      "draft_ids": [
+        1505,
+        4232,
+        1795,
+        1584,
+        1278,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        1505,
+        4232,
+        1795,
+        1046,
+        2409,
+        1395,
+        5153
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4
+    },
+    {
+      "round": 35,
+      "anchor_position": 228,
+      "draft_ids": [
+        2409,
+        1261,
+        1402,
+        5595,
+        1278,
+        1278,
+        1044
+      ],
+      "expected_ids": [
+        2409,
+        1395,
+        5153,
+        5595,
+        2505,
+        1261,
+        10914
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 36,
+      "anchor_position": 230,
+      "draft_ids": [
+        5153,
+        5595,
+        5059,
+        1278,
+        1317,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        5153,
+        5595,
+        2505,
+        1261,
+        10914,
+        4418,
+        1429
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 37,
+      "anchor_position": 233,
+      "draft_ids": [
+        1261,
+        1505,
+        1505,
+        1261,
+        1505,
+        1319,
+        1044
+      ],
+      "expected_ids": [
+        1261,
+        10914,
+        4418,
+        1429,
+        2422,
+        1045,
+        5914
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 38,
+      "anchor_position": 235,
+      "draft_ids": [
+        4418,
+        1435,
+        1278,
+        1505,
+        1505,
+        1505,
+        1044
+      ],
+      "expected_ids": [
+        4418,
+        1429,
+        2422,
+        1045,
+        5914,
+        123070,
+        4225
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 39,
+      "anchor_position": 237,
+      "draft_ids": [
+        2422,
+        1034,
+        1034,
+        1505,
+        1429,
+        1429,
+        1278
+      ],
+      "expected_ids": [
+        2422,
+        1045,
+        5914,
+        123070,
+        4225,
+        2478,
+        1278
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 40,
+      "anchor_position": 239,
+      "draft_ids": [
+        5914,
+        123070,
+        1034,
+        1505,
+        1799,
+        1278,
+        1317
+      ],
+      "expected_ids": [
+        5914,
+        123070,
+        4225,
+        2478,
+        1278,
+        4521,
+        1395
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 41,
+      "anchor_position": 242,
+      "draft_ids": [
+        2478,
+        1278,
+        2985,
+        1395,
+        1278,
+        4521,
+        1278
+      ],
+      "expected_ids": [
+        2478,
+        1278,
+        4521,
+        1395,
+        6493,
+        1536,
+        1278
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 42,
+      "anchor_position": 245,
+      "draft_ids": [
+        1395,
+        1278,
+        1435,
+        1278,
+        5914,
+        1321,
+        1321
+      ],
+      "expected_ids": [
+        1395,
+        6493,
+        1536,
+        1278,
+        7293,
+        2365,
+        1321
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 43,
+      "anchor_position": 247,
+      "draft_ids": [
+        1536,
+        1278,
+        2016,
+        1307,
+        1278,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        1536,
+        1278,
+        7293,
+        2365,
+        1321,
+        6705,
+        4213
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 44,
+      "anchor_position": 250,
+      "draft_ids": [
+        4213,
+        1321,
+        8905,
+        4213,
+        1307,
+        1278,
+        4213
+      ],
+      "expected_ids": [
+        2365,
+        1321,
+        6705,
+        4213,
+        5802,
+        1294,
+        1278
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 45,
+      "anchor_position": 251,
+      "draft_ids": [
+        1321,
+        6705,
+        4213,
+        1278,
+        1278,
+        2181,
+        1584
+      ],
+      "expected_ids": [
+        1321,
+        6705,
+        4213,
+        5802,
+        1294,
+        1278,
+        31476
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4
+    },
+    {
+      "round": 46,
+      "anchor_position": 255,
+      "draft_ids": [
+        1294,
+        1278,
+        16910,
+        1032,
+        1603,
+        1046,
+        1032
+      ],
+      "expected_ids": [
+        1294,
+        1278,
+        31476,
+        1626,
+        1050,
+        1046,
+        1032
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 47,
+      "anchor_position": 258,
+      "draft_ids": [
+        1626,
+        1050,
+        1046,
+        1032,
+        1603,
+        1603,
+        3795
+      ],
+      "expected_ids": [
+        1626,
+        1050,
+        1046,
+        1032,
+        1603,
+        15214,
+        5450
+      ],
+      "accepted_drafts": 5,
+      "committed_length": 6
+    },
+    {
+      "round": 48,
+      "anchor_position": 264,
+      "draft_ids": [
+        5450,
+        84318,
+        5450,
+        5450,
+        1278,
+        1307,
+        1278
+      ],
+      "expected_ids": [
+        5450,
+        15685,
+        1278,
+        4521,
+        1395,
+        4629,
+        1044
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 49,
+      "anchor_position": 266,
+      "draft_ids": [
+        1729,
+        1736,
+        1278,
+        1278,
+        1044,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        1278,
+        4521,
+        1395,
+        4629,
+        1044,
+        1278,
+        32449
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 50,
+      "anchor_position": 267,
+      "draft_ids": [
+        4521,
+        1395,
+        4629,
+        1044,
+        1729,
+        1395,
+        1278
+      ],
+      "expected_ids": [
+        4521,
+        1395,
+        4629,
+        1044,
+        1278,
+        32449,
+        25185
+      ],
+      "accepted_drafts": 4,
+      "committed_length": 5
+    },
+    {
+      "round": 51,
+      "anchor_position": 272,
+      "draft_ids": [
+        19516,
+        1395,
+        35383,
+        1317,
+        1261,
+        15748,
+        15748
+      ],
+      "expected_ids": [
+        32449,
+        25185,
+        4213,
+        1584,
+        55491,
+        1321,
+        27477
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 52,
+      "anchor_position": 273,
+      "draft_ids": [
+        25185,
+        4213,
+        1584,
+        19233,
+        1317,
+        1261,
+        15748
+      ],
+      "expected_ids": [
+        25185,
+        4213,
+        1584,
+        55491,
+        1321,
+        27477,
+        1317
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4
+    },
+    {
+      "round": 53,
+      "anchor_position": 277,
+      "draft_ids": [
+        1317,
+        1317,
+        1056,
+        15748,
+        1046,
+        1278,
+        1044
+      ],
+      "expected_ids": [
+        1321,
+        27477,
+        1317,
+        8125,
+        3746,
+        1278,
+        15748
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 54,
+      "anchor_position": 278,
+      "draft_ids": [
+        14533,
+        1317,
+        1278,
+        1278,
+        4213,
+        1046,
+        15748
+      ],
+      "expected_ids": [
+        27477,
+        1317,
+        8125,
+        3746,
+        1278,
+        15748,
+        4521
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 55,
+      "anchor_position": 279,
+      "draft_ids": [
+        1317,
+        1317,
+        15748,
+        15748,
+        1046,
+        1046,
+        1046
+      ],
+      "expected_ids": [
+        1317,
+        8125,
+        3746,
+        1278,
+        15748,
+        4521,
+        1319
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 56,
+      "anchor_position": 281,
+      "draft_ids": [
+        3746,
+        1278,
+        1278,
+        1307,
+        1032,
+        1056,
+        1056
+      ],
+      "expected_ids": [
+        3746,
+        1278,
+        15748,
+        4521,
+        1319,
+        59225,
+        1462
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 57,
+      "anchor_position": 284,
+      "draft_ids": [
+        4521,
+        1046,
+        1531,
+        15748,
+        1046,
+        1032,
+        1032
+      ],
+      "expected_ids": [
+        4521,
+        1319,
+        59225,
+        1462,
+        1049,
+        1050,
+        1056
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 58,
+      "anchor_position": 286,
+      "draft_ids": [
+        1101,
+        3596,
+        3109,
+        1032,
+        1049,
+        1048,
+        1032
+      ],
+      "expected_ids": [
+        59225,
+        1462,
+        1049,
+        1050,
+        1056,
+        1317,
+        1032
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 59,
+      "anchor_position": 287,
+      "draft_ids": [
+        1462,
+        1049,
+        1317,
+        1032,
+        1049,
+        1044,
+        1321
+      ],
+      "expected_ids": [
+        1462,
+        1049,
+        1050,
+        1056,
+        1317,
+        1032,
+        1049
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 60,
+      "anchor_position": 290,
+      "draft_ids": [
+        1056,
+        1317,
+        1032,
+        1049,
+        1050,
+        1051,
+        1577
+      ],
+      "expected_ids": [
+        1056,
+        1317,
+        1032,
+        1049,
+        1050,
+        1055,
+        1394
+      ],
+      "accepted_drafts": 5,
+      "committed_length": 6
+    },
+    {
+      "round": 61,
+      "anchor_position": 296,
+      "draft_ids": [
+        1394,
+        27707,
+        1056,
+        4342,
+        26951,
+        15748,
+        1032
+      ],
+      "expected_ids": [
+        1394,
+        44942,
+        123070,
+        1044,
+        1505,
+        1032,
+        1048
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 62,
+      "anchor_position": 298,
+      "draft_ids": [
+        27707,
+        1056,
+        2519,
+        2409,
+        1395,
+        1261,
+        1317
+      ],
+      "expected_ids": [
+        123070,
+        1044,
+        1505,
+        1032,
+        1048,
+        1317,
+        1032
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 63,
+      "anchor_position": 299,
+      "draft_ids": [
+        1044,
+        1505,
+        1032,
+        1048,
+        1317,
+        1032,
+        1049
+      ],
+      "expected_ids": [
+        1044,
+        1505,
+        1032,
+        1048,
+        1317,
+        1032,
+        1050
+      ],
+      "accepted_drafts": 6,
+      "committed_length": 7
+    },
+    {
+      "round": 64,
+      "anchor_position": 306,
+      "draft_ids": [
+        1053,
+        1053,
+        1394,
+        2767,
+        57291,
+        2519,
+        123070
+      ],
+      "expected_ids": [
+        1053,
+        1053,
+        1394,
+        62075,
+        123070,
+        2519,
+        1784
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4
+    },
+    {
+      "round": 65,
+      "anchor_position": 310,
+      "draft_ids": [
+        2519,
+        2519,
+        1784,
+        1044,
+        1603,
+        1877,
+        1438
+      ],
+      "expected_ids": [
+        123070,
+        2519,
+        1784,
+        30622,
+        13284,
+        1394,
+        1593
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 66,
+      "anchor_position": 311,
+      "draft_ids": [
+        2519,
+        1438,
+        1044,
+        1395,
+        1395,
+        1395,
+        1317
+      ],
+      "expected_ids": [
+        2519,
+        1784,
+        30622,
+        13284,
+        1394,
+        1593,
+        19516
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 67,
+      "anchor_position": 313,
+      "draft_ids": [
+        30622,
+        1395,
+        1395,
+        1261,
+        1395,
+        1395,
+        1395
+      ],
+      "expected_ids": [
+        30622,
+        13284,
+        1394,
+        1593,
+        19516,
+        1395,
+        12837
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 68,
+      "anchor_position": 315,
+      "draft_ids": [
+        1394,
+        1261,
+        1261,
+        1395,
+        1050,
+        1044,
+        25185
+      ],
+      "expected_ids": [
+        1394,
+        1593,
+        19516,
+        1395,
+        12837,
+        1877,
+        19587
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 69,
+      "anchor_position": 317,
+      "draft_ids": [
+        17342,
+        1395,
+        1877,
+        1877,
+        31994,
+        1256,
+        1293
+      ],
+      "expected_ids": [
+        19516,
+        1395,
+        12837,
+        1877,
+        19587,
+        2460,
+        44749
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 70,
+      "anchor_position": 318,
+      "draft_ids": [
+        1395,
+        1877,
+        19587,
+        17343,
+        1293,
+        1376,
+        1376
+      ],
+      "expected_ids": [
+        1395,
+        12837,
+        1877,
+        19587,
+        2460,
+        44749,
+        1376
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 71,
+      "anchor_position": 320,
+      "draft_ids": [
+        1877,
+        1435,
+        2100,
+        19587,
+        1010,
+        1376,
+        1010
+      ],
+      "expected_ids": [
+        1877,
+        19587,
+        2460,
+        44749,
+        1376,
+        1617,
+        2149
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 72,
+      "anchor_position": 322,
+      "draft_ids": [
+        2460,
+        1376,
+        1123,
+        1125,
+        1376,
+        1376,
+        1617
+      ],
+      "expected_ids": [
+        2460,
+        44749,
+        1376,
+        1617,
+        2149,
+        1123,
+        2261
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 73,
+      "anchor_position": 324,
+      "draft_ids": [
+        1376,
+        1617,
+        3433,
+        17222,
+        1746,
+        1617,
+        1617
+      ],
+      "expected_ids": [
+        1376,
+        1617,
+        2149,
+        1123,
+        2261,
+        2380,
+        3967
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 74,
+      "anchor_position": 327,
+      "draft_ids": [
+        1123,
+        2261,
+        4709,
+        3967,
+        1044,
+        17222,
+        17222
+      ],
+      "expected_ids": [
+        1123,
+        2261,
+        2380,
+        3967,
+        6169,
+        3433,
+        17222
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 75,
+      "anchor_position": 330,
+      "draft_ids": [
+        3967,
+        1040,
+        3433,
+        3433,
+        3483,
+        3483,
+        3483
+      ],
+      "expected_ids": [
+        3967,
+        6169,
+        3433,
+        17222,
+        3557,
+        1462,
+        1554
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 76,
+      "anchor_position": 332,
+      "draft_ids": [
+        3433,
+        17222,
+        3483,
+        3483,
+        1125,
+        1617,
+        1041
+      ],
+      "expected_ids": [
+        3433,
+        17222,
+        3557,
+        1462,
+        1554,
+        3483,
+        1115
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 77,
+      "anchor_position": 335,
+      "draft_ids": [
+        3483,
+        1115,
+        12454,
+        3509,
+        1041,
+        1041,
+        1617
+      ],
+      "expected_ids": [
+        1462,
+        1554,
+        3483,
+        1115,
+        2380,
+        3509,
+        1041
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 78,
+      "anchor_position": 336,
+      "draft_ids": [
+        1617,
+        5470,
+        3483,
+        2380,
+        2380,
+        3509,
+        1041
+      ],
+      "expected_ids": [
+        1554,
+        3483,
+        1115,
+        2380,
+        3509,
+        1041,
+        17343
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 79,
+      "anchor_position": 337,
+      "draft_ids": [
+        1746,
+        1048,
+        8068,
+        3509,
+        1617,
+        1617,
+        1617
+      ],
+      "expected_ids": [
+        3483,
+        1115,
+        2380,
+        3509,
+        1041,
+        17343,
+        1010
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 80,
+      "anchor_position": 338,
+      "draft_ids": [
+        1115,
+        2380,
+        3509,
+        1041,
+        17343,
+        1041,
+        1032
+      ],
+      "expected_ids": [
+        1115,
+        2380,
+        3509,
+        1041,
+        17343,
+        1010,
+        17507
+      ],
+      "accepted_drafts": 5,
+      "committed_length": 6
+    },
+    {
+      "round": 81,
+      "anchor_position": 344,
+      "draft_ids": [
+        5383,
+        1877,
+        1042,
+        1256,
+        1659,
+        1120,
+        1617
+      ],
+      "expected_ids": [
+        17507,
+        1877,
+        1042,
+        1256,
+        1659,
+        1120,
+        44749
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 82,
+      "anchor_position": 345,
+      "draft_ids": [
+        1877,
+        1042,
+        1256,
+        1659,
+        1120,
+        44749,
+        1617
+      ],
+      "expected_ids": [
+        1877,
+        1042,
+        1256,
+        1659,
+        1120,
+        44749,
+        1036
+      ],
+      "accepted_drafts": 6,
+      "committed_length": 7
+    },
+    {
+      "round": 83,
+      "anchor_position": 352,
+      "draft_ids": [
+        1395,
+        1278,
+        6010,
+        2779,
+        15748,
+        1626,
+        1042
+      ],
+      "expected_ids": [
+        1395,
+        1278,
+        6010,
+        2779,
+        15748,
+        2632,
+        1626
+      ],
+      "accepted_drafts": 5,
+      "committed_length": 6
+    },
+    {
+      "round": 84,
+      "anchor_position": 358,
+      "draft_ids": [
+        1626,
+        1042,
+        1256,
+        1659,
+        1120,
+        3557,
+        1036
+      ],
+      "expected_ids": [
+        1626,
+        1042,
+        1256,
+        1659,
+        1120,
+        3557,
+        1036
+      ],
+      "accepted_drafts": 7,
+      "committed_length": 8
+    },
+    {
+      "round": 85,
+      "anchor_position": 366,
+      "draft_ids": [
+        1278,
+        4618,
+        25185,
+        2632,
+        1626,
+        1042,
+        1256
+      ],
+      "expected_ids": [
+        1278,
+        4618,
+        32449,
+        25185,
+        2632,
+        1626,
+        1042
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 86,
+      "anchor_position": 369,
+      "draft_ids": [
+        25185,
+        2632,
+        1626,
+        1042,
+        1256,
+        1659,
+        1122
+      ],
+      "expected_ids": [
+        25185,
+        2632,
+        1626,
+        1042,
+        1256,
+        1659,
+        1115
+      ],
+      "accepted_drafts": 6,
+      "committed_length": 7
+    },
+    {
+      "round": 87,
+      "anchor_position": 376,
+      "draft_ids": [
+        1036,
+        1395,
+        1278,
+        1603,
+        1115,
+        1626,
+        9065
+      ],
+      "expected_ids": [
+        1036,
+        1395,
+        1278,
+        9065,
+        7342,
+        1319,
+        78970
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4
+    },
+    {
+      "round": 88,
+      "anchor_position": 380,
+      "draft_ids": [
+        1319,
+        1319,
+        1042,
+        1032,
+        1278,
+        1048,
+        1307
+      ],
+      "expected_ids": [
+        7342,
+        1319,
+        78970,
+        2611,
+        1536,
+        1278,
+        4521
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 89,
+      "anchor_position": 381,
+      "draft_ids": [
+        1626,
+        1042,
+        1256,
+        1659,
+        1122,
+        1036,
+        4342
+      ],
+      "expected_ids": [
+        1319,
+        78970,
+        2611,
+        1536,
+        1278,
+        4521,
+        4342
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 90,
+      "anchor_position": 382,
+      "draft_ids": [
+        28016,
+        1435,
+        1278,
+        4521,
+        4342,
+        1659,
+        1659
+      ],
+      "expected_ids": [
+        78970,
+        2611,
+        1536,
+        1278,
+        4521,
+        4342,
+        1042
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 91,
+      "anchor_position": 383,
+      "draft_ids": [
+        4114,
+        1536,
+        1278,
+        1307,
+        1278,
+        4342,
+        1042
+      ],
+      "expected_ids": [
+        2611,
+        1536,
+        1278,
+        4521,
+        4342,
+        1042,
+        1256
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 92,
+      "anchor_position": 384,
+      "draft_ids": [
+        1536,
+        1278,
+        4521,
+        4342,
+        1042,
+        1032,
+        1032
+      ],
+      "expected_ids": [
+        1536,
+        1278,
+        4521,
+        4342,
+        1042,
+        1256,
+        1659
+      ],
+      "accepted_drafts": 5,
+      "committed_length": 6
+    },
+    {
+      "round": 93,
+      "anchor_position": 390,
+      "draft_ids": [
+        1659,
+        1122,
+        1036,
+        1395,
+        1278,
+        6010,
+        1319
+      ],
+      "expected_ids": [
+        1659,
+        1122,
+        1036,
+        1395,
+        1278,
+        11118,
+        25185
+      ],
+      "accepted_drafts": 5,
+      "committed_length": 6
+    },
+    {
+      "round": 94,
+      "anchor_position": 396,
+      "draft_ids": [
+        1045,
+        1338,
+        1338,
+        1338,
+        1395,
+        3229,
+        1044
+      ],
+      "expected_ids": [
+        25185,
+        1319,
+        1271,
+        13274,
+        2434,
+        1317,
+        7782
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 95,
+      "anchor_position": 397,
+      "draft_ids": [
+        1338,
+        1438,
+        1256,
+        1603,
+        1395,
+        3229,
+        1044
+      ],
+      "expected_ids": [
+        1319,
+        1271,
+        13274,
+        2434,
+        1317,
+        7782,
+        62075
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 96,
+      "anchor_position": 398,
+      "draft_ids": [
+        3265,
+        13274,
+        1317,
+        1278,
+        1278,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        1271,
+        13274,
+        2434,
+        1317,
+        7782,
+        62075,
+        26236
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 97,
+      "anchor_position": 399,
+      "draft_ids": [
+        13274,
+        10740,
+        1317,
+        1278,
+        1278,
+        1278,
+        2519
+      ],
+      "expected_ids": [
+        13274,
+        2434,
+        1317,
+        7782,
+        62075,
+        26236,
+        2519
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 98,
+      "anchor_position": 401,
+      "draft_ids": [
+        1317,
+        7782,
+        1278,
+        2519,
+        2519,
+        2519,
+        1278
+      ],
+      "expected_ids": [
+        1317,
+        7782,
+        62075,
+        26236,
+        2519,
+        1595,
+        1531
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 99,
+      "anchor_position": 404,
+      "draft_ids": [
+        2181,
+        2519,
+        1595,
+        2519,
+        1603,
+        1603,
+        3229
+      ],
+      "expected_ids": [
+        26236,
+        2519,
+        1595,
+        1531,
+        1656,
+        3726,
+        64997
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 100,
+      "anchor_position": 405,
+      "draft_ids": [
+        2519,
+        1595,
+        1278,
+        1603,
+        1120,
+        1395,
+        1096
+      ],
+      "expected_ids": [
+        2519,
+        1595,
+        1531,
+        1656,
+        3726,
+        64997,
+        1276
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 101,
+      "anchor_position": 408,
+      "draft_ids": [
+        31852,
+        1307,
+        27294,
+        3229,
+        1267,
+        3229,
+        3229
+      ],
+      "expected_ids": [
+        1656,
+        3726,
+        64997,
+        1276,
+        1058,
+        12844,
+        2194
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 102,
+      "anchor_position": 409,
+      "draft_ids": [
+        6433,
+        1058,
+        1058,
+        1058,
+        1267,
+        1321,
+        1278
+      ],
+      "expected_ids": [
+        3726,
+        64997,
+        1276,
+        1058,
+        12844,
+        2194,
+        44040
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 103,
+      "anchor_position": 410,
+      "draft_ids": [
+        7083,
+        1267,
+        1267,
+        3229,
+        1044,
+        1044,
+        1278
+      ],
+      "expected_ids": [
+        64997,
+        1276,
+        1058,
+        12844,
+        2194,
+        44040,
+        1267
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 104,
+      "anchor_position": 411,
+      "draft_ids": [
+        1276,
+        1267,
+        7651,
+        1278,
+        1278,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1276,
+        1058,
+        12844,
+        2194,
+        44040,
+        1267,
+        1784
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 105,
+      "anchor_position": 413,
+      "draft_ids": [
+        8956,
+        1056,
+        1032,
+        3448,
+        3448,
+        3448,
+        3448
+      ],
+      "expected_ids": [
+        12844,
+        2194,
+        44040,
+        1267,
+        1784,
+        6833,
+        5972
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 106,
+      "anchor_position": 414,
+      "draft_ids": [
+        3229,
+        1267,
+        1267,
+        1267,
+        3229,
+        1044,
+        1278
+      ],
+      "expected_ids": [
+        2194,
+        44040,
+        1267,
+        1784,
+        6833,
+        5972,
+        123070
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 107,
+      "anchor_position": 415,
+      "draft_ids": [
+        44040,
+        1267,
+        1784,
+        1278,
+        1278,
+        1278,
+        1044
+      ],
+      "expected_ids": [
+        44040,
+        1267,
+        1784,
+        6833,
+        5972,
+        123070,
+        16360
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4
+    },
+    {
+      "round": 108,
+      "anchor_position": 419,
+      "draft_ids": [
+        5972,
+        1307,
+        13873,
+        1294,
+        1395,
+        1395,
+        1032
+      ],
+      "expected_ids": [
+        5972,
+        123070,
+        16360,
+        2130,
+        31587,
+        1395,
+        1278
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 109,
+      "anchor_position": 421,
+      "draft_ids": [
+        1395,
+        1278,
+        1394,
+        31587,
+        31587,
+        1395,
+        1044
+      ],
+      "expected_ids": [
+        16360,
+        2130,
+        31587,
+        1395,
+        1278,
+        10740,
+        1562
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 110,
+      "anchor_position": 422,
+      "draft_ids": [
+        2130,
+        1395,
+        1395,
+        1395,
+        1494,
+        1307,
+        1278
+      ],
+      "expected_ids": [
+        2130,
+        31587,
+        1395,
+        1278,
+        10740,
+        1562,
+        1603
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 111,
+      "anchor_position": 424,
+      "draft_ids": [
+        1395,
+        1278,
+        1603,
+        1307,
+        1278,
+        1307,
+        1438
+      ],
+      "expected_ids": [
+        1395,
+        1278,
+        10740,
+        1562,
+        1603,
+        1102,
+        52694
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 112,
+      "anchor_position": 427,
+      "draft_ids": [
+        1562,
+        1603,
+        54114,
+        54114,
+        44040,
+        1438,
+        1603
+      ],
+      "expected_ids": [
+        1562,
+        1603,
+        1102,
+        52694,
+        25185,
+        54114,
+        1438
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 113,
+      "anchor_position": 430,
+      "draft_ids": [
+        52694,
+        25185,
+        1438,
+        1438,
+        1603,
+        1603,
+        1603
+      ],
+      "expected_ids": [
+        52694,
+        25185,
+        54114,
+        1438,
+        1317,
+        1603,
+        49039
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 114,
+      "anchor_position": 433,
+      "draft_ids": [
+        1438,
+        1317,
+        1603,
+        49039,
+        6768,
+        10317,
+        1438
+      ],
+      "expected_ids": [
+        1438,
+        1317,
+        1603,
+        49039,
+        54114,
+        26720,
+        1070
+      ],
+      "accepted_drafts": 4,
+      "committed_length": 5
+    },
+    {
+      "round": 115,
+      "anchor_position": 438,
+      "draft_ids": [
+        26720,
+        1042,
+        1256,
+        1603,
+        3795,
+        1070,
+        52694
+      ],
+      "expected_ids": [
+        26720,
+        1070,
+        52694,
+        25185,
+        10317,
+        1319,
+        55225
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 116,
+      "anchor_position": 440,
+      "draft_ids": [
+        52694,
+        2862,
+        49115,
+        1584,
+        1051,
+        1051,
+        1050
+      ],
+      "expected_ids": [
+        52694,
+        25185,
+        10317,
+        1319,
+        55225,
+        3385,
+        18371
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 117,
+      "anchor_position": 442,
+      "draft_ids": [
+        10317,
+        1044,
+        10683,
+        1044,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        10317,
+        1319,
+        55225,
+        3385,
+        18371,
+        8091,
+        1307
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 118,
+      "anchor_position": 444,
+      "draft_ids": [
+        10683,
+        1032,
+        1051,
+        1041,
+        1041,
+        1041,
+        1050
+      ],
+      "expected_ids": [
+        55225,
+        3385,
+        18371,
+        8091,
+        1307,
+        3435,
+        2801
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 119,
+      "anchor_position": 445,
+      "draft_ids": [
+        1294,
+        2181,
+        1051,
+        1041,
+        1041,
+        1050,
+        1050
+      ],
+      "expected_ids": [
+        3385,
+        18371,
+        8091,
+        1307,
+        3435,
+        2801,
+        112867
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 120,
+      "anchor_position": 446,
+      "draft_ids": [
+        18371,
+        1032,
+        1051,
+        1050,
+        1051,
+        1041,
+        1032
+      ],
+      "expected_ids": [
+        18371,
+        8091,
+        1307,
+        3435,
+        2801,
+        112867,
+        1041
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 121,
+      "anchor_position": 448,
+      "draft_ids": [
+        2479,
+        1032,
+        8091,
+        1050,
+        1584,
+        1041,
+        1032
+      ],
+      "expected_ids": [
+        1307,
+        3435,
+        2801,
+        112867,
+        1041,
+        4771,
+        5327
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 122,
+      "anchor_position": 449,
+      "draft_ids": [
+        2801,
+        2801,
+        1044,
+        1454,
+        1044,
+        1044,
+        1050
+      ],
+      "expected_ids": [
+        3435,
+        2801,
+        112867,
+        1041,
+        4771,
+        5327,
+        21016
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 123,
+      "anchor_position": 450,
+      "draft_ids": [
+        2801,
+        1480,
+        1041,
+        1584,
+        43454,
+        1050,
+        1321
+      ],
+      "expected_ids": [
+        2801,
+        112867,
+        1041,
+        4771,
+        5327,
+        21016,
+        3471
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 124,
+      "anchor_position": 452,
+      "draft_ids": [
+        1041,
+        4771,
+        5327,
+        5327,
+        21016,
+        1321,
+        1050
+      ],
+      "expected_ids": [
+        1041,
+        4771,
+        5327,
+        21016,
+        3471,
+        1321,
+        6245
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4
+    },
+    {
+      "round": 125,
+      "anchor_position": 456,
+      "draft_ids": [
+        1317,
+        1321,
+        1278,
+        1278,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        3471,
+        1321,
+        6245,
+        16475,
+        23068,
+        1317,
+        17707
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 126,
+      "anchor_position": 457,
+      "draft_ids": [
+        1321,
+        1435,
+        24861,
+        1046,
+        1278,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1321,
+        6245,
+        16475,
+        23068,
+        1317,
+        17707,
+        32181
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 127,
+      "anchor_position": 459,
+      "draft_ids": [
+        9578,
+        1046,
+        1046,
+        1656,
+        1044,
+        1319,
+        1032
+      ],
+      "expected_ids": [
+        16475,
+        23068,
+        1317,
+        17707,
+        32181,
+        1046,
+        1656
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 128,
+      "anchor_position": 460,
+      "draft_ids": [
+        9578,
+        1046,
+        12844,
+        21016,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        23068,
+        1317,
+        17707,
+        32181,
+        1046,
+        1656,
+        9033
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 129,
+      "anchor_position": 461,
+      "draft_ids": [
+        1046,
+        1656,
+        10317,
+        1046,
+        1044,
+        1044,
+        1278
+      ],
+      "expected_ids": [
+        1317,
+        17707,
+        32181,
+        1046,
+        1656,
+        9033,
+        1044
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 130,
+      "anchor_position": 462,
+      "draft_ids": [
+        7662,
+        1046,
+        1656,
+        10317,
+        1319,
+        10317,
+        1044
+      ],
+      "expected_ids": [
+        17707,
+        32181,
+        1046,
+        1656,
+        9033,
+        1044,
+        15748
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 131,
+      "anchor_position": 463,
+      "draft_ids": [
+        32181,
+        1046,
+        1656,
+        10317,
+        10317,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        32181,
+        1046,
+        1656,
+        9033,
+        1044,
+        15748,
+        54114
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4
+    },
+    {
+      "round": 132,
+      "anchor_position": 467,
+      "draft_ids": [
+        1044,
+        15748,
+        10317,
+        1319,
+        10317,
+        10317,
+        10317
+      ],
+      "expected_ids": [
+        1044,
+        15748,
+        54114,
+        1395,
+        1308,
+        6655,
+        10009
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 133,
+      "anchor_position": 470,
+      "draft_ids": [
+        1395,
+        39928,
+        1321,
+        1321,
+        21016,
+        21016,
+        1338
+      ],
+      "expected_ids": [
+        1395,
+        1308,
+        6655,
+        10009,
+        1536,
+        7115,
+        1747
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 134,
+      "anchor_position": 472,
+      "draft_ids": [
+        6655,
+        10009,
+        1321,
+        1710,
+        1584,
+        1046,
+        1046
+      ],
+      "expected_ids": [
+        6655,
+        10009,
+        1536,
+        7115,
+        1747,
+        6897,
+        14609
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 135,
+      "anchor_position": 475,
+      "draft_ids": [
+        6897,
+        49115,
+        1321,
+        1395,
+        1321,
+        1321,
+        1321
+      ],
+      "expected_ids": [
+        7115,
+        1747,
+        6897,
+        14609,
+        7176,
+        1321,
+        20534
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 136,
+      "anchor_position": 476,
+      "draft_ids": [
+        1747,
+        6897,
+        1321,
+        1321,
+        21016,
+        1321,
+        1044
+      ],
+      "expected_ids": [
+        1747,
+        6897,
+        14609,
+        7176,
+        1321,
+        20534,
+        7176
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 137,
+      "anchor_position": 479,
+      "draft_ids": [
+        7176,
+        1044,
+        1321,
+        1395,
+        21016,
+        1321,
+        1321
+      ],
+      "expected_ids": [
+        7176,
+        1321,
+        20534,
+        7176,
+        1321,
+        1710,
+        1402
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 138,
+      "anchor_position": 481,
+      "draft_ids": [
+        20534,
+        7176,
+        1044,
+        1395,
+        1395,
+        1338,
+        1338
+      ],
+      "expected_ids": [
+        20534,
+        7176,
+        1321,
+        1710,
+        1402,
+        19555,
+        1294
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 139,
+      "anchor_position": 484,
+      "draft_ids": [
+        1395,
+        1402,
+        17280,
+        1338,
+        1338,
+        1256,
+        1603
+      ],
+      "expected_ids": [
+        1710,
+        1402,
+        19555,
+        1294,
+        1261,
+        4249,
+        11119
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 140,
+      "anchor_position": 485,
+      "draft_ids": [
+        1402,
+        19555,
+        1294,
+        1261,
+        4249,
+        23068,
+        1044
+      ],
+      "expected_ids": [
+        1402,
+        19555,
+        1294,
+        1261,
+        4249,
+        11119,
+        1338
+      ],
+      "accepted_drafts": 5,
+      "committed_length": 6
+    },
+    {
+      "round": 141,
+      "anchor_position": 491,
+      "draft_ids": [
+        1338,
+        1438,
+        1044,
+        1603,
+        1044,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        1338,
+        53093,
+        1044,
+        6897,
+        49115,
+        1736,
+        36072
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 142,
+      "anchor_position": 493,
+      "draft_ids": [
+        1044,
+        1278,
+        123070,
+        49241,
+        1603,
+        1429,
+        1044
+      ],
+      "expected_ids": [
+        1044,
+        6897,
+        49115,
+        1736,
+        36072,
+        15776,
+        1394
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 143,
+      "anchor_position": 495,
+      "draft_ids": [
+        3229,
+        1736,
+        1278,
+        5153,
+        1278,
+        1603,
+        1317
+      ],
+      "expected_ids": [
+        49115,
+        1736,
+        36072,
+        15776,
+        1394,
+        15748,
+        10317
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 144,
+      "anchor_position": 496,
+      "draft_ids": [
+        1736,
+        1261,
+        1603,
+        1307,
+        1321,
+        1321,
+        1321
+      ],
+      "expected_ids": [
+        1736,
+        36072,
+        15776,
+        1394,
+        15748,
+        10317,
+        1046
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 145,
+      "anchor_position": 498,
+      "draft_ids": [
+        1603,
+        49039,
+        1603,
+        1438,
+        1438,
+        1438,
+        1438
+      ],
+      "expected_ids": [
+        15776,
+        1394,
+        15748,
+        10317,
+        1046,
+        2898,
+        3336
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1
+    },
+    {
+      "round": 146,
+      "anchor_position": 499,
+      "draft_ids": [
+        1394,
+        1603,
+        1044,
+        1044,
+        1438,
+        1319,
+        1319
+      ],
+      "expected_ids": [
+        1394,
+        15748,
+        10317,
+        1046,
+        2898,
+        3336,
+        1044
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2
+    },
+    {
+      "round": 147,
+      "anchor_position": 501,
+      "draft_ids": [
+        10317,
+        1046,
+        1101,
+        3596,
+        3109,
+        1603,
+        1394
+      ],
+      "expected_ids": [
+        10317,
+        1046,
+        2898,
+        3336,
+        1044,
+        33447,
+        1681
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    },
+    {
+      "round": 148,
+      "anchor_position": 504,
+      "draft_ids": [
+        3336,
+        1044,
+        1042,
+        1603,
+        1603,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        3336,
+        1044,
+        33447,
+        1681,
+        1603,
+        29970,
+        1088
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3
+    }
+  ]
+}

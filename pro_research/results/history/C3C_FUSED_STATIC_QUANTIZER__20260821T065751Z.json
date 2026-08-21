@@ -1,0 +1,12 @@
+{
+  "kind": "s100_phase35_c3c_fused_static_quantizer",
+  "status": "technical_failure",
+  "started_utc": "2026-08-21T06:55:21.848419+00:00",
+  "claim_boundary": "fused quantizer and native component timing; no full-verifier claim",
+  "error": {
+    "type": "RuntimeError",
+    "message": "Another process currently owns a CUDA context. Stop cleanly and retry; C3A-v2 will not kill it.\n  49284, C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\\python3.12.exe, [N/A]",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase35_c3c_measure.py\", line 99, in main\n    payload[\"gpu_idle_preflight\"] = require_gpu_idle_wddm()\n                                    ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\diag_native_nvfp4_c3a_real_weight_v2.py\", line 36, in require_gpu_idle_wddm\n    raise RuntimeError(\nRuntimeError: Another process currently owns a CUDA context. Stop cleanly and retry; C3A-v2 will not kill it.\n  49284, C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\\python3.12.exe, [N/A]\n"
+  },
+  "completed_utc": "2026-08-21T06:55:21.903948+00:00"
+}

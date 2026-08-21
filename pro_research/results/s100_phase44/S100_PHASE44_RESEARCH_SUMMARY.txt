@@ -1,0 +1,14 @@
+S100 Phase44 — perfect expert-prefetch oracle
+
+Frozen parent: 62.961 target-only tok/s
+Protocol: context 1024; 8 warmup + 16 measured H4 blocks per isolated arm
+Correctness: authoritative routers retained; zero route mismatches; all tokens exact
+
+schedule    candidate ms/H4   tok/s    saving ms/H4   lower95   open
+layer_now       61.3354      65.215       0.8487       -1.0851   no
+moe_l1          61.2500      65.306       1.5355       -0.2577   no
+moe_l2          61.3538      65.196       0.7514       -0.9559   no
+
+Decision: CLOSED. No schedule reaches the preregistered +2.0 ms/H4 lower-95 gate.
+Do not train an expert predictor for the existing transfer path.
+Next exact route: persistent split M1-2/M3-4 routed-UP workerpool.

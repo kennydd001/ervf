@@ -1,0 +1,51 @@
+{
+  "kind": "s100_phase45_persistent_up_summary",
+  "status": "measured",
+  "created_utc": "2026-08-21T14:08:00+02:00",
+  "frozen_parent": "codex/s100-phase31-critical-path@1046da1",
+  "protocol": {
+    "context": 1024,
+    "warmup_h4_blocks": 4,
+    "measured_h4_blocks_per_arm": 8,
+    "order": "isolated parent A / p2_p4 / p4_p4 / p4_p8 / isolated parent B",
+    "parent_a_ms_per_h4": 61.9619,
+    "parent_b_ms_per_h4": 62.49775,
+    "baseline_drift_fraction": 0.00861082286508123,
+    "all_tokens_exact": true,
+    "zero_local_memory_spills": true
+  },
+  "candidates": {
+    "p2_p4": {
+      "interpolated_parent_ms_per_h4": 62.0958625,
+      "candidate_ms_per_h4": 74.5457,
+      "candidate_target_only_tok_s": 53.6583599054003,
+      "saving_ms_per_h4": -12.4498375,
+      "gain_pct": -20.0493833224395,
+      "exact": true,
+      "promoted": false
+    },
+    "p4_p4": {
+      "interpolated_parent_ms_per_h4": 62.229825,
+      "candidate_ms_per_h4": 68.2972,
+      "candidate_target_only_tok_s": 58.5675547460218,
+      "saving_ms_per_h4": -6.067375,
+      "gain_pct": -9.74994707119938,
+      "exact": true,
+      "promoted": false
+    },
+    "p4_p8": {
+      "interpolated_parent_ms_per_h4": 62.3637875,
+      "candidate_ms_per_h4": 65.18615,
+      "candidate_target_only_tok_s": 61.3627281255297,
+      "saving_ms_per_h4": -2.8223625,
+      "gain_pct": -4.52564318676122,
+      "exact": true,
+      "promoted": false
+    }
+  },
+  "PERSISTENT_SPLIT_UP_OPEN": false,
+  "STATE_THERMAL_PROMOTION_AUTHORIZED": false,
+  "S100_SINGLE_ACHIEVED": false,
+  "NEXT_ROUTE": "SM120_FC1_RELU2_MASK_HYBRID_SHAPE_AND_QUALITY_SCREEN",
+  "claim_boundary": "exact staged-input workerpool schedules P2/P4, P4/P4 and P4/P8 only; a materially different scheduler or tensor-core arithmetic requires a new preregistration"
+}

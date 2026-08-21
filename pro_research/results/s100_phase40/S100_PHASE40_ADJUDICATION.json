@@ -1,0 +1,41 @@
+{
+  "kind": "s100_phase40_adjudication",
+  "status": "gate_failed",
+  "created_utc": "2026-08-21T10:09:29.824191+00:00",
+  "median_ms": {
+    "BASE_A": 123.40435,
+    "PIPELINE_B3": 122.21000000000001,
+    "BASE_B": 123.36445
+  },
+  "tok_s": {
+    "BASE_A": 64.82753646852805,
+    "PIPELINE_B3": 65.46109156370181,
+    "BASE_B": 64.84850376263178
+  },
+  "baseline_midpoint_ms": 123.3844,
+  "baseline_drift_fraction": 0.00032337961687205777,
+  "candidate_gain_ms": 1.1743999999999915,
+  "candidate_gain_fraction": 0.009518221104126546,
+  "kernel_resources": {
+    "gather_group_union_cols_h8_range": {
+      "num_regs": 40,
+      "shared_size_bytes_static": 0,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    },
+    "down_routes_partial_sres_h8_range": {
+      "num_regs": 38,
+      "shared_size_bytes_static": 1088,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    }
+  },
+  "gates": {
+    "G40_C1_all_tokens_exact": true,
+    "G40_R1_zero_local_memory": true,
+    "G40_D1_baseline_drift_le_5pct": true,
+    "G40_P1_gain_ge_3pct": false,
+    "G40_P2_candidate_le_120ms": false
+  },
+  "claim_boundary": "exact synchronous target-only H8 screen"
+}

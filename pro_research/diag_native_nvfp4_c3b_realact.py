@@ -15,7 +15,8 @@ import traceback
 from pathlib import Path
 from typing import Any
 
-from common import REPO, environment_snapshot, require_gpu_free, utc_now, write_json_atomic
+from common import REPO, environment_snapshot, utc_now, write_json_atomic
+from diag_native_nvfp4_c3a_real_weight_v2 import require_gpu_idle_wddm
 import native_nvfp4_c3a_lib as c3lib
 import native_nvfp4_c3a_layout_v2 as c3v2
 
@@ -411,7 +412,7 @@ def main() -> int:
             "M8_over_M1_max": M8_OVER_M1_MAX, "static_margin": STATIC_MARGIN},
     }
     try:
-        require_gpu_free()
+        payload["gpu_idle_preflight"] = require_gpu_idle_wddm()
         import torch
         import torch.nn.functional as F
         ST, SW = F.ScalingType, F.SwizzleType

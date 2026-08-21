@@ -1,0 +1,235 @@
+{
+  "kind": "s100_phase45_persistent_up",
+  "status": "measured",
+  "arm": "parent",
+  "context": 1024,
+  "blocks": 8,
+  "warmup": 4,
+  "started_utc": "2026-08-21T12:06:01.842509+00:00",
+  "frozen_parent": "codex/s100-phase31-critical-path@1046da1",
+  "claim_boundary": "exact target-only H4; routed-UP CTA ownership only",
+  "capture_info": {
+    "graph_extra_vram_bytes": 0,
+    "max_splits": 3,
+    "dot_probe": {
+      "available": true,
+      "length": 177751,
+      "contains_fp8_residual2": true,
+      "contains_device_route": true,
+      "contains_moe_batched_up": false,
+      "contains_fp32_kv": true,
+      "contains_fp32_attention": true,
+      "contains_argmax4": true,
+      "contains_pos_add4": true
+    },
+    "phase24_config": {
+      "attention_m4": true,
+      "router_m4": false,
+      "shared_m4": false,
+      "sres_layers": [
+        20,
+        22,
+        29,
+        17,
+        27,
+        24,
+        13,
+        31,
+        43,
+        51,
+        49,
+        15,
+        38,
+        10,
+        34,
+        36,
+        45,
+        47,
+        40,
+        6,
+        3,
+        8,
+        1
+      ]
+    },
+    "actual_plane_bytes": 516354048,
+    "phase24_dot": {
+      "bf16_m4": true,
+      "f32_m4": false,
+      "shared_m4": false,
+      "sres_gather": true,
+      "sres_down": true
+    }
+  },
+  "records": [
+    {
+      "block": 0,
+      "pos": 1040,
+      "ms": 59.5187,
+      "got": [
+        15249,
+        6056,
+        1317,
+        1402
+      ],
+      "expected": [
+        15249,
+        6056,
+        1317,
+        1402
+      ]
+    },
+    {
+      "block": 1,
+      "pos": 1044,
+      "ms": 60.5361,
+      "got": [
+        43427,
+        2203,
+        3435,
+        3709
+      ],
+      "expected": [
+        43427,
+        2203,
+        3435,
+        3709
+      ]
+    },
+    {
+      "block": 2,
+      "pos": 1048,
+      "ms": 62.2809,
+      "got": [
+        19732,
+        3016,
+        24925,
+        2738
+      ],
+      "expected": [
+        19732,
+        3016,
+        24925,
+        2738
+      ]
+    },
+    {
+      "block": 3,
+      "pos": 1052,
+      "ms": 67.7358,
+      "got": [
+        6103,
+        1338,
+        1358,
+        1032
+      ],
+      "expected": [
+        6103,
+        1338,
+        1358,
+        1032
+      ]
+    },
+    {
+      "block": 4,
+      "pos": 1056,
+      "ms": 64.8127,
+      "got": [
+        1051,
+        1046,
+        108225,
+        75377
+      ],
+      "expected": [
+        1051,
+        1046,
+        108225,
+        75377
+      ]
+    },
+    {
+      "block": 5,
+      "pos": 1060,
+      "ms": 60.8318,
+      "got": [
+        1321,
+        73530,
+        116696,
+        1267
+      ],
+      "expected": [
+        1321,
+        73530,
+        116696,
+        1267
+      ]
+    },
+    {
+      "block": 6,
+      "pos": 1064,
+      "ms": 65.5591,
+      "got": [
+        27313,
+        1454,
+        1261,
+        6010
+      ],
+      "expected": [
+        27313,
+        1454,
+        1261,
+        6010
+      ]
+    },
+    {
+      "block": 7,
+      "pos": 1068,
+      "ms": 62.7146,
+      "got": [
+        2779,
+        1321,
+        1517,
+        100947
+      ],
+      "expected": [
+        2779,
+        1321,
+        1517,
+        100947
+      ]
+    }
+  ],
+  "summary": {
+    "count": 8,
+    "median_ms": 62.497749999999996,
+    "p10_ms": 60.23088,
+    "p90_ms": 66.21211,
+    "mean_ms": 62.9987125,
+    "ms_per_useful_token": 15.624437499999999,
+    "target_only_tok_s": 64.00230408294699,
+    "all_token_exact": true
+  },
+  "telemetry": {
+    "before": {
+      "timestamp": "2026/08/21 14:06:33.462",
+      "temperature.gpu": 68.0,
+      "pstate": "P5",
+      "clocks.sm": 960.0,
+      "clocks.mem": 810.0,
+      "power.draw": 16.94,
+      "utilization.gpu": 1.0,
+      "memory.used": 7516.0
+    },
+    "after": {
+      "timestamp": "2026/08/21 14:06:59.769",
+      "temperature.gpu": 86.0,
+      "pstate": "P4",
+      "clocks.sm": 2302.0,
+      "clocks.mem": 9001.0,
+      "power.draw": 61.18,
+      "utilization.gpu": 99.0,
+      "memory.used": 7516.0
+    }
+  },
+  "completed_utc": "2026-08-21T12:06:59.779829+00:00"
+}

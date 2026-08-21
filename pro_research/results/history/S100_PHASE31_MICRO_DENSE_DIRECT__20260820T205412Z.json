@@ -1,0 +1,17 @@
+{
+  "kind": "s100_phase31_measure",
+  "status": "technical_failure",
+  "arm": "dense_direct",
+  "tag": "micro",
+  "context": 1024,
+  "blocks": 2,
+  "warmup": 1,
+  "started_utc": "2026-08-20T20:52:21.844722+00:00",
+  "claim_boundary": "fresh-process exact target-only H4 timing; Phase30E parent versus exact MoE terminal residual-sink fusion",
+  "error": {
+    "type": "RuntimeError",
+    "message": "router direct-L2 called without active H4 input",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase31_measure.py\", line 102, in main\n    records, summary = timed_synth_blocks(\n                       ^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase24_common.py\", line 454, in timed_synth_blocks\n    prefill_to(rt,trace_tokens,context)\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase21_common.py\", line 166, in prefill_to\n    rt.step(int(token))\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\src\\moe_lab\\lightningstream_nemotron\\runtime.py\", line 821, in step\n    idx, w = self._moe(i, self.acc)\n             ^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-reboot-20260817-055918\\src\\moe_lab\\lightningstream_nemotron\\runtime.py\", line 752, in _moe\n    return self._moe_dev(i, out)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\moe_dev_batched.py\", line 127, in batched_moe_dev\n    k.mv_f32(self.rlog, d[\"gate_w\"], self.normed, self.n_experts, self.hidden)\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase31_common.py\", line 659, in _mv_f32\n    raise RuntimeError(\"router direct-L2 called without active H4 input\")\nRuntimeError: router direct-L2 called without active H4 input\n"
+  },
+  "completed_utc": "2026-08-20T20:52:53.664835+00:00"
+}

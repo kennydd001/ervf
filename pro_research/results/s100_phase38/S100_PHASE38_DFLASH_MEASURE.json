@@ -1,0 +1,5301 @@
+{
+  "kind": "s100_phase38_official_nvidia_dflash_measure",
+  "status": "measured",
+  "started_utc": "2026-08-21T08:43:15.512039+00:00",
+  "preregistration": "pro_research\\S100_PHASE38_DFLASH_PREREGISTRATION.md",
+  "claim_boundary": "official checkpoint; BF16-dequant reference body plus exact packed target NVFP4 head",
+  "gpu_idle_preflight": {
+    "compute_app_lines": [
+      "38572, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.818.2441.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+    ],
+    "ignored_wddm_gui_contexts": [
+      "38572, C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.818.2441.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe, [N/A]"
+    ],
+    "gpu_memory_used_mib": 0,
+    "gpu_utilization_percent": 0,
+    "policy": "ignore only ChatGPT.exe with [N/A] WDDM memory; block every other compute-app; require total memory <=1024 MiB and utilization <=10%"
+  },
+  "completed_utc": "2026-08-21T08:43:27.480090+00:00",
+  "git_head": "f51d207914ccd32bc7c3133d8826ab70b747fca1",
+  "environment": {
+    "created_utc": "2026-08-21T08:43:27.519459+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "f51d207914ccd32bc7c3133d8826ab70b747fca1",
+    "git_status": [
+      "M pro_research/capture_native_nvfp4_c3b_realact.py",
+      " M pro_research/diag_native_nvfp4_c3b_realact.py",
+      " M pro_research/native_nvfp4_c3a_lib.py",
+      " M pro_research/verify_s100_native_nvfp4_c3b_realact.py",
+      "?? pro_research/S100_PHASE31_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE32_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE33_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE34_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE35_C3C_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE36_C4_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE38_DFLASH_PREREGISTRATION.md",
+      "?? pro_research/results/history/C3B_REAL_ACTIVATIONS_META__20260821T065054Z.json",
+      "?? pro_research/results/history/C3C_FUSED_STATIC_QUANTIZER__20260821T065751Z.json",
+      "?? pro_research/results/history/S100_PHASE31_COMPILE_COMPILE__20260820T202959Z.json",
+      "?? pro_research/results/history/S100_PHASE31_COMPILE_COMPILE__20260820T203424Z.json",
+      "?? pro_research/results/history/S100_PHASE31_COMPILE_COMPILE__20260820T203446Z.json",
+      "?? pro_research/results/history/S100_PHASE31_COMPILE_COMPILE__20260820T204007Z.json",
+      "?? pro_research/results/history/S100_PHASE31_COMPILE_COMPILE__20260820T205215Z.json",
+      "?? pro_research/results/history/S100_PHASE31_COMPILE_COMPILE__20260820T212351Z.json",
+      "?? pro_research/results/history/S100_PHASE31_MICRO_DENSE_DIRECT__20260820T205412Z.json",
+      "?? pro_research/results/history/S100_PHASE31_MICRO_SINK__20260820T202130Z.json",
+      "?? pro_research/results/history/S100_PHASE31_MICRO_SINK__20260820T202255Z.json",
+      "?? pro_research/results/history/S100_PHASE31_STATE_CHECK__20260820T210545Z.json",
+      "?? pro_research/results/history/S100_PHASE36_SCREEN_NATIVE_HEAD_CTX1024__20260821T081353Z.json",
+      "?? pro_research/results/history/S100_PHASE36_SMOKE_NATIVE_HEAD_CTX128__20260821T070342Z.json",
+      "?? pro_research/results/history/S100_PHASE38_TARGET_CAPTURE__20260821T083223Z.json",
+      "?? pro_research/results/history/S100_PHASE38_TARGET_CAPTURE__20260821T083347Z.json",
+      "?? pro_research/results/native_nvfp4/C3B_REAL_ACTIVATION.json",
+      "?? pro_research/results/native_nvfp4/C3C_FUSED_STATIC_QUANTIZER.json",
+      "?? pro_research/results/native_nvfp4/c3b_capture/",
+      "?? pro_research/results/s100_phase31/",
+      "?? pro_research/results/s100_phase32/",
+      "?? pro_research/results/s100_phase33/",
+      "?? pro_research/results/s100_phase34/",
+      "?? pro_research/results/s100_phase36/",
+      "?? pro_research/results/s100_phase38/",
+      "?? pro_research/s100_phase31_adjudicate.py",
+      "?? pro_research/s100_phase31_common.py",
+      "?? pro_research/s100_phase31_dense_direct_kernels.py",
+      "?? pro_research/s100_phase31_group_down_kernels.py",
+      "?? pro_research/s100_phase31_measure.py",
+      "?? pro_research/s100_phase31_residual_kernels.py",
+      "?? pro_research/s100_phase31_staged_kernels.py",
+      "?? pro_research/s100_phase31_state.py",
+      "?? pro_research/s100_phase32_adjudicate.py",
+      "?? pro_research/s100_phase32_common.py",
+      "?? pro_research/s100_phase32_dense_h8.py",
+      "?? pro_research/s100_phase32_measure.py",
+      "?? pro_research/s100_phase32_state.py",
+      "?? pro_research/s100_phase33_adjudicate.py",
+      "?? pro_research/s100_phase33_common.py",
+      "?? pro_research/s100_phase33_measure.py",
+      "?? pro_research/s100_phase33_nvfp4_m8.py",
+      "?? pro_research/s100_phase34_adjudicate.py",
+      "?? pro_research/s100_phase34_panel_reuse.py",
+      "?? pro_research/s100_phase35_c3c_measure.py",
+      "?? pro_research/s100_phase35_c3c_quantizer.py",
+      "?? pro_research/s100_phase36_common.py",
+      "?? pro_research/s100_phase36_measure.py",
+      "?? pro_research/s100_phase36_native_head.py",
+      "?? pro_research/s100_phase38_dflash_capture.py",
+      "?? pro_research/s100_phase38_dflash_measure.py",
+      "?? pro_research/s100_phase38_dflash_reference.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 1310 MiB, 66, 54.94 W, 2250 MHz, 9001 MHz, P2",
+    "source_hashes": {
+      "pro_research\\s100_phase38_dflash_measure.py": "a21ca29d32410b8de96e99bd34f13e45c562a0c24232fc7bb50f1feba2074c2a",
+      "pro_research\\s100_phase38_dflash_reference.py": "9ee89f92a9f59a18823cfab87809f7d118d7789d3b3612c398700bc71b437f74",
+      "pro_research\\S100_PHASE38_DFLASH_PREREGISTRATION.md": "84b7ccf0d77843c5fb0737f8c4567dd1f0dbfdac5e68b0f04218c4be42cc1e42"
+    }
+  },
+  "checkpoint": {
+    "dflash_snapshot": "7fc1f1ff4b82b917efbd0710df0872c2bb89caa5",
+    "dflash_config_sha256": "562047b6c1a105c48c2698b63fe2daf12eb650f8be37a43ce93cb2899f299b67",
+    "dflash_model_sha256": "8759166652c4105f140ab9a65f543a3e229b8f6441933185e4edb0838365660a",
+    "target_snapshot": "e8f3c7c4de75ad84fe1bcef95d38eca76214480b",
+    "capture_meta_sha256": "1f1ed55a61fcf019c5b08ebc04c9e0e81a526975e760267a63136d52cfac2068"
+  },
+  "reference_contract": {
+    "body_weights": "official NVFP4 decoded to BF16; attention weights native BF16",
+    "target_head": "official target packed NVFP4 through exact LightningStream ERVF GEMV",
+    "attention": "six full-sequence non-causal GQA layers; prefix target K/V plus eight-position block",
+    "block_input": "one DFlash anchor embedding plus seven DFlash mask-token-990 embeddings",
+    "sample_from_anchor": false,
+    "target_hidden_dtype": "captured FP32 rounded to BF16 before checkpoint fc"
+  },
+  "embedding_audit": {
+    "unique_rows_checked": 291,
+    "mismatch_count": 1,
+    "mismatching_token_ids": [
+      990
+    ],
+    "mask_row_is_dflash_specific": true,
+    "resident_optimization": "share matching target rows; retain DFlash row 990"
+  },
+  "acceptance": {
+    "evaluation_start_position": 128,
+    "last_anchor_position": 504,
+    "rounds": 188,
+    "accepted_drafts": {
+      "mean": 1.0106382978723405,
+      "median": 1.0,
+      "p10": 0.0,
+      "p90": 3.0,
+      "min": 0.0,
+      "max": 5.0
+    },
+    "committed_length": {
+      "mean": 2.0106382978723403,
+      "median": 2.0,
+      "p10": 1.0,
+      "p90": 4.0,
+      "min": 1.0,
+      "max": 6.0
+    },
+    "accepted_draft_histogram": {
+      "0": 75,
+      "1": 61,
+      "2": 32,
+      "3": 17,
+      "4": 1,
+      "5": 2
+    },
+    "committed_length_histogram": {
+      "1": 75,
+      "2": 61,
+      "3": 32,
+      "4": 17,
+      "5": 1,
+      "6": 2
+    },
+    "zero_draft_rate": 0.39893617021276595,
+    "full_seven_draft_rate": 0.0,
+    "deterministic_anchor_128": true
+  },
+  "timing": {
+    "body_ms_per_seven_draft_block": {
+      "mean": 8.46856914893617,
+      "median": 8.08545,
+      "p10": 7.2394,
+      "p90": 10.196650000000002,
+      "min": 6.9022,
+      "max": 19.3553
+    },
+    "packed_target_head_ms_per_seven_rows": {
+      "mean": 8.648296276595744,
+      "median": 8.6155,
+      "p10": 7.9993,
+      "p90": 9.58142,
+      "min": 7.848,
+      "max": 10.0898
+    },
+    "total_reference_draft_ms_per_round": {
+      "mean": 17.11686542553192,
+      "median": 16.676049999999996,
+      "p10": 15.862409999999999,
+      "p90": 19.01854000000001,
+      "min": 15.1208,
+      "max": 27.524900000000002
+    },
+    "incremental_context_projection_kv_ms_per_committed_row": {
+      "mean": 2.2233625000000004,
+      "median": 2.0096,
+      "p10": 1.92665,
+      "p90": 2.93345,
+      "min": 1.8873,
+      "max": 3.5684
+    },
+    "batched_512_context_precompute_ms_not_used_for_economics": 230.5731,
+    "body_load_seconds": 0.8186451999936253,
+    "head_load_seconds": 0.449025799985975
+  },
+  "memory": {
+    "dflash_reference_resident_weight_bytes": 963645696,
+    "packed_target_head_resident_weight_bytes": 198180868,
+    "torch_peak_allocated_bytes": 1032212480,
+    "torch_peak_reserved_bytes": 1040187392,
+    "cupy_pool_total_bytes": 201852928
+  },
+  "economics": {
+    "adopted_phase31_baseline_tok_s": 62.96114117068372,
+    "phase32_exact_h8_verifier_median_ms": 122.578525,
+    "mean_committed_tokens_per_h8_verify": 2.0106382978723403,
+    "zero_drafter_cost_ceiling_tok_s": 16.402859292623567,
+    "reference_end_to_end_projection_tok_s": 14.031446602537438,
+    "zero_cost_ceiling_vs_phase31_percent": -73.94764613913772,
+    "reference_vs_phase31_percent": -77.71411645081359,
+    "zero_cost_gate_above_adopted_baseline": false,
+    "measured_margin_gate_ge_5pct": false
+  },
+  "PHASE38_DFLASH_INTEGRATION_OPEN": false,
+  "round_records": [
+    {
+      "round": 0,
+      "anchor_position": 128,
+      "anchor_token_id": 1278,
+      "draft_ids": [
+        3244,
+        1710,
+        1402,
+        1321,
+        1278,
+        1278,
+        1044
+      ],
+      "expected_ids": [
+        3244,
+        1710,
+        8125,
+        2203,
+        17280,
+        1044,
+        10752
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 8.6325,
+      "head_ms": 8.1533
+    },
+    {
+      "round": 1,
+      "anchor_position": 131,
+      "anchor_token_id": 8125,
+      "draft_ids": [
+        16388,
+        2203,
+        1278,
+        1278,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        2203,
+        17280,
+        1044,
+        10752,
+        112422,
+        3746,
+        1278
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 12.1351,
+      "head_ms": 7.9435
+    },
+    {
+      "round": 2,
+      "anchor_position": 132,
+      "anchor_token_id": 2203,
+      "draft_ids": [
+        2081,
+        15009,
+        1044,
+        1044,
+        1044,
+        6628,
+        6628
+      ],
+      "expected_ids": [
+        17280,
+        1044,
+        10752,
+        112422,
+        3746,
+        1278,
+        18876
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 9.0226,
+      "head_ms": 7.9275
+    },
+    {
+      "round": 3,
+      "anchor_position": 133,
+      "anchor_token_id": 17280,
+      "draft_ids": [
+        6628,
+        1044,
+        1044,
+        1044,
+        1044,
+        1044,
+        6628
+      ],
+      "expected_ids": [
+        1044,
+        10752,
+        112422,
+        3746,
+        1278,
+        18876,
+        1046
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.1581,
+      "head_ms": 7.9291
+    },
+    {
+      "round": 4,
+      "anchor_position": 134,
+      "anchor_token_id": 1044,
+      "draft_ids": [
+        10752,
+        6628,
+        1408,
+        1278,
+        1046,
+        1046,
+        1278
+      ],
+      "expected_ids": [
+        10752,
+        112422,
+        3746,
+        1278,
+        18876,
+        1046,
+        11947
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.1264,
+      "head_ms": 8.0101
+    },
+    {
+      "round": 5,
+      "anchor_position": 136,
+      "anchor_token_id": 112422,
+      "draft_ids": [
+        1319,
+        10683,
+        1044,
+        1046,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        3746,
+        1278,
+        18876,
+        1046,
+        11947,
+        1044,
+        15748
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 11.743,
+      "head_ms": 8.119
+    },
+    {
+      "round": 6,
+      "anchor_position": 137,
+      "anchor_token_id": 3746,
+      "draft_ids": [
+        1278,
+        24861,
+        1046,
+        2409,
+        2409,
+        1278,
+        1046
+      ],
+      "expected_ids": [
+        1278,
+        18876,
+        1046,
+        11947,
+        1044,
+        15748,
+        54114
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.7194,
+      "head_ms": 7.9891
+    },
+    {
+      "round": 7,
+      "anchor_position": 139,
+      "anchor_token_id": 18876,
+      "draft_ids": [
+        1046,
+        2409,
+        1044,
+        1278,
+        31587,
+        1395,
+        1603
+      ],
+      "expected_ids": [
+        1046,
+        11947,
+        1044,
+        15748,
+        54114,
+        1395,
+        128949
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.2591,
+      "head_ms": 8.267
+    },
+    {
+      "round": 8,
+      "anchor_position": 141,
+      "anchor_token_id": 11947,
+      "draft_ids": [
+        1044,
+        1593,
+        1278,
+        1395,
+        1395,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1044,
+        15748,
+        54114,
+        1395,
+        128949,
+        66275,
+        1321
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.0422,
+      "head_ms": 8.1317
+    },
+    {
+      "round": 9,
+      "anchor_position": 143,
+      "anchor_token_id": 15748,
+      "draft_ids": [
+        10317,
+        1710,
+        5153,
+        1317,
+        1278,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        54114,
+        1395,
+        128949,
+        66275,
+        1321,
+        2081,
+        4053
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.5887,
+      "head_ms": 8.0865
+    },
+    {
+      "round": 10,
+      "anchor_position": 144,
+      "anchor_token_id": 54114,
+      "draft_ids": [
+        1395,
+        3315,
+        17280,
+        2224,
+        1317,
+        21016,
+        1044
+      ],
+      "expected_ids": [
+        1395,
+        128949,
+        66275,
+        1321,
+        2081,
+        4053,
+        7058
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.3615,
+      "head_ms": 7.9999
+    },
+    {
+      "round": 11,
+      "anchor_position": 146,
+      "anchor_token_id": 128949,
+      "draft_ids": [
+        2081,
+        2224,
+        32449,
+        32449,
+        1395,
+        1044,
+        1032
+      ],
+      "expected_ids": [
+        66275,
+        1321,
+        2081,
+        4053,
+        7058,
+        7373,
+        2224
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.6637,
+      "head_ms": 7.9423
+    },
+    {
+      "round": 12,
+      "anchor_position": 147,
+      "anchor_token_id": 66275,
+      "draft_ids": [
+        2224,
+        32449,
+        25185,
+        10317,
+        1395,
+        43454,
+        1032
+      ],
+      "expected_ids": [
+        1321,
+        2081,
+        4053,
+        7058,
+        7373,
+        2224,
+        32449
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 9.0478,
+      "head_ms": 8.0316
+    },
+    {
+      "round": 13,
+      "anchor_position": 148,
+      "anchor_token_id": 1321,
+      "draft_ids": [
+        17280,
+        2224,
+        2224,
+        32449,
+        54114,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        2081,
+        4053,
+        7058,
+        7373,
+        2224,
+        32449,
+        25185
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.4813,
+      "head_ms": 8.0741
+    },
+    {
+      "round": 14,
+      "anchor_position": 149,
+      "anchor_token_id": 2081,
+      "draft_ids": [
+        4053,
+        1394,
+        32449,
+        54114,
+        1044,
+        1044,
+        1032
+      ],
+      "expected_ids": [
+        4053,
+        7058,
+        7373,
+        2224,
+        32449,
+        25185,
+        10317
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 10.3286,
+      "head_ms": 8.2064
+    },
+    {
+      "round": 15,
+      "anchor_position": 151,
+      "anchor_token_id": 7058,
+      "draft_ids": [
+        7373,
+        2224,
+        32449,
+        54114,
+        1317,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        7373,
+        2224,
+        32449,
+        25185,
+        10317,
+        1046,
+        20892
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 8.4655,
+      "head_ms": 8.1585
+    },
+    {
+      "round": 16,
+      "anchor_position": 155,
+      "anchor_token_id": 25185,
+      "draft_ids": [
+        10317,
+        1046,
+        2409,
+        18876,
+        1044,
+        1603,
+        1603
+      ],
+      "expected_ids": [
+        10317,
+        1046,
+        20892,
+        21016,
+        1044,
+        2516,
+        1435
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 7.59,
+      "head_ms": 7.9827
+    },
+    {
+      "round": 17,
+      "anchor_position": 158,
+      "anchor_token_id": 20892,
+      "draft_ids": [
+        26554,
+        59362,
+        1319,
+        1319,
+        3596,
+        3109,
+        1044
+      ],
+      "expected_ids": [
+        21016,
+        1044,
+        2516,
+        1435,
+        1464,
+        10145,
+        20501
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.6349,
+      "head_ms": 8.1132
+    },
+    {
+      "round": 18,
+      "anchor_position": 159,
+      "anchor_token_id": 21016,
+      "draft_ids": [
+        1044,
+        2479,
+        1435,
+        1278,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1044,
+        2516,
+        1435,
+        1464,
+        10145,
+        20501,
+        1681
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.7076,
+      "head_ms": 8.2592
+    },
+    {
+      "round": 19,
+      "anchor_position": 161,
+      "anchor_token_id": 2516,
+      "draft_ids": [
+        1435,
+        1464,
+        1681,
+        1321,
+        1319,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1435,
+        1464,
+        10145,
+        20501,
+        1681,
+        74692,
+        19891
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 8.1029,
+      "head_ms": 8.1375
+    },
+    {
+      "round": 20,
+      "anchor_position": 164,
+      "anchor_token_id": 10145,
+      "draft_ids": [
+        20501,
+        2190,
+        1464,
+        1321,
+        1321,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        20501,
+        1681,
+        74692,
+        19891,
+        1505,
+        21010,
+        1681
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.1077,
+      "head_ms": 8.0753
+    },
+    {
+      "round": 21,
+      "anchor_position": 166,
+      "anchor_token_id": 1681,
+      "draft_ids": [
+        42966,
+        1085,
+        1321,
+        1321,
+        1505,
+        1044,
+        1505
+      ],
+      "expected_ids": [
+        74692,
+        19891,
+        1505,
+        21010,
+        1681,
+        101259,
+        14861
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.1358,
+      "head_ms": 7.9637
+    },
+    {
+      "round": 22,
+      "anchor_position": 167,
+      "anchor_token_id": 74692,
+      "draft_ids": [
+        1839,
+        1321,
+        1321,
+        1321,
+        1681,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        19891,
+        1505,
+        21010,
+        1681,
+        101259,
+        14861,
+        1044
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.4127,
+      "head_ms": 7.972
+    },
+    {
+      "round": 23,
+      "anchor_position": 168,
+      "anchor_token_id": 19891,
+      "draft_ids": [
+        1359,
+        1321,
+        33447,
+        1681,
+        1681,
+        1044,
+        1681
+      ],
+      "expected_ids": [
+        1505,
+        21010,
+        1681,
+        101259,
+        14861,
+        1044,
+        1395
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 12.5062,
+      "head_ms": 8.1226
+    },
+    {
+      "round": 24,
+      "anchor_position": 169,
+      "anchor_token_id": 1505,
+      "draft_ids": [
+        33447,
+        1681,
+        1681,
+        1044,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        21010,
+        1681,
+        101259,
+        14861,
+        1044,
+        1395,
+        38364
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.1139,
+      "head_ms": 7.9979
+    },
+    {
+      "round": 25,
+      "anchor_position": 170,
+      "anchor_token_id": 21010,
+      "draft_ids": [
+        1681,
+        3754,
+        1044,
+        1044,
+        1044,
+        1395,
+        1044
+      ],
+      "expected_ids": [
+        1681,
+        101259,
+        14861,
+        1044,
+        1395,
+        38364,
+        1317
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.068,
+      "head_ms": 8.3127
+    },
+    {
+      "round": 26,
+      "anchor_position": 172,
+      "anchor_token_id": 101259,
+      "draft_ids": [
+        22183,
+        1044,
+        1044,
+        9543,
+        1317,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        14861,
+        1044,
+        1395,
+        38364,
+        1317,
+        3142,
+        2576
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.9128,
+      "head_ms": 8.2673
+    },
+    {
+      "round": 27,
+      "anchor_position": 173,
+      "anchor_token_id": 14861,
+      "draft_ids": [
+        1044,
+        1395,
+        9543,
+        1317,
+        2779,
+        1044,
+        1046
+      ],
+      "expected_ids": [
+        1044,
+        1395,
+        38364,
+        1317,
+        3142,
+        2576,
+        4953
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 8.2007,
+      "head_ms": 8.1112
+    },
+    {
+      "round": 28,
+      "anchor_position": 176,
+      "anchor_token_id": 38364,
+      "draft_ids": [
+        1317,
+        7782,
+        10317,
+        10317,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1317,
+        3142,
+        2576,
+        4953,
+        1045,
+        66544,
+        26544
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.2629,
+      "head_ms": 8.0555
+    },
+    {
+      "round": 29,
+      "anchor_position": 178,
+      "anchor_token_id": 3142,
+      "draft_ids": [
+        6010,
+        1056,
+        10317,
+        10317,
+        1044,
+        26489,
+        1044
+      ],
+      "expected_ids": [
+        2576,
+        4953,
+        1045,
+        66544,
+        26544,
+        1513,
+        2738
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.9017,
+      "head_ms": 8.1899
+    },
+    {
+      "round": 30,
+      "anchor_position": 179,
+      "anchor_token_id": 2576,
+      "draft_ids": [
+        6010,
+        1795,
+        1044,
+        6187,
+        21016,
+        1710,
+        1044
+      ],
+      "expected_ids": [
+        4953,
+        1045,
+        66544,
+        26544,
+        1513,
+        2738,
+        68582
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.3082,
+      "head_ms": 8.1636
+    },
+    {
+      "round": 31,
+      "anchor_position": 180,
+      "anchor_token_id": 4953,
+      "draft_ids": [
+        26951,
+        10317,
+        34737,
+        1044,
+        6187,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1045,
+        66544,
+        26544,
+        1513,
+        2738,
+        68582,
+        1044
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 9.7622,
+      "head_ms": 8.2875
+    },
+    {
+      "round": 32,
+      "anchor_position": 181,
+      "anchor_token_id": 1045,
+      "draft_ids": [
+        66544,
+        6010,
+        1044,
+        10317,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        66544,
+        26544,
+        1513,
+        2738,
+        68582,
+        1044,
+        5153
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.6974,
+      "head_ms": 8.0922
+    },
+    {
+      "round": 33,
+      "anchor_position": 183,
+      "anchor_token_id": 26544,
+      "draft_ids": [
+        34737,
+        1044,
+        1044,
+        1278,
+        1603,
+        1603,
+        1278
+      ],
+      "expected_ids": [
+        1513,
+        2738,
+        68582,
+        1044,
+        5153,
+        36306,
+        8115
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.8571,
+      "head_ms": 8.1139
+    },
+    {
+      "round": 34,
+      "anchor_position": 184,
+      "anchor_token_id": 1513,
+      "draft_ids": [
+        2738,
+        8115,
+        1044,
+        1044,
+        1261,
+        1603,
+        1603
+      ],
+      "expected_ids": [
+        2738,
+        68582,
+        1044,
+        5153,
+        36306,
+        8115,
+        27988
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.1058,
+      "head_ms": 8.0436
+    },
+    {
+      "round": 35,
+      "anchor_position": 186,
+      "anchor_token_id": 68582,
+      "draft_ids": [
+        1338,
+        1438,
+        1044,
+        1603,
+        1603,
+        1395,
+        1603
+      ],
+      "expected_ids": [
+        1044,
+        5153,
+        36306,
+        8115,
+        27988,
+        1307,
+        1032
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 9.0484,
+      "head_ms": 8.1131
+    },
+    {
+      "round": 36,
+      "anchor_position": 187,
+      "anchor_token_id": 1044,
+      "draft_ids": [
+        6187,
+        1278,
+        1278,
+        12871,
+        31587,
+        31587,
+        31587
+      ],
+      "expected_ids": [
+        5153,
+        36306,
+        8115,
+        27988,
+        1307,
+        1032,
+        1050
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 9.5235,
+      "head_ms": 8.2052
+    },
+    {
+      "round": 37,
+      "anchor_position": 188,
+      "anchor_token_id": 5153,
+      "draft_ids": [
+        9903,
+        1294,
+        1261,
+        8115,
+        1307,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        36306,
+        8115,
+        27988,
+        1307,
+        1032,
+        1050,
+        1120
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.8982,
+      "head_ms": 7.9964
+    },
+    {
+      "round": 38,
+      "anchor_position": 189,
+      "anchor_token_id": 36306,
+      "draft_ids": [
+        1261,
+        2879,
+        1505,
+        1454,
+        31587,
+        31587,
+        1044
+      ],
+      "expected_ids": [
+        8115,
+        27988,
+        1307,
+        1032,
+        1050,
+        1120,
+        1317
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.916,
+      "head_ms": 8.1325
+    },
+    {
+      "round": 39,
+      "anchor_position": 190,
+      "anchor_token_id": 8115,
+      "draft_ids": [
+        27988,
+        1454,
+        2224,
+        7716,
+        1050,
+        1050,
+        1044
+      ],
+      "expected_ids": [
+        27988,
+        1307,
+        1032,
+        1050,
+        1120,
+        1317,
+        1032
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.9447,
+      "head_ms": 8.137
+    },
+    {
+      "round": 40,
+      "anchor_position": 192,
+      "anchor_token_id": 1307,
+      "draft_ids": [
+        1032,
+        1050,
+        1882,
+        1049,
+        1032,
+        1048,
+        1048
+      ],
+      "expected_ids": [
+        1032,
+        1050,
+        1120,
+        1317,
+        1032,
+        1052,
+        1120
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 7.9694,
+      "head_ms": 8.1911
+    },
+    {
+      "round": 41,
+      "anchor_position": 195,
+      "anchor_token_id": 1120,
+      "draft_ids": [
+        1317,
+        1032,
+        1051,
+        1120,
+        1307,
+        1307,
+        1032
+      ],
+      "expected_ids": [
+        1317,
+        1032,
+        1052,
+        1120,
+        3816,
+        1261,
+        3750
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 7.7752,
+      "head_ms": 8.6459
+    },
+    {
+      "round": 42,
+      "anchor_position": 198,
+      "anchor_token_id": 1052,
+      "draft_ids": [
+        1120,
+        3816,
+        3816,
+        1278,
+        1338,
+        1338,
+        1338
+      ],
+      "expected_ids": [
+        1120,
+        3816,
+        1261,
+        3750,
+        11480,
+        1294,
+        14780
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 8.0434,
+      "head_ms": 9.0102
+    },
+    {
+      "round": 43,
+      "anchor_position": 201,
+      "anchor_token_id": 1261,
+      "draft_ids": [
+        3750,
+        6410,
+        1294,
+        1278,
+        1338,
+        1338,
+        1429
+      ],
+      "expected_ids": [
+        3750,
+        11480,
+        1294,
+        14780,
+        1338,
+        28149,
+        123070
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.886,
+      "head_ms": 8.7048
+    },
+    {
+      "round": 44,
+      "anchor_position": 203,
+      "anchor_token_id": 11480,
+      "draft_ids": [
+        1294,
+        14780,
+        1338,
+        1338,
+        1044,
+        3109,
+        1429
+      ],
+      "expected_ids": [
+        1294,
+        14780,
+        1338,
+        28149,
+        123070,
+        1044,
+        1603
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 13.1936,
+      "head_ms": 8.5582
+    },
+    {
+      "round": 45,
+      "anchor_position": 207,
+      "anchor_token_id": 28149,
+      "draft_ids": [
+        1278,
+        1044,
+        1278,
+        1603,
+        1603,
+        1278,
+        6143
+      ],
+      "expected_ids": [
+        123070,
+        1044,
+        1603,
+        1553,
+        41319,
+        1438,
+        1395
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 12.6121,
+      "head_ms": 8.5255
+    },
+    {
+      "round": 46,
+      "anchor_position": 208,
+      "anchor_token_id": 123070,
+      "draft_ids": [
+        1044,
+        1603,
+        1603,
+        1307,
+        1438,
+        1395,
+        1395
+      ],
+      "expected_ids": [
+        1044,
+        1603,
+        1553,
+        41319,
+        1438,
+        1395,
+        3866
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 11.376,
+      "head_ms": 8.6162
+    },
+    {
+      "round": 47,
+      "anchor_position": 211,
+      "anchor_token_id": 1553,
+      "draft_ids": [
+        41319,
+        1438,
+        1438,
+        1278,
+        1278,
+        31587,
+        1438
+      ],
+      "expected_ids": [
+        41319,
+        1438,
+        1395,
+        3866,
+        10374,
+        10914,
+        1046
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 8.2364,
+      "head_ms": 9.0895
+    },
+    {
+      "round": 48,
+      "anchor_position": 214,
+      "anchor_token_id": 1395,
+      "draft_ids": [
+        3866,
+        4878,
+        9519,
+        1046,
+        2157,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        3866,
+        10374,
+        10914,
+        1046,
+        3216,
+        41319,
+        19263
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 10.1083,
+      "head_ms": 9.5567
+    },
+    {
+      "round": 49,
+      "anchor_position": 216,
+      "anchor_token_id": 10374,
+      "draft_ids": [
+        10914,
+        1046,
+        2157,
+        41319,
+        1395,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        10914,
+        1046,
+        3216,
+        41319,
+        19263,
+        25330,
+        1321
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 7.8097,
+      "head_ms": 9.6918
+    },
+    {
+      "round": 50,
+      "anchor_position": 219,
+      "anchor_token_id": 3216,
+      "draft_ids": [
+        41319,
+        19263,
+        23771,
+        23771,
+        1278,
+        25980,
+        3244
+      ],
+      "expected_ids": [
+        41319,
+        19263,
+        25330,
+        1321,
+        23771,
+        25980,
+        1294
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 8.0422,
+      "head_ms": 9.6572
+    },
+    {
+      "round": 51,
+      "anchor_position": 222,
+      "anchor_token_id": 25330,
+      "draft_ids": [
+        1321,
+        23771,
+        1278,
+        3244,
+        1307,
+        1307,
+        1261
+      ],
+      "expected_ids": [
+        1321,
+        23771,
+        25980,
+        1294,
+        1261,
+        21935,
+        5182
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 7.7078,
+      "head_ms": 9.7022
+    },
+    {
+      "round": 52,
+      "anchor_position": 225,
+      "anchor_token_id": 25980,
+      "draft_ids": [
+        1505,
+        1278,
+        1455,
+        1278,
+        1278,
+        1307,
+        1278
+      ],
+      "expected_ids": [
+        1294,
+        1261,
+        21935,
+        5182,
+        1455,
+        1736,
+        4945
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.6251,
+      "head_ms": 9.8031
+    },
+    {
+      "round": 53,
+      "anchor_position": 226,
+      "anchor_token_id": 1294,
+      "draft_ids": [
+        1278,
+        3244,
+        1455,
+        1584,
+        11118,
+        11118,
+        1044
+      ],
+      "expected_ids": [
+        1261,
+        21935,
+        5182,
+        1455,
+        1736,
+        4945,
+        7060
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.5261,
+      "head_ms": 10.0521
+    },
+    {
+      "round": 54,
+      "anchor_position": 227,
+      "anchor_token_id": 1261,
+      "draft_ids": [
+        21935,
+        5182,
+        1455,
+        1584,
+        57611,
+        3709,
+        1317
+      ],
+      "expected_ids": [
+        21935,
+        5182,
+        1455,
+        1736,
+        4945,
+        7060,
+        1408
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 12.1682,
+      "head_ms": 9.8061
+    },
+    {
+      "round": 55,
+      "anchor_position": 231,
+      "anchor_token_id": 1736,
+      "draft_ids": [
+        19629,
+        19629,
+        7060,
+        1317,
+        2424,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        4945,
+        7060,
+        1408,
+        1278,
+        4848,
+        1046,
+        4634
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 10.0108,
+      "head_ms": 8.7701
+    },
+    {
+      "round": 56,
+      "anchor_position": 232,
+      "anchor_token_id": 4945,
+      "draft_ids": [
+        1317,
+        1317,
+        1278,
+        1317,
+        1317,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        7060,
+        1408,
+        1278,
+        4848,
+        1046,
+        4634,
+        1429
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 9.0092,
+      "head_ms": 8.6431
+    },
+    {
+      "round": 57,
+      "anchor_position": 233,
+      "anchor_token_id": 7060,
+      "draft_ids": [
+        1408,
+        1278,
+        3244,
+        1046,
+        1046,
+        1044,
+        1278
+      ],
+      "expected_ids": [
+        1408,
+        1278,
+        4848,
+        1046,
+        4634,
+        1429,
+        32096
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 10.9291,
+      "head_ms": 8.7754
+    },
+    {
+      "round": 58,
+      "anchor_position": 236,
+      "anchor_token_id": 4848,
+      "draft_ids": [
+        1046,
+        1046,
+        1395,
+        1044,
+        1278,
+        1710,
+        41319
+      ],
+      "expected_ids": [
+        1046,
+        4634,
+        1429,
+        32096,
+        1298,
+        1450,
+        1034
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.283,
+      "head_ms": 8.4429
+    },
+    {
+      "round": 59,
+      "anchor_position": 238,
+      "anchor_token_id": 4634,
+      "draft_ids": [
+        1584,
+        21905,
+        1429,
+        1429,
+        1034,
+        1034,
+        1034
+      ],
+      "expected_ids": [
+        1429,
+        32096,
+        1298,
+        1450,
+        1034,
+        20053,
+        1584
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.7862,
+      "head_ms": 8.6332
+    },
+    {
+      "round": 60,
+      "anchor_position": 239,
+      "anchor_token_id": 1429,
+      "draft_ids": [
+        1546,
+        1034,
+        1034,
+        1505,
+        1429,
+        11118,
+        1044
+      ],
+      "expected_ids": [
+        32096,
+        1298,
+        1450,
+        1034,
+        20053,
+        1584,
+        2016
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.4067,
+      "head_ms": 8.6391
+    },
+    {
+      "round": 61,
+      "anchor_position": 240,
+      "anchor_token_id": 32096,
+      "draft_ids": [
+        1298,
+        1450,
+        1034,
+        1505,
+        1429,
+        1402,
+        1034
+      ],
+      "expected_ids": [
+        1298,
+        1450,
+        1034,
+        20053,
+        1584,
+        2016,
+        1317
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 11.6045,
+      "head_ms": 8.5555
+    },
+    {
+      "round": 62,
+      "anchor_position": 244,
+      "anchor_token_id": 20053,
+      "draft_ids": [
+        1584,
+        5153,
+        1044,
+        1505,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1584,
+        2016,
+        1317,
+        11118,
+        1046,
+        2409,
+        3657
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.4529,
+      "head_ms": 8.3558
+    },
+    {
+      "round": 63,
+      "anchor_position": 246,
+      "anchor_token_id": 2016,
+      "draft_ids": [
+        1317,
+        11118,
+        1046,
+        2409,
+        1710,
+        1710,
+        1278
+      ],
+      "expected_ids": [
+        1317,
+        11118,
+        1046,
+        2409,
+        3657,
+        1294,
+        1261
+      ],
+      "accepted_drafts": 4,
+      "committed_length": 5,
+      "body_ms": 7.7436,
+      "head_ms": 8.4649
+    },
+    {
+      "round": 64,
+      "anchor_position": 251,
+      "anchor_token_id": 3657,
+      "draft_ids": [
+        1294,
+        1261,
+        2801,
+        1307,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1294,
+        1261,
+        73983,
+        2436,
+        3244,
+        1044,
+        10138
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 8.1055,
+      "head_ms": 8.7015
+    },
+    {
+      "round": 65,
+      "anchor_position": 254,
+      "anchor_token_id": 73983,
+      "draft_ids": [
+        2736,
+        1270,
+        1044,
+        1044,
+        1799,
+        1710,
+        1710
+      ],
+      "expected_ids": [
+        2436,
+        3244,
+        1044,
+        10138,
+        3325,
+        1307,
+        1278
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 10.6123,
+      "head_ms": 8.8485
+    },
+    {
+      "round": 66,
+      "anchor_position": 255,
+      "anchor_token_id": 2436,
+      "draft_ids": [
+        3244,
+        1044,
+        2478,
+        1278,
+        1278,
+        1395,
+        1710
+      ],
+      "expected_ids": [
+        3244,
+        1044,
+        10138,
+        3325,
+        1307,
+        1278,
+        26544
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 7.7386,
+      "head_ms": 8.466
+    },
+    {
+      "round": 67,
+      "anchor_position": 258,
+      "anchor_token_id": 10138,
+      "draft_ids": [
+        25671,
+        2782,
+        1307,
+        1278,
+        1278,
+        1278,
+        1044
+      ],
+      "expected_ids": [
+        3325,
+        1307,
+        1278,
+        26544,
+        3184,
+        31587,
+        1710
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.4328,
+      "head_ms": 8.4784
+    },
+    {
+      "round": 68,
+      "anchor_position": 259,
+      "anchor_token_id": 3325,
+      "draft_ids": [
+        1307,
+        1307,
+        1278,
+        1584,
+        11118,
+        11118,
+        1044
+      ],
+      "expected_ids": [
+        1307,
+        1278,
+        26544,
+        3184,
+        31587,
+        1710,
+        1402
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.2653,
+      "head_ms": 8.2486
+    },
+    {
+      "round": 69,
+      "anchor_position": 261,
+      "anchor_token_id": 1278,
+      "draft_ids": [
+        3459,
+        1584,
+        1584,
+        11118,
+        1338,
+        11118,
+        1046
+      ],
+      "expected_ids": [
+        26544,
+        3184,
+        31587,
+        1710,
+        1402,
+        76382,
+        17262
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.7926,
+      "head_ms": 8.413
+    },
+    {
+      "round": 70,
+      "anchor_position": 262,
+      "anchor_token_id": 26544,
+      "draft_ids": [
+        1584,
+        1278,
+        11118,
+        1531,
+        1278,
+        1046,
+        1603
+      ],
+      "expected_ids": [
+        3184,
+        31587,
+        1710,
+        1402,
+        76382,
+        17262,
+        1046
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.7258,
+      "head_ms": 8.405
+    },
+    {
+      "round": 71,
+      "anchor_position": 263,
+      "anchor_token_id": 3184,
+      "draft_ids": [
+        31587,
+        1584,
+        1402,
+        11118,
+        1046,
+        1278,
+        1046
+      ],
+      "expected_ids": [
+        31587,
+        1710,
+        1402,
+        76382,
+        17262,
+        1046,
+        4925
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.4088,
+      "head_ms": 8.6148
+    },
+    {
+      "round": 72,
+      "anchor_position": 265,
+      "anchor_token_id": 1710,
+      "draft_ids": [
+        1402,
+        29170,
+        1046,
+        1046,
+        1044,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        1402,
+        76382,
+        17262,
+        1046,
+        4925,
+        11137,
+        1454
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 12.7132,
+      "head_ms": 8.7064
+    },
+    {
+      "round": 73,
+      "anchor_position": 267,
+      "anchor_token_id": 76382,
+      "draft_ids": [
+        1046,
+        1531,
+        1278,
+        1603,
+        1710,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        17262,
+        1046,
+        4925,
+        11137,
+        1454,
+        123070,
+        1044
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.7625,
+      "head_ms": 8.0417
+    },
+    {
+      "round": 74,
+      "anchor_position": 268,
+      "anchor_token_id": 17262,
+      "draft_ids": [
+        1046,
+        1349,
+        1256,
+        1603,
+        17470,
+        1044,
+        1278
+      ],
+      "expected_ids": [
+        1046,
+        4925,
+        11137,
+        1454,
+        123070,
+        1044,
+        1517
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.1177,
+      "head_ms": 8.0144
+    },
+    {
+      "round": 75,
+      "anchor_position": 270,
+      "anchor_token_id": 4925,
+      "draft_ids": [
+        1261,
+        3244,
+        1395,
+        1044,
+        1044,
+        1044,
+        1261
+      ],
+      "expected_ids": [
+        11137,
+        1454,
+        123070,
+        1044,
+        1517,
+        41319,
+        1710
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.9256,
+      "head_ms": 8.1065
+    },
+    {
+      "round": 76,
+      "anchor_position": 271,
+      "anchor_token_id": 11137,
+      "draft_ids": [
+        1454,
+        123070,
+        1044,
+        1278,
+        1044,
+        1044,
+        3244
+      ],
+      "expected_ids": [
+        1454,
+        123070,
+        1044,
+        1517,
+        41319,
+        1710,
+        4514
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 7.7631,
+      "head_ms": 8.1345
+    },
+    {
+      "round": 77,
+      "anchor_position": 275,
+      "anchor_token_id": 1517,
+      "draft_ids": [
+        41319,
+        21622,
+        4305,
+        1261,
+        3244,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        41319,
+        1710,
+        4514,
+        9980,
+        1278,
+        35537,
+        4362
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.9929,
+      "head_ms": 8.1274
+    },
+    {
+      "round": 78,
+      "anchor_position": 277,
+      "anchor_token_id": 1710,
+      "draft_ids": [
+        3820,
+        1317,
+        3244,
+        2081,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        4514,
+        9980,
+        1278,
+        35537,
+        4362,
+        1321,
+        6628
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.9404,
+      "head_ms": 8.1136
+    },
+    {
+      "round": 79,
+      "anchor_position": 278,
+      "anchor_token_id": 4514,
+      "draft_ids": [
+        33469,
+        1278,
+        6056,
+        1044,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        9980,
+        1278,
+        35537,
+        4362,
+        1321,
+        6628,
+        87732
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 19.3553,
+      "head_ms": 8.1696
+    },
+    {
+      "round": 80,
+      "anchor_position": 279,
+      "anchor_token_id": 9980,
+      "draft_ids": [
+        1278,
+        1321,
+        1044,
+        1809,
+        1278,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1278,
+        35537,
+        4362,
+        1321,
+        6628,
+        87732,
+        1044
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.6615,
+      "head_ms": 7.8551
+    },
+    {
+      "round": 81,
+      "anchor_position": 281,
+      "anchor_token_id": 35537,
+      "draft_ids": [
+        4362,
+        1307,
+        1278,
+        3244,
+        1338,
+        1044,
+        1603
+      ],
+      "expected_ids": [
+        4362,
+        1321,
+        6628,
+        87732,
+        1044,
+        15249,
+        6056
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.4152,
+      "head_ms": 8.1005
+    },
+    {
+      "round": 82,
+      "anchor_position": 283,
+      "anchor_token_id": 1321,
+      "draft_ids": [
+        1278,
+        1278,
+        1044,
+        1044,
+        1278,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        6628,
+        87732,
+        1044,
+        15249,
+        6056,
+        1317,
+        3160
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 9.8339,
+      "head_ms": 8.4421
+    },
+    {
+      "round": 83,
+      "anchor_position": 284,
+      "anchor_token_id": 6628,
+      "draft_ids": [
+        5174,
+        1044,
+        5572,
+        1278,
+        1261,
+        1261,
+        1517
+      ],
+      "expected_ids": [
+        87732,
+        1044,
+        15249,
+        6056,
+        1317,
+        3160,
+        1408
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.714,
+      "head_ms": 7.9389
+    },
+    {
+      "round": 84,
+      "anchor_position": 285,
+      "anchor_token_id": 87732,
+      "draft_ids": [
+        1338,
+        6187,
+        1044,
+        1278,
+        1603,
+        1317,
+        1603
+      ],
+      "expected_ids": [
+        1044,
+        15249,
+        6056,
+        1317,
+        3160,
+        1408,
+        10314
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.264,
+      "head_ms": 7.9131
+    },
+    {
+      "round": 85,
+      "anchor_position": 286,
+      "anchor_token_id": 1044,
+      "draft_ids": [
+        15249,
+        1278,
+        3244,
+        1317,
+        2081,
+        12871,
+        1278
+      ],
+      "expected_ids": [
+        15249,
+        6056,
+        1317,
+        3160,
+        1408,
+        10314,
+        10483
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.7297,
+      "head_ms": 7.9186
+    },
+    {
+      "round": 86,
+      "anchor_position": 288,
+      "anchor_token_id": 6056,
+      "draft_ids": [
+        1317,
+        3160,
+        1408,
+        1408,
+        1261,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1317,
+        3160,
+        1408,
+        10314,
+        10483,
+        1454,
+        8031
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 8.8331,
+      "head_ms": 7.8687
+    },
+    {
+      "round": 87,
+      "anchor_position": 292,
+      "anchor_token_id": 10314,
+      "draft_ids": [
+        10483,
+        1505,
+        2516,
+        1044,
+        1044,
+        1044,
+        1603
+      ],
+      "expected_ids": [
+        10483,
+        1454,
+        8031,
+        9281,
+        1044,
+        2516,
+        1435
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.3697,
+      "head_ms": 8.1125
+    },
+    {
+      "round": 88,
+      "anchor_position": 294,
+      "anchor_token_id": 1454,
+      "draft_ids": [
+        8031,
+        21016,
+        1321,
+        1044,
+        1044,
+        1603,
+        1044
+      ],
+      "expected_ids": [
+        8031,
+        9281,
+        1044,
+        2516,
+        1435,
+        118422,
+        1505
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.6897,
+      "head_ms": 8.2568
+    },
+    {
+      "round": 89,
+      "anchor_position": 296,
+      "anchor_token_id": 9281,
+      "draft_ids": [
+        1044,
+        2479,
+        1435,
+        1505,
+        1321,
+        1321,
+        1321
+      ],
+      "expected_ids": [
+        1044,
+        2516,
+        1435,
+        118422,
+        1505,
+        31616,
+        1084
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 9.9877,
+      "head_ms": 8.1806
+    },
+    {
+      "round": 90,
+      "anchor_position": 298,
+      "anchor_token_id": 2516,
+      "draft_ids": [
+        1435,
+        118422,
+        1505,
+        1505,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1435,
+        118422,
+        1505,
+        31616,
+        1084,
+        25191,
+        1338
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 7.2406,
+      "head_ms": 7.8802
+    },
+    {
+      "round": 91,
+      "anchor_position": 302,
+      "anchor_token_id": 31616,
+      "draft_ids": [
+        1084,
+        25191,
+        1338,
+        1784,
+        1044,
+        1278,
+        1603
+      ],
+      "expected_ids": [
+        1084,
+        25191,
+        1338,
+        29401,
+        1044,
+        1603,
+        85498
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 7.9554,
+      "head_ms": 7.9012
+    },
+    {
+      "round": 92,
+      "anchor_position": 306,
+      "anchor_token_id": 29401,
+      "draft_ids": [
+        1044,
+        1603,
+        3244,
+        1307,
+        1438,
+        1603,
+        1438
+      ],
+      "expected_ids": [
+        1044,
+        1603,
+        85498,
+        19444,
+        1438,
+        1321,
+        1603
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 8.0169,
+      "head_ms": 7.848
+    },
+    {
+      "round": 93,
+      "anchor_position": 309,
+      "anchor_token_id": 85498,
+      "draft_ids": [
+        36611,
+        1438,
+        1438,
+        1319,
+        1603,
+        1317,
+        1438
+      ],
+      "expected_ids": [
+        19444,
+        1438,
+        1321,
+        1603,
+        13917,
+        27636,
+        1438
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.4334,
+      "head_ms": 7.9046
+    },
+    {
+      "round": 94,
+      "anchor_position": 310,
+      "anchor_token_id": 19444,
+      "draft_ids": [
+        1438,
+        1321,
+        1603,
+        27636,
+        31587,
+        1438,
+        1395
+      ],
+      "expected_ids": [
+        1438,
+        1321,
+        1603,
+        13917,
+        27636,
+        1438,
+        3354
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 8.2229,
+      "head_ms": 8.0167
+    },
+    {
+      "round": 95,
+      "anchor_position": 314,
+      "anchor_token_id": 13917,
+      "draft_ids": [
+        27636,
+        1438,
+        1584,
+        1317,
+        1278,
+        1278,
+        27636
+      ],
+      "expected_ids": [
+        27636,
+        1438,
+        3354,
+        1261,
+        21970,
+        4934,
+        1294
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 8.3261,
+      "head_ms": 8.1739
+    },
+    {
+      "round": 96,
+      "anchor_position": 317,
+      "anchor_token_id": 3354,
+      "draft_ids": [
+        1261,
+        4934,
+        1294,
+        1278,
+        1278,
+        1278,
+        1317
+      ],
+      "expected_ids": [
+        1261,
+        21970,
+        4934,
+        1294,
+        1278,
+        13873,
+        1307
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 9.3784,
+      "head_ms": 8.3736
+    },
+    {
+      "round": 97,
+      "anchor_position": 319,
+      "anchor_token_id": 21970,
+      "draft_ids": [
+        4934,
+        1294,
+        4934,
+        1046,
+        1278,
+        1278,
+        1603
+      ],
+      "expected_ids": [
+        4934,
+        1294,
+        1278,
+        13873,
+        1307,
+        31587,
+        1046
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 8.1464,
+      "head_ms": 8.3002
+    },
+    {
+      "round": 98,
+      "anchor_position": 322,
+      "anchor_token_id": 1278,
+      "draft_ids": [
+        13873,
+        1307,
+        1278,
+        31587,
+        31587,
+        1046,
+        1046
+      ],
+      "expected_ids": [
+        13873,
+        1307,
+        31587,
+        1046,
+        1656,
+        1261,
+        21935
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 9.187,
+      "head_ms": 8.2064
+    },
+    {
+      "round": 99,
+      "anchor_position": 325,
+      "anchor_token_id": 31587,
+      "draft_ids": [
+        1046,
+        75377,
+        19444,
+        1395,
+        1278,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        1046,
+        1656,
+        1261,
+        21935,
+        5182,
+        1044,
+        10317
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.8084,
+      "head_ms": 8.167
+    },
+    {
+      "round": 100,
+      "anchor_position": 327,
+      "anchor_token_id": 1656,
+      "draft_ids": [
+        1261,
+        1044,
+        1044,
+        1044,
+        3244,
+        5153,
+        5153
+      ],
+      "expected_ids": [
+        1261,
+        21935,
+        5182,
+        1044,
+        10317,
+        1584,
+        5153
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.6404,
+      "head_ms": 8.2709
+    },
+    {
+      "round": 101,
+      "anchor_position": 329,
+      "anchor_token_id": 21935,
+      "draft_ids": [
+        5182,
+        1044,
+        1278,
+        10317,
+        1584,
+        5153,
+        1536
+      ],
+      "expected_ids": [
+        5182,
+        1044,
+        10317,
+        1584,
+        5153,
+        17303,
+        3151
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 9.2645,
+      "head_ms": 8.5502
+    },
+    {
+      "round": 102,
+      "anchor_position": 332,
+      "anchor_token_id": 10317,
+      "draft_ids": [
+        1584,
+        5153,
+        10317,
+        10317,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1584,
+        5153,
+        17303,
+        3151,
+        2203,
+        3709,
+        9578
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 7.4701,
+      "head_ms": 8.741
+    },
+    {
+      "round": 103,
+      "anchor_position": 335,
+      "anchor_token_id": 17303,
+      "draft_ids": [
+        2203,
+        2203,
+        9960,
+        10317,
+        1319,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        3151,
+        2203,
+        3709,
+        9578,
+        1319,
+        118247,
+        1577
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.6157,
+      "head_ms": 9.6804
+    },
+    {
+      "round": 104,
+      "anchor_position": 336,
+      "anchor_token_id": 3151,
+      "draft_ids": [
+        2203,
+        3709,
+        1319,
+        1319,
+        1101,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        2203,
+        3709,
+        9578,
+        1319,
+        118247,
+        1577,
+        74276
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 7.8342,
+      "head_ms": 9.1213
+    },
+    {
+      "round": 105,
+      "anchor_position": 339,
+      "anchor_token_id": 9578,
+      "draft_ids": [
+        1319,
+        10683,
+        3596,
+        1261,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1319,
+        118247,
+        1577,
+        74276,
+        2181,
+        2396,
+        2576
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 11.1075,
+      "head_ms": 8.9441
+    },
+    {
+      "round": 106,
+      "anchor_position": 341,
+      "anchor_token_id": 118247,
+      "draft_ids": [
+        1577,
+        1531,
+        1044,
+        1044,
+        1044,
+        1278,
+        1044
+      ],
+      "expected_ids": [
+        1577,
+        74276,
+        2181,
+        2396,
+        2576,
+        9578,
+        1710
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.4219,
+      "head_ms": 9.0393
+    },
+    {
+      "round": 107,
+      "anchor_position": 343,
+      "anchor_token_id": 74276,
+      "draft_ids": [
+        1278,
+        2396,
+        1278,
+        1317,
+        1317,
+        1261,
+        1044
+      ],
+      "expected_ids": [
+        2181,
+        2396,
+        2576,
+        9578,
+        1710,
+        4305,
+        93851
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.7573,
+      "head_ms": 8.9889
+    },
+    {
+      "round": 108,
+      "anchor_position": 344,
+      "anchor_token_id": 2181,
+      "draft_ids": [
+        2396,
+        2576,
+        1321,
+        1317,
+        3709,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        2396,
+        2576,
+        9578,
+        1710,
+        4305,
+        93851,
+        25157
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 7.3986,
+      "head_ms": 9.3005
+    },
+    {
+      "round": 109,
+      "anchor_position": 347,
+      "anchor_token_id": 9578,
+      "draft_ids": [
+        1321,
+        1278,
+        6628,
+        1710,
+        1710,
+        1321,
+        1044
+      ],
+      "expected_ids": [
+        1710,
+        4305,
+        93851,
+        25157,
+        3964,
+        1317,
+        6628
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.6517,
+      "head_ms": 9.4958
+    },
+    {
+      "round": 110,
+      "anchor_position": 348,
+      "anchor_token_id": 1710,
+      "draft_ids": [
+        1402,
+        6628,
+        1046,
+        1278,
+        1046,
+        1046,
+        1278
+      ],
+      "expected_ids": [
+        4305,
+        93851,
+        25157,
+        3964,
+        1317,
+        6628,
+        48192
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.4211,
+      "head_ms": 9.9596
+    },
+    {
+      "round": 111,
+      "anchor_position": 349,
+      "anchor_token_id": 4305,
+      "draft_ids": [
+        1261,
+        119107,
+        3964,
+        1317,
+        1278,
+        1278,
+        6628
+      ],
+      "expected_ids": [
+        93851,
+        25157,
+        3964,
+        1317,
+        6628,
+        48192,
+        1046
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.4506,
+      "head_ms": 9.6406
+    },
+    {
+      "round": 112,
+      "anchor_position": 350,
+      "anchor_token_id": 93851,
+      "draft_ids": [
+        25157,
+        1044,
+        1435,
+        1278,
+        2181,
+        6628,
+        6628
+      ],
+      "expected_ids": [
+        25157,
+        3964,
+        1317,
+        6628,
+        48192,
+        1046,
+        108225
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.2503,
+      "head_ms": 9.5322
+    },
+    {
+      "round": 113,
+      "anchor_position": 352,
+      "anchor_token_id": 3964,
+      "draft_ids": [
+        1317,
+        1278,
+        6628,
+        1046,
+        1046,
+        1046,
+        1395
+      ],
+      "expected_ids": [
+        1317,
+        6628,
+        48192,
+        1046,
+        108225,
+        19444,
+        57160
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.2607,
+      "head_ms": 9.6391
+    },
+    {
+      "round": 114,
+      "anchor_position": 354,
+      "anchor_token_id": 6628,
+      "draft_ids": [
+        4731,
+        1046,
+        1349,
+        1044,
+        1278,
+        1278,
+        1317
+      ],
+      "expected_ids": [
+        48192,
+        1046,
+        108225,
+        19444,
+        57160,
+        6245,
+        10317
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.4318,
+      "head_ms": 10.0884
+    },
+    {
+      "round": 115,
+      "anchor_position": 355,
+      "anchor_token_id": 48192,
+      "draft_ids": [
+        1046,
+        1349,
+        1044,
+        1395,
+        1278,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        1046,
+        108225,
+        19444,
+        57160,
+        6245,
+        10317,
+        2203
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.5082,
+      "head_ms": 10.0898
+    },
+    {
+      "round": 116,
+      "anchor_position": 357,
+      "anchor_token_id": 108225,
+      "draft_ids": [
+        19444,
+        19263,
+        1278,
+        1278,
+        2203,
+        10317,
+        1278
+      ],
+      "expected_ids": [
+        19444,
+        57160,
+        6245,
+        10317,
+        2203,
+        1261,
+        4249
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.5271,
+      "head_ms": 9.6635
+    },
+    {
+      "round": 117,
+      "anchor_position": 359,
+      "anchor_token_id": 57160,
+      "draft_ids": [
+        6245,
+        28370,
+        1454,
+        1454,
+        2203,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        6245,
+        10317,
+        2203,
+        1261,
+        4249,
+        22586,
+        1044
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.0448,
+      "head_ms": 9.5306
+    },
+    {
+      "round": 118,
+      "anchor_position": 361,
+      "anchor_token_id": 10317,
+      "draft_ids": [
+        2203,
+        1261,
+        4249,
+        1044,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        2203,
+        1261,
+        4249,
+        22586,
+        1044,
+        17291,
+        1278
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 9.3239,
+      "head_ms": 9.3128
+    },
+    {
+      "round": 119,
+      "anchor_position": 365,
+      "anchor_token_id": 22586,
+      "draft_ids": [
+        3690,
+        1046,
+        2409,
+        3336,
+        1044,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        1044,
+        17291,
+        1278,
+        2782,
+        1307,
+        5213,
+        2181
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.2622,
+      "head_ms": 8.9274
+    },
+    {
+      "round": 120,
+      "anchor_position": 366,
+      "anchor_token_id": 1044,
+      "draft_ids": [
+        10138,
+        1278,
+        1278,
+        1278,
+        1278,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        17291,
+        1278,
+        2782,
+        1307,
+        5213,
+        2181,
+        4016
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.6095,
+      "head_ms": 9.6759
+    },
+    {
+      "round": 121,
+      "anchor_position": 367,
+      "anchor_token_id": 17291,
+      "draft_ids": [
+        1278,
+        2782,
+        1307,
+        2181,
+        2181,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        1278,
+        2782,
+        1307,
+        5213,
+        2181,
+        4016,
+        1402
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 10.0651,
+      "head_ms": 8.752
+    },
+    {
+      "round": 122,
+      "anchor_position": 371,
+      "anchor_token_id": 5213,
+      "draft_ids": [
+        2181,
+        1395,
+        1395,
+        1321,
+        1321,
+        1046,
+        1046
+      ],
+      "expected_ids": [
+        2181,
+        4016,
+        1402,
+        3346,
+        1562,
+        1321,
+        8360
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.4234,
+      "head_ms": 8.7211
+    },
+    {
+      "round": 123,
+      "anchor_position": 373,
+      "anchor_token_id": 4016,
+      "draft_ids": [
+        1402,
+        3346,
+        1562,
+        1278,
+        6628,
+        6628,
+        1046
+      ],
+      "expected_ids": [
+        1402,
+        3346,
+        1562,
+        1321,
+        8360,
+        1317,
+        6628
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 7.4083,
+      "head_ms": 8.759
+    },
+    {
+      "round": 124,
+      "anchor_position": 377,
+      "anchor_token_id": 1321,
+      "draft_ids": [
+        1317,
+        1562,
+        6628,
+        6628,
+        1046,
+        2409,
+        1046
+      ],
+      "expected_ids": [
+        8360,
+        1317,
+        6628,
+        1046,
+        5652,
+        93034,
+        1278
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.1972,
+      "head_ms": 8.7417
+    },
+    {
+      "round": 125,
+      "anchor_position": 378,
+      "anchor_token_id": 8360,
+      "draft_ids": [
+        1317,
+        6628,
+        1046,
+        2409,
+        1395,
+        1278,
+        1317
+      ],
+      "expected_ids": [
+        1317,
+        6628,
+        1046,
+        5652,
+        93034,
+        1278,
+        4253
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 7.7448,
+      "head_ms": 9.8256
+    },
+    {
+      "round": 126,
+      "anchor_position": 382,
+      "anchor_token_id": 5652,
+      "draft_ids": [
+        93034,
+        2576,
+        22586,
+        1317,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        93034,
+        1278,
+        4253,
+        16121,
+        11708,
+        1321,
+        26831
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.2061,
+      "head_ms": 9.7025
+    },
+    {
+      "round": 127,
+      "anchor_position": 384,
+      "anchor_token_id": 1278,
+      "draft_ids": [
+        16614,
+        1307,
+        1321,
+        1321,
+        1278,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        4253,
+        16121,
+        11708,
+        1321,
+        26831,
+        8234,
+        12066
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 10.5263,
+      "head_ms": 9.0235
+    },
+    {
+      "round": 128,
+      "anchor_position": 385,
+      "anchor_token_id": 4253,
+      "draft_ids": [
+        16121,
+        5692,
+        1307,
+        1278,
+        1278,
+        1278,
+        1044
+      ],
+      "expected_ids": [
+        16121,
+        11708,
+        1321,
+        26831,
+        8234,
+        12066,
+        8673
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.7555,
+      "head_ms": 8.798
+    },
+    {
+      "round": 129,
+      "anchor_position": 387,
+      "anchor_token_id": 11708,
+      "draft_ids": [
+        1044,
+        1278,
+        1710,
+        1261,
+        1278,
+        27636,
+        1317
+      ],
+      "expected_ids": [
+        1321,
+        26831,
+        8234,
+        12066,
+        8673,
+        28946,
+        1307
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.0439,
+      "head_ms": 8.719
+    },
+    {
+      "round": 130,
+      "anchor_position": 388,
+      "anchor_token_id": 1321,
+      "draft_ids": [
+        40227,
+        1278,
+        1278,
+        3244,
+        1278,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        26831,
+        8234,
+        12066,
+        8673,
+        28946,
+        1307,
+        20534
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 6.9022,
+      "head_ms": 8.6495
+    },
+    {
+      "round": 131,
+      "anchor_position": 389,
+      "anchor_token_id": 26831,
+      "draft_ids": [
+        8234,
+        1278,
+        21016,
+        21016,
+        21016,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        8234,
+        12066,
+        8673,
+        28946,
+        1307,
+        20534,
+        7176
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.5637,
+      "head_ms": 8.907
+    },
+    {
+      "round": 132,
+      "anchor_position": 391,
+      "anchor_token_id": 12066,
+      "draft_ids": [
+        2779,
+        1319,
+        1319,
+        1278,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        8673,
+        28946,
+        1307,
+        20534,
+        7176,
+        1505,
+        36072
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.3022,
+      "head_ms": 9.1483
+    },
+    {
+      "round": 133,
+      "anchor_position": 392,
+      "anchor_token_id": 8673,
+      "draft_ids": [
+        1319,
+        1044,
+        1278,
+        21016,
+        1278,
+        1278,
+        1395
+      ],
+      "expected_ids": [
+        28946,
+        1307,
+        20534,
+        7176,
+        1505,
+        36072,
+        26554
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.0998,
+      "head_ms": 9.2996
+    },
+    {
+      "round": 134,
+      "anchor_position": 393,
+      "anchor_token_id": 28946,
+      "draft_ids": [
+        2479,
+        10683,
+        1435,
+        1044,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1307,
+        20534,
+        7176,
+        1505,
+        36072,
+        26554,
+        16360
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.0087,
+      "head_ms": 8.9551
+    },
+    {
+      "round": 135,
+      "anchor_position": 394,
+      "anchor_token_id": 1307,
+      "draft_ids": [
+        1278,
+        56455,
+        1044,
+        1593,
+        1710,
+        1278,
+        1278
+      ],
+      "expected_ids": [
+        20534,
+        7176,
+        1505,
+        36072,
+        26554,
+        16360,
+        6094
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.7016,
+      "head_ms": 8.9755
+    },
+    {
+      "round": 136,
+      "anchor_position": 395,
+      "anchor_token_id": 20534,
+      "draft_ids": [
+        7176,
+        1044,
+        1278,
+        1395,
+        1278,
+        12871,
+        1317
+      ],
+      "expected_ids": [
+        7176,
+        1505,
+        36072,
+        26554,
+        16360,
+        6094,
+        1044
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.275,
+      "head_ms": 8.6817
+    },
+    {
+      "round": 137,
+      "anchor_position": 397,
+      "anchor_token_id": 1505,
+      "draft_ids": [
+        42966,
+        7176,
+        1044,
+        1278,
+        1278,
+        1278,
+        38364
+      ],
+      "expected_ids": [
+        36072,
+        26554,
+        16360,
+        6094,
+        1044,
+        31587,
+        1710
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 6.9052,
+      "head_ms": 8.8266
+    },
+    {
+      "round": 138,
+      "anchor_position": 398,
+      "anchor_token_id": 36072,
+      "draft_ids": [
+        42966,
+        1839,
+        1044,
+        1278,
+        1044,
+        1278,
+        1317
+      ],
+      "expected_ids": [
+        26554,
+        16360,
+        6094,
+        1044,
+        31587,
+        1710,
+        1402
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.3755,
+      "head_ms": 9.1088
+    },
+    {
+      "round": 139,
+      "anchor_position": 399,
+      "anchor_token_id": 26554,
+      "draft_ids": [
+        47346,
+        1428,
+        1044,
+        1278,
+        1395,
+        1278,
+        38364
+      ],
+      "expected_ids": [
+        16360,
+        6094,
+        1044,
+        31587,
+        1710,
+        1402,
+        5537
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 6.9913,
+      "head_ms": 9.0465
+    },
+    {
+      "round": 140,
+      "anchor_position": 400,
+      "anchor_token_id": 16360,
+      "draft_ids": [
+        6094,
+        1044,
+        1593,
+        1395,
+        1278,
+        1574,
+        22586
+      ],
+      "expected_ids": [
+        6094,
+        1044,
+        31587,
+        1710,
+        1402,
+        5537,
+        1294
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 7.0199,
+      "head_ms": 8.8844
+    },
+    {
+      "round": 141,
+      "anchor_position": 403,
+      "anchor_token_id": 31587,
+      "draft_ids": [
+        1710,
+        1402,
+        1408,
+        1278,
+        1044,
+        1278,
+        1044
+      ],
+      "expected_ids": [
+        1710,
+        1402,
+        5537,
+        1294,
+        3145,
+        11328,
+        1044
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 7.2318,
+      "head_ms": 8.7522
+    },
+    {
+      "round": 142,
+      "anchor_position": 406,
+      "anchor_token_id": 5537,
+      "draft_ids": [
+        1294,
+        1261,
+        1435,
+        1044,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1294,
+        3145,
+        11328,
+        1044,
+        6187,
+        45899,
+        26554
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.1245,
+      "head_ms": 8.6598
+    },
+    {
+      "round": 143,
+      "anchor_position": 408,
+      "anchor_token_id": 3145,
+      "draft_ids": [
+        11328,
+        1044,
+        6187,
+        1278,
+        1317,
+        21016,
+        21016
+      ],
+      "expected_ids": [
+        11328,
+        1044,
+        6187,
+        45899,
+        26554,
+        10792,
+        40244
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 6.9614,
+      "head_ms": 8.559
+    },
+    {
+      "round": 144,
+      "anchor_position": 412,
+      "anchor_token_id": 45899,
+      "draft_ids": [
+        26554,
+        4171,
+        4171,
+        1435,
+        1044,
+        1044,
+        1032
+      ],
+      "expected_ids": [
+        26554,
+        10792,
+        40244,
+        1408,
+        24149,
+        21016,
+        1046
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.3461,
+      "head_ms": 9.2131
+    },
+    {
+      "round": 145,
+      "anchor_position": 414,
+      "anchor_token_id": 10792,
+      "draft_ids": [
+        23885,
+        1394,
+        10483,
+        10483,
+        1046,
+        1046,
+        1046
+      ],
+      "expected_ids": [
+        40244,
+        1408,
+        24149,
+        21016,
+        1046,
+        11,
+        1010
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.3079,
+      "head_ms": 9.2035
+    },
+    {
+      "round": 146,
+      "anchor_position": 415,
+      "anchor_token_id": 40244,
+      "draft_ids": [
+        1394,
+        11396,
+        1044,
+        1046,
+        1046,
+        1046,
+        1046
+      ],
+      "expected_ids": [
+        1408,
+        24149,
+        21016,
+        1046,
+        11,
+        1010,
+        13
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 11.8148,
+      "head_ms": 8.6342
+    },
+    {
+      "round": 147,
+      "anchor_position": 416,
+      "anchor_token_id": 1408,
+      "draft_ids": [
+        1261,
+        10483,
+        1046,
+        1046,
+        1010,
+        13,
+        1044
+      ],
+      "expected_ids": [
+        24149,
+        21016,
+        1046,
+        11,
+        1010,
+        13,
+        1035
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.2152,
+      "head_ms": 8.7164
+    },
+    {
+      "round": 148,
+      "anchor_position": 417,
+      "anchor_token_id": 24149,
+      "draft_ids": [
+        21016,
+        1046,
+        11,
+        1010,
+        13,
+        1046,
+        1046
+      ],
+      "expected_ids": [
+        21016,
+        1046,
+        11,
+        1010,
+        13,
+        1035,
+        1531
+      ],
+      "accepted_drafts": 5,
+      "committed_length": 6,
+      "body_ms": 7.3133,
+      "head_ms": 9.2249
+    },
+    {
+      "round": 149,
+      "anchor_position": 423,
+      "anchor_token_id": 1035,
+      "draft_ids": [
+        1436,
+        7373,
+        42571,
+        42571,
+        1307,
+        1656,
+        3726
+      ],
+      "expected_ids": [
+        1531,
+        129084,
+        1307,
+        1436,
+        7373,
+        26554,
+        1656
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.2409,
+      "head_ms": 8.5001
+    },
+    {
+      "round": 150,
+      "anchor_position": 424,
+      "anchor_token_id": 1531,
+      "draft_ids": [
+        128809,
+        1307,
+        1307,
+        1307,
+        3229,
+        1058,
+        1058
+      ],
+      "expected_ids": [
+        129084,
+        1307,
+        1436,
+        7373,
+        26554,
+        1656,
+        3726
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.6355,
+      "head_ms": 8.7178
+    },
+    {
+      "round": 151,
+      "anchor_position": 425,
+      "anchor_token_id": 129084,
+      "draft_ids": [
+        1307,
+        1436,
+        93782,
+        1058,
+        1656,
+        3726,
+        1058
+      ],
+      "expected_ids": [
+        1307,
+        1436,
+        7373,
+        26554,
+        1656,
+        3726,
+        1267
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 7.8834,
+      "head_ms": 8.848
+    },
+    {
+      "round": 152,
+      "anchor_position": 428,
+      "anchor_token_id": 7373,
+      "draft_ids": [
+        93782,
+        42571,
+        1656,
+        3726,
+        3726,
+        1267,
+        1603
+      ],
+      "expected_ids": [
+        26554,
+        1656,
+        3726,
+        1267,
+        13370,
+        71575,
+        42571
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.5138,
+      "head_ms": 8.43
+    },
+    {
+      "round": 153,
+      "anchor_position": 429,
+      "anchor_token_id": 26554,
+      "draft_ids": [
+        1656,
+        3726,
+        1267,
+        1784,
+        1032,
+        1278,
+        1603
+      ],
+      "expected_ids": [
+        1656,
+        3726,
+        1267,
+        13370,
+        71575,
+        42571,
+        1319
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 7.4917,
+      "head_ms": 8.704
+    },
+    {
+      "round": 154,
+      "anchor_position": 433,
+      "anchor_token_id": 13370,
+      "draft_ids": [
+        71575,
+        42571,
+        1319,
+        1278,
+        1261,
+        1041,
+        1044
+      ],
+      "expected_ids": [
+        71575,
+        42571,
+        1319,
+        33613,
+        1041,
+        1934,
+        11286
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 7.7331,
+      "head_ms": 8.4218
+    },
+    {
+      "round": 155,
+      "anchor_position": 437,
+      "anchor_token_id": 33613,
+      "draft_ids": [
+        1041,
+        1934,
+        2151,
+        1562,
+        1044,
+        1044,
+        1278
+      ],
+      "expected_ids": [
+        1041,
+        1934,
+        11286,
+        1286,
+        1562,
+        1261,
+        21699
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 8.4596,
+      "head_ms": 8.4679
+    },
+    {
+      "round": 156,
+      "anchor_position": 440,
+      "anchor_token_id": 11286,
+      "draft_ids": [
+        1286,
+        1562,
+        38677,
+        1317,
+        1317,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1286,
+        1562,
+        1261,
+        21699,
+        3727,
+        1317,
+        1261
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 8.2862,
+      "head_ms": 8.1862
+    },
+    {
+      "round": 157,
+      "anchor_position": 443,
+      "anchor_token_id": 1261,
+      "draft_ids": [
+        4909,
+        4909,
+        1317,
+        1261,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        21699,
+        3727,
+        1317,
+        1261,
+        90233,
+        10331,
+        26234
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.4437,
+      "head_ms": 8.2645
+    },
+    {
+      "round": 158,
+      "anchor_position": 444,
+      "anchor_token_id": 21699,
+      "draft_ids": [
+        4909,
+        1317,
+        1317,
+        1261,
+        1261,
+        1317,
+        1046
+      ],
+      "expected_ids": [
+        3727,
+        1317,
+        1261,
+        90233,
+        10331,
+        26234,
+        1294
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.2401,
+      "head_ms": 8.2407
+    },
+    {
+      "round": 159,
+      "anchor_position": 445,
+      "anchor_token_id": 3727,
+      "draft_ids": [
+        1317,
+        1261,
+        18107,
+        11136,
+        11136,
+        1408,
+        1044
+      ],
+      "expected_ids": [
+        1317,
+        1261,
+        90233,
+        10331,
+        26234,
+        1294,
+        8605
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 12.4017,
+      "head_ms": 8.7904
+    },
+    {
+      "round": 160,
+      "anchor_position": 448,
+      "anchor_token_id": 90233,
+      "draft_ids": [
+        39473,
+        9519,
+        1046,
+        1531,
+        1044,
+        1046,
+        1044
+      ],
+      "expected_ids": [
+        10331,
+        26234,
+        1294,
+        8605,
+        1562,
+        67821,
+        41992
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.2271,
+      "head_ms": 8.3676
+    },
+    {
+      "round": 161,
+      "anchor_position": 449,
+      "anchor_token_id": 10331,
+      "draft_ids": [
+        1046,
+        1531,
+        1044,
+        1278,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        26234,
+        1294,
+        8605,
+        1562,
+        67821,
+        41992,
+        1317
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.5248,
+      "head_ms": 9.1038
+    },
+    {
+      "round": 162,
+      "anchor_position": 450,
+      "anchor_token_id": 26234,
+      "draft_ids": [
+        1294,
+        38677,
+        10483,
+        1046,
+        1531,
+        1321,
+        1044
+      ],
+      "expected_ids": [
+        1294,
+        8605,
+        1562,
+        67821,
+        41992,
+        1317,
+        49463
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.7036,
+      "head_ms": 8.8618
+    },
+    {
+      "round": 163,
+      "anchor_position": 452,
+      "anchor_token_id": 8605,
+      "draft_ids": [
+        1562,
+        118422,
+        10483,
+        1317,
+        1317,
+        1046,
+        1046
+      ],
+      "expected_ids": [
+        1562,
+        67821,
+        41992,
+        1317,
+        49463,
+        21336,
+        1046
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.5127,
+      "head_ms": 8.5546
+    },
+    {
+      "round": 164,
+      "anchor_position": 454,
+      "anchor_token_id": 67821,
+      "draft_ids": [
+        51622,
+        1317,
+        1317,
+        25191,
+        1046,
+        1046,
+        1046
+      ],
+      "expected_ids": [
+        41992,
+        1317,
+        49463,
+        21336,
+        1046,
+        9076,
+        7716
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.3467,
+      "head_ms": 8.6304
+    },
+    {
+      "round": 165,
+      "anchor_position": 455,
+      "anchor_token_id": 41992,
+      "draft_ids": [
+        1317,
+        49463,
+        8673,
+        1046,
+        1046,
+        1046,
+        1046
+      ],
+      "expected_ids": [
+        1317,
+        49463,
+        21336,
+        1046,
+        9076,
+        7716,
+        1261
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 11.2428,
+      "head_ms": 8.552
+    },
+    {
+      "round": 166,
+      "anchor_position": 458,
+      "anchor_token_id": 21336,
+      "draft_ids": [
+        1046,
+        3886,
+        1044,
+        1278,
+        1395,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1046,
+        9076,
+        7716,
+        1261,
+        3244,
+        10867,
+        22743
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.3884,
+      "head_ms": 8.7651
+    },
+    {
+      "round": 167,
+      "anchor_position": 460,
+      "anchor_token_id": 9076,
+      "draft_ids": [
+        1278,
+        1429,
+        1307,
+        1278,
+        3726,
+        1438,
+        1438
+      ],
+      "expected_ids": [
+        7716,
+        1261,
+        3244,
+        10867,
+        22743,
+        35537,
+        9281
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 11.3541,
+      "head_ms": 9.0424
+    },
+    {
+      "round": 168,
+      "anchor_position": 461,
+      "anchor_token_id": 7716,
+      "draft_ids": [
+        1261,
+        4329,
+        3244,
+        1261,
+        1261,
+        1050,
+        1395
+      ],
+      "expected_ids": [
+        1261,
+        3244,
+        10867,
+        22743,
+        35537,
+        9281,
+        1321
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.7212,
+      "head_ms": 8.745
+    },
+    {
+      "round": 169,
+      "anchor_position": 463,
+      "anchor_token_id": 3244,
+      "draft_ids": [
+        1674,
+        1261,
+        1321,
+        1044,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        10867,
+        22743,
+        35537,
+        9281,
+        1321,
+        2142,
+        1044
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 8.2789,
+      "head_ms": 9.2918
+    },
+    {
+      "round": 170,
+      "anchor_position": 464,
+      "anchor_token_id": 10867,
+      "draft_ids": [
+        22743,
+        2181,
+        1307,
+        2181,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        22743,
+        35537,
+        9281,
+        1321,
+        2142,
+        1044,
+        1603
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.7759,
+      "head_ms": 9.0556
+    },
+    {
+      "round": 171,
+      "anchor_position": 466,
+      "anchor_token_id": 35537,
+      "draft_ids": [
+        9281,
+        1044,
+        1278,
+        13873,
+        1307,
+        1044,
+        1278
+      ],
+      "expected_ids": [
+        9281,
+        1321,
+        2142,
+        1044,
+        1603,
+        1259,
+        3726
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 8.1608,
+      "head_ms": 9.0288
+    },
+    {
+      "round": 172,
+      "anchor_position": 468,
+      "anchor_token_id": 1321,
+      "draft_ids": [
+        2181,
+        1044,
+        1044,
+        31587,
+        31587,
+        3726,
+        31587
+      ],
+      "expected_ids": [
+        2142,
+        1044,
+        1603,
+        1259,
+        3726,
+        1438,
+        1674
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.9847,
+      "head_ms": 8.6925
+    },
+    {
+      "round": 173,
+      "anchor_position": 469,
+      "anchor_token_id": 2142,
+      "draft_ids": [
+        1044,
+        1278,
+        1603,
+        1307,
+        1307,
+        1307,
+        31587
+      ],
+      "expected_ids": [
+        1044,
+        1603,
+        1259,
+        3726,
+        1438,
+        1674,
+        3265
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 9.6176,
+      "head_ms": 8.6714
+    },
+    {
+      "round": 174,
+      "anchor_position": 471,
+      "anchor_token_id": 1603,
+      "draft_ids": [
+        1259,
+        3726,
+        1438,
+        1395,
+        1278,
+        3244,
+        1044
+      ],
+      "expected_ids": [
+        1259,
+        3726,
+        1438,
+        1674,
+        3265,
+        2832,
+        1307
+      ],
+      "accepted_drafts": 3,
+      "committed_length": 4,
+      "body_ms": 10.1401,
+      "head_ms": 8.6889
+    },
+    {
+      "round": 175,
+      "anchor_position": 475,
+      "anchor_token_id": 1674,
+      "draft_ids": [
+        3265,
+        1278,
+        1307,
+        1278,
+        3244,
+        1317,
+        3180
+      ],
+      "expected_ids": [
+        3265,
+        2832,
+        1307,
+        2505,
+        1261,
+        22088,
+        3244
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 9.8428,
+      "head_ms": 8.873
+    },
+    {
+      "round": 176,
+      "anchor_position": 477,
+      "anchor_token_id": 2832,
+      "draft_ids": [
+        1307,
+        7523,
+        1278,
+        3244,
+        1317,
+        1317,
+        1278
+      ],
+      "expected_ids": [
+        1307,
+        2505,
+        1261,
+        22088,
+        3244,
+        1317,
+        3180
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 9.8115,
+      "head_ms": 8.6117
+    },
+    {
+      "round": 177,
+      "anchor_position": 479,
+      "anchor_token_id": 2505,
+      "draft_ids": [
+        1261,
+        22088,
+        3244,
+        1317,
+        3180,
+        1261,
+        3244
+      ],
+      "expected_ids": [
+        1261,
+        22088,
+        3244,
+        1317,
+        3180,
+        32499,
+        1674
+      ],
+      "accepted_drafts": 5,
+      "committed_length": 6,
+      "body_ms": 7.0218,
+      "head_ms": 8.7224
+    },
+    {
+      "round": 178,
+      "anchor_position": 485,
+      "anchor_token_id": 32499,
+      "draft_ids": [
+        1674,
+        1275,
+        1278,
+        9620,
+        1307,
+        1307,
+        1045
+      ],
+      "expected_ids": [
+        1674,
+        61925,
+        1402,
+        7720,
+        1044,
+        12871,
+        1044
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.1259,
+      "head_ms": 8.8042
+    },
+    {
+      "round": 179,
+      "anchor_position": 487,
+      "anchor_token_id": 61925,
+      "draft_ids": [
+        1402,
+        1261,
+        1321,
+        1317,
+        1044,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1402,
+        7720,
+        1044,
+        12871,
+        1044,
+        1321,
+        5153
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.5278,
+      "head_ms": 9.1491
+    },
+    {
+      "round": 180,
+      "anchor_position": 489,
+      "anchor_token_id": 7720,
+      "draft_ids": [
+        1044,
+        23885,
+        1044,
+        1321,
+        3145,
+        1317,
+        1321
+      ],
+      "expected_ids": [
+        1044,
+        12871,
+        1044,
+        1321,
+        5153,
+        3160,
+        1408
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.6701,
+      "head_ms": 9.6694
+    },
+    {
+      "round": 181,
+      "anchor_position": 491,
+      "anchor_token_id": 12871,
+      "draft_ids": [
+        1044,
+        1321,
+        4253,
+        1046,
+        1046,
+        1317,
+        3142
+      ],
+      "expected_ids": [
+        1044,
+        1321,
+        5153,
+        3160,
+        1408,
+        10483,
+        1454
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 7.2635,
+      "head_ms": 9.7216
+    },
+    {
+      "round": 182,
+      "anchor_position": 494,
+      "anchor_token_id": 5153,
+      "draft_ids": [
+        11136,
+        1046,
+        1046,
+        1046,
+        1046,
+        1046,
+        1278
+      ],
+      "expected_ids": [
+        3160,
+        1408,
+        10483,
+        1454,
+        8031,
+        4053,
+        1046
+      ],
+      "accepted_drafts": 0,
+      "committed_length": 1,
+      "body_ms": 7.171,
+      "head_ms": 9.5339
+    },
+    {
+      "round": 183,
+      "anchor_position": 495,
+      "anchor_token_id": 3160,
+      "draft_ids": [
+        1408,
+        3145,
+        21016,
+        1046,
+        1046,
+        1044,
+        1278
+      ],
+      "expected_ids": [
+        1408,
+        10483,
+        1454,
+        8031,
+        4053,
+        1046,
+        26997
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.0732,
+      "head_ms": 9.3704
+    },
+    {
+      "round": 184,
+      "anchor_position": 497,
+      "anchor_token_id": 10483,
+      "draft_ids": [
+        1454,
+        8031,
+        21016,
+        1046,
+        1046,
+        1044,
+        1044
+      ],
+      "expected_ids": [
+        1454,
+        8031,
+        4053,
+        1046,
+        26997,
+        47119,
+        1593
+      ],
+      "accepted_drafts": 2,
+      "committed_length": 3,
+      "body_ms": 7.2366,
+      "head_ms": 9.1943
+    },
+    {
+      "round": 185,
+      "anchor_position": 500,
+      "anchor_token_id": 4053,
+      "draft_ids": [
+        1046,
+        2409,
+        13873,
+        1278,
+        1603,
+        1259,
+        1603
+      ],
+      "expected_ids": [
+        1046,
+        26997,
+        47119,
+        1593,
+        13873,
+        48527,
+        1408
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.3986,
+      "head_ms": 9.1411
+    },
+    {
+      "round": 186,
+      "anchor_position": 502,
+      "anchor_token_id": 26997,
+      "draft_ids": [
+        47119,
+        1261,
+        67546,
+        1307,
+        12871,
+        12871,
+        26554
+      ],
+      "expected_ids": [
+        47119,
+        1593,
+        13873,
+        48527,
+        1408,
+        3300,
+        6833
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.4203,
+      "head_ms": 9.4851
+    },
+    {
+      "round": 187,
+      "anchor_position": 504,
+      "anchor_token_id": 1593,
+      "draft_ids": [
+        13873,
+        10867,
+        1261,
+        1278,
+        1307,
+        1307,
+        1603
+      ],
+      "expected_ids": [
+        13873,
+        48527,
+        1408,
+        3300,
+        6833,
+        16157,
+        15269
+      ],
+      "accepted_drafts": 1,
+      "committed_length": 2,
+      "body_ms": 7.4693,
+      "head_ms": 9.6451
+    }
+  ],
+  "capture": {
+    "meta": "pro_research\\results\\s100_phase38\\S100_PHASE38_TARGET_CAPTURE.json",
+    "target_replay_exact": true
+  }
+}

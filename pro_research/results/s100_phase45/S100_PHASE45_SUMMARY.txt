@@ -1,0 +1,15 @@
+S100 Phase45 — persistent split routed-UP workerpool
+
+Parent A/B: 61.9619 / 62.4978 ms/H4 (0.861% drift)
+Correctness: all candidate tokens exact; CUDA local-memory bytes = 0
+
+schedule   candidate ms/H4   tok/s    interpolated gain
+p2_p4          74.5457      53.658       -20.049%
+p4_p4          68.2972      58.568        -9.750%
+p4_p8          65.1862      61.363        -4.526%
+
+Decision: CLOSED before state/thermal promotion. Fewer CTAs lose too much
+row-level parallelism even though activation staging is reused and arithmetic
+remains exact.
+
+Next high-ceiling route: SM120 FC1 + ReLU2 + mask hybrid shape/quality screen.

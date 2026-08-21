@@ -1,0 +1,195 @@
+{
+  "kind": "s100_phase84_ornith_target_verifier_h4",
+  "status": "measured_diagnostic",
+  "started_utc": "2026-08-21T21:07:52.599285+00:00",
+  "preregistration": "pro_research\\S100_PHASE84_ORNITH_TARGET_VERIFIER_H4_PREREGISTRATION.md",
+  "claim_boundary": "one integrated target-only H4 correctness gate; not output tok/s",
+  "gpu_idle_preflight": {
+    "compute_app_lines": [],
+    "ignored_wddm_gui_contexts": [],
+    "gpu_memory_used_mib": 0,
+    "gpu_utilization_percent": 0,
+    "policy": "ignore only ChatGPT.exe with [N/A] WDDM memory; block every other compute-app; require total memory <=1024 MiB and utilization <=10%"
+  },
+  "completed_utc": "2026-08-21T21:09:17.360177+00:00",
+  "inputs": {
+    "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+    "trace": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\results\\s100_phase76\\ornith_64_hidden_trace.json.gz",
+    "tokens": [
+      2523,
+      513,
+      32767,
+      264
+    ],
+    "diagnostic_stop_layer": 7
+  },
+  "quality": {
+    "layer_records": [
+      {
+        "layer": 0,
+        "type": "linear_attention",
+        "routes_exact": true,
+        "residual_nrmse": 2.6813809671879046e-07,
+        "normed_nrmse": 2.883233143212014e-07,
+        "finite": true
+      },
+      {
+        "layer": 1,
+        "type": "linear_attention",
+        "routes_exact": true,
+        "residual_nrmse": 4.4916773342037046e-07,
+        "normed_nrmse": 3.2070038143632643e-07,
+        "finite": true
+      },
+      {
+        "layer": 2,
+        "type": "linear_attention",
+        "routes_exact": true,
+        "residual_nrmse": 4.032382819528066e-06,
+        "normed_nrmse": 6.4595568630977026e-06,
+        "finite": true
+      },
+      {
+        "layer": 3,
+        "type": "full_attention",
+        "routes_exact": true,
+        "residual_nrmse": 4.756925179478723e-06,
+        "normed_nrmse": 9.022476162882882e-06,
+        "finite": true
+      },
+      {
+        "layer": 4,
+        "type": "linear_attention",
+        "routes_exact": true,
+        "residual_nrmse": 0.0007344745592164853,
+        "normed_nrmse": 0.0012239286037454803,
+        "finite": true
+      },
+      {
+        "layer": 5,
+        "type": "linear_attention",
+        "routes_exact": true,
+        "residual_nrmse": 0.0022696343566275395,
+        "normed_nrmse": 0.003792761638589088,
+        "finite": true
+      },
+      {
+        "layer": 6,
+        "type": "linear_attention",
+        "routes_exact": true,
+        "residual_nrmse": 0.0011255144887665893,
+        "normed_nrmse": 0.004310649463303863,
+        "finite": true
+      },
+      {
+        "layer": 7,
+        "type": "full_attention",
+        "routes_exact": false,
+        "residual_nrmse": 0.00950547776679963,
+        "normed_nrmse": 0.027174601302129044,
+        "finite": true
+      }
+    ],
+    "local_records": [
+      {
+        "layer": 0,
+        "type": "linear_attention",
+        "attention_branch_nrmse": 2.4141781423375395e-07,
+        "post_attention_residual_nrmse": 1.952877283696684e-07,
+        "router_logits_nrmse": 1.4592430874049403e-07,
+        "routes_exact": true,
+        "route_weights_nrmse": 4.275939566436984e-07,
+        "moe_branch_nrmse": 4.0163231624904385e-07
+      },
+      {
+        "layer": 1,
+        "type": "linear_attention",
+        "attention_branch_nrmse": 2.5029741587278074e-07,
+        "post_attention_residual_nrmse": 1.0796714760383587e-07,
+        "router_logits_nrmse": 1.281039013064405e-07,
+        "routes_exact": true,
+        "route_weights_nrmse": 2.9842260044155145e-07,
+        "moe_branch_nrmse": 5.033725045613193e-07
+      },
+      {
+        "layer": 2,
+        "type": "linear_attention",
+        "attention_branch_nrmse": 1.945726232447737e-07,
+        "post_attention_residual_nrmse": 1.1063258470077891e-07,
+        "router_logits_nrmse": 1.3311592720235335e-07,
+        "routes_exact": true,
+        "route_weights_nrmse": 3.47521978205775e-07,
+        "moe_branch_nrmse": 4.3358697892267024e-07
+      },
+      {
+        "layer": 3,
+        "type": "full_attention",
+        "attention_branch_nrmse": 2.755192474898269e-07,
+        "post_attention_residual_nrmse": 8.731624405810041e-08,
+        "router_logits_nrmse": 1.2613332276693864e-07,
+        "routes_exact": true,
+        "route_weights_nrmse": 2.588789096874809e-07,
+        "moe_branch_nrmse": 4.85731998365954e-07
+      },
+      {
+        "layer": 4,
+        "type": "linear_attention",
+        "attention_branch_nrmse": 3.30703666517888e-07,
+        "post_attention_residual_nrmse": 6.684081222032316e-08,
+        "router_logits_nrmse": 1.3486977779158898e-07,
+        "routes_exact": true,
+        "route_weights_nrmse": 4.465186444980665e-07,
+        "moe_branch_nrmse": 5.277610364912771e-07
+      },
+      {
+        "layer": 5,
+        "type": "linear_attention",
+        "attention_branch_nrmse": 3.161606837584661e-06,
+        "post_attention_residual_nrmse": 7.093035391277199e-07,
+        "router_logits_nrmse": 1.227616059355065e-07,
+        "routes_exact": true,
+        "route_weights_nrmse": 4.221368578598626e-07,
+        "moe_branch_nrmse": 5.59867739008647e-07
+      },
+      {
+        "layer": 6,
+        "type": "linear_attention",
+        "attention_branch_nrmse": 3.6706559979643865e-07,
+        "post_attention_residual_nrmse": 3.0934463743304043e-07,
+        "router_logits_nrmse": 1.3664702950671035e-07,
+        "routes_exact": true,
+        "route_weights_nrmse": 4.057402560413608e-07,
+        "moe_branch_nrmse": 3.130762342996193e-07
+      },
+      {
+        "layer": 7,
+        "type": "full_attention",
+        "attention_branch_nrmse": 2.6572557845904167e-05,
+        "post_attention_residual_nrmse": 1.2754063967769634e-05,
+        "router_logits_nrmse": 1.3303998829786235e-07,
+        "routes_exact": true,
+        "route_weights_nrmse": 2.835201382874795e-07,
+        "moe_branch_nrmse": 2.917206654327086e-07
+      }
+    ]
+  },
+  "environment": {
+    "created_utc": "2026-08-21T21:09:17.372397+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-fp4-c2b\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "f1749d7bf69a7c1a9ef7db815b96b28f5d182c20",
+    "git_status": [
+      "?? pro_research/S100_PHASE84_ORNITH_TARGET_VERIFIER_H4_PREREGISTRATION.md",
+      "?? pro_research/results/s100_phase84_target_verifier/S100_PHASE84_ORNITH_TARGET_VERIFIER_H4.json",
+      "?? pro_research/s100_phase84_ornith_target_verifier_h4.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 134 MiB, 60, 5.89 W, 195 MHz, 405 MHz, P8",
+    "source_hashes": {
+      "pro_research\\s100_phase84_ornith_target_verifier_h4.py": "0d52c43d9e7cc89f182b80323b4abd0fa3d712f22db0f868b0253652ae0a112c",
+      "pro_research\\S100_PHASE84_ORNITH_TARGET_VERIFIER_H4_PREREGISTRATION.md": "155986d59925d9fe371a1667b14f6350a0b92a86fd84eda95ef964b19c630136",
+      "pro_research\\results\\s100_phase76\\ornith_64_hidden_trace.json.gz": "bd99092ea8690a9d58bb69a01cc638a0aeb3fd3dca5d9454fed4b0556beecbd7"
+    }
+  }
+}

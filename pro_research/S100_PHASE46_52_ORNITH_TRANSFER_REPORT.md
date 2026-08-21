@@ -536,6 +536,35 @@ The 60.084-ms floor must therefore be remeasured inside the integrated path.
 This checkpoint covers layer 0 only; it is not a complete verifier and makes no
 output tok/s claim.
 
+### Phase84 — integrated H4 gate exposes trajectory sensitivity
+
+One target-only H4 now executes continuously through all 40 attention and MoE
+blocks, final norm, the complete control head and native-shortlist/exact-ERVF
+rerank. The exact ERVF result matches the candidate path's control top-1 on all
+four rows and its top-64 contains all four control IDs. However, the frozen
+independent CPU-dequant trajectory gate correctly **fails**: its first route-set
+divergence occurs at layer 7, final hidden NRMSE reaches 8.032%, complete-logit
+NRMSE reaches 5.850%, and only three of four final top-1 IDs agree.
+
+A same-input localization over layers 0..7 distinguishes a wrong component
+from propagation between numerically different runtimes. With the candidate
+input supplied independently to each CPU component, every route set is exact;
+router-logit error is about 1.2e-7 to 1.5e-7 NRMSE, routed/shared MoE branch
+error is at most 5.60e-7, and attention-branch error is at most 2.66e-5. Tiny
+accumulation-order differences are therefore amplified by later DeltaNet and
+MoE decisions; they are not evidence of a locally wrong router, expert or
+attention implementation.
+
+The CPU-dequant trajectory is consequently retained as sensitivity evidence,
+not relabeled as an authoritative GPU-runtime oracle. The published checkpoint
+declares the ModelOpt quantization method, but the local Transformers loader
+does not implement that method and attempts to expand the compressed checkpoint
+as ordinary tensors. That route was stopped before memory exhaustion. Until an
+official GPU oracle can run under the 8-GiB constraint, the defensible parity
+contract is component-local same-input state/logit parity plus authoritative
+trace route parity and fresh-run determinism. This does not turn the failed
+end-to-end CPU comparison into a pass.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |

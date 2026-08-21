@@ -1,0 +1,148 @@
+{
+  "kind": "s100_phase84_ornith_persistent_context",
+  "status": "measured_pass",
+  "started_utc": "2026-08-21T21:42:57.989159+00:00",
+  "preregistration": "pro_research\\S100_PHASE84_ORNITH_PERSISTENT_CTX_PREREGISTRATION.md",
+  "context": 4096,
+  "claim_boundary": "integrated target-only verifier H4 wall time; not output tok/s",
+  "gpu_idle_preflight": {
+    "compute_app_lines": [],
+    "ignored_wddm_gui_contexts": [],
+    "gpu_memory_used_mib": 0,
+    "gpu_utilization_percent": 0,
+    "policy": "ignore only ChatGPT.exe with [N/A] WDDM memory; block every other compute-app; require total memory <=1024 MiB and utilization <=10%"
+  },
+  "completed_utc": "2026-08-21T21:55:04.644183+00:00",
+  "inputs": {
+    "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+    "trace": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\results\\s100_phase76\\ornith_64_hidden_trace.json.gz",
+    "final_tokens": [
+      15,
+      13,
+      15,
+      24
+    ]
+  },
+  "memory": {
+    "free_bytes": 1389363200,
+    "total_bytes": 8546484224,
+    "used_bytes": 7157121024
+  },
+  "timing": {
+    "wall_clock_ms_h4": 570.9127999725752,
+    "validation_repeat_wall_ms_not_a_performance_sample": 422.601800004486,
+    "measurement_excludes_independent_cpu_parity": true,
+    "synchronized_validation_profile_ms": {
+      "embedding_first_norm": 0.04469999112188816,
+      "attention_dense": 61.31719989934936,
+      "router_top8_d2h": 4.74529986968264,
+      "cache_pack_h2d": 253.69869993301108,
+      "routed_moe": 56.73809989821166,
+      "shared_moe": 9.683000156655908,
+      "combine_next_norm": 1.2997000594623387,
+      "ervf_head": 2.6994000072591007
+    },
+    "profile_is_diagnostic_not_a_performance_sample": true
+  },
+  "transport": {
+    "final_h4_misses": [
+      622,
+      622
+    ],
+    "final_h4_h2d_bytes": [
+      1100619048,
+      1100619048
+    ],
+    "final_h4_layer_misses": [
+      26,
+      20,
+      12,
+      15,
+      14,
+      9,
+      13,
+      15,
+      6,
+      10,
+      12,
+      13,
+      13,
+      12,
+      13,
+      16,
+      15,
+      17,
+      22,
+      19,
+      11,
+      16,
+      16,
+      18,
+      20,
+      20,
+      20,
+      17,
+      17,
+      15,
+      16,
+      15,
+      13,
+      14,
+      17,
+      23,
+      21,
+      15,
+      12,
+      14
+    ],
+    "total_prefill_plus_final_misses": [
+      553246,
+      553246
+    ],
+    "total_h2d_bytes": [
+      978959945064,
+      978959945064
+    ],
+    "d2d_promotion_bytes": 0
+  },
+  "quality": {
+    "final_and_states_finite": true,
+    "fresh_repeat_exact": true,
+    "same_input_route_layers_exact": 40,
+    "ervf_ids": [
+      13,
+      15,
+      24,
+      20
+    ],
+    "control_ids": [
+      13,
+      15,
+      24,
+      20
+    ],
+    "ervf_control_exact": true
+  },
+  "gates": {
+    "P84_CTX_G1_authoritative_prefix_exact": true,
+    "P84_CTX_G2_zero_d2d_physical_cache": true,
+    "P84_CTX_G3_finite_and_fresh_repeat_exact": true,
+    "P84_CTX_G4_all40_same_input_routes_exact": true,
+    "P84_CTX_G5_ervf_exact_control_top1": true
+  },
+  "environment": {
+    "created_utc": "2026-08-21T21:55:06.967553+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-fp4-c2b\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "c4c3ef285e0a7cbb418d81de41cfe0ad1e17a985",
+    "git_status": [],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 5952 MiB, 72, 11.02 W, 180 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "pro_research\\s100_phase84_ornith_persistent_ctx.py": "691061028ed0251aaa059ca55c224d3089a0895c1994891055eb56adc7ede236",
+      "pro_research\\S100_PHASE84_ORNITH_PERSISTENT_CTX_PREREGISTRATION.md": "97e58ba69011645fc6be031809a2c363c38f8695886f1fe2144a586109bcbd5b",
+      "pro_research\\results\\s100_phase76\\ornith_64_hidden_trace.json.gz": "bd99092ea8690a9d58bb69a01cc638a0aeb3fd3dca5d9454fed4b0556beecbd7"
+    }
+  }
+}

@@ -620,6 +620,29 @@ the 118.918-ms synchronized integrated non-transport path. The first is the
 dominant measured bottleneck; the second must be optimized only against this
 complete executor, not by adding component medians.
 
+### Phase84 — persistent target-only ctx4096 verifier
+
+The identical executor and gates also pass after a real 4,096-token prefill.
+The primary final H4 measures **570.913 ms**, has **622 misses = 15.550/layer**
+and moves **1,100,619,048 bytes**. The complete prefill plus final block incurs
+553,246 expert misses and 978,959,945,064 bytes of H2D per fresh run. Used GPU
+memory is 7,157,121,024 bytes, leaving 1,389,363,200 bytes free.
+
+| Diagnostic component | ctx1024 | ctx4096 | Delta |
+|---|---:|---:|---:|
+| Dense projections + DeltaNet/full attention | 41.537 | 61.317 | +19.781 ms |
+| mmap -> pinned packing + real H2D | 263.701 | 253.699 | -10.002 ms |
+| Routed + shared experts | 69.142 | 66.421 | -2.721 ms |
+| Complete synchronized profile | 382.619 | 390.226 | +7.608 ms |
+| Primary unsynchronized wall clock | 492.996 | 570.913 | +77.917 ms |
+
+The expected context effect is visible directly in attention, while the final
+4k route union happens to be less miss-heavy than the final 1k union. The much
+larger primary-wall delta is not explained by the synchronized model-path
+profile and therefore must not all be attributed to context length. A second
+independent uninstrumented ctx4096 invocation is required before treating that
+77.917-ms delta as stable. The 4k correctness result itself is green.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |
@@ -647,8 +670,9 @@ complete executor, not by adding component medians.
 
 1. Preserve the ctx1024 integrated executor as the only performance baseline;
    do not convert it to output tok/s or substitute a component sum.
-2. Measure ctx4096 next with identical gates. Record route-union churn and
-   attention growth before changing cache policy or transfer scheduling.
+2. Reproduce the uninstrumented ctx4096 primary wall result, then measure
+   ctx16k with identical gates. Record route-union churn and attention growth
+   before changing cache policy or transfer scheduling.
 3. Separately reduce mmap-to-pinned packing/H2D cost and integrated routed-MoE
    dispatch cost, accepting a change only on complete-H4 wall time with all
    parity gates preserved.

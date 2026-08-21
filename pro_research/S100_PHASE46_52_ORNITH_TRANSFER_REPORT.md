@@ -357,6 +357,26 @@ every H4 and repeatedly exposes layer-0 transfer. A continuous cross-H4 ring
 is the final prefetch-only test justified by this result; it can move the next
 block's initial copy under the current block's late compute/head.
 
+### Phase72 — cross-H4 rolling prefetch breakthrough
+
+The same real miss bytes and 52-slot policies were scheduled as one continuous
+28x40-layer ring. Copies for the next H4 may now run under the current H4's
+late layers and final head instead of restarting the pipeline.
+
+| Policy | Selected rolling lead | Exposed tail | Floor-normalized H4 | Equivalent |
+|---|---:|---:|---:|---:|
+| LRU-52 | 4 | 0.500 ms | 60.595 ms | 66.01 tok/s |
+| Belady-52 | 2 | 0.473 ms | 60.569 ms | 66.04 tok/s |
+
+All preregistered gates pass. The LRU/Belady tail gap is only 0.027 ms, showing
+that after continuous copy scheduling, ordinary LRU replacement is no longer
+the oracle's dominant disadvantage on this trace. This is the first real-route
+Ornith configuration whose measured component floor plus real miss-byte DMA
+fits the 65 tok/s envelope. The claim remains an optimistic DMA oracle because
+expert records are copied contiguously and the compute envelope is represented
+by a non-VRAM-contending calibrated wait kernel. Segmented copies and real
+kernel integration are required before an end-to-end claim.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |

@@ -1,0 +1,83 @@
+{
+  "kind": "s100_phase31_adjudication",
+  "status": "measured",
+  "created_utc": "2026-08-20T21:23:55.795061+00:00",
+  "frozen_parent": "codex/s100-phase30e-breakthrough@f51d207914ccd32bc7c3133d8826ab70b747fca1",
+  "selected_arm": "attention_head_m4",
+  "mechanisms": [
+    "direct-L2 BF16 M4 for attention Q/K/V/O",
+    "direct-L2 NVFP4 M4 for the LM head"
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "parent_ms_per_h4": 70.2876,
+      "candidate_ms_per_h4": 67.7573,
+      "gain_pct": 3.5999237418833436,
+      "candidate_target_only_tok_s": 59.03422952213267,
+      "exact": true
+    },
+    {
+      "round": 2,
+      "parent_ms_per_h4": 69.8647,
+      "candidate_ms_per_h4": 62.328050000000005,
+      "gain_pct": 10.787493541087265,
+      "candidate_target_only_tok_s": 64.17656255891207,
+      "exact": true
+    },
+    {
+      "round": 3,
+      "parent_ms_per_h4": 70.5838,
+      "candidate_ms_per_h4": 64.12935,
+      "gain_pct": 9.14437873846406,
+      "candidate_target_only_tok_s": 62.373936426924644,
+      "exact": true
+    },
+    {
+      "round": 4,
+      "parent_ms_per_h4": 71.44040000000001,
+      "candidate_ms_per_h4": 62.93315,
+      "gain_pct": 11.90817800572227,
+      "candidate_target_only_tok_s": 63.55950719136099,
+      "exact": true
+    }
+  ],
+  "summary": {
+    "positive_rounds": 4,
+    "round_count": 4,
+    "median_gain_pct": 9.965936139775662,
+    "bootstrap_lower95_gain_pct": 3.5999237418833436,
+    "bootstrap_upper95_gain_pct": 11.90817800572227,
+    "median_candidate_ms_per_h4": 63.53125,
+    "median_candidate_target_only_tok_s": 62.96114117068372
+  },
+  "contexts": {
+    "128": {
+      "parent_ms_per_h4": 68.65465,
+      "candidate_ms_per_h4": 60.60175,
+      "gain_pct": 11.729576947810527,
+      "candidate_target_only_tok_s": 66.00469458390228,
+      "exact": true
+    },
+    "4096": {
+      "parent_ms_per_h4": 76.7475,
+      "candidate_ms_per_h4": 74.27275,
+      "gain_pct": 3.2245350011401026,
+      "candidate_target_only_tok_s": 53.85555267577947,
+      "exact": true
+    }
+  },
+  "gates": {
+    "compile_green": true,
+    "zero_local_memory_spills": true,
+    "state_green": true,
+    "all_four_rounds_positive": true,
+    "median_gain_at_least_5pct": true,
+    "bootstrap_lower95_positive": true,
+    "context_128_4096_green": true
+  },
+  "PHASE31_ADOPTED": true,
+  "S100_SINGLE_ACHIEVED": false,
+  "NEXT_ROUTE": "REBASE_BLOCK_DRAFTER_ECONOMICS_ON_PHASE31_PARENT",
+  "claim_boundary": "exact target-only H4 verifier throughput; no drafter, acceptance, rollback, rejection or end-to-end speculative decoding cost"
+}

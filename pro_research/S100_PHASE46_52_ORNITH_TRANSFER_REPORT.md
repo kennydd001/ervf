@@ -456,6 +456,31 @@ is physical: full attention scales with context and the current FP32 KV format
 exceeds the frozen 0.5-GiB runtime reserve from 16k onward. The 66.57 number
 must not be presented as a 50k/100k or end-to-end result.
 
+### Phase84D — DFlash-candidate-workload MoE/transport stress test
+
+The nine candidate-induced target batches from the instrumented target+DFlash
+run were replayed through the custom BF16 router, transactional LRU52 cache,
+exact six-segment NVFP4 transport, route-adaptive routed experts and shared
+expert for all 40 layers. The two earlier callback groups warm each layer's
+cache; partial 7- and 4-row batches use fixed H4 kernel geometry without
+committing padded rows.
+
+- Custom top-8 routes match every authoritative callback row at all 40 layers.
+- Two fresh-cache executions are bit-identical and finite.
+- The workload contains 67 real target rows, represented by 17 H4 launches.
+- LRU52 performs 3,792 unique layer/expert copies, or 5.576 misses per
+  layer/H4 and 6.710 GB of real compressed expert traffic over the trace.
+- The first full sweep measured **67.376 ms/H4**. Independent three-repeat
+  medians measured **66.956** and **65.693 ms/H4** for the same 40-layer
+  MoE/router/cache/transport workload.
+
+This is explicitly a **DFlash-candidate-workload MoE/transport stress test**,
+not a complete verifier, not a complete decoder and not output tok/s. It proves
+that this candidate-induced route workload is more expensive than the earlier
+60.084 ms/H4 all-hot component floor, but it does not yet distinguish an
+incomplete optimistic floor from DFlash-specific cache damage. That distinction
+requires the identical executor on authoritative target-only H4 blocks.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |
@@ -481,13 +506,15 @@ must not be presented as a 50k/100k or end-to-end result.
 
 ## Remaining critical path
 
-1. Establish the real llama.cpp target+DFlash end-to-end acceptance and output
-   tok/s baseline independently; do not compare its token rate directly with
-   the H4 component floor.
-2. For 50k/100k, replace the current FP32 full-attention KV path with a measured
+1. Run the identical MoE/router/cache/transport executor on authoritative
+   target-only H4 blocks. Compare misses, copied bytes and per-layer timing to
+   Phase84D before changing kernels or cache policy.
+2. Only after that discrepancy is localized, integrate the complete target-only
+   H4 verifier from embedding through final ERVF head/logits at ctx1024.
+3. For 50k/100k, replace the current FP32 full-attention KV path with a measured
    quantized KV + long-context attention kernel before further expert work. At
    present both memory and attention time fail by large margins.
-3. The short-context exact expert barrier remains causal transport. Reopen it
+4. The short-context exact expert barrier remains causal transport. Reopen it
    only with a new measured premise that reduces bytes or creates an
    authoritative overlap window; route-history, cross-layer, target-hidden and
    DFlash-hidden predictors are now closed on the captured traces.

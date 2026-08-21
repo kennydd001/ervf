@@ -565,6 +565,61 @@ contract is component-local same-input state/logit parity plus authoritative
 trace route parity and fresh-run determinism. This does not turn the failed
 end-to-end CPU comparison into a pass.
 
+### Phase84 — persistent target-only ctx1024 verifier
+
+The complete target-only executor now runs a continuous authoritative token
+sequence from embedding through all 40 target layers, real DeltaNet and
+full-attention state/KV, dynamic router/top-8, physical-page LRU52, mmap to
+pinned to GPU expert misses, routed and shared SwiGLU, residual/norm, native
+head shortlist and exact ERVF rerank. It uses no DFlash route, hidden state,
+prefetch signal or acceptance state. LRU promotion swaps opaque physical
+handles and records zero D2D payload bytes.
+
+At ctx1024 the primary complete wall-clock H4 measured **497.403 ms** and
+**492.996 ms** in two independent invocations (0.89% apart). The latest result
+passes every frozen gate: the authoritative token prefix is exact, all states
+and outputs are finite, a fresh empty-state/cache repeat reproduces all 40
+route sets and final-normalized bits, every same-input CPU router control is
+exact, and exact ERVF top-1 matches the full control head for all four rows.
+These values are integrated target-verifier latency, **not output tok/s**.
+
+The final ctx1024 H4 has **666 real misses = 16.650/layer** and moves
+**1,178,476,344 bytes = 1,769,484 bytes/miss**. This is 2.29x the miss rate of
+the earlier fixed target-trace stress replay and 2.99x the DFlash-candidate
+stress replay. Consequently DFlash-specific cache damage is not the source of
+the discrepancy. The continuously evolved target trajectory is substantially
+more hostile to LRU52 than either short captured replay.
+
+An independently repeated validation H4 places synchronizations only to
+localize that result; none of these boundaries enter the primary timing:
+
+| Integrated ctx1024 component | Diagnostic ms/H4 |
+|---|---:|
+| Embedding + first norm | 0.046 |
+| Dense projections + DeltaNet/full attention | 41.537 |
+| Router/top-8/route readback | 4.776 |
+| mmap -> pinned packing + real H2D | 263.701 |
+| Routed experts | 60.190 |
+| Shared experts | 8.952 |
+| Combine + next norm | 1.076 |
+| Native shortlist + exact ERVF head | 2.340 |
+| **Profiled model-path sum** | **382.619** |
+
+Cache packing and H2D are 68.9% of the profiled model path. The remaining
+profiled model work is already 118.918 ms/H4, so the old 60.084-ms value cannot
+be a complete integrated floor even under a hypothetical all-hot cache. That
+floor combined isolated best-case kernels, omitted the correct persistent
+quantization/dispatch trajectory and assumed a much friendlier route/cache
+workload. The 67.376-ms DFlash and 74.787-ms fixed target values were useful
+MoE/transport stress tests, but neither was a complete target verifier.
+
+This localizes the large discrepancy into two separate failures of the old
+budget: (1) 263.701 ms of real host packing/H2D for the integrated final route
+union, and (2) an optimistic isolated-kernel compute sum that does not reproduce
+the 118.918-ms synchronized integrated non-transport path. The first is the
+dominant measured bottleneck; the second must be optimized only against this
+complete executor, not by adding component medians.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |
@@ -590,15 +645,17 @@ end-to-end CPU comparison into a pass.
 
 ## Remaining critical path
 
-1. Integrate the complete target-only H4 verifier from embedding through final
-   ERVF head/logits at ctx1024. Its expert cache should use physical-page swaps
-   on promotion so a real miss incurs one H2D copy rather than H2D plus D2D.
-2. Preserve authoritative route/state/logit parity and measure one continuous
-   wall-clock epoch; do not substitute the 105.8-ms diagnostic component sum.
-3. For 50k/100k, replace the current FP32 full-attention KV path with a measured
+1. Preserve the ctx1024 integrated executor as the only performance baseline;
+   do not convert it to output tok/s or substitute a component sum.
+2. Measure ctx4096 next with identical gates. Record route-union churn and
+   attention growth before changing cache policy or transfer scheduling.
+3. Separately reduce mmap-to-pinned packing/H2D cost and integrated routed-MoE
+   dispatch cost, accepting a change only on complete-H4 wall time with all
+   parity gates preserved.
+4. For 50k/100k, replace the current FP32 full-attention KV path with a measured
    quantized KV + long-context attention kernel before further expert work. At
    present both memory and attention time fail by large margins.
-4. The short-context exact expert barrier remains causal transport. Reopen it
+5. The short-context exact expert barrier remains causal transport. Reopen it
    only with a new measured premise that reduces bytes or creates an
    authoritative overlap window; route-history, cross-layer, target-hidden and
    DFlash-hidden predictors are now closed on the captured traces.

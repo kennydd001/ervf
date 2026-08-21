@@ -473,9 +473,21 @@ class PersistentTargetRuntime:
             groups, rows, cols,
         )
 
-    def _moe(self, layer: int, hidden, ids_host: np.ndarray) -> Any:
+    def _moe(
+        self, layer: int, hidden, ids_host: np.ndarray, *, profile: bool = False
+    ) -> tuple[Any, dict[str, float]]:
         cp = self.cp
+        profile_ms: dict[str, float] = {}
+        if profile:
+            cp.cuda.get_current_stream().synchronize()
+            phase_clock = time.perf_counter()
         physical = self._ensure_routes(layer, ids_host)
+        if profile:
+            cp.cuda.get_current_stream().synchronize()
+            profile_ms["cache_pack_h2d"] = (
+                time.perf_counter() - phase_clock
+            ) * 1000.0
+            phase_clock = time.perf_counter()
         _occurrences, buckets = _bucket_routes(ids_host)
         for multiplicity, groups in sorted(buckets.items()):
             count = len(groups)
@@ -507,6 +519,13 @@ class PersistentTargetRuntime:
             )
             self.expert_outputs[route_indices] = out.reshape(-1, HIDDEN)
 
+        if profile:
+            cp.cuda.get_current_stream().synchronize()
+            profile_ms["routed_moe"] = (
+                time.perf_counter() - phase_clock
+            ) * 1000.0
+            phase_clock = time.perf_counter()
+
         shared = self.layers[layer].shared
         slots = cp.zeros(1, dtype=cp.int32)
         rows4 = cp.arange(4, dtype=cp.int32)
@@ -527,22 +546,48 @@ class PersistentTargetRuntime:
             self.lookup.e4m3, act.reshape(4, INTERMEDIATE), out,
             shared["down_global"], slots, rows4, 1, HIDDEN, INTERMEDIATE,
         )
-        return out.reshape(4, HIDDEN)
+        if profile:
+            cp.cuda.get_current_stream().synchronize()
+            profile_ms["shared_moe"] = (
+                time.perf_counter() - phase_clock
+            ) * 1000.0
+        return out.reshape(4, HIDDEN), profile_ms
 
     def execute_h4(
         self, token_ids: list[int], base_context: int, *, run_head: bool,
-        parity: bool = False,
+        parity: bool = False, profile: bool = False,
     ) -> dict[str, Any]:
         cp = self.cp
         miss_before = self.misses
         bytes_before = self.h2d_bytes
+        profile_ms = {
+            "embedding_first_norm": 0.0,
+            "attention_dense": 0.0,
+            "router_top8_d2h": 0.0,
+            "cache_pack_h2d": 0.0,
+            "routed_moe": 0.0,
+            "shared_moe": 0.0,
+            "combine_next_norm": 0.0,
+            "ervf_head": 0.0,
+        }
+        if profile:
+            cp.cuda.get_current_stream().synchronize()
+            phase_clock = time.perf_counter()
         self.residual.set(np.asarray(self.embedding[token_ids], dtype=np.float32))
         self.support.norm(
             self.residual, self.input_norms[0], self.normed
         )
+        if profile:
+            cp.cuda.get_current_stream().synchronize()
+            profile_ms["embedding_first_norm"] = (
+                time.perf_counter() - phase_clock
+            ) * 1000.0
         route_rows = []
         route_parity = []
+        layer_misses = []
         for layer, row in enumerate(self.layers):
+            if profile:
+                phase_clock = time.perf_counter()
             if row.kind == "linear_attention":
                 self._projection(row.projections["qkv"], self.normed, self.mixed)
                 self._projection(row.projections["z"], self.normed, self.z)
@@ -581,6 +626,12 @@ class PersistentTargetRuntime:
             self.support.add_norm(
                 self.residual, self.branch, row.post_norm, self.normed
             )
+            if profile:
+                cp.cuda.get_current_stream().synchronize()
+                profile_ms["attention_dense"] += (
+                    time.perf_counter() - phase_clock
+                ) * 1000.0
+                phase_clock = time.perf_counter()
             self.support.router_shared(
                 row.router, row.shared_gate, self.normed,
                 self.router_logits, self.shared_logits,
@@ -592,6 +643,10 @@ class PersistentTargetRuntime:
             cp.cuda.get_current_stream().synchronize()
             ids_host = cp.asnumpy(self.route_ids)
             route_rows.append(ids_host.copy())
+            if profile:
+                profile_ms["router_top8_d2h"] += (
+                    time.perf_counter() - phase_clock
+                ) * 1000.0
             if parity:
                 hidden_host = cp.asnumpy(self.normed)
                 logits_ref = np.asarray(
@@ -599,7 +654,15 @@ class PersistentTargetRuntime:
                 )
                 ids_ref, _weights_ref = _top8(logits_ref)
                 route_parity.append(bool(np.array_equal(ids_host, ids_ref)))
-            shared = self._moe(layer, self.normed, ids_host)
+            layer_miss_before = self.misses
+            shared, moe_profile = self._moe(
+                layer, self.normed, ids_host, profile=profile
+            )
+            layer_misses.append(self.misses - layer_miss_before)
+            for name, value in moe_profile.items():
+                profile_ms[name] += value
+            if profile:
+                phase_clock = time.perf_counter()
             next_weight = (
                 self.input_norms[layer + 1]
                 if layer + 1 < LAYERS else self.final_norm
@@ -608,12 +671,23 @@ class PersistentTargetRuntime:
                 self.residual, self.expert_outputs, self.route_weights, shared,
                 self.shared_logits, next_weight, self.next_normed,
             )
+            if profile:
+                cp.cuda.get_current_stream().synchronize()
+                profile_ms["combine_next_norm"] += (
+                    time.perf_counter() - phase_clock
+                ) * 1000.0
             self.normed, self.next_normed = self.next_normed, self.normed
         cp.cuda.get_current_stream().synchronize()
         final_host = cp.asnumpy(self.normed)
         selected = shortlist = None
         if run_head:
+            if profile:
+                phase_clock = time.perf_counter()
             selected, shortlist = self.head(self.normed)
+            if profile:
+                profile_ms["ervf_head"] = (
+                    time.perf_counter() - phase_clock
+                ) * 1000.0
         return {
             "routes": route_rows,
             "route_parity": route_parity,
@@ -622,6 +696,8 @@ class PersistentTargetRuntime:
             "shortlist": shortlist,
             "misses": self.misses - miss_before,
             "h2d_bytes": self.h2d_bytes - bytes_before,
+            "layer_misses": layer_misses,
+            "profile_ms": profile_ms if profile else None,
         }
 
     def memory_audit(self) -> dict[str, int]:
@@ -702,7 +778,9 @@ def main() -> int:
         memory = runtime.memory_audit()
         final_tokens = tokens[args.context - 4:args.context]
 
-        def run_fresh(repeat: int, *, validate_routes: bool) -> dict[str, Any]:
+        def run_fresh(
+            repeat: int, *, validate_routes: bool, profile: bool
+        ) -> dict[str, Any]:
             runtime.reset_state()
             for offset in range(0, args.context - 4, 4):
                 runtime.execute_h4(
@@ -715,7 +793,7 @@ def main() -> int:
             clock = time.perf_counter()
             final_row = runtime.execute_h4(
                 final_tokens, args.context - 4, run_head=True,
-                parity=validate_routes,
+                parity=validate_routes, profile=profile,
             )
             cp.cuda.get_current_stream().synchronize()
             final_row["wall_ms"] = (time.perf_counter() - clock) * 1000.0
@@ -729,8 +807,8 @@ def main() -> int:
         # parity is deliberately performed only in the fresh validation repeat,
         # so its 40 hidden D2H copies and matrix products cannot inflate the
         # reported integrated target H4 wall time.
-        first = run_fresh(1, validate_routes=False)
-        second = run_fresh(2, validate_routes=True)
+        first = run_fresh(1, validate_routes=False, profile=False)
+        second = run_fresh(2, validate_routes=True, profile=True)
         wall_ms = float(first["wall_ms"])
         finite = bool(
             np.isfinite(first["final"]).all()
@@ -764,9 +842,12 @@ def main() -> int:
             "memory": memory,
             "timing": {"wall_clock_ms_h4": wall_ms,
                        "validation_repeat_wall_ms_not_a_performance_sample": float(second["wall_ms"]),
-                       "measurement_excludes_independent_cpu_parity": True},
+                       "measurement_excludes_independent_cpu_parity": True,
+                       "synchronized_validation_profile_ms": second["profile_ms"],
+                       "profile_is_diagnostic_not_a_performance_sample": True},
             "transport": {"final_h4_misses": [first["misses"], second["misses"]],
                           "final_h4_h2d_bytes": [first["h2d_bytes"], second["h2d_bytes"]],
+                          "final_h4_layer_misses": first["layer_misses"],
                           "total_prefill_plus_final_misses": [first["total_misses"], second["total_misses"]],
                           "total_h2d_bytes": [first["total_h2d_bytes"], second["total_h2d_bytes"]],
                           "d2d_promotion_bytes": 0},

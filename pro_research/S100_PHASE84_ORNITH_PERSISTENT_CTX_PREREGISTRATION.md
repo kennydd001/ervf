@@ -26,6 +26,9 @@ attention state/KV and a physical LRU52 expert cache without DFlash?
   validation repeat outside the primary performance epoch. The repeat still
   starts from empty recurrent/KV/cache state and must reproduce every route,
   final-normalized bit and ERVF ID from the measured run.
+- Synchronized component boundaries may be collected in that validation repeat
+  to localize discrepancies. They are diagnostics and never replace or enter
+  the unsynchronized primary wall-clock result.
 
 No calibrated waits, component sums, oracle prefetch, captured future routes or
 DFlash signals are permitted.

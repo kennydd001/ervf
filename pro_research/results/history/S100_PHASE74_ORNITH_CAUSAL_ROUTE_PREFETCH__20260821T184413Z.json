@@ -1,0 +1,35 @@
+{
+  "kind": "s100_phase74_ornith_causal_route_prefetch",
+  "status": "technical_failure",
+  "started_utc": "2026-08-21T18:43:17.841983+00:00",
+  "preregistration": "pro_research\\S100_PHASE74_ORNITH_CAUSAL_ROUTE_PREFETCH_PREREGISTRATION.md",
+  "error": {
+    "type": "IndexError",
+    "message": "list index out of range",
+    "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase74_ornith_causal_route_prefetch.py\", line 197, in main\n    name: _run_arm(name, trace, serial_group_ms, overlap_tail_ms)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase74_ornith_causal_route_prefetch.py\", line 124, in _run_arm\n    predicted = _predict(name, history, previous_h4, actual)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase74_ornith_causal_route_prefetch.py\", line 102, in _predict\n    return tuple(\n           ^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase74_ornith_causal_route_prefetch.py\", line 103, in <genexpr>\n    _pack_rows(rankers[family](history, layer), budget)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase74_ornith_causal_route_prefetch.py\", line 99, in <lambda>\n    \"transition\": lambda rows, layer: _rank_transition(rows, layer, hybrid=False),\n                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\s100_phase74_ornith_causal_route_prefetch.py\", line 58, in _rank_transition\n    previous = history[layer][-1]\n               ~~~~~~~~~~~~~~^^^^\nIndexError: list index out of range\n"
+  },
+  "completed_utc": "2026-08-21T18:43:30.833551+00:00",
+  "environment": {
+    "created_utc": "2026-08-21T18:43:30.842514+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "b517f66d790823b9f9d1df0af260a4be14b1a254",
+    "git_status": [
+      "M src/moe_lab/ornith/__init__.py",
+      "?? pro_research/S100_PHASE74_ORNITH_CAUSAL_ROUTE_PREFETCH_PREREGISTRATION.md",
+      "?? pro_research/s100_phase74_ornith_causal_route_prefetch.py",
+      "?? src/moe_lab/ornith/rolling_prefetch.py",
+      "?? tests/test_ornith_rolling_prefetch.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 0 MiB, 53, 4.26 W, 180 MHz, 405 MHz, P8",
+    "source_hashes": {
+      "pro_research\\s100_phase74_ornith_causal_route_prefetch.py": "a5e88954dd4129f05468d0c5dbe04a28f37a08c1297a2c99169448e4d6b6769b",
+      "pro_research\\S100_PHASE74_ORNITH_CAUSAL_ROUTE_PREFETCH_PREREGISTRATION.md": "5dcb87cba4fa3fb8f357a3fa08a72fec899d97431a77fe1f9571122c750b2cfe",
+      "pro_research\\results\\s100_phase70\\ornith_128_trace.json": "d4f33799fdbbf5b724c4d53bf0f92c5c0c6bf9042920b2a91d290e697ccd816c",
+      "pro_research\\results\\s100_phase71\\S100_PHASE71_ORNITH_TRACE_PREFETCH_ORACLE.json": "d7108a6ec8831a3abf2c8e4746fd9adbed511bd7d6f7ddf75bb7da211960d205",
+      "pro_research\\results\\s100_phase73\\S100_PHASE73_ORNITH_SEGMENTED_REALCOMPUTE.json": "84959eb867665b3aef52aed514ac5aafb36c21ea4a25b90c4d385a26abf5d1d6"
+    }
+  }
+}

@@ -1,0 +1,339 @@
+{
+  "kind": "s100_phase69_ornith_support_h4",
+  "status": "measured_pass",
+  "started_utc": "2026-08-21T16:03:25.338368+00:00",
+  "preregistration": "pro_research\\S100_PHASE69_ORNITH_SUPPORT_H4_PREREGISTRATION.md",
+  "warmup": 15,
+  "repeats": 51,
+  "records": [
+    {
+      "repository": "official",
+      "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--ornith-ai--Ornith-1.5-35B-A3B-NVFP4\\snapshots\\0f0b1b59b879ccde1353e6ebd0fb10c204d4c544",
+      "weights": {
+        "input_norm": {
+          "name": "model.language_model.layers.20.input_layernorm.weight",
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "post_norm": {
+          "name": "model.language_model.layers.20.post_attention_layernorm.weight",
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "router": {
+          "name": "model.language_model.layers.20.mlp.gate.weight",
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "shared_gate": {
+          "name": "model.language_model.layers.20.mlp.shared_expert_gate.weight",
+          "shard": "model-00002-of-00003.safetensors"
+        }
+      },
+      "quality": {
+        "input_normed": {
+          "nrmse": 1.0049844316750182e-07,
+          "max_abs": 7.152557373046875e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "post_residual": {
+          "nrmse": 0.0,
+          "max_abs": 0.0,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "post_normed": {
+          "nrmse": 8.556288637773787e-08,
+          "max_abs": 9.5367431640625e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "router_logits": {
+          "nrmse": 3.015959008662975e-07,
+          "max_abs": 1.1920928955078125e-06,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "shared_logits": {
+          "nrmse": 4.632753531275747e-07,
+          "max_abs": 1.7881393432617188e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "route_weights": {
+          "nrmse": 3.339618396948471e-07,
+          "max_abs": 1.4901161193847656e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "combined_residual": {
+          "nrmse": 2.087942743789949e-08,
+          "max_abs": 1.1920928955078125e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "next_normed": {
+          "nrmse": 8.413167035146467e-08,
+          "max_abs": 4.76837158203125e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        }
+      },
+      "integer_exact": {
+        "ids": true,
+        "slots": true,
+        "need": true
+      },
+      "fresh_state_bit_deterministic": true,
+      "timings_ms": {
+        "initial_norm": {
+          "count": 51,
+          "mean": 0.010684235231476087,
+          "p50": 0.009056000038981438,
+          "p95": 0.012128000147640705,
+          "p99": 0.04491199925541878,
+          "max": 0.04787199944257736
+        },
+        "add_norm": {
+          "count": 51,
+          "mean": 0.027541333508184728,
+          "p50": 0.010688000358641148,
+          "p95": 0.0627839993685484,
+          "p99": 0.2584480047225952,
+          "max": 0.434112012386322
+        },
+        "router_shared": {
+          "count": 51,
+          "mean": 0.024670117644264418,
+          "p50": 0.013088000006973743,
+          "p95": 0.06188800185918808,
+          "p99": 0.09587199985980988,
+          "max": 0.125791996717453
+        },
+        "top8_cache": {
+          "count": 51,
+          "mean": 0.028756078296140127,
+          "p50": 0.028063999488949776,
+          "p95": 0.029311999678611755,
+          "p99": 0.04367999918758869,
+          "max": 0.05756799876689911
+        },
+        "combine_norm": {
+          "count": 51,
+          "mean": 0.021022745188983047,
+          "p50": 0.012896000407636166,
+          "p95": 0.05222400091588497,
+          "p99": 0.05910400114953518,
+          "max": 0.06233600154519081
+        },
+        "support_40": {
+          "count": 51,
+          "mean": 1.977261173958872,
+          "p50": 1.9251519441604614,
+          "p95": 2.172592043876648,
+          "p99": 2.7767199277877808,
+          "max": 2.8232319355010986
+        }
+      }
+    },
+    {
+      "repository": "pottokao",
+      "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+      "weights": {
+        "input_norm": {
+          "name": "model.layers.20.input_layernorm.weight",
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "post_norm": {
+          "name": "model.layers.20.post_attention_layernorm.weight",
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "router": {
+          "name": "model.layers.20.mlp.gate.weight",
+          "shard": "model-00002-of-00003.safetensors"
+        },
+        "shared_gate": {
+          "name": "model.layers.20.mlp.shared_expert_gate.weight",
+          "shard": "model-00002-of-00003.safetensors"
+        }
+      },
+      "quality": {
+        "input_normed": {
+          "nrmse": 5.6624045147178515e-08,
+          "max_abs": 4.76837158203125e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "post_residual": {
+          "nrmse": 0.0,
+          "max_abs": 0.0,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "post_normed": {
+          "nrmse": 5.784674424836739e-08,
+          "max_abs": 4.76837158203125e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "router_logits": {
+          "nrmse": 3.2292153106208606e-07,
+          "max_abs": 1.1920928955078125e-06,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "shared_logits": {
+          "nrmse": 2.4041324640956943e-07,
+          "max_abs": 1.1920928955078125e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "route_weights": {
+          "nrmse": 3.741469661157276e-07,
+          "max_abs": 1.043081283569336e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "combined_residual": {
+          "nrmse": 1.9684025492433153e-08,
+          "max_abs": 1.1920928955078125e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "next_normed": {
+          "nrmse": 6.211669423916719e-08,
+          "max_abs": 4.76837158203125e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        }
+      },
+      "integer_exact": {
+        "ids": true,
+        "slots": true,
+        "need": true
+      },
+      "fresh_state_bit_deterministic": true,
+      "timings_ms": {
+        "initial_norm": {
+          "count": 51,
+          "mean": 0.01760815679296559,
+          "p50": 0.00979200005531311,
+          "p95": 0.05886400118470192,
+          "p99": 0.07400000095367432,
+          "max": 0.08198399841785431
+        },
+        "add_norm": {
+          "count": 51,
+          "mean": 0.017662745078696925,
+          "p50": 0.011071999557316303,
+          "p95": 0.04920000024139881,
+          "p99": 0.10569600015878677,
+          "max": 0.1292800009250641
+        },
+        "router_shared": {
+          "count": 51,
+          "mean": 0.01848156857943418,
+          "p50": 0.014047999866306782,
+          "p95": 0.034144001081585884,
+          "p99": 0.09723199717700481,
+          "max": 0.14115199446678162
+        },
+        "top8_cache": {
+          "count": 51,
+          "mean": 0.029281254821256094,
+          "p50": 0.028255999088287354,
+          "p95": 0.030319999903440475,
+          "p99": 0.049391998909413815,
+          "max": 0.06809599697589874
+        },
+        "combine_norm": {
+          "count": 51,
+          "mean": 0.022608313709497452,
+          "p50": 0.024000000208616257,
+          "p95": 0.03478400036692619,
+          "p99": 0.03707199916243553,
+          "max": 0.03753599897027016
+        },
+        "support_40": {
+          "count": 51,
+          "mean": 1.7797314489589018,
+          "p50": 1.7574080228805542,
+          "p95": 1.943455994129181,
+          "p99": 2.0491999983787537,
+          "max": 2.1231679916381836
+        }
+      }
+    }
+  ],
+  "resources": {
+    "ornith_rmsnorm_h4": {
+      "num_regs": 34,
+      "shared_size_bytes_static": 36,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    },
+    "ornith_add_rmsnorm_h4": {
+      "num_regs": 38,
+      "shared_size_bytes_static": 36,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    },
+    "ornith_router_shared_h4": {
+      "num_regs": 40,
+      "shared_size_bytes_static": 128,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    },
+    "ornith_top8_cache_h4": {
+      "num_regs": 40,
+      "shared_size_bytes_static": 0,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    },
+    "ornith_moe_combine_rmsnorm_h4": {
+      "num_regs": 48,
+      "shared_size_bytes_static": 36,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    }
+  },
+  "budget": {
+    "phase68_known_floor_ms_h4": 56.84937513619661,
+    "phase59_bulk32_ms_per_layer": 0.5609599947929382,
+    "phase60_indirect_m1_ms_per_layer": 0.5939840078353882,
+    "conservative_indirect_correction_40_layers_ms_h4": 1.320960521697998,
+    "worse_support_40_ms_h4": 1.9251519441604614,
+    "combined_known_floor_ms_h4": 60.09548760205507,
+    "combined_equivalent_tok_s": 66.56073791242876,
+    "remaining_to_65_ms": 1.4429739364064673
+  },
+  "gates": {
+    "P69_G1_reference_quality": true,
+    "P69_G2_route_ids_slots_need_exact": true,
+    "P69_G3_fresh_state_deterministic": true,
+    "P69_G4_support_40_le_3ms": true,
+    "P69_G5_full_known_floor_below_65_boundary": true,
+    "P69_G6_resource_budget": true
+  },
+  "completed_utc": "2026-08-21T16:03:27.976226+00:00",
+  "environment": {
+    "created_utc": "2026-08-21T16:03:27.985226+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "bc91caad5443c1c0b1de055155da69a686f655cc",
+    "git_status": [
+      "?? pro_research/S100_PHASE69_ORNITH_SUPPORT_H4_PREREGISTRATION.md",
+      "?? pro_research/s100_phase69_ornith_support_h4.py",
+      "?? pro_research/s100_phase69_ornith_support_h4_kernels.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 94 MiB, 58, 12.57 W, 1845 MHz, 11801 MHz, P1",
+    "source_hashes": {
+      "pro_research\\s100_phase69_ornith_support_h4.py": "588a0e722418c74813e283c13e00bfb4b1ed52d1d247f2c833a25a89d7a758e9",
+      "pro_research\\S100_PHASE69_ORNITH_SUPPORT_H4_PREREGISTRATION.md": "1b9d30245198d114f209f33eac8ebb6c2a48dc44f8515c612433d547b46da2b7",
+      "pro_research\\s100_phase69_ornith_support_h4_kernels.py": "146ca119895b9d4a009c6170eaf04042a64bcceec0c6aab9e1343bea3ec1aeb2",
+      "pro_research\\results\\s100_phase59\\S100_PHASE59_ORNITH_BULK_EXPERT_H4.json": "e50802730cd17b13a5c4d84a7aeec4b1a9c7df1ed3bb7d1848348604b762ae4f",
+      "pro_research\\results\\s100_phase60\\S100_PHASE60_ORNITH_ROUTE_ADAPTIVE_BULK.json": "9e6ba07f313c5b2a5e45b156cf457ed8c306af8f77849cfe1e80a2544f05c6e2",
+      "pro_research\\results\\s100_phase68\\S100_PHASE68_ORNITH_FULL_ATTN_H4.json": "e9f17097284432d541bb694cd53425995385063c1db0a3532157e7e1118fe0d0"
+    }
+  }
+}

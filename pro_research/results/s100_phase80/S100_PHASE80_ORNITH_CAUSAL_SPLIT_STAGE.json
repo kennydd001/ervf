@@ -1,0 +1,144 @@
+{
+  "kind": "s100_phase80_ornith_causal_split_stage",
+  "status": "measured_fail",
+  "started_utc": "2026-08-21T19:20:40.552348+00:00",
+  "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+  "layer": 20,
+  "preregistration": "pro_research\\S100_PHASE80_ORNITH_CAUSAL_SPLIT_STAGE_PREREGISTRATION.md",
+  "source": {
+    "segment_bytes": {
+      "gate_codes": 524288,
+      "gate_scales": 65536,
+      "up_codes": 524288,
+      "up_scales": 65536,
+      "down_codes": 524288,
+      "down_scales": 65536
+    },
+    "expert_bytes": 1769472,
+    "max_groups": 31,
+    "rotations": 4,
+    "working_set_bytes": 219414528,
+    "working_set_over_l2": 6.5390625,
+    "trace_blocks": 28,
+    "trace_layer_tasks": 1120,
+    "mean_miss_groups_h4": 321.82142857142856
+  },
+  "compute": {
+    "hot32": {
+      "count": 31,
+      "mean": 0.6151246505398904,
+      "p50": 0.6348159909248352,
+      "p95": 0.6561440229415894,
+      "p99": 0.6687679946422577,
+      "max": 0.6722239851951599
+    },
+    "remaining_target_ms": 0.8282007994001648,
+    "remaining_calibration": {
+      "count": 11,
+      "mean": 0.7457512671297247,
+      "p50": 0.7371839880943298,
+      "p95": 0.7805760204792023,
+      "p99": 0.8078400194644928,
+      "max": 0.8146560192108154
+    },
+    "head_calibration": {
+      "count": 11,
+      "mean": 1.584994912147522,
+      "p50": 1.567039966583252,
+      "p95": 1.6463840007781982,
+      "p99": 1.6616032123565674,
+      "max": 1.6654080152511597
+    },
+    "baseline_a": {
+      "count": 5,
+      "mean": 1493.366943359375,
+      "p50": 1495.336669921875,
+      "p95": 1496.3347900390625,
+      "p99": 1496.3972314453124,
+      "max": 1496.412841796875
+    },
+    "baseline_b": {
+      "count": 5,
+      "mean": 1498.7847412109375,
+      "p50": 1498.6051025390625,
+      "p95": 1501.184814453125,
+      "p99": 1501.428369140625,
+      "max": 1501.4892578125
+    },
+    "baseline_a_ms_h4": 53.404881068638396,
+    "baseline_b_ms_h4": 53.52161080496652,
+    "baseline_bracket_ms_h4": 53.46324593680246
+  },
+  "causal": {
+    "timing": {
+      "count": 5,
+      "mean": 1782.3125732421875,
+      "p50": 1780.6959228515625,
+      "p95": 1788.23623046875,
+      "p99": 1789.3346484375,
+      "max": 1789.6092529296875
+    },
+    "raw_ms_h4": 63.596282958984375,
+    "paired_exposed_tail_ms_h4": 10.133037022181917,
+    "floor_normalized_ms_h4": 70.22852462418192,
+    "floor_normalized_tok_s": 56.95691346793113
+  },
+  "quality": {
+    "hot_vs_reference_bit_exact": true,
+    "miss_vs_reference_bit_exact": true,
+    "hot_repeat_bit_exact": true,
+    "miss_repeat_bit_exact": true,
+    "finite": true
+  },
+  "gates": {
+    "P80_G1_real_segments_working_set_contract": true,
+    "P80_G2_overlap_output_exact_repeat_finite": true,
+    "P80_G3_hot_and_compute_envelope": false,
+    "P80_G4_floor_normalized_below_65": false
+  },
+  "completed_utc": "2026-08-21T19:21:13.117995+00:00",
+  "environment": {
+    "created_utc": "2026-08-21T19:21:13.125477+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "b517f66d790823b9f9d1df0af260a4be14b1a254",
+    "git_status": [
+      "M pro_research/llama_ornith_trace.cpp",
+      " M src/moe_lab/ornith/__init__.py",
+      "?? pro_research/S100_PHASE74_ORNITH_CAUSAL_ROUTE_PREFETCH_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE75_ORNITH_CROSSLAYER_PREFETCH_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE76_ORNITH_FUTURE_ROUTER_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE77_ORNITH_ROUTER_RESIDUAL_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE78_ORNITH_DFLASH_ROUTE_SIGNAL_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE79_ORNITH_DFLASH_ROUTE_PROJECTION_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE80_ORNITH_CAUSAL_SPLIT_STAGE_PREREGISTRATION.md",
+      "?? pro_research/fixtures/ornith_trace_prompt.txt",
+      "?? pro_research/results/history/S100_PHASE74_ORNITH_CAUSAL_ROUTE_PREFETCH__20260821T184413Z.json",
+      "?? pro_research/results/history/S100_PHASE74_ORNITH_CAUSAL_ROUTE_PREFETCH__20260821T184525Z.json",
+      "?? pro_research/results/history/S100_PHASE78_ORNITH_DFLASH_ROUTE_SIGNAL__20260821T191601Z.json",
+      "?? pro_research/results/s100_phase74/",
+      "?? pro_research/results/s100_phase75/",
+      "?? pro_research/results/s100_phase76/",
+      "?? pro_research/results/s100_phase77/",
+      "?? pro_research/results/s100_phase78/",
+      "?? pro_research/results/s100_phase79/",
+      "?? pro_research/s100_phase74_ornith_causal_route_prefetch.py",
+      "?? pro_research/s100_phase75_ornith_crosslayer_prefetch.py",
+      "?? pro_research/s100_phase76_ornith_future_router.py",
+      "?? pro_research/s100_phase77_ornith_router_residual.py",
+      "?? pro_research/s100_phase78_ornith_dflash_route_signal.py",
+      "?? pro_research/s100_phase79_ornith_dflash_route_projection.py",
+      "?? pro_research/s100_phase80_ornith_causal_split_stage.py",
+      "?? src/moe_lab/ornith/rolling_prefetch.py",
+      "?? tests/test_ornith_rolling_prefetch.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 228 MiB, 80, 59.19 W, 2745 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "pro_research\\s100_phase80_ornith_causal_split_stage.py": "6167276cc99ecdea5a76f8953a701b95148161e6b8ed8a8e7e1cac4c5604a998",
+      "pro_research\\S100_PHASE80_ORNITH_CAUSAL_SPLIT_STAGE_PREREGISTRATION.md": "e3a3314314540c167dc1ca9b36dd30f10fb0ee8d14de6348bb0b0268794a0fcd",
+      "pro_research\\results\\s100_phase70\\S100_PHASE70_ORNITH_REAL_TRACE.json": "464302c6d5e9dab64662ef7fb3b6ee5434bcea44e66e87e43d1d550d9b61265c"
+    }
+  }
+}

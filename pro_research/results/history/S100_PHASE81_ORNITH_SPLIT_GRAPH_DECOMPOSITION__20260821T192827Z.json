@@ -1,0 +1,160 @@
+{
+  "kind": "s100_phase81_ornith_split_graph_decomposition",
+  "status": "measured_fail",
+  "started_utc": "2026-08-21T19:25:43.688678+00:00",
+  "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+  "layer": 20,
+  "preregistration": "pro_research\\S100_PHASE81_ORNITH_SPLIT_GRAPH_DECOMPOSITION_PREREGISTRATION.md",
+  "source": {
+    "trace_blocks": 28,
+    "trace_layer_tasks": 1120,
+    "observed_miss_counts": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      29,
+      31
+    ],
+    "max_groups": 31,
+    "mean_miss_groups_h4": 321.82142857142856
+  },
+  "timings": {
+    "eager_baseline_a": {
+      "count": 9,
+      "mean": 903.4642062717014,
+      "p50": 871.5108032226562,
+      "p95": 1031.083203125,
+      "p99": 1035.184609375,
+      "max": 1036.2099609375
+    },
+    "eager_split": {
+      "count": 9,
+      "mean": 820.1314290364584,
+      "p50": 823.7078857421875,
+      "p95": 870.2857788085937,
+      "p99": 879.5813256835937,
+      "max": 881.9052124023438
+    },
+    "graph_baseline": {
+      "count": 9,
+      "mean": 801.1961059570312,
+      "p50": 802.7786254882812,
+      "p95": 813.8471069335938,
+      "p99": 814.5824584960938,
+      "max": 814.7662963867188
+    },
+    "graph_split": {
+      "count": 9,
+      "mean": 1023.421617296007,
+      "p50": 1093.8502197265625,
+      "p95": 1145.600537109375,
+      "p99": 1147.085927734375,
+      "max": 1147.457275390625
+    },
+    "eager_baseline_b": {
+      "count": 9,
+      "mean": 1045.353515625,
+      "p50": 1061.3572998046875,
+      "p95": 1145.9076416015625,
+      "p99": 1151.0650244140625,
+      "max": 1152.3543701171875
+    }
+  },
+  "decomposition": {
+    "eager_baseline_bracket_ms_epoch": 966.4340515136719,
+    "eager_split_extra_ms_h4": -5.0973630632672995,
+    "graph_split_extra_ms_h4": 10.395414079938616,
+    "graph_reduction_fraction": -10395414078.938616,
+    "phase80_total_tail_ms_h4": 10.133037022181917,
+    "phase80_residual_non_dispatch_ms_h4": 15.230400085449215,
+    "dispatch_substituted_tail_ms_h4": 25.62581416538783,
+    "dispatch_substituted_floor_ms_h4": 85.72130176738783,
+    "dispatch_substituted_floor_tok_s": 46.66284712817762
+  },
+  "quality": {
+    "hot_graph_vs_eager_bit_exact": true,
+    "miss_graph_vs_eager_bit_exact": true,
+    "hot_graph_repeat_bit_exact": true,
+    "miss_graph_repeat_bit_exact": true,
+    "finite": true
+  },
+  "gates": {
+    "P81_G1_real_contract_and_trace_shape": true,
+    "P81_G2_graph_exact_repeat_finite": true,
+    "P81_G3_eager_baseline_bracket_stable": false,
+    "P81_G4_graph_reduces_split_overhead_30pct": false,
+    "P81_G5_dispatch_substitution_below_65": false
+  },
+  "completed_utc": "2026-08-21T19:26:34.671937+00:00",
+  "environment": {
+    "created_utc": "2026-08-21T19:26:34.680728+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "b517f66d790823b9f9d1df0af260a4be14b1a254",
+    "git_status": [
+      "M pro_research/llama_ornith_trace.cpp",
+      " M src/moe_lab/ornith/__init__.py",
+      "?? pro_research/S100_PHASE74_ORNITH_CAUSAL_ROUTE_PREFETCH_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE75_ORNITH_CROSSLAYER_PREFETCH_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE76_ORNITH_FUTURE_ROUTER_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE77_ORNITH_ROUTER_RESIDUAL_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE78_ORNITH_DFLASH_ROUTE_SIGNAL_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE79_ORNITH_DFLASH_ROUTE_PROJECTION_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE80_ORNITH_CAUSAL_SPLIT_STAGE_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE81_ORNITH_SPLIT_GRAPH_DECOMPOSITION_PREREGISTRATION.md",
+      "?? pro_research/fixtures/ornith_trace_prompt.txt",
+      "?? pro_research/results/history/S100_PHASE74_ORNITH_CAUSAL_ROUTE_PREFETCH__20260821T184413Z.json",
+      "?? pro_research/results/history/S100_PHASE74_ORNITH_CAUSAL_ROUTE_PREFETCH__20260821T184525Z.json",
+      "?? pro_research/results/history/S100_PHASE78_ORNITH_DFLASH_ROUTE_SIGNAL__20260821T191601Z.json",
+      "?? pro_research/results/s100_phase74/",
+      "?? pro_research/results/s100_phase75/",
+      "?? pro_research/results/s100_phase76/",
+      "?? pro_research/results/s100_phase77/",
+      "?? pro_research/results/s100_phase78/",
+      "?? pro_research/results/s100_phase79/",
+      "?? pro_research/results/s100_phase80/",
+      "?? pro_research/s100_phase74_ornith_causal_route_prefetch.py",
+      "?? pro_research/s100_phase75_ornith_crosslayer_prefetch.py",
+      "?? pro_research/s100_phase76_ornith_future_router.py",
+      "?? pro_research/s100_phase77_ornith_router_residual.py",
+      "?? pro_research/s100_phase78_ornith_dflash_route_signal.py",
+      "?? pro_research/s100_phase79_ornith_dflash_route_projection.py",
+      "?? pro_research/s100_phase80_ornith_causal_split_stage.py",
+      "?? pro_research/s100_phase81_ornith_split_graph_decomposition.py",
+      "?? src/moe_lab/ornith/rolling_prefetch.py",
+      "?? tests/test_ornith_rolling_prefetch.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 204 MiB, 80, 39.95 W, 1687 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "pro_research\\s100_phase81_ornith_split_graph_decomposition.py": "08ac05f996811f4ffbc7824d408c48c3197d8208ab38b8085c14c032580f7c9a",
+      "pro_research\\S100_PHASE81_ORNITH_SPLIT_GRAPH_DECOMPOSITION_PREREGISTRATION.md": "b44e94dd2b676a8bc9f866e1e93b2a5366f2f270bfa7da0d8676679813c3a36e",
+      "pro_research\\results\\s100_phase70\\S100_PHASE70_ORNITH_REAL_TRACE.json": "464302c6d5e9dab64662ef7fb3b6ee5434bcea44e66e87e43d1d550d9b61265c",
+      "pro_research\\results\\s100_phase80\\S100_PHASE80_ORNITH_CAUSAL_SPLIT_STAGE.json": "9743b5526dfcbbe1ee23ccaffb17f10ac38967bc4568bf1b1be5ea2776c78001"
+    }
+  }
+}

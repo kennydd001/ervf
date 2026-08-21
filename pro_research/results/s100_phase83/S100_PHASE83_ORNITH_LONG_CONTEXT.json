@@ -1,0 +1,753 @@
+{
+  "kind": "s100_phase83_ornith_long_context",
+  "status": "measured_fail",
+  "started_utc": "2026-08-21T19:45:25.175027+00:00",
+  "contexts": [
+    1024,
+    4096,
+    16384,
+    50000,
+    100000
+  ],
+  "preregistration": "pro_research\\S100_PHASE83_ORNITH_LONG_CONTEXT_PREREGISTRATION.md",
+  "inputs": {
+    "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+    "frozen_phase68_full_1024_ms_h4": 3.50271999835968,
+    "frozen_phase69_total_1024_ms_h4": 60.08419168740511,
+    "frozen_non_full_attention_ms_h4": 56.58147168904543,
+    "runtime_reserve_bytes": 536870912
+  },
+  "records": [
+    {
+      "repository": "pottokao",
+      "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+      "prefix": "model.layers.23.self_attn",
+      "base_context": 1024,
+      "max_context": 1028,
+      "norm_shards": {
+        "q_norm.weight": "model-00002-of-00003.safetensors",
+        "k_norm.weight": "model-00002-of-00003.safetensors"
+      },
+      "preparation_quality": {
+        "prepared_q": {
+          "nrmse": 6.579579543823056e-08,
+          "max_abs": 1.430511474609375e-06,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_key": {
+          "nrmse": 4.999864193430013e-08,
+          "max_abs": 5.960464477539062e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_value": {
+          "nrmse": 0.0,
+          "max_abs": 0.0,
+          "candidate_finite": true,
+          "reference_finite": true
+        }
+      },
+      "preparation_timing_ms": {
+        "count": 11,
+        "mean": 0.034397090869871055,
+        "p50": 0.034304000437259674,
+        "p95": 0.03696000017225742,
+        "p99": 0.037139200046658515,
+        "max": 0.03718400001525879
+      },
+      "arms": {
+        "g1": {
+          "quality": {
+            "nrmse": 6.496990410417289e-07,
+            "max_abs": 1.7881393432617188e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 0.35721599784764374,
+            "p50": 0.34755200147628784,
+            "p95": 0.39239999651908875,
+            "p99": 0.40528959631919864,
+            "max": 0.4085119962692261
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 0.35798982056704437,
+            "p50": 0.35392001271247864,
+            "p95": 0.3787039965391159,
+            "p99": 0.38667839467525483,
+            "max": 0.38867199420928955
+          }
+        },
+        "g4": {
+          "quality": {
+            "nrmse": 6.496990410417289e-07,
+            "max_abs": 1.7881393432617188e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 0.45112145759842615,
+            "p50": 0.4495680034160614,
+            "p95": 0.458064004778862,
+            "p99": 0.46268480718135835,
+            "max": 0.4638400077819824
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 0.5037207305431366,
+            "p50": 0.4658240079879761,
+            "p95": 0.6870560050010681,
+            "p99": 0.832323205471039,
+            "max": 0.8686400055885315
+          }
+        },
+        "g8": {
+          "quality": {
+            "nrmse": 6.496990410417289e-07,
+            "max_abs": 1.7881393432617188e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 0.6502109061587941,
+            "p50": 0.6465280055999756,
+            "p95": 0.6677440106868744,
+            "p99": 0.6836928069591522,
+            "max": 0.6876800060272217
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 0.7093934470956976,
+            "p50": 0.6574400067329407,
+            "p95": 0.8787199854850769,
+            "p99": 0.9545215964317323,
+            "max": 0.973471999168396
+          }
+        }
+      },
+      "selected_arm": "g1",
+      "selected_complete_ms": 0.35392001271247864,
+      "projected_10_full_layers_ms_h4": 3.5392001271247864,
+      "ten_layer_fp32_kv_bytes": 42106880,
+      "ten_layer_fp32_kv_GiB": 0.039215087890625,
+      "fits_phase46_runtime_reserve": true
+    },
+    {
+      "repository": "pottokao",
+      "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+      "prefix": "model.layers.23.self_attn",
+      "base_context": 4096,
+      "max_context": 4100,
+      "norm_shards": {
+        "q_norm.weight": "model-00002-of-00003.safetensors",
+        "k_norm.weight": "model-00002-of-00003.safetensors"
+      },
+      "preparation_quality": {
+        "prepared_q": {
+          "nrmse": 6.97729881852142e-08,
+          "max_abs": 9.5367431640625e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_key": {
+          "nrmse": 7.345417854963432e-08,
+          "max_abs": 9.5367431640625e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_value": {
+          "nrmse": 0.0,
+          "max_abs": 0.0,
+          "candidate_finite": true,
+          "reference_finite": true
+        }
+      },
+      "preparation_timing_ms": {
+        "count": 11,
+        "mean": 0.020485818047415127,
+        "p50": 0.010784000158309937,
+        "p95": 0.05124799907207489,
+        "p99": 0.05942719876766205,
+        "max": 0.06147199869155884
+      },
+      "arms": {
+        "g1": {
+          "quality": {
+            "nrmse": 1.4063227399556653e-06,
+            "max_abs": 4.936009645462036e-08,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 1.3429498238997026,
+            "p50": 1.343008041381836,
+            "p95": 1.3609279990196228,
+            "p99": 1.3639743685722352,
+            "max": 1.3647359609603882
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 1.360715627670288,
+            "p50": 1.3379520177841187,
+            "p95": 1.4271039962768555,
+            "p99": 1.4483519554138184,
+            "max": 1.453663945198059
+          }
+        },
+        "g4": {
+          "quality": {
+            "nrmse": 1.4063227399556653e-06,
+            "max_abs": 4.936009645462036e-08,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 1.7650443640622226,
+            "p50": 1.7604800462722778,
+            "p95": 1.7967360019683838,
+            "p99": 1.8083839893341065,
+            "max": 1.811295986175537
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 1.7842036268927834,
+            "p50": 1.7694400548934937,
+            "p95": 1.8444479703903198,
+            "p99": 1.8703295469284058,
+            "max": 1.8767999410629272
+          }
+        },
+        "g8": {
+          "quality": {
+            "nrmse": 1.4063227399556653e-06,
+            "max_abs": 4.936009645462036e-08,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 2.5635694590481846,
+            "p50": 2.543839931488037,
+            "p95": 2.6218719482421875,
+            "p99": 2.6333791732788088,
+            "max": 2.636255979537964
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 2.55668364871632,
+            "p50": 2.547168016433716,
+            "p95": 2.5941280126571655,
+            "p99": 2.60786235332489,
+            "max": 2.6112959384918213
+          }
+        }
+      },
+      "selected_arm": "g1",
+      "selected_complete_ms": 1.3379520177841187,
+      "projected_10_full_layers_ms_h4": 13.379520177841187,
+      "ten_layer_fp32_kv_bytes": 167936000,
+      "ten_layer_fp32_kv_GiB": 0.156402587890625,
+      "fits_phase46_runtime_reserve": true
+    },
+    {
+      "repository": "pottokao",
+      "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+      "prefix": "model.layers.23.self_attn",
+      "base_context": 16384,
+      "max_context": 16388,
+      "norm_shards": {
+        "q_norm.weight": "model-00002-of-00003.safetensors",
+        "k_norm.weight": "model-00002-of-00003.safetensors"
+      },
+      "preparation_quality": {
+        "prepared_q": {
+          "nrmse": 6.50365553274926e-08,
+          "max_abs": 9.5367431640625e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_key": {
+          "nrmse": 6.248654652260565e-08,
+          "max_abs": 4.76837158203125e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_value": {
+          "nrmse": 0.0,
+          "max_abs": 0.0,
+          "candidate_finite": true,
+          "reference_finite": true
+        }
+      },
+      "preparation_timing_ms": {
+        "count": 11,
+        "mean": 0.029547636820511383,
+        "p50": 0.032896000891923904,
+        "p95": 0.04065600037574768,
+        "p99": 0.043843200802803045,
+        "max": 0.04464000090956688
+      },
+      "arms": {
+        "g1": {
+          "quality": {
+            "nrmse": 1.2528105503526309e-06,
+            "max_abs": 2.4586915969848633e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 11.580415985801004,
+            "p50": 11.588768005371094,
+            "p95": 11.611728191375732,
+            "p99": 11.619036769866943,
+            "max": 11.620863914489746
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 11.616939718073064,
+            "p50": 11.633407592773438,
+            "p95": 11.66921615600586,
+            "p99": 11.69046401977539,
+            "max": 11.695775985717773
+          }
+        },
+        "g4": {
+          "quality": {
+            "nrmse": 1.2528105503526309e-06,
+            "max_abs": 2.4586915969848633e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 16.92454112659801,
+            "p50": 16.913951873779297,
+            "p95": 17.012256622314453,
+            "p99": 17.030509185791015,
+            "max": 17.035072326660156
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 14.748293789950283,
+            "p50": 14.30947208404541,
+            "p95": 16.471423625946045,
+            "p99": 16.861720943450926,
+            "max": 16.95929527282715
+          }
+        },
+        "g8": {
+          "quality": {
+            "nrmse": 1.2528105503526309e-06,
+            "max_abs": 2.4586915969848633e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 17.82179780439897,
+            "p50": 17.81507110595703,
+            "p95": 17.875056266784668,
+            "p99": 17.89229793548584,
+            "max": 17.896608352661133
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 17.86567549272017,
+            "p50": 17.861215591430664,
+            "p95": 17.90185546875,
+            "p99": 17.903826904296874,
+            "max": 17.904319763183594
+          }
+        }
+      },
+      "selected_arm": "g1",
+      "selected_complete_ms": 11.633407592773438,
+      "projected_10_full_layers_ms_h4": 116.33407592773438,
+      "ten_layer_fp32_kv_bytes": 671252480,
+      "ten_layer_fp32_kv_GiB": 0.625152587890625,
+      "fits_phase46_runtime_reserve": false
+    },
+    {
+      "repository": "pottokao",
+      "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+      "prefix": "model.layers.23.self_attn",
+      "base_context": 50000,
+      "max_context": 50004,
+      "norm_shards": {
+        "q_norm.weight": "model-00002-of-00003.safetensors",
+        "k_norm.weight": "model-00002-of-00003.safetensors"
+      },
+      "preparation_quality": {
+        "prepared_q": {
+          "nrmse": 5.826738139485682e-08,
+          "max_abs": 9.5367431640625e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_key": {
+          "nrmse": 5.648838727809895e-08,
+          "max_abs": 4.76837158203125e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_value": {
+          "nrmse": 0.0,
+          "max_abs": 0.0,
+          "candidate_finite": true,
+          "reference_finite": true
+        }
+      },
+      "preparation_timing_ms": {
+        "count": 11,
+        "mean": 0.01622690912336111,
+        "p50": 0.011744000017642975,
+        "p95": 0.039247999899089336,
+        "p99": 0.054390399716794505,
+        "max": 0.05817599967122078
+      },
+      "arms": {
+        "g1": {
+          "quality": {
+            "nrmse": 5.139237875423275e-06,
+            "max_abs": 6.193295121192932e-08,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 29.65448136763139,
+            "p50": 29.647296905517578,
+            "p95": 29.686927795410156,
+            "p99": 29.68883514404297,
+            "max": 29.689311981201172
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 29.695865977894176,
+            "p50": 29.67081642150879,
+            "p95": 29.77407932281494,
+            "p99": 29.797017097473145,
+            "max": 29.802751541137695
+          }
+        },
+        "g4": {
+          "quality": {
+            "nrmse": 5.139237875423275e-06,
+            "max_abs": 6.193295121192932e-08,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 43.27822841297496,
+            "p50": 43.26383972167969,
+            "p95": 43.36182403564453,
+            "p99": 43.41015777587891,
+            "max": 43.4222412109375
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 43.28678963401101,
+            "p50": 43.28886413574219,
+            "p95": 43.31684684753418,
+            "p99": 43.320495223999025,
+            "max": 43.321407318115234
+          }
+        },
+        "g8": {
+          "quality": {
+            "nrmse": 5.139237875423275e-06,
+            "max_abs": 6.193295121192932e-08,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 54.10127986561168,
+            "p50": 54.089439392089844,
+            "p95": 54.17451286315918,
+            "p99": 54.181847763061526,
+            "max": 54.18368148803711
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 54.09328876842152,
+            "p50": 54.09145736694336,
+            "p95": 54.11561584472656,
+            "p99": 54.11589660644531,
+            "max": 54.115966796875
+          }
+        }
+      },
+      "selected_arm": "g1",
+      "selected_complete_ms": 29.67081642150879,
+      "projected_10_full_layers_ms_h4": 296.7081642150879,
+      "ten_layer_fp32_kv_bytes": 2048163840,
+      "ten_layer_fp32_kv_GiB": 1.907501220703125,
+      "fits_phase46_runtime_reserve": false
+    },
+    {
+      "repository": "pottokao",
+      "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+      "prefix": "model.layers.23.self_attn",
+      "base_context": 100000,
+      "max_context": 100004,
+      "norm_shards": {
+        "q_norm.weight": "model-00002-of-00003.safetensors",
+        "k_norm.weight": "model-00002-of-00003.safetensors"
+      },
+      "preparation_quality": {
+        "prepared_q": {
+          "nrmse": 6.810287754630254e-08,
+          "max_abs": 1.430511474609375e-06,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_key": {
+          "nrmse": 7.932024754721949e-08,
+          "max_abs": 9.5367431640625e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_value": {
+          "nrmse": 0.0,
+          "max_abs": 0.0,
+          "candidate_finite": true,
+          "reference_finite": true
+        }
+      },
+      "preparation_timing_ms": {
+        "count": 11,
+        "mean": 0.03940072791142897,
+        "p50": 0.03590400144457817,
+        "p95": 0.06148800067603588,
+        "p99": 0.07204800210893154,
+        "max": 0.07468800246715546
+      },
+      "arms": {
+        "g1": {
+          "quality": {
+            "nrmse": 7.3666519753037715e-06,
+            "max_abs": 4.6100467443466187e-08,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 64.83887342973189,
+            "p50": 64.8355484008789,
+            "p95": 64.85862350463867,
+            "p99": 64.86471786499024,
+            "max": 64.86624145507812
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 65.04227447509766,
+            "p50": 65.03314971923828,
+            "p95": 65.10131072998047,
+            "p99": 65.11065521240235,
+            "max": 65.11299133300781
+          }
+        },
+        "g4": {
+          "quality": {
+            "nrmse": 7.3666519753037715e-06,
+            "max_abs": 4.6100467443466187e-08,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 94.57923750443892,
+            "p50": 94.5827865600586,
+            "p95": 94.60086059570312,
+            "p99": 94.60626220703125,
+            "max": 94.60761260986328
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 94.61960740522905,
+            "p50": 94.59625244140625,
+            "p95": 94.69820785522461,
+            "p99": 94.72178268432617,
+            "max": 94.72767639160156
+          }
+        },
+        "g8": {
+          "quality": {
+            "nrmse": 7.3666519753037715e-06,
+            "max_abs": 4.6100467443466187e-08,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 11,
+            "mean": 118.35060674493963,
+            "p50": 118.3512954711914,
+            "p95": 118.39070510864258,
+            "p99": 118.40909805297852,
+            "max": 118.4136962890625
+          },
+          "complete_timing_ms": {
+            "count": 11,
+            "mean": 118.3666499744762,
+            "p50": 118.35874938964844,
+            "p95": 118.4106559753418,
+            "p99": 118.41324081420899,
+            "max": 118.41388702392578
+          }
+        }
+      },
+      "selected_arm": "g1",
+      "selected_complete_ms": 65.03314971923828,
+      "projected_10_full_layers_ms_h4": 650.3314971923828,
+      "ten_layer_fp32_kv_bytes": 4096163840,
+      "ten_layer_fp32_kv_GiB": 3.814849853515625,
+      "fits_phase46_runtime_reserve": false
+    }
+  ],
+  "projections": [
+    {
+      "context": 1024,
+      "selected_arm": "g1",
+      "one_full_layer_ms_h4": 0.35392001271247864,
+      "ten_full_layers_ms_h4": 3.5392001271247864,
+      "complete_component_floor_ms_h4": 60.120671816170216,
+      "complete_component_floor_tok_s": 66.53285599054382,
+      "ten_layer_fp32_kv_bytes": 42106880,
+      "ten_layer_fp32_kv_GiB": 0.039215087890625,
+      "fits_phase46_runtime_reserve": true
+    },
+    {
+      "context": 4096,
+      "selected_arm": "g1",
+      "one_full_layer_ms_h4": 1.3379520177841187,
+      "ten_full_layers_ms_h4": 13.379520177841187,
+      "complete_component_floor_ms_h4": 69.96099186688662,
+      "complete_component_floor_tok_s": 57.17471827172948,
+      "ten_layer_fp32_kv_bytes": 167936000,
+      "ten_layer_fp32_kv_GiB": 0.156402587890625,
+      "fits_phase46_runtime_reserve": true
+    },
+    {
+      "context": 16384,
+      "selected_arm": "g1",
+      "one_full_layer_ms_h4": 11.633407592773438,
+      "ten_full_layers_ms_h4": 116.33407592773438,
+      "complete_component_floor_ms_h4": 172.9155476167798,
+      "complete_component_floor_tok_s": 23.132679826252005,
+      "ten_layer_fp32_kv_bytes": 671252480,
+      "ten_layer_fp32_kv_GiB": 0.625152587890625,
+      "fits_phase46_runtime_reserve": false
+    },
+    {
+      "context": 50000,
+      "selected_arm": "g1",
+      "one_full_layer_ms_h4": 29.67081642150879,
+      "ten_full_layers_ms_h4": 296.7081642150879,
+      "complete_component_floor_ms_h4": 353.2896359041333,
+      "complete_component_floor_tok_s": 11.322154950182059,
+      "ten_layer_fp32_kv_bytes": 2048163840,
+      "ten_layer_fp32_kv_GiB": 1.907501220703125,
+      "fits_phase46_runtime_reserve": false
+    },
+    {
+      "context": 100000,
+      "selected_arm": "g1",
+      "one_full_layer_ms_h4": 65.03314971923828,
+      "ten_full_layers_ms_h4": 650.3314971923828,
+      "complete_component_floor_ms_h4": 706.9129688814282,
+      "complete_component_floor_tok_s": 5.658405173029053,
+      "ten_layer_fp32_kv_bytes": 4096163840,
+      "ten_layer_fp32_kv_GiB": 3.814849853515625,
+      "fits_phase46_runtime_reserve": false
+    }
+  ],
+  "ctx1024_relative_delta": 0.010414800150223199,
+  "gates": {
+    "P83_G1_selected_quality": true,
+    "P83_G2_ctx1024_reproduction_within_10pct": true,
+    "P83_G3_ctx50k_component_floor_ge_65tps": false,
+    "P83_G4_ctx100k_component_floor_ge_65tps": false,
+    "P83_G5_long_context_fp32_kv_fits_reserve": false
+  },
+  "completed_utc": "2026-08-21T19:45:44.502380+00:00",
+  "environment": {
+    "created_utc": "2026-08-21T19:45:44.516727+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "b517f66d790823b9f9d1df0af260a4be14b1a254",
+    "git_status": [
+      "M pro_research/llama_ornith_trace.cpp",
+      " M pro_research/results/s100_phase69/S100_PHASE69_ORNITH_SUPPORT_H4.json",
+      " M src/moe_lab/ornith/__init__.py",
+      "?? pro_research/S100_PHASE74_ORNITH_CAUSAL_ROUTE_PREFETCH_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE75_ORNITH_CROSSLAYER_PREFETCH_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE76_ORNITH_FUTURE_ROUTER_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE77_ORNITH_ROUTER_RESIDUAL_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE78_ORNITH_DFLASH_ROUTE_SIGNAL_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE79_ORNITH_DFLASH_ROUTE_PROJECTION_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE80_ORNITH_CAUSAL_SPLIT_STAGE_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE81_ORNITH_SPLIT_GRAPH_DECOMPOSITION_PREREGISTRATION.md",
+      "?? pro_research/S100_PHASE83_ORNITH_LONG_CONTEXT_PREREGISTRATION.md",
+      "?? pro_research/fixtures/ornith_trace_prompt.txt",
+      "?? pro_research/results/history/S100_PHASE69_ORNITH_SUPPORT_H4__20260821T194513Z.json",
+      "?? pro_research/results/history/S100_PHASE74_ORNITH_CAUSAL_ROUTE_PREFETCH__20260821T184413Z.json",
+      "?? pro_research/results/history/S100_PHASE74_ORNITH_CAUSAL_ROUTE_PREFETCH__20260821T184525Z.json",
+      "?? pro_research/results/history/S100_PHASE78_ORNITH_DFLASH_ROUTE_SIGNAL__20260821T191601Z.json",
+      "?? pro_research/results/history/S100_PHASE81_ORNITH_SPLIT_GRAPH_DECOMPOSITION__20260821T192827Z.json",
+      "?? pro_research/results/s100_phase74/",
+      "?? pro_research/results/s100_phase75/",
+      "?? pro_research/results/s100_phase76/",
+      "?? pro_research/results/s100_phase77/",
+      "?? pro_research/results/s100_phase78/",
+      "?? pro_research/results/s100_phase79/",
+      "?? pro_research/results/s100_phase80/",
+      "?? pro_research/results/s100_phase81/",
+      "?? pro_research/s100_phase74_ornith_causal_route_prefetch.py",
+      "?? pro_research/s100_phase75_ornith_crosslayer_prefetch.py",
+      "?? pro_research/s100_phase76_ornith_future_router.py",
+      "?? pro_research/s100_phase77_ornith_router_residual.py",
+      "?? pro_research/s100_phase78_ornith_dflash_route_signal.py",
+      "?? pro_research/s100_phase79_ornith_dflash_route_projection.py",
+      "?? pro_research/s100_phase80_ornith_causal_split_stage.py",
+      "?? pro_research/s100_phase81_ornith_split_graph_decomposition.py",
+      "?? pro_research/s100_phase83_ornith_long_context.py",
+      "?? src/moe_lab/ornith/rolling_prefetch.py",
+      "?? tests/test_ornith_rolling_prefetch.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 6943 MiB, 74, 39.46 W, 2415 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "pro_research\\s100_phase83_ornith_long_context.py": "013ddfc8390ec5c2e113d5e9ee08ca9b5a327746aedfb85feb6815e4de838689",
+      "pro_research\\S100_PHASE83_ORNITH_LONG_CONTEXT_PREREGISTRATION.md": "dd283da35a050068ca8ffb432b6c94f36da037b7ec4a6367b3e6c454df6d217e",
+      "pro_research\\s100_phase68_ornith_full_attn_h4_kernels.py": "86c78145ecb6cdb70a327f99d142732caafb31fe4915eddaae2fdfed65216748",
+      "pro_research\\results\\s100_phase68\\S100_PHASE68_ORNITH_FULL_ATTN_H4.json": "e9f17097284432d541bb694cd53425995385063c1db0a3532157e7e1118fe0d0",
+      "pro_research\\results\\s100_phase69\\S100_PHASE69_ORNITH_SUPPORT_H4.json": "f87024282266689acf854bcdfc6061313b50b8a16f73174888a5fcd9122ec8e2"
+    }
+  }
+}

@@ -44,8 +44,12 @@ bool indexed_name(const std::string & name, const char * prefix) {
 
 bool wanted_tensor(const ggml_tensor * tensor) {
     const std::string name = tensor->name;
+    const char * hidden_env = std::getenv("ORNITH_TRACE_HIDDEN");
+    const bool capture_hidden = hidden_env != nullptr && std::string(hidden_env) != "0";
     return indexed_name(name, "ffn_moe_topk-") ||
            indexed_name(name, "ffn_moe_weights_norm-") ||
+           (capture_hidden && indexed_name(name, "attn_post_norm-")) ||
+           (capture_hidden && indexed_name(name, "post_moe-")) ||
            name == "result_norm";
 }
 

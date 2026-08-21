@@ -1,0 +1,216 @@
+diff --git a/examples/speculative-simple/speculative-simple.cpp b/examples/speculative-simple/speculative-simple.cpp
+index 487ae03..e032237 100644
+--- a/examples/speculative-simple/speculative-simple.cpp
++++ b/examples/speculative-simple/speculative-simple.cpp
+@@ -13,11 +13,149 @@
+ #include <string>
+ #include <vector>
+ #include <utility>
++#include <array>
++#include <cstdlib>
++#include <fstream>
++#include <stdexcept>
++
++namespace {
++
++struct trace_item {
++    std::string name;
++    std::string type;
++    std::array<int64_t, GGML_MAX_DIMS> shape{};
++    std::vector<int32_t> integers;
++    std::vector<float> floats;
++};
++
++struct trace_state {
++    bool draft = false;
++    std::vector<trace_item> tensors;
++};
++
++std::vector<std::vector<llama_token>> trace_draft_tokens;
++std::vector<std::vector<llama_token>> trace_target_batches;
++std::vector<std::vector<llama_token>> trace_sampled_tokens;
++
++bool indexed_name(const std::string & name, const char * prefix) {
++    const size_t length = std::strlen(prefix);
++    if (name.compare(0, length, prefix) != 0 || name.size() == length) return false;
++    return std::all_of(name.begin() + static_cast<std::ptrdiff_t>(length), name.end(),
++        [](unsigned char value) { return std::isdigit(value) != 0; });
++}
++
++float read_float(const uint8_t * data, ggml_type type, size_t offset) {
++    if (type == GGML_TYPE_F32) return *reinterpret_cast<const float *>(data + offset);
++    if (type == GGML_TYPE_F16) return ggml_fp16_to_fp32(*reinterpret_cast<const ggml_fp16_t *>(data + offset));
++    if (type == GGML_TYPE_BF16) return ggml_bf16_to_fp32(*reinterpret_cast<const ggml_bf16_t *>(data + offset));
++    throw std::runtime_error("unsupported trace float type");
++}
++
++bool trace_callback(ggml_tensor * tensor, bool ask, void * user_data) {
++    auto * state = static_cast<trace_state *>(user_data);
++    const std::string name = tensor->name;
++    const bool wanted = state->draft
++        ? name == "result_norm"
++        : tensor->ne[1] <= 16 &&
++            (indexed_name(name, "ffn_moe_topk-") || indexed_name(name, "attn_post_norm-"));
++    if (!wanted) return false;
++    if (ask) return true;
++    trace_item item;
++    item.name = name;
++    item.type = ggml_type_name(tensor->type);
++    std::copy_n(tensor->ne, GGML_MAX_DIMS, item.shape.begin());
++    std::vector<uint8_t> raw(ggml_nbytes(tensor));
++    ggml_backend_tensor_get(tensor, raw.data(), 0, raw.size());
++    for (int64_t i3 = 0; i3 < tensor->ne[3]; ++i3) {
++        for (int64_t i2 = 0; i2 < tensor->ne[2]; ++i2) {
++            for (int64_t i1 = 0; i1 < tensor->ne[1]; ++i1) {
++                for (int64_t i0 = 0; i0 < tensor->ne[0]; ++i0) {
++                    const size_t offset = static_cast<size_t>(i3) * tensor->nb[3] +
++                                          static_cast<size_t>(i2) * tensor->nb[2] +
++                                          static_cast<size_t>(i1) * tensor->nb[1] +
++                                          static_cast<size_t>(i0) * tensor->nb[0];
++                    if (tensor->type == GGML_TYPE_I32) {
++                        item.integers.push_back(*reinterpret_cast<const int32_t *>(raw.data() + offset));
++                    } else {
++                        item.floats.push_back(read_float(raw.data(), tensor->type, offset));
++                    }
++                }
++            }
++        }
++    }
++    state->tensors.push_back(std::move(item));
++    return true;
++}
++
++void write_items(std::ofstream & out, const std::vector<trace_item> & items) {
++    out << "[\n";
++    for (size_t i = 0; i < items.size(); ++i) {
++        const auto & item = items[i];
++        out << "{\"ordinal\":" << i << ",\"name\":\"" << item.name
++            << "\",\"type\":\"" << item.type << "\",\"shape\":[";
++        for (size_t d = 0; d < item.shape.size(); ++d) {
++            if (d) out << ',';
++            out << item.shape[d];
++        }
++        out << "],\"values\":[";
++        if (!item.integers.empty()) {
++            for (size_t j = 0; j < item.integers.size(); ++j) {
++                if (j) out << ',';
++                out << item.integers[j];
++            }
++        } else {
++            for (size_t j = 0; j < item.floats.size(); ++j) {
++                if (j) out << ',';
++                out << item.floats[j];
++            }
++        }
++        out << "]}" << (i + 1 == items.size() ? "\n" : ",\n");
++    }
++    out << ']';
++}
++
++void write_token_rows(std::ofstream & out, const std::vector<std::vector<llama_token>> & rows) {
++    out << '[';
++    for (size_t i = 0; i < rows.size(); ++i) {
++        if (i) out << ',';
++        out << '[';
++        for (size_t j = 0; j < rows[i].size(); ++j) {
++            if (j) out << ',';
++            out << rows[i][j];
++        }
++        out << ']';
++    }
++    out << ']';
++}
++
++void write_trace(const trace_state & target, const trace_state & draft) {
++    const char * path = std::getenv("ORNITH_SPEC_TRACE_OUT");
++    if (path == nullptr || path[0] == '\0') return;
++    std::ofstream out(path);
++    if (!out) throw std::runtime_error("cannot open speculative trace output");
++    out.precision(9);
++    out << "{\"target\":";
++    write_items(out, target.tensors);
++    out << ",\"draft\":";
++    write_items(out, draft.tensors);
++    out << ",\"draft_tokens\":";
++    write_token_rows(out, trace_draft_tokens);
++    out << ",\"target_batches\":";
++    write_token_rows(out, trace_target_batches);
++    out << ",\"sampled_tokens\":";
++    write_token_rows(out, trace_sampled_tokens);
++    out << "}\n";
++}
++
++} // namespace
+ 
+ int main(int argc, char ** argv) {
+     std::setlocale(LC_NUMERIC, "C");
+ 
+     common_params params;
++    trace_state trace_target;
++    trace_state trace_draft;
++    trace_draft.draft = true;
+ 
+     common_init();
+ 
+@@ -30,6 +168,9 @@ int main(int argc, char ** argv) {
+         return 1;
+     }
+ 
++    params.cb_eval = trace_callback;
++    params.cb_eval_user_data = &trace_target;
++
+     const auto output_limits = common_speculative_get_output_limits(
+             params.n_batch, params.n_parallel, common_speculative_n_max(&params.speculative));
+     params.n_outputs_max = output_limits.total;
+@@ -56,6 +197,8 @@ int main(int argc, char ** argv) {
+ 
+     {
+         common_params params_dft = common_base_params_to_speculative(params);
++        params_dft.cb_eval = trace_callback;
++        params_dft.cb_eval_user_data = &trace_draft;
+ 
+         spec_init = common_speculative_init_from_params(params_dft, model_tgt, ctx_tgt);
+ 
+@@ -194,6 +337,7 @@ int main(int argc, char ** argv) {
+                 /* .result     = */ &draft, // output
+             };
+             common_speculative_draft(spec);
++            trace_draft_tokens.push_back(draft);
+ 
+             // save a checkpoint of the target context before evaluating the draft
+             // this allows us to restore the state if partial draft acceptance occurs
+@@ -221,13 +365,17 @@ int main(int argc, char ** argv) {
+         // always have a token to evaluate from before - id_last
+         common_batch_clear(batch_tgt);
+         common_batch_add  (batch_tgt, id_last, n_past++, { seq_id }, true);
++        std::vector<llama_token> trace_batch = { id_last };
+ 
+         // evaluate the target model on [id_last, draft0, draft1, ..., draftN-1]
+         {
+             for (size_t i = 0; i < draft.size(); ++i) {
+                 common_batch_add(batch_tgt, draft[i], n_past + i, { seq_id }, true);
++                trace_batch.push_back(draft[i]);
+             }
+ 
++            trace_target_batches.push_back(std::move(trace_batch));
++
+             //LOG_DBG("target batch: %s\n", string_from(ctx_tgt, batch_tgt).c_str());
+ 
+             llama_decode(ctx_tgt, batch_tgt);
+@@ -256,6 +404,7 @@ int main(int argc, char ** argv) {
+         // disagrees with the draft
+         //
+         auto ids = common_sampler_sample_and_accept_n(smpl.get(), ctx_tgt, draft);
++        trace_sampled_tokens.push_back(ids);
+ 
+         //LOG_DBG("ids: %s\n", string_from(ctx_tgt, ids).c_str());
+ 
+@@ -369,6 +518,8 @@ int main(int argc, char ** argv) {
+ 
+     common_speculative_free(spec);
+ 
++    write_trace(trace_target, trace_draft);
++
+     llama_backend_free();
+ 
+     LOG("\n\n");

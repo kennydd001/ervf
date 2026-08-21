@@ -397,6 +397,65 @@ long epochs; a paired compute/overlap/compute bracket is required before the
 smaller LRU tail is treated as stable. Both policies remain below the 65 tok/s
 boundary even under that conservative observation.
 
+### Phases74–79 — causal route prediction and real DFlash signal closed
+
+The Phase72/73 result is an oracle because it knows future target routes. Six
+causal replacements were tested against held-out real routes:
+
+| Phase | Signal | Best physical result | Verdict |
+|---|---|---:|---|
+| 74 | route history / recency | 16.92% miss recall; 46.59 tok/s estimate | closed |
+| 75 | current-block earlier-layer route IDs | 23.74% recall; 47.76 tok/s | closed |
+| 76 | exact earlier-layer target hidden through future router | 63.25% lead-2 recall; 56.79 tok/s | closed |
+| 77 | online ridge residual correction | 64.63% lead-2 recall; 57.10 tok/s | closed |
+| 78 | real DFlash `result_norm` through target routers | 34.95% same-position H4-union recall | closed |
+| 79 | held-out learned DFlash-to-target correction | 41.44% same-position H4-union recall | closed |
+
+The real target+DFlash callback alignment was validated over nine speculative
+events. DFlash emits fixed H8 hidden rows while target batches have lengths
+8/7/4; prefix alignment is exact. Target-router parity on authoritative target
+hidden is 20,480/20,480 assignments. The local target config advertises one MTP
+layer, but its safetensor index contains no MTP/next-token/layer-40 tensors, so
+this checkpoint cannot supply a real MTP path.
+
+### Phases80–81 — honest same-layer transport remains too slow
+
+Phase80 removes prediction entirely: after the authoritative router, it copies
+real gate/up segments, computes resident experts, then copies/consumes down
+segments. Outputs are bit-exact and repeat-exact, but the paired exposed tail is
+10.133 ms/H4. Floor-normalized throughput is only **56.96 tok/s**.
+
+Phase81 decomposes that tail over the complete 28x40 miss schedule. A thermally
+invalid first run is retained in history; the mirrored rerun is stable. Eager
+split dispatch adds effectively nothing (-0.080 ms/H4), while CUDA Graph split
+dispatch adds 0.383 ms/H4. The Phase80 tail is therefore transport/readiness,
+not Python or kernel-launch overhead. CUDA Graph work on this arm is closed.
+
+A production-side `RollingPrefetchController` now implements persistent LRU52
+metadata, temporary staging rings, exact commit, rejection/partial-acceptance
+barriers, abort/reset semantics and route-order execution plans. It preserves
+the oracle mechanism without pretending a causal predictor exists.
+
+### Phase83 — 66.57 tok/s reproduces, but not at long context
+
+Phase69 was repeated after the causal audit and remains green at **60.0842
+ms/H4 = 66.5733 tok/s**. This is still an all-hot component stack, not complete
+DFlash generation. Phase83 substitutes measured full-attention cost at real KV
+lengths into that same stack:
+
+| Context | Selected full-attention arm | Component floor | FP32 KV, 10 full layers |
+|---:|---|---:|---:|
+| 1,024 | g1 | 66.53 tok/s | 0.039 GiB |
+| 4,096 | g1 | 57.17 tok/s | 0.156 GiB |
+| 16,384 | g1 | 23.13 tok/s | 0.625 GiB |
+| 50,000 | g1 | 11.32 tok/s | 1.908 GiB |
+| 100,000 | g1 | 5.66 tok/s | 3.815 GiB |
+
+Every context remains reference-correct, deterministic and finite. The failure
+is physical: full attention scales with context and the current FP32 KV format
+exceeds the frozen 0.5-GiB runtime reserve from 16k onward. The 66.57 number
+must not be presented as a 50k/100k or end-to-end result.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |
@@ -422,16 +481,16 @@ boundary even under that conservative observation.
 
 ## Remaining critical path
 
-1. Replay the real Phase70 miss schedule through copy-engine double buffering
-   and layer-ahead DFlash prefetch. Measure the exposed tail after overlap, not
-   the sum of isolated copy times. Belady supplies the optimistic lower bound;
-   LRU is the implementable baseline.
-2. If exposed transport exceeds 1.443 ms/H4, test a larger effective resident
-   set through compressed cold-expert tiers or a reduced non-expert GPU
-   footprint; do not reinterpret the all-hot component floor as end-to-end.
-3. Add explicit per-request target/drafter state reset and fixed verification
-   geometry to the custom runtime; gate every speculative completion against
-   target-only greedy output during bring-up.
+1. Establish the real llama.cpp target+DFlash end-to-end acceptance and output
+   tok/s baseline independently; do not compare its token rate directly with
+   the H4 component floor.
+2. For 50k/100k, replace the current FP32 full-attention KV path with a measured
+   quantized KV + long-context attention kernel before further expert work. At
+   present both memory and attention time fail by large margins.
+3. The short-context exact expert barrier remains causal transport. Reopen it
+   only with a new measured premise that reduces bytes or creates an
+   authoritative overlap window; route-history, cross-layer, target-hidden and
+   DFlash-hidden predictors are now closed on the captured traces.
 
 The Official 1.5 repository currently provides safetensors rather than an
 Official 1.5 GGUF. Phase50 therefore establishes real-weight Official kernel

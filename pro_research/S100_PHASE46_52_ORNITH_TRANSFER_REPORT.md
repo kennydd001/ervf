@@ -307,6 +307,37 @@ The resulting conservative ctx1024 known floor is 60.095 ms/H4, equivalent to
 0.582 ms ten-layer attention cost gives approximately 57.175 ms/H4, or 69.96
 tok/s. These remain component floors, not an end-to-end throughput claim.
 
+### Phase70 — real routes and final activations
+
+An unmodified llama.cpp eval callback now captures every real
+`ffn_moe_topk-*`, normalized route weight and `result_norm` tensor. The custom
+runner marks all four H4 tokens as outputs, avoiding the normal last-row-only
+LM-head graph. Two fresh CPU callback runs are exactly equal; CPU is used only
+for observability, not for latency claims.
+
+- All 40 route tensors have shape 8x4, all 40 weight tensors normalize within
+  6.0e-8 of one, and all values are finite.
+- Routes, route weights and the complete 2048x4 final activation are exactly
+  reproducible across fresh contexts.
+- With the real final activations, the native top-64 contains all exact top-32
+  logits for every token: 128/128 recall. Exact ERVF rerank restores the full
+  top-32 order 128/128 and all shortlisted scores are bit-exact.
+- The prior 1.575 ms/H4 head path is therefore no longer synthetic-only.
+
+A fixed 128-token trace identifies expert residency as the remaining barrier:
+
+| 52 slots/layer | Assignment hit rate | Warm unique misses/layer/H4 | Warm unique misses/all layers/H4 |
+|---|---:|---:|---:|
+| LRU | 72.37% | 8.05 | 321.82 |
+| Belady oracle | 82.66% | 4.30 | 172.18 |
+
+Belady is an unattainable future-aware upper bound, yet it still leaves only
+1.82 zero-miss layers per H4 on average. Thus Phase69's 66.56 tok/s result is a
+valid all-hot component floor, but plain 52-slot replacement cannot turn it
+into a 65 tok/s end-to-end result. The next experiment must hide or eliminate
+real miss transport; another hot-kernel micro-optimization cannot close this
+gap.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |
@@ -324,19 +355,21 @@ tok/s. These remain component floors, not an end-to-end throughput claim.
 | Qwen3.5 linear-attention H4 | Transfers | Full conv/gate/delta/norm core is independently green at 1.965 ms over 30 layers |
 | Qwen3.5 full-attention H4 | Transfers with G1 dispatch | Q/K norm, RoPE, causal cache, attention and output gate are green at ctx128/1024 |
 | Routers/norms/residual reductions | Transfers with fusion | Full 40-layer support costs at most 1.925 ms/H4 and route IDs are exact |
+| Real final-activation head path | Transfers | Native top-64 retains exact top-32 128/128; rerank order and scores are exact |
+| 52-slot LRU residency | Insufficient alone | Real warm trace leaves 321.82 unique layer/expert misses per H4 |
 | Nemotron ReLU2 sparse down | Does not transfer | SwiGLU output is dense; no exact-zero column mask |
 | Nemotron Mamba/SSM kernels | Replaced | Qwen3.5 recurrence now has a dedicated fused H4 implementation |
 | Nemotron hardcoded DFlash adapter | Does not transfer | Different target layers, hidden injection and draft semantics |
 
 ## Remaining critical path
 
-1. Capture real target router IDs for H4 speculative blocks and replay them
-   through the implemented multiplicity planner, 52-expert/layer cache and
-   miss-count-adaptive transport. The conservative ctx1024 all-hot margin is
-   now only 1.443 ms, so the real miss trace is decisive.
-2. Validate native top-64 recall on real final-normalized Ornith activations;
-   increase shortlist size or fall back to full ERVF whenever the exact winner
-   is not provably retained.
+1. Replay the real Phase70 miss schedule through copy-engine double buffering
+   and layer-ahead DFlash prefetch. Measure the exposed tail after overlap, not
+   the sum of isolated copy times. Belady supplies the optimistic lower bound;
+   LRU is the implementable baseline.
+2. If exposed transport exceeds 1.443 ms/H4, test a larger effective resident
+   set through compressed cold-expert tiers or a reduced non-expert GPU
+   footprint; do not reinterpret the all-hot component floor as end-to-end.
 3. Add explicit per-request target/drafter state reset and fixed verification
    geometry to the custom runtime; gate every speculative completion against
    target-only greedy output during bring-up.

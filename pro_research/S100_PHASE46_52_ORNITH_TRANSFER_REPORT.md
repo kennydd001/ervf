@@ -582,6 +582,26 @@ promotion bytes. This is the first complete Phase84 run that may be labeled a
 fully authoritative target/reference-sequence H4. It remains verifier latency,
 not output tok/s.
 
+### Phase84-T1 — pack/H2D pipeline is negative
+
+The strict ctx64 workload compared the existing main-thread pack/compute-stream
+path against one bounded CPU packing worker plus a dedicated non-blocking copy
+stream. Both arms ran two fresh unprofiled trajectories and selected repeat two
+as the warm host-page sample, followed by a separate validation trajectory.
+
+| Arm | First/cold | Second/warm | Outcome |
+|---|---:|---:|---|
+| Baseline | 330.758 ms | **187.310 ms** | selected |
+| Thread + copy stream | 383.131 ms | **218.508 ms** | reject |
+
+The pipeline regresses the warm primary wall by **31.198 ms = 16.66%**. Both
+arms reproduce identical final bits, persistent-state hash, all 40 route sets,
+ERVF IDs, 263 final-H4 misses, 465,374,292 H2D bytes and zero observed D2D
+promotion bytes. Therefore the extra worker, cross-stream event and scheduling
+do not expose useful overlap; the existing asynchronous loop already overlaps
+enough packing/submission, and the added control cost dominates. This arm is
+closed. It makes no output tok/s claim.
+
 ### Phase84 — synthetic long-context target-only verifier
 
 The complete target-only executor now runs a continuous deterministic token
@@ -694,9 +714,9 @@ result is green within its synthetic-long-context claim boundary.
 
 1. Preserve the ctx1024 integrated executor as the only performance baseline;
    do not convert it to output tok/s or substitute a component sum.
-2. Establish a fully authoritative ctx64 baseline, then split host packing from
-   H2D and test a bounded double-buffered transport pipeline without changing
-   routes, misses, cache policy or bytes.
+2. Split host packing, copy submission and copy-engine tail diagnostics inside
+   the accepted baseline. The bounded worker/copy-stream overlap arm is closed
+   negative and must not be extended without a new mechanism.
 3. Separately reduce mmap-to-pinned packing/H2D cost and integrated routed-MoE
    dispatch cost, accepting a change only on complete-H4 wall time with all
    parity gates preserved.

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import gzip
 import hashlib
 import json
@@ -47,6 +48,10 @@ from s100_phase84_ornith_target_verifier_h4 import (
 SRC = REPO / "src"
 RESULTS = REPO / "pro_research" / "results" / "s100_phase84_target_verifier"
 PREREG = REPO / "pro_research" / "S100_PHASE84_ORNITH_PERSISTENT_CTX_PREREGISTRATION.md"
+T1_PREREG = (
+    REPO / "pro_research" /
+    "S100_PHASE84_T1_ORNITH_PACK_H2D_PIPELINE_PREREGISTRATION.md"
+)
 SCRIPT = REPO / "pro_research" / "s100_phase84_ornith_persistent_ctx.py"
 TRACE_DEFAULT = (
     REPO / "pro_research" / "results" / "s100_phase76" /
@@ -172,6 +177,7 @@ class PersistentTargetRuntime:
         weight_map: dict[str, str],
         max_context: int,
         expert_store,
+        transport_mode: str = "baseline",
     ) -> None:
         from moe_lab.lightningstream_nemotron.fused_nvfp4 import FusedNVFP4
         from moe_lab.ornith.expert_store import ExpertStaging
@@ -183,6 +189,19 @@ class PersistentTargetRuntime:
         self.weight_map = weight_map
         self.max_context = int(max_context)
         self.expert_store = expert_store
+        self.transport_mode = transport_mode
+        if transport_mode not in {"baseline", "threaded_copy_stream"}:
+            raise ValueError(f"unknown transport mode: {transport_mode}")
+        self.pack_executor = (
+            concurrent.futures.ThreadPoolExecutor(
+                max_workers=1, thread_name_prefix="ornith-pack"
+            )
+            if transport_mode == "threaded_copy_stream" else None
+        )
+        self.copy_stream = (
+            cp.cuda.Stream(non_blocking=True)
+            if transport_mode == "threaded_copy_stream" else None
+        )
         self._pinned_handles = []
         self.staging_ring = []
         for _slot in range(32):
@@ -417,12 +436,14 @@ class PersistentTargetRuntime:
             projection.scale,
         )
 
-    def _copy_miss(
-        self, layer: int, expert: int, handle: int, staging_index: int
-    ) -> None:
+    def _pack_miss(self, layer: int, expert: int, staging_index: int) -> None:
         staging = self.staging_ring[staging_index]
         self.expert_store.copy_expert(layer, expert, staging)
-        stream = self.cp.cuda.get_current_stream()
+
+    def _submit_miss_h2d(
+        self, layer: int, handle: int, staging_index: int, stream
+    ) -> None:
+        staging = self.staging_ring[staging_index]
         for name, _shape, _dtype in SEGMENTS:
             source = getattr(staging, name)
             destination = self.expert_bank[name][layer, handle]
@@ -441,16 +462,46 @@ class PersistentTargetRuntime:
             )
             self.h2d_bytes += 4
 
+    def _copy_miss(
+        self, layer: int, expert: int, handle: int, staging_index: int
+    ) -> None:
+        self._pack_miss(layer, expert, staging_index)
+        self._submit_miss_h2d(
+            layer, handle, staging_index, self.cp.cuda.get_current_stream()
+        )
+
     def _ensure_routes(self, layer: int, ids_host: np.ndarray) -> dict[int, int]:
         rows = tuple(tuple(int(value) for value in row) for row in ids_host)
         cache_plan = self.cache[layer].plan_h4(rows, valid_rows=4)
         buffer_plan = self.pool[layer].plan(cache_plan)
         if len(buffer_plan.h2d_writes) > len(self.staging_ring):
             raise AssertionError("one H4 cannot exceed the 32-page staging ring")
-        for index, write in enumerate(buffer_plan.h2d_writes):
-            self._copy_miss(
-                layer, int(write.page), int(write.handle), index
+        writes = list(buffer_plan.h2d_writes)
+        if self.transport_mode == "threaded_copy_stream" and writes:
+            pack_future = self.pack_executor.submit(
+                self._pack_miss, layer, int(writes[0].page), 0
             )
+            for index, write in enumerate(writes):
+                pack_future.result()
+                if index + 1 < len(writes):
+                    following = writes[index + 1]
+                    pack_future = self.pack_executor.submit(
+                        self._pack_miss,
+                        layer,
+                        int(following.page),
+                        index + 1,
+                    )
+                self._submit_miss_h2d(
+                    layer, int(write.handle), index, self.copy_stream
+                )
+            ready = self.cp.cuda.Event(disable_timing=True)
+            ready.record(self.copy_stream)
+            self.cp.cuda.get_current_stream().wait_event(ready)
+        else:
+            for index, write in enumerate(writes):
+                self._copy_miss(
+                    layer, int(write.page), int(write.handle), index
+                )
         self.pool[layer].commit(buffer_plan)
         self.cache[layer].commit(cache_plan)
         self.pool[layer].assert_invariants()
@@ -710,6 +761,10 @@ class PersistentTargetRuntime:
         return {"free_bytes": int(free), "total_bytes": int(total),
                 "used_bytes": int(total - free)}
 
+    def close(self) -> None:
+        if self.pack_executor is not None:
+            self.pack_executor.shutdown(wait=True, cancel_futures=True)
+
     def states_finite(self) -> bool:
         cp = self.cp
         for conv, recurrent in self.linear_state.values():
@@ -774,8 +829,19 @@ def main() -> int:
     parser.add_argument("--snapshot", type=Path, required=True)
     parser.add_argument("--trace", type=Path, default=TRACE_DEFAULT)
     parser.add_argument("--context", type=int, default=1024)
+    parser.add_argument(
+        "--transport-mode", choices=("baseline", "threaded_copy_stream"),
+        default="baseline",
+    )
+    parser.add_argument("--performance-repeats", type=int, choices=(1, 2), default=1)
     args = parser.parse_args()
-    out = RESULTS / f"S100_PHASE84_ORNITH_PERSISTENT_CTX{args.context}.json"
+    suffix = (
+        "" if args.transport_mode == "baseline" and args.performance_repeats == 1
+        else f"_{args.transport_mode.upper()}_R{args.performance_repeats}"
+    )
+    out = RESULTS / (
+        f"S100_PHASE84_ORNITH_PERSISTENT_CTX{args.context}{suffix}.json"
+    )
     payload: dict[str, Any] = {
         "kind": "s100_phase84_ornith_persistent_context",
         "status": "started", "started_utc": utc_now(),
@@ -786,7 +852,9 @@ def main() -> int:
             "reported explicitly; not output tok/s"
         ),
     }
-    cp = store = None
+    if args.performance_repeats == 2:
+        payload["transport_ab_preregistration"] = str(T1_PREREG.relative_to(REPO))
+    cp = store = runtime = None
     try:
         import cupy as cp_module
 
@@ -814,7 +882,8 @@ def main() -> int:
         sequence["authoritative_prefix_exact"] = prefix_exact
         store = OrnithExpertStore(snapshot)
         runtime = PersistentTargetRuntime(
-            cp, snapshot, _weight_map(snapshot), args.context, store
+            cp, snapshot, _weight_map(snapshot), args.context, store,
+            transport_mode=args.transport_mode,
         )
         memory = runtime.memory_audit()
         final_tokens = tokens[args.context - 4:args.context]
@@ -846,36 +915,47 @@ def main() -> int:
             final_row["total_d2d_promotion_bytes"] = runtime.d2d_promotion_bytes
             return final_row
 
-        # The first run is the sole performance epoch.  Independent CPU router
-        # parity is deliberately performed only in the fresh validation repeat,
-        # so its 40 hidden D2H copies and matrix products cannot inflate the
-        # reported integrated target H4 wall time.
-        first = run_fresh(1, validate_routes=False, profile=False)
-        second = run_fresh(2, validate_routes=True, profile=True)
-        wall_ms = float(first["wall_ms"])
-        finite = bool(
-            np.isfinite(first["final"]).all()
-            and np.isfinite(second["final"]).all()
-            and first["states_finite"] and second["states_finite"]
+        # Performance repeats never execute CPU route parity.  The last repeat
+        # is the selected warm sample for an A/B transport experiment.
+        # Independent parity runs only in the final fresh validation repeat, so
+        # its 40 hidden D2H copies and matrix products cannot inflate timing.
+        performance_rows = [
+            run_fresh(repeat, validate_routes=False, profile=False)
+            for repeat in range(1, args.performance_repeats + 1)
+        ]
+        first = performance_rows[-1]
+        second = run_fresh(
+            args.performance_repeats + 1,
+            validate_routes=True,
+            profile=True,
         )
-        repeat_exact = bool(
-            np.array_equal(first["final"].view(np.uint32), second["final"].view(np.uint32))
-            and np.array_equal(first["ervf_ids"], second["ervf_ids"])
-            and first["state_digest"] == second["state_digest"]
+        wall_ms = float(first["wall_ms"])
+        all_rows = performance_rows + [second]
+        reference = all_rows[0]
+        finite = bool(all(
+            np.isfinite(row["final"]).all() and row["states_finite"]
+            for row in all_rows
+        ))
+        repeat_exact = bool(all(
+            np.array_equal(
+                reference["final"].view(np.uint32), row["final"].view(np.uint32)
+            )
+            and np.array_equal(reference["ervf_ids"], row["ervf_ids"])
+            and reference["state_digest"] == row["state_digest"]
             and all(
                 np.array_equal(left, right)
-                for left, right in zip(first["routes"], second["routes"])
+                for left, right in zip(reference["routes"], row["routes"])
             )
-        )
-        ervf_control_exact = bool(
-            np.array_equal(first["ervf_ids"], first["control_ids"])
-            and np.array_equal(second["ervf_ids"], second["control_ids"])
-        )
+            for row in all_rows[1:]
+        ))
+        ervf_control_exact = bool(all(
+            np.array_equal(row["ervf_ids"], row["control_ids"])
+            for row in all_rows
+        ))
         gates = {
             "P84_CTX_G1_sequence_contract_exact": prefix_exact,
             "P84_CTX_G2_observed_zero_d2d_physical_cache": (
-                first["total_d2d_promotion_bytes"] == 0
-                and second["total_d2d_promotion_bytes"] == 0
+                all(row["total_d2d_promotion_bytes"] == 0 for row in all_rows)
             ),
             "P84_CTX_G3_finite_and_fresh_repeat_exact": finite and repeat_exact,
             "P84_CTX_G4_all40_same_input_routes_exact": all(second["route_parity"]),
@@ -885,9 +965,15 @@ def main() -> int:
             "status": "measured_pass" if all(gates.values()) else "measured_fail",
             "completed_utc": utc_now(),
             "inputs": {"snapshot": str(snapshot), "trace": str(trace_path),
-                       "final_tokens": final_tokens, "sequence": sequence},
+                       "final_tokens": final_tokens, "sequence": sequence,
+                       "transport_mode": args.transport_mode,
+                       "performance_repeats": args.performance_repeats},
             "memory": memory,
             "timing": {"wall_clock_ms_h4": wall_ms,
+                       "performance_samples_ms": [
+                           float(row["wall_ms"]) for row in performance_rows
+                       ],
+                       "selected_performance_sample": args.performance_repeats,
                        "validation_repeat_wall_ms_not_a_performance_sample": float(second["wall_ms"]),
                        "measurement_excludes_independent_cpu_parity": True,
                        "synchronized_validation_profile_ms": second["profile_ms"],
@@ -924,6 +1010,11 @@ def main() -> int:
                       "traceback": traceback.format_exc()},
         })
     finally:
+        if runtime is not None:
+            try:
+                runtime.close()
+            except Exception:
+                pass
         if store is not None:
             try:
                 store.close()
@@ -934,7 +1025,10 @@ def main() -> int:
                 cp.cuda.get_current_stream().synchronize()
             except Exception:
                 pass
-        payload["environment"] = environment_snapshot((SCRIPT, PREREG, args.trace))
+        evidence_files = [SCRIPT, PREREG, args.trace]
+        if args.performance_repeats == 2:
+            evidence_files.append(T1_PREREG)
+        payload["environment"] = environment_snapshot(tuple(evidence_files))
         write_json_atomic(out, payload, archive=True)
     print(json.dumps({"status": payload.get("status"),
                       "timing": payload.get("timing"),

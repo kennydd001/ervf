@@ -1,0 +1,178 @@
+{
+  "kind": "s100_phase84_ornith_persistent_context",
+  "status": "measured_pass",
+  "started_utc": "2026-08-21T22:18:21.506096+00:00",
+  "preregistration": "pro_research\\S100_PHASE84_ORNITH_PERSISTENT_CTX_PREREGISTRATION.md",
+  "context": 64,
+  "claim_boundary": "integrated target-only verifier H4 wall time; sequence authority reported explicitly; not output tok/s",
+  "transport_ab_preregistration": "pro_research\\S100_PHASE84_T1_ORNITH_PACK_H2D_PIPELINE_PREREGISTRATION.md",
+  "gpu_idle_preflight": {
+    "compute_app_lines": [],
+    "ignored_wddm_gui_contexts": [],
+    "gpu_memory_used_mib": 0,
+    "gpu_utilization_percent": 0,
+    "policy": "ignore only ChatGPT.exe with [N/A] WDDM memory; block every other compute-app; require total memory <=1024 MiB and utilization <=10%"
+  },
+  "completed_utc": "2026-08-21T22:19:14.854181+00:00",
+  "inputs": {
+    "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+    "trace": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\results\\s100_phase76\\ornith_64_hidden_trace.json.gz",
+    "final_tokens": [
+      799,
+      1228,
+      1332,
+      11312
+    ],
+    "sequence": {
+      "kind": "authoritative_target_reference_trace",
+      "authoritative_tokens": 64,
+      "synthetic_tokens": 0,
+      "fully_authoritative": true,
+      "authoritative_prefix_exact": true
+    },
+    "transport_mode": "threaded_copy_stream",
+    "performance_repeats": 2
+  },
+  "memory": {
+    "free_bytes": 1555038208,
+    "total_bytes": 8546484224,
+    "used_bytes": 6991446016
+  },
+  "timing": {
+    "wall_clock_ms_h4": 218.5083999647759,
+    "performance_samples_ms": [
+      383.13109998125583,
+      218.5083999647759
+    ],
+    "selected_performance_sample": 2,
+    "validation_repeat_wall_ms_not_a_performance_sample": 363.64430002868176,
+    "measurement_excludes_independent_cpu_parity": true,
+    "synchronized_validation_profile_ms": {
+      "embedding_first_norm": 0.07090001599863172,
+      "attention_dense": 35.76310002245009,
+      "router_top8_d2h": 5.069699953310192,
+      "cache_pack_h2d": 127.75549996877089,
+      "routed_moe": 70.3133000060916,
+      "shared_moe": 9.057899878825992,
+      "combine_next_norm": 1.0081000509671867,
+      "ervf_head": 2.5996999465860426
+    },
+    "profile_is_diagnostic_not_a_performance_sample": true
+  },
+  "transport": {
+    "final_h4_misses": [
+      263,
+      263
+    ],
+    "final_h4_h2d_bytes": [
+      465374292,
+      465374292
+    ],
+    "final_h4_layer_misses": [
+      26,
+      17,
+      16,
+      7,
+      4,
+      6,
+      4,
+      3,
+      5,
+      3,
+      3,
+      7,
+      3,
+      6,
+      1,
+      6,
+      3,
+      5,
+      5,
+      5,
+      4,
+      3,
+      3,
+      13,
+      5,
+      5,
+      3,
+      4,
+      5,
+      6,
+      12,
+      6,
+      7,
+      11,
+      9,
+      6,
+      7,
+      7,
+      5,
+      7
+    ],
+    "total_prefill_plus_final_misses": [
+      5889,
+      5889
+    ],
+    "total_h2d_bytes": [
+      10420491276,
+      10420491276
+    ],
+    "final_h4_d2d_promotion_bytes": [
+      0,
+      0
+    ],
+    "total_d2d_promotion_bytes": [
+      0,
+      0
+    ]
+  },
+  "quality": {
+    "final_and_states_finite": true,
+    "fresh_repeat_exact": true,
+    "persistent_state_digest_exact": true,
+    "persistent_state_digest": "0ceae694d348c525d902cfabf0c8d6fd22f033e11605d34fbb96d7b02a3479ab",
+    "same_input_route_layers_exact": 40,
+    "ervf_ids": [
+      466,
+      421,
+      279,
+      513
+    ],
+    "control_ids": [
+      466,
+      421,
+      279,
+      513
+    ],
+    "ervf_control_exact": true
+  },
+  "gates": {
+    "P84_CTX_G1_sequence_contract_exact": true,
+    "P84_CTX_G2_observed_zero_d2d_physical_cache": true,
+    "P84_CTX_G3_finite_and_fresh_repeat_exact": true,
+    "P84_CTX_G4_all40_same_input_routes_exact": true,
+    "P84_CTX_G5_ervf_exact_control_top1": true
+  },
+  "environment": {
+    "created_utc": "2026-08-21T22:19:15.806464+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-fp4-c2b\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "0773dccdd24e62bc1b634892224cc59228b6bb03",
+    "git_status": [
+      "M pro_research/s100_phase84_ornith_persistent_ctx.py",
+      "?? pro_research/S100_PHASE84_T1_ORNITH_PACK_H2D_PIPELINE_PREREGISTRATION.md",
+      "?? pro_research/results/s100_phase84_target_verifier/S100_PHASE84_ORNITH_PERSISTENT_CTX64_BASELINE_R2.json",
+      "?? pro_research/results/s100_phase84_target_verifier/S100_PHASE84_ORNITH_PERSISTENT_CTX8_THREADED_COPY_STREAM_R2.json"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 5792 MiB, 69, 10.37 W, 172 MHz, 9001 MHz, P4",
+    "source_hashes": {
+      "pro_research\\s100_phase84_ornith_persistent_ctx.py": "b83fbf192763402ec0fe32998270379ba44e79c631b2ea15b3947c309603118d",
+      "pro_research\\S100_PHASE84_ORNITH_PERSISTENT_CTX_PREREGISTRATION.md": "98291ba5447caf71ed8f93b63a5bb4c70a1d90a5c2b0cd3111b8a5f67fc457d0",
+      "pro_research\\results\\s100_phase76\\ornith_64_hidden_trace.json.gz": "bd99092ea8690a9d58bb69a01cc638a0aeb3fd3dca5d9454fed4b0556beecbd7",
+      "pro_research\\S100_PHASE84_T1_ORNITH_PACK_H2D_PIPELINE_PREREGISTRATION.md": "2f9f873f69ded90a3ad5b0720d2ac49dc9cc059eebcbbd7aef525161b55d72c2"
+    }
+  }
+}

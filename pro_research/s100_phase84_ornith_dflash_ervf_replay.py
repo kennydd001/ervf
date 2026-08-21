@@ -290,6 +290,7 @@ def _bench_layer(
     layer: int,
     warmup: int,
     reps: int,
+    profile_breakdown: bool = False,
 ) -> dict[str, Any]:
     from moe_lab.lightningstream_nemotron.fused_nvfp4 import FusedNVFP4
 
@@ -401,10 +402,14 @@ def _bench_layer(
             cols,
         )
 
-    def execute_task(task_index: int):
+    def execute_task(task_index: int, markers: dict[str, Any] | None = None):
         task = tasks[task_index]
         hidden = hidden_device[task_index]
+        if markers is not None:
+            markers["begin"].record()
         stage_task(task)
+        if markers is not None:
+            markers["post_stage"].record()
         support_kernels.router_shared(
             support["router"], support["shared_gate"], hidden,
             router_logits, shared_logits,
@@ -412,6 +417,8 @@ def _bench_layer(
         support_kernels.top8_cache(
             router_logits, slot_of, route_ids, route_weights, route_slots, route_need
         )
+        if markers is not None:
+            markers["post_router"].record()
         for row in bucket_device[task_index]:
             bucket = row["bucket"]
             for name, target in (("gate", row["gate"]), ("up", row["up"])):
@@ -447,6 +454,8 @@ def _bench_layer(
             expert_outputs.reshape(4, 8, 2048) * route_weights[:, :, None], axis=1
         )
         branch = routed + shared_out[0] / (1.0 + cp.exp(-shared_logits[:, None]))
+        if markers is not None:
+            markers["post_compute"].record()
 
         staged = {expert: CACHE_SLOTS + index for index, expert in enumerate(task.misses)}
         before_slots = task.before.slot_to_expert
@@ -458,6 +467,8 @@ def _bench_layer(
                 _copy_device_row(cp, bank[name], slot, source_slot)
             for projection in ("gate", "up", "down"):
                 _copy_device_row(cp, bank[f"{projection}_global"], slot, source_slot)
+        if markers is not None:
+            markers["post_commit"].record()
         return branch
 
     # Route parity is checked before timing and against the custom BF16 router.
@@ -515,6 +526,58 @@ def _bench_layer(
         end.synchronize()
         samples.append(float(cp.cuda.get_elapsed_time(begin, end)))
 
+    breakdown = None
+    if profile_breakdown:
+        initialize_warm_cache()
+        cp.cuda.get_current_stream().synchronize()
+        task_markers = []
+        for index in range(len(tasks)):
+            markers = {
+                name: cp.cuda.Event()
+                for name in (
+                    "begin", "post_stage", "post_router", "post_compute", "post_commit"
+                )
+            }
+            execute_task(index, markers)
+            task_markers.append(markers)
+        cp.cuda.get_current_stream().synchronize()
+        task_rows = []
+        for task, markers in zip(tasks, task_markers):
+            stage_ms = float(cp.cuda.get_elapsed_time(
+                markers["begin"], markers["post_stage"]
+            ))
+            router_ms = float(cp.cuda.get_elapsed_time(
+                markers["post_stage"], markers["post_router"]
+            ))
+            compute_ms = float(cp.cuda.get_elapsed_time(
+                markers["post_router"], markers["post_compute"]
+            ))
+            commit_ms = float(cp.cuda.get_elapsed_time(
+                markers["post_compute"], markers["post_commit"]
+            ))
+            task_rows.append({
+                "valid_rows": task.valid_rows,
+                "misses": len(task.misses),
+                "stage_h2d_ms": stage_ms,
+                "router_ms": router_ms,
+                "expert_and_combine_ms": compute_ms,
+                "cache_commit_d2d_ms": commit_ms,
+                "total_ms": stage_ms + router_ms + compute_ms + commit_ms,
+            })
+        breakdown = {
+            "instrumented_single_epoch": True,
+            "stage_h2d_ms": sum(row["stage_h2d_ms"] for row in task_rows),
+            "router_ms": sum(row["router_ms"] for row in task_rows),
+            "expert_and_combine_ms": sum(
+                row["expert_and_combine_ms"] for row in task_rows
+            ),
+            "cache_commit_d2d_ms": sum(
+                row["cache_commit_d2d_ms"] for row in task_rows
+            ),
+            "total_ms": sum(row["total_ms"] for row in task_rows),
+            "tasks": task_rows,
+        }
+
     miss_counts = [len(task.misses) for task in tasks]
     transition_exact = all(
         task.plan.combined_plan.hot_assignments == 32
@@ -536,6 +599,7 @@ def _bench_layer(
             "transport_bytes": int(sum(miss_counts) * EXPERT_BYTES),
         },
         "timing_epoch_ms": timing,
+        "timing_breakdown": breakdown,
         "route_rows_exact": int(sum(route_exact)),
         "route_rows_total": len(route_exact),
         "route_exact": all(route_exact),

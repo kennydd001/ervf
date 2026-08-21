@@ -481,6 +481,35 @@ that this candidate-induced route workload is more expensive than the earlier
 incomplete optimistic floor from DFlash-specific cache damage. That distinction
 requires the identical executor on authoritative target-only H4 blocks.
 
+### Phase84 — target-only discrepancy localized
+
+The identical executor was then driven only by the committed authoritative
+64-token target/reference trace. Rows 0..31 warmed LRU52 and rows 32..63 formed
+eight measured H4 blocks. No DFlash hidden state, route, prefetch choice or
+cache signal enters this execution.
+
+- All 40 custom routers exactly match every authoritative target route.
+- Independent uninstrumented three-repeat runs measured **74.102**, **74.787**
+  and **76.156 ms/H4**.
+- The target sequence has **7.263 misses/layer/H4**, versus Phase84D's 5.576.
+  Layer 0 alone has **18.0 misses/H4**, versus Phase84D's 15.588.
+- Instrumented wall time decomposes into 22.924 ms H2D staging, 3.011 ms
+  router/top-8, 28.854 ms expert/shared/combine and 20.587 ms D2D cache
+  promotion per H4. The instrumented sum is 75.376 ms/H4.
+
+This rejects the captured-workload version of the DFlash-cache-damage
+hypothesis: the ordinary target/reference sequence is both miss-heavier and
+slower. The Phase69 60.084 ms/H4 result is an optimistic all-hot component
+floor. Its conservative 29.118-ms hot MoE allowance excludes the measured
+43.511 ms/H4 of H2D staging plus D2D promotion and also understates exact-route
+compute/control. A diagnostic substitution yields roughly 105.8 ms/H4, but
+that is only a component comparison, not a complete verifier.
+
+The largest removable implementation cost is the second expert-weight copy:
+promote a staged physical expert page into LRU52 by swapping its page-table
+mapping with the evicted page. Copying the same 1,769,472 bytes D2D after each
+H2D miss costs 20.587 ms/H4 here and is not required by model semantics.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |
@@ -506,11 +535,11 @@ requires the identical executor on authoritative target-only H4 blocks.
 
 ## Remaining critical path
 
-1. Run the identical MoE/router/cache/transport executor on authoritative
-   target-only H4 blocks. Compare misses, copied bytes and per-layer timing to
-   Phase84D before changing kernels or cache policy.
-2. Only after that discrepancy is localized, integrate the complete target-only
-   H4 verifier from embedding through final ERVF head/logits at ctx1024.
+1. Integrate the complete target-only H4 verifier from embedding through final
+   ERVF head/logits at ctx1024. Its expert cache should use physical-page swaps
+   on promotion so a real miss incurs one H2D copy rather than H2D plus D2D.
+2. Preserve authoritative route/state/logit parity and measure one continuous
+   wall-clock epoch; do not substitute the 105.8-ms diagnostic component sum.
 3. For 50k/100k, replace the current FP32 full-attention KV path with a measured
    quantized KV + long-context attention kernel before further expert work. At
    present both memory and attention time fail by large margins.

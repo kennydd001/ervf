@@ -1,0 +1,5006 @@
+{
+  "kind": "s100_phase84_authoritative_target_h4_moe_transport",
+  "status": "measured_pass",
+  "started_utc": "2026-08-21T20:36:49.387482+00:00",
+  "preregistration": "pro_research\\S100_PHASE84_ORNITH_TARGET_H4_MOE_TRANSPORT_PREREGISTRATION.md",
+  "claim_boundary": "authoritative target/reference H4 MoE/router/cache/transport only; not a complete verifier and not output tok/s",
+  "gpu_idle_preflight": {
+    "compute_app_lines": [],
+    "ignored_wddm_gui_contexts": [],
+    "gpu_memory_used_mib": 0,
+    "gpu_utilization_percent": 0,
+    "policy": "ignore only ChatGPT.exe with [N/A] WDDM memory; block every other compute-app; require total memory <=1024 MiB and utilization <=10%"
+  },
+  "completed_utc": "2026-08-21T20:37:08.081472+00:00",
+  "inputs": {
+    "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+    "target_trace": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\results\\s100_phase76\\ornith_64_hidden_trace.json.gz",
+    "target_trace_schema": "ervf.ornith.llama_trace.v1",
+    "warm_rows": 32,
+    "measured_rows": 32,
+    "h4_blocks": 8,
+    "layers": 40,
+    "dflash_result_used_post_measurement_for_comparison_only": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\pro_research\\results\\s100_phase84\\S100_PHASE84_ORNITH_DFLASH_ERVF_REPLAY.json"
+  },
+  "summary": {
+    "target_total_layer_epoch_p50_ms": 598.295485496521,
+    "target_stress_ms_per_h4": 74.78693568706512,
+    "previous_target_stress_ms_per_h4": 74.10151553153992,
+    "target_total_unique_miss_copies": 2324,
+    "target_total_miss_transport_bytes": 4112252928,
+    "target_mean_unique_misses_per_layer_h4": 7.2625,
+    "target_layer0_misses_per_h4": 18.0,
+    "instrumented_breakdown_ms_per_h4": {
+      "stage_h2d_ms": 22.923624025657773,
+      "router_ms": 3.0113999964669347,
+      "expert_and_combine_ms": 28.85350800305605,
+      "cache_commit_d2d_ms": 20.587275971658528,
+      "total_ms": 75.37580799683928
+    },
+    "dflash_latest_stress_ms_per_h4": 65.69253876629998,
+    "dflash_first_observed_ms_per_h4": 67.37636498843922,
+    "dflash_mean_unique_misses_per_layer_h4": 5.576470588235294,
+    "target_minus_dflash_latest_ms_per_h4": 9.09439692076515,
+    "target_minus_dflash_misses_per_layer_h4": 1.6860294117647063,
+    "phase69_all_hot_component_floor_ms_per_h4": 60.08419168740511,
+    "phase69_conservative_hot_moe_allowance_ms_per_h4": 29.117696344852448,
+    "target_real_moe_minus_hot_moe_allowance_ms_per_h4": 45.66923934221268,
+    "diagnostic_substitution_floor_ms_per_h4": 105.75343102961779,
+    "diagnosis": "Phase69 is optimistic/incomplete for real execution because its all-hot MoE allowance excludes H2D staging and D2D LRU promotion; the target-only route workload is miss-heavier than Phase84D",
+    "explicit_no_complete_verifier_or_output_tok_s_claim": true
+  },
+  "records": [
+    {
+      "layer": 0,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 118,
+      "misses": {
+        "total": 144,
+        "mean": 18.0,
+        "max": 25,
+        "counts": [
+          9,
+          23,
+          25,
+          18,
+          14,
+          13,
+          17,
+          25
+        ],
+        "transport_bytes": 254803968
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 27.597909927368164,
+        "p50": 27.353824615478516,
+        "p95": 28.154291915893555,
+        "p99": 28.225444564819338,
+        "max": 28.24323272705078,
+        "samples_ms": [
+          27.196672439575195,
+          28.24323272705078,
+          27.353824615478516
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 10.257855951786041,
+        "router_ms": 0.7045759968459606,
+        "expert_and_combine_ms": 5.706495940685272,
+        "cache_commit_d2d_ms": 10.115552008152008,
+        "total_ms": 26.784479897469282,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 9,
+            "stage_h2d_ms": 0.6388480067253113,
+            "router_ms": 0.07260800153017044,
+            "expert_and_combine_ms": 0.7259200215339661,
+            "cache_commit_d2d_ms": 0.6442239880561829,
+            "total_ms": 2.0816000178456306
+          },
+          {
+            "valid_rows": 4,
+            "misses": 23,
+            "stage_h2d_ms": 1.622879981994629,
+            "router_ms": 0.07203199714422226,
+            "expert_and_combine_ms": 0.6917759776115417,
+            "cache_commit_d2d_ms": 1.282688021659851,
+            "total_ms": 3.669375978410244
+          },
+          {
+            "valid_rows": 4,
+            "misses": 25,
+            "stage_h2d_ms": 1.743839979171753,
+            "router_ms": 0.0764160007238388,
+            "expert_and_combine_ms": 0.7115839719772339,
+            "cache_commit_d2d_ms": 1.874079942703247,
+            "total_ms": 4.405919894576073
+          },
+          {
+            "valid_rows": 4,
+            "misses": 18,
+            "stage_h2d_ms": 1.2965439558029175,
+            "router_ms": 0.09238400310277939,
+            "expert_and_combine_ms": 0.7332479953765869,
+            "cache_commit_d2d_ms": 1.2749119997024536,
+            "total_ms": 3.3970879539847374
+          },
+          {
+            "valid_rows": 4,
+            "misses": 14,
+            "stage_h2d_ms": 1.0304960012435913,
+            "router_ms": 0.14451199769973755,
+            "expert_and_combine_ms": 0.699455976486206,
+            "cache_commit_d2d_ms": 1.0260159969329834,
+            "total_ms": 2.9004799723625183
+          },
+          {
+            "valid_rows": 4,
+            "misses": 13,
+            "stage_h2d_ms": 0.9571520090103149,
+            "router_ms": 0.06003199890255928,
+            "expert_and_combine_ms": 0.725055992603302,
+            "cache_commit_d2d_ms": 1.0128320455551147,
+            "total_ms": 2.755072046071291
+          },
+          {
+            "valid_rows": 4,
+            "misses": 17,
+            "stage_h2d_ms": 1.2052160501480103,
+            "router_ms": 0.06815999746322632,
+            "expert_and_combine_ms": 0.7046719789505005,
+            "cache_commit_d2d_ms": 1.1543359756469727,
+            "total_ms": 3.1323840022087097
+          },
+          {
+            "valid_rows": 4,
+            "misses": 25,
+            "stage_h2d_ms": 1.7628799676895142,
+            "router_ms": 0.11843200027942657,
+            "expert_and_combine_ms": 0.7147840261459351,
+            "cache_commit_d2d_ms": 1.8464640378952026,
+            "total_ms": 4.442560032010078
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 1,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 117,
+      "misses": {
+        "total": 138,
+        "mean": 17.25,
+        "max": 20,
+        "counts": [
+          18,
+          19,
+          20,
+          16,
+          18,
+          16,
+          17,
+          14
+        ],
+        "transport_bytes": 244187136
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 26.652245203653973,
+        "p50": 26.56934356689453,
+        "p95": 26.885394477844237,
+        "p99": 26.91348789215088,
+        "max": 26.92051124572754,
+        "samples_ms": [
+          26.92051124572754,
+          26.466880798339844,
+          26.56934356689453
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 9.904543995857239,
+        "router_ms": 0.5197120010852814,
+        "expert_and_combine_ms": 5.705727994441986,
+        "cache_commit_d2d_ms": 9.68454396724701,
+        "total_ms": 25.814527958631516,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 18,
+            "stage_h2d_ms": 1.245792031288147,
+            "router_ms": 0.0687360018491745,
+            "expert_and_combine_ms": 0.7005760073661804,
+            "cache_commit_d2d_ms": 1.3557759523391724,
+            "total_ms": 3.3708799928426743
+          },
+          {
+            "valid_rows": 4,
+            "misses": 19,
+            "stage_h2d_ms": 1.3846720457077026,
+            "router_ms": 0.06377600133419037,
+            "expert_and_combine_ms": 0.7156479954719543,
+            "cache_commit_d2d_ms": 1.2726080417633057,
+            "total_ms": 3.436704084277153
+          },
+          {
+            "valid_rows": 4,
+            "misses": 20,
+            "stage_h2d_ms": 1.4421759843826294,
+            "router_ms": 0.07132799923419952,
+            "expert_and_combine_ms": 0.7024639844894409,
+            "cache_commit_d2d_ms": 1.3131519556045532,
+            "total_ms": 3.529119923710823
+          },
+          {
+            "valid_rows": 4,
+            "misses": 16,
+            "stage_h2d_ms": 1.1407040357589722,
+            "router_ms": 0.06176000088453293,
+            "expert_and_combine_ms": 0.7167360186576843,
+            "cache_commit_d2d_ms": 1.1407359838485718,
+            "total_ms": 3.059936039149761
+          },
+          {
+            "valid_rows": 4,
+            "misses": 18,
+            "stage_h2d_ms": 1.2850879430770874,
+            "router_ms": 0.06099199876189232,
+            "expert_and_combine_ms": 0.7465599775314331,
+            "cache_commit_d2d_ms": 1.2123839855194092,
+            "total_ms": 3.305023904889822
+          },
+          {
+            "valid_rows": 4,
+            "misses": 16,
+            "stage_h2d_ms": 1.1509439945220947,
+            "router_ms": 0.06470400094985962,
+            "expert_and_combine_ms": 0.7148159742355347,
+            "cache_commit_d2d_ms": 0.9564800262451172,
+            "total_ms": 2.886943995952606
+          },
+          {
+            "valid_rows": 4,
+            "misses": 17,
+            "stage_h2d_ms": 1.2037760019302368,
+            "router_ms": 0.0663359984755516,
+            "expert_and_combine_ms": 0.697376012802124,
+            "cache_commit_d2d_ms": 1.374559998512268,
+            "total_ms": 3.3420480117201805
+          },
+          {
+            "valid_rows": 4,
+            "misses": 14,
+            "stage_h2d_ms": 1.0513919591903687,
+            "router_ms": 0.06207999959588051,
+            "expert_and_combine_ms": 0.7115520238876343,
+            "cache_commit_d2d_ms": 1.0588480234146118,
+            "total_ms": 2.8838720060884953
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 2,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 121,
+      "misses": {
+        "total": 138,
+        "mean": 17.25,
+        "max": 20,
+        "counts": [
+          16,
+          14,
+          20,
+          17,
+          18,
+          19,
+          19,
+          15
+        ],
+        "transport_bytes": 244187136
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 26.182751337687176,
+        "p50": 26.209535598754883,
+        "p95": 26.401228141784667,
+        "p99": 26.41826747894287,
+        "max": 26.422527313232422,
+        "samples_ms": [
+          26.422527313232422,
+          26.209535598754883,
+          25.91619110107422
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 9.970079898834229,
+        "router_ms": 0.538272000849247,
+        "expert_and_combine_ms": 5.892799973487854,
+        "cache_commit_d2d_ms": 9.843231856822968,
+        "total_ms": 26.244383729994297,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 16,
+            "stage_h2d_ms": 1.1422719955444336,
+            "router_ms": 0.07580800354480743,
+            "expert_and_combine_ms": 0.7454720139503479,
+            "cache_commit_d2d_ms": 1.24617600440979,
+            "total_ms": 3.209728017449379
+          },
+          {
+            "valid_rows": 4,
+            "misses": 14,
+            "stage_h2d_ms": 1.0612159967422485,
+            "router_ms": 0.06601600348949432,
+            "expert_and_combine_ms": 0.7199040055274963,
+            "cache_commit_d2d_ms": 0.9644799828529358,
+            "total_ms": 2.811615988612175
+          },
+          {
+            "valid_rows": 4,
+            "misses": 20,
+            "stage_h2d_ms": 1.4159679412841797,
+            "router_ms": 0.05827200040221214,
+            "expert_and_combine_ms": 0.7424960136413574,
+            "cache_commit_d2d_ms": 1.3605120182037354,
+            "total_ms": 3.5772479735314846
+          },
+          {
+            "valid_rows": 4,
+            "misses": 17,
+            "stage_h2d_ms": 1.21452796459198,
+            "router_ms": 0.06828799843788147,
+            "expert_and_combine_ms": 0.7353919744491577,
+            "cache_commit_d2d_ms": 1.3265600204467773,
+            "total_ms": 3.3447679579257965
+          },
+          {
+            "valid_rows": 4,
+            "misses": 18,
+            "stage_h2d_ms": 1.3035199642181396,
+            "router_ms": 0.07891199737787247,
+            "expert_and_combine_ms": 0.7418559789657593,
+            "cache_commit_d2d_ms": 1.298751950263977,
+            "total_ms": 3.4230398908257484
+          },
+          {
+            "valid_rows": 4,
+            "misses": 19,
+            "stage_h2d_ms": 1.3944319486618042,
+            "router_ms": 0.07158400118350983,
+            "expert_and_combine_ms": 0.734175980091095,
+            "cache_commit_d2d_ms": 1.3099199533462524,
+            "total_ms": 3.5101118832826614
+          },
+          {
+            "valid_rows": 4,
+            "misses": 19,
+            "stage_h2d_ms": 1.3512320518493652,
+            "router_ms": 0.06326399743556976,
+            "expert_and_combine_ms": 0.7373120188713074,
+            "cache_commit_d2d_ms": 1.2708159685134888,
+            "total_ms": 3.422624036669731
+          },
+          {
+            "valid_rows": 4,
+            "misses": 15,
+            "stage_h2d_ms": 1.0869120359420776,
+            "router_ms": 0.05612799897789955,
+            "expert_and_combine_ms": 0.736191987991333,
+            "cache_commit_d2d_ms": 1.0660159587860107,
+            "total_ms": 2.945247981697321
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 3,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 95,
+      "misses": {
+        "total": 80,
+        "mean": 10.0,
+        "max": 12,
+        "counts": [
+          12,
+          10,
+          8,
+          12,
+          8,
+          11,
+          11,
+          8
+        ],
+        "transport_bytes": 141557760
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 18.68902333577474,
+        "p50": 17.89206314086914,
+        "p95": 20.175931930541992,
+        "p99": 20.378942489624023,
+        "max": 20.42969512939453,
+        "samples_ms": [
+          17.745311737060547,
+          20.42969512939453,
+          17.89206314086914
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 6.059520065784454,
+        "router_ms": 0.5316479988396168,
+        "expert_and_combine_ms": 5.707743942737579,
+        "cache_commit_d2d_ms": 5.7480000257492065,
+        "total_ms": 18.046912033110857,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 12,
+            "stage_h2d_ms": 0.8418560028076172,
+            "router_ms": 0.07430399954319,
+            "expert_and_combine_ms": 0.7120959758758545,
+            "cache_commit_d2d_ms": 0.9379519820213318,
+            "total_ms": 2.5662079602479935
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7350720167160034,
+            "router_ms": 0.05817599967122078,
+            "expert_and_combine_ms": 0.7446720004081726,
+            "cache_commit_d2d_ms": 0.7029759883880615,
+            "total_ms": 2.2408960051834583
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6069120168685913,
+            "router_ms": 0.06080000102519989,
+            "expert_and_combine_ms": 0.7106239795684814,
+            "cache_commit_d2d_ms": 0.635424017906189,
+            "total_ms": 2.0137600153684616
+          },
+          {
+            "valid_rows": 4,
+            "misses": 12,
+            "stage_h2d_ms": 0.9255679845809937,
+            "router_ms": 0.062144000083208084,
+            "expert_and_combine_ms": 0.719871997833252,
+            "cache_commit_d2d_ms": 0.9226559996604919,
+            "total_ms": 2.6302399821579456
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6520640254020691,
+            "router_ms": 0.0976639986038208,
+            "expert_and_combine_ms": 0.6996480226516724,
+            "cache_commit_d2d_ms": 0.5272960066795349,
+            "total_ms": 1.9766720533370972
+          },
+          {
+            "valid_rows": 4,
+            "misses": 11,
+            "stage_h2d_ms": 0.8264319896697998,
+            "router_ms": 0.059967998415231705,
+            "expert_and_combine_ms": 0.7209280133247375,
+            "cache_commit_d2d_ms": 0.7219840288162231,
+            "total_ms": 2.329312030225992
+          },
+          {
+            "valid_rows": 4,
+            "misses": 11,
+            "stage_h2d_ms": 0.8426240086555481,
+            "router_ms": 0.06080000102519989,
+            "expert_and_combine_ms": 0.712831974029541,
+            "cache_commit_d2d_ms": 0.7937920093536377,
+            "total_ms": 2.4100479930639267
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6289920210838318,
+            "router_ms": 0.057792000472545624,
+            "expert_and_combine_ms": 0.6870719790458679,
+            "cache_commit_d2d_ms": 0.5059199929237366,
+            "total_ms": 1.879775993525982
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 4,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 84,
+      "misses": {
+        "total": 64,
+        "mean": 8.0,
+        "max": 15,
+        "counts": [
+          10,
+          8,
+          15,
+          6,
+          8,
+          6,
+          6,
+          5
+        ],
+        "transport_bytes": 113246208
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 15.618282636006674,
+        "p50": 15.567456245422363,
+        "p95": 15.854620838165284,
+        "p99": 15.880146579742432,
+        "max": 15.886528015136719,
+        "samples_ms": [
+          15.400863647460938,
+          15.567456245422363,
+          15.886528015136719
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 4.881087958812714,
+        "router_ms": 0.587935995310545,
+        "expert_and_combine_ms": 5.773280024528503,
+        "cache_commit_d2d_ms": 4.246784061193466,
+        "total_ms": 15.489088039845228,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7073280215263367,
+            "router_ms": 0.06748799979686737,
+            "expert_and_combine_ms": 0.7160320281982422,
+            "cache_commit_d2d_ms": 0.6353920102119446,
+            "total_ms": 2.126240059733391
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6042879819869995,
+            "router_ms": 0.06947200000286102,
+            "expert_and_combine_ms": 0.7457600235939026,
+            "cache_commit_d2d_ms": 0.4914880096912384,
+            "total_ms": 1.9110080152750015
+          },
+          {
+            "valid_rows": 4,
+            "misses": 15,
+            "stage_h2d_ms": 1.082751989364624,
+            "router_ms": 0.06380800157785416,
+            "expert_and_combine_ms": 0.7177919745445251,
+            "cache_commit_d2d_ms": 0.98716801404953,
+            "total_ms": 2.8515199795365334
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4922559857368469,
+            "router_ms": 0.05503999814391136,
+            "expert_and_combine_ms": 0.7233920097351074,
+            "cache_commit_d2d_ms": 0.4575999975204468,
+            "total_ms": 1.7282879911363125
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.631775975227356,
+            "router_ms": 0.07148800045251846,
+            "expert_and_combine_ms": 0.7064319849014282,
+            "cache_commit_d2d_ms": 0.5191360116004944,
+            "total_ms": 1.928831972181797
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4785600006580353,
+            "router_ms": 0.07094399631023407,
+            "expert_and_combine_ms": 0.7600319981575012,
+            "cache_commit_d2d_ms": 0.3629760146141052,
+            "total_ms": 1.6725120097398758
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4678080081939697,
+            "router_ms": 0.11708799749612808,
+            "expert_and_combine_ms": 0.6964160203933716,
+            "cache_commit_d2d_ms": 0.4519999921321869,
+            "total_ms": 1.7333120182156563
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.41631999611854553,
+            "router_ms": 0.07260800153017044,
+            "expert_and_combine_ms": 0.707423985004425,
+            "cache_commit_d2d_ms": 0.3410240113735199,
+            "total_ms": 1.537375994026661
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 5,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 85,
+      "misses": {
+        "total": 52,
+        "mean": 6.5,
+        "max": 9,
+        "counts": [
+          9,
+          8,
+          7,
+          4,
+          3,
+          8,
+          7,
+          6
+        ],
+        "transport_bytes": 92012544
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 13.92086410522461,
+        "p50": 13.868639945983887,
+        "p95": 14.101660823822021,
+        "p99": 14.122373790740967,
+        "max": 14.127552032470703,
+        "samples_ms": [
+          14.127552032470703,
+          13.868639945983887,
+          13.766400337219238
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 4.286912024021149,
+        "router_ms": 0.5384319983422756,
+        "expert_and_combine_ms": 5.6918399930000305,
+        "cache_commit_d2d_ms": 3.7742079943418503,
+        "total_ms": 14.291392009705305,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 9,
+            "stage_h2d_ms": 0.8486080169677734,
+            "router_ms": 0.07315199822187424,
+            "expert_and_combine_ms": 0.7279999852180481,
+            "cache_commit_d2d_ms": 0.995136022567749,
+            "total_ms": 2.644896022975445
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6958400011062622,
+            "router_ms": 0.05593600124120712,
+            "expert_and_combine_ms": 0.6975679993629456,
+            "cache_commit_d2d_ms": 0.48028799891471863,
+            "total_ms": 1.9296320006251335
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5468159914016724,
+            "router_ms": 0.05897599831223488,
+            "expert_and_combine_ms": 0.7353280186653137,
+            "cache_commit_d2d_ms": 0.4474560022354126,
+            "total_ms": 1.7885760106146336
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.3319680094718933,
+            "router_ms": 0.07711999863386154,
+            "expert_and_combine_ms": 0.7056959867477417,
+            "cache_commit_d2d_ms": 0.2433599978685379,
+            "total_ms": 1.3581439927220345
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.26678401231765747,
+            "router_ms": 0.08134400099515915,
+            "expert_and_combine_ms": 0.6851840019226074,
+            "cache_commit_d2d_ms": 0.17721599340438843,
+            "total_ms": 1.2105280086398125
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6042879819869995,
+            "router_ms": 0.055904000997543335,
+            "expert_and_combine_ms": 0.6973119974136353,
+            "cache_commit_d2d_ms": 0.4845440089702606,
+            "total_ms": 1.8420479893684387
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5298240184783936,
+            "router_ms": 0.06543999910354614,
+            "expert_and_combine_ms": 0.707584023475647,
+            "cache_commit_d2d_ms": 0.5303999781608582,
+            "total_ms": 1.8332480192184448
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4627839922904968,
+            "router_ms": 0.07056000083684921,
+            "expert_and_combine_ms": 0.7351679801940918,
+            "cache_commit_d2d_ms": 0.4158079922199249,
+            "total_ms": 1.6843199655413628
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 6,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 83,
+      "misses": {
+        "total": 48,
+        "mean": 6.0,
+        "max": 11,
+        "counts": [
+          7,
+          3,
+          4,
+          11,
+          7,
+          7,
+          4,
+          5
+        ],
+        "transport_bytes": 84934656
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 13.627306620279947,
+        "p50": 13.749567985534668,
+        "p95": 13.834067440032959,
+        "p99": 13.841578502655029,
+        "max": 13.843456268310547,
+        "samples_ms": [
+          13.749567985534668,
+          13.843456268310547,
+          13.288895606994629
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 3.846943974494934,
+        "router_ms": 0.666592001914978,
+        "expert_and_combine_ms": 5.702015995979309,
+        "cache_commit_d2d_ms": 3.2776320725679398,
+        "total_ms": 13.493184044957161,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5071679949760437,
+            "router_ms": 0.06998399645090103,
+            "expert_and_combine_ms": 0.6933119893074036,
+            "cache_commit_d2d_ms": 0.4496000111103058,
+            "total_ms": 1.720063991844654
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.2783359885215759,
+            "router_ms": 0.081216000020504,
+            "expert_and_combine_ms": 0.6891840100288391,
+            "cache_commit_d2d_ms": 0.21116800606250763,
+            "total_ms": 1.2599040046334267
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.3980160057544708,
+            "router_ms": 0.17638400197029114,
+            "expert_and_combine_ms": 0.7872959971427917,
+            "cache_commit_d2d_ms": 0.3854080140590668,
+            "total_ms": 1.7471040189266205
+          },
+          {
+            "valid_rows": 4,
+            "misses": 11,
+            "stage_h2d_ms": 0.833184003829956,
+            "router_ms": 0.057760000228881836,
+            "expert_and_combine_ms": 0.6772800087928772,
+            "cache_commit_d2d_ms": 0.7475200295448303,
+            "total_ms": 2.3157440423965454
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5364480018615723,
+            "router_ms": 0.06918399780988693,
+            "expert_and_combine_ms": 0.6995840072631836,
+            "cache_commit_d2d_ms": 0.47283199429512024,
+            "total_ms": 1.778048001229763
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5405439734458923,
+            "router_ms": 0.05788800120353699,
+            "expert_and_combine_ms": 0.7394880056381226,
+            "cache_commit_d2d_ms": 0.42505601048469543,
+            "total_ms": 1.7629759907722473
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.34112000465393066,
+            "router_ms": 0.0785600021481514,
+            "expert_and_combine_ms": 0.7144320011138916,
+            "cache_commit_d2d_ms": 0.28703999519348145,
+            "total_ms": 1.421152003109455
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4121280014514923,
+            "router_ms": 0.07561600208282471,
+            "expert_and_combine_ms": 0.7014399766921997,
+            "cache_commit_d2d_ms": 0.29900801181793213,
+            "total_ms": 1.4881919920444489
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 7,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 68,
+      "misses": {
+        "total": 26,
+        "mean": 3.25,
+        "max": 6,
+        "counts": [
+          4,
+          4,
+          1,
+          6,
+          2,
+          4,
+          2,
+          3
+        ],
+        "transport_bytes": 46006272
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 10.17144521077474,
+        "p50": 10.182496070861816,
+        "p95": 10.194620513916016,
+        "p99": 10.1956982421875,
+        "max": 10.195967674255371,
+        "samples_ms": [
+          10.182496070861816,
+          10.135871887207031,
+          10.195967674255371
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 2.2863679975271225,
+        "router_ms": 0.5794239863753319,
+        "expert_and_combine_ms": 5.6701120138168335,
+        "cache_commit_d2d_ms": 1.7633279971778393,
+        "total_ms": 10.299231994897127,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.30828800797462463,
+            "router_ms": 0.09052799642086029,
+            "expert_and_combine_ms": 0.7345600128173828,
+            "cache_commit_d2d_ms": 0.24476799368858337,
+            "total_ms": 1.378144010901451
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.33900800347328186,
+            "router_ms": 0.07407999783754349,
+            "expert_and_combine_ms": 0.7119680047035217,
+            "cache_commit_d2d_ms": 0.23235200345516205,
+            "total_ms": 1.3574080094695091
+          },
+          {
+            "valid_rows": 4,
+            "misses": 1,
+            "stage_h2d_ms": 0.1624639928340912,
+            "router_ms": 0.05411199852824211,
+            "expert_and_combine_ms": 0.703711986541748,
+            "cache_commit_d2d_ms": 0.05318399891257286,
+            "total_ms": 0.9734719768166542
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.47382399439811707,
+            "router_ms": 0.0729919970035553,
+            "expert_and_combine_ms": 0.6831679940223694,
+            "cache_commit_d2d_ms": 0.3666880130767822,
+            "total_ms": 1.596671998500824
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.2014079988002777,
+            "router_ms": 0.05119999870657921,
+            "expert_and_combine_ms": 0.707584023475647,
+            "cache_commit_d2d_ms": 0.1669439971446991,
+            "total_ms": 1.127136018127203
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.33184000849723816,
+            "router_ms": 0.08057600259780884,
+            "expert_and_combine_ms": 0.7291200160980225,
+            "cache_commit_d2d_ms": 0.3234879970550537,
+            "total_ms": 1.4650240242481232
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.204352006316185,
+            "router_ms": 0.08393599838018417,
+            "expert_and_combine_ms": 0.6913279891014099,
+            "cache_commit_d2d_ms": 0.16185599565505981,
+            "total_ms": 1.141471989452839
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.2651839852333069,
+            "router_ms": 0.07199999690055847,
+            "expert_and_combine_ms": 0.7086719870567322,
+            "cache_commit_d2d_ms": 0.21404799818992615,
+            "total_ms": 1.2599039673805237
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 8,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 72,
+      "misses": {
+        "total": 29,
+        "mean": 3.625,
+        "max": 5,
+        "counts": [
+          5,
+          1,
+          4,
+          5,
+          3,
+          2,
+          4,
+          5
+        ],
+        "transport_bytes": 51314688
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 10.839743932088217,
+        "p50": 10.769536018371582,
+        "p95": 10.999388885498046,
+        "p99": 11.019820251464843,
+        "max": 11.024928092956543,
+        "samples_ms": [
+          10.724767684936523,
+          11.024928092956543,
+          10.769536018371582
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 2.6282559782266617,
+        "router_ms": 0.687424011528492,
+        "expert_and_combine_ms": 5.871872007846832,
+        "cache_commit_d2d_ms": 2.0173760056495667,
+        "total_ms": 11.204928003251553,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.37455999851226807,
+            "router_ms": 0.17708800733089447,
+            "expert_and_combine_ms": 0.7136319875717163,
+            "cache_commit_d2d_ms": 0.3351359963417053,
+            "total_ms": 1.6004159897565842
+          },
+          {
+            "valid_rows": 4,
+            "misses": 1,
+            "stage_h2d_ms": 0.1475519984960556,
+            "router_ms": 0.05008000135421753,
+            "expert_and_combine_ms": 0.7178879976272583,
+            "cache_commit_d2d_ms": 0.07587199658155441,
+            "total_ms": 0.9913919940590858
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.351967990398407,
+            "router_ms": 0.08432000130414963,
+            "expert_and_combine_ms": 0.7112640142440796,
+            "cache_commit_d2d_ms": 0.2889600098133087,
+            "total_ms": 1.436512015759945
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4743039906024933,
+            "router_ms": 0.07782399654388428,
+            "expert_and_combine_ms": 0.7142080068588257,
+            "cache_commit_d2d_ms": 0.37987199425697327,
+            "total_ms": 1.6462079882621765
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.2930240035057068,
+            "router_ms": 0.07804799824953079,
+            "expert_and_combine_ms": 0.6873279809951782,
+            "cache_commit_d2d_ms": 0.16512000560760498,
+            "total_ms": 1.2235199883580208
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.20873600244522095,
+            "router_ms": 0.0607680007815361,
+            "expert_and_combine_ms": 0.7556800246238708,
+            "cache_commit_d2d_ms": 0.11993599683046341,
+            "total_ms": 1.1451200246810913
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.3696320056915283,
+            "router_ms": 0.08560000360012054,
+            "expert_and_combine_ms": 0.7039679884910583,
+            "cache_commit_d2d_ms": 0.3084160089492798,
+            "total_ms": 1.467616006731987
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4084799885749817,
+            "router_ms": 0.07369600236415863,
+            "expert_and_combine_ms": 0.867904007434845,
+            "cache_commit_d2d_ms": 0.34406399726867676,
+            "total_ms": 1.694143995642662
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 9,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 75,
+      "misses": {
+        "total": 31,
+        "mean": 3.875,
+        "max": 6,
+        "counts": [
+          4,
+          2,
+          4,
+          5,
+          3,
+          5,
+          6,
+          2
+        ],
+        "transport_bytes": 54853632
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 11.256842295328775,
+        "p50": 11.140159606933594,
+        "p95": 11.484348392486572,
+        "p99": 11.514942951202393,
+        "max": 11.522591590881348,
+        "samples_ms": [
+          11.107775688171387,
+          11.140159606933594,
+          11.522591590881348
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 2.6406720131635666,
+        "router_ms": 0.823999997228384,
+        "expert_and_combine_ms": 5.753184080123901,
+        "cache_commit_d2d_ms": 2.0087679773569107,
+        "total_ms": 11.226624067872763,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.3107840120792389,
+            "router_ms": 0.09417600184679031,
+            "expert_and_combine_ms": 0.7051200270652771,
+            "cache_commit_d2d_ms": 0.26102399826049805,
+            "total_ms": 1.3711040392518044
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.21459199488162994,
+            "router_ms": 0.08057600259780884,
+            "expert_and_combine_ms": 0.737280011177063,
+            "cache_commit_d2d_ms": 0.13407999277114868,
+            "total_ms": 1.1665280014276505
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.34963199496269226,
+            "router_ms": 0.048448000103235245,
+            "expert_and_combine_ms": 0.70387202501297,
+            "cache_commit_d2d_ms": 0.3031359910964966,
+            "total_ms": 1.405088011175394
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.39606401324272156,
+            "router_ms": 0.07727999985218048,
+            "expert_and_combine_ms": 0.715936005115509,
+            "cache_commit_d2d_ms": 0.3112640082836151,
+            "total_ms": 1.5005440264940262
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.2871679961681366,
+            "router_ms": 0.26979199051856995,
+            "expert_and_combine_ms": 0.7123200297355652,
+            "cache_commit_d2d_ms": 0.15276800096035004,
+            "total_ms": 1.4220480173826218
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4103040099143982,
+            "router_ms": 0.0923520028591156,
+            "expert_and_combine_ms": 0.7274879813194275,
+            "cache_commit_d2d_ms": 0.31494399905204773,
+            "total_ms": 1.545087993144989
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.46985599398612976,
+            "router_ms": 0.0888959988951683,
+            "expert_and_combine_ms": 0.7351040244102478,
+            "cache_commit_d2d_ms": 0.39743998646736145,
+            "total_ms": 1.6912960037589073
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.20227199792861938,
+            "router_ms": 0.07248000055551529,
+            "expert_and_combine_ms": 0.7160639762878418,
+            "cache_commit_d2d_ms": 0.13411200046539307,
+            "total_ms": 1.1249279752373695
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 10,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 78,
+      "misses": {
+        "total": 42,
+        "mean": 5.25,
+        "max": 7,
+        "counts": [
+          5,
+          7,
+          3,
+          5,
+          6,
+          6,
+          6,
+          4
+        ],
+        "transport_bytes": 74317824
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 13.388757387797037,
+        "p50": 12.988096237182617,
+        "p95": 14.251580619812012,
+        "p99": 14.363890342712402,
+        "max": 14.3919677734375,
+        "samples_ms": [
+          14.3919677734375,
+          12.786208152770996,
+          12.988096237182617
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 3.5280320048332214,
+        "router_ms": 0.6166080050170422,
+        "expert_and_combine_ms": 5.702463924884796,
+        "cache_commit_d2d_ms": 3.1026560068130493,
+        "total_ms": 12.949759941548109,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4330880045890808,
+            "router_ms": 0.11347199976444244,
+            "expert_and_combine_ms": 0.7253440022468567,
+            "cache_commit_d2d_ms": 0.3501119911670685,
+            "total_ms": 1.6220159977674484
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5460479855537415,
+            "router_ms": 0.057440001517534256,
+            "expert_and_combine_ms": 0.7190080285072327,
+            "cache_commit_d2d_ms": 0.4597119987010956,
+            "total_ms": 1.782208014279604
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.27507200837135315,
+            "router_ms": 0.07577600330114365,
+            "expert_and_combine_ms": 0.7383679747581482,
+            "cache_commit_d2d_ms": 0.16486400365829468,
+            "total_ms": 1.2540799900889397
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.41200000047683716,
+            "router_ms": 0.07391999661922455,
+            "expert_and_combine_ms": 0.7016639709472656,
+            "cache_commit_d2d_ms": 0.302047997713089,
+            "total_ms": 1.4896319657564163
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.468639999628067,
+            "router_ms": 0.07065600156784058,
+            "expert_and_combine_ms": 0.7169280052185059,
+            "cache_commit_d2d_ms": 0.435263991355896,
+            "total_ms": 1.6914879977703094
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.5173439979553223,
+            "router_ms": 0.08585599809885025,
+            "expert_and_combine_ms": 0.6900799870491028,
+            "cache_commit_d2d_ms": 0.5827839970588684,
+            "total_ms": 1.8760639801621437
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.5270079970359802,
+            "router_ms": 0.05696000158786774,
+            "expert_and_combine_ms": 0.6850559711456299,
+            "cache_commit_d2d_ms": 0.48531201481819153,
+            "total_ms": 1.7543359845876694
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.34883201122283936,
+            "router_ms": 0.0825280025601387,
+            "expert_and_combine_ms": 0.7260159850120544,
+            "cache_commit_d2d_ms": 0.32256001234054565,
+            "total_ms": 1.4799360111355782
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 11,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 88,
+      "misses": {
+        "total": 66,
+        "mean": 8.25,
+        "max": 10,
+        "counts": [
+          7,
+          8,
+          10,
+          10,
+          9,
+          5,
+          9,
+          8
+        ],
+        "transport_bytes": 116785152
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 16.096821467081707,
+        "p50": 15.991264343261719,
+        "p95": 16.391468811035157,
+        "p99": 16.427042541503905,
+        "max": 16.435935974121094,
+        "samples_ms": [
+          16.435935974121094,
+          15.991264343261719,
+          15.863264083862305
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 5.061631977558136,
+        "router_ms": 0.4918399974703789,
+        "expert_and_combine_ms": 5.735424041748047,
+        "cache_commit_d2d_ms": 4.867776036262512,
+        "total_ms": 16.156672053039074,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5084159970283508,
+            "router_ms": 0.06947200000286102,
+            "expert_and_combine_ms": 0.7342720031738281,
+            "cache_commit_d2d_ms": 0.4556800127029419,
+            "total_ms": 1.7678400129079819
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6302719712257385,
+            "router_ms": 0.052191998809576035,
+            "expert_and_combine_ms": 0.7313600182533264,
+            "cache_commit_d2d_ms": 0.4935680031776428,
+            "total_ms": 1.9073919914662838
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7463039755821228,
+            "router_ms": 0.05711999908089638,
+            "expert_and_combine_ms": 0.7223680019378662,
+            "cache_commit_d2d_ms": 0.6021119952201843,
+            "total_ms": 2.1279039718210697
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7554240226745605,
+            "router_ms": 0.05689600110054016,
+            "expert_and_combine_ms": 0.7142400145530701,
+            "cache_commit_d2d_ms": 0.5734720230102539,
+            "total_ms": 2.1000320613384247
+          },
+          {
+            "valid_rows": 4,
+            "misses": 9,
+            "stage_h2d_ms": 0.6716480255126953,
+            "router_ms": 0.055904000997543335,
+            "expert_and_combine_ms": 0.7251520156860352,
+            "cache_commit_d2d_ms": 0.5961920022964478,
+            "total_ms": 2.0488960444927216
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.41894400119781494,
+            "router_ms": 0.07926400005817413,
+            "expert_and_combine_ms": 0.7135999798774719,
+            "cache_commit_d2d_ms": 0.8135679960250854,
+            "total_ms": 2.0253759771585464
+          },
+          {
+            "valid_rows": 4,
+            "misses": 9,
+            "stage_h2d_ms": 0.6844800114631653,
+            "router_ms": 0.053599998354911804,
+            "expert_and_combine_ms": 0.686847984790802,
+            "cache_commit_d2d_ms": 0.722815990447998,
+            "total_ms": 2.147743985056877
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6461439728736877,
+            "router_ms": 0.06739199906587601,
+            "expert_and_combine_ms": 0.707584023475647,
+            "cache_commit_d2d_ms": 0.610368013381958,
+            "total_ms": 2.0314880087971687
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 12,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 77,
+      "misses": {
+        "total": 32,
+        "mean": 4.0,
+        "max": 7,
+        "counts": [
+          7,
+          3,
+          5,
+          2,
+          3,
+          4,
+          6,
+          2
+        ],
+        "transport_bytes": 56623104
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 11.187413215637207,
+        "p50": 11.187007904052734,
+        "p95": 11.305606174468995,
+        "p99": 11.31614824295044,
+        "max": 11.3187837600708,
+        "samples_ms": [
+          11.187007904052734,
+          11.3187837600708,
+          11.056447982788086
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 3.0035520642995834,
+        "router_ms": 0.5569280087947845,
+        "expert_and_combine_ms": 5.631168007850647,
+        "cache_commit_d2d_ms": 2.1893120110034943,
+        "total_ms": 11.38096009194851,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.6101760268211365,
+            "router_ms": 0.13104000687599182,
+            "expert_and_combine_ms": 0.7144960165023804,
+            "cache_commit_d2d_ms": 0.45257601141929626,
+            "total_ms": 1.908288061618805
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.28195199370384216,
+            "router_ms": 0.0655359998345375,
+            "expert_and_combine_ms": 0.7326719760894775,
+            "cache_commit_d2d_ms": 0.17929600179195404,
+            "total_ms": 1.2594559714198112
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.6133760213851929,
+            "router_ms": 0.06268800050020218,
+            "expert_and_combine_ms": 0.6823679804801941,
+            "cache_commit_d2d_ms": 0.30796799063682556,
+            "total_ms": 1.6663999930024147
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.21014399826526642,
+            "router_ms": 0.047807998955249786,
+            "expert_and_combine_ms": 0.7157120108604431,
+            "cache_commit_d2d_ms": 0.14351999759674072,
+            "total_ms": 1.1171840056777
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.2646400034427643,
+            "router_ms": 0.07900799810886383,
+            "expert_and_combine_ms": 0.6953920125961304,
+            "cache_commit_d2d_ms": 0.2335679978132248,
+            "total_ms": 1.2726080119609833
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.3412800133228302,
+            "router_ms": 0.0708480030298233,
+            "expert_and_combine_ms": 0.7157120108604431,
+            "cache_commit_d2d_ms": 0.3031040132045746,
+            "total_ms": 1.4309440404176712
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4747520089149475,
+            "router_ms": 0.04956800118088722,
+            "expert_and_combine_ms": 0.6898559927940369,
+            "cache_commit_d2d_ms": 0.4158079922199249,
+            "total_ms": 1.6299839951097965
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.20723199844360352,
+            "router_ms": 0.0504320003092289,
+            "expert_and_combine_ms": 0.6849600076675415,
+            "cache_commit_d2d_ms": 0.15347200632095337,
+            "total_ms": 1.0960960127413273
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 13,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 79,
+      "misses": {
+        "total": 44,
+        "mean": 5.5,
+        "max": 11,
+        "counts": [
+          6,
+          3,
+          6,
+          5,
+          11,
+          5,
+          2,
+          6
+        ],
+        "transport_bytes": 77856768
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 13.045504252115885,
+        "p50": 13.051360130310059,
+        "p95": 13.082666015625,
+        "p99": 13.085448760986328,
+        "max": 13.08614444732666,
+        "samples_ms": [
+          13.08614444732666,
+          12.999008178710938,
+          13.051360130310059
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 3.675904020667076,
+        "router_ms": 0.57379200309515,
+        "expert_and_combine_ms": 5.73715204000473,
+        "cache_commit_d2d_ms": 2.870975986123085,
+        "total_ms": 12.857824049890041,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.5265600085258484,
+            "router_ms": 0.09619200229644775,
+            "expert_and_combine_ms": 0.7259520292282104,
+            "cache_commit_d2d_ms": 0.35526400804519653,
+            "total_ms": 1.7039680480957031
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.2840000092983246,
+            "router_ms": 0.07766400277614594,
+            "expert_and_combine_ms": 0.7180799841880798,
+            "cache_commit_d2d_ms": 0.2282239943742752,
+            "total_ms": 1.3079679906368256
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4742400050163269,
+            "router_ms": 0.0732479989528656,
+            "expert_and_combine_ms": 0.7445440292358398,
+            "cache_commit_d2d_ms": 0.3842880129814148,
+            "total_ms": 1.6763200461864471
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4205760061740875,
+            "router_ms": 0.07039999961853027,
+            "expert_and_combine_ms": 0.715071976184845,
+            "cache_commit_d2d_ms": 0.32943999767303467,
+            "total_ms": 1.5354879796504974
+          },
+          {
+            "valid_rows": 4,
+            "misses": 11,
+            "stage_h2d_ms": 0.8609920144081116,
+            "router_ms": 0.05628800019621849,
+            "expert_and_combine_ms": 0.7209280133247375,
+            "cache_commit_d2d_ms": 0.6689599752426147,
+            "total_ms": 2.3071680031716824
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4182719886302948,
+            "router_ms": 0.06716799736022949,
+            "expert_and_combine_ms": 0.7097920179367065,
+            "cache_commit_d2d_ms": 0.3041920065879822,
+            "total_ms": 1.499424010515213
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.22700800001621246,
+            "router_ms": 0.07257600128650665,
+            "expert_and_combine_ms": 0.6952639818191528,
+            "cache_commit_d2d_ms": 0.1592639982700348,
+            "total_ms": 1.1541119813919067
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4642559885978699,
+            "router_ms": 0.060256000608205795,
+            "expert_and_combine_ms": 0.7075200080871582,
+            "cache_commit_d2d_ms": 0.4413439929485321,
+            "total_ms": 1.673375990241766
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 14,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 71,
+      "misses": {
+        "total": 24,
+        "mean": 3.0,
+        "max": 5,
+        "counts": [
+          4,
+          5,
+          3,
+          5,
+          2,
+          2,
+          2,
+          1
+        ],
+        "transport_bytes": 42467328
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 9.668010711669922,
+        "p50": 9.65392017364502,
+        "p95": 9.768111896514892,
+        "p99": 9.778262271881104,
+        "max": 9.780799865722656,
+        "samples_ms": [
+          9.65392017364502,
+          9.780799865722656,
+          9.56931209564209
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 2.29475200176239,
+        "router_ms": 0.6056319959461689,
+        "expert_and_combine_ms": 5.60451203584671,
+        "cache_commit_d2d_ms": 1.9543039985001087,
+        "total_ms": 10.459200032055378,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.40086400508880615,
+            "router_ms": 0.09673599898815155,
+            "expert_and_combine_ms": 0.6978240013122559,
+            "cache_commit_d2d_ms": 0.7775999903678894,
+            "total_ms": 1.973023995757103
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.42688000202178955,
+            "router_ms": 0.09283199906349182,
+            "expert_and_combine_ms": 0.7181439995765686,
+            "cache_commit_d2d_ms": 0.3176000118255615,
+            "total_ms": 1.5554560124874115
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.3148159980773926,
+            "router_ms": 0.06764800101518631,
+            "expert_and_combine_ms": 0.683135986328125,
+            "cache_commit_d2d_ms": 0.15561600029468536,
+            "total_ms": 1.2212159857153893
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4123840034008026,
+            "router_ms": 0.07692799717187881,
+            "expert_and_combine_ms": 0.7160320281982422,
+            "cache_commit_d2d_ms": 0.25900799036026,
+            "total_ms": 1.4643520191311836
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.19539199769496918,
+            "router_ms": 0.0854720026254654,
+            "expert_and_combine_ms": 0.6958720088005066,
+            "cache_commit_d2d_ms": 0.12483199685811996,
+            "total_ms": 1.1015680059790611
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.20319999754428864,
+            "router_ms": 0.08207999914884567,
+            "expert_and_combine_ms": 0.7076799869537354,
+            "cache_commit_d2d_ms": 0.13417600095272064,
+            "total_ms": 1.1271359845995903
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.20723199844360352,
+            "router_ms": 0.05129599943757057,
+            "expert_and_combine_ms": 0.6718400120735168,
+            "cache_commit_d2d_ms": 0.12806400656700134,
+            "total_ms": 1.0584320165216923
+          },
+          {
+            "valid_rows": 4,
+            "misses": 1,
+            "stage_h2d_ms": 0.13398399949073792,
+            "router_ms": 0.052639998495578766,
+            "expert_and_combine_ms": 0.7139840126037598,
+            "cache_commit_d2d_ms": 0.05740800127387047,
+            "total_ms": 0.9580160118639469
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 15,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 69,
+      "misses": {
+        "total": 24,
+        "mean": 3.0,
+        "max": 5,
+        "counts": [
+          2,
+          2,
+          3,
+          5,
+          2,
+          2,
+          3,
+          5
+        ],
+        "transport_bytes": 42467328
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 10.23084799448649,
+        "p50": 10.225664138793945,
+        "p95": 10.258985328674317,
+        "p99": 10.261947212219239,
+        "max": 10.262687683105469,
+        "samples_ms": [
+          10.204192161560059,
+          10.225664138793945,
+          10.262687683105469
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 2.2853440046310425,
+        "router_ms": 0.6317120045423508,
+        "expert_and_combine_ms": 5.671744108200073,
+        "cache_commit_d2d_ms": 1.7047040089964867,
+        "total_ms": 10.293504126369953,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.1730239987373352,
+            "router_ms": 0.09830400347709656,
+            "expert_and_combine_ms": 0.6956800222396851,
+            "cache_commit_d2d_ms": 0.10655999928712845,
+            "total_ms": 1.0735680237412453
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.2396479994058609,
+            "router_ms": 0.07840000092983246,
+            "expert_and_combine_ms": 0.7219840288162231,
+            "cache_commit_d2d_ms": 0.12742400169372559,
+            "total_ms": 1.167456030845642
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.26848000288009644,
+            "router_ms": 0.08179199695587158,
+            "expert_and_combine_ms": 0.7068480253219604,
+            "cache_commit_d2d_ms": 0.19430400431156158,
+            "total_ms": 1.25142402946949
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4124799966812134,
+            "router_ms": 0.0822720006108284,
+            "expert_and_combine_ms": 0.6939520239830017,
+            "cache_commit_d2d_ms": 0.35123199224472046,
+            "total_ms": 1.539936013519764
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.25328001379966736,
+            "router_ms": 0.06716799736022949,
+            "expert_and_combine_ms": 0.6954560279846191,
+            "cache_commit_d2d_ms": 0.1475840061903,
+            "total_ms": 1.163488045334816
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.24483199417591095,
+            "router_ms": 0.08118399977684021,
+            "expert_and_combine_ms": 0.6892480254173279,
+            "cache_commit_d2d_ms": 0.1669120043516159,
+            "total_ms": 1.182176023721695
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.29100799560546875,
+            "router_ms": 0.08169600367546082,
+            "expert_and_combine_ms": 0.7691199779510498,
+            "cache_commit_d2d_ms": 0.21663999557495117,
+            "total_ms": 1.3584639728069305
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4025920033454895,
+            "router_ms": 0.060896001756191254,
+            "expert_and_combine_ms": 0.699455976486206,
+            "cache_commit_d2d_ms": 0.3940480053424835,
+            "total_ms": 1.5569919869303703
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 16,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 78,
+      "misses": {
+        "total": 39,
+        "mean": 4.875,
+        "max": 10,
+        "counts": [
+          8,
+          4,
+          5,
+          10,
+          3,
+          1,
+          4,
+          4
+        ],
+        "transport_bytes": 69009408
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 12.087669372558594,
+        "p50": 11.980416297912598,
+        "p95": 12.31337242126465,
+        "p99": 12.342968521118165,
+        "max": 12.350367546081543,
+        "samples_ms": [
+          12.350367546081543,
+          11.980416297912598,
+          11.93222427368164
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 3.2532800137996674,
+        "router_ms": 0.6695360019803047,
+        "expert_and_combine_ms": 5.667680025100708,
+        "cache_commit_d2d_ms": 2.710207983851433,
+        "total_ms": 12.300704024732113,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.5724480152130127,
+            "router_ms": 0.07638400048017502,
+            "expert_and_combine_ms": 0.7155519723892212,
+            "cache_commit_d2d_ms": 0.48028799891471863,
+            "total_ms": 1.8446719869971275
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.33587199449539185,
+            "router_ms": 0.07340800017118454,
+            "expert_and_combine_ms": 0.7065920233726501,
+            "cache_commit_d2d_ms": 0.2470400035381317,
+            "total_ms": 1.3629120215773582
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4560000002384186,
+            "router_ms": 0.05532800033688545,
+            "expert_and_combine_ms": 0.7180160284042358,
+            "cache_commit_d2d_ms": 0.3471679985523224,
+            "total_ms": 1.5765120275318623
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7431679964065552,
+            "router_ms": 0.059328000992536545,
+            "expert_and_combine_ms": 0.7320960164070129,
+            "cache_commit_d2d_ms": 0.7401919960975647,
+            "total_ms": 2.2747840099036694
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.29740801453590393,
+            "router_ms": 0.06803199648857117,
+            "expert_and_combine_ms": 0.7013760209083557,
+            "cache_commit_d2d_ms": 0.208064004778862,
+            "total_ms": 1.2748800367116928
+          },
+          {
+            "valid_rows": 4,
+            "misses": 1,
+            "stage_h2d_ms": 0.1520960032939911,
+            "router_ms": 0.06319999694824219,
+            "expert_and_combine_ms": 0.7058879733085632,
+            "cache_commit_d2d_ms": 0.07673600316047668,
+            "total_ms": 0.9979199767112732
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.3527680039405823,
+            "router_ms": 0.07836800068616867,
+            "expert_and_combine_ms": 0.701088011264801,
+            "cache_commit_d2d_ms": 0.30348798632621765,
+            "total_ms": 1.4357120022177696
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.34351998567581177,
+            "router_ms": 0.19548800587654114,
+            "expert_and_combine_ms": 0.6870719790458679,
+            "cache_commit_d2d_ms": 0.30723199248313904,
+            "total_ms": 1.5333119630813599
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 17,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 79,
+      "misses": {
+        "total": 43,
+        "mean": 5.375,
+        "max": 8,
+        "counts": [
+          5,
+          8,
+          5,
+          7,
+          7,
+          3,
+          4,
+          4
+        ],
+        "transport_bytes": 76087296
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 12.948224067687988,
+        "p50": 12.967904090881348,
+        "p95": 12.997164630889893,
+        "p99": 12.99976556777954,
+        "max": 13.000415802001953,
+        "samples_ms": [
+          12.967904090881348,
+          12.876352310180664,
+          13.000415802001953
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 3.7882560193538666,
+        "router_ms": 0.60470400005579,
+        "expert_and_combine_ms": 5.909567952156067,
+        "cache_commit_d2d_ms": 4.093376070261002,
+        "total_ms": 14.395904041826725,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4419519901275635,
+            "router_ms": 0.10675200074911118,
+            "expert_and_combine_ms": 0.9374719858169556,
+            "cache_commit_d2d_ms": 1.0148160457611084,
+            "total_ms": 2.5009920224547386
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.7556480169296265,
+            "router_ms": 0.14521600306034088,
+            "expert_and_combine_ms": 0.7010560035705566,
+            "cache_commit_d2d_ms": 0.8423359990119934,
+            "total_ms": 2.4442560225725174
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.42822399735450745,
+            "router_ms": 0.05708799883723259,
+            "expert_and_combine_ms": 0.6995199918746948,
+            "cache_commit_d2d_ms": 0.3954559862613678,
+            "total_ms": 1.5802879743278027
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5694079995155334,
+            "router_ms": 0.0530879981815815,
+            "expert_and_combine_ms": 0.700767993927002,
+            "cache_commit_d2d_ms": 0.5251200199127197,
+            "total_ms": 1.8483840115368366
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5448639988899231,
+            "router_ms": 0.05392000079154968,
+            "expert_and_combine_ms": 0.7218239903450012,
+            "cache_commit_d2d_ms": 0.6146240234375,
+            "total_ms": 1.935232013463974
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.31462401151657104,
+            "router_ms": 0.07423999905586243,
+            "expert_and_combine_ms": 0.7139520049095154,
+            "cache_commit_d2d_ms": 0.19254399836063385,
+            "total_ms": 1.2953600138425827
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.346560001373291,
+            "router_ms": 0.05536000058054924,
+            "expert_and_combine_ms": 0.729312002658844,
+            "cache_commit_d2d_ms": 0.2770240008831024,
+            "total_ms": 1.4082560054957867
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.3869760036468506,
+            "router_ms": 0.059039998799562454,
+            "expert_and_combine_ms": 0.7056639790534973,
+            "cache_commit_d2d_ms": 0.231455996632576,
+            "total_ms": 1.3831359781324863
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 18,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 82,
+      "misses": {
+        "total": 44,
+        "mean": 5.5,
+        "max": 8,
+        "counts": [
+          6,
+          8,
+          2,
+          8,
+          8,
+          3,
+          4,
+          5
+        ],
+        "transport_bytes": 77856768
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 12.639242808024088,
+        "p50": 12.637663841247559,
+        "p95": 12.645325088500977,
+        "p99": 12.646006088256836,
+        "max": 12.6461763381958,
+        "samples_ms": [
+          12.637663841247559,
+          12.633888244628906,
+          12.6461763381958
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 3.535711959004402,
+        "router_ms": 0.546655997633934,
+        "expert_and_combine_ms": 6.188736021518707,
+        "cache_commit_d2d_ms": 2.9518080055713654,
+        "total_ms": 13.222911983728409,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4406079947948456,
+            "router_ms": 0.0912960022687912,
+            "expert_and_combine_ms": 1.2307519912719727,
+            "cache_commit_d2d_ms": 0.46825599670410156,
+            "total_ms": 2.230911985039711
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.5963839888572693,
+            "router_ms": 0.05788800120353699,
+            "expert_and_combine_ms": 0.7101759910583496,
+            "cache_commit_d2d_ms": 0.5446720123291016,
+            "total_ms": 1.9091199934482574
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.21449600160121918,
+            "router_ms": 0.05011200159788132,
+            "expert_and_combine_ms": 0.6934400200843811,
+            "cache_commit_d2d_ms": 0.12880000472068787,
+            "total_ms": 1.0868480280041695
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6023359894752502,
+            "router_ms": 0.05395200103521347,
+            "expert_and_combine_ms": 0.6974080204963684,
+            "cache_commit_d2d_ms": 0.4557119905948639,
+            "total_ms": 1.809408001601696
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6122879981994629,
+            "router_ms": 0.07027199864387512,
+            "expert_and_combine_ms": 0.7220799922943115,
+            "cache_commit_d2d_ms": 0.5220800042152405,
+            "total_ms": 1.92671999335289
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.27980801463127136,
+            "router_ms": 0.07004799693822861,
+            "expert_and_combine_ms": 0.72188800573349,
+            "cache_commit_d2d_ms": 0.20662400126457214,
+            "total_ms": 1.278368018567562
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.3757439851760864,
+            "router_ms": 0.07887999713420868,
+            "expert_and_combine_ms": 0.7075520157814026,
+            "cache_commit_d2d_ms": 0.3020159900188446,
+            "total_ms": 1.4641919881105423
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4140479862689972,
+            "router_ms": 0.07420799881219864,
+            "expert_and_combine_ms": 0.7054399847984314,
+            "cache_commit_d2d_ms": 0.32364800572395325,
+            "total_ms": 1.5173439756035805
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 19,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 84,
+      "misses": {
+        "total": 44,
+        "mean": 5.5,
+        "max": 8,
+        "counts": [
+          4,
+          3,
+          7,
+          8,
+          8,
+          3,
+          5,
+          6
+        ],
+        "transport_bytes": 77856768
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 12.938752174377441,
+        "p50": 12.91097640991211,
+        "p95": 13.07556791305542,
+        "p99": 13.090198268890381,
+        "max": 13.093855857849121,
+        "samples_ms": [
+          12.811424255371094,
+          13.093855857849121,
+          12.91097640991211
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 3.593952029943466,
+        "router_ms": 0.543455995619297,
+        "expert_and_combine_ms": 5.717375993728638,
+        "cache_commit_d2d_ms": 2.923263981938362,
+        "total_ms": 12.778048001229763,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.30668801069259644,
+            "router_ms": 0.07532799988985062,
+            "expert_and_combine_ms": 0.707647979259491,
+            "cache_commit_d2d_ms": 0.2767679989337921,
+            "total_ms": 1.3664319887757301
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.3052160143852234,
+            "router_ms": 0.06860800087451935,
+            "expert_and_combine_ms": 0.7242559790611267,
+            "cache_commit_d2d_ms": 0.22044800221920013,
+            "total_ms": 1.3185279965400696
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5701760053634644,
+            "router_ms": 0.05379199981689453,
+            "expert_and_combine_ms": 0.7564160227775574,
+            "cache_commit_d2d_ms": 0.4010240137577057,
+            "total_ms": 1.781408041715622
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6002879738807678,
+            "router_ms": 0.05673599988222122,
+            "expert_and_combine_ms": 0.707584023475647,
+            "cache_commit_d2d_ms": 0.5784639716148376,
+            "total_ms": 1.9430719688534737
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6586560010910034,
+            "router_ms": 0.0729919970035553,
+            "expert_and_combine_ms": 0.6995519995689392,
+            "cache_commit_d2d_ms": 0.49875199794769287,
+            "total_ms": 1.9299519956111908
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.267520010471344,
+            "router_ms": 0.06592000275850296,
+            "expert_and_combine_ms": 0.7015039920806885,
+            "cache_commit_d2d_ms": 0.1685439944267273,
+            "total_ms": 1.2034879997372627
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.39580801129341125,
+            "router_ms": 0.07497599720954895,
+            "expert_and_combine_ms": 0.7096959948539734,
+            "cache_commit_d2d_ms": 0.3461120128631592,
+            "total_ms": 1.5265920162200928
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4896000027656555,
+            "router_ms": 0.0751039981842041,
+            "expert_and_combine_ms": 0.7107200026512146,
+            "cache_commit_d2d_ms": 0.4331519901752472,
+            "total_ms": 1.7085759937763214
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 20,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 78,
+      "misses": {
+        "total": 37,
+        "mean": 4.625,
+        "max": 7,
+        "counts": [
+          7,
+          6,
+          3,
+          4,
+          5,
+          4,
+          5,
+          3
+        ],
+        "transport_bytes": 65470464
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 11.701802571614584,
+        "p50": 11.645567893981934,
+        "p95": 11.94920597076416,
+        "p99": 11.976196022033692,
+        "max": 11.982943534851074,
+        "samples_ms": [
+          11.982943534851074,
+          11.645567893981934,
+          11.476896286010742
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 3.1009600162506104,
+        "router_ms": 0.6158079952001572,
+        "expert_and_combine_ms": 5.679935991764069,
+        "cache_commit_d2d_ms": 2.6690240055322647,
+        "total_ms": 12.0657280087471,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5072640180587769,
+            "router_ms": 0.07580800354480743,
+            "expert_and_combine_ms": 0.6850879788398743,
+            "cache_commit_d2d_ms": 0.43324801325798035,
+            "total_ms": 1.701408013701439
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4955520033836365,
+            "router_ms": 0.069023996591568,
+            "expert_and_combine_ms": 0.7365760207176208,
+            "cache_commit_d2d_ms": 0.3726719915866852,
+            "total_ms": 1.6738240122795105
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.25811201333999634,
+            "router_ms": 0.06355199962854385,
+            "expert_and_combine_ms": 0.6958400011062622,
+            "cache_commit_d2d_ms": 0.19577600061893463,
+            "total_ms": 1.213280014693737
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.3538239896297455,
+            "router_ms": 0.08275199681520462,
+            "expert_and_combine_ms": 0.6964160203933716,
+            "cache_commit_d2d_ms": 0.27136000990867615,
+            "total_ms": 1.4043520167469978
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.40515199303627014,
+            "router_ms": 0.07305599749088287,
+            "expert_and_combine_ms": 0.7101119756698608,
+            "cache_commit_d2d_ms": 0.34515199065208435,
+            "total_ms": 1.5334719568490982
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.32950401306152344,
+            "router_ms": 0.08035200089216232,
+            "expert_and_combine_ms": 0.6996480226516724,
+            "cache_commit_d2d_ms": 0.35740798711776733,
+            "total_ms": 1.4669120237231255
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.43427199125289917,
+            "router_ms": 0.07004799693822861,
+            "expert_and_combine_ms": 0.7158399820327759,
+            "cache_commit_d2d_ms": 0.45875200629234314,
+            "total_ms": 1.6789119765162468
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.31727999448776245,
+            "router_ms": 0.10121600329875946,
+            "expert_and_combine_ms": 0.7404159903526306,
+            "cache_commit_d2d_ms": 0.23465600609779358,
+            "total_ms": 1.393567994236946
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 21,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 85,
+      "misses": {
+        "total": 43,
+        "mean": 5.375,
+        "max": 7,
+        "counts": [
+          7,
+          5,
+          4,
+          5,
+          6,
+          6,
+          7,
+          3
+        ],
+        "transport_bytes": 76087296
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 12.732255935668945,
+        "p50": 12.759807586669922,
+        "p95": 12.805139064788818,
+        "p99": 12.809168529510497,
+        "max": 12.810175895690918,
+        "samples_ms": [
+          12.759807586669922,
+          12.810175895690918,
+          12.626784324645996
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 3.4974719882011414,
+        "router_ms": 0.6485759951174259,
+        "expert_and_combine_ms": 5.735551953315735,
+        "cache_commit_d2d_ms": 3.011007994413376,
+        "total_ms": 12.892607931047678,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5082240104675293,
+            "router_ms": 0.10918399691581726,
+            "expert_and_combine_ms": 0.6749439835548401,
+            "cache_commit_d2d_ms": 0.42713600397109985,
+            "total_ms": 1.7194879949092865
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4168959856033325,
+            "router_ms": 0.07897599786520004,
+            "expert_and_combine_ms": 0.7117120027542114,
+            "cache_commit_d2d_ms": 0.2733120024204254,
+            "total_ms": 1.4808959886431694
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.34723201394081116,
+            "router_ms": 0.05920000001788139,
+            "expert_and_combine_ms": 0.7175999879837036,
+            "cache_commit_d2d_ms": 0.2539840042591095,
+            "total_ms": 1.3780160062015057
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4086399972438812,
+            "router_ms": 0.08988799899816513,
+            "expert_and_combine_ms": 0.719648003578186,
+            "cache_commit_d2d_ms": 0.3307519853115082,
+            "total_ms": 1.5489279851317406
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4721600115299225,
+            "router_ms": 0.08736000210046768,
+            "expert_and_combine_ms": 0.7077119946479797,
+            "cache_commit_d2d_ms": 0.4763199985027313,
+            "total_ms": 1.7435520067811012
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.49116799235343933,
+            "router_ms": 0.08566399663686752,
+            "expert_and_combine_ms": 0.724128007888794,
+            "cache_commit_d2d_ms": 0.46540799736976624,
+            "total_ms": 1.766367994248867
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5809599757194519,
+            "router_ms": 0.07849600166082382,
+            "expert_and_combine_ms": 0.7475839853286743,
+            "cache_commit_d2d_ms": 0.570688009262085,
+            "total_ms": 1.977727971971035
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.27219200134277344,
+            "router_ms": 0.059808000922203064,
+            "expert_and_combine_ms": 0.7322239875793457,
+            "cache_commit_d2d_ms": 0.2134079933166504,
+            "total_ms": 1.2776319831609726
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 22,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 82,
+      "misses": {
+        "total": 59,
+        "mean": 7.375,
+        "max": 13,
+        "counts": [
+          6,
+          10,
+          13,
+          4,
+          12,
+          5,
+          7,
+          2
+        ],
+        "transport_bytes": 104398848
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 15.126272201538086,
+        "p50": 15.1812162399292,
+        "p95": 15.345376014709473,
+        "p99": 15.359967994689942,
+        "max": 15.363615989685059,
+        "samples_ms": [
+          14.833984375,
+          15.1812162399292,
+          15.363615989685059
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 4.711775943636894,
+        "router_ms": 0.6206400096416473,
+        "expert_and_combine_ms": 6.007520020008087,
+        "cache_commit_d2d_ms": 3.9417919367551804,
+        "total_ms": 15.281727910041809,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.5346239805221558,
+            "router_ms": 0.15190400183200836,
+            "expert_and_combine_ms": 0.7155519723892212,
+            "cache_commit_d2d_ms": 0.43190398812294006,
+            "total_ms": 1.8339839428663254
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.8769599795341492,
+            "router_ms": 0.09772799909114838,
+            "expert_and_combine_ms": 0.7155839800834656,
+            "cache_commit_d2d_ms": 0.7198399901390076,
+            "total_ms": 2.4101119488477707
+          },
+          {
+            "valid_rows": 4,
+            "misses": 13,
+            "stage_h2d_ms": 0.9553599953651428,
+            "router_ms": 0.06870400160551071,
+            "expert_and_combine_ms": 0.7195199728012085,
+            "cache_commit_d2d_ms": 0.8819839954376221,
+            "total_ms": 2.625567965209484
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.34463998675346375,
+            "router_ms": 0.06304000318050385,
+            "expert_and_combine_ms": 0.6954240202903748,
+            "cache_commit_d2d_ms": 0.21615999937057495,
+            "total_ms": 1.3192640095949173
+          },
+          {
+            "valid_rows": 4,
+            "misses": 12,
+            "stage_h2d_ms": 0.8740479946136475,
+            "router_ms": 0.057920001447200775,
+            "expert_and_combine_ms": 0.730400025844574,
+            "cache_commit_d2d_ms": 0.7966079711914062,
+            "total_ms": 2.4589759930968285
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.40252798795700073,
+            "router_ms": 0.05491200089454651,
+            "expert_and_combine_ms": 1.0178240537643433,
+            "cache_commit_d2d_ms": 0.3417919874191284,
+            "total_ms": 1.817056030035019
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.53302401304245,
+            "router_ms": 0.0655680000782013,
+            "expert_and_combine_ms": 0.701632022857666,
+            "cache_commit_d2d_ms": 0.4221760034561157,
+            "total_ms": 1.722400039434433
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.19059200584888458,
+            "router_ms": 0.060864001512527466,
+            "expert_and_combine_ms": 0.7115839719772339,
+            "cache_commit_d2d_ms": 0.13132800161838531,
+            "total_ms": 1.0943679809570312
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 23,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 104,
+      "misses": {
+        "total": 100,
+        "mean": 12.5,
+        "max": 16,
+        "counts": [
+          13,
+          15,
+          16,
+          14,
+          9,
+          8,
+          12,
+          13
+        ],
+        "transport_bytes": 176947200
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 20.74511973063151,
+        "p50": 20.738367080688477,
+        "p95": 20.861602783203125,
+        "p99": 20.872557067871092,
+        "max": 20.875295639038086,
+        "samples_ms": [
+          20.738367080688477,
+          20.62169647216797,
+          20.875295639038086
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 7.419904053211212,
+        "router_ms": 0.525152001529932,
+        "expert_and_combine_ms": 5.7052159905433655,
+        "cache_commit_d2d_ms": 6.801855981349945,
+        "total_ms": 20.452128026634455,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 13,
+            "stage_h2d_ms": 0.909600019454956,
+            "router_ms": 0.07052800059318542,
+            "expert_and_combine_ms": 0.6938239932060242,
+            "cache_commit_d2d_ms": 0.8561279773712158,
+            "total_ms": 2.5300799906253815
+          },
+          {
+            "valid_rows": 4,
+            "misses": 15,
+            "stage_h2d_ms": 1.1387840509414673,
+            "router_ms": 0.07027199864387512,
+            "expert_and_combine_ms": 0.7219200134277344,
+            "cache_commit_d2d_ms": 0.9185600280761719,
+            "total_ms": 2.8495360910892487
+          },
+          {
+            "valid_rows": 4,
+            "misses": 16,
+            "stage_h2d_ms": 1.1656639575958252,
+            "router_ms": 0.06454399973154068,
+            "expert_and_combine_ms": 0.7168319821357727,
+            "cache_commit_d2d_ms": 1.0874559879302979,
+            "total_ms": 3.0344959273934364
+          },
+          {
+            "valid_rows": 4,
+            "misses": 14,
+            "stage_h2d_ms": 1.0369919538497925,
+            "router_ms": 0.05696000158786774,
+            "expert_and_combine_ms": 0.7089920043945312,
+            "cache_commit_d2d_ms": 0.9318400025367737,
+            "total_ms": 2.734783962368965
+          },
+          {
+            "valid_rows": 4,
+            "misses": 9,
+            "stage_h2d_ms": 0.7219840288162231,
+            "router_ms": 0.06489600241184235,
+            "expert_and_combine_ms": 0.7231360077857971,
+            "cache_commit_d2d_ms": 0.5759040117263794,
+            "total_ms": 2.085920050740242
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6051520109176636,
+            "router_ms": 0.07673600316047668,
+            "expert_and_combine_ms": 0.7149760127067566,
+            "cache_commit_d2d_ms": 0.5407360196113586,
+            "total_ms": 1.9376000463962555
+          },
+          {
+            "valid_rows": 4,
+            "misses": 12,
+            "stage_h2d_ms": 0.8833600282669067,
+            "router_ms": 0.05798399820923805,
+            "expert_and_combine_ms": 0.6932479739189148,
+            "cache_commit_d2d_ms": 0.9153919816017151,
+            "total_ms": 2.5499839819967747
+          },
+          {
+            "valid_rows": 4,
+            "misses": 13,
+            "stage_h2d_ms": 0.9583680033683777,
+            "router_ms": 0.06323199719190598,
+            "expert_and_combine_ms": 0.7322880029678345,
+            "cache_commit_d2d_ms": 0.9758399724960327,
+            "total_ms": 2.729727976024151
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 24,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 82,
+      "misses": {
+        "total": 49,
+        "mean": 6.125,
+        "max": 11,
+        "counts": [
+          10,
+          11,
+          8,
+          6,
+          3,
+          3,
+          2,
+          6
+        ],
+        "transport_bytes": 86704128
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 13.896714528401693,
+        "p50": 13.924927711486816,
+        "p95": 13.971468544006347,
+        "p99": 13.975605506896972,
+        "max": 13.976639747619629,
+        "samples_ms": [
+          13.976639747619629,
+          13.924927711486816,
+          13.788576126098633
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 4.037888005375862,
+        "router_ms": 0.5654719956219196,
+        "expert_and_combine_ms": 5.738240003585815,
+        "cache_commit_d2d_ms": 3.276832014322281,
+        "total_ms": 13.618432018905878,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7086399793624878,
+            "router_ms": 0.08383999764919281,
+            "expert_and_combine_ms": 0.7138239741325378,
+            "cache_commit_d2d_ms": 0.6821439862251282,
+            "total_ms": 2.1884479373693466
+          },
+          {
+            "valid_rows": 4,
+            "misses": 11,
+            "stage_h2d_ms": 0.8121280074119568,
+            "router_ms": 0.058559998869895935,
+            "expert_and_combine_ms": 0.7210239768028259,
+            "cache_commit_d2d_ms": 0.7085760235786438,
+            "total_ms": 2.3002880066633224
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.661408007144928,
+            "router_ms": 0.06480000168085098,
+            "expert_and_combine_ms": 0.7322880029678345,
+            "cache_commit_d2d_ms": 0.48265600204467773,
+            "total_ms": 1.9411520138382912
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.48419201374053955,
+            "router_ms": 0.04822399839758873,
+            "expert_and_combine_ms": 0.7320960164070129,
+            "cache_commit_d2d_ms": 0.40060800313949585,
+            "total_ms": 1.665120031684637
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.38044801354408264,
+            "router_ms": 0.06278400123119354,
+            "expert_and_combine_ms": 0.7190719842910767,
+            "cache_commit_d2d_ms": 0.18432000279426575,
+            "total_ms": 1.3466240018606186
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.289247989654541,
+            "router_ms": 0.07788799703121185,
+            "expert_and_combine_ms": 0.7120640277862549,
+            "cache_commit_d2d_ms": 0.23187200725078583,
+            "total_ms": 1.3110720217227936
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.23209600150585175,
+            "router_ms": 0.08723200112581253,
+            "expert_and_combine_ms": 0.6963199973106384,
+            "cache_commit_d2d_ms": 0.143327996134758,
+            "total_ms": 1.1589759960770607
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4697279930114746,
+            "router_ms": 0.08214399963617325,
+            "expert_and_combine_ms": 0.7115520238876343,
+            "cache_commit_d2d_ms": 0.44332799315452576,
+            "total_ms": 1.706752009689808
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 25,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 89,
+      "misses": {
+        "total": 47,
+        "mean": 5.875,
+        "max": 8,
+        "counts": [
+          7,
+          8,
+          5,
+          2,
+          7,
+          5,
+          7,
+          6
+        ],
+        "transport_bytes": 83165184
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 13.224896113077799,
+        "p50": 13.176032066345215,
+        "p95": 13.477481460571289,
+        "p99": 13.504276962280274,
+        "max": 13.51097583770752,
+        "samples_ms": [
+          13.51097583770752,
+          13.176032066345215,
+          12.987680435180664
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 3.888000026345253,
+        "router_ms": 0.545279998332262,
+        "expert_and_combine_ms": 5.764064073562622,
+        "cache_commit_d2d_ms": 2.978879928588867,
+        "total_ms": 13.176224026829004,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5059840083122253,
+            "router_ms": 0.07619199901819229,
+            "expert_and_combine_ms": 0.6933119893074036,
+            "cache_commit_d2d_ms": 0.41977599263191223,
+            "total_ms": 1.6952639892697334
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.5994880199432373,
+            "router_ms": 0.05756799876689911,
+            "expert_and_combine_ms": 0.7312639951705933,
+            "cache_commit_d2d_ms": 0.4854399859905243,
+            "total_ms": 1.873759999871254
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.397024005651474,
+            "router_ms": 0.07859200239181519,
+            "expert_and_combine_ms": 0.7179840207099915,
+            "cache_commit_d2d_ms": 0.2959359884262085,
+            "total_ms": 1.4895360171794891
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.2022079974412918,
+            "router_ms": 0.08579199761152267,
+            "expert_and_combine_ms": 0.70387202501297,
+            "cache_commit_d2d_ms": 0.15318399667739868,
+            "total_ms": 1.1450560167431831
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5297279953956604,
+            "router_ms": 0.057920001447200775,
+            "expert_and_combine_ms": 0.7353919744491577,
+            "cache_commit_d2d_ms": 0.38198399543762207,
+            "total_ms": 1.705023966729641
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.6294080018997192,
+            "router_ms": 0.059039998799562454,
+            "expert_and_combine_ms": 0.7179840207099915,
+            "cache_commit_d2d_ms": 0.24476799368858337,
+            "total_ms": 1.6512000150978565
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5488319993019104,
+            "router_ms": 0.07532799988985062,
+            "expert_and_combine_ms": 0.7343680262565613,
+            "cache_commit_d2d_ms": 0.5479999780654907,
+            "total_ms": 1.906528003513813
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4753279983997345,
+            "router_ms": 0.05484800040721893,
+            "expert_and_combine_ms": 0.7298880219459534,
+            "cache_commit_d2d_ms": 0.4497919976711273,
+            "total_ms": 1.7098560184240341
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 26,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 90,
+      "misses": {
+        "total": 51,
+        "mean": 6.375,
+        "max": 8,
+        "counts": [
+          8,
+          8,
+          7,
+          7,
+          7,
+          3,
+          8,
+          3
+        ],
+        "transport_bytes": 90243072
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 13.934208234151205,
+        "p50": 13.951264381408691,
+        "p95": 13.99224681854248,
+        "p99": 13.99588970184326,
+        "max": 13.996800422668457,
+        "samples_ms": [
+          13.996800422668457,
+          13.854559898376465,
+          13.951264381408691
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 4.175040036439896,
+        "router_ms": 0.5137279964983463,
+        "expert_and_combine_ms": 5.653823971748352,
+        "cache_commit_d2d_ms": 3.451520025730133,
+        "total_ms": 13.794112030416727,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.5731840133666992,
+            "router_ms": 0.08169600367546082,
+            "expert_and_combine_ms": 0.7118080258369446,
+            "cache_commit_d2d_ms": 0.5212799906730652,
+            "total_ms": 1.8879680335521698
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.8081279993057251,
+            "router_ms": 0.07119999825954437,
+            "expert_and_combine_ms": 0.7006719708442688,
+            "cache_commit_d2d_ms": 0.49856001138687134,
+            "total_ms": 2.0785599797964096
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5650240182876587,
+            "router_ms": 0.06047999858856201,
+            "expert_and_combine_ms": 0.7299839854240417,
+            "cache_commit_d2d_ms": 0.4567680060863495,
+            "total_ms": 1.812256008386612
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5387200117111206,
+            "router_ms": 0.048767998814582825,
+            "expert_and_combine_ms": 0.7015680074691772,
+            "cache_commit_d2d_ms": 0.49248000979423523,
+            "total_ms": 1.781536027789116
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5428159832954407,
+            "router_ms": 0.0594559982419014,
+            "expert_and_combine_ms": 0.7091519832611084,
+            "cache_commit_d2d_ms": 0.3962239921092987,
+            "total_ms": 1.7076479569077492
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.2736639976501465,
+            "router_ms": 0.06652799993753433,
+            "expert_and_combine_ms": 0.7138239741325378,
+            "cache_commit_d2d_ms": 0.22643199563026428,
+            "total_ms": 1.280447967350483
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.5992000102996826,
+            "router_ms": 0.04755200073122978,
+            "expert_and_combine_ms": 0.6953279972076416,
+            "cache_commit_d2d_ms": 0.5943040251731873,
+            "total_ms": 1.9363840334117413
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.27430400252342224,
+            "router_ms": 0.07804799824953079,
+            "expert_and_combine_ms": 0.6914880275726318,
+            "cache_commit_d2d_ms": 0.2654719948768616,
+            "total_ms": 1.3093120232224464
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 27,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 82,
+      "misses": {
+        "total": 42,
+        "mean": 5.25,
+        "max": 8,
+        "counts": [
+          6,
+          3,
+          6,
+          8,
+          6,
+          2,
+          7,
+          4
+        ],
+        "transport_bytes": 74317824
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 12.689727783203125,
+        "p50": 12.702591896057129,
+        "p95": 12.761084651947021,
+        "p99": 12.766284008026123,
+        "max": 12.767583847045898,
+        "samples_ms": [
+          12.599007606506348,
+          12.702591896057129,
+          12.767583847045898
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 3.434080019593239,
+        "router_ms": 0.6794880032539368,
+        "expert_and_combine_ms": 5.652800023555756,
+        "cache_commit_d2d_ms": 2.8510720282793045,
+        "total_ms": 12.617440074682236,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4408000111579895,
+            "router_ms": 0.09734400361776352,
+            "expert_and_combine_ms": 0.7000319957733154,
+            "cache_commit_d2d_ms": 0.31648001074790955,
+            "total_ms": 1.554656021296978
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.30163198709487915,
+            "router_ms": 0.06943999975919724,
+            "expert_and_combine_ms": 0.7120320200920105,
+            "cache_commit_d2d_ms": 0.21081599593162537,
+            "total_ms": 1.2939200028777122
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4744960069656372,
+            "router_ms": 0.07612799853086472,
+            "expert_and_combine_ms": 0.6861119866371155,
+            "cache_commit_d2d_ms": 0.3757759928703308,
+            "total_ms": 1.6125119850039482
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6232320070266724,
+            "router_ms": 0.05471999943256378,
+            "expert_and_combine_ms": 0.7015680074691772,
+            "cache_commit_d2d_ms": 0.4997760057449341,
+            "total_ms": 1.8792960196733475
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4803839921951294,
+            "router_ms": 0.07526399940252304,
+            "expert_and_combine_ms": 0.7056000232696533,
+            "cache_commit_d2d_ms": 0.3901439905166626,
+            "total_ms": 1.6513920053839684
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.1952960044145584,
+            "router_ms": 0.12275200337171555,
+            "expert_and_combine_ms": 0.7547199726104736,
+            "cache_commit_d2d_ms": 0.11011199653148651,
+            "total_ms": 1.182879976928234
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5565119981765747,
+            "router_ms": 0.11046399921178818,
+            "expert_and_combine_ms": 0.6994240283966064,
+            "cache_commit_d2d_ms": 0.5720000267028809,
+            "total_ms": 1.9384000524878502
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.3617280125617981,
+            "router_ms": 0.07337599992752075,
+            "expert_and_combine_ms": 0.6933119893074036,
+            "cache_commit_d2d_ms": 0.37596800923347473,
+            "total_ms": 1.5043840110301971
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 28,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 82,
+      "misses": {
+        "total": 45,
+        "mean": 5.625,
+        "max": 8,
+        "counts": [
+          5,
+          7,
+          8,
+          6,
+          4,
+          6,
+          4,
+          5
+        ],
+        "transport_bytes": 79626240
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 13.363914807637533,
+        "p50": 13.393343925476074,
+        "p95": 13.592784404754639,
+        "p99": 13.610512447357177,
+        "max": 13.614944458007812,
+        "samples_ms": [
+          13.393343925476074,
+          13.083456039428711,
+          13.614944458007812
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 3.694719970226288,
+        "router_ms": 0.7703360021114349,
+        "expert_and_combine_ms": 5.827104032039642,
+        "cache_commit_d2d_ms": 3.2684479653835297,
+        "total_ms": 13.560607969760895,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.37222400307655334,
+            "router_ms": 0.1085439994931221,
+            "expert_and_combine_ms": 0.74617600440979,
+            "cache_commit_d2d_ms": 0.3187519907951355,
+            "total_ms": 1.545695997774601
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5651199817657471,
+            "router_ms": 0.06310400366783142,
+            "expert_and_combine_ms": 0.7107200026512146,
+            "cache_commit_d2d_ms": 0.5069119930267334,
+            "total_ms": 1.8458559811115265
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.611519992351532,
+            "router_ms": 0.09827200323343277,
+            "expert_and_combine_ms": 0.7305600047111511,
+            "cache_commit_d2d_ms": 0.5522559881210327,
+            "total_ms": 1.9926079884171486
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.5577279925346375,
+            "router_ms": 0.07596799731254578,
+            "expert_and_combine_ms": 0.7180799841880798,
+            "cache_commit_d2d_ms": 0.36662399768829346,
+            "total_ms": 1.7183999717235565
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.3641279935836792,
+            "router_ms": 0.1961279958486557,
+            "expert_and_combine_ms": 0.7264639735221863,
+            "cache_commit_d2d_ms": 0.2921600043773651,
+            "total_ms": 1.5788799673318863
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.47859200835227966,
+            "router_ms": 0.06377600133419037,
+            "expert_and_combine_ms": 0.7286720275878906,
+            "cache_commit_d2d_ms": 0.4869120121002197,
+            "total_ms": 1.7579520493745804
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.34348800778388977,
+            "router_ms": 0.08150400221347809,
+            "expert_and_combine_ms": 0.7403200268745422,
+            "cache_commit_d2d_ms": 0.33795198798179626,
+            "total_ms": 1.5032640248537064
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.40191999077796936,
+            "router_ms": 0.08303999900817871,
+            "expert_and_combine_ms": 0.7261120080947876,
+            "cache_commit_d2d_ms": 0.4068799912929535,
+            "total_ms": 1.6179519891738892
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 29,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 93,
+      "misses": {
+        "total": 72,
+        "mean": 9.0,
+        "max": 13,
+        "counts": [
+          8,
+          10,
+          12,
+          7,
+          13,
+          9,
+          6,
+          7
+        ],
+        "transport_bytes": 127401984
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 16.803956985473633,
+        "p50": 16.8417911529541,
+        "p95": 16.932713317871094,
+        "p99": 16.940795288085937,
+        "max": 16.94281578063965,
+        "samples_ms": [
+          16.8417911529541,
+          16.94281578063965,
+          16.62726402282715
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 5.440960049629211,
+        "router_ms": 0.7030399888753891,
+        "expert_and_combine_ms": 5.723487973213196,
+        "cache_commit_d2d_ms": 5.454463988542557,
+        "total_ms": 17.321952000260353,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.575872004032135,
+            "router_ms": 0.2349119931459427,
+            "expert_and_combine_ms": 0.7135679721832275,
+            "cache_commit_d2d_ms": 0.551967978477478,
+            "total_ms": 2.0763199478387833
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7718719840049744,
+            "router_ms": 0.06217600032687187,
+            "expert_and_combine_ms": 0.7249919772148132,
+            "cache_commit_d2d_ms": 1.0167039632797241,
+            "total_ms": 2.5757439248263836
+          },
+          {
+            "valid_rows": 4,
+            "misses": 12,
+            "stage_h2d_ms": 0.9065600037574768,
+            "router_ms": 0.058687999844551086,
+            "expert_and_combine_ms": 0.6991999745368958,
+            "cache_commit_d2d_ms": 1.031872034072876,
+            "total_ms": 2.6963200122117996
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.545632004737854,
+            "router_ms": 0.05967999994754791,
+            "expert_and_combine_ms": 0.7181119918823242,
+            "cache_commit_d2d_ms": 0.49142399430274963,
+            "total_ms": 1.8148479908704758
+          },
+          {
+            "valid_rows": 4,
+            "misses": 13,
+            "stage_h2d_ms": 0.9306240081787109,
+            "router_ms": 0.05923200026154518,
+            "expert_and_combine_ms": 0.6974400281906128,
+            "cache_commit_d2d_ms": 0.944096028804779,
+            "total_ms": 2.631392065435648
+          },
+          {
+            "valid_rows": 4,
+            "misses": 9,
+            "stage_h2d_ms": 0.6743680238723755,
+            "router_ms": 0.08038400113582611,
+            "expert_and_combine_ms": 0.7060480117797852,
+            "cache_commit_d2d_ms": 0.6102719902992249,
+            "total_ms": 2.0710720270872116
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.46726399660110474,
+            "router_ms": 0.07199999690055847,
+            "expert_and_combine_ms": 0.7179200053215027,
+            "cache_commit_d2d_ms": 0.38598400354385376,
+            "total_ms": 1.6431680023670197
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5687680244445801,
+            "router_ms": 0.07596799731254578,
+            "expert_and_combine_ms": 0.7462080121040344,
+            "cache_commit_d2d_ms": 0.42214399576187134,
+            "total_ms": 1.8130880296230316
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 30,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 96,
+      "misses": {
+        "total": 73,
+        "mean": 9.125,
+        "max": 11,
+        "counts": [
+          5,
+          10,
+          10,
+          11,
+          9,
+          9,
+          11,
+          8
+        ],
+        "transport_bytes": 129171456
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 17.210528055826824,
+        "p50": 17.110111236572266,
+        "p95": 17.46656951904297,
+        "p99": 17.498254699707033,
+        "max": 17.506175994873047,
+        "samples_ms": [
+          17.506175994873047,
+          17.015296936035156,
+          17.110111236572266
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 5.478816032409668,
+        "router_ms": 0.565311998128891,
+        "expert_and_combine_ms": 5.743008017539978,
+        "cache_commit_d2d_ms": 5.389151990413666,
+        "total_ms": 17.176288038492203,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.3765760064125061,
+            "router_ms": 0.11046399921178818,
+            "expert_and_combine_ms": 0.7245759963989258,
+            "cache_commit_d2d_ms": 0.3493120074272156,
+            "total_ms": 1.5609280094504356
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.75900799036026,
+            "router_ms": 0.05849599838256836,
+            "expert_and_combine_ms": 0.7303360104560852,
+            "cache_commit_d2d_ms": 0.6648319959640503,
+            "total_ms": 2.212671995162964
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7296320199966431,
+            "router_ms": 0.05686400085687637,
+            "expert_and_combine_ms": 0.7232000231742859,
+            "cache_commit_d2d_ms": 0.716480016708374,
+            "total_ms": 2.2261760607361794
+          },
+          {
+            "valid_rows": 4,
+            "misses": 11,
+            "stage_h2d_ms": 0.8119999766349792,
+            "router_ms": 0.059039998799562454,
+            "expert_and_combine_ms": 0.7118719816207886,
+            "cache_commit_d2d_ms": 0.7445120215415955,
+            "total_ms": 2.3274239785969257
+          },
+          {
+            "valid_rows": 4,
+            "misses": 9,
+            "stage_h2d_ms": 0.6852160096168518,
+            "router_ms": 0.06387200206518173,
+            "expert_and_combine_ms": 0.7127040028572083,
+            "cache_commit_d2d_ms": 0.7376959919929504,
+            "total_ms": 2.1994880065321922
+          },
+          {
+            "valid_rows": 4,
+            "misses": 9,
+            "stage_h2d_ms": 0.6831039786338806,
+            "router_ms": 0.0809599980711937,
+            "expert_and_combine_ms": 0.7332159876823425,
+            "cache_commit_d2d_ms": 0.6451519727706909,
+            "total_ms": 2.1424319371581078
+          },
+          {
+            "valid_rows": 4,
+            "misses": 11,
+            "stage_h2d_ms": 0.8297920227050781,
+            "router_ms": 0.08022399991750717,
+            "expert_and_combine_ms": 0.7035520076751709,
+            "cache_commit_d2d_ms": 0.9516159892082214,
+            "total_ms": 2.5651840195059776
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.603488028049469,
+            "router_ms": 0.05539200082421303,
+            "expert_and_combine_ms": 0.7035520076751709,
+            "cache_commit_d2d_ms": 0.5795519948005676,
+            "total_ms": 1.9419840313494205
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 31,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 91,
+      "misses": {
+        "total": 56,
+        "mean": 7.0,
+        "max": 10,
+        "counts": [
+          10,
+          7,
+          8,
+          10,
+          6,
+          4,
+          6,
+          5
+        ],
+        "transport_bytes": 99090432
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 14.56173833211263,
+        "p50": 14.592255592346191,
+        "p95": 14.592716503143311,
+        "p99": 14.592757472991943,
+        "max": 14.592767715454102,
+        "samples_ms": [
+          14.592767715454102,
+          14.500191688537598,
+          14.592255592346191
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 4.38633605837822,
+        "router_ms": 0.5733759962022305,
+        "expert_and_combine_ms": 5.743264019489288,
+        "cache_commit_d2d_ms": 4.217695981264114,
+        "total_ms": 14.920672055333853,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7100800275802612,
+            "router_ms": 0.08959999680519104,
+            "expert_and_combine_ms": 0.6896960139274597,
+            "cache_commit_d2d_ms": 0.9199039936065674,
+            "total_ms": 2.4092800319194794
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5508480072021484,
+            "router_ms": 0.07273600250482559,
+            "expert_and_combine_ms": 0.7122560143470764,
+            "cache_commit_d2d_ms": 0.46086400747299194,
+            "total_ms": 1.7967040315270424
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.616320013999939,
+            "router_ms": 0.06201599910855293,
+            "expert_and_combine_ms": 0.7239999771118164,
+            "cache_commit_d2d_ms": 0.6155840158462524,
+            "total_ms": 2.0179200060665607
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.8225280046463013,
+            "router_ms": 0.063680000603199,
+            "expert_and_combine_ms": 0.7195839881896973,
+            "cache_commit_d2d_ms": 0.6717119812965393,
+            "total_ms": 2.277503974735737
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.46777600049972534,
+            "router_ms": 0.08479999750852585,
+            "expert_and_combine_ms": 0.7179520130157471,
+            "cache_commit_d2d_ms": 0.3829439878463745,
+            "total_ms": 1.6534719988703728
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.35152000188827515,
+            "router_ms": 0.07916799932718277,
+            "expert_and_combine_ms": 0.7179520130157471,
+            "cache_commit_d2d_ms": 0.25622400641441345,
+            "total_ms": 1.4048640206456184
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.47206398844718933,
+            "router_ms": 0.05926400050520897,
+            "expert_and_combine_ms": 0.7418879866600037,
+            "cache_commit_d2d_ms": 0.4967679977416992,
+            "total_ms": 1.7699839733541012
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.3952000141143799,
+            "router_ms": 0.062111999839544296,
+            "expert_and_combine_ms": 0.7199360132217407,
+            "cache_commit_d2d_ms": 0.4136959910392761,
+            "total_ms": 1.590944018214941
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 32,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 87,
+      "misses": {
+        "total": 69,
+        "mean": 8.625,
+        "max": 14,
+        "counts": [
+          12,
+          8,
+          14,
+          8,
+          11,
+          6,
+          5,
+          5
+        ],
+        "transport_bytes": 122093568
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 16.80077870686849,
+        "p50": 16.31439971923828,
+        "p95": 17.95919723510742,
+        "p99": 18.105401458740236,
+        "max": 18.141952514648438,
+        "samples_ms": [
+          18.141952514648438,
+          16.31439971923828,
+          15.94598388671875
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 5.404607981443405,
+        "router_ms": 0.5574079975485802,
+        "expert_and_combine_ms": 5.809983909130096,
+        "cache_commit_d2d_ms": 4.366208016872406,
+        "total_ms": 16.138207904994488,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 12,
+            "stage_h2d_ms": 1.08406400680542,
+            "router_ms": 0.09097599983215332,
+            "expert_and_combine_ms": 0.7213119864463806,
+            "cache_commit_d2d_ms": 0.7382720112800598,
+            "total_ms": 2.6346240043640137
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6005120277404785,
+            "router_ms": 0.0544000007212162,
+            "expert_and_combine_ms": 0.7200319766998291,
+            "cache_commit_d2d_ms": 0.5151360034942627,
+            "total_ms": 1.8900800086557865
+          },
+          {
+            "valid_rows": 4,
+            "misses": 14,
+            "stage_h2d_ms": 1.0094399452209473,
+            "router_ms": 0.06099199876189232,
+            "expert_and_combine_ms": 0.7404800057411194,
+            "cache_commit_d2d_ms": 0.9466239809989929,
+            "total_ms": 2.757535930722952
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6049919724464417,
+            "router_ms": 0.06351999938488007,
+            "expert_and_combine_ms": 0.7183039784431458,
+            "cache_commit_d2d_ms": 0.4270400106906891,
+            "total_ms": 1.8138559609651566
+          },
+          {
+            "valid_rows": 4,
+            "misses": 11,
+            "stage_h2d_ms": 0.8173120021820068,
+            "router_ms": 0.0594559982419014,
+            "expert_and_combine_ms": 0.7274559736251831,
+            "cache_commit_d2d_ms": 0.6420800089836121,
+            "total_ms": 2.2463039830327034
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4607360064983368,
+            "router_ms": 0.07433599978685379,
+            "expert_and_combine_ms": 0.7364479899406433,
+            "cache_commit_d2d_ms": 0.4023360013961792,
+            "total_ms": 1.673855997622013
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4156480133533478,
+            "router_ms": 0.07836800068616867,
+            "expert_and_combine_ms": 0.7290880084037781,
+            "cache_commit_d2d_ms": 0.32607999444007874,
+            "total_ms": 1.5491840168833733
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4119040071964264,
+            "router_ms": 0.0753600001335144,
+            "expert_and_combine_ms": 0.7168639898300171,
+            "cache_commit_d2d_ms": 0.3686400055885315,
+            "total_ms": 1.5727680027484894
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 33,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 93,
+      "misses": {
+        "total": 87,
+        "mean": 10.875,
+        "max": 16,
+        "counts": [
+          10,
+          10,
+          16,
+          12,
+          14,
+          5,
+          10,
+          10
+        ],
+        "transport_bytes": 153944064
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 19.506858825683594,
+        "p50": 19.612159729003906,
+        "p95": 19.983363723754884,
+        "p99": 20.016359634399414,
+        "max": 20.024608612060547,
+        "samples_ms": [
+          20.024608612060547,
+          19.612159729003906,
+          18.883808135986328
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 6.595456033945084,
+        "router_ms": 0.5847679860889912,
+        "expert_and_combine_ms": 6.256671965122223,
+        "cache_commit_d2d_ms": 5.882527977228165,
+        "total_ms": 19.319423962384462,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7526400089263916,
+            "router_ms": 0.0944959968328476,
+            "expert_and_combine_ms": 1.1487679481506348,
+            "cache_commit_d2d_ms": 0.7189760208129883,
+            "total_ms": 2.7148799747228622
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7784320116043091,
+            "router_ms": 0.06054399907588959,
+            "expert_and_combine_ms": 0.6943680047988892,
+            "cache_commit_d2d_ms": 0.7036799788475037,
+            "total_ms": 2.2370239943265915
+          },
+          {
+            "valid_rows": 4,
+            "misses": 16,
+            "stage_h2d_ms": 1.1402239799499512,
+            "router_ms": 0.08860799670219421,
+            "expert_and_combine_ms": 0.7369599938392639,
+            "cache_commit_d2d_ms": 0.9864640235900879,
+            "total_ms": 2.952255994081497
+          },
+          {
+            "valid_rows": 4,
+            "misses": 12,
+            "stage_h2d_ms": 0.8746880292892456,
+            "router_ms": 0.056384000927209854,
+            "expert_and_combine_ms": 0.734112024307251,
+            "cache_commit_d2d_ms": 0.7732800245285034,
+            "total_ms": 2.43846407905221
+          },
+          {
+            "valid_rows": 4,
+            "misses": 14,
+            "stage_h2d_ms": 1.081663966178894,
+            "router_ms": 0.09164799749851227,
+            "expert_and_combine_ms": 0.7512639760971069,
+            "cache_commit_d2d_ms": 1.166111946105957,
+            "total_ms": 3.0906878858804703
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.4572480022907257,
+            "router_ms": 0.06643199920654297,
+            "expert_and_combine_ms": 0.7409600019454956,
+            "cache_commit_d2d_ms": 0.33273598551750183,
+            "total_ms": 1.5973759889602661
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7377600073814392,
+            "router_ms": 0.0575999990105629,
+            "expert_and_combine_ms": 0.7424960136413574,
+            "cache_commit_d2d_ms": 0.5642240047454834,
+            "total_ms": 2.102080024778843
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7728000283241272,
+            "router_ms": 0.06905599683523178,
+            "expert_and_combine_ms": 0.7077440023422241,
+            "cache_commit_d2d_ms": 0.6370559930801392,
+            "total_ms": 2.1866560205817223
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 34,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 92,
+      "misses": {
+        "total": 82,
+        "mean": 10.25,
+        "max": 15,
+        "counts": [
+          11,
+          12,
+          15,
+          11,
+          11,
+          4,
+          8,
+          10
+        ],
+        "transport_bytes": 145096704
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 18.38262367248535,
+        "p50": 18.532896041870117,
+        "p95": 18.610684394836426,
+        "p99": 18.617598915100096,
+        "max": 18.619327545166016,
+        "samples_ms": [
+          18.619327545166016,
+          18.532896041870117,
+          17.995647430419922
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 6.212223947048187,
+        "router_ms": 0.6165760010480881,
+        "expert_and_combine_ms": 5.7089919447898865,
+        "cache_commit_d2d_ms": 6.036511927843094,
+        "total_ms": 18.574303820729256,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 11,
+            "stage_h2d_ms": 0.7750399708747864,
+            "router_ms": 0.09756799787282944,
+            "expert_and_combine_ms": 0.7349439859390259,
+            "cache_commit_d2d_ms": 0.7414079904556274,
+            "total_ms": 2.348959945142269
+          },
+          {
+            "valid_rows": 4,
+            "misses": 12,
+            "stage_h2d_ms": 0.8926720023155212,
+            "router_ms": 0.06297600269317627,
+            "expert_and_combine_ms": 0.7026879787445068,
+            "cache_commit_d2d_ms": 0.8641600012779236,
+            "total_ms": 2.522495985031128
+          },
+          {
+            "valid_rows": 4,
+            "misses": 15,
+            "stage_h2d_ms": 1.1051520109176636,
+            "router_ms": 0.08185599744319916,
+            "expert_and_combine_ms": 0.7226240038871765,
+            "cache_commit_d2d_ms": 0.9589759707450867,
+            "total_ms": 2.868607982993126
+          },
+          {
+            "valid_rows": 4,
+            "misses": 11,
+            "stage_h2d_ms": 0.8303999900817871,
+            "router_ms": 0.07769600301980972,
+            "expert_and_combine_ms": 0.7314559817314148,
+            "cache_commit_d2d_ms": 0.8043519854545593,
+            "total_ms": 2.443903960287571
+          },
+          {
+            "valid_rows": 4,
+            "misses": 11,
+            "stage_h2d_ms": 0.8505280017852783,
+            "router_ms": 0.09145600348711014,
+            "expert_and_combine_ms": 0.6964160203933716,
+            "cache_commit_d2d_ms": 0.8140159845352173,
+            "total_ms": 2.4524160102009773
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.37279999256134033,
+            "router_ms": 0.08217599987983704,
+            "expert_and_combine_ms": 0.6983360052108765,
+            "cache_commit_d2d_ms": 0.35760000348091125,
+            "total_ms": 1.510912001132965
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6305599808692932,
+            "router_ms": 0.0631679967045784,
+            "expert_and_combine_ms": 0.7056959867477417,
+            "cache_commit_d2d_ms": 0.680895984172821,
+            "total_ms": 2.0803199484944344
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7550719976425171,
+            "router_ms": 0.05967999994754791,
+            "expert_and_combine_ms": 0.7168319821357727,
+            "cache_commit_d2d_ms": 0.8151040077209473,
+            "total_ms": 2.346687987446785
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 35,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 88,
+      "misses": {
+        "total": 63,
+        "mean": 7.875,
+        "max": 10,
+        "counts": [
+          6,
+          6,
+          10,
+          7,
+          10,
+          7,
+          9,
+          8
+        ],
+        "transport_bytes": 111476736
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 15.797738711039225,
+        "p50": 15.856672286987305,
+        "p95": 16.005279541015625,
+        "p99": 16.01848907470703,
+        "max": 16.021791458129883,
+        "samples_ms": [
+          16.021791458129883,
+          15.514752388000488,
+          15.856672286987305
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 4.992895990610123,
+        "router_ms": 0.5762560032308102,
+        "expert_and_combine_ms": 5.722015917301178,
+        "cache_commit_d2d_ms": 5.2009919583797455,
+        "total_ms": 16.492159869521856,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.45232000946998596,
+            "router_ms": 0.11369600147008896,
+            "expert_and_combine_ms": 0.7226240038871765,
+            "cache_commit_d2d_ms": 0.40143999457359314,
+            "total_ms": 1.6900800094008446
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.49324798583984375,
+            "router_ms": 0.08099199831485748,
+            "expert_and_combine_ms": 0.7035520076751709,
+            "cache_commit_d2d_ms": 0.73471999168396,
+            "total_ms": 2.012511983513832
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.8761280179023743,
+            "router_ms": 0.06224000081419945,
+            "expert_and_combine_ms": 0.7005119919776917,
+            "cache_commit_d2d_ms": 1.2706559896469116,
+            "total_ms": 2.909536000341177
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5792639851570129,
+            "router_ms": 0.07827199995517731,
+            "expert_and_combine_ms": 0.6916159987449646,
+            "cache_commit_d2d_ms": 0.5006719827651978,
+            "total_ms": 1.8498239666223526
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7527999877929688,
+            "router_ms": 0.057631999254226685,
+            "expert_and_combine_ms": 0.7168639898300171,
+            "cache_commit_d2d_ms": 0.6472319960594177,
+            "total_ms": 2.1745279729366302
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5510079860687256,
+            "router_ms": 0.06358399987220764,
+            "expert_and_combine_ms": 0.726207971572876,
+            "cache_commit_d2d_ms": 0.45558398962020874,
+            "total_ms": 1.796383947134018
+          },
+          {
+            "valid_rows": 4,
+            "misses": 9,
+            "stage_h2d_ms": 0.6743360161781311,
+            "router_ms": 0.060416001826524734,
+            "expert_and_combine_ms": 0.7242239713668823,
+            "cache_commit_d2d_ms": 0.634880006313324,
+            "total_ms": 2.093855995684862
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6137920022010803,
+            "router_ms": 0.05942400172352791,
+            "expert_and_combine_ms": 0.7364159822463989,
+            "cache_commit_d2d_ms": 0.5558080077171326,
+            "total_ms": 1.9654399938881397
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 36,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 87,
+      "misses": {
+        "total": 56,
+        "mean": 7.0,
+        "max": 10,
+        "counts": [
+          6,
+          10,
+          7,
+          4,
+          6,
+          9,
+          6,
+          8
+        ],
+        "transport_bytes": 99090432
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 15.425024032592773,
+        "p50": 15.361184120178223,
+        "p95": 15.82483549118042,
+        "p99": 15.866048946380616,
+        "max": 15.876352310180664,
+        "samples_ms": [
+          15.037535667419434,
+          15.876352310180664,
+          15.361184120178223
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 4.411936014890671,
+        "router_ms": 0.600223995745182,
+        "expert_and_combine_ms": 6.043199956417084,
+        "cache_commit_d2d_ms": 4.040863990783691,
+        "total_ms": 15.096223957836628,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4779840111732483,
+            "router_ms": 0.08380799740552902,
+            "expert_and_combine_ms": 0.7357119917869568,
+            "cache_commit_d2d_ms": 0.36979201436042786,
+            "total_ms": 1.667296014726162
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7419840097427368,
+            "router_ms": 0.05721599981188774,
+            "expert_and_combine_ms": 0.9984319806098938,
+            "cache_commit_d2d_ms": 0.6709120273590088,
+            "total_ms": 2.468544017523527
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5609599947929382,
+            "router_ms": 0.07228799909353256,
+            "expert_and_combine_ms": 0.7035840153694153,
+            "cache_commit_d2d_ms": 0.4628799855709076,
+            "total_ms": 1.7997119948267937
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.3579519987106323,
+            "router_ms": 0.07971200346946716,
+            "expert_and_combine_ms": 0.720255970954895,
+            "cache_commit_d2d_ms": 0.23427200317382812,
+            "total_ms": 1.3921919763088226
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4821760058403015,
+            "router_ms": 0.06201599910855293,
+            "expert_and_combine_ms": 0.7384639978408813,
+            "cache_commit_d2d_ms": 0.38099199533462524,
+            "total_ms": 1.663647998124361
+          },
+          {
+            "valid_rows": 4,
+            "misses": 9,
+            "stage_h2d_ms": 0.6762239933013916,
+            "router_ms": 0.08300799876451492,
+            "expert_and_combine_ms": 0.7158719897270203,
+            "cache_commit_d2d_ms": 0.7697280049324036,
+            "total_ms": 2.2448319867253304
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4880000054836273,
+            "router_ms": 0.08287999778985977,
+            "expert_and_combine_ms": 0.7166079878807068,
+            "cache_commit_d2d_ms": 0.5157439708709717,
+            "total_ms": 1.8032319620251656
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6266559958457947,
+            "router_ms": 0.07929600030183792,
+            "expert_and_combine_ms": 0.7142720222473145,
+            "cache_commit_d2d_ms": 0.6365439891815186,
+            "total_ms": 2.0567680075764656
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 37,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 81,
+      "misses": {
+        "total": 53,
+        "mean": 6.625,
+        "max": 12,
+        "counts": [
+          5,
+          3,
+          12,
+          6,
+          6,
+          7,
+          8,
+          6
+        ],
+        "transport_bytes": 93782016
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 14.286698659261068,
+        "p50": 14.295552253723145,
+        "p95": 14.31228494644165,
+        "p99": 14.313772296905517,
+        "max": 14.314144134521484,
+        "samples_ms": [
+          14.295552253723145,
+          14.250399589538574,
+          14.314144134521484
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 4.293792098760605,
+        "router_ms": 0.6258559972047806,
+        "expert_and_combine_ms": 5.714208006858826,
+        "cache_commit_d2d_ms": 3.9774080216884613,
+        "total_ms": 14.611264124512672,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.43696001172065735,
+            "router_ms": 0.1281599998474121,
+            "expert_and_combine_ms": 0.724511981010437,
+            "cache_commit_d2d_ms": 0.3278079926967621,
+            "total_ms": 1.6174399852752686
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.29094401001930237,
+            "router_ms": 0.08329600095748901,
+            "expert_and_combine_ms": 0.7118080258369446,
+            "cache_commit_d2d_ms": 0.2239679992198944,
+            "total_ms": 1.3100160360336304
+          },
+          {
+            "valid_rows": 4,
+            "misses": 12,
+            "stage_h2d_ms": 0.8786240220069885,
+            "router_ms": 0.059039998799562454,
+            "expert_and_combine_ms": 0.7180799841880798,
+            "cache_commit_d2d_ms": 0.8243520259857178,
+            "total_ms": 2.4800960309803486
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.46620801091194153,
+            "router_ms": 0.07609599828720093,
+            "expert_and_combine_ms": 0.7056639790534973,
+            "cache_commit_d2d_ms": 0.4464319944381714,
+            "total_ms": 1.6943999826908112
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.4663040041923523,
+            "router_ms": 0.07711999863386154,
+            "expert_and_combine_ms": 0.715936005115509,
+            "cache_commit_d2d_ms": 0.42287999391555786,
+            "total_ms": 1.6822400018572807
+          },
+          {
+            "valid_rows": 4,
+            "misses": 7,
+            "stage_h2d_ms": 0.5466560125350952,
+            "router_ms": 0.0613120011985302,
+            "expert_and_combine_ms": 0.7053760290145874,
+            "cache_commit_d2d_ms": 0.5910720229148865,
+            "total_ms": 1.9044160656630993
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.637440025806427,
+            "router_ms": 0.07807999849319458,
+            "expert_and_combine_ms": 0.7077119946479797,
+            "cache_commit_d2d_ms": 0.7434239983558655,
+            "total_ms": 2.166656017303467
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.5706560015678406,
+            "router_ms": 0.06275200098752975,
+            "expert_and_combine_ms": 0.7251200079917908,
+            "cache_commit_d2d_ms": 0.39747199416160583,
+            "total_ms": 1.756000004708767
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 38,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 70,
+      "misses": {
+        "total": 31,
+        "mean": 3.875,
+        "max": 8,
+        "counts": [
+          1,
+          2,
+          8,
+          4,
+          6,
+          3,
+          2,
+          5
+        ],
+        "transport_bytes": 54853632
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 11.075551986694336,
+        "p50": 11.025888442993164,
+        "p95": 11.179276466369629,
+        "p99": 11.192910957336426,
+        "max": 11.196319580078125,
+        "samples_ms": [
+          11.004447937011719,
+          11.196319580078125,
+          11.025888442993164
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 2.956287994980812,
+        "router_ms": 0.5710080005228519,
+        "expert_and_combine_ms": 5.795456051826477,
+        "cache_commit_d2d_ms": 1.9958079755306244,
+        "total_ms": 11.318560022860765,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 1,
+            "stage_h2d_ms": 0.32044801115989685,
+            "router_ms": 0.09417600184679031,
+            "expert_and_combine_ms": 0.7193920016288757,
+            "cache_commit_d2d_ms": 0.08905600011348724,
+            "total_ms": 1.2230720147490501
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.2134079933166504,
+            "router_ms": 0.0851840004324913,
+            "expert_and_combine_ms": 0.7043520212173462,
+            "cache_commit_d2d_ms": 0.1724800020456314,
+            "total_ms": 1.1754240170121193
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.7184320092201233,
+            "router_ms": 0.050464000552892685,
+            "expert_and_combine_ms": 0.7300480008125305,
+            "cache_commit_d2d_ms": 0.5140799880027771,
+            "total_ms": 2.0130239985883236
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.33823999762535095,
+            "router_ms": 0.07903999835252762,
+            "expert_and_combine_ms": 0.7220479846000671,
+            "cache_commit_d2d_ms": 0.2313919961452484,
+            "total_ms": 1.3707199767231941
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.48089599609375,
+            "router_ms": 0.07555200159549713,
+            "expert_and_combine_ms": 0.7477120161056519,
+            "cache_commit_d2d_ms": 0.3185279965400696,
+            "total_ms": 1.6226880103349686
+          },
+          {
+            "valid_rows": 4,
+            "misses": 3,
+            "stage_h2d_ms": 0.27209600806236267,
+            "router_ms": 0.06319999694824219,
+            "expert_and_combine_ms": 0.7159039974212646,
+            "cache_commit_d2d_ms": 0.19305600225925446,
+            "total_ms": 1.244256004691124
+          },
+          {
+            "valid_rows": 4,
+            "misses": 2,
+            "stage_h2d_ms": 0.20652799308300018,
+            "router_ms": 0.04982399940490723,
+            "expert_and_combine_ms": 0.748416006565094,
+            "cache_commit_d2d_ms": 0.15769599378108978,
+            "total_ms": 1.1624639928340912
+          },
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.40623998641967773,
+            "router_ms": 0.07356800138950348,
+            "expert_and_combine_ms": 0.707584023475647,
+            "cache_commit_d2d_ms": 0.3195199966430664,
+            "total_ms": 1.5069120079278946
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    },
+    {
+      "layer": 39,
+      "tasks": 8,
+      "warm_residents": 52,
+      "selected_source_experts": 78,
+      "misses": {
+        "total": 57,
+        "mean": 7.125,
+        "max": 10,
+        "counts": [
+          5,
+          4,
+          10,
+          10,
+          10,
+          4,
+          8,
+          6
+        ],
+        "transport_bytes": 100859904
+      },
+      "timing_epoch_ms": {
+        "count": 3,
+        "mean": 14.457279841105143,
+        "p50": 14.382559776306152,
+        "p95": 14.694060802459717,
+        "p99": 14.721749782562256,
+        "max": 14.72867202758789,
+        "samples_ms": [
+          14.72867202758789,
+          14.382559776306152,
+          14.260607719421387
+        ]
+      },
+      "timing_breakdown": {
+        "instrumented_single_epoch": true,
+        "stage_h2d_ms": 4.473183989524841,
+        "router_ms": 0.6140160113573074,
+        "expert_and_combine_ms": 5.762624084949493,
+        "cache_commit_d2d_ms": 4.038336008787155,
+        "total_ms": 14.888160094618797,
+        "tasks": [
+          {
+            "valid_rows": 4,
+            "misses": 5,
+            "stage_h2d_ms": 0.44358399510383606,
+            "router_ms": 0.10291200131177902,
+            "expert_and_combine_ms": 0.7273600101470947,
+            "cache_commit_d2d_ms": 0.34092798829078674,
+            "total_ms": 1.6147839948534966
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.33792001008987427,
+            "router_ms": 0.1058880016207695,
+            "expert_and_combine_ms": 0.7283520102500916,
+            "cache_commit_d2d_ms": 0.26627200841903687,
+            "total_ms": 1.4384320303797722
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7262399792671204,
+            "router_ms": 0.057792000472545624,
+            "expert_and_combine_ms": 0.7425280213356018,
+            "cache_commit_d2d_ms": 0.5880320072174072,
+            "total_ms": 2.114592008292675
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7388799786567688,
+            "router_ms": 0.059647999703884125,
+            "expert_and_combine_ms": 0.7017279863357544,
+            "cache_commit_d2d_ms": 0.6144639849662781,
+            "total_ms": 2.1147199496626854
+          },
+          {
+            "valid_rows": 4,
+            "misses": 10,
+            "stage_h2d_ms": 0.7352960109710693,
+            "router_ms": 0.058880001306533813,
+            "expert_and_combine_ms": 0.7301120162010193,
+            "cache_commit_d2d_ms": 0.6544960141181946,
+            "total_ms": 2.178784042596817
+          },
+          {
+            "valid_rows": 4,
+            "misses": 4,
+            "stage_h2d_ms": 0.34092798829078674,
+            "router_ms": 0.08249600231647491,
+            "expert_and_combine_ms": 0.712768018245697,
+            "cache_commit_d2d_ms": 0.3071039915084839,
+            "total_ms": 1.4432960003614426
+          },
+          {
+            "valid_rows": 4,
+            "misses": 8,
+            "stage_h2d_ms": 0.6314240097999573,
+            "router_ms": 0.06867200136184692,
+            "expert_and_combine_ms": 0.7045760154724121,
+            "cache_commit_d2d_ms": 0.688480019569397,
+            "total_ms": 2.0931520462036133
+          },
+          {
+            "valid_rows": 4,
+            "misses": 6,
+            "stage_h2d_ms": 0.5189120173454285,
+            "router_ms": 0.07772800326347351,
+            "expert_and_combine_ms": 0.7152000069618225,
+            "cache_commit_d2d_ms": 0.5785599946975708,
+            "total_ms": 1.8904000222682953
+          }
+        ]
+      },
+      "route_rows_exact": 8,
+      "route_rows_total": 8,
+      "route_exact": true,
+      "transition_exact": true,
+      "repeat_bit_exact": true,
+      "finite": true
+    }
+  ],
+  "gates": {
+    "P84_G1_authoritative_target_only_input": true,
+    "P84_G2_custom_router_exact_all_rows": true,
+    "P84_G3_authoritative_staging_covers_every_assignment": true,
+    "P84_G4_fresh_cache_repeat_exact_and_finite": true,
+    "P84_G5_real_expert_segment_contract": true
+  },
+  "environment": {
+    "created_utc": "2026-08-21T20:37:08.092995+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "c2d50c17f2438f362826b7c02749b190457d5bb8",
+    "git_status": [
+      "M pro_research/S100_PHASE46_52_ORNITH_TRANSFER_REPORT.md",
+      " M pro_research/s100_phase84_ornith_dflash_ervf_replay.py",
+      "?? pro_research/S100_PHASE84_ORNITH_TARGET_H4_MOE_TRANSPORT_PREREGISTRATION.md",
+      "?? pro_research/results/history/S100_PHASE84_ORNITH_TARGET_H4_MOE_TRANSPORT__20260821T203538Z.json",
+      "?? pro_research/results/s100_phase84_target_h4/",
+      "?? pro_research/s100_phase84_ornith_target_h4_moe_transport.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 102 MiB, 63, 27.72 W, 1155 MHz, 11801 MHz, P1",
+    "source_hashes": {
+      "pro_research\\s100_phase84_ornith_target_h4_moe_transport.py": "8b2ef5ec1e67e336b8e3cb7b0ab1eb7007f53eb5146c751334a55ae9b20f4183",
+      "pro_research\\S100_PHASE84_ORNITH_TARGET_H4_MOE_TRANSPORT_PREREGISTRATION.md": "5a9df2b34e97ed47de5f804fd43221ed5d813d2edb3db8a32b6cf46427e4b2f4",
+      "pro_research\\results\\s100_phase76\\ornith_64_hidden_trace.json.gz": "bd99092ea8690a9d58bb69a01cc638a0aeb3fd3dca5d9454fed4b0556beecbd7",
+      "pro_research\\results\\s100_phase84\\S100_PHASE84_ORNITH_DFLASH_ERVF_REPLAY.json": "3aafb7ed3b35ed1d6eec6a0e205f37ff2a55fd966aff8ae59494202e3b6a66d8",
+      "pro_research\\results\\s100_phase66\\S100_PHASE66_ORNITH_65TPS_BUDGET.json": "2bb3c61e047d4687b2fc27e0cc97eb8fc15880a6cdec96091a481a56ccc831e7",
+      "pro_research\\results\\s100_phase69\\S100_PHASE69_ORNITH_SUPPORT_H4.json": "f87024282266689acf854bcdfc6061313b50b8a16f73174888a5fcd9122ec8e2"
+    }
+  }
+}

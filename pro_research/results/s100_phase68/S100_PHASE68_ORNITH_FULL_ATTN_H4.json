@@ -1,0 +1,551 @@
+{
+  "kind": "s100_phase68_ornith_full_attn_h4",
+  "status": "measured_pass",
+  "started_utc": "2026-08-21T15:55:46.819332+00:00",
+  "preregistration": "pro_research\\S100_PHASE68_ORNITH_FULL_ATTN_H4_PREREGISTRATION.md",
+  "contexts": [
+    128,
+    1024
+  ],
+  "warmup": 15,
+  "repeats": 51,
+  "records": [
+    {
+      "repository": "official",
+      "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--ornith-ai--Ornith-1.5-35B-A3B-NVFP4\\snapshots\\0f0b1b59b879ccde1353e6ebd0fb10c204d4c544",
+      "prefix": "model.language_model.layers.23.self_attn",
+      "base_context": 128,
+      "max_context": 132,
+      "norm_shards": {
+        "q_norm.weight": "model-00002-of-00003.safetensors",
+        "k_norm.weight": "model-00002-of-00003.safetensors"
+      },
+      "preparation_quality": {
+        "prepared_q": {
+          "nrmse": 7.579488753536658e-08,
+          "max_abs": 9.5367431640625e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_key": {
+          "nrmse": 5.6141217265599965e-08,
+          "max_abs": 7.152557373046875e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_value": {
+          "nrmse": 0.0,
+          "max_abs": 0.0,
+          "candidate_finite": true,
+          "reference_finite": true
+        }
+      },
+      "preparation_timing_ms": {
+        "count": 51,
+        "mean": 0.011950431400727407,
+        "p50": 0.009727999567985535,
+        "p95": 0.02913600020110607,
+        "p99": 0.05040000006556511,
+        "max": 0.06668800115585327
+      },
+      "arms": {
+        "g1": {
+          "quality": {
+            "nrmse": 2.958463448952325e-07,
+            "max_abs": 1.564621925354004e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 51,
+            "mean": 0.05567372553780967,
+            "p50": 0.05344000086188316,
+            "p95": 0.057072000578045845,
+            "p99": 0.10182400047779083,
+            "max": 0.13462400436401367
+          },
+          "complete_timing_ms": {
+            "count": 51,
+            "mean": 0.05866729395062316,
+            "p50": 0.05817599967122078,
+            "p95": 0.060784000903367996,
+            "p99": 0.06654400005936623,
+            "max": 0.069023996591568
+          }
+        },
+        "g4": {
+          "quality": {
+            "nrmse": 2.958463448952325e-07,
+            "max_abs": 1.564621925354004e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 51,
+            "mean": 0.06696596098881141,
+            "p50": 0.06665600091218948,
+            "p95": 0.06748799979686737,
+            "p99": 0.07481599971652031,
+            "max": 0.0799039974808693
+          },
+          "complete_timing_ms": {
+            "count": 51,
+            "mean": 0.08293584368976892,
+            "p50": 0.07184000313282013,
+            "p95": 0.10513599961996078,
+            "p99": 0.2916960045695305,
+            "max": 0.3937920033931732
+          }
+        },
+        "g8": {
+          "quality": {
+            "nrmse": 2.958463448952325e-07,
+            "max_abs": 1.564621925354004e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 51,
+            "mean": 0.09290792135631337,
+            "p50": 0.09225600212812424,
+            "p95": 0.09435200318694115,
+            "p99": 0.10865600034594536,
+            "max": 0.12038400024175644
+          },
+          "complete_timing_ms": {
+            "count": 51,
+            "mean": 0.09777882388409447,
+            "p50": 0.09753599762916565,
+            "p95": 0.09964799880981445,
+            "p99": 0.10099199786782265,
+            "max": 0.10159999877214432
+          }
+        }
+      },
+      "selected_arm": "g1",
+      "selected_complete_ms": 0.05817599967122078,
+      "projected_10_full_layers_ms_h4": 0.5817599967122078
+    },
+    {
+      "repository": "official",
+      "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--ornith-ai--Ornith-1.5-35B-A3B-NVFP4\\snapshots\\0f0b1b59b879ccde1353e6ebd0fb10c204d4c544",
+      "prefix": "model.language_model.layers.23.self_attn",
+      "base_context": 1024,
+      "max_context": 1028,
+      "norm_shards": {
+        "q_norm.weight": "model-00002-of-00003.safetensors",
+        "k_norm.weight": "model-00002-of-00003.safetensors"
+      },
+      "preparation_quality": {
+        "prepared_q": {
+          "nrmse": 6.830090781340777e-08,
+          "max_abs": 9.5367431640625e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_key": {
+          "nrmse": 6.337707191957169e-08,
+          "max_abs": 4.76837158203125e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_value": {
+          "nrmse": 0.0,
+          "max_abs": 0.0,
+          "candidate_finite": true,
+          "reference_finite": true
+        }
+      },
+      "preparation_timing_ms": {
+        "count": 51,
+        "mean": 0.01657349028277631,
+        "p50": 0.013952000066637993,
+        "p95": 0.03839999996125698,
+        "p99": 0.05454400181770325,
+        "max": 0.06691200286149979
+      },
+      "arms": {
+        "g1": {
+          "quality": {
+            "nrmse": 5.1336675821294e-07,
+            "max_abs": 1.4901161193847656e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 51,
+            "mean": 0.35029897911875857,
+            "p50": 0.34544000029563904,
+            "p95": 0.3766559958457947,
+            "p99": 0.43438398838043213,
+            "max": 0.4859519898891449
+          },
+          "complete_timing_ms": {
+            "count": 51,
+            "mean": 0.3554823527149126,
+            "p50": 0.34998399019241333,
+            "p95": 0.37487998604774475,
+            "p99": 0.4525440037250519,
+            "max": 0.4615040123462677
+          }
+        },
+        "g4": {
+          "quality": {
+            "nrmse": 5.1336675821294e-07,
+            "max_abs": 1.4901161193847656e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 51,
+            "mean": 0.45878086253708483,
+            "p50": 0.44944000244140625,
+            "p95": 0.5050559937953949,
+            "p99": 0.5665439963340759,
+            "max": 0.6134399771690369
+          },
+          "complete_timing_ms": {
+            "count": 51,
+            "mean": 0.4725753729249917,
+            "p50": 0.47334399819374084,
+            "p95": 0.5104160159826279,
+            "p99": 0.5322880148887634,
+            "max": 0.5364800095558167
+          }
+        },
+        "g8": {
+          "quality": {
+            "nrmse": 5.1336675821294e-07,
+            "max_abs": 1.4901161193847656e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 51,
+            "mean": 0.6514679181809518,
+            "p50": 0.6444799900054932,
+            "p95": 0.6909760236740112,
+            "p99": 0.7189120054244995,
+            "max": 0.7219520211219788
+          },
+          "complete_timing_ms": {
+            "count": 51,
+            "mean": 0.6725716111706752,
+            "p50": 0.6531839966773987,
+            "p95": 0.7135200202465057,
+            "p99": 0.9216480255126953,
+            "max": 1.0872000455856323
+          }
+        }
+      },
+      "selected_arm": "g1",
+      "selected_complete_ms": 0.34998399019241333,
+      "projected_10_full_layers_ms_h4": 3.4998399019241333
+    },
+    {
+      "repository": "pottokao",
+      "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+      "prefix": "model.layers.23.self_attn",
+      "base_context": 128,
+      "max_context": 132,
+      "norm_shards": {
+        "q_norm.weight": "model-00002-of-00003.safetensors",
+        "k_norm.weight": "model-00002-of-00003.safetensors"
+      },
+      "preparation_quality": {
+        "prepared_q": {
+          "nrmse": 7.27603713666782e-08,
+          "max_abs": 9.5367431640625e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_key": {
+          "nrmse": 6.93958297002334e-08,
+          "max_abs": 7.152557373046875e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_value": {
+          "nrmse": 0.0,
+          "max_abs": 0.0,
+          "candidate_finite": true,
+          "reference_finite": true
+        }
+      },
+      "preparation_timing_ms": {
+        "count": 51,
+        "mean": 0.010251921546809813,
+        "p50": 0.009503999724984169,
+        "p95": 0.013167999684810638,
+        "p99": 0.030736000277101994,
+        "max": 0.031039999797940254
+      },
+      "arms": {
+        "g1": {
+          "quality": {
+            "nrmse": 3.0230731218894653e-07,
+            "max_abs": 1.7881393432617188e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 51,
+            "mean": 0.052975058993872476,
+            "p50": 0.052639998495578766,
+            "p95": 0.05390400066971779,
+            "p99": 0.06036800146102905,
+            "max": 0.06668800115585327
+          },
+          "complete_timing_ms": {
+            "count": 51,
+            "mean": 0.05874196082061412,
+            "p50": 0.0578560009598732,
+            "p95": 0.06003199890255928,
+            "p99": 0.07518399879336357,
+            "max": 0.08956799656152725
+          }
+        },
+        "g4": {
+          "quality": {
+            "nrmse": 3.0230731218894653e-07,
+            "max_abs": 1.7881393432617188e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 51,
+            "mean": 0.06712094124625712,
+            "p50": 0.06656000018119812,
+            "p95": 0.0674239993095398,
+            "p99": 0.08206400275230408,
+            "max": 0.09625600278377533
+          },
+          "complete_timing_ms": {
+            "count": 51,
+            "mean": 0.07486933382118449,
+            "p50": 0.07199999690055847,
+            "p95": 0.08616000041365623,
+            "p99": 0.12596799805760384,
+            "max": 0.14723199605941772
+          }
+        },
+        "g8": {
+          "quality": {
+            "nrmse": 3.0230731218894653e-07,
+            "max_abs": 1.7881393432617188e-07,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 51,
+            "mean": 0.0924944309335129,
+            "p50": 0.09200000017881393,
+            "p95": 0.09372799843549728,
+            "p99": 0.10041600093245506,
+            "max": 0.10505600273609161
+          },
+          "complete_timing_ms": {
+            "count": 51,
+            "mean": 0.10385945132550072,
+            "p50": 0.09814400225877762,
+            "p95": 0.11151999980211258,
+            "p99": 0.22544000297784805,
+            "max": 0.3208000063896179
+          }
+        }
+      },
+      "selected_arm": "g1",
+      "selected_complete_ms": 0.0578560009598732,
+      "projected_10_full_layers_ms_h4": 0.578560009598732
+    },
+    {
+      "repository": "pottokao",
+      "snapshot": "C:\\Users\\de_do\\Models\\hf-cache\\models--pottokao--Ornith-1.5-35B-A3B-abliterated-NVFP4-DFlash\\snapshots\\d60d98b0b2feeabca19196005f4ac378279e2f25",
+      "prefix": "model.layers.23.self_attn",
+      "base_context": 1024,
+      "max_context": 1028,
+      "norm_shards": {
+        "q_norm.weight": "model-00002-of-00003.safetensors",
+        "k_norm.weight": "model-00002-of-00003.safetensors"
+      },
+      "preparation_quality": {
+        "prepared_q": {
+          "nrmse": 7.05010047280532e-08,
+          "max_abs": 9.5367431640625e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_key": {
+          "nrmse": 8.545825669573363e-08,
+          "max_abs": 9.5367431640625e-07,
+          "candidate_finite": true,
+          "reference_finite": true
+        },
+        "appended_value": {
+          "nrmse": 0.0,
+          "max_abs": 0.0,
+          "candidate_finite": true,
+          "reference_finite": true
+        }
+      },
+      "preparation_timing_ms": {
+        "count": 51,
+        "mean": 0.013879843019679481,
+        "p50": 0.010751999914646149,
+        "p95": 0.028159999288618565,
+        "p99": 0.0355679988861084,
+        "max": 0.03711999952793121
+      },
+      "arms": {
+        "g1": {
+          "quality": {
+            "nrmse": 7.070654627694919e-07,
+            "max_abs": 7.450580596923828e-08,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 51,
+            "mean": 0.3512878423812343,
+            "p50": 0.34512001276016235,
+            "p95": 0.377920001745224,
+            "p99": 0.4450239986181259,
+            "max": 0.4619840085506439
+          },
+          "complete_timing_ms": {
+            "count": 51,
+            "mean": 0.3593738032322304,
+            "p50": 0.350271999835968,
+            "p95": 0.3944000005722046,
+            "p99": 0.47150400280952454,
+            "max": 0.47910401225090027
+          }
+        },
+        "g4": {
+          "quality": {
+            "nrmse": 7.070654627694919e-07,
+            "max_abs": 7.450580596923828e-08,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 51,
+            "mean": 0.45948611696561176,
+            "p50": 0.4493120014667511,
+            "p95": 0.5123040080070496,
+            "p99": 0.574288010597229,
+            "max": 0.6177600026130676
+          },
+          "complete_timing_ms": {
+            "count": 51,
+            "mean": 0.457065411642486,
+            "p50": 0.45443201065063477,
+            "p95": 0.472367987036705,
+            "p99": 0.48736000061035156,
+            "max": 0.4893440008163452
+          }
+        },
+        "g8": {
+          "quality": {
+            "nrmse": 7.070654627694919e-07,
+            "max_abs": 7.450580596923828e-08,
+            "candidate_finite": true,
+            "reference_finite": true
+          },
+          "fresh_input_bit_deterministic": true,
+          "attention_timing_ms": {
+            "count": 51,
+            "mean": 0.6500059623344272,
+            "p50": 0.6447039842605591,
+            "p95": 0.6849600076675415,
+            "p99": 0.7147359848022461,
+            "max": 0.7242239713668823
+          },
+          "complete_timing_ms": {
+            "count": 51,
+            "mean": 0.664631214796328,
+            "p50": 0.6516159772872925,
+            "p95": 0.7179839909076691,
+            "p99": 0.7856639921665192,
+            "max": 0.8182399868965149
+          }
+        }
+      },
+      "selected_arm": "g1",
+      "selected_complete_ms": 0.350271999835968,
+      "projected_10_full_layers_ms_h4": 3.50271999835968
+    }
+  ],
+  "resources": {
+    "ornith_qkv_prepare_h4": {
+      "num_regs": 25,
+      "shared_size_bytes_static": 1060,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    },
+    "ornith_attention_g1_h4": {
+      "num_regs": 29,
+      "shared_size_bytes_static": 48,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    },
+    "ornith_attention_g4_h4": {
+      "num_regs": 40,
+      "shared_size_bytes_static": 192,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    },
+    "ornith_attention_g8_h4": {
+      "num_regs": 51,
+      "shared_size_bytes_static": 384,
+      "local_size_bytes": 0,
+      "max_threads_per_block": 1024
+    }
+  },
+  "budget": {
+    "phase67_known_floor_ms_h4": 53.34665513783693,
+    "worse_10_full_layers_ms_h4": 3.50271999835968,
+    "combined_known_floor_ms_h4": 56.84937513619661,
+    "combined_equivalent_tok_s": 70.36137143841985,
+    "remaining_to_65_ms": 4.689086402264927
+  },
+  "gates": {
+    "P68_G1_reference_quality": true,
+    "P68_G2_fresh_input_deterministic": true,
+    "P68_G3_selected_le_0_40ms_and_ten_le_4ms": true,
+    "P68_G4_phase67_plus_full_attention_below_65_boundary": true,
+    "P68_G5_resource_budget": true
+  },
+  "completed_utc": "2026-08-21T15:55:49.695895+00:00",
+  "environment": {
+    "created_utc": "2026-08-21T15:55:49.716083+00:00",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable": "C:\\Users\\de_do\\Documents\\ChatGPT\\New project\\.venv-nemotron\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head": "7e7a884280fd590aa2db9cce3b5a38a78fc046ed",
+    "git_status": [
+      "?? pro_research/S100_PHASE68_ORNITH_FULL_ATTN_H4_PREREGISTRATION.md",
+      "?? pro_research/s100_phase68_ornith_full_attn_h4.py",
+      "?? pro_research/s100_phase68_ornith_full_attn_h4_kernels.py"
+    ],
+    "model_dir": "C:\\Users\\de_do\\Documents\\ChatGPT\\ervf-s100-phase30e-breakthrough\\models\\nemotron_3_5_lightning_v35",
+    "nvidia_smi": "NVIDIA RTX PRO 2000 Blackwell Generation Laptop GPU, 596.58, 8151 MiB, 94 MiB, 63, 27.72 W, 2257 MHz, 11801 MHz, P1",
+    "source_hashes": {
+      "pro_research\\s100_phase68_ornith_full_attn_h4.py": "0ead01a8b1c90fb68a251681516170c6e520bd8842b74b4a69aa0ec20d3dc41c",
+      "pro_research\\S100_PHASE68_ORNITH_FULL_ATTN_H4_PREREGISTRATION.md": "73c0fcd1c835a3e5c87b90d1f5a868db09545c7371df488a1b8c3dc810918250",
+      "pro_research\\s100_phase68_ornith_full_attn_h4_kernels.py": "86c78145ecb6cdb70a327f99d142732caafb31fe4915eddaae2fdfed65216748",
+      "pro_research\\results\\s100_phase67\\S100_PHASE67_ORNITH_LINEAR_H4.json": "40f38ca4297691b58b2a37d649afcd7e6366750ecaf69caeee6057f3a15f9092"
+    }
+  }
+}

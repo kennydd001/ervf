@@ -266,6 +266,24 @@ states reproduce bit-identical GPU outputs. Adding the worse 30-layer result
 to the Phase66 floor gives 53.347 ms/H4, or 74.98 tok/s equivalent, and leaves
 8.192 ms/H4 for full attention, routers, remaining norms and orchestration.
 
+### Phase68 — full causal-attention H4
+
+The complete post-projection core includes Q/K RMSNorm, partial RoPE, four K/V
+appends, exact intra-H4 causality, softmax attention and the query output gate.
+Three predeclared CTA geometries shared one, four or all eight Q heads of a KV
+group. G1 won at both contexts: at these sizes the extra grid parallelism is
+worth more than eliminating repeated K/V reads.
+
+| Context | Selected | Official | Pottokao | Worse ten-layer cost |
+|---:|---|---:|---:|---:|
+| 128 | G1 | 0.0582 ms/layer | 0.0579 ms/layer | 0.582 ms/H4 |
+| 1024 | G1 | 0.3500 ms/layer | 0.3503 ms/layer | 3.503 ms/H4 |
+
+All arm outputs have NRMSE below 7.1e-7, are deterministic, and use zero local
+memory. The conservative ctx1024 known floor is now 56.849 ms/H4 (70.36 tok/s
+equivalent), leaving 4.689 ms/H4 to the 65 tok/s boundary. At ctx128 the full
+attention contribution is only about 0.582 ms/H4.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |
@@ -281,15 +299,16 @@ to the Phase66 floor gives 53.347 ms/H4, or 74.98 tok/s equivalent, and leaves
 | Shared-expert stream overlap | Does not transfer | Memory-bandwidth contention erases the overlap |
 | Native-head acceleration | Transfers with exact rerank | Native top-64 plus indexed ERVF recovers exact selected IDs on 32 synthetic rows |
 | Qwen3.5 linear-attention H4 | Transfers | Full conv/gate/delta/norm core is independently green at 1.965 ms over 30 layers |
+| Qwen3.5 full-attention H4 | Transfers with G1 dispatch | Q/K norm, RoPE, causal cache, attention and output gate are green at ctx128/1024 |
 | Nemotron ReLU2 sparse down | Does not transfer | SwiGLU output is dense; no exact-zero column mask |
 | Nemotron Mamba/SSM kernels | Replaced | Qwen3.5 recurrence now has a dedicated fused H4 implementation |
 | Nemotron hardcoded DFlash adapter | Does not transfer | Different target layers, hidden injection and draft semantics |
 
 ## Remaining critical path
 
-1. Port and independently gate Qwen3.5's ten full causal-attention cores.
-   Together with routers/norms/reductions they must fit inside the remaining
-   measured 8.192 ms all-hot residual.
+1. Port and independently gate Ornith's 40 routers plus remaining layer norms,
+   residual reductions and graph orchestration. At ctx1024 they must fit inside
+   the remaining measured 4.689 ms all-hot residual.
 2. Capture real target router IDs for H4 speculative blocks and replay them
    through the implemented multiplicity planner, 52-expert/layer cache and
    miss-count-adaptive transport. With 5 ms reserved elsewhere, approximately

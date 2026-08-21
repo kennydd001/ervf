@@ -5,6 +5,7 @@ import pytest
 from moe_lab.ornith.page_cache import (
     ORNITH_LOGICAL_CACHE_SLOTS,
     OrnithPageCache,
+    PhysicalBufferPool,
     PhysicalPageLRU,
 )
 
@@ -133,3 +134,72 @@ def test_snapshots_are_deterministic_for_same_sequence():
 def test_staging_requires_at_least_one_page_table_slot(bad_slots):
     with pytest.raises(ValueError, match="staging_slots"):
         PhysicalPageLRU(staging_slots=bad_slots)
+
+
+def test_executor_pool_swaps_unique_buffer_handles_for_h2d_promotion():
+    logical_handle = object()
+    staging_handle = object()
+    cache = PhysicalPageLRU(logical_slots=1, staging_slots=1)
+    pool = PhysicalBufferPool(
+        logical_slots=1,
+        staging_slots=1,
+        logical_handles=(logical_handle,),
+        staging_handles=(staging_handle,),
+    )
+
+    first_cache_plan = cache.plan_h4((("old",), (), (), ()), valid_rows=1)
+    first_buffer_plan = pool.plan(first_cache_plan)
+    assert first_buffer_plan.h2d_writes[0].handle is staging_handle
+    pool.commit(first_buffer_plan)
+    cache.commit(first_cache_plan)
+
+    before = pool.snapshot()
+    assert before.logical_to_handle[0] is staging_handle
+    assert before.staging_to_handle[0] is logical_handle
+
+    miss_cache_plan = cache.plan_h4((("new",), (), (), ()), valid_rows=1)
+    miss_buffer_plan = pool.plan(miss_cache_plan)
+
+    assert len(miss_buffer_plan.h2d_writes) == 1
+    assert miss_buffer_plan.h2d_writes[0].handle is logical_handle
+    assert miss_buffer_plan.swaps[0].payload_copy is False
+    assert miss_buffer_plan.payload_copy_bytes == 0
+    assert miss_buffer_plan.after.logical_to_handle[0] is logical_handle
+    assert miss_buffer_plan.after.staging_to_handle[0] is staging_handle
+    assert miss_buffer_plan.after.handle_to_content[logical_handle] == "new"
+    assert miss_buffer_plan.after.handle_to_content[staging_handle] == "old"
+
+    pool.commit(miss_buffer_plan)
+    cache.commit(miss_cache_plan)
+    pool.assert_invariants()
+
+
+def test_executor_pool_abort_and_stale_plans_do_not_mutate_handle_map():
+    logical_handle = object()
+    staging_handle = object()
+    cache = PhysicalPageLRU(logical_slots=1, staging_slots=1)
+    pool = PhysicalBufferPool(
+        logical_slots=1,
+        staging_slots=1,
+        logical_handles=(logical_handle,),
+        staging_handles=(staging_handle,),
+    )
+    initial_cache_plan = cache.plan_h4((("resident",), (), (), ()), valid_rows=1)
+    initial_buffer_plan = pool.plan(initial_cache_plan)
+    pool.commit(initial_buffer_plan)
+    cache.commit(initial_cache_plan)
+
+    cache_plan = cache.plan_h4((("candidate",), (), (), ()), valid_rows=1)
+    buffer_plan = pool.plan(cache_plan)
+    before_abort = pool.snapshot()
+    assert pool.abort(buffer_plan) == before_abort
+    assert pool.snapshot() == before_abort
+
+    pool.commit(buffer_plan)
+    after_commit = pool.snapshot()
+    with pytest.raises(ValueError, match="stale"):
+        pool.commit(buffer_plan)
+    assert pool.snapshot() == after_commit
+    with pytest.raises(ValueError, match="different buffer state"):
+        pool.abort(buffer_plan)
+    assert pool.snapshot() == after_commit

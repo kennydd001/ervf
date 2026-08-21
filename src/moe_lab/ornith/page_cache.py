@@ -18,7 +18,11 @@ from typing import Hashable, Literal, Sequence
 ORNITH_LOGICAL_CACHE_SLOTS = 52
 H4_ROWS = 4
 
+# Content/page IDs identify the expert payload.  They are deliberately not
+# used as GPU buffer handles: a payload may move between logical and staging
+# slots without moving its physical allocation.
 PageId = Hashable
+BufferHandle = Hashable
 OperationKind = Literal["hit", "promote"]
 PromotionSource = Literal["staging", "external"]
 
@@ -116,6 +120,74 @@ class PageCachePlan:
     def payload_copy_bytes(self) -> int:
         """Always zero: promotion changes mappings, never payload bytes."""
 
+        return 0
+
+
+@dataclass(frozen=True)
+class BufferHandleSnapshot:
+    """Immutable executor-facing mapping of slots to physical buffers.
+
+    ``logical_to_handle`` and ``staging_to_handle`` contain opaque physical
+    buffer handles.  ``content_by_handle`` is a separate diagnostic mapping
+    from those handles to expert/content IDs.  Promotion changes only the
+    first two tables; the payload behind a handle is never copied.
+    """
+
+    logical_to_handle: tuple[BufferHandle, ...]
+    staging_to_handle: tuple[BufferHandle, ...]
+    content_by_handle: tuple[tuple[BufferHandle, PageId | None], ...]
+    epoch: int
+
+    @property
+    def handle_to_content(self) -> dict[BufferHandle, PageId | None]:
+        return dict(self.content_by_handle)
+
+    @property
+    def logical_content(self) -> tuple[PageId | None, ...]:
+        content = self.handle_to_content
+        return tuple(content[handle] for handle in self.logical_to_handle)
+
+    @property
+    def staging_content(self) -> tuple[PageId | None, ...]:
+        content = self.handle_to_content
+        return tuple(content[handle] for handle in self.staging_to_handle)
+
+
+@dataclass(frozen=True)
+class H2DStagingWrite:
+    """One executor H2D destination for an external page miss."""
+
+    page: PageId
+    staging_slot: int
+    handle: BufferHandle
+
+
+@dataclass(frozen=True)
+class BufferHandleSwap:
+    """A logical/staging handle exchange; no payload bytes are copied."""
+
+    logical_slot: int
+    staging_slot: int
+    logical_handle_before: BufferHandle
+    staging_handle_before: BufferHandle
+    logical_handle_after: BufferHandle
+    staging_handle_after: BufferHandle
+    payload_copy: bool = False
+
+
+@dataclass(frozen=True)
+class BufferHandlePlan:
+    """Transactional physical-handle plan paired with a page-cache plan."""
+
+    before: BufferHandleSnapshot
+    after: BufferHandleSnapshot
+    cache_before: PageCacheSnapshot
+    cache_after: PageCacheSnapshot
+    h2d_writes: tuple[H2DStagingWrite, ...]
+    swaps: tuple[BufferHandleSwap, ...]
+
+    @property
+    def payload_copy_bytes(self) -> int:
         return 0
 
 
@@ -406,9 +478,217 @@ class PhysicalPageLRU:
             self._state = original
 
 
+@dataclass
+class _BufferState:
+    logical_handles: list[BufferHandle]
+    staging_handles: list[BufferHandle]
+    content_by_handle: dict[BufferHandle, PageId | None]
+    epoch: int
+
+
+class PhysicalBufferPool:
+    """Executor-facing physical buffer pool for :class:`PhysicalPageLRU`.
+
+    The page cache owns content IDs and LRU decisions.  This pool owns only
+    the opaque physical buffer handles.  ``plan`` turns each external miss
+    into an H2D destination record for a staging handle, then models
+    promotion by swapping the logical/staging handle references.  It never
+    copies a payload between handles.
+
+    A caller can therefore issue the H2D writes in ``plan.h2d_writes`` and
+    commit the handle mapping after the transfer completes.  Abort and stale
+    plans leave the handle map untouched.
+    """
+
+    def __init__(
+        self,
+        *,
+        logical_slots: int = ORNITH_LOGICAL_CACHE_SLOTS,
+        staging_slots: int = 2,
+        logical_handles: Sequence[BufferHandle] | None = None,
+        staging_handles: Sequence[BufferHandle] | None = None,
+    ) -> None:
+        if logical_slots <= 0:
+            raise ValueError("logical_slots must be positive")
+        if staging_slots <= 0:
+            raise ValueError("staging_slots must be positive")
+        self.logical_slots = int(logical_slots)
+        self.staging_slots = int(staging_slots)
+        logical = self._normalize_handles(logical_handles, self.logical_slots, "logical")
+        staging = self._normalize_handles(staging_handles, self.staging_slots, "staging")
+        all_handles = (*logical, *staging)
+        try:
+            if len(set(all_handles)) != len(all_handles):
+                raise ValueError("physical buffer handles must be unique")
+        except TypeError as exc:
+            raise TypeError("physical buffer handles must be hashable") from exc
+        self._state = _BufferState(
+            logical_handles=list(logical),
+            staging_handles=list(staging),
+            content_by_handle={handle: None for handle in all_handles},
+            epoch=0,
+        )
+        self.assert_invariants()
+
+    def snapshot(self) -> BufferHandleSnapshot:
+        """Return an immutable slot/handle/content mapping snapshot."""
+
+        state = self._state
+        handles = (*state.logical_handles, *state.staging_handles)
+        return BufferHandleSnapshot(
+            logical_to_handle=tuple(state.logical_handles),
+            staging_to_handle=tuple(state.staging_handles),
+            content_by_handle=tuple(
+                (handle, state.content_by_handle[handle]) for handle in handles
+            ),
+            epoch=state.epoch,
+        )
+
+    def assert_invariants(self) -> None:
+        """Validate the physical handle table and its separate content map."""
+
+        state = self._state
+        if len(state.logical_handles) != self.logical_slots:
+            raise AssertionError("logical handle table has the wrong size")
+        if len(state.staging_handles) != self.staging_slots:
+            raise AssertionError("staging handle table has the wrong size")
+        handles = (*state.logical_handles, *state.staging_handles)
+        try:
+            if len(set(handles)) != len(handles):
+                raise AssertionError("a physical buffer handle is mapped more than once")
+        except TypeError as exc:
+            raise AssertionError("physical buffer handles must be hashable") from exc
+        if set(state.content_by_handle) != set(handles):
+            raise AssertionError("content map and physical handle table disagree")
+        if state.epoch < 0:
+            raise AssertionError("epoch must be non-negative")
+        for content in state.content_by_handle.values():
+            if content is not None:
+                try:
+                    hash(content)
+                except TypeError as exc:
+                    raise AssertionError("content IDs must be hashable") from exc
+
+    def plan(self, cache_plan: PageCachePlan) -> BufferHandlePlan:
+        """Plan physical handle promotion for one page-cache transaction.
+
+        The current pool must describe ``cache_plan.before``.  For every
+        ``source == \"external\"`` promotion, the returned H2D record points
+        to the staging handle that receives the miss.  The subsequent swap
+        exchanges only handle references; the content map stays attached to
+        each physical handle.
+        """
+
+        before = self.snapshot()
+        self._assert_cache_alignment(cache_plan.before, before)
+        logical = list(before.logical_to_handle)
+        staging = list(before.staging_to_handle)
+        content = before.handle_to_content
+        h2d_writes: list[H2DStagingWrite] = []
+        swaps: list[BufferHandleSwap] = []
+
+        for promotion in cache_plan.promotions:
+            logical_handle = logical[promotion.logical_slot]
+            staging_handle = staging[promotion.staging_slot]
+            if promotion.source == "external":
+                # The staging allocation is the H2D destination.  Updating
+                # this metadata models the transfer; no D2D operation occurs.
+                content[staging_handle] = promotion.page
+                h2d_writes.append(H2DStagingWrite(
+                    page=promotion.page,
+                    staging_slot=promotion.staging_slot,
+                    handle=staging_handle,
+                ))
+            elif content[staging_handle] != promotion.page:
+                raise ValueError("staging handle content disagrees with page-cache plan")
+
+            logical[promotion.logical_slot], staging[promotion.staging_slot] = (
+                staging_handle,
+                logical_handle,
+            )
+            swaps.append(BufferHandleSwap(
+                logical_slot=promotion.logical_slot,
+                staging_slot=promotion.staging_slot,
+                logical_handle_before=logical_handle,
+                staging_handle_before=staging_handle,
+                logical_handle_after=staging_handle,
+                staging_handle_after=logical_handle,
+            ))
+
+        after = BufferHandleSnapshot(
+            logical_to_handle=tuple(logical),
+            staging_to_handle=tuple(staging),
+            content_by_handle=tuple(
+                (handle, content[handle]) for handle in (*logical, *staging)
+            ),
+            epoch=before.epoch + 1,
+        )
+        self._assert_cache_alignment(cache_plan.after, after)
+        return BufferHandlePlan(
+            before=before,
+            after=after,
+            cache_before=cache_plan.before,
+            cache_after=cache_plan.after,
+            h2d_writes=tuple(h2d_writes),
+            swaps=tuple(swaps),
+        )
+
+    def commit(self, plan: BufferHandlePlan) -> BufferHandleSnapshot:
+        """Atomically commit a physical handle plan from the current state."""
+
+        if plan.before != self.snapshot():
+            raise ValueError("stale physical-buffer plan")
+        self._state = _BufferState(
+            logical_handles=list(plan.after.logical_to_handle),
+            staging_handles=list(plan.after.staging_to_handle),
+            content_by_handle=plan.after.handle_to_content,
+            epoch=plan.after.epoch,
+        )
+        self.assert_invariants()
+        return self.snapshot()
+
+    def abort(self, plan: BufferHandlePlan) -> BufferHandleSnapshot:
+        """Abort a physical handle plan without changing the handle map."""
+
+        if plan.before != self.snapshot():
+            raise ValueError("cannot abort a plan from a different buffer state")
+        return self.snapshot()
+
+    @staticmethod
+    def _normalize_handles(
+        handles: Sequence[BufferHandle] | None,
+        count: int,
+        kind: str,
+    ) -> tuple[BufferHandle, ...]:
+        if handles is None:
+            return tuple(object() for _ in range(count))
+        normalized = tuple(handles)
+        if len(normalized) != count:
+            raise ValueError(f"expected {count} {kind} buffer handles")
+        if any(handle is None for handle in normalized):
+            raise ValueError("physical buffer handles may not be None")
+        return normalized
+
+    @staticmethod
+    def _assert_cache_alignment(
+        cache_snapshot: PageCacheSnapshot,
+        buffer_snapshot: BufferHandleSnapshot,
+    ) -> None:
+        if cache_snapshot.epoch != buffer_snapshot.epoch:
+            raise ValueError("cache and physical-buffer epochs disagree")
+        if cache_snapshot.logical_to_physical != buffer_snapshot.logical_content:
+            raise ValueError("logical buffer contents disagree with page-cache plan")
+        if cache_snapshot.staging_to_physical != buffer_snapshot.staging_content:
+            raise ValueError("staging buffer contents disagree with page-cache plan")
+
+
 OrnithPageCache = PhysicalPageLRU
 
 __all__ = [
+    "BufferHandlePlan",
+    "BufferHandleSnapshot",
+    "BufferHandleSwap",
+    "H2DStagingWrite",
     "H4_ROWS",
     "ORNITH_LOGICAL_CACHE_SLOTS",
     "OrnithPageCache",
@@ -416,5 +696,6 @@ __all__ = [
     "PageCachePlan",
     "PageCacheSnapshot",
     "PagePromotion",
+    "PhysicalBufferPool",
     "PhysicalPageLRU",
 ]

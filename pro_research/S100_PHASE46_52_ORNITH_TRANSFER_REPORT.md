@@ -284,6 +284,29 @@ memory. The conservative ctx1024 known floor is now 56.849 ms/H4 (70.36 tok/s
 equivalent), leaving 4.689 ms/H4 to the 65 tok/s boundary. At ctx128 the full
 attention contribution is only about 0.582 ms/H4.
 
+### Phase69 — routers, norms and reductions
+
+The remaining all-hot support path now includes 81 H4 RMSNorm reductions,
+40 real 256x2048 router projections, 40 shared-gate projections, device top-8
+selection/normalization, all-hot slot lookup, route-order expert reduction,
+shared gating and both residual transitions. Residual addition and the next
+norm are fused at each transition.
+
+| Checkpoint weights | Complete 40-layer support |
+|---|---:|
+| Official | 1.925 ms/H4 |
+| Pottokao | 1.757 ms/H4 |
+
+Top-8 IDs, slots and hit flags are exact; maximum numerical NRMSE is 4.64e-7.
+All kernels use zero local memory. The budget also adds a conservative 1.321 ms
+for Phase60 cache-indirect M1 versus Phase59 contiguous bulk32, even though the
+absolute measurements came from separate sessions.
+
+The resulting conservative ctx1024 known floor is 60.095 ms/H4, equivalent to
+66.56 tok/s, with 1.443 ms remaining to 65 tok/s. At ctx128, substituting its
+0.582 ms ten-layer attention cost gives approximately 57.175 ms/H4, or 69.96
+tok/s. These remain component floors, not an end-to-end throughput claim.
+
 ## Transfer matrix
 
 | Existing research component | Ornith status | Reason |
@@ -300,23 +323,21 @@ attention contribution is only about 0.582 ms/H4.
 | Native-head acceleration | Transfers with exact rerank | Native top-64 plus indexed ERVF recovers exact selected IDs on 32 synthetic rows |
 | Qwen3.5 linear-attention H4 | Transfers | Full conv/gate/delta/norm core is independently green at 1.965 ms over 30 layers |
 | Qwen3.5 full-attention H4 | Transfers with G1 dispatch | Q/K norm, RoPE, causal cache, attention and output gate are green at ctx128/1024 |
+| Routers/norms/residual reductions | Transfers with fusion | Full 40-layer support costs at most 1.925 ms/H4 and route IDs are exact |
 | Nemotron ReLU2 sparse down | Does not transfer | SwiGLU output is dense; no exact-zero column mask |
 | Nemotron Mamba/SSM kernels | Replaced | Qwen3.5 recurrence now has a dedicated fused H4 implementation |
 | Nemotron hardcoded DFlash adapter | Does not transfer | Different target layers, hidden injection and draft semantics |
 
 ## Remaining critical path
 
-1. Port and independently gate Ornith's 40 routers plus remaining layer norms,
-   residual reductions and graph orchestration. At ctx1024 they must fit inside
-   the remaining measured 4.689 ms all-hot residual.
-2. Capture real target router IDs for H4 speculative blocks and replay them
+1. Capture real target router IDs for H4 speculative blocks and replay them
    through the implemented multiplicity planner, 52-expert/layer cache and
-   miss-count-adaptive transport. With 5 ms reserved elsewhere, approximately
-   96.6% route hits are required.
-3. Validate native top-64 recall on real final-normalized Ornith activations;
+   miss-count-adaptive transport. The conservative ctx1024 all-hot margin is
+   now only 1.443 ms, so the real miss trace is decisive.
+2. Validate native top-64 recall on real final-normalized Ornith activations;
    increase shortlist size or fall back to full ERVF whenever the exact winner
    is not provably retained.
-4. Add explicit per-request target/drafter state reset and fixed verification
+3. Add explicit per-request target/drafter state reset and fixed verification
    geometry to the custom runtime; gate every speculative completion against
    target-only greedy output during bring-up.
 

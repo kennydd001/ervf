@@ -565,7 +565,24 @@ contract is component-local same-input state/logit parity plus authoritative
 trace route parity and fresh-run determinism. This does not turn the failed
 end-to-end CPU comparison into a pass.
 
-### Phase84 — persistent target-only ctx1024 verifier
+### Phase84 — strict authoritative ctx64 target verifier
+
+After the sequence-authority and state gates were tightened, the complete
+executor passes on the entire committed 64-token target/reference trace. The
+final H4 measures **354.936 ms**, causes **263 real misses = 6.575/layer** and
+moves **465,374,292 bytes** H2D. The synchronized validation profile attributes
+102.922 ms to mmap/pinned packing plus H2D, 58.914 ms to routed experts and
+35.071 ms to dense projections plus attention.
+
+Both fresh runs reproduce every final-normalized bit, all 40 route sets, all
+ERVF IDs and one SHA-256 digest over every persistent recurrent/KV-state byte.
+All state is finite, 40/40 same-input router controls are exact, full-head
+control top-1 is exact and the runtime cache-copy ledger observes zero D2D
+promotion bytes. This is the first complete Phase84 run that may be labeled a
+fully authoritative target/reference-sequence H4. It remains verifier latency,
+not output tok/s.
+
+### Phase84 — synthetic long-context target-only verifier
 
 The complete target-only executor now runs a continuous deterministic token
 sequence from embedding through all 40 target layers, real DeltaNet and
@@ -579,7 +596,7 @@ tokens are target-only synthetic stress input, not an authoritative generated
 target sequence. LRU promotion swaps opaque physical handles and records zero
 D2D payload bytes.
 
-At ctx1024 the primary complete wall-clock H4 measured **497.403 ms** and
+At synthetic ctx1024 the primary complete wall-clock H4 measured **497.403 ms** and
 **492.996 ms** in two independent invocations (0.89% apart). The latest result
 passes every frozen gate: the authoritative token prefix is exact, all states
 and outputs are finite, a fresh empty-state/cache repeat reproduces all 40

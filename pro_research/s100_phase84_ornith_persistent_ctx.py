@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import gzip
+import hashlib
 import json
 import sys
 import time
@@ -225,6 +226,7 @@ class PersistentTargetRuntime:
         self.full_state: dict[int, tuple[Any, Any]] = {}
         self.misses = 0
         self.h2d_bytes = 0
+        self.d2d_promotion_bytes = 0
         self._allocate_buffers()
         self._allocate_expert_bank()
         self._load_resident_weights()
@@ -405,6 +407,7 @@ class PersistentTargetRuntime:
         ]
         self.misses = 0
         self.h2d_bytes = 0
+        self.d2d_promotion_bytes = 0
 
     def _projection(self, projection: Projection, source, target) -> None:
         q = self.q2048 if projection.cols == HIDDEN else self.q4096
@@ -560,6 +563,7 @@ class PersistentTargetRuntime:
         cp = self.cp
         miss_before = self.misses
         bytes_before = self.h2d_bytes
+        d2d_before = self.d2d_promotion_bytes
         profile_ms = {
             "embedding_first_norm": 0.0,
             "attention_dense": 0.0,
@@ -696,6 +700,7 @@ class PersistentTargetRuntime:
             "shortlist": shortlist,
             "misses": self.misses - miss_before,
             "h2d_bytes": self.h2d_bytes - bytes_before,
+            "d2d_promotion_bytes": self.d2d_promotion_bytes - d2d_before,
             "layer_misses": layer_misses,
             "profile_ms": profile_ms if profile else None,
         }
@@ -719,17 +724,49 @@ class PersistentTargetRuntime:
                 return False
         return True
 
+    def state_digest(self) -> str:
+        """Hash every persistent recurrent/KV byte outside the timed epoch."""
+        digest = hashlib.sha256()
+        arrays: list[tuple[str, Any]] = []
+        for layer, (conv, recurrent) in sorted(self.linear_state.items()):
+            arrays.extend((
+                (f"{layer}:conv", conv),
+                (f"{layer}:recurrent", recurrent),
+            ))
+        for layer, (key, value) in sorted(self.full_state.items()):
+            arrays.extend(((f"{layer}:key", key), (f"{layer}:value", value)))
+        for name, array in arrays:
+            host = self.cp.asnumpy(array)
+            digest.update(name.encode("ascii"))
+            digest.update(memoryview(np.ascontiguousarray(host)).cast("B"))
+        return digest.hexdigest()
 
-def _authoritative_tokens(snapshot: Path, trace: dict[str, Any], context: int) -> list[int]:
+
+def _context_tokens(
+    snapshot: Path, trace: dict[str, Any], context: int
+) -> tuple[list[int], dict[str, Any]]:
     from transformers import AutoTokenizer
 
+    trace_tokens = [int(value) for value in trace["tokens"]]
+    if context <= len(trace_tokens):
+        return trace_tokens[:context], {
+            "kind": "authoritative_target_reference_trace",
+            "authoritative_tokens": context,
+            "synthetic_tokens": 0,
+            "fully_authoritative": True,
+        }
     tokenizer = AutoTokenizer.from_pretrained(snapshot, local_files_only=True)
     prompt = str(trace["prompt"])
-    repeated = (prompt + "\n\n") * (context // max(len(trace["tokens"]), 1) + 4)
+    repeated = (prompt + "\n\n") * (context // max(len(trace_tokens), 1) + 4)
     values = tokenizer.encode(repeated, add_special_tokens=False)
     if len(values) < context:
         raise ValueError(f"tokenizer produced only {len(values)} tokens")
-    return [int(value) for value in values[:context]]
+    return [int(value) for value in values[:context]], {
+        "kind": "authoritative_prefix_plus_tokenizer_repeated_prompt_stress",
+        "authoritative_tokens": len(trace_tokens),
+        "synthetic_tokens": context - len(trace_tokens),
+        "fully_authoritative": False,
+    }
 
 
 def main() -> int:
@@ -744,7 +781,10 @@ def main() -> int:
         "status": "started", "started_utc": utc_now(),
         "preregistration": str(PREREG.relative_to(REPO)),
         "context": args.context,
-        "claim_boundary": "integrated target-only verifier H4 wall time; not output tok/s",
+        "claim_boundary": (
+            "integrated target-only verifier H4 wall time; sequence authority "
+            "reported explicitly; not output tok/s"
+        ),
     }
     cp = store = None
     try:
@@ -767,10 +807,11 @@ def main() -> int:
         snapshot = args.snapshot.resolve()
         trace_path = args.trace.resolve()
         trace = _load_trace(trace_path)
-        tokens = _authoritative_tokens(snapshot, trace, args.context)
+        tokens, sequence = _context_tokens(snapshot, trace, args.context)
         prefix_length = min(len(tokens), len(trace["tokens"]))
         expected_prefix = [int(value) for value in trace["tokens"][:prefix_length]]
         prefix_exact = tokens[:prefix_length] == expected_prefix
+        sequence["authoritative_prefix_exact"] = prefix_exact
         store = OrnithExpertStore(snapshot)
         runtime = PersistentTargetRuntime(
             cp, snapshot, _weight_map(snapshot), args.context, store
@@ -799,8 +840,10 @@ def main() -> int:
             final_row["wall_ms"] = (time.perf_counter() - clock) * 1000.0
             final_row["control_ids"] = runtime.head.control_top1(runtime.normed)
             final_row["states_finite"] = runtime.states_finite()
+            final_row["state_digest"] = runtime.state_digest()
             final_row["total_misses"] = runtime.misses
             final_row["total_h2d_bytes"] = runtime.h2d_bytes
+            final_row["total_d2d_promotion_bytes"] = runtime.d2d_promotion_bytes
             return final_row
 
         # The first run is the sole performance epoch.  Independent CPU router
@@ -818,6 +861,7 @@ def main() -> int:
         repeat_exact = bool(
             np.array_equal(first["final"].view(np.uint32), second["final"].view(np.uint32))
             and np.array_equal(first["ervf_ids"], second["ervf_ids"])
+            and first["state_digest"] == second["state_digest"]
             and all(
                 np.array_equal(left, right)
                 for left, right in zip(first["routes"], second["routes"])
@@ -828,8 +872,11 @@ def main() -> int:
             and np.array_equal(second["ervf_ids"], second["control_ids"])
         )
         gates = {
-            "P84_CTX_G1_authoritative_prefix_exact": prefix_exact,
-            "P84_CTX_G2_zero_d2d_physical_cache": True,
+            "P84_CTX_G1_sequence_contract_exact": prefix_exact,
+            "P84_CTX_G2_observed_zero_d2d_physical_cache": (
+                first["total_d2d_promotion_bytes"] == 0
+                and second["total_d2d_promotion_bytes"] == 0
+            ),
             "P84_CTX_G3_finite_and_fresh_repeat_exact": finite and repeat_exact,
             "P84_CTX_G4_all40_same_input_routes_exact": all(second["route_parity"]),
             "P84_CTX_G5_ervf_exact_control_top1": ervf_control_exact,
@@ -838,7 +885,7 @@ def main() -> int:
             "status": "measured_pass" if all(gates.values()) else "measured_fail",
             "completed_utc": utc_now(),
             "inputs": {"snapshot": str(snapshot), "trace": str(trace_path),
-                       "final_tokens": final_tokens},
+                       "final_tokens": final_tokens, "sequence": sequence},
             "memory": memory,
             "timing": {"wall_clock_ms_h4": wall_ms,
                        "validation_repeat_wall_ms_not_a_performance_sample": float(second["wall_ms"]),
@@ -850,9 +897,20 @@ def main() -> int:
                           "final_h4_layer_misses": first["layer_misses"],
                           "total_prefill_plus_final_misses": [first["total_misses"], second["total_misses"]],
                           "total_h2d_bytes": [first["total_h2d_bytes"], second["total_h2d_bytes"]],
-                          "d2d_promotion_bytes": 0},
+                          "final_h4_d2d_promotion_bytes": [
+                              first["d2d_promotion_bytes"],
+                              second["d2d_promotion_bytes"],
+                          ],
+                          "total_d2d_promotion_bytes": [
+                              first["total_d2d_promotion_bytes"],
+                              second["total_d2d_promotion_bytes"],
+                          ]},
             "quality": {"final_and_states_finite": finite,
                         "fresh_repeat_exact": repeat_exact,
+                        "persistent_state_digest_exact": (
+                            first["state_digest"] == second["state_digest"]
+                        ),
+                        "persistent_state_digest": first["state_digest"],
                         "same_input_route_layers_exact": int(sum(second["route_parity"])),
                         "ervf_ids": first["ervf_ids"].astype(np.int64).tolist(),
                         "control_ids": first["control_ids"].astype(np.int64).tolist(),
